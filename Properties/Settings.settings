@@ -1,0 +1,30 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="DisplayMonkey.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="ssrs_server" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">http://localhost:8080/ReportServer</Value>
+    </Setting>
+    <Setting Name="db_user" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">ds</Value>
+    </Setting>
+    <Setting Name="db_password" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">ds.1234</Value>
+    </Setting>
+    <Setting Name="db_catalog" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">DisplayMonkey</Value>
+    </Setting>
+    <Setting Name="ssrs_user" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Boom</Value>
+    </Setting>
+    <Setting Name="ssrs_password" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Test.123</Value>
+    </Setting>
+    <Setting Name="db_server" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">(local)</Value>
+    </Setting>
+    <Setting Name="ssrs_domain" Type="System.String" Scope="Application">
+      <Value Profile="(Default)" />
+    </Setting>
+  </Settings>
+</SettingsFile>

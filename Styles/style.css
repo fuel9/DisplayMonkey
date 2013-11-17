@@ -1,0 +1,193 @@
+@charset "UTF-8";
+/* CSS Document */
+/* CSS Document */
+
+	A:link {text-decoration:none; color:#d23006;}
+	A:visited {text-decoration:none; color:#d23006;}
+	A:active {text-decoration:none; color:#d23006;}
+	A:hover {text-decoration:none; color:#005072;}
+
+
+	@font-face {  
+    	font-family:Futura;  
+    	src:url('../files/fonts/futura.eot'); /* For IE */ 
+    	src:local('futura'), url('../files/fonts/futura.ttf') format('truetype'); /* For non-IE */ 
+	}  
+	
+	/*******************************************************************************/
+	
+	body {
+		margin:0px;
+		padding:0px;
+		background-color:black;
+		font-family:Futura, Verdana, Arial, Helvetica, sans-serif;
+		font-size:10px;
+		line-height:8px;
+		text-align:center;
+		color:white;
+	}
+	
+	/*******************************************************************************/
+	
+	#screen {
+		position:absolute;
+		padding:0px;
+		background-color:black;
+		top:0px;
+		left:0px;
+		width:100px;
+		height:100px;
+		z-index:10000;
+		display:none;
+	}
+
+	#full {
+		position:relative;
+		margin-left:auto;
+		margin-right:auto;
+		padding:0px;
+		overflow:hidden;
+		z-index:10001;
+		vertical-align:middle;
+		text-align:center;
+		/*border:1px solid yellow;*/
+	}
+
+	#full * {
+		vertical-align:middle;
+	}
+	
+	/*\*//*/
+	
+    #full {
+		display:block;
+	}
+	#full span {
+		display:inline-block;
+		height:100%;
+		width:1px;
+	}
+	/**/
+	
+	#full>span {
+		display:inline-block;
+		height:100%;
+		/*border:1px solid cyan;*/
+	}
+
+	#full>img 
+	{
+		margin:auto;
+		vertical-align:middle;
+	}
+
+	/*******************************************************************************/
+	
+	#segments {
+		position:relative;
+		margin-left:auto;
+		margin-right:auto;
+		/*width:768px;*/
+		/*height:1357px;*/
+		/*background-image:url('../getImage.ashx?content=7');*/
+		background-color:black;
+		background-repeat:no-repeat;
+		/*border:1px solid cyan;*/
+	}
+	
+	/*******************************************************************************/
+	
+	#memo 
+	{
+		position:absolute;
+		left:0;
+		top:0;
+		width:100%;
+		font-size:20px;
+		/*border:1px solid maroon;*/
+	}
+	
+	.subject {
+		padding:15px;
+		color:white;
+		font-size:40px;
+		line-height:40px;
+		text-transform:uppercase;
+	}
+	
+	/*******************************************************************************/
+	
+	#food {
+		position:relative;
+		/*border:1px solid red;*/
+		
+		width:100%;
+		height:100%;
+		background-image:url(../files/menu.jpg);
+		background-repeat:no-repeat;
+		text-align:left;
+		color:white;
+		font-size:20px;
+	}
+	
+	#food table {
+		position:relative;
+		width:100%;
+		top:10px;
+		left:90px;
+		width:240px;
+	}
+	
+	#food td {
+		height:77px;
+		line-height:20px;
+		/*border:1px solid yellow;*/
+	}
+	
+	/*******************************************************************************/
+	
+	#clock {
+		font-size:14px;
+		text-align:right;
+		vertical-align:middle;
+		line-height: 150%;
+		/*border:1px solid blue;*/
+	}
+	
+	/*******************************************************************************/
+	
+	#weather {
+		position:relative;
+		left:0px;
+		width:100%;
+		height:100%;
+		margin:0px auto;
+		text-align:left;
+		/*text-transform:uppercase;*/
+		font-size:14px;
+		color:#525;
+		background-image:url(../files/weather.png);
+		background-repeat:no-repeat;		
+	}
+	
+	#weather td {
+		padding-left:5px;
+		line-height: 150%;
+		height:60px;
+	}
+	
+	/*******************************************************************************/
+	
+	textarea.debug {
+		position:fixed;
+		width:400px;
+		height:200px;
+		z-index:20000;
+		background-color:white;
+		color:black;
+		overflow:hidden;
+		top:500px;
+		left:20px;
+		text-align:left;
+	}
+	
