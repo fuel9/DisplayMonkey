@@ -19,12 +19,16 @@
 	body {
 		margin:0px;
 		padding:0px;
-		background-color:black;
+		/*background-color:black;*/
 		font-family:Futura, Verdana, Arial, Helvetica, sans-serif;
 		font-size:10px;
 		/*line-height:8px;*/
 		text-align:center;
 		color:white;
+	}
+	
+	video {
+		background-color: transparent;
 	}
 	
 	/*******************************************************************************/

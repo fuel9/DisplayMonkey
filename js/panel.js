@@ -23,7 +23,7 @@ var Canvas = Class.create({
 		this.width = (options.width || 0);
 		this.height = (options.height || 0);
 		this.backImage = (options.backImage || 0);
-		this.backColor = (options.backColor || '');
+		this.backColor = (options.backColor || 'transparent');
 		this.initialIdleInterval = (options.initialIdleInterval || 0);
 	}
 
@@ -48,6 +48,7 @@ var Canvas = Class.create({
 
 	, fixScreenDiv: function () {
 		var body = $$('body')[0];
+		body.style.backgroundColor = this.backColor;
 		with ($('screen').style) {
 			height = body.clientHeight + 'px';
 			width = body.clientWidth + 'px';

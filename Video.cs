@@ -5,6 +5,7 @@ using System.Web;
 using System.Data;
 using System.Data.SqlClient;
 using System.IO;
+using System.Text;
 
 namespace DisplayMonkey
 {
@@ -16,7 +17,7 @@ namespace DisplayMonkey
 			_templatePath = HttpContext.Current.Server.MapPath("~/files/frames/video.htm");
 			
 			string sql = string.Format(
-				"SELECT TOP 1 i.*, Name FROM VIDEO i INNER JOIN CONTENT c ON c.ContentId=i.ContentId WHERE i.FrameId={0};",
+				"SELECT TOP 1 * FROM VIDEO WHERE FrameId={0};",
 				frameId
 				);
 
@@ -26,12 +27,12 @@ namespace DisplayMonkey
 				{
 					DataRow dr = ds.Tables[0].Rows[0];
 					FrameId = DataAccess.IntOrZero(dr["FrameId"]);
-					ContentId = DataAccess.IntOrZero(dr["ContentId"]);
-					Name = DataAccess.StringOrBlank(dr["Name"]);
 					PlayMuted = DataAccess.Boolean(dr["PlayMuted"]);
 					AutoLoop = DataAccess.Boolean(dr["AutoLoop"]);
 				}
 			}
+
+			_list = VideoAlternative.List(frameId);
 		}
 
 		public override string Html
@@ -47,35 +48,42 @@ namespace DisplayMonkey
 					// fill template
 					if (FrameId > 0)
 					{
+						// styles
 						Panel panel = null;
 						if (FullScreenPanel.Exists(PanelId))
 							panel = new FullScreenPanel(PanelId);
 						else
 							panel = new Panel(PanelId);
 
-						string src = string.Format(
-							"getVideo.ashx?content={0}&frame={1}", 
-							ContentId, 
-							FrameId
-							);
-
 						string style = string.Format(
-							"width:{0}px;height:{1}px;", 
-							panel.Width, 
+							"width:{0}px;height:{1}px;",
+							panel.Width,
 							panel.Height
 							);
 
+						// sources
+						StringBuilder sources = new StringBuilder(_list.Count);
+						foreach (VideoAlternative va in _list)
+						{
+							sources.AppendFormat(
+								"<source src=\"getVideo.ashx?content={0}&frame={1}\" type=\"{2}\"></source>\r\n",
+								va.ContentId,
+								FrameId,
+								va.MimeType
+								);
+						}
+						
+						// options
 						string options = "";
-
 						if (PlayMuted)
 							options += " muted=\"true\"";
-
 						if (AutoLoop)
 							options += " loop=\"true\"";
 
+						// put all together
 						html = string.Format(
 							template,
-							src,
+							sources.ToString(),
 							style,
 							options
 							);
@@ -98,9 +106,79 @@ namespace DisplayMonkey
 			</style>
 		 * */
 
-		public string Name = "";
-		public int ContentId = 0;
 		public bool PlayMuted = true;
 		public bool AutoLoop = true;
+
+		private List<VideoAlternative> _list = null;
+
+		private class VideoAlternative
+		{
+			public string Name = "";
+			private byte[] Chunk = null;
+			public int ContentId = 0;
+
+			public string MimeType
+			{
+				get
+				{
+					string mimeType = null;
+					try
+					{
+						if (null == (mimeType = MimeTypeParser.GetMimeTypeRaw(Chunk)))
+						{
+							if (null == (mimeType = MimeTypeParser.GetMimeTypeFromRegistry(Name)))
+							{
+								if (null == (mimeType = MimeTypeParser.GetMimeTypeFromList(Name)))
+								{
+									mimeType = "application/octet-stream";
+								}
+							}
+						}
+					}
+					catch
+					{
+						mimeType = "application/octet-stream";
+					}
+					return mimeType;
+				}
+			}
+
+			public VideoAlternative()
+			{
+			}
+
+			public static List<VideoAlternative> List(int frameId)
+			{
+				List<VideoAlternative> list = new List<VideoAlternative>();
+				string sql = string.Format(
+					"SELECT c.ContentId, Name, convert(varbinary(256),Data) Chunk FROM VIDEO_ALTERNATIVE a INNER JOIN CONTENT c ON c.ContentId=a.ContentId WHERE a.FrameId={0};",
+					frameId
+					);
+
+				using (DataSet ds = DataAccess.RunSql(sql))
+				{
+					int count = ds.Tables[0].Rows.Count;
+					if (count > 0)
+					{
+						list.Capacity = count;
+						foreach (DataRow dr in ds.Tables[0].Rows)
+						{
+							if (dr["Chunk"] != DBNull.Value)
+							{
+								VideoAlternative va = new VideoAlternative()
+								{
+									ContentId = DataAccess.IntOrZero(dr["ContentId"]),
+									Name = DataAccess.StringOrBlank(dr["Name"]),
+									Chunk = (byte[])dr["Chunk"],
+								};
+								list.Add(va);
+							}
+						}
+					}
+				}
+
+				return list;
+			}
+		}
 	}
 }

@@ -7,27 +7,27 @@
     <file relUrl="Scripts/jquery-1.4.1-vsdoc.js" publishTime="11/02/2013 20:05:39" />
     <file relUrl="Styles/Site.css" publishTime="11/02/2013 20:05:39" />
     <file relUrl="files/weather.png" publishTime="11/01/2013 12:03:28" />
-    <file relUrl="Web.config" publishTime="11/20/2013 09:57:32" />
+    <file relUrl="Web.config" publishTime="11/20/2013 12:23:31" />
     <file relUrl="getVideo.ashx" publishTime="11/17/2013 20:36:03" />
     <file relUrl="Scripts/jquery-1.4.1.js" publishTime="11/02/2013 20:05:39" />
     <file relUrl="js/moment.min.js" publishTime="11/13/2013 20:35:46" />
     <file relUrl="files/frames/clock.htm" publishTime="11/13/2013 22:15:08" />
     <file relUrl="files/video.gif" publishTime="11/18/2013 17:11:20" />
-    <file relUrl="Styles/style.css" publishTime="11/19/2013 17:20:23" />
-    <file relUrl="js/panel.js" publishTime="11/20/2013 09:56:39" />
+    <file relUrl="Styles/style.css" publishTime="11/20/2013 12:22:56" />
+    <file relUrl="js/panel.js" publishTime="11/20/2013 12:20:33" />
     <file relUrl="getImage.ashx" publishTime="11/08/2013 23:18:02" />
     <file relUrl="files/404.png" publishTime="11/08/2013 23:27:45" />
-    <file relUrl="files/frames/video.htm" publishTime="11/20/2013 09:20:02" />
+    <file relUrl="files/frames/video.htm" publishTime="11/20/2013 11:54:49" />
     <file relUrl="Scripts/jquery-1.4.1.min.js" publishTime="11/02/2013 20:05:39" />
     <file relUrl="files/frames/memo.htm" publishTime="11/15/2013 15:22:13" />
     <file relUrl="Default.aspx" publishTime="11/19/2013 16:03:41" />
-    <file relUrl="bin/DMPresentation.dll" publishTime="11/20/2013 09:57:27" />
+    <file relUrl="bin/DMPresentation.dll" publishTime="11/20/2013 12:23:27" />
     <file relUrl="getIdleInterval.aspx" publishTime="11/14/2013 16:13:30" />
     <file relUrl="files/frames/picture.htm" publishTime="11/15/2013 13:26:47" />
     <file relUrl="getReport.ashx" publishTime="11/15/2013 11:01:34" />
     <file relUrl="getNextFrame.aspx" publishTime="11/08/2013 07:28:32" />
     <file relUrl="getFrame.aspx" publishTime="11/07/2013 20:31:08" />
     <file relUrl="getCanvas.aspx" publishTime="11/09/2013 08:30:28" />
-    <file relUrl="bin/DMPresentation.pdb" publishTime="11/20/2013 09:57:27" />
+    <file relUrl="bin/DMPresentation.pdb" publishTime="11/20/2013 12:23:27" />
   </publishProfile>
 </publishData>

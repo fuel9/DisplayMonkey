@@ -59,6 +59,8 @@ namespace DisplayMonkey
 			Height = DataAccess.IntOrZero(r["Height"]);
 			Width = DataAccess.IntOrZero(r["Width"]);
 			BackgroundColor = DataAccess.StringOrBlank(r["BackgroundColor"]);
+			if (BackgroundColor == "")
+				BackgroundColor = "transparent";
 			BackgroundImage = DataAccess.IntOrZero(r["BackgroundImage"]);
 			Name = DataAccess.StringOrBlank(r["Name"]);
 			if (Name == "")
