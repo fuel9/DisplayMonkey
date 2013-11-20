@@ -8,12 +8,13 @@ namespace DisplayMonkey
 {
 	public class Panel
 	{
-		public Panel(int panelId, bool initWithData = false)
+		public Panel()
+		{
+		}
+
+		public Panel(int panelId)
 		{
 			PanelId = panelId;
-
-			if (!initWithData)
-				return;
 
 			string sql = string.Format(
 				"SELECT TOP 1 * FROM PANEL WHERE PanelId={0};",
@@ -25,12 +26,72 @@ namespace DisplayMonkey
 				if (ds.Tables[0].Rows.Count > 0)
 				{
 					DataRow r = ds.Tables[0].Rows[0];
-					Top = DataAccess.IntOrZero(r["Top"]);
-					Left = DataAccess.IntOrZero(r["Left"]);
-					Width = DataAccess.IntOrZero(r["Width"]);
-					Height = DataAccess.IntOrZero(r["Height"]);
+					InitFromRow(r);
 				}
 			}
+		}
+
+		public void InitFromRow(DataRow r)
+		{
+			PanelId = DataAccess.IntOrZero(r["PanelId"]);
+			Top = DataAccess.IntOrZero(r["Top"]);
+			Left = DataAccess.IntOrZero(r["Left"]);
+			Width = DataAccess.IntOrZero(r["Width"]);
+			Height = DataAccess.IntOrZero(r["Height"]);
+			Name = DataAccess.StringOrBlank(r["Name"]);
+			if (Name == "")
+				Name = string.Format("Panel {0}", PanelId);
+		}
+
+		public static List<Panel> List(int canvasId)
+		{
+			List<Panel> list = new List<Panel>();
+			string sql = string.Format(
+				"SELECT * FROM PANEL WHERE CanvasId={0} ORDER BY 1;" +
+				"SELECT TOP 1 c.*, PanelId FROM FULL_SCREEN s INNER JOIN CANVAS c ON c.CanvasId=s.CanvasId WHERE s.CanvasId={0};",
+				canvasId
+				);
+			using (DataSet ds = DataAccess.RunSql(sql))
+			{
+				list.Capacity = ds.Tables[0].Rows.Count;
+
+				DataRow fs = ds.Tables[1].Rows[0];
+				int fullScreenPanelId = DataAccess.IntOrZero(fs["PanelId"]);
+
+				// list canvas panels
+				foreach (DataRow r in ds.Tables[0].Rows)
+				{
+					Panel panel = null;
+					int panelId = DataAccess.IntOrZero(r["PanelId"]);
+
+					if (panelId == fullScreenPanelId)
+						panel = new FullScreenPanel()
+						{
+							PanelId = panelId,
+							Top = 0,
+							Left = 0,
+							Height = DataAccess.IntOrZero(fs["Height"]),
+							Width = DataAccess.IntOrZero(fs["Width"]),
+							Name = DataAccess.StringOrBlank(r["Name"]),
+						};
+					else
+						panel = new Panel()
+						{
+							PanelId = panelId,
+							Top = DataAccess.IntOrZero(r["Top"]),
+							Left = DataAccess.IntOrZero(r["Left"]),
+							Height = DataAccess.IntOrZero(r["Height"]),
+							Width = DataAccess.IntOrZero(r["Width"]),
+							Name = DataAccess.StringOrBlank(r["Name"]),
+						};
+
+					if (panel.Name == "")
+						panel.Name = string.Format("Panel {0}", panelId);
+
+					list.Add(panel);
+				}
+			}
+			return list;
 		}
 
 		public int PanelId = 0;
@@ -38,6 +99,7 @@ namespace DisplayMonkey
 		public int Left = 0;
 		public int Width = 0;
 		public int Height = 0;
+		public string Name = "";
 
 		public string BorderColor = "";
 

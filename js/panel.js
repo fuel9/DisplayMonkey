@@ -375,6 +375,19 @@ function initPanel (panelId, container) {
 			if (cc) {
 				(this.clockDiv = cc).startClock();
 			}
+
+			var v = $(this.container).down('video');
+			if (v) {
+				var a;
+				if (a = v.readAttribute('loop')) v.loop = a;
+				if (a = v.readAttribute('muted')) v.muted = a;
+				if (!_canvas.fullScreenActive) v.play();
+			}
+
+			var v = $(this.container).down('div[id=videoContainer]');
+			if (v) {
+				v.style.backgroundColor = _canvas.backColor;
+			}
 		}
 
 		, onFade: function (appear, contentType, fadeLength) {
@@ -399,12 +412,13 @@ function initFullScreenPanel (panelId) {
 		, fadeLength: 1 // sec (default)
 		, idleInterval: _canvas.initialIdleInterval
 
-		// , onBeforeUpdate: function (currentType) {
-		// }
+//		 , onBeforeUpdate: function (currentType) {
+//		 }
 
 		, onAfterUpdate: function (currentType) {
 			_canvas.fullScreenActive = true;
 			$("screen").style.display = "block";
+			$$("video").each(function(v){v.pause();});
 
 			// start scroller
 			var tc = $(this.container).down('div[id=memo]');
@@ -415,6 +429,14 @@ function initFullScreenPanel (panelId) {
 			var cc = $(this.container).down('div[id=clock]');
 			if (cc) {
 				(this.clockDiv = cc).startClock();
+			}
+
+			var v = $(this.container).down('video');
+			if (v) {
+				var a;
+				if (a = v.readAttribute('loop')) v.loop = a;
+				if (a = v.readAttribute('muted')) v.muted = a;
+				v.play();
 			}
 
 			// obtain idle interval
@@ -455,6 +477,8 @@ function initFullScreenPanel (panelId) {
 			if (this.clockDiv) {
 				this.clockDiv.stopClock();
 			}
+			
+			$$("video").each(function(v){v.play();});
 		}
 
 		, onFade: function (appear, contentType, fadeLength) {
@@ -609,9 +633,9 @@ var Clock = Class.create(PeriodicalExecuter, {
     	}
     	var time = moment();
     	if (_canvas.offsetMilliseconds > 0)
-    		time.subtract('ms', _canvas.offsetMilliseconds);
+    		time.add('ms', _canvas.offsetMilliseconds);
 		else
-			time.add('ms', _canvas.offsetMilliseconds);
+			time.subtract('ms', _canvas.offsetMilliseconds);
 		var d = this.showDate ? time.format(_canvas.dateFormat) : "";
     	var t = this.showTime ? time.format(_canvas.timeFormat) : "";
     	div.innerHTML = d + (d != "" && t != "" ? "<br>" : "") + t;

@@ -20,10 +20,10 @@ namespace DisplayMonkey
 
 				try
 				{
-					Canvas canvas = new Canvas(displayId);
+					Canvas canvas = Canvas.InitFromDisplay(displayId);
 
 					// assemble page
-					this.lTitle.Text = canvas.Title;
+					this.lTitle.Text = canvas.Name;
 					this.lHead.Text = canvas.Head;
 					this.lContent.Text = canvas.Body;
 				}

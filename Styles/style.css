@@ -22,7 +22,7 @@
 		background-color:black;
 		font-family:Futura, Verdana, Arial, Helvetica, sans-serif;
 		font-size:10px;
-		line-height:8px;
+		/*line-height:8px;*/
 		text-align:center;
 		color:white;
 	}
@@ -104,6 +104,7 @@
 		top:0;
 		width:100%;
 		font-size:20px;
+		line-height:normal;
 		/*border:1px solid maroon;*/
 	}
 	

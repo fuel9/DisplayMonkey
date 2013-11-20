@@ -15,10 +15,10 @@ namespace DisplayMonkey
 {
 	public class Weather : Frame
 	{
-		public Weather(int frameId, int panelId, int displayId, int woeid, string tempUnit, HttpServerUtility server)
+		public Weather(int frameId, int panelId, int displayId, int woeid, string tempUnit)
 		{
 			PanelId = panelId;
-			_templatePath = server.MapPath("~/files/frames/weather.htm");
+			_templatePath = HttpContext.Current.Server.MapPath("~/files/frames/weather.htm");
 			string sql = string.Format(
 				"SELECT TOP 1 * FROM WEATHER WHERE FrameId={0};", 
 				frameId
@@ -43,7 +43,7 @@ namespace DisplayMonkey
 			}
 		}
 
-		public string Html
+		public override string Html
 		{
 			get
 			{
@@ -133,6 +133,5 @@ namespace DisplayMonkey
 		 * */
 		public int Woeid;
 		public string TemperatureUnit;
-		private string _templatePath;
 	}
 }

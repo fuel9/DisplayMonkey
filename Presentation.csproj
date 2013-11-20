@@ -50,8 +50,12 @@
     <Reference Include="System.Web.ApplicationServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="files\404.png" />
     <Content Include="files\frames\memo.htm" />
+    <Content Include="files\frames\video.htm" />
     <Content Include="files\frames\report.htm" />
+    <Content Include="files\video.gif" />
+    <Content Include="files\weather.png" />
     <Content Include="getIdleInterval.aspx" />
     <Content Include="files\frames\clock.htm" />
     <Content Include="files\frames\picture.htm" />
@@ -79,6 +83,11 @@
   <ItemGroup>
     <Compile Include="Canvas.cs" />
     <Compile Include="Clock.cs" />
+    <Compile Include="getVideo.ashx.cs">
+      <DependentUpon>getVideo.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="MimeTypeParser.cs" />
+    <Compile Include="Video.cs" />
     <Compile Include="getIdleInterval.aspx.cs">
       <DependentUpon>getIdleInterval.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -150,6 +159,7 @@
     <Content Include="getReport.ashx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="getVideo.ashx" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

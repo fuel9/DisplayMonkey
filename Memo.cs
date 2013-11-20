@@ -10,10 +10,10 @@ namespace DisplayMonkey
 {
 	public class Memo : Frame
 	{
-		public Memo(int frameId, int panelId, HttpServerUtility server)
+		public Memo(int frameId, int panelId)
 		{
 			PanelId = panelId;
-			_templatePath = server.MapPath("~/files/frames/memo.htm");
+			_templatePath = HttpContext.Current.Server.MapPath("~/files/frames/memo.htm");
 			string sql = string.Format("SELECT TOP 1 * FROM MEMO WHERE FrameId={0}", frameId);
 
 			using (DataSet ds = DataAccess.RunSql(sql))
@@ -28,7 +28,7 @@ namespace DisplayMonkey
 			}
 		}
 
-		public string Html
+		public override string Html
 		{
 			get
 			{
@@ -41,7 +41,12 @@ namespace DisplayMonkey
 					// fill template
 					if (FrameId > 0)
 					{
-						html = string.Format(template, Subject, Body);
+						HttpServerUtility util = HttpContext.Current.Server;
+						html = string.Format(
+							template,
+							util.HtmlEncode(Subject),
+							util.HtmlEncode(Body).Replace("\r\n", "<br>").Replace("\r", "\n").Replace("\n", "<br>")
+							);
 					}
 				}
 
@@ -63,7 +68,5 @@ namespace DisplayMonkey
 
 		public string Subject;
 		public string Body;
-
-		private string _templatePath;
 	}
 }

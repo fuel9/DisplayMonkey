@@ -18,10 +18,10 @@ namespace DisplayMonkey
 		{
 		}
 
-		public Picture(int frameId, int panelId, HttpServerUtility server)
+		public Picture(int frameId, int panelId)
 		{
 			PanelId = panelId > 0 ? panelId : GetPanelId(frameId);
-			_templatePath = server.MapPath("~/files/frames/picture.htm");
+			_templatePath = HttpContext.Current.Server.MapPath("~/files/frames/picture.htm");
 			string sql = string.Format(
 				"SELECT TOP 1 i.*, Name FROM PICTURE i INNER JOIN CONTENT c ON c.ContentId=i.ContentId WHERE i.FrameId={0};",
 				frameId
@@ -42,7 +42,7 @@ namespace DisplayMonkey
 			}
 		}
 
-		public string Html
+		public override string Html
 		{
 			get
 			{
@@ -62,9 +62,9 @@ namespace DisplayMonkey
 							Panel panel = null;
 
 							if (FullScreenPanel.Exists(PanelId))
-								panel = new FullScreenPanel(PanelId, true);
+								panel = new FullScreenPanel(PanelId);
 							else
-								panel = new Panel(PanelId, true);
+								panel = new Panel(PanelId);
 
 							switch (Mode)
 							{

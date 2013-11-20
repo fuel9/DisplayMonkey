@@ -7,25 +7,30 @@
 </head>
 <body>
     <form id="form1" runat="server">
-    <div id="RegisterDisplay">
+    <div id="RegisterDisplay"><table>
     
-        Display Address:
-        <asp:Label ID="lb_Display_Address" runat="server" Text="None Found"></asp:Label><br />Display 
-        Name: 
-        <asp:TextBox ID="tB_Display_Name" runat="server" MaxLength="50" 
-            ToolTip="Enter a name to call this display"></asp:TextBox><br />Display Type:<asp:RadioButton 
-            ID="Portrait" runat="server" GroupName="DisplayType" Text="Portrait" 
-            Checked="True" /><asp:RadioButton
-                ID="Landscape" runat="server" Text="Landscape" 
-            GroupName="DisplayType" /><br />
-        <asp:Button ID="Register" runat="server" Text="Register" 
+        <tr><td>This Display Address:</td>
+        <td><asp:Label ID="labelHost" runat="server" Text="None Found"></asp:Label></td></tr>
+		<tr><td>This Display Name:</td>
+        <td><asp:TextBox ID="textName" runat="server" MaxLength="50" 
+            ToolTip="Enter a name to call this display"></asp:TextBox></td></tr>
+		<tr><td>This Display Canvas:</td>
+        <td><asp:RadioButtonList ID="radioCanvas" runat="server">
+		</asp:RadioButtonList></td></tr>
+		<tr><td>This Display Location:</td>
+        <td>
+			<asp:RadioButtonList ID="radioLocation" runat="server">
+			</asp:RadioButtonList>
+			</td></tr>
+        <tr><td colspan="2" style="text-align:center"><asp:Button ID="buttonRegister" runat="server" Text="Register" 
             onclick="Register_Click" />
-        <br /><hr />
+        </td></tr>
+		</table>
     
-    </div>
-    <div id="WebPageLinks">Active 
+    </div><hr />
+    <div id="WebPageLinks">Registered 
     Displays<br />
-    <asp:Label ID="RegisteredDisplays" runat="server"></asp:Label><hr /></div>
+    <asp:Label ID="labelDisplays" runat="server"></asp:Label><hr /></div>
     </form>
 </body>
 </html>

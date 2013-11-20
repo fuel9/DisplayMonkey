@@ -15,10 +15,10 @@ namespace DisplayMonkey
 {
 	public class Clock : Frame
 	{
-		public Clock(int frameId, int panelId, int displayId, HttpServerUtility server)
+		public Clock(int frameId, int panelId, int displayId)
 		{
 			PanelId = panelId;
-			_templatePath = server.MapPath("~/files/frames/clock.htm");
+			_templatePath = HttpContext.Current.Server.MapPath("~/files/frames/clock.htm");
 			string sql = string.Format(
 				"SELECT TOP 1 * FROM CLOCK WHERE FrameId={0};",
 				frameId
@@ -36,7 +36,7 @@ namespace DisplayMonkey
 			}
 		}
 
-		public string Html
+		public override string Html
 		{
 			get
 			{
@@ -71,7 +71,5 @@ namespace DisplayMonkey
 
 		public bool ShowDate;
 		public bool ShowTime; 
-
-		private string _templatePath;
 	}
 }

@@ -10,74 +10,106 @@ namespace DisplayMonkey
 {
 	public class Canvas
 	{
-		public Canvas(int displayId)
+		public Canvas()
 		{
-			DisplayId = displayId;
+		}
+		
+		public Canvas(int canvasId)
+		{
+			string sql = string.Format("SELECT TOP 1 * FROM CANVAS WHERE CanvasId={0}", canvasId);
+			using (DataSet ds = DataAccess.RunSql(sql))
+			{
+				if (ds.Tables.Count > 0)
+				{
+					DataRow r = ds.Tables[0].Rows[0];
+					InitFromRow(r);
+				}
+			}
+		}
+
+		public static Canvas InitFromDisplay(int displayId)
+		{
+			Canvas canvas = null;
 
 			string sql = string.Format(
-				"declare @c int; SELECT TOP 1 @c = CanvasId FROM DISPLAY WHERE DisplayId={0};" +
-				"SELECT c.*, PanelId FROM CANVAS c INNER JOIN FULL_SCREEN s on s.CanvasId=c.CanvasId WHERE c.CanvasId=@c;" +
-				"SELECT * FROM PANEL WHERE CanvasId=@c ORDER BY 1;",
+				"SELECT c.* FROM DISPLAY d INNER JOIN CANVAS c on c.CanvasId=d.CanvasId WHERE DisplayId={0};",
 				displayId
 				);
 
 			using (DataSet ds = DataAccess.RunSql(sql))
 			{
-				if (0 == ds.Tables.Count)
+				if (0 == ds.Tables[0].Rows.Count)
 					throw new Exception("Canvas not found");
 
-				DataRow r = ds.Tables[0].Rows[0];
-				CanvasId = DataAccess.IntOrZero(r["CanvasId"]);
-				Title = DataAccess.StringOrBlank(r["Name"]);
-				Height = DataAccess.IntOrZero(r["Height"]);
-				Width = DataAccess.IntOrZero(r["Width"]);
-				BackgroundColor = DataAccess.StringOrBlank(r["BackgroundColor"]);
-				BackgroundImage = DataAccess.IntOrZero(r["BackgroundImage"]);
-				
-				int fullScreenPanelId = DataAccess.IntOrZero(r["PanelId"]);
-
-				foreach (DataRow pr in ds.Tables[1].Rows)
+				canvas = new Canvas()
 				{
-					Panel panel = null;
-					int panelId = DataAccess.IntOrZero(pr["PanelId"]);
-
-					if (panelId == fullScreenPanelId)
-					{
-						panel = new FullScreenPanel(panelId)
-						{
-							Width = this.Width,
-							Height = this.Height,
-						};
-
-						InitialMaxIdleInterval = (panel as FullScreenPanel).IdleInterval;
-					}
-					else
-					{
-						panel = new Panel(panelId)
-						{
-							Top = DataAccess.IntOrZero(pr["Top"]),
-							Left = DataAccess.IntOrZero(pr["Left"]),
-							Width = DataAccess.IntOrZero(pr["Width"]),
-							Height = DataAccess.IntOrZero(pr["Height"]),
-						};
-					}
-
-					Panels.Add(panel);
-				}
+					DisplayId = displayId,
+				};
+				canvas.InitFromRow(ds.Tables[0].Rows[0]);
 			}
+
+			canvas.Panels = Panel.List(canvas.CanvasId);
+
+			return canvas;
+		}
+		
+		public void InitFromRow(DataRow r)
+		{
+			CanvasId = DataAccess.IntOrZero(r["CanvasId"]);
+			Height = DataAccess.IntOrZero(r["Height"]);
+			Width = DataAccess.IntOrZero(r["Width"]);
+			BackgroundColor = DataAccess.StringOrBlank(r["BackgroundColor"]);
+			BackgroundImage = DataAccess.IntOrZero(r["BackgroundImage"]);
+			Name = DataAccess.StringOrBlank(r["Name"]);
+			if (Name == "")
+				Name = string.Format("Display {0}", CanvasId);
 		}
 
+		public static List<Canvas> List
+		{
+			get
+			{
+				List<Canvas> list = new List<Canvas>();
+				string sql = "SELECT * FROM CANVAS ORDER BY 1";
+				using (DataSet ds = DataAccess.RunSql(sql))
+				{
+					list.Capacity = ds.Tables[0].Rows.Count;
+
+					// list registered canvases
+					foreach (DataRow r in ds.Tables[0].Rows)
+					{
+						Canvas canvas = new Canvas(DataAccess.IntOrZero(r["CanvasId"]));
+						list.Add(canvas);
+					}
+				}
+				return list;
+			}
+		}
+		
 		public List<Panel> Panels = new List<Panel>();
 
 		public int BackgroundImage = 0;
 		public string BackgroundColor = "";
-		public string Title = "Welcome to display monkey!";
 		public bool IsAppleMobileSupported = true;
 		public int CanvasId = 0;
 		public int Height = 0;
 		public int Width = 0;
 		public int DisplayId = 0;
-		public int InitialMaxIdleInterval = 0;
+		public string Name = "";
+		public int FullScreenPanelId = 0;
+
+		public int InitialMaxIdleInterval
+		{
+			get
+			{
+				foreach (Panel panel in Panels)
+				{
+					if (panel.GetType() == typeof(FullScreenPanel))
+				        return (panel as FullScreenPanel).IdleInterval;
+				}
+				return 0;
+			}
+		}
 
 		public virtual string Head 
 		{

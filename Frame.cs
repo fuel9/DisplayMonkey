@@ -70,6 +70,14 @@ namespace DisplayMonkey
 			return nci;
 		}
 
+		public virtual string Html { get { return ""; } }
+
+		#region Protected Members
+
+		protected string _templatePath;
+
+		#endregion
+
 		#region Private Members
 
 		private static SqlCommand NextFrameCommand

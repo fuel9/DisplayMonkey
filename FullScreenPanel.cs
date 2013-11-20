@@ -10,14 +10,13 @@ namespace DisplayMonkey
 {
 	public class FullScreenPanel : Panel
 	{
-		public FullScreenPanel(int panelId, bool initWithData = false)
-			: base(panelId, false)
+		public FullScreenPanel()
+			: base()
 		{
-			Top = Left = 0;
+		}
 
-			if (!initWithData)
-				return;
-
+		public FullScreenPanel(int panelId)
+		{
 			string sql = string.Format(
 				"SELECT TOP 1 c.* FROM FULL_SCREEN s INNER JOIN CANVAS c ON c.CanvasId=s.CanvasId WHERE PanelId={0};",
 				PanelId
@@ -28,10 +27,16 @@ namespace DisplayMonkey
 				if (ds.Tables[0].Rows.Count > 0)
 				{
 					DataRow r = ds.Tables[0].Rows[0];
-					Width = DataAccess.IntOrZero(r["Width"]);
-					Height = DataAccess.IntOrZero(r["Height"]);
+					InitFromRow(r);
 				}
 			}
+		}
+
+		public void InitFromRow(DataRow r)
+		{
+			Top = Left = 0;
+			Width = DataAccess.IntOrZero(r["Width"]);
+			Height = DataAccess.IntOrZero(r["Height"]);
 		}
 
 		public static bool Exists(int panelId)

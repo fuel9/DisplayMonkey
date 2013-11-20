@@ -10,11 +10,11 @@ namespace DisplayMonkey
 {
 	public class Report : Picture
 	{
-		public Report(int frameId, int panelId, HttpServerUtility server)
+		public Report(int frameId, int panelId)
 			: base()
 		{
 			PanelId = panelId;
-			_templatePath = server.MapPath("~/files/frames/report.htm");
+			_templatePath = HttpContext.Current.Server.MapPath("~/files/frames/report.htm");
 			string sql = string.Format("SELECT TOP 1 * FROM REPORT WHERE FrameId={0}", frameId);
 
 			using (DataSet ds = DataAccess.RunSql(sql))

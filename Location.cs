@@ -12,6 +12,10 @@ namespace DisplayMonkey
 {
 	public class Location
 	{
+		public Location()
+		{
+		}
+		
 		public Location(int displayId)
 		{
 			string sql = string.Format(
@@ -23,11 +27,7 @@ namespace DisplayMonkey
 				if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
 				{
 					DataRow dr = ds.Tables[0].Rows[0];
-					Latitude = (double)dr["Latitude"];
-					Longitude = (double)dr["Longitude"];
-					TemperatureUnit = ((string)dr["TemperatureUnit"]).ToLower();
-					DateFormat = (string)dr["DateFormat"];
-					TimeFormat = (string)dr["TimeFormat"];
+					InitFromRow(dr);
 				}
 			}
 
@@ -63,14 +63,51 @@ namespace DisplayMonkey
 			OffsetGMT = Convert.ToDouble(doc.SelectSingleNode("//gmtOffset").InnerText);
 		}
 
-		public double Latitude;
-		public double Longitude;
-		public string TemperatureUnit;
-		public int Woeid;
-		public string DateFormat;
-		public string TimeFormat;
-		//public DateTime LocalTime;
-		public double OffsetGMT;
+		public void InitFromRow(DataRow r)
+		{
+			LocationId = DataAccess.IntOrZero(r["LocationId"]);
+			Latitude = DataAccess.DoubleOrZero(r["Latitude"]);
+			Longitude = DataAccess.DoubleOrZero(r["Longitude"]);
+			TemperatureUnit = DataAccess.StringOrBlank(r["TemperatureUnit"]).ToLower();
+			DateFormat = DataAccess.StringOrBlank(r["DateFormat"]);
+			TimeFormat = DataAccess.StringOrBlank(r["TimeFormat"]);
+			Name = DataAccess.StringOrBlank(r["Name"]);
+			if (Name == "")
+				Name = string.Format("Location {0}", LocationId);
+		}
+
+		public static List<Location> List(int levelId = 0)
+		{
+			List<Location> list = new List<Location>();
+			string sql = string.Format(
+				"DECLARE @levelId INT; SET @levelId={0}; IF(@levelId=0) SELECT @levelId = MIN(LevelId) FROM LEVEL;" +
+				"SELECT * FROM LOCATION WHERE LevelId=@levelId ORDER BY 1;",
+				levelId
+				);
+			using (DataSet ds = DataAccess.RunSql(sql))
+			{
+				list.Capacity = ds.Tables[0].Rows.Count;
+
+				// list level locations
+				foreach (DataRow r in ds.Tables[0].Rows)
+				{
+					Location loc = new Location();
+					loc.InitFromRow(r);
+					list.Add(loc);
+				}
+			}
+			return list;
+		}
+
+		public int LocationId = 0;
+		public double Latitude = 0;
+		public double Longitude = 0;
+		public string TemperatureUnit = "C";
+		public int Woeid = 0;
+		public string DateFormat = "LL";
+		public string TimeFormat = "LT";
+		public double OffsetGMT = 0;
+		public string Name = "";
 
 	}
 }

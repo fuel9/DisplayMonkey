@@ -31,57 +31,57 @@ namespace DisplayMonkey {
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
         
         /// <summary>
-        /// lb_Display_Address control.
+        /// labelHost control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lb_Display_Address;
+        protected global::System.Web.UI.WebControls.Label labelHost;
         
         /// <summary>
-        /// tB_Display_Name control.
+        /// textName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tB_Display_Name;
+        protected global::System.Web.UI.WebControls.TextBox textName;
         
         /// <summary>
-        /// Portrait control.
+        /// radioCanvas control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton Portrait;
+        protected global::System.Web.UI.WebControls.RadioButtonList radioCanvas;
         
         /// <summary>
-        /// Landscape control.
+        /// radioLocation control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton Landscape;
+        protected global::System.Web.UI.WebControls.RadioButtonList radioLocation;
         
         /// <summary>
-        /// Register control.
+        /// buttonRegister control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Register;
+        protected global::System.Web.UI.WebControls.Button buttonRegister;
         
         /// <summary>
-        /// RegisteredDisplays control.
+        /// labelDisplays control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label RegisteredDisplays;
+        protected global::System.Web.UI.WebControls.Label labelDisplays;
     }
 }

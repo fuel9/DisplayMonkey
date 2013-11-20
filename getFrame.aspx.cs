@@ -38,28 +38,31 @@ namespace DisplayMonkey
 					switch (type)
 					{
 						case "MEMO":
-							html = new Memo(frameId, panelId, Server).Html;
+							html = new Memo(frameId, panelId).Html;
 							break;
 
 						case "PICTURE":
-							html = new Picture(frameId, panelId, Server).Html;
+							html = new Picture(frameId, panelId).Html;
 							break;
 
 						case "WEATHER":
 							int woeid = DataAccess.IntOrZero(Request.QueryString["woeid"]);
 							string tempUnit = Request.QueryString["temperatureUnit"];
-							html = new Weather(frameId, panelId, displayId, woeid, tempUnit, Server).Html;
+							html = new Weather(frameId, panelId, displayId, woeid, tempUnit).Html;
 							break;
 
 						case "CLOCK":
-							html = new Clock(frameId, panelId, displayId, Server).Html;
+							html = new Clock(frameId, panelId, displayId).Html;
 							break;
 
 						case "REPORT":
-							html = new Report(frameId, panelId, Server).Html;
+							html = new Report(frameId, panelId).Html;
 							break;
 
 						case "VIDEO":
+							html = new Video(frameId, panelId).Html;
+							break;
+
 						case "NEWS":
 						case "HTML":
 						default:
