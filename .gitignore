@@ -1,5 +1,2 @@
-obj
-bin
-*.user
-*.suo
-/test.htm
+/Management/bin
+/Management/obj

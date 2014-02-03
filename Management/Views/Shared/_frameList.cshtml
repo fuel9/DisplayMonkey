@@ -1,0 +1,83 @@
+﻿@model IEnumerable<DisplayMonkey.Models.Frame>
+
+<table class="grid">
+    <tr>
+        <th>
+            Type
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Panel.Canvas)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Panel)
+        </th>
+        <th>
+            Information/Content Displayed
+        </th>
+        <th style="text-align:right">
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Duration), sec.
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td style="white-space:nowrap">
+            @Html.ActionLink(item.FrameType, "Details", "Frame", new { id = item.FrameId }, null)
+        </td>
+        <td style="white-space:nowrap">
+            @Html.DisplayFor(m => item.Panel.Canvas.Name)
+        </td>
+        <td style="white-space:nowrap">
+            @Html.DisplayFor(m => item.Panel.Name)
+        </td>
+        <td>
+            @if (item.News != null)
+            {
+                @Html.DisplayFor(m => item.News.Source)
+            }
+            else if (item.Clock != null)
+            {
+                @(string.Format("{0}{1}{2}",
+                    DisplayMonkey.Models.Clock.ClockTypes.First(t => t.Type == item.Clock.Type).Name,
+                    item.Clock.ShowDate ? ", Show date" : "",
+                    item.Clock.ShowTime ? ", Show time" : ""
+                    ))
+            }
+            else if (item.Weather != null)
+            {
+                @Html.DisplayFor(m => DisplayMonkey.Models.Weather.WeatherTypes.First(t => t.Type == item.Weather.Type).Name)
+            }
+            else if (item.Memo != null)
+            {
+                <p>Subject: <span>@Html.DisplayFor(m => item.Memo.Subject)</span></p>
+                <p>Body: <span>@Html.DisplayFor(m => item.Memo.ShortBody)</span></p>
+            }
+            else if (item.Report != null)
+            {
+                @Html.DisplayFor(m => item.Report.Name)
+            }
+            else if (item.Picture != null)
+            {
+                <img src="@Url.Action("Thumb", "Media", new { id = item.Picture.ContentId, width = 50, height = 50, mode = DisplayMonkey.Models.Content.RenderMode_Stretch })" alt="" />
+                <span>@Html.DisplayFor(m => item.Picture.Content.Name)</span>
+            }
+            else if (item.Video != null)    
+            {
+                @(string.Format("Linked to {0} media alternatives", item.Video.Contents.Count()))
+            }
+        </td>
+        <td style="white-space:nowrap;text-align:right">
+            @if (item.ShowDuration)
+            {
+                @Html.DisplayFor(modelItem => item.Duration)
+            }
+        </td>
+        <td style="white-space:nowrap">
+            @Html.ActionLink("Edit", "Edit", "Frame", new { id=item.FrameId }, null) |
+            @Html.ActionLink("Delete", "Delete", "Frame", new { id=item.FrameId }, null)
+        </td>
+    </tr>
+}
+
+</table>

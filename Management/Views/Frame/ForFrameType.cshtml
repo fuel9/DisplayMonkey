@@ -1,0 +1,51 @@
+﻿@model DisplayMonkey.Models.FrameSelector
+
+@{
+    ViewBag.Title = "Create new frame";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Frame</legend>
+
+        @Html.HiddenFor(s => s.PanelId)
+
+        <div class="editor-label">
+            @Html.LabelFor(s => s.Panel.Canvas)
+        </div>
+        <div class="editor-field">
+            @Html.DisplayFor(s => s.Panel.Canvas.Name)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(s => s.Panel)
+        </div>
+        <div class="editor-field">
+            @Html.DisplayFor(s => s.Panel.Name)
+        </div>
+
+        <div class="editor-label">
+            @Html.Label("Select frame type")
+        </div>
+        <div class="editor-field select">
+            @Html.DropDownListFor(s => s.FrameType, ViewBag.FrameType as SelectList)
+        </div>
+
+        <p>
+            <input type="submit" value="Next" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Frames list", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -1,0 +1,13 @@
+﻿@model DisplayMonkey.Models.Picture
+
+@{
+    SelectList modes = ViewBag.Modes as SelectList;
+}
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Mode)
+        </div>
+        <div class="editor-field select">
+            @Html.DropDownListFor(model => model.Mode, modes)
+            @Html.ValidationMessageFor(model => model.Mode)
+        </div>

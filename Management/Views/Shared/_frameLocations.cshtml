@@ -1,0 +1,42 @@
+﻿@model DisplayMonkey.Models.Frame
+
+<h2>Designated locations</h2>
+
+@Html.ActionLink("Designate location", "Attach", "Frame", new { id = Model.FrameId }, null)
+
+@if (Model.Locations.Count == 0)
+{
+    <p>This frame will show in all locations</p>
+}
+
+else
+{
+    <table class="grid">
+        
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Locations.First().Area)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Locations.First().Name)
+            </th>
+            <th></th>
+        </tr>
+
+    @foreach (var item in Model.Locations)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Area.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.ActionLink("Remove", "Detach", "Frame", new { id = Model.FrameId, locationId = item.LocationId }, null)
+            </td>
+        </tr>
+    }
+
+    </table>
+}

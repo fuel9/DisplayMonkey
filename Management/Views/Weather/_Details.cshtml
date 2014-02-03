@@ -1,0 +1,35 @@
+﻿@model DisplayMonkey.Models.Weather
+
+<fieldset>
+    <legend>Weather</legend>
+
+    <div class="divTable">
+    <div class="divRow">
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Frame.Panel.Name)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Frame.Panel.Name)
+    </div>
+    </div>
+
+    <div class="divRow">
+    <div class="display-label">
+         @Html.DisplayName("Update interval")
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Frame.Duration) sec.
+    </div>
+    </div>
+
+    <div class="divRow">
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Type)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => DisplayMonkey.Models.Weather.WeatherTypes.First(w => w.Type == model.Type).Name)
+    </div>
+    </div>
+    </div>
+</fieldset>
+

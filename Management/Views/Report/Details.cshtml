@@ -1,0 +1,17 @@
+﻿@model DisplayMonkey.Models.Report
+
+@{
+    ViewBag.Title = "Report frame details";
+    DisplayMonkey.Models.Content.RenderMode mode;
+}
+
+<h2>@ViewBag.Title</h2>
+
+@Html.Partial("_Details")
+
+<p>
+    @Html.ActionLink("Edit", "Edit", "Frame", new { id=Model.FrameId }, null) |
+    @Html.ActionLink("Frames list", "Index", "Frame")
+</p>
+
+@Html.Partial("_frameLocations", Model.Frame)

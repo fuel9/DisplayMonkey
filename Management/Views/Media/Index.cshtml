@@ -1,0 +1,61 @@
+﻿@model IEnumerable<DisplayMonkey.Models.ContentWithSize>
+
+@{
+    ViewBag.Title = "Media";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm("Index", "Media", FormMethod.Get))
+{    
+    <fieldset><legend>Search</legend><table>
+        <tr><td>Media type:</td><td><div class="select">@Html.DropDownList("MediaType", "- Any -")</div></td></tr>
+    <tr><td colspan="2"><input type="submit" value="Filter" /></td></tr></table></fieldset> 
+}
+
+<p>
+    @Html.ActionLink("Upload media", "Upload")
+</p>
+<table class="grid">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th style="white-space:nowrap">
+            @Html.DisplayNameFor(model => model.Type)
+        </th>
+        <th style="white-space:nowrap">
+            @Html.DisplayName("Thumb")
+        </th>
+        <th style="text-align:right;white-space:nowrap">
+            @Html.DisplayNameFor(model => model.Size), KB
+        </th>
+        <th style="white-space:nowrap"></th>
+    </tr>
+
+@foreach (DisplayMonkey.Models.ContentWithSize item in Model)
+{
+    <tr>
+        <td>         
+            @Html.ActionLink(item.Name, "Details", new { id=item.ContentId })
+        </td>
+        <td style="white-space:nowrap">
+            @Html.DisplayFor(modelItem => DisplayMonkey.Models.Content.ContentTypes.First(m => m.Type == item.Type).Name)
+        </td>
+        <td style="white-space:nowrap">
+            @if (item.Type == DisplayMonkey.Models.Content.ContentType_Picture)
+            {
+                <img src="@Url.Action("Thumb", "Media", new { id = item.ContentId, width = 50, height = 50, mode = DisplayMonkey.Models.Content.RenderMode_Stretch })" alt="" />
+            }
+        </td>
+        <td style="text-align:right;white-space:nowrap">
+            @Html.DisplayFor(model => item.Size)
+        </td>
+        <td style="white-space:nowrap">
+            @Html.ActionLink("Edit", "Edit", new { id=item.ContentId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ContentId })
+        </td>
+    </tr>
+}
+
+</table>

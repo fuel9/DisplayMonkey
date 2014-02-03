@@ -1,0 +1,40 @@
+﻿@model DisplayMonkey.Models.Picture
+
+@{
+    ViewBag.Title = "Edit picture frame";
+    SelectList pictures = ViewBag.Pictures as SelectList;
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Picture</legend>
+
+        @Html.Partial("_frameData", Model.Frame)
+        @Html.Partial("_Edit", Model)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ContentId)
+        </div>
+        <div class="editor-field select">
+            @Html.DropDownListFor(model => model.ContentId, pictures)
+            @Html.ValidationMessageFor(model => model.ContentId)
+        </div>
+
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Frames list", "Index", "Frame")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

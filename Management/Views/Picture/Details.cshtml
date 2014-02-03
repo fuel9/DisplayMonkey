@@ -1,0 +1,16 @@
+﻿@model DisplayMonkey.Models.Picture
+
+@{
+    ViewBag.Title = "Picture frame details";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@Html.Partial("_Details")
+
+<p>
+    @Html.ActionLink("Edit", "Edit", "Frame", new { id=Model.FrameId }, null) |
+    @Html.ActionLink("Frames list", "Index", "Frame")
+</p>
+
+@Html.Partial("_frameLocations", Model.Frame)

@@ -1,0 +1,74 @@
+﻿@model DisplayMonkey.Models.Level
+
+@{
+    ViewBag.Title = "Organization level details";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@Html.Partial("_Details")
+
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.LevelId }) |
+    @Html.ActionLink("Levels list", "Index")
+</p>
+
+<h2>Associated Locations</h2>
+
+<table class="grid">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Locations.First().Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Locations.First().Area)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Locations.First().TemperatureUnit)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Locations.First().Latitude)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Locations.First().Longitude)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Locations.First().DateFormat)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Locations.First().TimeFormat)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model.Locations) {
+    <tr>
+        <td>
+            @Html.ActionLink(item.Name, "Details", "Location", new { id=item.LocationId }, null)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Area.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TemperatureUnit)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Latitude)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Longitude)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DateFormat)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TimeFormat)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", "Location", new { id=item.LocationId }, null) |
+            @Html.ActionLink("Delete", "Delete", "Location", new { id=item.LocationId }, null)
+        </td>
+    </tr>
+}
+
+</table>

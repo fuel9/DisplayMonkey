@@ -1,0 +1,1330 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DisplayMonkey.Model.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="DisplayMonkeyModelStoreContainer">
+          <EntitySet Name="Canvas" EntityType="DisplayMonkey.Model.Store.Canvas" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Clock" EntityType="DisplayMonkey.Model.Store.Clock" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Content" EntityType="DisplayMonkey.Model.Store.Content" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Display" EntityType="DisplayMonkey.Model.Store.Display" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Frame" EntityType="DisplayMonkey.Model.Store.Frame" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="FrameLocation" EntityType="DisplayMonkey.Model.Store.FrameLocation" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="FullScreen" EntityType="DisplayMonkey.Model.Store.FullScreen" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Level" EntityType="DisplayMonkey.Model.Store.Level" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Location" EntityType="DisplayMonkey.Model.Store.Location" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Memo" EntityType="DisplayMonkey.Model.Store.Memo" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="News" EntityType="DisplayMonkey.Model.Store.News" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Panel" EntityType="DisplayMonkey.Model.Store.Panel" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Picture" EntityType="DisplayMonkey.Model.Store.Picture" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Report" EntityType="DisplayMonkey.Model.Store.Report" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="ReportServer" EntityType="DisplayMonkey.Model.Store.ReportServer" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Video" EntityType="DisplayMonkey.Model.Store.Video" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="VideoAlternative" EntityType="DisplayMonkey.Model.Store.VideoAlternative" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Weather" EntityType="DisplayMonkey.Model.Store.Weather" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_Canvas_Content" Association="DisplayMonkey.Model.Store.FK_Canvas_Content">
+            <End Role="Content" EntitySet="Content" />
+            <End Role="Canvas" EntitySet="Canvas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Clock_Frame" Association="DisplayMonkey.Model.Store.FK_Clock_Frame">
+            <End Role="Frame" EntitySet="Frame" />
+            <End Role="Clock" EntitySet="Clock" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Display_Canvas" Association="DisplayMonkey.Model.Store.FK_Display_Canvas">
+            <End Role="Canvas" EntitySet="Canvas" />
+            <End Role="Display" EntitySet="Display" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Display_Location" Association="DisplayMonkey.Model.Store.FK_Display_Location">
+            <End Role="Location" EntitySet="Location" />
+            <End Role="Display" EntitySet="Display" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Frame_Panel" Association="DisplayMonkey.Model.Store.FK_Frame_Panel">
+            <End Role="Panel" EntitySet="Panel" />
+            <End Role="Frame" EntitySet="Frame" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FrameLlocation_Location" Association="DisplayMonkey.Model.Store.FK_FrameLlocation_Location">
+            <End Role="Location" EntitySet="Location" />
+            <End Role="FrameLocation" EntitySet="FrameLocation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FrameLocation_Frame" Association="DisplayMonkey.Model.Store.FK_FrameLocation_Frame">
+            <End Role="Frame" EntitySet="Frame" />
+            <End Role="FrameLocation" EntitySet="FrameLocation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FullScreen_Canvas" Association="DisplayMonkey.Model.Store.FK_FullScreen_Canvas">
+            <End Role="Canvas" EntitySet="Canvas" />
+            <End Role="FullScreen" EntitySet="FullScreen" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FullScreen_Panel" Association="DisplayMonkey.Model.Store.FK_FullScreen_Panel">
+            <End Role="Panel" EntitySet="Panel" />
+            <End Role="FullScreen" EntitySet="FullScreen" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Location_Area" Association="DisplayMonkey.Model.Store.FK_Location_Area">
+            <End Role="Location" EntitySet="Location" />
+            <End Role="Location1" EntitySet="Location" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Location_Level" Association="DisplayMonkey.Model.Store.FK_Location_Level">
+            <End Role="Level" EntitySet="Level" />
+            <End Role="Location" EntitySet="Location" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Memo_Frame" Association="DisplayMonkey.Model.Store.FK_Memo_Frame">
+            <End Role="Frame" EntitySet="Frame" />
+            <End Role="Memo" EntitySet="Memo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_News_Frame" Association="DisplayMonkey.Model.Store.FK_News_Frame">
+            <End Role="Frame" EntitySet="Frame" />
+            <End Role="News" EntitySet="News" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Panel_Canvas" Association="DisplayMonkey.Model.Store.FK_Panel_Canvas">
+            <End Role="Canvas" EntitySet="Canvas" />
+            <End Role="Panel" EntitySet="Panel" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Picture_Content" Association="DisplayMonkey.Model.Store.FK_Picture_Content">
+            <End Role="Content" EntitySet="Content" />
+            <End Role="Picture" EntitySet="Picture" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Picture_Frame" Association="DisplayMonkey.Model.Store.FK_Picture_Frame">
+            <End Role="Frame" EntitySet="Frame" />
+            <End Role="Picture" EntitySet="Picture" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Report_Frame" Association="DisplayMonkey.Model.Store.FK_Report_Frame">
+            <End Role="Frame" EntitySet="Frame" />
+            <End Role="Report" EntitySet="Report" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Report_ReportServer" Association="DisplayMonkey.Model.Store.FK_Report_ReportServer">
+            <End Role="ReportServer" EntitySet="ReportServer" />
+            <End Role="Report" EntitySet="Report" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Video_Frame" Association="DisplayMonkey.Model.Store.FK_Video_Frame">
+            <End Role="Frame" EntitySet="Frame" />
+            <End Role="Video" EntitySet="Video" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VideoAalternative_Video" Association="DisplayMonkey.Model.Store.FK_VideoAalternative_Video">
+            <End Role="Video" EntitySet="Video" />
+            <End Role="VideoAlternative" EntitySet="VideoAlternative" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VideoAlternative_Content" Association="DisplayMonkey.Model.Store.FK_VideoAlternative_Content">
+            <End Role="Content" EntitySet="Content" />
+            <End Role="VideoAlternative" EntitySet="VideoAlternative" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Weather_Frame" Association="DisplayMonkey.Model.Store.FK_Weather_Frame">
+            <End Role="Frame" EntitySet="Frame" />
+            <End Role="Weather" EntitySet="Weather" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Canvas">
+          <Key>
+            <PropertyRef Name="CanvasId" />
+          </Key>
+          <Property Name="CanvasId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="Height" Type="int" Nullable="false" />
+          <Property Name="Width" Type="int" Nullable="false" />
+          <Property Name="BackgroundImage" Type="int" />
+          <Property Name="BackgroundColor" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="Clock">
+          <Key>
+            <PropertyRef Name="FrameId" />
+          </Key>
+          <Property Name="FrameId" Type="int" Nullable="false" />
+          <Property Name="Type" Type="int" Nullable="false" />
+          <Property Name="ShowDate" Type="bit" Nullable="false" />
+          <Property Name="ShowTime" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Content">
+          <Key>
+            <PropertyRef Name="ContentId" />
+          </Key>
+          <Property Name="ContentId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="varchar" MaxLength="100" />
+          <Property Name="Data" Type="varbinary(max)" Nullable="false" />
+          <Property Name="Type" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Display">
+          <Key>
+            <PropertyRef Name="DisplayId" />
+          </Key>
+          <Property Name="DisplayId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="Host" Type="varchar" MaxLength="50" />
+          <Property Name="CanvasId" Type="int" Nullable="false" />
+          <Property Name="LocationId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Frame">
+          <Key>
+            <PropertyRef Name="FrameId" />
+          </Key>
+          <Property Name="FrameId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="PanelId" Type="int" Nullable="false" />
+          <Property Name="Duration" Type="int" Nullable="false" />
+          <Property Name="BeginsOn" Type="datetime" />
+          <Property Name="EndsOn" Type="datetime" />
+        </EntityType>
+        <EntityType Name="FrameLocation">
+          <Key>
+            <PropertyRef Name="FrameId" />
+            <PropertyRef Name="LocationId" />
+          </Key>
+          <Property Name="FrameId" Type="int" Nullable="false" />
+          <Property Name="LocationId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FullScreen">
+          <Key>
+            <PropertyRef Name="CanvasId" />
+          </Key>
+          <Property Name="PanelId" Type="int" Nullable="false" />
+          <Property Name="CanvasId" Type="int" Nullable="false" />
+          <Property Name="MaxIdleInterval" Type="int" />
+        </EntityType>
+        <EntityType Name="Level">
+          <Key>
+            <PropertyRef Name="LevelId" />
+          </Key>
+          <Property Name="LevelId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Location">
+          <Key>
+            <PropertyRef Name="LocationId" />
+          </Key>
+          <Property Name="LocationId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="LevelId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="AreaId" Type="int" />
+          <Property Name="TemperatureUnit" Type="char" MaxLength="1" />
+          <Property Name="Latitude" Type="float" />
+          <Property Name="Longitude" Type="float" />
+          <Property Name="DateFormat" Type="varchar" MaxLength="20" />
+          <Property Name="TimeFormat" Type="varchar" MaxLength="10" />
+          <Property Name="OffsetGMT" Type="int" />
+        </EntityType>
+        <EntityType Name="Memo">
+          <Key>
+            <PropertyRef Name="FrameId" />
+          </Key>
+          <Property Name="FrameId" Type="int" Nullable="false" />
+          <Property Name="Subject" Type="nvarchar" MaxLength="200" />
+          <Property Name="Body" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="News">
+          <Key>
+            <PropertyRef Name="FrameId" />
+          </Key>
+          <Property Name="FrameId" Type="int" Nullable="false" />
+          <Property Name="Source" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Panel">
+          <Key>
+            <PropertyRef Name="PanelId" />
+          </Key>
+          <Property Name="PanelId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="CanvasId" Type="int" Nullable="false" />
+          <Property Name="Top" Type="int" Nullable="false" />
+          <Property Name="Left" Type="int" Nullable="false" />
+          <Property Name="Height" Type="int" Nullable="false" />
+          <Property Name="Width" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Picture">
+          <Key>
+            <PropertyRef Name="FrameId" />
+          </Key>
+          <Property Name="FrameId" Type="int" Nullable="false" />
+          <Property Name="ContentId" Type="int" Nullable="false" />
+          <Property Name="Mode" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Report">
+          <Key>
+            <PropertyRef Name="FrameId" />
+          </Key>
+          <Property Name="FrameId" Type="int" Nullable="false" />
+          <Property Name="Path" Type="varchar" Nullable="false" MaxLength="250" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="Mode" Type="int" Nullable="false" />
+          <Property Name="ServerId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ReportServer">
+          <Key>
+            <PropertyRef Name="ServerId" />
+          </Key>
+          <Property Name="ServerId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="BaseUrl" Type="varchar" Nullable="false" MaxLength="250" />
+          <Property Name="User" Type="varchar" MaxLength="100" />
+          <Property Name="Password" Type="varbinary" MaxLength="1024" />
+          <Property Name="Domain" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Video">
+          <Key>
+            <PropertyRef Name="FrameId" />
+          </Key>
+          <Property Name="FrameId" Type="int" Nullable="false" />
+          <Property Name="PlayMuted" Type="bit" Nullable="false" />
+          <Property Name="AutoLoop" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="VideoAlternative">
+          <Key>
+            <PropertyRef Name="FrameId" />
+            <PropertyRef Name="ContentId" />
+          </Key>
+          <Property Name="FrameId" Type="int" Nullable="false" />
+          <Property Name="ContentId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Weather">
+          <Key>
+            <PropertyRef Name="FrameId" />
+          </Key>
+          <Property Name="FrameId" Type="int" Nullable="false" />
+          <Property Name="Type" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Canvas_Content">
+          <End Role="Content" Type="DisplayMonkey.Model.Store.Content" Multiplicity="0..1" />
+          <End Role="Canvas" Type="DisplayMonkey.Model.Store.Canvas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Content">
+              <PropertyRef Name="ContentId" />
+            </Principal>
+            <Dependent Role="Canvas">
+              <PropertyRef Name="BackgroundImage" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Clock_Frame">
+          <End Role="Frame" Type="DisplayMonkey.Model.Store.Frame" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Clock" Type="DisplayMonkey.Model.Store.Clock" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Frame">
+              <PropertyRef Name="FrameId" />
+            </Principal>
+            <Dependent Role="Clock">
+              <PropertyRef Name="FrameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Display_Canvas">
+          <End Role="Canvas" Type="DisplayMonkey.Model.Store.Canvas" Multiplicity="1" />
+          <End Role="Display" Type="DisplayMonkey.Model.Store.Display" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Canvas">
+              <PropertyRef Name="CanvasId" />
+            </Principal>
+            <Dependent Role="Display">
+              <PropertyRef Name="CanvasId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Display_Location">
+          <End Role="Location" Type="DisplayMonkey.Model.Store.Location" Multiplicity="1" />
+          <End Role="Display" Type="DisplayMonkey.Model.Store.Display" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="LocationId" />
+            </Principal>
+            <Dependent Role="Display">
+              <PropertyRef Name="LocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Frame_Panel">
+          <End Role="Panel" Type="DisplayMonkey.Model.Store.Panel" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Frame" Type="DisplayMonkey.Model.Store.Frame" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Panel">
+              <PropertyRef Name="PanelId" />
+            </Principal>
+            <Dependent Role="Frame">
+              <PropertyRef Name="PanelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FrameLlocation_Location">
+          <End Role="Location" Type="DisplayMonkey.Model.Store.Location" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="FrameLocation" Type="DisplayMonkey.Model.Store.FrameLocation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="LocationId" />
+            </Principal>
+            <Dependent Role="FrameLocation">
+              <PropertyRef Name="LocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FrameLocation_Frame">
+          <End Role="Frame" Type="DisplayMonkey.Model.Store.Frame" Multiplicity="1" />
+          <End Role="FrameLocation" Type="DisplayMonkey.Model.Store.FrameLocation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Frame">
+              <PropertyRef Name="FrameId" />
+            </Principal>
+            <Dependent Role="FrameLocation">
+              <PropertyRef Name="FrameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FullScreen_Canvas">
+          <End Role="Canvas" Type="DisplayMonkey.Model.Store.Canvas" Multiplicity="1" />
+          <End Role="FullScreen" Type="DisplayMonkey.Model.Store.FullScreen" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Canvas">
+              <PropertyRef Name="CanvasId" />
+            </Principal>
+            <Dependent Role="FullScreen">
+              <PropertyRef Name="CanvasId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FullScreen_Panel">
+          <End Role="Panel" Type="DisplayMonkey.Model.Store.Panel" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="FullScreen" Type="DisplayMonkey.Model.Store.FullScreen" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Panel">
+              <PropertyRef Name="PanelId" />
+            </Principal>
+            <Dependent Role="FullScreen">
+              <PropertyRef Name="PanelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Location_Area">
+          <End Role="Location" Type="DisplayMonkey.Model.Store.Location" Multiplicity="0..1" />
+          <End Role="Location1" Type="DisplayMonkey.Model.Store.Location" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="LocationId" />
+            </Principal>
+            <Dependent Role="Location1">
+              <PropertyRef Name="AreaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Location_Level">
+          <End Role="Level" Type="DisplayMonkey.Model.Store.Level" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Location" Type="DisplayMonkey.Model.Store.Location" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Level">
+              <PropertyRef Name="LevelId" />
+            </Principal>
+            <Dependent Role="Location">
+              <PropertyRef Name="LevelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Memo_Frame">
+          <End Role="Frame" Type="DisplayMonkey.Model.Store.Frame" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Memo" Type="DisplayMonkey.Model.Store.Memo" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Frame">
+              <PropertyRef Name="FrameId" />
+            </Principal>
+            <Dependent Role="Memo">
+              <PropertyRef Name="FrameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_News_Frame">
+          <End Role="Frame" Type="DisplayMonkey.Model.Store.Frame" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="News" Type="DisplayMonkey.Model.Store.News" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Frame">
+              <PropertyRef Name="FrameId" />
+            </Principal>
+            <Dependent Role="News">
+              <PropertyRef Name="FrameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Panel_Canvas">
+          <End Role="Canvas" Type="DisplayMonkey.Model.Store.Canvas" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Panel" Type="DisplayMonkey.Model.Store.Panel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Canvas">
+              <PropertyRef Name="CanvasId" />
+            </Principal>
+            <Dependent Role="Panel">
+              <PropertyRef Name="CanvasId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Picture_Content">
+          <End Role="Content" Type="DisplayMonkey.Model.Store.Content" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Picture" Type="DisplayMonkey.Model.Store.Picture" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Content">
+              <PropertyRef Name="ContentId" />
+            </Principal>
+            <Dependent Role="Picture">
+              <PropertyRef Name="ContentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Picture_Frame">
+          <End Role="Frame" Type="DisplayMonkey.Model.Store.Frame" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Picture" Type="DisplayMonkey.Model.Store.Picture" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Frame">
+              <PropertyRef Name="FrameId" />
+            </Principal>
+            <Dependent Role="Picture">
+              <PropertyRef Name="FrameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Report_Frame">
+          <End Role="Frame" Type="DisplayMonkey.Model.Store.Frame" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Report" Type="DisplayMonkey.Model.Store.Report" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Frame">
+              <PropertyRef Name="FrameId" />
+            </Principal>
+            <Dependent Role="Report">
+              <PropertyRef Name="FrameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Report_ReportServer">
+          <End Role="ReportServer" Type="DisplayMonkey.Model.Store.ReportServer" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Report" Type="DisplayMonkey.Model.Store.Report" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ReportServer">
+              <PropertyRef Name="ServerId" />
+            </Principal>
+            <Dependent Role="Report">
+              <PropertyRef Name="ServerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Video_Frame">
+          <End Role="Frame" Type="DisplayMonkey.Model.Store.Frame" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Video" Type="DisplayMonkey.Model.Store.Video" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Frame">
+              <PropertyRef Name="FrameId" />
+            </Principal>
+            <Dependent Role="Video">
+              <PropertyRef Name="FrameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VideoAalternative_Video">
+          <End Role="Video" Type="DisplayMonkey.Model.Store.Video" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="VideoAlternative" Type="DisplayMonkey.Model.Store.VideoAlternative" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Video">
+              <PropertyRef Name="FrameId" />
+            </Principal>
+            <Dependent Role="VideoAlternative">
+              <PropertyRef Name="FrameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VideoAlternative_Content">
+          <End Role="Content" Type="DisplayMonkey.Model.Store.Content" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="VideoAlternative" Type="DisplayMonkey.Model.Store.VideoAlternative" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Content">
+              <PropertyRef Name="ContentId" />
+            </Principal>
+            <Dependent Role="VideoAlternative">
+              <PropertyRef Name="ContentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Weather_Frame">
+          <End Role="Frame" Type="DisplayMonkey.Model.Store.Frame" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Weather" Type="DisplayMonkey.Model.Store.Weather" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Frame">
+              <PropertyRef Name="FrameId" />
+            </Principal>
+            <Dependent Role="Weather">
+              <PropertyRef Name="FrameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DisplayMonkey.Model" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="DisplayMonkeyEntities" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="Canvases" EntityType="DisplayMonkey.Model.Canvas" />
+          <EntitySet Name="Clocks" EntityType="DisplayMonkey.Model.Clock" />
+          <EntitySet Name="Contents" EntityType="DisplayMonkey.Model.Content" />
+          <EntitySet Name="Displays" EntityType="DisplayMonkey.Model.Display" />
+          <EntitySet Name="Frames" EntityType="DisplayMonkey.Model.Frame" />
+          <EntitySet Name="FullScreens" EntityType="DisplayMonkey.Model.FullScreen" />
+          <EntitySet Name="Levels" EntityType="DisplayMonkey.Model.Level" />
+          <EntitySet Name="Locations" EntityType="DisplayMonkey.Model.Location" />
+          <EntitySet Name="Memos" EntityType="DisplayMonkey.Model.Memo" />
+          <EntitySet Name="News" EntityType="DisplayMonkey.Model.News" />
+          <EntitySet Name="Panels" EntityType="DisplayMonkey.Model.Panel" />
+          <EntitySet Name="Pictures" EntityType="DisplayMonkey.Model.Picture" />
+          <EntitySet Name="Reports" EntityType="DisplayMonkey.Model.Report" />
+          <EntitySet Name="Videos" EntityType="DisplayMonkey.Model.Video" />
+          <EntitySet Name="Weathers" EntityType="DisplayMonkey.Model.Weather" />
+          <AssociationSet Name="FK_Canvas_Content" Association="DisplayMonkey.Model.FK_Canvas_Content">
+            <End Role="Content" EntitySet="Contents" />
+            <End Role="Canvas" EntitySet="Canvases" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Display_Canvas" Association="DisplayMonkey.Model.FK_Display_Canvas">
+            <End Role="Canvas" EntitySet="Canvases" />
+            <End Role="Display" EntitySet="Displays" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FullScreen_Canvas" Association="DisplayMonkey.Model.FK_FullScreen_Canvas">
+            <End Role="Canvas" EntitySet="Canvases" />
+            <End Role="FullScreen" EntitySet="FullScreens" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Panel_Canvas" Association="DisplayMonkey.Model.FK_Panel_Canvas">
+            <End Role="Canvas" EntitySet="Canvases" />
+            <End Role="Panel" EntitySet="Panels" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Clock_Frame" Association="DisplayMonkey.Model.FK_Clock_Frame">
+            <End Role="Frame" EntitySet="Frames" />
+            <End Role="Clock" EntitySet="Clocks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Picture_Content" Association="DisplayMonkey.Model.FK_Picture_Content">
+            <End Role="Content" EntitySet="Contents" />
+            <End Role="Picture" EntitySet="Pictures" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Display_Location" Association="DisplayMonkey.Model.FK_Display_Location">
+            <End Role="Location" EntitySet="Locations" />
+            <End Role="Display" EntitySet="Displays" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Frame_Panel" Association="DisplayMonkey.Model.FK_Frame_Panel">
+            <End Role="Panel" EntitySet="Panels" />
+            <End Role="Frame" EntitySet="Frames" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Memo_Frame" Association="DisplayMonkey.Model.FK_Memo_Frame">
+            <End Role="Frame" EntitySet="Frames" />
+            <End Role="Memo" EntitySet="Memos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_News_Frame" Association="DisplayMonkey.Model.FK_News_Frame">
+            <End Role="Frame" EntitySet="Frames" />
+            <End Role="News" EntitySet="News" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Picture_Frame" Association="DisplayMonkey.Model.FK_Picture_Frame">
+            <End Role="Frame" EntitySet="Frames" />
+            <End Role="Picture" EntitySet="Pictures" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Report_Frame" Association="DisplayMonkey.Model.FK_Report_Frame">
+            <End Role="Frame" EntitySet="Frames" />
+            <End Role="Report" EntitySet="Reports" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Video_Frame" Association="DisplayMonkey.Model.FK_Video_Frame">
+            <End Role="Frame" EntitySet="Frames" />
+            <End Role="Video" EntitySet="Videos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Weather_Frame" Association="DisplayMonkey.Model.FK_Weather_Frame">
+            <End Role="Frame" EntitySet="Frames" />
+            <End Role="Weather" EntitySet="Weathers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FullScreen_Panel" Association="DisplayMonkey.Model.FK_FullScreen_Panel">
+            <End Role="Panel" EntitySet="Panels" />
+            <End Role="FullScreen" EntitySet="FullScreens" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Location_Level" Association="DisplayMonkey.Model.FK_Location_Level">
+            <End Role="Level" EntitySet="Levels" />
+            <End Role="Location" EntitySet="Locations" />
+          </AssociationSet>
+          <AssociationSet Name="FrameLocation" Association="DisplayMonkey.Model.FrameLocation">
+            <End Role="Location" EntitySet="Locations" />
+            <End Role="Frame" EntitySet="Frames" />
+          </AssociationSet>
+          <AssociationSet Name="VideoAlternative" Association="DisplayMonkey.Model.VideoAlternative">
+            <End Role="Video" EntitySet="Videos" />
+            <End Role="Content" EntitySet="Contents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Location_Area" Association="DisplayMonkey.Model.FK_Location_Area">
+            <End Role="Location" EntitySet="Locations" />
+            <End Role="Sublocations" EntitySet="Locations" />
+          </AssociationSet>
+          <EntitySet Name="ReportServers" EntityType="DisplayMonkey.Model.ReportServer" />
+          <AssociationSet Name="FK_Report_ReportServer" Association="DisplayMonkey.Model.FK_Report_ReportServer">
+            <End Role="ReportServer" EntitySet="ReportServers" />
+            <End Role="Report" EntitySet="Reports" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Canvas">
+          <Key>
+            <PropertyRef Name="CanvasId" />
+          </Key>
+          <Property Name="CanvasId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
+          <Property Name="Height" Type="Int32" Nullable="false" />
+          <Property Name="Width" Type="Int32" Nullable="false" />
+          <Property Name="BackgroundImage" Type="Int32" />
+          <Property Name="BackgroundColor" Type="String" MaxLength="20" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="Content" Relationship="DisplayMonkey.Model.FK_Canvas_Content" FromRole="Canvas" ToRole="Content" />
+          <NavigationProperty Name="Displays" Relationship="DisplayMonkey.Model.FK_Display_Canvas" FromRole="Canvas" ToRole="Display" />
+          <NavigationProperty Name="FullScreen" Relationship="DisplayMonkey.Model.FK_FullScreen_Canvas" FromRole="Canvas" ToRole="FullScreen" />
+          <NavigationProperty Name="Panels" Relationship="DisplayMonkey.Model.FK_Panel_Canvas" FromRole="Canvas" ToRole="Panel" />
+        </EntityType>
+        <EntityType Name="Clock">
+          <Key>
+            <PropertyRef Name="FrameId" />
+          </Key>
+          <Property Name="FrameId" Type="Int32" Nullable="false" />
+          <Property Name="Type" Type="Int32" Nullable="false" />
+          <Property Name="ShowDate" Type="Boolean" Nullable="false" />
+          <Property Name="ShowTime" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Frame" Relationship="DisplayMonkey.Model.FK_Clock_Frame" FromRole="Clock" ToRole="Frame" />
+        </EntityType>
+        <EntityType Name="Content">
+          <Key>
+            <PropertyRef Name="ContentId" />
+          </Key>
+          <Property Name="ContentId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="Data" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
+          <Property Name="Type" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Canvas" Relationship="DisplayMonkey.Model.FK_Canvas_Content" FromRole="Content" ToRole="Canvas" />
+          <NavigationProperty Name="Pictures" Relationship="DisplayMonkey.Model.FK_Picture_Content" FromRole="Content" ToRole="Picture" />
+          <NavigationProperty Name="Videos" Relationship="DisplayMonkey.Model.VideoAlternative" FromRole="Content" ToRole="Video" />
+        </EntityType>
+        <EntityType Name="Display">
+          <Key>
+            <PropertyRef Name="DisplayId" />
+          </Key>
+          <Property Name="DisplayId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
+          <Property Name="Host" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="CanvasId" Type="Int32" Nullable="false" />
+          <Property Name="LocationId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Canvas" Relationship="DisplayMonkey.Model.FK_Display_Canvas" FromRole="Display" ToRole="Canvas" />
+          <NavigationProperty Name="Location" Relationship="DisplayMonkey.Model.FK_Display_Location" FromRole="Display" ToRole="Location" />
+        </EntityType>
+        <EntityType Name="Frame">
+          <Key>
+            <PropertyRef Name="FrameId" />
+          </Key>
+          <Property Name="FrameId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="PanelId" Type="Int32" Nullable="false" />
+          <Property Name="Duration" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Clock" Relationship="DisplayMonkey.Model.FK_Clock_Frame" FromRole="Frame" ToRole="Clock" />
+          <NavigationProperty Name="Panel" Relationship="DisplayMonkey.Model.FK_Frame_Panel" FromRole="Frame" ToRole="Panel" />
+          <NavigationProperty Name="Memo" Relationship="DisplayMonkey.Model.FK_Memo_Frame" FromRole="Frame" ToRole="Memo" />
+          <NavigationProperty Name="News" Relationship="DisplayMonkey.Model.FK_News_Frame" FromRole="Frame" ToRole="News" />
+          <NavigationProperty Name="Picture" Relationship="DisplayMonkey.Model.FK_Picture_Frame" FromRole="Frame" ToRole="Picture" />
+          <NavigationProperty Name="Report" Relationship="DisplayMonkey.Model.FK_Report_Frame" FromRole="Frame" ToRole="Report" />
+          <NavigationProperty Name="Video" Relationship="DisplayMonkey.Model.FK_Video_Frame" FromRole="Frame" ToRole="Video" />
+          <NavigationProperty Name="Weather" Relationship="DisplayMonkey.Model.FK_Weather_Frame" FromRole="Frame" ToRole="Weather" />
+          <NavigationProperty Name="Locations" Relationship="DisplayMonkey.Model.FrameLocation" FromRole="Frame" ToRole="Location" />
+          <Property Type="DateTime" Name="BeginsOn" Precision="3" />
+          <Property Type="DateTime" Name="EndsOn" Precision="3" />
+        </EntityType>
+        <EntityType Name="FullScreen">
+          <Key>
+            <PropertyRef Name="CanvasId" />
+          </Key>
+          <Property Name="PanelId" Type="Int32" Nullable="false" />
+          <Property Name="CanvasId" Type="Int32" Nullable="false" />
+          <Property Name="MaxIdleInterval" Type="Int32" />
+          <NavigationProperty Name="Canvas" Relationship="DisplayMonkey.Model.FK_FullScreen_Canvas" FromRole="FullScreen" ToRole="Canvas" />
+          <NavigationProperty Name="Panel" Relationship="DisplayMonkey.Model.FK_FullScreen_Panel" FromRole="FullScreen" ToRole="Panel" />
+        </EntityType>
+        <EntityType Name="Level">
+          <Key>
+            <PropertyRef Name="LevelId" />
+          </Key>
+          <Property Name="LevelId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Locations" Relationship="DisplayMonkey.Model.FK_Location_Level" FromRole="Level" ToRole="Location" />
+        </EntityType>
+        <EntityType Name="Location">
+          <Key>
+            <PropertyRef Name="LocationId" />
+          </Key>
+          <Property Name="LocationId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="LevelId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
+          <Property Name="AreaId" Type="Int32" Nullable="true" />
+          <Property Name="TemperatureUnit" Type="String" MaxLength="1" Unicode="false" FixedLength="true" Nullable="true" />
+          <Property Name="Latitude" Type="Double" Nullable="true" />
+          <Property Name="Longitude" Type="Double" Nullable="true" />
+          <Property Name="DateFormat" Type="String" MaxLength="20" Unicode="false" FixedLength="false" Nullable="true" />
+          <Property Name="TimeFormat" Type="String" MaxLength="10" Unicode="false" FixedLength="false" Nullable="true" />
+          <NavigationProperty Name="Displays" Relationship="DisplayMonkey.Model.FK_Display_Location" FromRole="Location" ToRole="Display" />
+          <NavigationProperty Name="Level" Relationship="DisplayMonkey.Model.FK_Location_Level" FromRole="Location" ToRole="Level" />
+          <NavigationProperty Name="Frames" Relationship="DisplayMonkey.Model.FrameLocation" FromRole="Location" ToRole="Frame" />
+          <NavigationProperty Name="Sublocations" Relationship="DisplayMonkey.Model.FK_Location_Area" FromRole="Location" ToRole="Sublocations" />
+          <NavigationProperty Name="Area" Relationship="DisplayMonkey.Model.FK_Location_Area" FromRole="Sublocations" ToRole="Location" />
+          <Property Type="Int32" Name="OffsetGMT" />
+        </EntityType>
+        <EntityType Name="Memo">
+          <Key>
+            <PropertyRef Name="FrameId" />
+          </Key>
+          <Property Name="FrameId" Type="Int32" Nullable="false" />
+          <Property Name="Subject" Type="String" MaxLength="200" Unicode="true" FixedLength="false" />
+          <Property Name="Body" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Frame" Relationship="DisplayMonkey.Model.FK_Memo_Frame" FromRole="Memo" ToRole="Frame" />
+        </EntityType>
+        <EntityType Name="News">
+          <Key>
+            <PropertyRef Name="FrameId" />
+          </Key>
+          <Property Name="FrameId" Type="Int32" Nullable="false" />
+          <Property Name="Source" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Frame" Relationship="DisplayMonkey.Model.FK_News_Frame" FromRole="News" ToRole="Frame" />
+        </EntityType>
+        <EntityType Name="Panel">
+          <Key>
+            <PropertyRef Name="PanelId" />
+          </Key>
+          <Property Name="PanelId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="CanvasId" Type="Int32" Nullable="false" />
+          <Property Name="Top" Type="Int32" Nullable="false" />
+          <Property Name="Left" Type="Int32" Nullable="false" />
+          <Property Name="Height" Type="Int32" Nullable="false" />
+          <Property Name="Width" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Canvas" Relationship="DisplayMonkey.Model.FK_Panel_Canvas" FromRole="Panel" ToRole="Canvas" />
+          <NavigationProperty Name="Frames" Relationship="DisplayMonkey.Model.FK_Frame_Panel" FromRole="Panel" ToRole="Frame" />
+          <NavigationProperty Name="FullScreens" Relationship="DisplayMonkey.Model.FK_FullScreen_Panel" FromRole="Panel" ToRole="FullScreen" />
+        </EntityType>
+        <EntityType Name="Picture">
+          <Key>
+            <PropertyRef Name="FrameId" />
+          </Key>
+          <Property Name="FrameId" Type="Int32" Nullable="false" />
+          <Property Name="ContentId" Type="Int32" Nullable="false" />
+          <Property Name="Mode" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Content" Relationship="DisplayMonkey.Model.FK_Picture_Content" FromRole="Picture" ToRole="Content" />
+          <NavigationProperty Name="Frame" Relationship="DisplayMonkey.Model.FK_Picture_Frame" FromRole="Picture" ToRole="Frame" />
+        </EntityType>
+        <EntityType Name="Report">
+          <Key>
+            <PropertyRef Name="FrameId" />
+          </Key>
+          <Property Name="FrameId" Type="Int32" Nullable="false" />
+          <Property Name="Path" Type="String" Nullable="false" MaxLength="250" Unicode="false" FixedLength="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
+          <Property Name="Mode" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Frame" Relationship="DisplayMonkey.Model.FK_Report_Frame" FromRole="Report" ToRole="Frame" />
+          <Property Type="Int32" Name="ServerId" Nullable="false" />
+          <NavigationProperty Name="ReportServer" Relationship="DisplayMonkey.Model.FK_Report_ReportServer" FromRole="Report" ToRole="ReportServer" />
+        </EntityType>
+        <EntityType Name="Video">
+          <Key>
+            <PropertyRef Name="FrameId" />
+          </Key>
+          <Property Name="FrameId" Type="Int32" Nullable="false" />
+          <Property Name="PlayMuted" Type="Boolean" Nullable="false" />
+          <Property Name="AutoLoop" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Frame" Relationship="DisplayMonkey.Model.FK_Video_Frame" FromRole="Video" ToRole="Frame" />
+          <NavigationProperty Name="Contents" Relationship="DisplayMonkey.Model.VideoAlternative" FromRole="Video" ToRole="Content" />
+        </EntityType>
+        <EntityType Name="Weather">
+          <Key>
+            <PropertyRef Name="FrameId" />
+          </Key>
+          <Property Name="FrameId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Frame" Relationship="DisplayMonkey.Model.FK_Weather_Frame" FromRole="Weather" ToRole="Frame" />
+          <Property Type="Int32" Name="Type" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Canvas_Content">
+          <End Role="Content" Type="DisplayMonkey.Model.Content" Multiplicity="0..1" />
+          <End Role="Canvas" Type="DisplayMonkey.Model.Canvas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Content">
+              <PropertyRef Name="ContentId" />
+            </Principal>
+            <Dependent Role="Canvas">
+              <PropertyRef Name="BackgroundImage" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Display_Canvas">
+          <End Role="Canvas" Type="DisplayMonkey.Model.Canvas" Multiplicity="1" />
+          <End Role="Display" Type="DisplayMonkey.Model.Display" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Canvas">
+              <PropertyRef Name="CanvasId" />
+            </Principal>
+            <Dependent Role="Display">
+              <PropertyRef Name="CanvasId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FullScreen_Canvas">
+          <End Role="Canvas" Type="DisplayMonkey.Model.Canvas" Multiplicity="1" />
+          <End Role="FullScreen" Type="DisplayMonkey.Model.FullScreen" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Canvas">
+              <PropertyRef Name="CanvasId" />
+            </Principal>
+            <Dependent Role="FullScreen">
+              <PropertyRef Name="CanvasId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Panel_Canvas">
+          <End Role="Canvas" Type="DisplayMonkey.Model.Canvas" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Panel" Type="DisplayMonkey.Model.Panel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Canvas">
+              <PropertyRef Name="CanvasId" />
+            </Principal>
+            <Dependent Role="Panel">
+              <PropertyRef Name="CanvasId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Clock_Frame">
+          <End Role="Frame" Type="DisplayMonkey.Model.Frame" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Clock" Type="DisplayMonkey.Model.Clock" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Frame">
+              <PropertyRef Name="FrameId" />
+            </Principal>
+            <Dependent Role="Clock">
+              <PropertyRef Name="FrameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Picture_Content">
+          <End Role="Content" Type="DisplayMonkey.Model.Content" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Picture" Type="DisplayMonkey.Model.Picture" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Content">
+              <PropertyRef Name="ContentId" />
+            </Principal>
+            <Dependent Role="Picture">
+              <PropertyRef Name="ContentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Display_Location">
+          <End Role="Location" Type="DisplayMonkey.Model.Location" Multiplicity="1" />
+          <End Role="Display" Type="DisplayMonkey.Model.Display" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="LocationId" />
+            </Principal>
+            <Dependent Role="Display">
+              <PropertyRef Name="LocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Frame_Panel">
+          <End Role="Panel" Type="DisplayMonkey.Model.Panel" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Frame" Type="DisplayMonkey.Model.Frame" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Panel">
+              <PropertyRef Name="PanelId" />
+            </Principal>
+            <Dependent Role="Frame">
+              <PropertyRef Name="PanelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Memo_Frame">
+          <End Role="Frame" Type="DisplayMonkey.Model.Frame" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Memo" Type="DisplayMonkey.Model.Memo" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Frame">
+              <PropertyRef Name="FrameId" />
+            </Principal>
+            <Dependent Role="Memo">
+              <PropertyRef Name="FrameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_News_Frame">
+          <End Role="Frame" Type="DisplayMonkey.Model.Frame" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="News" Type="DisplayMonkey.Model.News" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Frame">
+              <PropertyRef Name="FrameId" />
+            </Principal>
+            <Dependent Role="News">
+              <PropertyRef Name="FrameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Picture_Frame">
+          <End Role="Frame" Type="DisplayMonkey.Model.Frame" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Picture" Type="DisplayMonkey.Model.Picture" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Frame">
+              <PropertyRef Name="FrameId" />
+            </Principal>
+            <Dependent Role="Picture">
+              <PropertyRef Name="FrameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Report_Frame">
+          <End Role="Frame" Type="DisplayMonkey.Model.Frame" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Report" Type="DisplayMonkey.Model.Report" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Frame">
+              <PropertyRef Name="FrameId" />
+            </Principal>
+            <Dependent Role="Report">
+              <PropertyRef Name="FrameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Video_Frame">
+          <End Role="Frame" Type="DisplayMonkey.Model.Frame" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Video" Type="DisplayMonkey.Model.Video" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Frame">
+              <PropertyRef Name="FrameId" />
+            </Principal>
+            <Dependent Role="Video">
+              <PropertyRef Name="FrameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Weather_Frame">
+          <End Role="Frame" Type="DisplayMonkey.Model.Frame" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Weather" Type="DisplayMonkey.Model.Weather" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Frame">
+              <PropertyRef Name="FrameId" />
+            </Principal>
+            <Dependent Role="Weather">
+              <PropertyRef Name="FrameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FullScreen_Panel">
+          <End Role="Panel" Type="DisplayMonkey.Model.Panel" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="FullScreen" Type="DisplayMonkey.Model.FullScreen" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Panel">
+              <PropertyRef Name="PanelId" />
+            </Principal>
+            <Dependent Role="FullScreen">
+              <PropertyRef Name="PanelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Location_Level">
+          <End Role="Level" Type="DisplayMonkey.Model.Level" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Location" Type="DisplayMonkey.Model.Location" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Level">
+              <PropertyRef Name="LevelId" />
+            </Principal>
+            <Dependent Role="Location">
+              <PropertyRef Name="LevelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FrameLocation">
+          <End Role="Location" Type="DisplayMonkey.Model.Location" Multiplicity="*" />
+          <End Role="Frame" Type="DisplayMonkey.Model.Frame" Multiplicity="*" />
+        </Association>
+        <Association Name="VideoAlternative">
+          <End Role="Video" Type="DisplayMonkey.Model.Video" Multiplicity="*" />
+          <End Role="Content" Type="DisplayMonkey.Model.Content" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_Location_Area">
+          <End Type="DisplayMonkey.Model.Location" Role="Location" Multiplicity="0..1" />
+          <End Type="DisplayMonkey.Model.Location" Role="Sublocations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="LocationId" />
+            </Principal>
+            <Dependent Role="Sublocations">
+              <PropertyRef Name="AreaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ReportServer">
+          <Key>
+            <PropertyRef Name="ServerId" />
+          </Key>
+          <Property Type="Int32" Name="ServerId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="BaseUrl" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="User" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Type="Binary" Name="Password" MaxLength="1024" FixedLength="false" />
+          <NavigationProperty Name="Reports" Relationship="DisplayMonkey.Model.FK_Report_ReportServer" FromRole="ReportServer" ToRole="Report" />
+          <Property Type="String" Name="Domain" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_Report_ReportServer">
+          <End Type="DisplayMonkey.Model.ReportServer" Role="ReportServer" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="DisplayMonkey.Model.Report" Role="Report" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ReportServer">
+              <PropertyRef Name="ServerId" />
+            </Principal>
+            <Dependent Role="Report">
+              <PropertyRef Name="ServerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DisplayMonkeyModelStoreContainer" CdmEntityContainer="DisplayMonkeyEntities">
+          <EntitySetMapping Name="Canvases">
+            <EntityTypeMapping TypeName="DisplayMonkey.Model.Canvas">
+              <MappingFragment StoreEntitySet="Canvas">
+                <ScalarProperty Name="CanvasId" ColumnName="CanvasId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Height" ColumnName="Height" />
+                <ScalarProperty Name="Width" ColumnName="Width" />
+                <ScalarProperty Name="BackgroundImage" ColumnName="BackgroundImage" />
+                <ScalarProperty Name="BackgroundColor" ColumnName="BackgroundColor" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Clocks">
+            <EntityTypeMapping TypeName="DisplayMonkey.Model.Clock">
+              <MappingFragment StoreEntitySet="Clock">
+                <ScalarProperty Name="FrameId" ColumnName="FrameId" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="ShowDate" ColumnName="ShowDate" />
+                <ScalarProperty Name="ShowTime" ColumnName="ShowTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Contents">
+            <EntityTypeMapping TypeName="DisplayMonkey.Model.Content">
+              <MappingFragment StoreEntitySet="Content">
+                <ScalarProperty Name="ContentId" ColumnName="ContentId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Data" ColumnName="Data" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Displays">
+            <EntityTypeMapping TypeName="DisplayMonkey.Model.Display">
+              <MappingFragment StoreEntitySet="Display">
+                <ScalarProperty Name="DisplayId" ColumnName="DisplayId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Host" ColumnName="Host" />
+                <ScalarProperty Name="CanvasId" ColumnName="CanvasId" />
+                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Frames">
+            <EntityTypeMapping TypeName="DisplayMonkey.Model.Frame">
+              <MappingFragment StoreEntitySet="Frame">
+                <ScalarProperty Name="EndsOn" ColumnName="EndsOn" />
+                <ScalarProperty Name="BeginsOn" ColumnName="BeginsOn" />
+                <ScalarProperty Name="FrameId" ColumnName="FrameId" />
+                <ScalarProperty Name="PanelId" ColumnName="PanelId" />
+                <ScalarProperty Name="Duration" ColumnName="Duration" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FullScreens">
+            <EntityTypeMapping TypeName="DisplayMonkey.Model.FullScreen">
+              <MappingFragment StoreEntitySet="FullScreen">
+                <ScalarProperty Name="PanelId" ColumnName="PanelId" />
+                <ScalarProperty Name="CanvasId" ColumnName="CanvasId" />
+                <ScalarProperty Name="MaxIdleInterval" ColumnName="MaxIdleInterval" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Levels">
+            <EntityTypeMapping TypeName="DisplayMonkey.Model.Level">
+              <MappingFragment StoreEntitySet="Level">
+                <ScalarProperty Name="LevelId" ColumnName="LevelId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Locations">
+            <EntityTypeMapping TypeName="DisplayMonkey.Model.Location">
+              <MappingFragment StoreEntitySet="Location">
+                <ScalarProperty Name="OffsetGMT" ColumnName="OffsetGMT" />
+                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+                <ScalarProperty Name="LevelId" ColumnName="LevelId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="AreaId" ColumnName="AreaId" />
+                <ScalarProperty Name="TemperatureUnit" ColumnName="TemperatureUnit" />
+                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+                <ScalarProperty Name="DateFormat" ColumnName="DateFormat" />
+                <ScalarProperty Name="TimeFormat" ColumnName="TimeFormat" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Memos">
+            <EntityTypeMapping TypeName="DisplayMonkey.Model.Memo">
+              <MappingFragment StoreEntitySet="Memo">
+                <ScalarProperty Name="FrameId" ColumnName="FrameId" />
+                <ScalarProperty Name="Subject" ColumnName="Subject" />
+                <ScalarProperty Name="Body" ColumnName="Body" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="News">
+            <EntityTypeMapping TypeName="DisplayMonkey.Model.News">
+              <MappingFragment StoreEntitySet="News">
+                <ScalarProperty Name="FrameId" ColumnName="FrameId" />
+                <ScalarProperty Name="Source" ColumnName="Source" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Panels">
+            <EntityTypeMapping TypeName="DisplayMonkey.Model.Panel">
+              <MappingFragment StoreEntitySet="Panel">
+                <ScalarProperty Name="PanelId" ColumnName="PanelId" />
+                <ScalarProperty Name="CanvasId" ColumnName="CanvasId" />
+                <ScalarProperty Name="Top" ColumnName="Top" />
+                <ScalarProperty Name="Left" ColumnName="Left" />
+                <ScalarProperty Name="Height" ColumnName="Height" />
+                <ScalarProperty Name="Width" ColumnName="Width" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Pictures">
+            <EntityTypeMapping TypeName="DisplayMonkey.Model.Picture">
+              <MappingFragment StoreEntitySet="Picture">
+                <ScalarProperty Name="FrameId" ColumnName="FrameId" />
+                <ScalarProperty Name="ContentId" ColumnName="ContentId" />
+                <ScalarProperty Name="Mode" ColumnName="Mode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Reports">
+            <EntityTypeMapping TypeName="DisplayMonkey.Model.Report">
+              <MappingFragment StoreEntitySet="Report">
+                <ScalarProperty Name="ServerId" ColumnName="ServerId" />
+                <ScalarProperty Name="FrameId" ColumnName="FrameId" />
+                <ScalarProperty Name="Path" ColumnName="Path" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Mode" ColumnName="Mode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Videos">
+            <EntityTypeMapping TypeName="DisplayMonkey.Model.Video">
+              <MappingFragment StoreEntitySet="Video">
+                <ScalarProperty Name="FrameId" ColumnName="FrameId" />
+                <ScalarProperty Name="PlayMuted" ColumnName="PlayMuted" />
+                <ScalarProperty Name="AutoLoop" ColumnName="AutoLoop" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Weathers">
+            <EntityTypeMapping TypeName="DisplayMonkey.Model.Weather">
+              <MappingFragment StoreEntitySet="Weather">
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="FrameId" ColumnName="FrameId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="FrameLocation" TypeName="DisplayMonkey.Model.FrameLocation" StoreEntitySet="FrameLocation">
+            <EndProperty Name="Location">
+              <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+            </EndProperty>
+            <EndProperty Name="Frame">
+              <ScalarProperty Name="FrameId" ColumnName="FrameId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="VideoAlternative" TypeName="DisplayMonkey.Model.VideoAlternative" StoreEntitySet="VideoAlternative">
+            <EndProperty Name="Video">
+              <ScalarProperty Name="FrameId" ColumnName="FrameId" />
+            </EndProperty>
+            <EndProperty Name="Content">
+              <ScalarProperty Name="ContentId" ColumnName="ContentId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <EntitySetMapping Name="ReportServers">
+            <EntityTypeMapping TypeName="DisplayMonkey.Model.ReportServer">
+              <MappingFragment StoreEntitySet="ReportServer">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Domain" ColumnName="Domain" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="User" ColumnName="User" />
+                <ScalarProperty Name="BaseUrl" ColumnName="BaseUrl" />
+                <ScalarProperty Name="ServerId" ColumnName="ServerId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

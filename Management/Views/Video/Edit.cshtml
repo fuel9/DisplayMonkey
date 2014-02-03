@@ -1,0 +1,31 @@
+﻿@model DisplayMonkey.Models.Video
+
+@{
+    ViewBag.Title = "Edit video frame";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Video</legend>
+
+        @Html.Partial("_frameData", Model.Frame)
+        @Html.Partial("_Edit", Model)
+
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Frames list", "Index", "Frame")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

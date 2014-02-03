@@ -1,0 +1,51 @@
+﻿@model DisplayMonkey.Models.Video
+
+@{
+    ViewBag.Title = "Video frame details";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@Html.Partial("_Details")
+
+<p>
+    @Html.ActionLink("Edit", "Edit", "Frame", new { id = Model.FrameId }, null) |
+    @Html.ActionLink("Frames list", "Index", "Frame")
+</p>
+
+<h2>Linked media alternatives</h2>
+
+    @Html.ActionLink("Add media alternative", "Link", new { id = Model.FrameId })
+
+@if (Model.Contents.Count == 0)
+{
+    <p>No linked alternatives</p>
+}
+
+else
+{
+    <table class="grid">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Contents.First().Name)
+            </th>
+            <th></th>
+        </tr>
+
+    @foreach (var item in Model.Contents) 
+    {
+        <tr>
+            <td>
+                @Html.ActionLink(item.Name, "Details", "Media", new { id=item.ContentId }, null)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", "Media", new { id=item.ContentId }, null) |
+                @Html.ActionLink("Unlink", "Unlink", new { id=Model.FrameId, contentId=item.ContentId })
+            </td>
+        </tr>
+    }
+
+    </table>
+}
+
+@Html.Partial("_frameLocations", Model.Frame)

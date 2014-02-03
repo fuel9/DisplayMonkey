@@ -1,0 +1,87 @@
+﻿@{
+    string appPath = Request.ApplicationPath;
+    string path = Request.Path;
+    if (appPath != "/")
+    {
+        path = path.Replace(appPath, "");
+    }
+    string help = "~/help" + path;
+}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>@ViewBag.Title - Display Monkey</title>
+        <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+        <meta name="viewport" content="width=device-width" />
+        @Styles.Render("~/Content/css")
+        @Styles.Render("~/Content/themes/base/css", "~/Content/css")
+        @Scripts.Render("~/bundles/modernizr")
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/jqueryui")
+        @Scripts.Render("~/bundles/jqueryval")
+        @RenderSection("scripts", required: false)
+    </head>
+    <body>
+        <header>
+            <div class="content-wrapper">
+                <div class="float-left">
+                    <p class="site-title">@Html.ActionLink("Display Monkey", "Index", "Home")</p>
+                </div>
+                <div class="float-right">
+                    <section id="login">
+                       Hello, <span class="username">@User.Identity.Name</span>!
+                    </section>
+                    <nav>
+                        <ul class="menu">
+                            <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                            <li>@Html.ActionLink("Currently Displayed", "Index", "Display")</li>
+                            <li>@Html.ActionLink("Change Displayed", "Index", "Frame")</li>
+                            <li>@Html.ActionLink("Upload Media", "Index", "Media")</li>
+                            <li><a href="#">Setup</a>
+                                <ul>
+                                    <li>@Html.ActionLink("Displays", "Index", "Display")</li>
+                                    <li><a href="#">Organization</a>
+                                        <ul>
+                                            <li>@Html.ActionLink("Levels", "Index", "Level")</li>
+                                            <li>@Html.ActionLink("Locations", "Index", "Location")</li>
+                                        </ul>
+                                    </li>
+                                    <li>@Html.ActionLink("Canvases", "Index", "Canvas")</li>
+                                    <li>@Html.ActionLink("Panels", "Index", "Panel")</li>
+                                    <li><a href="#">Other</a>
+                                        <ul>
+                                            <li>@Html.ActionLink("Report server accounts", "Index", "ReportServer")</li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li><a href="@Url.Content(help)" target="_blank">Help</a></li>
+                            <li>@Html.ActionLink("About", "About", "Home")</li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </header>
+        <div id="body">
+            @RenderSection("featured", required: false)
+            <section class="content-wrapper main-content clear-fix">
+                @RenderBody()
+            </section>
+        </div>
+        <footer>
+            <div class="content-wrapper">
+                <div class="float-left">
+                    <p>&copy; @DateTime.Now.Year - Fuel9.com</p>
+                </div>
+            </div>
+        </footer>
+
+        <script type="text/javascript">
+                $(document).ready(function () {
+                    $('.menu').jqsimplemenu();
+                    $('input[type=datetime]').datepicker();
+                });
+        </script>
+    </body>
+</html>

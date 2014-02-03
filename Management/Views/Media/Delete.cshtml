@@ -1,0 +1,19 @@
+﻿@model DisplayMonkey.Models.Content
+
+@{
+    ViewBag.Title = "Delete media";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<h3>Are you sure you want to delete this media?</h3>
+
+@Html.Partial("_Details")
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    <p>
+        <input type="submit" value="Delete" /> |
+        @Html.ActionLink("Media list", "Index")
+    </p>
+}

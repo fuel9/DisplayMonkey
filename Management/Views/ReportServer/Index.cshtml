@@ -1,0 +1,43 @@
+﻿@model IEnumerable<DisplayMonkey.Models.ReportServer>
+
+@{
+    ViewBag.Title = "Report server accounts";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<p>
+    @Html.ActionLink("Configure new report server account", "Create")
+</p>
+<table class="grid">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BaseUrl)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.User)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.ActionLink(item.Name, "Edit", new { id=item.ServerId })
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BaseUrl)
+        </td>
+        <td>
+            @(string.Format("{0}\\{1}", string.IsNullOrEmpty(item.Domain) ? "." : item.Domain, item.User))
+        </td>
+        <td>
+            @Html.ActionLink("Delete", "Delete", new { id=item.ServerId })
+        </td>
+    </tr>
+}
+
+</table>

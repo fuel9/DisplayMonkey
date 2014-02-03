@@ -1,0 +1,64 @@
+﻿@model DisplayMonkey.Models.Report
+
+@{
+    ViewBag.Title = "Edit report frame";
+    SelectList modes = ViewBag.Modes as SelectList;
+    SelectList servers = ViewBag.Servers as SelectList;
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Report</legend>
+
+        @Html.Partial("_frameData", Model.Frame)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Name)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ServerId)
+        </div>
+        <div class="editor-field select">
+            @Html.DropDownListFor(m => m.ServerId, servers)
+            @Html.ValidationMessageFor(model => model.ServerId)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Path)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Path)
+            @Html.ValidationMessageFor(model => model.Path)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Mode)
+        </div>
+        <div class="editor-field select">
+            @Html.DropDownListFor(model => model.Mode, modes)
+            @Html.ValidationMessageFor(model => model.Mode)
+        </div>
+
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Frames list", "Index", "Frame")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

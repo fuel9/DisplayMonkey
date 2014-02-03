@@ -1,0 +1,32 @@
+﻿@{ Layout = "~/Views/Shared/_Layout.cshtml"; } 
+
+@model System.Web.Mvc.HandleErrorInfo
+
+@{
+    ViewBag.Title = "Error";
+}
+
+<hgroup class="title">
+    <h2 class="error">An error occurred while processing your request.</h2>
+</hgroup>
+
+<fieldset>
+    <legend>Details</legend>
+    <div class="divTable">
+    <div class="divRow">
+    <div>Source</div><div>@Model.ControllerName/@Model.ActionName</div>
+    </div>
+
+    <div class="divRow">
+    <div>Message</div><div>@Model.Exception.Message</div>
+    </div>
+
+    <div class="divRow">
+    <div>Stack Trace</div><div>@Model.Exception.StackTrace</div>
+    </div>
+    </div>
+
+</fieldset>
+
+<p><a href="javascript:window.history.back();">Back to previous page</a></p>
+

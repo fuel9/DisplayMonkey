@@ -1,0 +1,100 @@
+﻿@model DisplayMonkey.Models.Location
+
+@{
+    ViewBag.Title = "Edit organization location";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Location</legend>
+
+        @Html.HiddenFor(model => model.LocationId)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Level)
+        </div>
+        <div class="editor-field">
+            @Html.DisplayFor(model => model.Level.Name)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Area)
+        </div>
+        <div class="editor-field">
+            @Html.DisplayFor(model => model.Area.Name)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Name)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.TemperatureUnit)
+        </div>
+        <div class="editor-field select">
+            @Html.DropDownList("TemperatureUnit", "- From Area -")
+            @Html.ValidationMessageFor(model => model.TemperatureUnit)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Latitude)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.Latitude)
+            @Html.ValidationMessageFor(model => model.Latitude)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Longitude)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.Longitude)
+            @Html.ValidationMessageFor(model => model.Longitude)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.DateFormat)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.DateFormat)
+            @Html.ValidationMessageFor(model => model.DateFormat)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.TimeFormat)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.TimeFormat)
+            @Html.ValidationMessageFor(model => model.TimeFormat)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.OffsetGMT)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.OffsetGMT)
+            @Html.ValidationMessageFor(model => model.OffsetGMT)
+        </div>
+
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Locations list", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -1,0 +1,41 @@
+﻿@model DisplayMonkey.Models.Picture
+
+@{
+    ViewBag.Title = "Create new picture frame";
+    string supportedImages = string.Join(", ", DisplayMonkey.Models.Picture.SupportedFormats);
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm("Upload", "Picture", FormMethod.Post, new { enctype = "multipart/form-data" })) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Picture</legend>
+
+        @Html.Partial("_frameData", Model.Frame)
+        @Html.Partial("_Edit", Model)
+        
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Content.Data)
+        </div>
+        <div class="editor-field">
+            <input type="file" name="file" id="file" />
+            @Html.ValidationMessageFor(model => Model.Content.Data)
+            <p>Supported image formats include: @supportedImages. All other content will be ignored.</p>
+        </div>
+
+        <p>
+            <input type="submit" value="Create" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Frames list", "Index", "Frame")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

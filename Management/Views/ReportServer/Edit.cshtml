@@ -1,0 +1,70 @@
+﻿@model DisplayMonkey.Models.ReportServer
+
+@{
+    ViewBag.Title = "Edit report server account";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>ReportServer</legend>
+
+        @Html.HiddenFor(model => model.ServerId)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Name)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.BaseUrl)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.BaseUrl)
+            @Html.ValidationMessageFor(model => model.BaseUrl)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.User)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.User)
+            @Html.ValidationMessageFor(model => model.User)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Domain)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Domain)
+            @Html.ValidationMessageFor(model => model.Domain)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.PasswordUnmasked)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.PasswordUnmasked)
+            @Html.ValidationMessageFor(model => model.Password)
+        </div>
+
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Report server accounts", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

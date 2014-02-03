@@ -1,0 +1,25 @@
+﻿@model DisplayMonkey.Models.Canvas
+
+@{
+    ViewBag.Title = "Delete canvas";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<h3>Are you sure you want to delete this canvas?</h3>
+
+@Html.Partial("_Details")
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    <p>
+        <input type="submit" value="Delete" /> |
+        @Html.ActionLink("Canvases list", "Index")
+    </p>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jsquery")
+    @Scripts.Render("~/bundles/panel")
+}

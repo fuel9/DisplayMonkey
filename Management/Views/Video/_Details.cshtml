@@ -1,0 +1,44 @@
+﻿@model DisplayMonkey.Models.Video
+
+<fieldset>
+    <legend>Video</legend>
+
+    <div class="divTable">
+    <div class="divRow">
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Frame.Panel.Name)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Frame.Panel.Name)
+    </div>
+    </div>
+
+    <div class="divRow">
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Frame.Duration)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Frame.Duration) sec.
+    </div>
+    </div>
+
+    <div class="divRow">
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.PlayMuted)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.PlayMuted)
+    </div>
+    </div>
+
+    <div class="divRow">
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.AutoLoop)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.AutoLoop)
+    </div>
+    </div>
+    </div>
+</fieldset>
+

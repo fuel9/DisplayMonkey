@@ -1,0 +1,38 @@
+﻿@model DisplayMonkey.Models.Video
+
+@{
+    ViewBag.Title = "Link media alternative";
+    SelectList videos = ViewBag.Videos as SelectList;
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Video</legend>
+
+        @Html.HiddenFor(m => m.FrameId)
+        
+        <div class="editor-label">
+            @Html.LabelFor(model => model.SavedContentId)
+        </div>
+        <div class="editor-field select">
+            @Html.DropDownListFor(model => model.SavedContentId, videos, "- Upload new video(s) -")
+        </div>
+
+        <p>
+            <input type="submit" value="Link" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to video details", "Details", new { id = Model.FrameId })
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

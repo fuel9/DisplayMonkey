@@ -1,0 +1,50 @@
+﻿@model DisplayMonkey.Models.ReportServer
+
+@{
+    ViewBag.Title = "Delete report server account";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<h3>Deleting report server account will cause deletion of all related content. Are you sure you want to continue?</h3>
+<fieldset>
+    <legend>Report Server</legend>
+
+    @Html.HiddenFor(model => model.ServerId)
+    
+    <div class="divTable">
+    <div class="divRow">
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Name)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Name)
+    </div>
+    </div>
+
+    <div class="divRow">
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.BaseUrl)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.BaseUrl)
+    </div>
+    </div>
+
+    <div class="divRow">
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.User)
+    </div>
+    <div class="display-field">
+        @(string.Format("{0}\\{1}", string.IsNullOrEmpty(Model.Domain) ? "." : Model.Domain, Model.User))
+    </div>
+    </div>
+    </div>
+</fieldset>
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    <p>
+        <input type="submit" value="Delete" /> |
+        @Html.ActionLink("Report server accounts", "Index")
+    </p>
+}

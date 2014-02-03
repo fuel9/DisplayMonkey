@@ -1,0 +1,89 @@
+﻿@model DisplayMonkey.Models.Location
+
+<fieldset>
+    <legend>Location</legend>
+
+    <div class="divTable">
+    <div class="divRow">
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Name)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Name)
+    </div>
+    </div>
+
+    <div class="divRow">
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Level)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Level.Name)
+    </div>
+    </div>
+
+    <div class="divRow">
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Area)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Area.Name)
+    </div>
+    </div>
+
+    <div class="divRow">
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.TemperatureUnit)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.TemperatureUnit)
+    </div>
+    </div>
+
+    <div class="divRow">
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Latitude)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Latitude)
+    </div>
+    </div>
+
+    <div class="divRow">
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Longitude)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Longitude)
+    </div>
+    </div>
+
+    <div class="divRow">
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.DateFormat)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.DateFormat)
+    </div>
+    </div>
+
+    <div class="divRow">
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.TimeFormat)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.TimeFormat)
+    </div>
+    </div>
+
+    <div class="divRow">
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.OffsetGMT)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.OffsetGMT)
+    </div>
+    </div>
+    </div>
+</fieldset>
+

@@ -1,0 +1,58 @@
+﻿@model IEnumerable<DisplayMonkey.Models.Canvas>
+
+@{
+    ViewBag.Title = "Canvases";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<p>
+    @Html.ActionLink("Create new canvas", "Create")
+</p>
+<table class="grid">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th style="white-space:nowrap">
+            @Html.DisplayNameFor(model => model.Width)
+        </th>
+        <th style="white-space:nowrap">
+            @Html.DisplayNameFor(model => model.Height)
+        </th>
+        <th style="white-space:nowrap">
+            @Html.DisplayNameFor(model => model.BackgroundColor)
+        </th>
+        <th style="white-space:nowrap">
+            @Html.DisplayNameFor(model => model.BackgroundImage)
+        </th>
+        <th style="white-space:nowrap"></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.ActionLink(item.Name, "Details", new { id=item.CanvasId })
+        </td>
+        <td style="white-space:nowrap">
+            @Html.DisplayFor(modelItem => item.Width)
+        </td>
+        <td style="white-space:nowrap">
+            @Html.DisplayFor(modelItem => item.Height)
+        </td>
+        <td style="white-space:nowrap">
+            @Html.DisplayFor(modelItem => item.BackgroundColor)
+        </td>
+        <td style="white-space:nowrap">
+            @if (item.BackgroundImage != null) {
+                <img src="@Html.Raw(Url.Action("Thumb", "Media", new { id=item.BackgroundImage, width=50, height=50 }))" alt="Background" />
+            }
+        </td>
+        <td style="white-space:nowrap">
+            @Html.ActionLink("Edit", "Edit", new { id=item.CanvasId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.CanvasId })
+        </td>
+    </tr>
+}
+
+</table>

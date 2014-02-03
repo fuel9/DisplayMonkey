@@ -1,0 +1,27 @@
+﻿@model DisplayMonkey.Models.Canvas
+
+<fieldset>
+    <legend>Canvas</legend>
+        <table><tr>
+        <td>
+
+    @Html.HiddenFor(p => p.CanvasId)
+
+    <div class="divTable">
+    <div class="divRow">
+    <div class="display-field">
+        @Html.Label(Model.Name)
+        @Html.DisplayFor(model => model.Width) x @Html.DisplayFor(model => model.Height) pixels
+    </div>
+    </div>
+    </div>
+        </td>
+        <td class="preview">
+            <div id="canvas">
+                <div>
+                    <img src="" alt="Background" />
+                </div>
+            </div>
+        </td>
+    </tr></table>
+</fieldset>

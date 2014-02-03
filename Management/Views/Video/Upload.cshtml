@@ -1,0 +1,32 @@
+﻿@model DisplayMonkey.Models.Video
+
+@{
+    ViewBag.Title = "Create new video frame";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm("Upload", "Video", FormMethod.Post, new { enctype = "multipart/form-data" })) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Picture</legend>
+
+        @Html.Partial("_frameData", Model.Frame)
+        @Html.Partial("_Edit", Model)     
+        @Html.Partial("_File", Model)
+
+        <p>
+            <input type="submit" value="Create" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Frames list", "Index", "Frame")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

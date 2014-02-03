@@ -1,0 +1,93 @@
+﻿@model DisplayMonkey.Models.Panel
+
+@{
+    ViewBag.Title = "Edit panel";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Panel</legend>
+        <table><tr>
+        <td>
+
+        @Html.HiddenFor(model => model.PanelId)
+        @Html.HiddenFor(model => model.CanvasId)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Canvas)
+        </div>
+        <div class="editor-field select">
+            @Html.DropDownList("CanvasId")
+            @Html.ValidationMessageFor(model => model.CanvasId)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Name)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Top)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.Top) pixels
+            @Html.ValidationMessageFor(model => model.Top)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Left)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.Left) pixels
+            @Html.ValidationMessageFor(model => model.Left)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Width)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.Width) pixels
+            @Html.ValidationMessageFor(model => model.Width)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Height)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.Height) pixels
+            @Html.ValidationMessageFor(model => model.Height)
+        </div>
+
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+        </td>
+        <td class="preview">
+            <div id="canvas">
+                <div>
+                    <img src="" alt="Background" />
+                </div>
+            </div>
+        </td>
+    </tr></table>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Panels list", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jsquery")
+    @Scripts.Render("~/bundles/panel")
+}

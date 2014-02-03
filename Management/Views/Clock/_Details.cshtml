@@ -1,0 +1,44 @@
+﻿@model DisplayMonkey.Models.Clock
+
+<fieldset>
+    <legend>Clock</legend>
+
+    <div class="divTable">
+    <div class="divRow">
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Frame.Panel.Name)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Frame.Panel.Name)
+    </div>
+    </div>
+
+    <div class="divRow">
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Type)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => DisplayMonkey.Models.Clock.ClockTypes.First(t => t.Type == model.Type).Name)
+    </div>
+    </div>
+
+    <div class="divRow">
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.ShowDate)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ShowDate)
+    </div>
+    </div>
+
+    <div class="divRow">
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.ShowTime)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ShowTime)
+    </div>
+    </div>
+    </div>
+</fieldset>
+

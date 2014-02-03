@@ -1,0 +1,55 @@
+﻿@model DisplayMonkey.Models.Clock
+
+@{
+    ViewBag.Title = "Edit clock frame";
+    SelectList types = ViewBag.Types as SelectList;
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Clock</legend>
+
+        @Html.Partial("_frameData", Model.Frame)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Type)
+        </div>
+        <div class="editor-field select">
+            @Html.DropDownListFor(model => model.Type, types)
+            @Html.ValidationMessageFor(model => model.Type)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ShowDate)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ShowDate)
+            @Html.ValidationMessageFor(model => model.ShowDate)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ShowTime)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ShowTime)
+            @Html.ValidationMessageFor(model => model.ShowTime)
+        </div>
+
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Frames list", "Index", "Frame")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

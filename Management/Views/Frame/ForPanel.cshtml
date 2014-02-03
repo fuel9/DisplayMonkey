@@ -1,0 +1,33 @@
+﻿@model DisplayMonkey.Models.Panel
+
+@{
+    ViewBag.Title = "Create new frame";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>New frame</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(p => p.Canvas)
+        </div>
+        <div class="editor-field">
+            @Html.DisplayFor(p => p.Canvas.Name)
+        </div>
+        <div class="editor-label">
+            @Html.Label("Select panel")
+        </div>
+        <div class="editor-field select">
+            @Html.DropDownListFor(p => p.PanelId, ViewBag.PanelId as SelectList)
+        </div>
+        <p>
+            <input type="submit" value="Next" />
+        </p>
+    </fieldset>
+}
+

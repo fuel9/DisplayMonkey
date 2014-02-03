@@ -1,0 +1,32 @@
+﻿@model DisplayMonkey.Models.Video
+
+@{
+    ViewBag.Title = "Upload media alternative";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm("Uplink", "Video", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Video</legend>
+
+        @Html.HiddenFor(m => Model.FrameId)
+        @Html.Partial("_File", Model)
+
+        <p>
+            <input type="submit" value="Upload" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to details", "Details", new { id = Model.FrameId })
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

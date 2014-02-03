@@ -1,0 +1,29 @@
+﻿@model DisplayMonkey.Models.LocationSelector
+
+@{
+    ViewBag.Title = "Remove location";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<h3>Are you sure you want to remove location from this frame?</h3>
+<fieldset>
+    <legend>Frame</legend>
+
+    @Html.HiddenFor(m => m.FrameId)
+    @Html.HiddenFor(m => m.LocationId)
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.LocationName)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.LocationName)
+    </div>
+</fieldset>
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    <p>
+        <input type="submit" value="Remove" /> |
+        @Html.ActionLink("Frames list", "Index")
+    </p>
+}

@@ -1,0 +1,56 @@
+﻿@model DisplayMonkey.Models.Picture
+
+<fieldset>
+    <legend>Picture</legend>
+
+    <table class="divTable"><tr>
+        <td>
+    <div class="divTable">
+    <div class="divRow">
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Frame.Panel)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Frame.Panel.Name)
+    </div>
+    </div>
+
+    <div class="divRow">
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Frame.Duration)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Frame.Duration) sec.
+    </div>
+    </div>
+
+    <div class="divRow">
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Content)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Content.Name)
+    </div>
+    </div>
+
+    <div class="divRow">
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Mode)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => DisplayMonkey.Models.Content.RenderModes.First(m => m.Mode == model.Mode).Name)
+    </div>
+    </div>
+    </div>
+
+        </td>
+
+        <td>
+            <div id="picture">
+                 <img src="@Url.Action("Thumb", "Media", new { id = Model.ContentId, width = 200, height = 200, mode = DisplayMonkey.Models.Content.RenderMode_Fit })" alt="" />
+            </div>
+        </td>
+
+    </tr></table>
+</fieldset>
+

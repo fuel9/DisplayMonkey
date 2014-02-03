@@ -1,0 +1,29 @@
+﻿@model DisplayMonkey.Models.Panel
+
+@{
+    ViewBag.Title = "Panel details";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@Html.Partial("_Details")
+
+<p>
+    @if (!Model.IsFullscreen)
+    {
+        @Html.ActionLink("Edit", "Edit", new { id=Model.PanelId })<text> |</text>
+    }
+    @Html.ActionLink("Panels list", "Index")
+</p>
+
+<h2>Associated frames</h2>
+
+@Html.ActionLink("Create new frame", "Create", "Frame", new { PanelId = Model.PanelId }, null)
+
+@Html.Partial("_frameList", Model.Frames)
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jsquery")
+    @Scripts.Render("~/bundles/panel")
+}

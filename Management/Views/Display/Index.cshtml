@@ -1,0 +1,60 @@
+﻿@model IEnumerable<DisplayMonkey.Models.Display>
+
+@{
+    ViewBag.Title = "Displays";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm("Index", "Display", FormMethod.Get))
+{    
+    <fieldset><legend>Search</legend><table>
+        <tr><td>Canvas:</td><td><div class="select">@Html.DropDownList("CanvasId", "- Any -")</div></td></tr>
+        <tr><td>Location:</td><td><div class="select">@Html.DropDownList("LocationId", "- Any -")</div></td></tr>
+        <tr><td>Name:</td><td>@Html.TextBox("name")</td></tr>
+        <tr><td>Host:</td><td>@Html.TextBox("host")</td></tr>
+    <tr><td colspan="2"><input type="submit" value="Filter" /></td></tr></table></fieldset> 
+}
+
+<p>
+    @Html.ActionLink("Add display", "Create")
+</p>
+<table class="grid">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Host)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Canvas)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Location)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.ActionLink(item.Name, "Browse", new { id = item.DisplayId }, new { target = "_blank", title = "Browse display" })
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Host)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Canvas.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Location.Name)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.DisplayId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.DisplayId })
+        </td>
+    </tr>
+}
+
+</table>

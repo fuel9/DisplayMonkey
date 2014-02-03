@@ -1,0 +1,60 @@
+﻿@model DisplayMonkey.Models.Display
+
+@{
+    ViewBag.Title = "Add display";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Display</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Name)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Host)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Host)
+            @Html.ValidationMessageFor(model => model.Host)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Canvas)
+        </div>
+        <div class="editor-field select">
+            @Html.DropDownList("CanvasId")
+            @Html.ValidationMessageFor(model => model.CanvasId)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Location)
+        </div>
+        <div class="editor-field select">
+            @Html.DropDownList("LocationId")
+            @Html.ValidationMessageFor(model => model.LocationId)
+        </div>
+
+        <p>
+            <input type="submit" value="Add" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Displays list", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

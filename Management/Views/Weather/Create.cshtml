@@ -1,0 +1,39 @@
+﻿@model DisplayMonkey.Models.Weather
+
+@{
+    ViewBag.Title = "Create new weather frame";
+    SelectList types = ViewBag.Types as SelectList;
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Weather</legend>
+
+        @Html.Partial("_frameData", Model.Frame)
+        
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Type)
+        </div>
+        <div class="editor-field select">
+            @Html.DropDownListFor(model => model.Type, types)
+            @Html.ValidationMessageFor(model => model.Type)
+        </div>
+
+        <p>
+            <input type="submit" value="Create" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Frames list", "Index", "Frame")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

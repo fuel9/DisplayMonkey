@@ -1,0 +1,57 @@
+﻿@model DisplayMonkey.Models.Display
+
+@{
+    ViewBag.Title = "Remove display";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<h3>Are you sure you want to remove this display?</h3>
+<fieldset>
+    <legend>Display</legend>
+
+    <div class="divTable">
+    <div class="divRow">
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Name)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Name)
+    </div>
+    </div>
+
+    <div class="divRow">
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Host)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Host)
+    </div>
+    </div>
+
+    <div class="divRow">
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Canvas)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Canvas.Name)
+    </div>
+    </div>
+
+    <div class="divRow">
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Location)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Location.Name)
+    </div>
+    </div>
+    </div>
+</fieldset>
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    <p>
+        <input type="submit" value="Remove" /> |
+        @Html.ActionLink("Displays list", "Index")
+    </p>
+}

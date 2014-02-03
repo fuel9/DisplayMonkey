@@ -1,0 +1,47 @@
+﻿@model DisplayMonkey.Models.FullScreen
+
+@{
+    ViewBag.Title = "Edit full screen panel";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Panel</legend>
+
+        @Html.HiddenFor(model => model.PanelId)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Canvas)
+        </div>
+        <div class="editor-field">
+            @Html.HiddenFor(model => model.CanvasId)
+            @Html.DisplayFor(model => model.Canvas.Name), @Html.DisplayFor(model => model.Canvas.Width) x @Html.DisplayFor(model => model.Canvas.Height) pixels
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.MaxIdleInterval)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.MaxIdleInterval) sec.
+            @Html.ValidationMessageFor(model => model.MaxIdleInterval)
+        </div>
+
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Panels list", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

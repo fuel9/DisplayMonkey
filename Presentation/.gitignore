@@ -1,0 +1,5 @@
+obj
+bin
+*.user
+*.suo
+/test.htm

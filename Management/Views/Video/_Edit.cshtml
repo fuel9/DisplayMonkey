@@ -1,0 +1,17 @@
+﻿@model DisplayMonkey.Models.Video
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.PlayMuted)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.PlayMuted)
+            @Html.ValidationMessageFor(model => model.PlayMuted)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.AutoLoop)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.AutoLoop)
+            @Html.ValidationMessageFor(model => model.AutoLoop)
+        </div>

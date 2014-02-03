@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="bc7e2af02eae42709a76a4c4f1b15942" Name="Diagram1" ZoomLevel="95">
+        <EntityTypeShape EntityType="DisplayMonkey.Model.Canvas" Width="1.5" PointX="4.625" PointY="13.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DisplayMonkey.Model.Clock" Width="1.5" PointX="13.5" PointY="7" IsExpanded="true" />
+        <EntityTypeShape EntityType="DisplayMonkey.Model.Content" Width="1.5" PointX="4.625" PointY="17.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DisplayMonkey.Model.Display" Width="1.5" PointX="1.75" PointY="14.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DisplayMonkey.Model.Frame" Width="1.5" PointX="10.375" PointY="11.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DisplayMonkey.Model.FullScreen" Width="1.5" PointX="6.125" PointY="10.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DisplayMonkey.Model.Level" Width="1.5" PointX="6" PointY="7.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DisplayMonkey.Model.Location" Width="1.5" PointX="2.875" PointY="8.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DisplayMonkey.Model.Memo" Width="1.5" PointX="13.5" PointY="9.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DisplayMonkey.Model.News" Width="1.5" PointX="13.5" PointY="11.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DisplayMonkey.Model.Panel" Width="1.5" PointX="7.625" PointY="13.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DisplayMonkey.Model.Picture" Width="1.5" PointX="9" PointY="19.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DisplayMonkey.Model.Report" Width="1.5" PointX="13.5" PointY="13.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DisplayMonkey.Model.Video" Width="1.5" PointX="9" PointY="17" IsExpanded="true" />
+        <EntityTypeShape EntityType="DisplayMonkey.Model.Weather" Width="1.5" PointX="13.5" PointY="15.75" IsExpanded="true" />
+        <AssociationConnector Association="DisplayMonkey.Model.FK_Canvas_Content" ManuallyRouted="false" >
+        </AssociationConnector>
+        <AssociationConnector Association="DisplayMonkey.Model.FK_Display_Canvas" ManuallyRouted="false" />
+        <AssociationConnector Association="DisplayMonkey.Model.FK_FullScreen_Canvas" ManuallyRouted="false" />
+        <AssociationConnector Association="DisplayMonkey.Model.FK_Panel_Canvas" ManuallyRouted="false" />
+        <AssociationConnector Association="DisplayMonkey.Model.FK_Clock_Frame" ManuallyRouted="false" />
+        <AssociationConnector Association="DisplayMonkey.Model.FK_Picture_Content" ManuallyRouted="false" />
+        <AssociationConnector Association="DisplayMonkey.Model.FK_Display_Location" ManuallyRouted="false" />
+        <AssociationConnector Association="DisplayMonkey.Model.FK_Frame_Panel" ManuallyRouted="false" />
+        <AssociationConnector Association="DisplayMonkey.Model.FK_Memo_Frame" ManuallyRouted="false" />
+        <AssociationConnector Association="DisplayMonkey.Model.FK_News_Frame" ManuallyRouted="false" />
+        <AssociationConnector Association="DisplayMonkey.Model.FK_Picture_Frame" ManuallyRouted="false" />
+        <AssociationConnector Association="DisplayMonkey.Model.FK_Report_Frame" ManuallyRouted="false" />
+        <AssociationConnector Association="DisplayMonkey.Model.FK_Video_Frame" ManuallyRouted="false" />
+        <AssociationConnector Association="DisplayMonkey.Model.FK_Weather_Frame" ManuallyRouted="false" />
+        <AssociationConnector Association="DisplayMonkey.Model.FK_FullScreen_Panel" ManuallyRouted="false" />
+        <AssociationConnector Association="DisplayMonkey.Model.FK_Location_Level" ManuallyRouted="false" />
+        <AssociationConnector Association="DisplayMonkey.Model.FrameLocation" ManuallyRouted="false" />
+        <AssociationConnector Association="DisplayMonkey.Model.VideoAlternative" ManuallyRouted="false" />
+        <AssociationConnector Association="DisplayMonkey.Model.FK_Location_Area" />
+        <EntityTypeShape EntityType="DisplayMonkey.Model.ReportServer" Width="1.5" PointX="15.625" PointY="13.875" />
+        <AssociationConnector Association="DisplayMonkey.Model.FK_Report_ReportServer" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

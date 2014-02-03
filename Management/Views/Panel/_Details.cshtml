@@ -1,0 +1,56 @@
+﻿@model DisplayMonkey.Models.Panel
+
+@{
+    DisplayMonkey.Models.FullScreen fs = Model.Canvas.FullScreen;
+}
+
+<fieldset>
+    <legend>Panel</legend>
+        <table><tr>
+        <td>
+
+    @Html.HiddenFor(p => p.CanvasId)
+    @Html.HiddenFor(p => p.PanelId)
+    @Html.HiddenFor(p => p.Top)
+    @Html.HiddenFor(p => p.Left)
+    @Html.HiddenFor(p => p.Width)
+    @Html.HiddenFor(p => p.Height)
+
+    <div class="divTable">
+    <div class="divRow">
+    <div class="display-field">
+        @Html.Label(Model.Name)
+        @if (fs.PanelId == Model.PanelId)
+        {
+            @(string.Format("Canvas: {0}, Size: {1} x {2} pixels, {3}: {4} sec.", 
+                Html.DisplayFor(model => model.Canvas.Name),
+                Model.Canvas.Width, 
+                Model.Canvas.Height,
+                Html.DisplayNameFor(m => fs.MaxIdleInterval),
+                fs.MaxIdleInterval
+                ))
+        }
+        else
+        {
+            @(string.Format("Canvas: {0}, Position: {1}, {2}, Size: {3} x {4} pixels", 
+                Html.DisplayFor(model => model.Canvas.Name),
+                Model.Left, 
+                Model.Top, 
+                Model.Width, 
+                Model.Height
+                ))
+        }
+    </div>
+    </div>
+    </div>
+        </td>
+        <td class="preview">
+            <div id="canvas">
+                <div>
+                    <img src="" alt="Background" />
+                </div>
+            </div>
+        </td>
+    </tr></table>
+</fieldset>
+

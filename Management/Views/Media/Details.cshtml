@@ -1,0 +1,14 @@
+﻿@model DisplayMonkey.Models.Content
+
+@{
+    ViewBag.Title = "Media details";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@Html.Partial("_Details")
+
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.ContentId }) |
+    @Html.ActionLink("Media list", "Index")
+</p>

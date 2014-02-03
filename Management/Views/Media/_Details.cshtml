@@ -1,0 +1,50 @@
+﻿@model DisplayMonkey.Models.Content
+
+<fieldset>
+    <legend>Content</legend>
+
+    @Html.HiddenFor(model => model.ContentId)
+
+    <table class="divTable"><tr>
+    <td>
+
+        <div class="divTable">
+        <div class="divRow">
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Type)
+        </div>
+        <div class="editor-field">
+            @Html.DisplayFor(model => DisplayMonkey.Models.Content.ContentTypes.First(t => t.Type == model.Type).Name)
+        </div>
+        </div>
+
+        <div class="divRow">
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Name)
+        </div>
+        <div class="editor-field">
+            @Html.DisplayFor(model => model.Name)
+        </div>
+        </div>
+        </div>
+
+    </td>
+    <td>
+        <div id="picture">
+            @if (Model.Type == DisplayMonkey.Models.Content.ContentType_Picture)
+            {
+                <img src="@Url.Action("Thumb", "Media", new { id = Model.ContentId, width = 200, height = 200, mode = DisplayMonkey.Models.Content.RenderMode_Fit })" alt="" />
+            }
+            else
+            {
+                <video style="width:100%;height:100%" poster="images/video.gif">
+                    <source src="@Url.Action("Playback", "Media", new { id = Model.ContentId })" />
+                    Your browser doesn't support this frame type, please upgrade your browser.
+                </video>
+            }
+        </div>
+    </td>
+    </tr></table>
+
+</fieldset>
+

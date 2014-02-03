@@ -1,0 +1,27 @@
+﻿@model DisplayMonkey.Models.Canvas
+
+@{
+    ViewBag.Title = "Create new frame";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>New frame</legend>
+
+        <div class="editor-label">
+            @Html.Label("Select canvas")
+        </div>
+        <div class="editor-field select">
+            @Html.DropDownListFor(c => c.CanvasId, ViewBag.CanvasId as SelectList)
+        </div>
+        <p>
+            <input type="submit" value="Next" />
+        </p>
+    </fieldset>
+}
+
