@@ -5,7 +5,7 @@
     {
         path = path.Replace(appPath, "");
     }
-    string help = "~/help" + path;
+    string help = Url.Content("~/help" + path);
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -56,7 +56,7 @@
                                     </li>
                                 </ul>
                             </li>
-                            <li><a href="@Url.Content(help)" target="_blank">Help</a></li>
+                            <li><a href="@help" onclick="window.open('@help','Help','width=640,height=480,resizable=1,scrollbars=1'); return false;" target="_blank">Help</a></li>
                             <li>@Html.ActionLink("About", "About", "Home")</li>
                         </ul>
                     </nav>

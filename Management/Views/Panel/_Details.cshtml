@@ -45,9 +45,9 @@
     </div>
         </td>
         <td class="preview">
-            <div id="canvas">
+            <div id="canvas" data-path="@Html.Raw(Url.Action("Data", "Canvas"))">
                 <div>
-                    <img src="" alt="Background" />
+                    <img src="@Html.Raw(Url.Action("Thumb", "Media", new { id="nnn", width="qqq", height="qqq" }))" alt="Background" />
                 </div>
             </div>
         </td>

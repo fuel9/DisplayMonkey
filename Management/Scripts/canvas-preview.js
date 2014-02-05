@@ -1,8 +1,10 @@
 ﻿var square = 500;
 var scale = 1.0;
-var url = "/media/thumb/nnn?width=qqq&height=qqq&mode=2".replace("qqq", square);
+var url;
 
 $(document).ready(function () {
+
+    url = $('#canvas img:first').attr("src").replace(/qqq/g, square);
 
     $('#BackgroundImage').change(function () {
         var i = this.value;

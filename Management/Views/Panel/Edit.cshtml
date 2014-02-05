@@ -22,9 +22,8 @@
         <div class="editor-label">
             @Html.LabelFor(model => model.Canvas)
         </div>
-        <div class="editor-field select">
-            @Html.DropDownList("CanvasId")
-            @Html.ValidationMessageFor(model => model.CanvasId)
+        <div class="editor-field">
+            @Html.DisplayFor(model => model.Canvas.Name)
         </div>
 
         <div class="editor-label">
@@ -72,9 +71,9 @@
         </p>
         </td>
         <td class="preview">
-            <div id="canvas">
+            <div id="canvas" data-path="@Html.Raw(Url.Action("Data", "Canvas"))">
                 <div>
-                    <img src="" alt="Background" />
+                    <img src="@Html.Raw(Url.Action("Thumb", "Media", new { id="nnn", width="qqq", height="qqq" }))" alt="Background" />
                 </div>
             </div>
         </td>

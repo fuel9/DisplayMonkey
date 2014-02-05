@@ -1,6 +1,6 @@
 ﻿var square = 500;
 var scale = 1.0;
-var url = "/media/thumb/nnn?width=qqq&height=qqq&mode=2".replace("qqq", square);
+var url, url_data;
 
 function resetCanvas() {
     $('#canvas')
@@ -21,13 +21,16 @@ $(document).ready(function () {
 
     $('#canvas').width(square).height(square);
 
+    url = $('#canvas img:first').attr("src").replace(/qqq/g, square);
+    url_data = $('#canvas').attr('data-path') + '/';
+
     $('#CanvasId').change(function () {
 
         resetCanvas();
 
         if (this.value > 0)
             $.ajax({
-                url: "/canvas/data/" + this.value, type: "POST", datatype: "json"
+                url: url_data + this.value, type: "POST", datatype: "json"
                 , success: function (json) {
                     scale = json.Height > json.Width ? square / json.Height : square / json.Width;
                     $('#canvas')
@@ -35,13 +38,14 @@ $(document).ready(function () {
                         .css('width', json.Width * scale + 'px')
                         .css('height', json.Height * scale + 'px')
                     ;
-                    if (json.BackgroundImage)
+                    if (json.BackgroundImage) {
                         $('#canvas img:first')
                             .attr("src", url.replace("nnn", json.BackgroundImage))
                             .css('max-width', json.Width * scale + 'px')
                             .css('max-height', json.Height * scale + 'px')
                             .show()
                         ;
+                    }
                     $.each(json.Panels, function (i, p) {
                         $('#canvas')
                             .append($('<div>')
@@ -53,10 +57,11 @@ $(document).ready(function () {
                                 .css('height', p.Height * scale + 'px')
                             );
                     });
-                    if (!$('#PanelId').val())
+                    if (!$('#PanelId').val()) {
                         $('#canvas').append(
                             $('<div>').addClass('panel-high')
                         );
+                    }
                 }
             });
     });
