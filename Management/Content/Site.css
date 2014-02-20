@@ -883,6 +883,11 @@ div.select {
         /*height: 34px;*/
         -webkit-appearance: none;
         -moz-appearance: none;
+        pointer-events: none;
+    }
+
+    div.select select:focus {
+        outline: none;
     }
 
 .preview {
@@ -894,32 +899,29 @@ div.select {
         width: 300px;
         height: 300px;
         border: 1px solid grey;
-        vertical-align: middle;
-        display: table-cell;
         text-align: center;
         overflow: hidden;
         padding: 0 0 0 0;
+        box-shadow: 10px 10px 5px #AAA;
     }
 
         #canvas div {
             padding:0 0 0 0;
+            position: absolute;
+            border:0px;
         }
 
             .panel {
-                position:absolute;
                 filter: alpha(opacity=50); 
                 opacity: 0.5;
-                border:0px;
                 background-color:#fff;
                 color:#000;
                 z-index:1;
             }
 
             .panel-high {
-                position:absolute;
                 filter: alpha(opacity=80); 
 	            opacity: 0.8;
-                border:0px;
                 background-color:#C00000;
                 color:#fff;
                 z-index:2;
