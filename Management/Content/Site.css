@@ -924,3 +924,28 @@ div.select {
                 color:#fff;
                 z-index:2;
             }
+
+#film { 
+    list-style-type: none; 
+    margin: 0; 
+    padding: 0 0 2.5em; 
+    float: left; 
+    margin-right: 10px; 
+}
+
+    #film li { 
+        margin: 0px 0px 0px 0px; 
+        padding: 5px 35px 5px 35px; 
+        font-size: 0.8em; 
+        width: 130px;
+        height: 90px;
+        background: url("../images/film.png") no-repeat #fff;
+        cursor: ns-resize;
+    }
+
+        #film div { 
+            overflow: hidden;
+            /*vertical-align: middle;*/
+            /*height: 90px;*/
+            /*line-height: 90px;*/
+        }

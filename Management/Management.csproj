@@ -319,7 +319,9 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Images\dropdown.png" />
+    <Content Include="Images\film.png" />
     <Content Include="Images\logo.png" />
+    <Content Include="Images\question.png" />
     <Content Include="Images\video.gif" />
     <Content Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -491,6 +493,7 @@
     <Content Include="Views\Report\_Details.cshtml" />
     <Content Include="Views\Video\_Details.cshtml" />
     <Content Include="Views\Weather\_Details.cshtml" />
+    <Content Include="Views\Panel\SortFrames.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -83,6 +83,7 @@ namespace DisplayMonkey
 
 				// return PNG
 				Response.ContentType = "image/png";
+                Response.OutputStream.Flush();
 			}
 
 			catch (Exception ex)

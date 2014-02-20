@@ -199,17 +199,32 @@ namespace DisplayMonkey.Controllers
             byte[] img = db.Contents.Find(id).Data;
             if (img != null)
             {
-                using (MemoryStream src = new MemoryStream(img))
+                try
                 {
-                    Response.ContentType = "image/png";
-                    WriteImage(src, Response.OutputStream, width, height, mode);
-                    Response.OutputStream.Flush();
+                    using (MemoryStream src = new MemoryStream(img))
+                    {
+                        Response.ContentType = "image/png";
+                        WriteImage(src, Response.OutputStream, width, height, mode);
+                        Response.OutputStream.Flush();
+                        return;
+                    }
                 }
+
+                catch
+                { 
+                }
+            }
+
+            using (FileStream src = new FileStream(Request.MapPath("~/Images/question.png"), FileMode.Open))
+            {
+                Response.ContentType = "image/png";
+                MediaController.WriteImage(src, Response.OutputStream, width, height, mode);
+                Response.OutputStream.Flush();
             }
         }
 
         //
-        // GET: /Content/Thumb/5
+        // GET: /Content/Playback/5
 
         [Authorize]
         [AcceptVerbs(HttpVerbs.Get)]
@@ -229,7 +244,7 @@ namespace DisplayMonkey.Controllers
         }
 
         // TODO: move to separate file
-        protected static void WriteImage(Stream inStream, Stream outStream, int panelWidth, int panelHeight, int mode)
+        public static void WriteImage(Stream inStream, Stream outStream, int panelWidth, int panelHeight, int mode)
         {
             Bitmap bmpSrc = null, bmpTrg = null;
 

@@ -230,7 +230,7 @@ namespace DisplayMonkey.Controllers
                 .Include(f => f.Report)
                 .Include(f => f.Picture)
                 .Include(f => f.Video)
-                .First()
+                .FirstOrDefault()
                 ;
 
             if (frame == null)
@@ -257,7 +257,7 @@ namespace DisplayMonkey.Controllers
                 .Include(f => f.Report)
                 .Include(f => f.Picture)
                 .Include(f => f.Video)
-                .First()
+                .FirstOrDefault()
                 ;
 
             if (frame == null)
@@ -284,7 +284,7 @@ namespace DisplayMonkey.Controllers
                 .Include(f => f.Report)
                 .Include(f => f.Picture)
                 .Include(f => f.Video)
-                .First()
+                .FirstOrDefault()
                 ;
 
             if (frame == null)

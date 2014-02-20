@@ -1,0 +1,93 @@
+﻿@model IEnumerable<DisplayMonkey.Models.Frame>
+
+@{
+    ViewBag.Title = "Re-order Panel Frames";
+    string frameContent = "";
+    int i = 0;
+}
+
+<h2>@ViewBag.Title</h2>
+
+<ul id="film">
+
+@foreach (var item in Model)
+{
+    frameContent = item.FrameType + ": ";
+
+    if (item.News != null)
+    {
+        frameContent += item.News.Source;
+    }
+    else if (item.Clock != null)
+    {
+        frameContent += DisplayMonkey.Models.Clock.ClockTypes.FirstOrDefault(t => t.Type == item.Clock.Type).Name;
+    }
+    else if (item.Weather != null)
+    {
+        frameContent += DisplayMonkey.Models.Weather.WeatherTypes.FirstOrDefault(t => t.Type == item.Weather.Type).Name;
+    }
+    else if (item.Memo != null)
+    {
+        frameContent += item.Memo.Subject;
+    }
+    else if (item.Report != null)
+    {
+        frameContent += item.Report.Name;
+    }
+    else if (item.Picture != null)
+    {
+        frameContent += item.Picture.Content.Name;
+    }
+    else if (item.Video != null)
+    {
+        frameContent += item.Video.Contents.FirstOrDefault().Name;
+    }
+    else
+    {
+        frameContent += "Unsupported frame";
+    }
+
+    if (item.ShowDuration)
+    {
+        frameContent += ", " + item.Duration + " sec.";
+    }
+    <li data-frame-id="@item.FrameId" data-old-sort="@((i++).ToString())"><div>@frameContent</div></li>
+}
+
+</ul>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => Model.FirstOrDefault().PanelId)
+    @Html.Hidden("json")
+    <p>
+        <input id="submit" type="submit" value="Save" /> |
+        <a href="javascript:window.history.back();">Back to previous page</a>
+    </p>
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jsquery")
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#film')
+                .sortable()
+                .disableSelection()
+            ;
+
+            $('#submit').click(function (event) {
+                var json = [];
+                $('#film li').each(function (i, e) {
+                    json.push({
+                        'newSort': i,
+                        'oldSort': $(e).data('old-sort'),
+                        'frameId': $(e).data('frame-id')
+                    });
+                });
+                $('#json').val(JSON.stringify(json));
+            });
+        });
+    </script>
+}

@@ -7,6 +7,8 @@ using System.Web;
 using System.Web.Mvc;
 using DisplayMonkey.Models;
 
+using System.Web.Script.Serialization;
+
 namespace DisplayMonkey.Controllers
 {
     public class PanelController : Controller
@@ -125,7 +127,12 @@ namespace DisplayMonkey.Controllers
 
         public ActionResult EditFS(int id = 0)
         {
-            FullScreen panel = db.Panels.Find(id).FullScreens.First();
+            FullScreen panel = db.Panels
+                .Find(id)
+                .FullScreens
+                .FirstOrDefault()
+                ;
+
             if (panel == null)
             {
                 return HttpNotFound();
@@ -180,6 +187,56 @@ namespace DisplayMonkey.Controllers
 
             Navigation.Restore();
             return RedirectToAction("Index");
+        }
+
+        //
+        // GET: /Panel/SortFrames/5
+
+        public ActionResult SortFrames(int id = 0)
+        {
+            var list = db.Frames
+                .Where(f => f.PanelId == id)
+                .Include(f => f.Panel)
+                .Include(f => f.Panel.Canvas)
+                .Include(f => f.News)
+                .Include(f => f.Clock)
+                .Include(f => f.Weather)
+                .Include(f => f.Memo)
+                .Include(f => f.Report)
+                .Include(f => f.Picture)
+                .Include(f => f.Video)
+                .AsEnumerable()             // sort in controller
+                .OrderBy(f => f.Sort == null ? (float)f.FrameId : (float)f.Sort)
+                ;
+            
+            return View(list.ToList());
+        }
+
+        //
+        // POST: /Panel/Delete/5
+
+        private class SortedId
+        {
+            public int newSort { get; set; }
+            public int oldSort { get; set; }
+            public int frameId { get; set; }
+        }
+        
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult SortFrames(int panelId, string json)
+        {
+            JavaScriptSerializer ser = new JavaScriptSerializer();
+            var sortedIds = ser.Deserialize<List<SortedId>>(json);
+            int prevFrameId = 0; sortedIds.ForEach(s =>
+            {
+                Frame frame = db.Frames.Find(s.frameId);
+                frame.Sort = s.newSort;
+                db.Entry(frame).Property(f => f.Sort).IsModified = true;
+                prevFrameId = s.frameId;
+            });
+            db.SaveChanges();
+            return RedirectToAction("Details", new { id = panelId });
         }
 
         private void FillCanvasesSelectList(object selected = null)

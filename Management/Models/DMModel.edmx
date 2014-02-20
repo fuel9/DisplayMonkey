@@ -161,6 +161,7 @@
           <Property Name="Duration" Type="int" Nullable="false" />
           <Property Name="BeginsOn" Type="datetime" />
           <Property Name="EndsOn" Type="datetime" />
+          <Property Name="Sort" Type="int" />
         </EntityType>
         <EntityType Name="FrameLocation">
           <Key>
@@ -358,7 +359,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_FrameLocation_Frame">
-          <End Role="Frame" Type="DisplayMonkey.Model.Store.Frame" Multiplicity="1" />
+          <End Role="Frame" Type="DisplayMonkey.Model.Store.Frame" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="FrameLocation" Type="DisplayMonkey.Model.Store.FrameLocation" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Frame">
@@ -744,6 +747,7 @@
           <NavigationProperty Name="Locations" Relationship="DisplayMonkey.Model.FrameLocation" FromRole="Frame" ToRole="Location" />
           <Property Type="DateTime" Name="BeginsOn" Precision="3" />
           <Property Type="DateTime" Name="EndsOn" Precision="3" />
+          <Property Type="Int32" Name="Sort" />
         </EntityType>
         <EntityType Name="FullScreen">
           <Key>
@@ -1169,6 +1173,7 @@
           <EntitySetMapping Name="Frames">
             <EntityTypeMapping TypeName="DisplayMonkey.Model.Frame">
               <MappingFragment StoreEntitySet="Frame">
+                <ScalarProperty Name="Sort" ColumnName="Sort" />
                 <ScalarProperty Name="EndsOn" ColumnName="EndsOn" />
                 <ScalarProperty Name="BeginsOn" ColumnName="BeginsOn" />
                 <ScalarProperty Name="FrameId" ColumnName="FrameId" />

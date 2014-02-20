@@ -7,6 +7,9 @@ using System.Web;
 using System.Web.Mvc;
 using DisplayMonkey.Models;
 
+using System.IO;
+using System.Net;
+
 namespace DisplayMonkey.Controllers
 {
     public class ReportController : Controller
@@ -141,6 +144,62 @@ namespace DisplayMonkey.Controllers
             db.SaveChanges();
             Navigation.Restore();
             return RedirectToAction("Index", "Frame");
+        }
+
+        //
+        // GET: /Content/Thumb/5
+
+        [Authorize]
+        [AcceptVerbs(HttpVerbs.Get)]
+        public void Thumb(int id, int width = 0, int height = 0, int mode = DisplayMonkey.Models.Content.RenderMode_Fit)
+        {
+            Report report = db.Reports
+                .Include(r => r.ReportServer)
+                .FirstOrDefault(r => r.FrameId == id)
+                ;
+
+            if (report.Path != null && report.ReportServer != null)
+            {
+                string url = string.Format(
+                    "{0}?{1}&rs:format=IMAGE",
+                    report.ReportServer.BaseUrl,
+                    report.Path
+                    );
+
+                WebClient client = new WebClient();
+                if (!string.IsNullOrEmpty(report.ReportServer.User))
+                {
+                    client.Credentials = new NetworkCredential(
+                        report.ReportServer.User,
+                        RsaUtil.Decrypt(report.ReportServer.Password),
+                        report.ReportServer.Domain
+                        );
+                }
+
+                try
+                {
+                    byte[] img = client.DownloadData(url);
+
+                    using (MemoryStream src = new MemoryStream(img))
+                    {
+                        Response.ContentType = "image/png";
+                        MediaController.WriteImage(src, Response.OutputStream, width, height, mode);
+                        Response.OutputStream.Flush();
+                        return;
+                    }
+                }
+
+                catch
+                {
+                }
+            }
+
+            using (FileStream src = new FileStream(Request.MapPath("~/Images/question.png"), FileMode.Open))
+            {
+                Response.ContentType = "image/png";
+                MediaController.WriteImage(src, Response.OutputStream, width, height, mode);
+                Response.OutputStream.Flush();
+            }
         }
 
         private void FillServersSelectList(object selected = null)

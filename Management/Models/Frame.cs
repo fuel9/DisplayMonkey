@@ -24,6 +24,7 @@ namespace DisplayMonkey.Models
         public int Duration { get; set; }
         public Nullable<System.DateTime> BeginsOn { get; set; }
         public Nullable<System.DateTime> EndsOn { get; set; }
+        public Nullable<int> Sort { get; set; }
     
         public virtual Clock Clock { get; set; }
         public virtual Panel Panel { get; set; }

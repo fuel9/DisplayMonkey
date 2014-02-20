@@ -18,7 +18,8 @@
 
 <h2>Associated frames</h2>
 
-@Html.ActionLink("Create new frame", "Create", "Frame", new { PanelId = Model.PanelId }, null)
+@Html.ActionLink("Create new frame", "Create", "Frame", new { PanelId = Model.PanelId }, null) |
+@Html.ActionLink("Re-order frames", "SortFrames", new { id = Model.PanelId })
 
 @Html.Partial("_frameList", Model.Frames)
 
