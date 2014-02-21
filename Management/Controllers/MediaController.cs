@@ -25,7 +25,7 @@ namespace DisplayMonkey.Controllers
         }
 
         //
-        // GET: /Content/
+        // GET: /Media/
 
         public ActionResult Index(int mediaType = -1)
         {
@@ -52,7 +52,7 @@ namespace DisplayMonkey.Controllers
         }
 
         //
-        // GET: /Content/Details/5
+        // GET: /Media/Details/5
 
         public ActionResult Details(int id = 0)
         {
@@ -66,7 +66,7 @@ namespace DisplayMonkey.Controllers
         }
 
         //
-        // GET: /Content/Create
+        // GET: /Media/Create
 
         public ActionResult Upload()
         {
@@ -74,7 +74,7 @@ namespace DisplayMonkey.Controllers
         }
 
         //
-        // POST: /Content/Create
+        // POST: /Media/Create
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -130,7 +130,7 @@ namespace DisplayMonkey.Controllers
         }
 
         //
-        // GET: /Content/Edit/5
+        // GET: /Media/Edit/5
 
         public ActionResult Edit(int id = 0)
         {
@@ -143,7 +143,7 @@ namespace DisplayMonkey.Controllers
         }
 
         //
-        // POST: /Content/Edit/5
+        // POST: /Media/Edit/5
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -163,7 +163,7 @@ namespace DisplayMonkey.Controllers
         }
 
         //
-        // GET: /Content/Delete/5
+        // GET: /Media/Delete/5
 
         public ActionResult Delete(int id = 0)
         {
@@ -176,7 +176,7 @@ namespace DisplayMonkey.Controllers
         }
 
         //
-        // POST: /Content/Delete/5
+        // POST: /Media/Delete/5
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -190,11 +190,11 @@ namespace DisplayMonkey.Controllers
         }
 
         //
-        // GET: /Content/Thumb/5
+        // GET: /Media/Thumb/5
 
         [Authorize]
         [AcceptVerbs(HttpVerbs.Get)]
-        public void Thumb(int id, int width = 0, int height = 0, int mode = DisplayMonkey.Models.Content.RenderMode_Fit)
+        public ActionResult Thumb(int id, int width = 0, int height = 0, int mode = DisplayMonkey.Models.Content.RenderMode_Fit)
         {
             byte[] img = db.Contents.Find(id).Data;
             if (img != null)
@@ -206,7 +206,7 @@ namespace DisplayMonkey.Controllers
                         Response.ContentType = "image/png";
                         WriteImage(src, Response.OutputStream, width, height, mode);
                         Response.OutputStream.Flush();
-                        return;
+                        return Content("");
                     }
                 }
 
@@ -215,16 +215,19 @@ namespace DisplayMonkey.Controllers
                 }
             }
 
-            using (FileStream src = new FileStream(Request.MapPath("~/Images/question.png"), FileMode.Open))
-            {
-                Response.ContentType = "image/png";
-                MediaController.WriteImage(src, Response.OutputStream, width, height, mode);
-                Response.OutputStream.Flush();
-            }
+            return RedirectToAction("BadImg");
         }
 
         //
-        // GET: /Content/Playback/5
+        // GET: /Media/BadImg
+
+        public ActionResult BadImg()
+        {
+            return File(Request.MapPath("~/Images/question.png"), "image/png");
+        }
+
+        //
+        // GET: /Media/Playback/5
 
         [Authorize]
         [AcceptVerbs(HttpVerbs.Get)]

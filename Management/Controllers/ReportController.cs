@@ -151,7 +151,7 @@ namespace DisplayMonkey.Controllers
 
         [Authorize]
         [AcceptVerbs(HttpVerbs.Get)]
-        public void Thumb(int id, int width = 0, int height = 0, int mode = DisplayMonkey.Models.Content.RenderMode_Fit)
+        public ActionResult Thumb(int id, int width = 0, int height = 0, int mode = DisplayMonkey.Models.Content.RenderMode_Fit)
         {
             Report report = db.Reports
                 .Include(r => r.ReportServer)
@@ -185,7 +185,7 @@ namespace DisplayMonkey.Controllers
                         Response.ContentType = "image/png";
                         MediaController.WriteImage(src, Response.OutputStream, width, height, mode);
                         Response.OutputStream.Flush();
-                        return;
+                        return Content("");
                     }
                 }
 
@@ -194,12 +194,7 @@ namespace DisplayMonkey.Controllers
                 }
             }
 
-            using (FileStream src = new FileStream(Request.MapPath("~/Images/question.png"), FileMode.Open))
-            {
-                Response.ContentType = "image/png";
-                MediaController.WriteImage(src, Response.OutputStream, width, height, mode);
-                Response.OutputStream.Flush();
-            }
+            return RedirectToAction("BadImg", "Media");
         }
 
         private void FillServersSelectList(object selected = null)
