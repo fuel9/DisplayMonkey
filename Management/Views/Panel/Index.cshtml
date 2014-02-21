@@ -22,7 +22,7 @@
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Canvas.FullScreen.Panel)
-        </th>
+        </th><th></th>
         <th style="white-space:nowrap">
             @Html.DisplayNameFor(model => model.Canvas)
         </th>
@@ -37,6 +37,16 @@
     DisplayMonkey.Models.FullScreen fs = item.Canvas.FullScreen;
     
     <tr>
+        <td>
+            @if (fs.PanelId == item.PanelId)
+            {
+                <img alt="Fullscreen" src="images/full.png" />
+            }
+            else
+            {
+                <img alt="Fullscreen" src="images/partial.png" />
+            }
+        </td>
         <td>
             @Html.ActionLink(item.Name, "Details", "Panel", new { id=item.PanelId }, null)
         </td>

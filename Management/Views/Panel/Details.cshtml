@@ -9,11 +9,15 @@
 @Html.Partial("_Details")
 
 <p>
-    @if (!Model.IsFullscreen)
+    @if (Model.IsFullscreen)
     {
-        @Html.ActionLink("Edit", "Edit", new { id=Model.PanelId })<text> |</text>
+        @Html.ActionLink("Edit", "EditFS", new { id=Model.PanelId })
     }
-    @Html.ActionLink("Panels list", "Index")
+    else
+    {
+        @Html.ActionLink("Edit", "Edit", new { id=Model.PanelId })
+    }
+     | @Html.ActionLink("Panels list", "Index")
 </p>
 
 <h2>Associated frames</h2>

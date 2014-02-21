@@ -883,7 +883,7 @@ div.select {
         /*height: 34px;*/
         -webkit-appearance: none;
         -moz-appearance: none;
-        pointer-events: none;
+        /*pointer-events: none;*/
     }
 
     div.select select:focus {
@@ -927,12 +927,18 @@ div.select {
                 z-index:2;
             }
 
+#picture img {
+    border: 1px solid grey;
+    box-shadow: 10px 10px 5px #AAA;
+}
+
 #film { 
     list-style-type: none; 
     margin: 0; 
     padding: 0 0 2.5em; 
     float: left; 
-    margin-right: 10px; 
+    margin-right: 50px;
+    margin-top: 20px; 
 }
 
     #film li { 
@@ -951,3 +957,4 @@ div.select {
             /*height: 90px;*/
             /*line-height: 90px;*/
         }
+

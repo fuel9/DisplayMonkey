@@ -3,6 +3,8 @@
 <fieldset>
     <legend>Report</legend>
 
+    <table class="divTable"><tr>
+        <td>
     <div class="divTable">
     <div class="divRow">
     <div class="display-label">
@@ -58,5 +60,15 @@
     </div>
     </div>
     </div>
+
+        </td>
+
+        <td>
+            <div id="picture">
+                 <img src="@Url.Action("Thumb", "Report", new { id = Model.FrameId, width = 200, height = 200, mode = DisplayMonkey.Models.Content.RenderMode_Fit })" alt="" />
+            </div>
+        </td>
+
+    </tr></table>
 </fieldset>
 

@@ -320,7 +320,9 @@
     <Content Include="Global.asax" />
     <Content Include="Images\dropdown.png" />
     <Content Include="Images\film.png" />
+    <Content Include="Images\full.png" />
     <Content Include="Images\logo.png" />
+    <Content Include="Images\partial.png" />
     <Content Include="Images\question.png" />
     <Content Include="Images\video.gif" />
     <Content Include="Properties\Settings.settings">
