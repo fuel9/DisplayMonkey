@@ -151,64 +151,74 @@ namespace DisplayMonkey.Controllers
 
         [Authorize]
         [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult Thumb(int id, int width = 0, int height = 0, int mode = DisplayMonkey.Models.Content.RenderMode_Fit)
+        public ActionResult Thumb(int id, int width = 0, int height = 0, int mode = DisplayMonkey.Models.Content.RenderMode_Fit, int trace = 0)
         {
-            Report report = db.Reports
-                .Include(r => r.ReportServer)
-                .FirstOrDefault(r => r.FrameId == id)
-                ;
+            string message = "";
 
-            if (report.Path != null && report.ReportServer != null)
+            try
             {
-                string baseUrl = report.ReportServer.BaseUrl
-                    , url = report.Path;
-                
-                if (baseUrl.EndsWith("/"))
-                    baseUrl = baseUrl.Substring(0, baseUrl.Length - 1);
+                Report report = db.Reports
+                    .Include(r => r.ReportServer)
+                    .FirstOrDefault(r => r.FrameId == id)
+                    ;
 
-                if (!url.StartsWith("/"))
-                    url = "/" + url;
-
-                url = string.Format(
-                    "{0}?{1}&rs:format=IMAGE",
-                    baseUrl,
-                    url
-                    );
-
-                WebClient client = new WebClient();
-                if (!string.IsNullOrEmpty(report.ReportServer.User))
+                if (report.Path != null && report.ReportServer != null)
                 {
-                    client.Credentials = new NetworkCredential(
-                        report.ReportServer.User,
-                        RsaUtil.Decrypt(report.ReportServer.Password),
-                        report.ReportServer.Domain
+                    string baseUrl = (report.ReportServer.BaseUrl ?? "").Trim()
+                        , url = (report.Path ?? "").Trim();
+
+                    if (baseUrl.EndsWith("/"))
+                        baseUrl = baseUrl.Substring(0, baseUrl.Length - 1);
+
+                    if (!url.StartsWith("/"))
+                        url = "/" + url;
+
+                    url = string.Format(
+                        "{0}?{1}&rs:format=IMAGE",
+                        baseUrl,
+                        HttpUtility.UrlEncode(url)
                         );
-                }
 
-                try
-                {
+                    message = url + "<br>";
+
+                    WebClient client = new WebClient();
+                    string user = report.ReportServer.User ?? ""
+                        , domain = report.ReportServer.Domain ?? "";
+                    if (!string.IsNullOrWhiteSpace(user))
+                    {
+                        client.Credentials = new NetworkCredential(
+                            user.Trim(),
+                            RsaUtil.Decrypt(report.ReportServer.Password),
+                            domain.Trim()
+                            );
+                    }
+
                     byte[] img = client.DownloadData(url);
 
                     using (MemoryStream src = new MemoryStream(img))
                     {
-                        Response.ContentType = "image/png";
+                        /*Response.ContentType = "image/png";
                         MediaController.WriteImage(src, Response.OutputStream, width, height, mode);
                         Response.OutputStream.Flush();
-                        return Content("");
+                        return Content("");*/
 
-                        /*MemoryStream trg = new MemoryStream();
+                        MemoryStream trg = new MemoryStream();
                         MediaController.WriteImage(src, trg, width, height, mode);
                         trg.Seek(0, SeekOrigin.Begin);
-                        return new FileStreamResult(trg, "image/png");*/
+                        return new FileStreamResult(trg, "image/png");
                     }
-                }
-
-                catch
-                {
                 }
             }
 
-            return RedirectToAction("BadImg", "Media");
+            catch (Exception ex)
+            {
+                message += ex.ToString();
+            }
+
+            if (trace == 0)
+                return RedirectToAction("BadImg", "Media");
+            else
+                return Content(message);
         }
 
         private void FillServersSelectList(object selected = null)

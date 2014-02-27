@@ -33,7 +33,8 @@ namespace DisplayMonkey
 				byte[] data = null;
 				int panelHeight = 0, panelWidth = 0;
 				PictureMode mode = PictureMode.CROP;
-                string user = null, domain = null, password = null;
+                string user = null, domain = null;
+                byte [] password = null;
                 string baseUrl = "", url = "";
 
 				using (DataSet ds = DataAccess.RunSql(sql))
@@ -42,13 +43,13 @@ namespace DisplayMonkey
 					{
 						DataRow dr = ds.Tables[0].Rows[0];
 						mode = (PictureMode)DataAccess.IntOrZero(dr["Mode"]);
-						url = DataAccess.StringOrBlank(dr["Path"]);
+						url = DataAccess.StringOrBlank(dr["Path"]).Trim();
 						panelHeight = DataAccess.IntOrZero(dr["Height"]);
 						panelWidth = DataAccess.IntOrZero(dr["Width"]);
-                        baseUrl = DataAccess.StringOrBlank(dr["BaseUrl"]);
+                        baseUrl = DataAccess.StringOrBlank(dr["BaseUrl"]).Trim();
                         user = DataAccess.StringOrBlank(dr["User"]);
                         domain = DataAccess.StringOrBlank(dr["Domain"]);
-                        password = RsaUtil.Decrypt((byte[])dr["Password"]);
+                        password = (byte[])dr["Password"];
                     }
 				}
 
@@ -62,19 +63,19 @@ namespace DisplayMonkey
 				url = string.Format(
 					"{0}?{1}&rs:format=IMAGE",
                     baseUrl,
-					url
+					HttpUtility.UrlEncode(url)
 					);
 
 				//throw new Exception(url);
 
 				// get response from report server
 				WebClient client = new WebClient();
-                if (!string.IsNullOrEmpty(user))
+                if (!string.IsNullOrWhiteSpace(user))
                 {
                     client.Credentials = new NetworkCredential(
-                        user,
-                        password,
-                        domain
+                        user.Trim(),
+                        RsaUtil.Decrypt(password),
+                        domain.Trim()
                         );
                 }
 				data = client.DownloadData(url);

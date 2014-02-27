@@ -196,28 +196,40 @@ namespace DisplayMonkey.Controllers
 
         [Authorize]
         [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult Thumb(int id, int width = 0, int height = 0, int mode = DisplayMonkey.Models.Content.RenderMode_Fit)
+        public ActionResult Thumb(int id, int width = 0, int height = 0, int mode = DisplayMonkey.Models.Content.RenderMode_Fit, int trace = 0)
         {
-            byte[] img = db.Contents.Find(id).Data;
-            if (img != null)
+            string message = "";
+
+            try
             {
-                try
+                byte[] img = db.Contents.Find(id).Data;
+
+                if (img != null)
                 {
                     using (MemoryStream src = new MemoryStream(img))
                     {
-                        Response.ContentType = "image/png";
+                        /*Response.ContentType = "image/png";
                         WriteImage(src, Response.OutputStream, width, height, mode);
                         Response.OutputStream.Flush();
-                        return Content("");
-                    }
-                }
+                        return Content("");*/
 
-                catch
-                { 
+                        MemoryStream trg = new MemoryStream();
+                        MediaController.WriteImage(src, trg, width, height, mode);
+                        trg.Seek(0, SeekOrigin.Begin);
+                        return new FileStreamResult(trg, "image/png");
+                    }
                 }
             }
 
-            return RedirectToAction("BadImg");
+            catch (Exception ex)
+            {
+                message += ex.ToString();
+            }
+
+            if (trace == 0)
+                return RedirectToAction("BadImg");
+            else
+                return Content(message);
         }
 
         //
