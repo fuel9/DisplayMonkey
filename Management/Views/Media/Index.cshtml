@@ -47,6 +47,10 @@
             {
                 <img src="@Url.Action("Thumb", "Media", new { id = item.ContentId, width = 50, height = 50, mode = DisplayMonkey.Models.Content.RenderMode_Stretch })" alt="" />
             }
+            else if (item.Type == DisplayMonkey.Models.Content.ContentType_Video)
+            {
+                <img src="~/images/video_thmb.png" alt="" />
+            }
         </td>
         <td style="text-align:right;white-space:nowrap">
             @Html.DisplayFor(model => item.Size)

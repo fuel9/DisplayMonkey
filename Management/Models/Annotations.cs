@@ -609,6 +609,51 @@ namespace DisplayMonkey.Models
         }
     }
 
+    [MetadataType(typeof(Setting.Annotations))]
+    public partial class Setting
+    {
+        internal class Annotations
+        {
+        }
+
+        public const int Type_Int = 0;
+
+        public static Guid Key_MaxImageSize { get; private set; }
+        public static Guid Key_MaxVideoSize { get; private set; }
+
+        static Setting()
+        {
+            Key_MaxImageSize = new Guid("9A0BC012-FF01-4103-8A75-A03B275B0AD1");
+            Key_MaxVideoSize = new Guid("4CAB57C4-EFEF-4EDE-91A3-EFFD48660909");
+        }
+        
+        [
+            Display(Name = "Setting")
+        ]
+        public string Name
+        {
+            get
+            {
+                if (this.Key == Key_MaxImageSize)
+                    return "Maximum uploaded image size, Bytes";
+
+                if (this.Key == Key_MaxVideoSize)
+                    return "Maximum uploaded video size, Bytes";
+                
+                return this.Key.ToString();
+            }
+        }
+
+        [
+            Required,
+            Range(0, Int32.MaxValue, ErrorMessage = "Please enter a valid positive integer number"),
+        ]
+        public int IntValue
+        {
+            get { return this.Value == null ? 0 : BitConverter.ToInt32(this.Value.Reverse().ToArray(), 0); }
+            set { this.Value = BitConverter.GetBytes(value).Reverse().ToArray(); }
+        }
+    }
 
 
 

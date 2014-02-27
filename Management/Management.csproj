@@ -160,6 +160,7 @@
     <Compile Include="Controllers\CanvasController.cs" />
     <Compile Include="Controllers\ClockController.cs" />
     <Compile Include="Controllers\DisplayController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HelpController.cs" />
     <Compile Include="Controllers\MediaController.cs" />
     <Compile Include="Controllers\FrameController.cs" />
@@ -172,6 +173,7 @@
     <Compile Include="Controllers\PictureController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\ReportServerController.cs" />
+    <Compile Include="Controllers\SettingController.cs" />
     <Compile Include="Controllers\VideoController.cs" />
     <Compile Include="Controllers\WeatherController.cs" />
     <Compile Include="Global.asax.cs">
@@ -233,6 +235,9 @@
       <DependentUpon>DMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ReportServer.cs">
+      <DependentUpon>DMModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Setting.cs">
       <DependentUpon>DMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Video.cs">
@@ -325,6 +330,7 @@
     <Content Include="Images\partial.png" />
     <Content Include="Images\question.png" />
     <Content Include="Images\video.gif" />
+    <Content Include="Images\video_thmb.png" />
     <Content Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -496,6 +502,10 @@
     <Content Include="Views\Video\_Details.cshtml" />
     <Content Include="Views\Weather\_Details.cshtml" />
     <Content Include="Views\Panel\SortFrames.cshtml" />
+    <Content Include="Views\Error\NotFound.cshtml" />
+    <Content Include="Views\Shared\Missing.cshtml" />
+    <Content Include="Views\Setting\Edit.cshtml" />
+    <Content Include="Views\Setting\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

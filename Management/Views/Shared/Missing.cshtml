@@ -1,0 +1,19 @@
+﻿@{ Layout = "~/Views/Shared/_Layout.cshtml"; } 
+
+@model DisplayMonkey.Controllers.MissingItem
+
+@{
+    ViewBag.Title = "Missing";
+}
+
+<hgroup class="title">
+    <h2 class="error">Requested resource does not exist.</h2>
+</hgroup>
+
+<fieldset>
+    <legend>Details</legend>
+    <div class="error-source">@(string.Format("{0} with id# {1} could not be found", Model.resource, Model.id))</div>
+</fieldset>
+
+<p><a href="javascript:window.history.back();">Back to previous page</a></p>
+

@@ -23,7 +23,7 @@ namespace DisplayMonkey.Controllers
             Memo memo = db.Memos.Find(id);
             if (memo == null)
             {
-                return HttpNotFound();
+                return View("Missing", new MissingItem(id));
             }
             return View(memo);
         }
@@ -61,9 +61,7 @@ namespace DisplayMonkey.Controllers
                 db.Memos.Add(memo);
                 db.SaveChanges();
 
-                Navigation.Restore();
-
-                return RedirectToAction("Index", "Frame");
+                return Navigation.Restore() ?? RedirectToAction("Index", "Frame");
             }
 
             memo.Frame = frame;
@@ -79,7 +77,7 @@ namespace DisplayMonkey.Controllers
             Memo memo = db.Memos.Find(id);
             if (memo == null)
             {
-                return HttpNotFound();
+                return View("Missing", new MissingItem(id));
             }
 
             return View(memo);
@@ -97,8 +95,8 @@ namespace DisplayMonkey.Controllers
                 db.Entry(frame).State = EntityState.Modified;
                 db.Entry(memo).State = EntityState.Modified;
                 db.SaveChanges();
-                Navigation.Restore();
-                return RedirectToAction("Index");
+
+                return Navigation.Restore() ?? RedirectToAction("Index");
             }
 
             memo.Frame = frame;
@@ -114,7 +112,7 @@ namespace DisplayMonkey.Controllers
             Memo memo = db.Memos.Find(id);
             if (memo == null)
             {
-                return HttpNotFound();
+                return View("Missing", new MissingItem(id));
             }
 
             return View(memo);
@@ -131,8 +129,7 @@ namespace DisplayMonkey.Controllers
             db.Frames.Remove(frame);
             db.SaveChanges();
 
-            Navigation.Restore();
-            return RedirectToAction("Index", "Frame");
+            return Navigation.Restore() ?? RedirectToAction("Index", "Frame");
         }
 
         protected override void Dispose(bool disposing)

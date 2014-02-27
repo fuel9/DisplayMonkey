@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = "Upload new media";
     string supportedImages = string.Join(", ", DisplayMonkey.Models.Picture.SupportedFormats);
-    string supportedVideo = string.Join(", ", DisplayMonkey.Models.Video.SupportedFormats);
+    string supportedVideos = string.Join(", ", DisplayMonkey.Models.Video.SupportedFormats);
 }
 
 <h2>@ViewBag.Title</h2>
@@ -12,6 +12,10 @@
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
+    @Html.Hidden("maxImageSize", (object)ViewBag.MaxImageSize)
+    @Html.Hidden("maxVideoSize", (object)ViewBag.MaxVideoSize)
+    @Html.Hidden("imageExt", (object)supportedImages)
+    @Html.Hidden("videoExt", (object)supportedVideos)
 
     <fieldset>
         <legend>Media</legend>
@@ -22,8 +26,8 @@
         <div class="editor-field">
             <input type="file" name="files" id="files" multiple="" />
             @Html.ValidationMessageFor(model => Model.Data)
-            <p>Supported media formats include: @supportedImages for images and @supportedVideo for video. All other content will be ignored.</p>
-            <p>Note: when browsing push and hold [Shift] or [Ctrl] key to select multiple files.</p>
+            <p>Supported media formats include: @supportedImages for images and @supportedVideos for video. All other content will be ignored.</p>
+            <p>Note: to select multiple files push and hold [Shift] or [Ctrl].</p>
         </div>
 
         <p>
@@ -33,9 +37,41 @@
 }
 
 <div>
-    @Html.ActionLink("Media list", "Index")
+    @Html.ActionLink("View Uploaded Media", "Index")
 </div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('input[type="submit"]').click(function () {
+                if ($('#files').val() === "") {
+                    alert("Please select file(s) to upload first");
+                    return false;
+                }
+            });
+            $('#files').change(function () {
+                if ($(this).val() != "" && typeof FileReader !== "undefined") {
+                    var file = document.getElementById('files').files[0];
+                    var ext = /[^.]+$/.exec(file.name)[0].toUpperCase();
+                    if ($('#videoExt').val().indexOf(ext) >= 0) {
+                        var max = $('#maxVideoSize').val();
+                        if (file.size > max) {
+                            alert("Current maximum allowed size for video files is set to " + max + " bytes");
+                            $(this).val("");
+                        }
+                    } else if ($('#imageExt').val().indexOf(ext) >= 0) {
+                        var max = $('#maxImageSize').val();
+                        if (file.size > max) {
+                            alert("Current maximum allowed size for image files is set to " + max + " bytes");
+                            $(this).val("");
+                        }
+                    } else {
+                        alert("File format " + ext + " is not supported");
+                        $(this).val("");
+                    }
+                }
+            });
+        });
+    </script>
 }

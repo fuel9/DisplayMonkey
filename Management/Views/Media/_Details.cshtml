@@ -35,9 +35,9 @@
             {
                 <img src="@Url.Action("Thumb", "Media", new { id = Model.ContentId, width = 200, height = 200, mode = DisplayMonkey.Models.Content.RenderMode_Fit })" alt="" />
             }
-            else
+            else if (Model.Type == DisplayMonkey.Models.Content.ContentType_Video)
             {
-                <video style="width:100%;height:100%" poster="images/video.gif" loop autoplay>
+                <video style="width:100%;height:100%" poster="~/images/video.gif" loop autoplay controls>
                     <source src="@Url.Action("Playback", "Media", new { id = Model.ContentId })" />
                     Your browser doesn't support this media type, please upgrade your browser.
                 </video>

@@ -1,0 +1,34 @@
+﻿@model IEnumerable<DisplayMonkey.Models.Setting>
+
+@{
+    ViewBag.Title = "Application Settings";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<table class="grid">
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(m => item.Name)
+        </td>
+        <td>
+            @switch (item.Type)
+            {
+                case DisplayMonkey.Models.Setting.Type_Int:
+                    <div style="width:100%;text-align:right">@Html.DisplayFor(m => item.IntValue)</div>
+                    break;
+                    
+                default:
+                    @Html.DisplayFor(m => item.Value)
+                    break;
+            }
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Key })
+        </td>
+    </tr>
+}
+
+</table>

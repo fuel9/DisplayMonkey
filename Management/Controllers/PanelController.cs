@@ -49,7 +49,7 @@ namespace DisplayMonkey.Controllers
             Panel panel = db.Panels.Find(id);
             if (panel == null)
             {
-                return HttpNotFound();
+                return View("Missing", new MissingItem(id));
             }
 
             return View(panel);
@@ -77,8 +77,7 @@ namespace DisplayMonkey.Controllers
                 db.Panels.Add(panel);
                 db.SaveChanges();
 
-                Navigation.Restore();
-                return RedirectToAction("Index");
+                return Navigation.Restore() ?? RedirectToAction("Index");
             }
 
             ViewBag.CanvasId = new SelectList(db.Canvases, "CanvasId", "Name", panel.CanvasId);
@@ -94,7 +93,7 @@ namespace DisplayMonkey.Controllers
             Panel panel = db.Panels.Find(id);
             if (panel == null)
             {
-                return HttpNotFound();
+                return View("Missing", new MissingItem(id));
             }
 
             ViewBag.CanvasId = new SelectList(db.Canvases, "CanvasId", "Name", panel.CanvasId);
@@ -114,8 +113,7 @@ namespace DisplayMonkey.Controllers
                 db.Entry(panel).State = EntityState.Modified;
                 db.SaveChanges();
 
-                Navigation.Restore();
-                return RedirectToAction("Index");
+                return Navigation.Restore() ?? RedirectToAction("Index");
             }
 
             ViewBag.CanvasId = new SelectList(db.Canvases, "CanvasId", "Name", panel.CanvasId);
@@ -135,7 +133,7 @@ namespace DisplayMonkey.Controllers
 
             if (panel == null)
             {
-                return HttpNotFound();
+                return View("Missing", new MissingItem(id));
             }
 
             return View(panel);
@@ -153,8 +151,7 @@ namespace DisplayMonkey.Controllers
                 db.Entry(panel).State = EntityState.Modified;
                 db.SaveChanges();
 
-                Navigation.Restore();
-                return RedirectToAction("Index");
+                return Navigation.Restore() ?? RedirectToAction("Index");
             }
             
             return View(panel);
@@ -168,7 +165,7 @@ namespace DisplayMonkey.Controllers
             Panel panel = db.Panels.Find(id);
             if (panel == null)
             {
-                return HttpNotFound();
+                return View("Missing", new MissingItem(id));
             }
 
             return View(panel);
@@ -185,8 +182,7 @@ namespace DisplayMonkey.Controllers
             db.Panels.Remove(panel);
             db.SaveChanges();
 
-            Navigation.Restore();
-            return RedirectToAction("Index");
+            return Navigation.Restore() ?? RedirectToAction("Index");
         }
 
         //

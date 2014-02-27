@@ -54,7 +54,7 @@ namespace DisplayMonkey.Controllers
             ReportServer reportserver = db.ReportServers.Find(id);
             if (reportserver == null)
             {
-                return HttpNotFound();
+                return View("Missing", new MissingItem(id));
             }
             return View(reportserver);
         }
@@ -83,7 +83,7 @@ namespace DisplayMonkey.Controllers
             ReportServer reportserver = db.ReportServers.Find(id);
             if (reportserver == null)
             {
-                return HttpNotFound();
+                return View("Missing", new MissingItem(id));
             }
             return View(reportserver);
         }

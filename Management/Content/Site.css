@@ -14,7 +14,7 @@ body {
     background-color: #376092;
     /*border-top: solid 10px #376092;*/
     color: #333;
-    font-size: 1em;
+    font-size: .90em;
     /*font-family: "Segoe UI", Verdana, Helvetica, Sans-Serif;*/
 	font-family: "Open Sans", Helvetica, Arial, Verdana, sans-serif;
     margin: 0;
@@ -80,18 +80,18 @@ h4, h5, h6 {
 }
 
 h1 {
-    font-size: 2em;
+    font-size: 1.6em;
 }
 
 h2 {
-    font-size: 1.4em;
+    font-size: 1.2em;
 	border-bottom: 1px solid #e2e2e2;
 	padding-bottom: 5px;
 	
 }
 
 h3 {
-    font-size: 1.2em;
+    font-size: 1.0em;
 }
 
 h4 {
@@ -163,8 +163,8 @@ footer {
     font-size: 0em;
     margin: 0;
 	background: url("../Images/logo.png") no-repeat; 
-	width: 500px;
-	height: 60px;
+	width: 344px;
+	height: 46px;
 	
 }
 
@@ -477,6 +477,7 @@ label {
     display: block;
     font-size: 1.2em;
     font-weight: 600;
+	color: #376092;
 }
 
 label.checkbox {
@@ -520,9 +521,9 @@ textarea {
         background-color: #d3dce0;
         border: 1px solid #787878;
         cursor: pointer;
-        font-size: 1.2em;
+        font-size: 1.0em;
         font-weight: 600;
-        padding: 7px;
+        padding: 4px;
         /*Margin-right: 8px;*/
         width: auto;
     }
@@ -961,5 +962,23 @@ div.select {
 .thumb1 {
     width: 50px;
     height: 50px;
+	vertical-align: top;
 }
+
+.error-info {
+    width: 800px;
+}
+
+    .error-source {
+    }
+
+    .error-message {
+        color: red;
+    }
+
+    .error-trace {
+        overflow: scroll;
+        width: 600px;
+        height: 300px;
+    }
 

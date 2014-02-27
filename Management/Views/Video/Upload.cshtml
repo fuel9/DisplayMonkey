@@ -24,9 +24,35 @@
 }
 
 <div>
-    @Html.ActionLink("Frames list", "Index", "Frame")
+    @Html.ActionLink("View frames", "Index", "Frame")
 </div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('input[type="submit"]').click(function () {
+                if ($('#files').val() === "") {
+                    alert("Please select file(s) to upload first");
+                    return false;
+                }
+            });
+            $('#files').change(function () {
+                if ($(this).val() != "" && typeof FileReader !== "undefined") {
+                    var file = document.getElementById('files').files[0];
+                    var ext = /[^.]+$/.exec(file.name)[0].toUpperCase();
+                    if ($('#videoExt').val().indexOf(ext) >= 0) {
+                        var max = $('#maxVideoSize').val();
+                        if (file.size > max) {
+                            alert("Current maximum allowed size for video files is set to " + max + " bytes");
+                            $(this).val("");
+                        }
+                    } else {
+                        alert("File format " + ext + " is not supported");
+                        $(this).val("");
+                    }
+                }
+            });
+        });
+    </script>
 }

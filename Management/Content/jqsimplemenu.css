@@ -67,7 +67,8 @@ li.right-menu > a
 }
 .menu  a:hover
 	{
-	color: #c00000 
+	color: #c00000; 
+	/*background-color: #376092; */
 	}
 
 .menu li
@@ -79,6 +80,7 @@ li.right-menu > a
 .menu ul
 {
     position: absolute;
+	z-index: 99;
     display: none;
     width: 200px;
     top: 2.5em; /*padding-right: 10px;*/

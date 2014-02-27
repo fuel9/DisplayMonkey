@@ -26,7 +26,7 @@ namespace DisplayMonkey.Controllers
             Report report = db.Reports.Find(id);
             if (report == null)
             {
-                return HttpNotFound();
+                return View("Missing", new MissingItem(id));
             }
             return View(report);
         }
@@ -66,8 +66,8 @@ namespace DisplayMonkey.Controllers
                 report.Frame = frame;
                 db.Reports.Add(report);
                 db.SaveChanges();
-                Navigation.Restore();
-                return RedirectToAction("Index", "Frame");
+
+                return Navigation.Restore() ?? RedirectToAction("Index", "Frame");
             }
 
             FillServersSelectList();
@@ -86,7 +86,7 @@ namespace DisplayMonkey.Controllers
             Report report = db.Reports.Find(id);
             if (report == null)
             {
-                return HttpNotFound();
+                return View("Missing", new MissingItem(id));
             }
 
             FillServersSelectList(report.ServerId);
@@ -107,8 +107,8 @@ namespace DisplayMonkey.Controllers
                 db.Entry(frame).State = EntityState.Modified;
                 db.Entry(report).State = EntityState.Modified;
                 db.SaveChanges();
-                Navigation.Restore();
-                return RedirectToAction("Index");
+
+                return Navigation.Restore() ?? RedirectToAction("Index");
             }
 
             FillServersSelectList(report.ServerId);
@@ -127,7 +127,7 @@ namespace DisplayMonkey.Controllers
             Report report = db.Reports.Find(id);
             if (report == null)
             {
-                return HttpNotFound();
+                return View("Missing", new MissingItem(id));
             }
             return View(report);
         }
@@ -142,8 +142,8 @@ namespace DisplayMonkey.Controllers
             Frame frame = db.Frames.Find(id);
             db.Frames.Remove(frame);
             db.SaveChanges();
-            Navigation.Restore();
-            return RedirectToAction("Index", "Frame");
+
+            return Navigation.Restore() ?? RedirectToAction("Index", "Frame");
         }
 
         //
@@ -160,10 +160,19 @@ namespace DisplayMonkey.Controllers
 
             if (report.Path != null && report.ReportServer != null)
             {
-                string url = string.Format(
+                string baseUrl = report.ReportServer.BaseUrl
+                    , url = report.Path;
+                
+                if (baseUrl.EndsWith("/"))
+                    baseUrl = baseUrl.Substring(0, baseUrl.Length - 1);
+
+                if (!url.StartsWith("/"))
+                    url = "/" + url;
+
+                url = string.Format(
                     "{0}?{1}&rs:format=IMAGE",
-                    report.ReportServer.BaseUrl,
-                    report.Path
+                    baseUrl,
+                    url
                     );
 
                 WebClient client = new WebClient();
@@ -186,6 +195,11 @@ namespace DisplayMonkey.Controllers
                         MediaController.WriteImage(src, Response.OutputStream, width, height, mode);
                         Response.OutputStream.Flush();
                         return Content("");
+
+                        /*MemoryStream trg = new MemoryStream();
+                        MediaController.WriteImage(src, trg, width, height, mode);
+                        trg.Seek(0, SeekOrigin.Begin);
+                        return new FileStreamResult(trg, "image/png");*/
                     }
                 }
 

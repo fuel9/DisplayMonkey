@@ -21,6 +21,7 @@
           <EntitySet Name="Picture" EntityType="DisplayMonkey.Model.Store.Picture" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Report" EntityType="DisplayMonkey.Model.Store.Report" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="ReportServer" EntityType="DisplayMonkey.Model.Store.ReportServer" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Settings" EntityType="DisplayMonkey.Model.Store.Settings" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Video" EntityType="DisplayMonkey.Model.Store.Video" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="VideoAlternative" EntityType="DisplayMonkey.Model.Store.VideoAlternative" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Weather" EntityType="DisplayMonkey.Model.Store.Weather" store:Type="Tables" Schema="dbo" />
@@ -256,6 +257,14 @@
           <Property Name="User" Type="varchar" MaxLength="100" />
           <Property Name="Password" Type="varbinary" MaxLength="1024" />
           <Property Name="Domain" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Settings">
+          <Key>
+            <PropertyRef Name="Key" />
+          </Key>
+          <Property Name="Key" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Value" Type="varbinary(max)" />
+          <Property Name="Type" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Video">
           <Key>
@@ -679,6 +688,7 @@
             <End Role="ReportServer" EntitySet="ReportServers" />
             <End Role="Report" EntitySet="Reports" />
           </AssociationSet>
+          <EntitySet Name="Settings" EntityType="DisplayMonkey.Model.Setting" />
         </EntityContainer>
         <EntityType Name="Canvas">
           <Key>
@@ -1121,6 +1131,14 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Setting">
+          <Key>
+            <PropertyRef Name="Key" />
+          </Key>
+          <Property Type="Guid" Name="Key" Nullable="false" />
+          <Property Type="Binary" Name="Value" MaxLength="Max" FixedLength="false" />
+          <Property Type="Int32" Name="Type" Nullable="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1307,6 +1325,15 @@
                 <ScalarProperty Name="User" ColumnName="User" />
                 <ScalarProperty Name="BaseUrl" ColumnName="BaseUrl" />
                 <ScalarProperty Name="ServerId" ColumnName="ServerId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Settings">
+            <EntityTypeMapping TypeName="DisplayMonkey.Model.Setting">
+              <MappingFragment StoreEntitySet="Settings">
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="Key" ColumnName="Key" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

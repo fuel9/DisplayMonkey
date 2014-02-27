@@ -52,7 +52,13 @@ namespace DisplayMonkey
                     }
 				}
 
-				// report URL
+                if (baseUrl.EndsWith("/"))
+                    baseUrl = baseUrl.Substring(0, baseUrl.Length - 1);
+
+                if (!url.StartsWith("/"))
+                    url = "/" + url;
+                
+                // report URL
 				url = string.Format(
 					"{0}?{1}&rs:format=IMAGE",
                     baseUrl,

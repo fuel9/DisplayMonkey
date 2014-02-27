@@ -25,7 +25,7 @@ namespace DisplayMonkey.Controllers
             Picture picture = db.Pictures.Find(id);
             if (picture == null)
             {
-                return HttpNotFound();
+                return View("Missing", new MissingItem(id));
             }
             return View(picture);
         }
@@ -69,8 +69,8 @@ namespace DisplayMonkey.Controllers
                     picture.ContentId = picture.SavedContentId.Value;
                     db.Pictures.Add(picture);
                     db.SaveChanges();
-                    Navigation.Restore();
-                    return RedirectToAction("Index", "Frame");
+
+                    return Navigation.Restore() ?? RedirectToAction("Index", "Frame");
                 }
                 else
                 {
@@ -99,6 +99,7 @@ namespace DisplayMonkey.Controllers
 
             FillPicturesSelectList();
             FillModesSelectList();
+            ViewBag.MaxImageSize = db.Settings.FirstOrDefault(s => s.Key == DisplayMonkey.Models.Setting.Key_MaxImageSize).IntValue;
 
             return View(picture);
         }
@@ -136,12 +137,14 @@ namespace DisplayMonkey.Controllers
 
                     db.Pictures.Add(picture);
                     db.SaveChanges();
-                    Navigation.Restore();
-                    return RedirectToAction("Index", "Frame");
+
+                    return Navigation.Restore() ?? RedirectToAction("Index", "Frame");
                 }
             }
 
+            FillPicturesSelectList();
             FillModesSelectList();
+            ViewBag.MaxImageSize = db.Settings.FirstOrDefault(s => s.Key == DisplayMonkey.Models.Setting.Key_MaxImageSize).IntValue;
 
             return View(picture);
         }
@@ -154,7 +157,7 @@ namespace DisplayMonkey.Controllers
             Picture picture = db.Pictures.Find(id);
             if (picture == null)
             {
-                return HttpNotFound();
+                return View("Missing", new MissingItem(id));
             }
 
             FillPicturesSelectList(picture.ContentId);
@@ -175,8 +178,8 @@ namespace DisplayMonkey.Controllers
                 db.Entry(frame).State = EntityState.Modified;
                 db.Entry(picture).State = EntityState.Modified;
                 db.SaveChanges();
-                Navigation.Restore();
-                return RedirectToAction("Index");
+
+                return Navigation.Restore() ?? RedirectToAction("Index");
             }
 
             FillPicturesSelectList(picture.ContentId);
@@ -195,7 +198,7 @@ namespace DisplayMonkey.Controllers
             Picture picture = db.Pictures.Find(id);
             if (picture == null)
             {
-                return HttpNotFound();
+                return View("Missing", new MissingItem(id));
             }
             return View(picture);
         }
@@ -210,8 +213,8 @@ namespace DisplayMonkey.Controllers
             Frame frame = db.Frames.Find(id);
             db.Frames.Remove(frame);
             db.SaveChanges();
-            Navigation.Restore();
-            return RedirectToAction("Index", "Frame");
+
+            return Navigation.Restore() ?? RedirectToAction("Index", "Frame");
         }
 
         private void FillPicturesSelectList(object selected = null)

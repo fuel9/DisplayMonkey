@@ -3,12 +3,12 @@
 
 body   
 {
-    background: #b6b7bc;
+    /*background: #b6b7bc;*/
     font-size: .80em;
-    font-family: "Helvetica Neue", "Lucida Grande", "Segoe UI", Arial, Helvetica, Verdana, sans-serif;
+    font-family:  "Open Sans", Helvetica, Arial, Verdana, sans-serif;
     margin: 0px;
     padding: 0px;
-    color: #696969;
+    color: #333;
 }
 
 a:link, a:visited
@@ -217,6 +217,7 @@ legend
     font-size: 1.1em;
     font-weight: 600;
     padding: 2px 4px 8px 4px;
+	color: #376092;
 }
 
 input.textEntry 
@@ -292,3 +293,58 @@ div.accountInfo
     text-align: right;
     padding-right: 10px;
 }
+
+
+/************************************************** MM *******************************************************/
+
+@font-face
+{
+    font-family: "Open Sans";
+    src: url(http://themes.googleusercontent.com/static/fonts/opensans/v7/cJZKeOuBrn4kERxqtaUH3T8E0i7KZn-EPnyo3HZu7kw.woff);
+}
+ 
+.center_style
+{
+    width: 960px;
+    height: 123px;
+    background-color: #376092;
+            
+}
+  
+.left_right_style
+{
+    width: auto;
+    background-color: #376092;
+}
+  
+.page_style
+{
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
+    position: relative;
+    font-family: "Open Sans", Helvetica, Arial, Verdana, sans-serif;
+    src: url(http://themes.googleusercontent.com/static/fonts/opensans/v7/cJZKeOuBrn4kERxqtaUH3T8E0i7KZn-EPnyo3HZu7kw.woff);
+    font-size: 0.85em;
+    color: #333;
+}
+  
+a:link, a:visited, a:active, a:hover 
+{
+    color: #c00000;
+}
+  
+input[type="submit"], button 
+{
+    background-color: #d3dce0;
+    border: 1px solid #787878;
+    cursor: pointer;
+    font-size: 1.0em;
+    font-weight: 600;
+    padding: 4px;
+    width: auto;
+    float:left;
+    border-radius: 5px;
+    margin-right: 4px
+}
+        

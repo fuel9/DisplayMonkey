@@ -1,0 +1,24 @@
+﻿@{ Layout = "~/Views/Shared/_Layout.cshtml"; } 
+
+@{
+    ViewBag.Title = "Not found";
+}
+
+<hgroup class="title">
+    <h2 class="error">An error occurred while processing your request.</h2>
+</hgroup>
+
+<fieldset>
+    <legend>Details</legend>
+    <table class="error-detail">
+
+    <tr>
+        <td>Message</td>
+        <td><div class="error-message">Resource was not found</div></td>
+    </tr>
+
+    </table>
+</fieldset>
+
+<p><a href="javascript:window.history.back();">Back to previous page</a></p>
+

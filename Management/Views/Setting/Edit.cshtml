@@ -1,0 +1,45 @@
+﻿@model DisplayMonkey.Models.Setting
+
+@{
+    ViewBag.Title = "Edit application setting";
+}
+
+<h2>@ViewBag.Title</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model => model.Key)
+
+        <div class="form-group">
+            @Html.Label(Model.Name, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @switch (Model.Type)
+                {
+                    case DisplayMonkey.Models.Setting.Type_Int:
+                        @Html.EditorFor(model => model.IntValue)
+                        @Html.ValidationMessageFor(model => model.IntValue)
+                        break;
+                }
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("View application settings", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

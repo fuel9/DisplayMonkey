@@ -41,5 +41,6 @@ namespace DisplayMonkey.Models
         public DbSet<Video> Videos { get; set; }
         public DbSet<Weather> Weathers { get; set; }
         public DbSet<ReportServer> ReportServers { get; set; }
+        public DbSet<Setting> Settings { get; set; }
     }
 }

@@ -165,8 +165,13 @@ namespace DisplayMonkey.Controllers
         {
             Panel panel = db.Panels
                 .Include(p => p.Canvas)
-                .First(p => p.CanvasId == canvasId)
+                .FirstOrDefault(p => p.CanvasId == canvasId)
                 ;
+
+            if (panel.PanelId == 0)
+            {
+                return RedirectToAction("ForCanvas");
+            }
 
             FillPanelsSelectList(canvasId: canvasId);
             return View(panel);
@@ -188,8 +193,13 @@ namespace DisplayMonkey.Controllers
         {
             Panel panel = db.Panels
                 .Include(p => p.Canvas)
-                .First(p => p.PanelId == panelId)
+                .FirstOrDefault(p => p.PanelId == panelId)
                 ;
+
+            if (panel.PanelId == 0)
+            {
+                return RedirectToAction("ForCanvas");
+            }
 
             FrameSelector selector = new FrameSelector() 
             { 
@@ -235,7 +245,7 @@ namespace DisplayMonkey.Controllers
 
             if (frame == null)
             {
-                return HttpNotFound();
+                return View("Missing", new MissingItem(id));
             }
 
             return RedirectToAction("Details", frame.FrameType, new { id = id });
@@ -262,7 +272,7 @@ namespace DisplayMonkey.Controllers
 
             if (frame == null)
             {
-                return HttpNotFound();
+                return View("Missing", new MissingItem(id));
             }
 
             return RedirectToAction("Edit", frame.FrameType, new { id = id });
@@ -289,7 +299,7 @@ namespace DisplayMonkey.Controllers
 
             if (frame == null)
             {
-                return HttpNotFound();
+                return View("Missing", new MissingItem(id));
             }
 
             return RedirectToAction("Delete", frame.FrameType, new { id = id });
@@ -303,7 +313,7 @@ namespace DisplayMonkey.Controllers
             Frame frame = db.Frames.Find(id);
             if (frame == null)
             {
-                return HttpNotFound();
+                return View("Missing", new MissingItem(id));
             }
 
             LocationSelector selector = new LocationSelector
@@ -336,7 +346,7 @@ namespace DisplayMonkey.Controllers
             Frame frame = db.Frames.Find(selector.FrameId);
             if (frame == null)
             {
-                return HttpNotFound();
+                return View("Missing", new MissingItem(selector.FrameId));
             }
 
             if (selector.LocationId > 0)
@@ -344,12 +354,12 @@ namespace DisplayMonkey.Controllers
                 Location location = db.Locations.Find(selector.LocationId);
                 if (location == null)
                 {
-                    return HttpNotFound();
+                    return View("Missing", new MissingItem(selector.LocationId, "Location"));
                 }
                 frame.Locations.Add(location);
                 db.SaveChanges();
-                Navigation.Restore();
-                return RedirectToAction("Index");
+
+                return Navigation.Restore() ?? RedirectToAction("Index");
             }
 
             IEnumerable<Location> locations = db.Locations
@@ -370,7 +380,7 @@ namespace DisplayMonkey.Controllers
             Frame frame = db.Frames.Find(id);
             if (frame == null)
             {
-                return HttpNotFound();
+                return View("Missing", new MissingItem(id));
             }
 
             LocationSelector selector = new LocationSelector
@@ -392,8 +402,7 @@ namespace DisplayMonkey.Controllers
             frame.Locations.Remove(location);
             db.SaveChanges();
 
-            Navigation.Restore();
-            return RedirectToAction("Index", "Frame");
+            return Navigation.Restore() ?? RedirectToAction("Index", "Frame");
         }
 
         protected override void Dispose(bool disposing)

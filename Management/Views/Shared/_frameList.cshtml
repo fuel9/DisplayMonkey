@@ -65,7 +65,8 @@
             }
             else if (item.Video != null)    
             {
-                @(string.Format("Linked to {0} media alternatives", item.Video.Contents.Count()))
+                <img src="~/images/video_thmb.png" alt="" />
+                <span>@(string.Format("{0} video alternatives", item.Video.Contents.Count()))</span>
             }
             else   
             {

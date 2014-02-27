@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-//using System.Web.Mvc;
+using System.Web.Mvc;
 
 namespace DisplayMonkey.Controllers
 {
@@ -87,14 +87,17 @@ namespace DisplayMonkey.Controllers
                 HttpContext.Current.Session[_cameFrom] = null;
         }
 
-        public static void Restore()
+        public static ActionResult Restore()
         {
             if (HttpContext.Current.Session[_cameFrom] != null)
             {
                 string url = HttpContext.Current.Session[_cameFrom] as string;
                 HttpContext.Current.Session[_cameFrom] = null;
-                HttpContext.Current.Response.Redirect(url);
+                //HttpContext.Current.Response.Redirect(url);
+                return new RedirectResult(url);
             }
+
+            return null;
         }
     }
 }

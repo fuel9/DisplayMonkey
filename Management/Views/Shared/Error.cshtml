@@ -12,20 +12,26 @@
 
 <fieldset>
     <legend>Details</legend>
-    <div class="divTable">
-    <div class="divRow">
-    <div>Source</div><div>@Model.ControllerName/@Model.ActionName</div>
-    </div>
+    <table class="error-info">
+    <tr>
+        <td>Source</td>
+        <td><div class="error-source">@Model.ControllerName/@Model.ActionName</div></td>
+    </tr>
 
-    <div class="divRow">
-    <div>Message</div><div>@Model.Exception.Message</div>
-    </div>
+    <tr>
+        <td>Message</td>
+        <td><div class="error-message">@Model.Exception.Message</div></td>
+    </tr>
 
-    <div class="divRow">
-    <div>Stack Trace</div><div>@Model.Exception.StackTrace</div>
-    </div>
-    </div>
-
+    <tr>
+        <td>Stack Trace</td>
+        <td>
+            <div class="error-trace">
+                <pre>@Model.Exception.StackTrace</pre>
+            </div>
+        </td>
+    </tr>
+    </table>
 </fieldset>
 
 <p><a href="javascript:window.history.back();">Back to previous page</a></p>

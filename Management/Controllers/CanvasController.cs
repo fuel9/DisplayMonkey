@@ -64,7 +64,7 @@ namespace DisplayMonkey.Controllers
             Canvas canvas = db.Canvases.Find(id);
             if (canvas == null)
             {
-                return HttpNotFound();
+                return View("Missing", new MissingItem(id));
             }
 
             canvas.Panels = db.Panels
@@ -96,9 +96,7 @@ namespace DisplayMonkey.Controllers
                 db.Canvases.Add(canvas);
                 db.SaveChanges();
 
-                Navigation.Restore();
-
-                return RedirectToAction("Index");
+                return Navigation.Restore() ?? RedirectToAction("Index");
             }
 
             ViewBag.BackgroundImage = new SelectList(db.Contents, "ContentId", "Name", canvas.BackgroundImage);
@@ -113,7 +111,7 @@ namespace DisplayMonkey.Controllers
             Canvas canvas = db.Canvases.Find(id);
             if (canvas == null)
             {
-                return HttpNotFound();
+                return View("Missing", new MissingItem(id));
             }
             var contents = db.Contents.Where(c => c.Type == 0).ToList();
             ViewBag.BackgroundImage = new SelectList(contents, "ContentId", "Name", canvas.BackgroundImage);
@@ -132,8 +130,7 @@ namespace DisplayMonkey.Controllers
                 db.Entry(canvas).State = EntityState.Modified;
                 db.SaveChanges();
 
-                Navigation.Restore();
-                return RedirectToAction("Index");
+                return Navigation.Restore() ?? RedirectToAction("Index");
             }
             ViewBag.BackgroundImage = new SelectList(db.Contents, "ContentId", "Name", canvas.BackgroundImage);
             return View(canvas);
@@ -147,7 +144,7 @@ namespace DisplayMonkey.Controllers
             Canvas canvas = db.Canvases.Find(id);
             if (canvas == null)
             {
-                return HttpNotFound();
+                return View("Missing", new MissingItem(id));
             }
             return View(canvas);
         }
@@ -163,8 +160,7 @@ namespace DisplayMonkey.Controllers
             db.Canvases.Remove(canvas);
             db.SaveChanges();
 
-            Navigation.Restore();
-            return RedirectToAction("Index");
+            return Navigation.Restore() ?? RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)

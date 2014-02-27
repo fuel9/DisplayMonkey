@@ -65,7 +65,7 @@ namespace DisplayMonkey.Controllers
             Location location = db.Locations.Find(id);
             if (location == null)
             {
-                return HttpNotFound();
+                return View("Missing", new MissingItem(id));
             }
 
             var locationIds = db.Locations
@@ -113,9 +113,7 @@ namespace DisplayMonkey.Controllers
                 db.Locations.Add(location);
                 db.SaveChanges();
 
-                Navigation.Restore();
-
-                return RedirectToAction("Index");
+                return Navigation.Restore() ?? RedirectToAction("Index");
             }
 
             FillLevelsSelectList(location.LevelId);
@@ -132,7 +130,7 @@ namespace DisplayMonkey.Controllers
             Location location = db.Locations.Find(id);
             if (location == null)
             {
-                return HttpNotFound();
+                return View("Missing", new MissingItem(id));
             }
             FillLevelsSelectList(location.LevelId);
             FillTemperatureUnitSelectList(location.TemperatureUnit);
@@ -155,9 +153,7 @@ namespace DisplayMonkey.Controllers
                 db.Entry(location).Property(l => l.AreaId).IsModified = false;
                 db.SaveChanges();
 
-                Navigation.Restore();
-
-                return RedirectToAction("Index");
+                return Navigation.Restore() ?? RedirectToAction("Index");
             }
             FillLevelsSelectList(location.LevelId);
             FillTemperatureUnitSelectList(location.TemperatureUnit);
@@ -173,7 +169,7 @@ namespace DisplayMonkey.Controllers
             Location location = db.Locations.Find(id);
             if (location == null)
             {
-                return HttpNotFound();
+                return View("Missing", new MissingItem(id));
             }
             
             return View(location);
@@ -190,9 +186,7 @@ namespace DisplayMonkey.Controllers
             db.Locations.Remove(location);
             db.SaveChanges();
 
-            Navigation.Restore();
-
-            return RedirectToAction("Index");
+            return Navigation.Restore() ?? RedirectToAction("Index");
         }
 
         //private class HH { public int H1 = 0; public int H2 = 0; }

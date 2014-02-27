@@ -10,6 +10,8 @@
 @using (Html.BeginForm("Upload", "Picture", FormMethod.Post, new { enctype = "multipart/form-data" })) {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
+    @Html.Hidden("maxImageSize", (object)ViewBag.MaxImageSize)
+    @Html.Hidden("imageExt", (object)supportedImages)
 
     <fieldset>
         <legend>Picture</legend>
@@ -33,9 +35,35 @@
 }
 
 <div>
-    @Html.ActionLink("Frames list", "Index", "Frame")
+    @Html.ActionLink("View frames", "Index", "Frame")
 </div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('input[type="submit"]').click(function () {
+                if ($('#file').val() === "") {
+                    alert("Please select file to upload first");
+                    return false;
+                }
+            });
+            $('#file').change(function () {
+                if ($(this).val() != "" && typeof FileReader !== "undefined") {
+                    var file = document.getElementById('file').files[0];
+                    var ext = /[^.]+$/.exec(file.name)[0].toUpperCase();
+                    if ($('#imageExt').val().indexOf(ext) >= 0) {
+                        var max = $('#maxImageSize').val();
+                        if (file.size > max) {
+                            alert("Current maximum allowed size for image files is set to " + max + " bytes");
+                            $(this).val("");
+                        }
+                    } else {
+                        alert("File format " + ext + " is not supported");
+                        $(this).val("");
+                    }
+                }
+            });
+        });
+    </script>
 }

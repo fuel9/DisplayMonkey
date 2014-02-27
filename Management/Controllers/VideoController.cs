@@ -25,7 +25,7 @@ namespace DisplayMonkey.Controllers
             Video video = db.Videos.Find(id);
             if (video == null)
             {
-                return HttpNotFound();
+                return View("Missing", new MissingItem(id));
             }
             return View(video);
         }
@@ -71,8 +71,8 @@ namespace DisplayMonkey.Controllers
                     video.Contents.Add(content);
                     db.Videos.Add(video);
                     db.SaveChanges();
-                    Navigation.Restore();
-                    return RedirectToAction("Index", "Frame");
+
+                    return Navigation.Restore() ?? RedirectToAction("Index", "Frame");
                 }
                 else
                 {
@@ -99,6 +99,7 @@ namespace DisplayMonkey.Controllers
             }
 
             FillVideosSelectList();
+            ViewBag.MaxVideoSize = db.Settings.FirstOrDefault(s => s.Key == DisplayMonkey.Models.Setting.Key_MaxVideoSize).IntValue;
 
             return View(video);
         }
@@ -150,14 +151,17 @@ namespace DisplayMonkey.Controllers
             {
                 db.Videos.Add(video);
                 db.SaveChanges();
-                Navigation.Restore();
-                return RedirectToAction("Index");
+
+                return Navigation.Restore() ?? RedirectToAction("Index");
             }
 
             else if (hasFiles)
             {
                 // TODO: validator for wrong file types
             }
+
+            FillVideosSelectList();
+            ViewBag.MaxVideoSize = db.Settings.FirstOrDefault(s => s.Key == DisplayMonkey.Models.Setting.Key_MaxVideoSize).IntValue;
 
             return View(video);
         }
@@ -170,7 +174,7 @@ namespace DisplayMonkey.Controllers
             Video video = db.Videos.Find(id);
             if (video == null)
             {
-                return HttpNotFound();
+                return View("Missing", new MissingItem(id));
             }
 
             FillAvailableVideosSelectList(id);
@@ -191,8 +195,8 @@ namespace DisplayMonkey.Controllers
                 video = db.Videos.Find(video.FrameId);
                 video.Contents.Add(content);
                 db.SaveChanges();
-                Navigation.Restore();
-                return RedirectToAction("Details", new { id = video.FrameId });
+                
+                return Navigation.Restore() ?? RedirectToAction("Details", new { id = video.FrameId });
             }
 
             if (video.FrameId > 0)
@@ -211,7 +215,7 @@ namespace DisplayMonkey.Controllers
             Video video = db.Videos.Find(id);
             if (video == null)
             {
-                return HttpNotFound();
+                return View("Missing", new MissingItem(id));
             }
 
             return View(video);
@@ -267,8 +271,8 @@ namespace DisplayMonkey.Controllers
             if (addedFiles)
             {
                 db.SaveChanges();
-                Navigation.Restore();
-                return RedirectToAction("Details", new { id = video.FrameId });
+                
+                return Navigation.Restore() ?? RedirectToAction("Details", new { id = video.FrameId });
             }
 
             else if (hasFiles)
@@ -287,18 +291,18 @@ namespace DisplayMonkey.Controllers
             Video video = db.Videos.Find(id);
             if (video == null)
             {
-                return HttpNotFound();
+                return View("Missing", new MissingItem(id));
             }
 
             Content content = db.Contents.Find(contentId);
             if (content == null)
             {
-                return HttpNotFound();
+                return View("Missing", new MissingItem(id));
             }
 
             if (!video.Contents.Contains(content))
             {
-                return HttpNotFound();
+                return View("Missing", new MissingItem(id));
             }
 
             ViewBag.Content = content;
@@ -328,7 +332,7 @@ namespace DisplayMonkey.Controllers
             Video video = db.Videos.Find(id);
             if (video == null)
             {
-                return HttpNotFound();
+                return View("Missing", new MissingItem(id));
             }
 
             return View(video);
@@ -346,8 +350,8 @@ namespace DisplayMonkey.Controllers
                 db.Entry(frame).State = EntityState.Modified;
                 db.Entry(video).State = EntityState.Modified;
                 db.SaveChanges();
-                Navigation.Restore();
-                return RedirectToAction("Index");
+
+                return Navigation.Restore() ?? RedirectToAction("Index");
             }
 
             video.Frame = frame;
@@ -363,7 +367,7 @@ namespace DisplayMonkey.Controllers
             Video video = db.Videos.Find(id);
             if (video == null)
             {
-                return HttpNotFound();
+                return View("Missing", new MissingItem(id));
             }
             return View(video);
         }
@@ -378,8 +382,8 @@ namespace DisplayMonkey.Controllers
             Frame frame = db.Frames.Find(id);
             db.Frames.Remove(frame);
             db.SaveChanges();
-            Navigation.Restore();
-            return RedirectToAction("Index", "Frame");
+
+            return Navigation.Restore() ?? RedirectToAction("Index", "Frame");
         }
 
         private void FillVideosSelectList(object selected = null)

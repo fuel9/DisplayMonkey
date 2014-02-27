@@ -14,6 +14,7 @@ namespace DisplayMonkey.Controllers
     {
         private DisplayMonkeyEntities db = new DisplayMonkeyEntities();
 
+        
         //[HandleError]
         //public ActionResult ThrowException()
         //{
@@ -39,7 +40,7 @@ namespace DisplayMonkey.Controllers
             Level level = db.Levels.Find(id);
             if (level == null)
             {
-                return HttpNotFound();
+                return View("Missing", new MissingItem(id));
             }
 
             level.Locations = db.Locations
@@ -69,9 +70,7 @@ namespace DisplayMonkey.Controllers
                 db.Levels.Add(level);
                 db.SaveChanges();
 
-                Navigation.Restore();
-
-                return RedirectToAction("Index");
+                return Navigation.Restore() ?? RedirectToAction("Index");
             }
 
             return View(level);
@@ -85,7 +84,7 @@ namespace DisplayMonkey.Controllers
             Level level = db.Levels.Find(id);
             if (level == null)
             {
-                return HttpNotFound();
+                return View("Missing", new MissingItem(id));
             }
             return View(level);
         }
@@ -102,9 +101,7 @@ namespace DisplayMonkey.Controllers
                 db.Entry(level).State = EntityState.Modified;
                 db.SaveChanges();
 
-                Navigation.Restore();
-
-                return RedirectToAction("Index");
+                return Navigation.Restore() ?? RedirectToAction("Index");
             }
             return View(level);
         }
@@ -117,7 +114,7 @@ namespace DisplayMonkey.Controllers
             Level level = db.Levels.Find(id);
             if (level == null)
             {
-                return HttpNotFound();
+                return View("Missing", new MissingItem(id));
             }
             return View(level);
         }
@@ -132,14 +129,12 @@ namespace DisplayMonkey.Controllers
             Level level = db.Levels.Find(id);
             if (level == null)
             {
-                return HttpNotFound();
+                return View("Missing", new MissingItem(id));
             }
             db.Levels.Remove(level);
             db.SaveChanges();
 
-            Navigation.Restore();
-
-            return RedirectToAction("Index");
+            return Navigation.Restore() ?? RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)

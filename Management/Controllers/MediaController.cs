@@ -60,7 +60,7 @@ namespace DisplayMonkey.Controllers
             Content content = db.Contents.Find(id);
             if (content == null)
             {
-                return HttpNotFound();
+                return View("Missing", new MissingItem(id));
             }
             return View(content);
         }
@@ -70,6 +70,8 @@ namespace DisplayMonkey.Controllers
 
         public ActionResult Upload()
         {
+            ViewBag.MaxImageSize = db.Settings.FirstOrDefault(s => s.Key == DisplayMonkey.Models.Setting.Key_MaxImageSize).IntValue;
+            ViewBag.MaxVideoSize = db.Settings.FirstOrDefault(s => s.Key == DisplayMonkey.Models.Setting.Key_MaxVideoSize).IntValue;
             return View();
         }
 
@@ -117,8 +119,8 @@ namespace DisplayMonkey.Controllers
             if (addedFiles)
             {
                 db.SaveChanges();
-                Navigation.Restore();
-                return RedirectToAction("Index");
+
+                return Navigation.Restore() ?? RedirectToAction("Index");
             }
 
             else if (hasFiles)
@@ -137,7 +139,7 @@ namespace DisplayMonkey.Controllers
             Content content = db.Contents.Find(id);
             if (content == null)
             {
-                return HttpNotFound();
+                return View("Missing", new MissingItem(id));
             }
             return View(content);
         }
@@ -155,8 +157,8 @@ namespace DisplayMonkey.Controllers
                 db.Contents.Attach(content);
                 db.Entry(content).Property(m => m.Name).IsModified = true;
                 db.SaveChanges();
-                Navigation.Restore();
-                return RedirectToAction("Index");
+
+                return Navigation.Restore() ?? RedirectToAction("Index");
             }
 
             return View(content);
@@ -170,7 +172,7 @@ namespace DisplayMonkey.Controllers
             Content content = db.Contents.Find(id);
             if (content == null)
             {
-                return HttpNotFound();
+                return View("Missing", new MissingItem(id));
             }
             return View(content);
         }
@@ -185,8 +187,8 @@ namespace DisplayMonkey.Controllers
             Content content = db.Contents.Find(id);
             db.Contents.Remove(content);
             db.SaveChanges();
-            Navigation.Restore();
-            return RedirectToAction("Index");
+
+            return Navigation.Restore() ?? RedirectToAction("Index");
         }
 
         //

@@ -23,7 +23,7 @@ namespace DisplayMonkey.Controllers
             Weather weather = db.Weathers.Find(id);
             if (weather == null)
             {
-                return HttpNotFound();
+                return View("Missing", new MissingItem(id));
             }
             return View(weather);
         }
@@ -64,8 +64,8 @@ namespace DisplayMonkey.Controllers
                 weather.Frame = frame;
                 db.Weathers.Add(weather);
                 db.SaveChanges();
-                Navigation.Restore();
-                return RedirectToAction("Index");
+
+                return Navigation.Restore() ?? RedirectToAction("Index");
             }
 
             ViewBag.Types = new SelectList(DisplayMonkey.Models.Weather.WeatherTypes, "Type", "Name");
@@ -83,7 +83,7 @@ namespace DisplayMonkey.Controllers
             Weather weather = db.Weathers.Find(id);
             if (weather == null)
             {
-                return HttpNotFound();
+                return View("Missing", new MissingItem(id));
             }
 
             ViewBag.Types = new SelectList(DisplayMonkey.Models.Weather.WeatherTypes, "Type", "Name");
@@ -103,8 +103,8 @@ namespace DisplayMonkey.Controllers
                 db.Entry(frame).State = EntityState.Modified;
                 db.Entry(weather).State = EntityState.Modified;
                 db.SaveChanges();
-                Navigation.Restore();
-                return RedirectToAction("Index");
+
+                return Navigation.Restore() ?? RedirectToAction("Index");
             }
 
             ViewBag.Types = new SelectList(DisplayMonkey.Models.Weather.WeatherTypes, "Type", "Name");
@@ -122,7 +122,7 @@ namespace DisplayMonkey.Controllers
             Weather weather = db.Weathers.Find(id);
             if (weather == null)
             {
-                return HttpNotFound();
+                return View("Missing", new MissingItem(id));
             }
             return View(weather);
         }
@@ -137,8 +137,8 @@ namespace DisplayMonkey.Controllers
             Frame frame = db.Frames.Find(id);
             db.Frames.Remove(frame);
             db.SaveChanges();
-            Navigation.Restore();
-            return RedirectToAction("Index", "Frame");
+
+            return Navigation.Restore() ?? RedirectToAction("Index", "Frame");
         }
 
         protected override void Dispose(bool disposing)

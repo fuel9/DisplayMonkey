@@ -4,6 +4,9 @@
     string supportedVideos = string.Join(", ", DisplayMonkey.Models.Video.SupportedFormats);
 }
 
+    @Html.Hidden("maxVideoSize", (object)ViewBag.MaxVideoSize)
+    @Html.Hidden("videoExt", (object)supportedVideos)
+
         <div class="editor-label">
             @Html.LabelFor(model => model.Contents.FirstOrDefault().Data)
         </div>
@@ -11,5 +14,5 @@
             <input type="file" name="files" id="files" multiple="" />
             @Html.ValidationMessageFor(model => Model.Contents)
             <p>Supported image formats include: @supportedVideos. All other content will be ignored.</p>
-            <p>Note: for variety of browsers video frames can be linked to multiple alternative media streams, push and hold [Shift] or [Ctrl] key to select multiple files.</p>
+            <p>Note: for variety of browsers video frames can be linked to multiple alternative media streams, to select multiple files push and hold [Shift] or [Ctrl].</p>
         </div>

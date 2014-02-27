@@ -42,6 +42,7 @@
         <AssociationConnector Association="DisplayMonkey.Model.FK_Location_Area" />
         <EntityTypeShape EntityType="DisplayMonkey.Model.ReportServer" Width="1.5" PointX="15.625" PointY="13.875" />
         <AssociationConnector Association="DisplayMonkey.Model.FK_Report_ReportServer" />
+        <EntityTypeShape EntityType="DisplayMonkey.Model.Setting" Width="1.5" PointX="6.5" PointY="20.375" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

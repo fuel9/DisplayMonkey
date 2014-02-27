@@ -109,8 +109,8 @@ namespace DisplayMonkey.Controllers
             {
                 db.Displays.Add(display);
                 db.SaveChanges();
-                Navigation.Restore();
-                return RedirectToAction("Index");
+
+                return Navigation.Restore() ?? RedirectToAction("Index");
             }
 
             ViewBag.CanvasId = new SelectList(db.Canvases, "CanvasId", "Name", display.CanvasId);
@@ -126,7 +126,7 @@ namespace DisplayMonkey.Controllers
             Display display = db.Displays.Find(id);
             if (display == null)
             {
-                return HttpNotFound();
+                return View("Missing", new MissingItem(id));
             }
             ViewBag.CanvasId = new SelectList(db.Canvases, "CanvasId", "Name", display.CanvasId);
             ViewBag.LocationId = new SelectList(db.Locations, "LocationId", "Name", display.LocationId);
@@ -144,8 +144,8 @@ namespace DisplayMonkey.Controllers
             {
                 db.Entry(display).State = EntityState.Modified;
                 db.SaveChanges();
-                Navigation.Restore();
-                return RedirectToAction("Index");
+
+                return Navigation.Restore() ?? RedirectToAction("Index");
             }
             ViewBag.CanvasId = new SelectList(db.Canvases, "CanvasId", "Name", display.CanvasId);
             ViewBag.LocationId = new SelectList(db.Locations, "LocationId", "Name", display.LocationId);
@@ -160,7 +160,7 @@ namespace DisplayMonkey.Controllers
             Display display = db.Displays.Find(id);
             if (display == null)
             {
-                return HttpNotFound();
+                return View("Missing", new MissingItem(id));
             }
             return View(display);
         }
@@ -174,9 +174,9 @@ namespace DisplayMonkey.Controllers
         {
             Display display = db.Displays.Find(id);
             db.Displays.Remove(display);
-            Navigation.Restore();
             db.SaveChanges();
-            return RedirectToAction("Index");
+
+            return Navigation.Restore() ?? RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)
