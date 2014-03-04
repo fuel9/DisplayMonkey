@@ -28,7 +28,7 @@
             @Html.LabelFor(model => model.MaxIdleInterval)
         </div>
         <div class="editor-field">
-            @Html.TextBoxFor(model => model.MaxIdleInterval) sec.
+            @Html.TextBoxFor(model => model.MaxIdleInterval, new { @class = "duration" }) sec.
             @Html.ValidationMessageFor(model => model.MaxIdleInterval)
         </div>
 

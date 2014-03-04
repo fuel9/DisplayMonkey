@@ -52,6 +52,13 @@ namespace DisplayMonkey.Controllers
                 return View("Missing", new MissingItem(id));
             }
 
+            panel.Frames = db.Frames
+                .Where(f => f.PanelId == panel.PanelId)
+                .OrderBy(f => f.Sort == null ? (float)f.FrameId : (float)f.Sort)
+                .ThenBy(f => f.FrameId)
+                .ToList()
+                ;
+
             return View(panel);
         }
 
@@ -203,8 +210,9 @@ namespace DisplayMonkey.Controllers
                 .Include(f => f.Video)
                 .AsEnumerable()             // sort in controller
                 .OrderBy(f => f.Sort == null ? (float)f.FrameId : (float)f.Sort)
+                .ThenBy(f => f.FrameId)
                 ;
-            
+
             return View(list.ToList());
         }
 

@@ -50,7 +50,7 @@
             }
             else if (item.Memo != null)
             {
-                <p>Subject: <span>@Html.DisplayFor(m => item.Memo.Subject)</span></p>
+                <text>Subject: <span>@Html.DisplayFor(m => item.Memo.Subject)</span></text>
                 <p>Body: <span>@Html.DisplayFor(m => item.Memo.ShortBody)</span></p>
             }
             else if (item.Report != null)
@@ -65,7 +65,7 @@
             }
             else if (item.Video != null)    
             {
-                <img src="~/images/video_thmb.png" alt="" />
+                <img class="thumb1" src="~/images/video_thmb.png" alt="" />
                 <span>@(string.Format("{0} video alternatives", item.Video.Contents.Count()))</span>
             }
             else   

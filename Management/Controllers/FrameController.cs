@@ -22,7 +22,7 @@ namespace DisplayMonkey.Controllers
         {
             Navigation.SaveCurrent();
 
-            var list = db.Frames
+            IQueryable<Frame> list = db.Frames
                 .Include(f => f.Panel)
                 .Include(f => f.Panel.Canvas)
                 .Include(f => f.News)
@@ -48,6 +48,13 @@ namespace DisplayMonkey.Controllers
             {
                 list = list.Where(Frame.FilterByFrameType(frameType));
             }
+
+            list = list
+                .OrderBy(f => f.Panel.Canvas.Name)
+                .ThenBy(f => f.Panel.Name)
+                .ThenBy(f => f.Sort == null ? (float)f.FrameId : (float)f.Sort)
+                .ThenBy(f => f.FrameId)
+                ;
 
             FillCanvasesSelectList(canvasId);
             FillPanelsSelectList(panelId, canvasId);
