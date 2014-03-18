@@ -5,6 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
 	<title><asp:Literal ID="lTitle" runat="server" EnableViewState="False"></asp:Literal></title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
 	<asp:Literal ID="lHead" runat="server" Mode="PassThrough" EnableViewState="False"></asp:Literal>
 </head>
 <body>

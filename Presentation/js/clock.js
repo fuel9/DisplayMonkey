@@ -2,8 +2,8 @@
     initialize: function (id) {
         this.div = $(id);
         with (this.div) {
-            this.showDate = readAttribute("data-show-date");
-            this.showTime = readAttribute("data-show-time");
+            this.showDate = readAttribute("data-show-date") === 'True';
+            this.showTime = readAttribute("data-show-time") === 'True';
             this.faceType = readAttribute("data-face-type");
             this.panelWidth = readAttribute("data-panel-width");
             this.panelHeight = readAttribute("data-panel-height");

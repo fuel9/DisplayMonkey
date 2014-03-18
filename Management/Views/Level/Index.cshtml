@@ -11,7 +11,6 @@
 </p>
 <table class="grid">
     <tr>
-        <th>@Html.DisplayNameFor(model => model.LevelId)</th>
         <th>
             @Html.DisplayNameFor(model => model.Name)
         </th>
@@ -20,9 +19,6 @@
 
 @foreach (var item in Model) {
     <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.LevelId)
-        </td>
         <td>
             @Html.ActionLink(item.Name, "Details", new { id=item.LevelId })
         </td>

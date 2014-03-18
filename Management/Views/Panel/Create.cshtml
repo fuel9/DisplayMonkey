@@ -36,7 +36,7 @@
             @Html.LabelFor(model => model.Top)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.Top, new { @class = "pixels" }) pixels
+            @Html.EditorFor(model => model.Top, new { htmlAttributes = new { @class = "pixels" }, }) pixels
             @Html.ValidationMessageFor(model => model.Top)
         </div>
 
@@ -44,7 +44,7 @@
             @Html.LabelFor(model => model.Left)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.Left, new { @class = "pixels" }) pixels
+            @Html.EditorFor(model => model.Left, new { htmlAttributes = new { @class = "pixels" }, }) pixels
             @Html.ValidationMessageFor(model => model.Left)
         </div>
 
@@ -52,7 +52,7 @@
             @Html.LabelFor(model => model.Width)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.Width, new { @class = "pixels" }) pixels
+            @Html.EditorFor(model => model.Width, new { htmlAttributes = new { @class = "pixels" }, }) pixels
             @Html.ValidationMessageFor(model => model.Width)
         </div>
 
@@ -60,7 +60,7 @@
             @Html.LabelFor(model => model.Height)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.Height, new { @class = "pixels" }) pixels
+            @Html.EditorFor(model => model.Height, new { htmlAttributes = new { @class = "pixels" }, }) pixels
             @Html.ValidationMessageFor(model => model.Height)
         </div>
 

@@ -20,9 +20,9 @@
             <div class="col-md-10">
                 @switch (Model.Type)
                 {
-                    case DisplayMonkey.Models.Setting.Type_Int:
-                        @Html.EditorFor(model => model.IntValue)
-                        @Html.ValidationMessageFor(model => model.IntValue)
+                    case DisplayMonkey.Models.Setting.Type_IntPositive:
+                        @Html.EditorFor(model => model.IntValuePositive)
+                        @Html.ValidationMessageFor(model => model.IntValuePositive)
                         break;
                 }
             </div>

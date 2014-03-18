@@ -1,4 +1,8 @@
-﻿@model DisplayMonkey.Models.Picture
+﻿@using DisplayMonkey
+@using DisplayMonkey.Models
+@using DisplayMonkey.Language
+
+@model DisplayMonkey.Models.Picture
 
 <fieldset>
     <legend>Picture</legend>
@@ -38,7 +42,7 @@
          @Html.DisplayNameFor(model => model.Mode)
     </div>
     <div class="display-field">
-        @Html.DisplayFor(model => DisplayMonkey.Models.Content.RenderModes.First(m => m.Mode == model.Mode).Name)
+        @Model.TranslatedMode
     </div>
     </div>
     </div>
@@ -47,7 +51,7 @@
 
         <td>
             <div id="picture">
-                 <img src="@Url.Action("Thumb", "Media", new { id = Model.ContentId, width = 200, height = 200, mode = DisplayMonkey.Models.Content.RenderMode_Fit })" alt="" />
+                 <img src="@Url.Action("Thumb", "Media", new { id = Model.ContentId, width = 200, height = 200, mode = Content.RenderModes.RenderMode_Fit })" alt="" />
             </div>
         </td>
 

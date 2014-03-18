@@ -16,7 +16,7 @@
 }
 
 <p>
-    @Html.ActionLink("Create new panel", "Create")
+    @Html.ActionLink("Create new panel", "Create", new { canvasId = ViewBag.CanvasId.SelectedValue })
 </p>
 <table class="grid">
     <tr>

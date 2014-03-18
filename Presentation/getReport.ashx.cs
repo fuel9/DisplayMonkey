@@ -83,15 +83,20 @@ namespace DisplayMonkey
 				//TiffBitmapDecoder decoder = new TiffBitmapDecoder(imageStreamSource, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.Default);
 				//BitmapSource bitmapSource = decoder.Frames[0];
 
-				using (MemoryStream ms = new MemoryStream(data))
+                // prevent client caching, return PNG
+                Response.Clear();
+                Response.Cache.SetCacheability(HttpCacheability.NoCache);
+                Response.Cache.SetSlidingExpiration(true);
+                Response.Cache.SetNoStore();
+                Response.ContentType = "image/png";
+                
+                using (MemoryStream ms = new MemoryStream(data))
 				{
 					Picture.WriteImage(ms, Response.OutputStream, panelWidth, panelHeight, mode);
 				}
 
-				// return PNG
-				Response.ContentType = "image/png";
                 Response.OutputStream.Flush();
-			}
+            }
 
 			catch (Exception ex)
 			{

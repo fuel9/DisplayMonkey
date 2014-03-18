@@ -153,10 +153,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\ILanguageInfo.cs">
+      <Link>ILanguageInfo.cs</Link>
+    </Compile>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CanvasController.cs" />
     <Compile Include="Controllers\ClockController.cs" />
     <Compile Include="Controllers\DisplayController.cs" />
@@ -179,6 +183,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Globalization.cs" />
     <Compile Include="Models\Annotations.cs" />
     <Compile Include="Models\Canvas.cs">
       <DependentUpon>DMModel.tt</DependentUpon>
@@ -361,6 +366,8 @@
     <Content Include="Scripts\jquery-2.0.3.min.map" />
     <Content Include="Scripts\jquery-ui-1.10.3.js" />
     <Content Include="Scripts\jquery-ui-1.10.3.min.js" />
+    <Content Include="Scripts\jquery-ui-i18n.js" />
+    <Content Include="Scripts\jquery-ui-i18n.min.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -511,9 +518,16 @@
     <Folder Include="App_Data\" />
     <Folder Include="Doc\" />
     <Folder Include="Migrations\" />
+    <Folder Include="Views\Base\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Language\Language.csproj">
+      <Project>{b7bff176-78f2-4e35-b478-5be14c561551}</Project>
+      <Name>Language</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -1,4 +1,8 @@
-﻿@model IEnumerable<DisplayMonkey.Models.ContentWithSize>
+﻿@using DisplayMonkey
+@using DisplayMonkey.Models
+@using DisplayMonkey.Language
+
+@model IEnumerable<DisplayMonkey.Models.ContentWithSize>
 
 @{
     ViewBag.Title = "Media";
@@ -40,14 +44,14 @@
             @Html.ActionLink(item.Name, "Details", new { id=item.ContentId })
         </td>
         <td style="white-space:nowrap">
-            @Html.DisplayFor(modelItem => DisplayMonkey.Models.Content.ContentTypes.First(m => m.Type == item.Type).Name)
+            @item.Type.Translate()
         </td>
         <td style="white-space:nowrap">
-            @if (item.Type == DisplayMonkey.Models.Content.ContentType_Picture)
+            @if (item.Type == Content.ContentTypes.ContentType_Picture)
             {
-                <img src="@Url.Action("Thumb", "Media", new { id = item.ContentId, width = 50, height = 50, mode = DisplayMonkey.Models.Content.RenderMode_Stretch })" alt="" />
+                <img src="@Url.Action("Thumb", "Media", new { id = item.ContentId, width = 50, height = 50, mode = DisplayMonkey.Models.Content.RenderModes.RenderMode_Stretch })" alt="" />
             }
-            else if (item.Type == DisplayMonkey.Models.Content.ContentType_Video)
+            else if (item.Type == Content.ContentTypes.ContentType_Video)
             {
                 <img src="~/images/video_thmb.png" alt="" />
             }

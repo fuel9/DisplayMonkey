@@ -1,7 +1,11 @@
-﻿@model DisplayMonkey.Models.Report
+﻿@using DisplayMonkey
+@using DisplayMonkey.Models
+@using DisplayMonkey.Language
+
+@model DisplayMonkey.Models.Report
 
 <fieldset>
-    <legend>Report</legend>
+    <legend>@Resources.Report</legend>
 
     <table class="divTable"><tr>
         <td>
@@ -56,7 +60,7 @@
          @Html.DisplayNameFor(model => model.Mode)
     </div>
     <div class="display-field">
-        @Html.DisplayFor(model => DisplayMonkey.Models.Content.RenderModes.First(m => m.Mode == model.Mode).Name)
+        @Model.TranslatedMode
     </div>
     </div>
     </div>
@@ -65,7 +69,7 @@
 
         <td>
             <div id="picture">
-                 <img src="@Url.Action("Thumb", "Report", new { id = Model.FrameId, width = 200, height = 200, mode = DisplayMonkey.Models.Content.RenderMode_Fit })" alt="" />
+                 <img src="@Url.Action("Thumb", "Report", new { id = Model.FrameId, width = 200, height = 200, mode = DisplayMonkey.Models.Content.RenderModes.RenderMode_Fit })" alt="" />
             </div>
         </td>
 

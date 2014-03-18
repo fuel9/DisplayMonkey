@@ -11,7 +11,7 @@ using System.IO;
 
 namespace DisplayMonkey.Controllers
 {
-    public class VideoController : Controller
+    public class VideoController : BaseController
     {
         private DisplayMonkeyEntities db = new DisplayMonkeyEntities();
 
@@ -99,7 +99,7 @@ namespace DisplayMonkey.Controllers
             }
 
             FillVideosSelectList();
-            ViewBag.MaxVideoSize = db.Settings.FirstOrDefault(s => s.Key == DisplayMonkey.Models.Setting.Key_MaxVideoSize).IntValue;
+            ViewBag.MaxVideoSize = db.Settings.FirstOrDefault(s => s.Key == DisplayMonkey.Models.Setting.Key_MaxVideoSize).IntValuePositive;
 
             return View(video);
         }
@@ -133,7 +133,7 @@ namespace DisplayMonkey.Controllers
 
                         Content content = new Content
                         {
-                            Type = Models.Content.ContentType_Video,
+                            Type = (int)Models.Content.ContentTypes.ContentType_Video,
                             Name = Path.GetFileName(file.FileName),
                             Data = buffer,
                         };
@@ -161,7 +161,7 @@ namespace DisplayMonkey.Controllers
             }
 
             FillVideosSelectList();
-            ViewBag.MaxVideoSize = db.Settings.FirstOrDefault(s => s.Key == DisplayMonkey.Models.Setting.Key_MaxVideoSize).IntValue;
+            ViewBag.MaxVideoSize = db.Settings.FirstOrDefault(s => s.Key == DisplayMonkey.Models.Setting.Key_MaxVideoSize).IntValuePositive;
 
             return View(video);
         }
@@ -254,7 +254,7 @@ namespace DisplayMonkey.Controllers
 
                         Content content = new Content
                         {
-                            Type = Models.Content.ContentType_Video,
+                            Type = (int)Models.Content.ContentTypes.ContentType_Video,
                             Name = Path.GetFileName(file.FileName),
                             Data = buffer,
                         };
@@ -389,9 +389,9 @@ namespace DisplayMonkey.Controllers
         private void FillVideosSelectList(object selected = null)
         {
             var savedVideos = from m in db.Contents
-                                where m.Type == DisplayMonkey.Models.Content.ContentType_Video
-                                orderby m.Name
-                                select m;
+                              where m.Type == (int)DisplayMonkey.Models.Content.ContentTypes.ContentType_Video
+                              orderby m.Name
+                              select m;
 
             ViewBag.Videos = new SelectList(savedVideos, "ContentId", "Name", selected);
         }
@@ -399,7 +399,7 @@ namespace DisplayMonkey.Controllers
         private void FillAvailableVideosSelectList(int id = 0)
         {
             var savedVideos = from m in db.Contents
-                              where m.Type == DisplayMonkey.Models.Content.ContentType_Video
+                              where m.Type == (int)DisplayMonkey.Models.Content.ContentTypes.ContentType_Video
                               && !db.Videos.Any(v => v.FrameId == id && v.Contents.Contains(m)) // exclude videos already linked
                               orderby m.Name
                               select m;

@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace DisplayMonkey.Controllers
 {
-    public class HelpController : Controller
+    public class HelpController : BaseController
     {
         //
         // GET: /Help

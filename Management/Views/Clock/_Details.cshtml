@@ -18,7 +18,7 @@
          @Html.DisplayNameFor(model => model.Type)
     </div>
     <div class="display-field">
-        @Html.DisplayFor(model => DisplayMonkey.Models.Clock.ClockTypes.First(t => t.Type == model.Type).Name)
+        @Model.TranslatedType
     </div>
     </div>
 

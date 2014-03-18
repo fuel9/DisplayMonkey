@@ -9,9 +9,14 @@ using DisplayMonkey.Models;
 
 namespace DisplayMonkey.Controllers
 {
-    public class ClockController : Controller
+    public class ClockController : BaseController
     {
         private DisplayMonkeyEntities db = new DisplayMonkeyEntities();
+
+        private void FillClockTypeSelectList(Clock.ClockTypes? selected = null)
+        {
+            ViewBag.Types = selected.TranslatedSelectList();
+        }
 
         //
         // GET: /Clock/Details/5
@@ -47,7 +52,7 @@ namespace DisplayMonkey.Controllers
 
             clock.SetDefaultDuration();
 
-            ViewBag.Types = new SelectList(DisplayMonkey.Models.Clock.ClockTypes, "Type", "Name");
+            FillClockTypeSelectList();
 
             return View(clock);
         }
@@ -68,7 +73,7 @@ namespace DisplayMonkey.Controllers
                 return Navigation.Restore() ?? RedirectToAction("Index", "Frame");
             }
 
-            ViewBag.Types = new SelectList(DisplayMonkey.Models.Clock.ClockTypes, "Type", "Name");
+            FillClockTypeSelectList();
 
             clock.Frame = frame;
 
@@ -86,7 +91,7 @@ namespace DisplayMonkey.Controllers
                 return View("Missing", new MissingItem(id));
             }
 
-            ViewBag.Types = new SelectList(DisplayMonkey.Models.Clock.ClockTypes, "Type", "Name");
+            FillClockTypeSelectList();
             
             return View(clock);
         }
@@ -106,8 +111,8 @@ namespace DisplayMonkey.Controllers
 
                 return Navigation.Restore() ?? RedirectToAction("Index");
             }
-            
-            ViewBag.Types = new SelectList(DisplayMonkey.Models.Clock.ClockTypes, "Type", "Name");
+
+            FillClockTypeSelectList();
 
             clock.Frame = frame;
 

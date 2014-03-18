@@ -35,7 +35,6 @@ namespace DisplayMonkey
 			// translate LAT/LNG to WOEID
 			// get local time
 			string url, xml;
-			XmlDocument doc = new XmlDocument();
 
             // get GEO data
             url = string.Format(CultureInfo.InvariantCulture,
@@ -49,53 +48,30 @@ namespace DisplayMonkey
 				xml = Encoding.ASCII.GetString(client.DownloadData(url));
 			}
 
-			doc.LoadXml(xml);
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(xml);
 			Woeid = Convert.ToInt32(doc.SelectSingleNode("//woeid").InnerText);
-
-            // get time offset data
-            if (!_offsetGMT.HasValue)
-            {
-                url = string.Format(CultureInfo.InvariantCulture,
-                    @"http://ws.geonames.org/timezone?lat={0}&lng={1}",
-                    Latitude,
-                    Longitude
-                    );
-                using (WebClient client = new WebClient())
-                {
-                    xml = Encoding.ASCII.GetString(client.DownloadData(url));
-                }
-
-                doc.LoadXml(xml);
-                //string localTime = doc.SelectSingleNode("//time").InnerText;
-                //LocalTime = Convert.ToDateTime(localTime);
-                XmlNode nodeStatus = doc.SelectSingleNode("//status");
-                if (nodeStatus != null)
-                {
-                    throw new ApplicationException(string.Format(
-                        "Error in GEO lookup: {0}\nURL: {1}",
-                        nodeStatus.Attributes["message"].Value,
-                        url
-                        ));
-                }
-                _offsetGMT = Convert.ToDouble(doc.SelectSingleNode("//gmtOffset").InnerText, CultureInfo.InvariantCulture);
-            }
 		}
 
 		public void InitFromRow(DataRow r)
 		{
             LocationId = DataAccess.IntOrZero(r["LocationId"]);
             LevelId = DataAccess.IntOrZero(r["LevelId"]);
-            Latitude = DataAccess.DoubleOrZero(r["Latitude"]);
-			Longitude = DataAccess.DoubleOrZero(r["Longitude"]);
 			TemperatureUnit = DataAccess.StringOrBlank(r["TemperatureUnit"]).ToLower();
 			DateFormat = DataAccess.StringOrBlank(r["DateFormat"]);
 			TimeFormat = DataAccess.StringOrBlank(r["TimeFormat"]);
             Name = DataAccess.StringOrBlank(r["Name"]);
             if (Name == "")
                 Name = string.Format("Location {0}", LocationId);
-            object o = r["OffsetGMT"];
-            if (o != DBNull.Value)
-                _offsetGMT = Convert.ToDouble(o);
+
+            int? offsetGMT = r["OffsetGMT"] as Nullable<int>;
+            if (offsetGMT != null) OffsetGMT = offsetGMT.Value;
+
+            double? latitude = r["Latitude"] as Nullable<double>;
+            if (latitude != null) Latitude = Convert.ToDecimal(latitude.Value);
+
+            double? longitude = r["Longitude"] as Nullable<double>;
+            if (longitude != null) Longitude = Convert.ToDecimal(longitude.Value);
         }
 
 		public static List<Location> List(int levelId = 0)
@@ -128,23 +104,21 @@ namespace DisplayMonkey
 
         public int LocationId = 0;
         public int LevelId = 0;
-        public double Latitude = 0;
-		public double Longitude = 0;
 		public string TemperatureUnit = "C";
 		public int Woeid = 0;
 		public string DateFormat = "LL";
 		public string TimeFormat = "LT";
-		//public double OffsetGMT = 0;
 		public string Name = "";
+        public int OffsetGMT = ServerGeoData.OffsetGMT;
+        public decimal Latitude = ServerGeoData.Latitude;
+        public decimal Longitude = ServerGeoData.Longitude;
 
         public DateTime LocalTime
         {
             get 
-            { 
-                return DateTime.UtcNow.AddHours(_offsetGMT.HasValue ? _offsetGMT.Value : 0); 
+            {
+                return DateTime.UtcNow.AddHours(OffsetGMT); 
             }
         }
-
-        private Nullable<double> _offsetGMT = null;
     }
 }

@@ -13,20 +13,25 @@ using System.Data;
 using System.Data.Objects;
 using System.Reflection;
 
+using DisplayMonkey.Language;
+
 
 namespace DisplayMonkey.Models
 {
-    [MetadataType(typeof(Level.Annotations))]
+    [
+        MetadataType(typeof(Level.Annotations)),
+    ]
     public partial class Level 
     {
-        internal sealed class Annotations
+        internal class Annotations
         {
             [
-                Display(Name = "ID")
+                Display(ResourceType = typeof(Resources), Name = "ID"),
             ]
             public int LevelId { get; set; }
 
             [
+                Display(ResourceType = typeof(Resources), Name = "Name"),
                 Required,
                 StringLength(100),
             ]
@@ -34,42 +39,71 @@ namespace DisplayMonkey.Models
         }
     }
 
-    [MetadataType(typeof(Location.Annotations))]
+    [
+        MetadataType(typeof(Location.Annotations))
+    ]
     public partial class Location
     {
-        internal sealed class Annotations
+        internal class Annotations
         {
+            [
+                Display(ResourceType = typeof(Resources), Name = "ID"),
+                Required,
+            ]
+            public int LocationId { get; set; }
+
             [
                 Required,
             ]
             public int LevelId { get; set; }
 
             [
+                Display(ResourceType = typeof(Resources), Name = "Name"),
                 Required,
                 StringLength(100),
             ]
             public string Name { get; set; }
 
             [
+                Display(ResourceType = typeof(Resources), Name = "TemperatureUnit"),
                 StringLength(1),
-                Display(Name = "Temperature unit")
             ]
             public string TemperatureUnit { get; set; }
 
             [
-                Display(Name = "Date format")
+                Display(ResourceType = typeof(Resources), Name = "Latitude"),
+            ]
+            public Nullable<double> Latitude { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "Longitude"),
+            ]
+            public Nullable<double> Longitude { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "DateFormat"),
             ]
             public string DateFormat { get; set; }
 
             [
-                Display(Name = "Time format")
+                Display(ResourceType = typeof(Resources), Name = "TimeFormat"),
             ]
             public string TimeFormat { get; set; }
 
             [
-                Display(Name = "GMT offset, hours")
+                Display(ResourceType = typeof(Resources), Name = "OffsetGMT"),
             ]
             public Nullable<int> OffsetGMT { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "Level"),
+            ]
+            public virtual Level Level { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "Area"),
+            ]
+            public virtual Location Area { get; set; }
         }
 
         public IEnumerable<Location> SelfAndChildren
@@ -78,215 +112,335 @@ namespace DisplayMonkey.Models
         }
     }
 
-    [MetadataType(typeof(Canvas.Annotations))]
+    [
+        MetadataType(typeof(Canvas.Annotations))
+    ]
     public partial class Canvas
     {
-        internal sealed class Annotations
+        internal class Annotations
         {
             [
+                Display(ResourceType = typeof(Resources), Name = "ID"),
+            ]
+            public int CanvasId { get; set; }
+            
+            [
+                Display(ResourceType = typeof(Resources), Name = "Name"),
                 Required,
                 StringLength(100),
             ]
             public string Name { get; set; }
 
             [
-                Range(1, Int32.MaxValue, ErrorMessage = "Please enter a valid positive integer number")
+                Display(ResourceType = typeof(Resources), Name = "Height"),
+                Required(ErrorMessageResourceType = typeof(Resources),
+                    ErrorMessageResourceName = "PositiveIntegerRequired"),
+                Range(1, Int32.MaxValue, 
+                    ErrorMessageResourceType = typeof(Resources),
+                    ErrorMessageResourceName = "PositiveIntegerRequired"),
             ]
             public int Height { get; set; }
 
             [
-                Range(1, Int32.MaxValue, ErrorMessage = "Please enter a valid positive integer number")
+                Display(ResourceType = typeof(Resources), Name = "Width"),
+                Required(ErrorMessageResourceType = typeof(Resources),
+                    ErrorMessageResourceName = "PositiveIntegerRequired"),
+                Range(1, Int32.MaxValue, 
+                    ErrorMessageResourceType = typeof(Resources),
+                    ErrorMessageResourceName = "PositiveIntegerRequired"),
             ]
             public int Width { get; set; }
 
             [
                 StringLength(20),
-                Display(Name = "Back color")
+                Display(ResourceType = typeof(Resources), Name = "BackgroundColor"),
             ]
             public string BackgroundColor { get; set; }
 
             [
-                Display(Name = "Background")
+                Display(ResourceType = typeof(Resources), Name = "BackgroundImage"),
             ]
             public Nullable<int> BackgroundImage { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "Content"),
+            ]
+            public virtual Content Content { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "FullScreen"),
+            ]
+            public virtual FullScreen FullScreen { get; set; }
         }
     }
 
-    [MetadataType(typeof(Panel.Annotations))]
+    [
+        MetadataType(typeof(Panel.Annotations))
+    ]
     public partial class Panel
     {
-        public bool IsFullscreen
+        internal class Annotations
         {
-            get 
-            { 
-                return this.Canvas != null && this.Canvas.FullScreen != null 
-                    ? this.PanelId == this.Canvas.FullScreen.PanelId 
-                    : false; 
-            }
-        }
-        
-        internal sealed class Annotations
-        {
+            [
+                Display(ResourceType = typeof(Resources), Name = "ID"),
+                Required,
+            ]
+            public int PanelId { get; set; }
+
             [
                 Required
             ]
             public int CanvasId { get; set; }
 
             [
-                Range(0, Int32.MaxValue, ErrorMessage = "Please enter a valid positive integer number"),
+                Display(ResourceType = typeof(Resources), Name = "Top"),
+                Required(ErrorMessageResourceType = typeof(Resources),
+                    ErrorMessageResourceName = "PositiveIntegerRequired"),
+                Range(0, Int32.MaxValue,
+                    ErrorMessageResourceType = typeof(Resources),
+                    ErrorMessageResourceName = "PositiveIntegerRequired"),
+
             ]
             public int Top { get; set; }
 
             [
-                Range(0, Int32.MaxValue, ErrorMessage = "Please enter a valid positive integer number"),
+                Display(ResourceType = typeof(Resources), Name = "Left"),
+                Required(ErrorMessageResourceType = typeof(Resources),
+                    ErrorMessageResourceName = "PositiveIntegerRequired"),
+                Range(0, Int32.MaxValue,
+                    ErrorMessageResourceType = typeof(Resources),
+                    ErrorMessageResourceName = "PositiveIntegerRequired"),
             ]
             public int Left { get; set; }
 
             [
-                Range(1, Int32.MaxValue, ErrorMessage = "Please enter a valid positive integer number"),
+                Display(ResourceType = typeof(Resources), Name = "Height"),
+                Required(ErrorMessageResourceType = typeof(Resources),
+                    ErrorMessageResourceName = "PositiveIntegerRequired"),
+                Range(1, Int32.MaxValue,
+                    ErrorMessageResourceType = typeof(Resources),
+                    ErrorMessageResourceName = "PositiveIntegerRequired"),
             ]
             public int Height { get; set; }
 
             [
-                Range(1, Int32.MaxValue, ErrorMessage = "Please enter a valid positive integer number"),
+                Display(ResourceType = typeof(Resources), Name = "Width"),
+                Required(ErrorMessageResourceType = typeof(Resources),
+                    ErrorMessageResourceName = "PositiveIntegerRequired"),
+                Range(1, Int32.MaxValue,
+                    ErrorMessageResourceType = typeof(Resources),
+                    ErrorMessageResourceName = "PositiveIntegerRequired"),
             ]
             public int Width { get; set; }
 
             [
+                Display(ResourceType = typeof(Resources), Name = "Name"),
                 Required,
                 StringLength(100),
             ]
             public string Name { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "Canvas"),
+            ]
+            public virtual Canvas Canvas { get; set; }
+        }
+
+        public bool IsFullscreen
+        {
+            get
+            {
+                return this.Canvas != null && this.Canvas.FullScreen != null
+                    ? this.PanelId == this.Canvas.FullScreen.PanelId
+                    : false;
+            }
         }
     }
 
-    [MetadataType(typeof(FullScreen.Annotations))]
+    [
+        MetadataType(typeof(FullScreen.Annotations))
+    ]
     public partial class FullScreen
     {
-        internal sealed class Annotations
+        internal class Annotations
         {
             [
-                Range(0, Int32.MaxValue, ErrorMessage = "Please enter a valid positive integer number"),
-                Display(Name = "Max recurrence interval")
+                Display(ResourceType = typeof(Resources), Name = "ID"),
+            ]
+            public int PanelId { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "MaxIdleInterval"),
+                Required(ErrorMessageResourceType = typeof(Resources),
+                    ErrorMessageResourceName = "PositiveIntegerRequired"),
+                Range(0, Int32.MaxValue,
+                    ErrorMessageResourceType = typeof(Resources),
+                    ErrorMessageResourceName = "PositiveIntegerRequired"),
             ]
             public Nullable<int> MaxIdleInterval { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "Canvas"),
+            ]
+            public virtual Canvas Canvas { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "Panel"),
+            ]
+            public virtual Panel Panel { get; set; }
         }
     }
 
-    [MetadataType(typeof(Frame.Annotations))]
+    [
+        MetadataType(typeof(Frame.Annotations))
+    ]
     public partial class Frame
     {
-        public static Expression<Func<Frame, bool>> FilterByFrameType(string frameType)
-        {
-            switch (frameType)
-            {
-                case "Clock":
-                    return (frame => frame.Clock != null);
-                case "Memo":
-                    return (frame => frame.Memo != null);
-                /*case "News":
-                    return (frame => frame.News != null);*/
-                case "Picture":
-                    return (frame => frame.Picture != null);
-                case "Report":
-                    return (frame => frame.Report != null);
-                case "Video":
-                    return (frame => frame.Video != null);
-                case "Weather":
-                    return (frame => frame.Weather != null);
-                default:
-                    return (frame => true);
-            }
-        }
-
-        [
-            Display(Name = "Frame type")
-        ]
-        public virtual string FrameType
-        {
-            get 
-            {
-                if (this.Clock != null) return "Clock";
-                if (this.Memo != null) return "Memo";
-                //if (this.News != null) return "News";
-                if (this.Picture != null) return "Picture";
-                if (this.Report != null) return "Report";
-                if (this.Video != null) return "Video";
-                if (this.Weather != null) return "Weather";
-                return "Unknown";
-            }
-
-            set { }
-        }
-
-        public bool ShowDuration
-        {
-            get { return this.Clock == null && this.Weather == null; }
-        }
-
-        public static object[] FrameTypes = new[] 
-        {
-            new  {FrameType = "Clock"},
-            new  {FrameType = "Memo"},
-            //new  {FrameType = "News"},
-            new  {FrameType = "Picture"},
-            new  {FrameType = "Report"},
-            new  {FrameType = "Video"},
-            new  {FrameType = "Weather"},
-        };
-        
-        internal sealed class Annotations
+        internal class Annotations
         {
             [
-                Range(1, Int32.MaxValue, ErrorMessage = "Number must be greater than 1"),
+                Display(ResourceType = typeof(Resources), Name = "ID"),
+            ]
+            public int FrameId { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "Duration"),
+                Range(1, Int32.MaxValue,
+                    ErrorMessageResourceType = typeof(Resources),
+                    ErrorMessageResourceName = "PositiveIntegerRequired"),
             ]
             public int Duration { get; set; }
 
             [
-                Display(Name = "Begins on"),
+                Display(ResourceType = typeof(Resources), Name = "BeginsOn"),
                 DataType(DataType.DateTime),
                 //DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true),
             ]
             public Nullable<System.DateTime> BeginsOn { get; set; }
 
             [
-                Display(Name = "Expires on"),
+                Display(ResourceType = typeof(Resources), Name = "EndsOn"),
                 DataType(DataType.DateTime),
                 //DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true),
             ]
             public Nullable<System.DateTime> EndsOn { get; set; }
+        }
+
+        public enum FrameTypes
+        {
+            Clock = 1,
+            Memo = 2,
+            //News = 3,
+            Picture = 4,
+            Report = 5,
+            Video = 6,
+            Weather = 7,
+        }
+
+        [
+            Display(ResourceType = typeof(Resources), Name = "FrameType"),
+        ]
+        public virtual FrameTypes? FrameType
+        {
+            get
+            {
+                if (this.Clock != null) return FrameTypes.Clock;
+                if (this.Memo != null) return FrameTypes.Memo;
+                //if (this.News != null) return FrameTypes.News;
+                if (this.Picture != null) return FrameTypes.Picture;
+                if (this.Report != null) return FrameTypes.Report;
+                if (this.Video != null) return FrameTypes.Video;
+                if (this.Weather != null) return FrameTypes.Weather;
+                return null;
+            }
+
+            set { }
+        }
+
+        public string TranslatedType { get { return ((FrameTypes)this.FrameType).Translate(); } }
+
+        public static Expression<Func<Frame, bool>> FilterByFrameType(FrameTypes? frameType)
+        {
+            switch (frameType)
+            {
+                case FrameTypes.Clock:
+                    return (frame => frame.Clock != null);
+                case FrameTypes.Memo:
+                    return (frame => frame.Memo != null);
+                //case FrameTypes.News:
+                //    return (frame => frame.News != null);
+                case FrameTypes.Picture:
+                    return (frame => frame.Picture != null);
+                case FrameTypes.Report:
+                    return (frame => frame.Report != null);
+                case FrameTypes.Video:
+                    return (frame => frame.Video != null);
+                case FrameTypes.Weather:
+                    return (frame => frame.Weather != null);
+                default:
+                    return (frame => true);
+            }
+        }
+
+        public bool ShowDuration
+        {
+            get { return this.Clock == null && this.Weather == null; }
         }
     }
 
     public class FrameSelector : Frame
     {
         [
-            Display(Name = "Frame type"),
+            Display(ResourceType = typeof(Resources), Name = "FrameType"),
             Required
         ]
-        public override string FrameType { get; set; }
+        public override FrameTypes? FrameType { get; set; }
     }
 
     public class LocationSelector : Frame
     {
         [
-            Display(Name = "Location"),
             Required
         ]
         public int LocationId { get; set; }
 
         [
-            Display(Name = "Location name"),
+            Display(ResourceType = typeof(Resources), Name = "LocationName"),
             Required
         ]
         public string LocationName { get; set; }
     }
 
-    [MetadataType(typeof(Memo.Annotations))]
+    [
+        MetadataType(typeof(Memo.Annotations))
+    ]
     public partial class Memo
     {
+        internal class Annotations
+        {
+            [
+                Display(ResourceType = typeof(Resources), Name = "ID"),
+            ]
+            public int FrameId { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "Subject"),
+            ]
+            public string Subject { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "Body"),
+            ]
+            public string Body { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "Frame"),
+            ]
+            public virtual Frame Frame { get; set; }
+        }
+
         [
-            Display(Name = "Short body")
+            Display(ResourceType = typeof(Resources), Name = "ShortBody"),
         ]
         public string ShortBody 
         {
@@ -295,66 +449,49 @@ namespace DisplayMonkey.Models
                 return this.Body.Length > 100 ? this.Body.Substring(0, 100) + "..." : this.Body;
             }
         }
-
-        internal sealed class Annotations
-        {
-        }
     }
 
-    [MetadataType(typeof(Content.Annotations))]
+    [
+        MetadataType(typeof(Content.Annotations))
+    ]
     public partial class Content
     {
-        public const int ContentType_Picture = 0;
-        public const int ContentType_Video = 1;
-
-        public class ContentType
-        {
-            public int Type { get; set; }
-            public string Name { get; set; }
-        }
-
-        public static Content.ContentType [] ContentTypes = new [] 
-        {
-            new Content.ContentType {Type = ContentType_Picture, Name = "Picture"},
-            new Content.ContentType {Type = ContentType_Video, Name = "Video"},
-        };
-
-        public const int RenderMode_Crop = 0;
-        public const int RenderMode_Stretch = 1;
-        public const int RenderMode_Fit = 2;
-
-        public class RenderMode
-        {
-            public int Mode { get; set; }
-            public string Name { get; set; }
-        }
-
-        public static Content.RenderMode [] RenderModes = new [] 
-        {
-            new Content.RenderMode {Mode = RenderMode_Crop, Name = "Crop"},
-            new Content.RenderMode {Mode = RenderMode_Stretch, Name = "Stretch"},
-            new Content.RenderMode {Mode = RenderMode_Fit, Name = "Fit"},
-        };
-
-        [
-            Display(Name = "Size")
-        ]
-        public Nullable<int> Size { get; set; }
-        
-        internal sealed class Annotations
+        internal class Annotations
         {
             [
+                Display(ResourceType = typeof(Resources), Name = "MediaSource"),
                 DataType(DataType.Upload),
-                Display(Name = "Media source")
             ]
             public byte[] Data { get; set; }
 
             [
+                Display(ResourceType = typeof(Resources), Name = "Name"),
                 Required,
                 StringLength(100),
             ]
             public string Name { get; set; }
         }
+
+        public enum ContentTypes { 
+            ContentType_Picture = 0, 
+            ContentType_Video = 1 
+        }
+
+        public string TranslatedType { get { return ((ContentTypes)this.Type).Translate(); } }
+
+        public enum RenderModes
+        {
+            RenderMode_Crop = 0,
+            RenderMode_Stretch = 1,
+            RenderMode_Fit = 2,
+        }
+
+        public string TranslatedMode { get { return ((RenderModes)this.Type).Translate(); } }
+
+        [
+            Display(ResourceType = typeof(Resources), Name = "Size"),
+        ]
+        public Nullable<int> Size { get; set; }
     }
 
     public partial class ContentWithSize
@@ -362,47 +499,50 @@ namespace DisplayMonkey.Models
         public int ContentId { get; set; }
 
         [
-            Display(Name = "Size")
+            Display(ResourceType = typeof(Resources), Name = "Size"),
         ]
         public Nullable<int> Size { get; set; }
 
         [
-            Display(Name = "Type")
+            Display(ResourceType = typeof(Resources), Name = "Type"),
         ]
-        public int Type { get; set; }
+        public Content.ContentTypes Type { get; set; }
 
         [
-            Display(Name = "Name")
+            Display(ResourceType = typeof(Resources), Name = "Name"),
         ]
         public string Name { get; set; }
     }
 
-    [MetadataType(typeof(ReportServer.Annotations))]
+    [
+        MetadataType(typeof(ReportServer.Annotations))
+    ]
     public partial class ReportServer
     {
-        internal sealed class Annotations
+        internal class Annotations
         {
             [
+                Display(ResourceType = typeof(Resources), Name = "Name"),
                 Required,
                 StringLength(100),
             ]
             public string Name { get; set; }
 
             [
-                Display(Name = "Base URL"),
+                Display(ResourceType = typeof(Resources), Name = "BaseURL"),
                 Required
             ]
             public string BaseUrl { get; set; }
 
             [
-                Display(Name = "Account")
+                Display(ResourceType = typeof(Resources), Name = "User"),
             ]
             public string User { get; set; }
         }
 
         [
+            Display(ResourceType = typeof(Resources), Name = "Password"),
             DataType(DataType.Password),
-            Display(Name = "Password")
         ]
         public string PasswordUnmasked
         {
@@ -424,199 +564,239 @@ namespace DisplayMonkey.Models
         }
     }
 
-    [MetadataType(typeof(Report.Annotations))]
+    [
+        MetadataType(typeof(Report.Annotations))
+    ]
     public partial class Report
     {
-        internal sealed class Annotations
+        internal class Annotations
         {
             [
+                Display(ResourceType = typeof(Resources), Name = "ID"),
+            ]
+            public int FrameId { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "Name"),
                 Required,
                 StringLength(100),
             ]
             public string Name { get; set; }
 
             [
-                Display(Name = "Report path"),
+                Display(ResourceType = typeof(Resources), Name = "ReportPath"),
                 Required
             ]
             public string Path { get; set; }
 
             [
-                Display(Name = "Render mode"),
+                Display(ResourceType = typeof(Resources), Name = "RenderMode"),
                 Required
             ]
             public int Mode { get; set; }
 
             [
-                Display(Name = "Report server")
+                Display(ResourceType = typeof(Resources), Name = "ReportServer"),
             ]
             public int ServerId { get; set; }
         }
+
+        public string TranslatedMode { get { return ((Content.RenderModes)this.Mode).Translate(); } }
     }
 
-    [MetadataType(typeof(Clock.Annotations))]
+    [
+        MetadataType(typeof(Clock.Annotations))
+    ]
     public partial class Clock
     {
-        public const int ClockType_Text = 0;
-        public const int ClockType_Analog = 1;
-        //public const int ClockType_Digital = 2;
-
-        public class ClockType
+        internal class Annotations
         {
+            [
+                Display(ResourceType = typeof(Resources), Name = "ID"),
+            ]
+            public int FrameId { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "ClockType"),
+                Required
+            ]
             public int Type { get; set; }
-            public string Name { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "ShowDate"),
+            ]
+            public bool ShowDate { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "ShowTime"),
+            ]
+            public bool ShowTime { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "Frame"),
+            ]
+            public virtual Frame Frame { get; set; }
         }
 
-        public static Clock.ClockType[] ClockTypes = new [] 
+        public enum ClockTypes
         {
-            new Clock.ClockType {Type = ClockType_Text, Name = "Text"},
-            new Clock.ClockType {Type = ClockType_Analog, Name = "Analog"},
-            //new Clock.ClockType {Type = ClockType_Digital, Name = "Digital"},
-        };
+            ClockType_Text = 0,
+            ClockType_Analog = 1,
+            //ClockType_Digital = 2,
+        }
+
+        public string TranslatedType { get { return ((ClockTypes)this.Type).Translate(); } }
 
         public void SetDefaultDuration(int value = 3600)
         {
             if (Frame != null)
                 Frame.Duration = value;
         }
+    }
 
-        internal sealed class Annotations
+    [
+        MetadataType(typeof(Weather.Annotations))
+    ]
+    public partial class Weather
+    {
+        internal class Annotations
         {
             [
-                Display(Name = "Clock type"),
+                Display(ResourceType = typeof(Resources), Name = "ID"),
+            ]
+            public int FrameId { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "WeatherType"),
                 Required
             ]
             public int Type { get; set; }
-
-            [
-                Display(Name = "Show date")
-            ]
-            public bool ShowDate { get; set; }
-
-            [
-                Display(Name = "Show time")
-            ]
-            public bool ShowTime { get; set; }
-        }
-    }
-
-    [MetadataType(typeof(Weather.Annotations))]
-    public partial class Weather
-    {
-        public const int WeatherType_Current = 0;
-        //public const int WeatherType_Week = 1;
-
-        public class WeatherType
-        {
-            public int Type { get; set; }
-            public string Name { get; set; }
         }
 
-        public static Weather.WeatherType[] WeatherTypes = new[] 
+        public enum WeatherTypes
         {
-            new Weather.WeatherType {Type = WeatherType_Current, Name = "Current conditions"},
-            //new Weather.WeatherType {Type = WeatherType_Week, Name = "One week forecast"},
-        };
+            WeatherType_Current = 0,
+            //WeatherType_Week = 1,
+        }
+
+        public string TranslatedType { get { return ((WeatherTypes)this.Type).Translate(); } }
 
         public void SetDefaultDuration(int value = 600)
         {
             if (Frame != null)
                 Frame.Duration = value;
         }
-
-        internal sealed class Annotations
-        {
-            [
-                Display(Name = "Display type"),
-                Required
-            ]
-            public int Type { get; set; }
-        }
     }
 
-    [MetadataType(typeof(Picture.Annotations))]
+    [
+        MetadataType(typeof(Picture.Annotations))
+    ]
     public partial class Picture
     {
+        internal class Annotations
+        {
+            [
+                Display(ResourceType = typeof(Resources), Name = "ID"),
+            ]
+            public int FrameId { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "RenderMode"),
+            ]
+            public int Mode { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "LinkedMedia"),
+            ]
+            public int ContentId { get; set; }
+        }
+
+        public string TranslatedMode { get { return ((Content.RenderModes)this.Mode).Translate(); } }
+
         [
-            Display(Name = "Media options")
+            Display(ResourceType = typeof(Resources), Name = "MediaOptions"),
         ]
         public Nullable<int> SavedContentId { get; set; }
 
         public static string[] SupportedFormats = new string[] {
             "BMP", "GIF", "JPG", "JPEG", "PNG", "TIF", "TIFF"
         };
-
-        internal sealed class Annotations
-        {
-            [
-                Display(Name = "Render mode")
-            ]
-            public int Mode { get; set; }
-
-            [
-                Display(Name = "Linked media")
-            ]
-            public int ContentId { get; set; }
-        }
     }
 
-    [MetadataType(typeof(Video.Annotations))]
+    [
+        MetadataType(typeof(Video.Annotations))
+    ]
     public partial class Video
     {
+        internal class Annotations
+        {
+            [
+                Display(ResourceType = typeof(Resources), Name = "ID"),
+            ]
+            public int FrameId { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "PlayMuted"),
+            ]
+            public bool PlayMuted { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "AutoLoop"),
+            ]
+            public bool AutoLoop { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "LinkedMedia"),
+            ]
+            public virtual ICollection<Content> Contents { get; set; }
+        }
+
         [
-            Display(Name = "Media options")
+            Display(ResourceType = typeof(Resources), Name = "MediaOptions"),
         ]
         public Nullable<int> SavedContentId { get; set; }
 
         public static string[] SupportedFormats = new string[] {
             "AVI", "MP4", "MPG", "MPEG", "OGG", "WEBM"
         };
-
-        internal class Annotations
-        {
-            [
-                Display(Name = "Play muted")
-            ]
-            public bool PlayMuted { get; set; }
-
-            [
-                Display(Name = "Auto-loop")
-            ]
-            public bool AutoLoop { get; set; }
-
-            [
-                Display(Name = "Linked media")
-            ]
-            public virtual ICollection<Content> Contents { get; set; }
-        }
     }
 
-    [MetadataType(typeof(Display.Annotations))]
+    [
+        MetadataType(typeof(Display.Annotations))
+    ]
     public partial class Display
     {
         internal class Annotations
         {
             [
+                Display(ResourceType = typeof(Resources), Name = "ID"),
+            ]
+            public int DisplayId { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "Name"),
                 Required,
                 StringLength(100),
             ]
             public string Name { get; set; }
             
             [
-                Display(Name = "IP address")
+                Display(ResourceType = typeof(Resources), Name = "Host"),
             ]
             public string Host { get; set; }
         }
     }
 
-    [MetadataType(typeof(Setting.Annotations))]
+    [
+        MetadataType(typeof(Setting.Annotations))
+    ]
     public partial class Setting
     {
         internal class Annotations
         {
         }
 
-        public const int Type_Int = 0;
+        public const int Type_IntPositive = 0;
 
         public static Guid Key_MaxImageSize { get; private set; }
         public static Guid Key_MaxVideoSize { get; private set; }
@@ -628,27 +808,31 @@ namespace DisplayMonkey.Models
         }
         
         [
-            Display(Name = "Setting")
+            Display(ResourceType = typeof(Resources), Name = "Setting"),
         ]
         public string Name
         {
             get
             {
                 if (this.Key == Key_MaxImageSize)
-                    return "Maximum uploaded image size, Bytes";
+                    return Resources.MaxImageSize;
 
                 if (this.Key == Key_MaxVideoSize)
-                    return "Maximum uploaded video size, Bytes";
+                    return Resources.MaxVideoSize;
                 
                 return this.Key.ToString();
             }
         }
 
         [
-            Required,
-            Range(0, Int32.MaxValue, ErrorMessage = "Please enter a valid positive integer number"),
+            Display(ResourceType = typeof(Resources), Name = "Value"),
+            Required(ErrorMessageResourceType = typeof(Resources),
+                ErrorMessageResourceName = "PositiveIntegerRequired"),
+            Range(0, Int32.MaxValue,
+                ErrorMessageResourceType = typeof(Resources),
+                ErrorMessageResourceName = "PositiveIntegerRequired"),
         ]
-        public int IntValue
+        public int IntValuePositive
         {
             get { return this.Value == null ? 0 : BitConverter.ToInt32(this.Value.Reverse().ToArray(), 0); }
             set { this.Value = BitConverter.GetBytes(value).Reverse().ToArray(); }
@@ -660,7 +844,7 @@ namespace DisplayMonkey.Models
 
 
 
-
+    #region Sundry
 
 
     public static class LinqExtension
@@ -678,13 +862,13 @@ namespace DisplayMonkey.Models
             }
         }
     }
-    
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
     /*public partial class DisplayMonkeyEntities
     {
         static void ObjectContext_SavingChanges(object sender, EventArgs args)
@@ -720,4 +904,6 @@ namespace DisplayMonkey.Models
     public class NeverUpdateAttribute : System.Attribute
     {
     }*/
+
+    #endregion
 }

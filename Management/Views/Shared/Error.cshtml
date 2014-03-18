@@ -1,30 +1,32 @@
-﻿@{ Layout = "~/Views/Shared/_Layout.cshtml"; } 
+﻿@using DisplayMonkey.Language
+
+@{ Layout = "~/Views/Shared/_Layout.cshtml"; } 
 
 @model System.Web.Mvc.HandleErrorInfo
 
 @{
-    ViewBag.Title = "Error";
+    ViewBag.Title = Resources.Error;
 }
 
 <hgroup class="title">
-    <h2 class="error">An error occurred while processing your request.</h2>
+    <h2 class="error">@Resources.AnErrorOccured</h2>
 </hgroup>
 
 <fieldset>
-    <legend>Details</legend>
+    <legend>@Resources.ErrorDetails</legend>
     <table class="error-info">
     <tr>
-        <td>Source</td>
+        <td>@Resources.ErrorSource</td>
         <td><div class="error-source">@Model.ControllerName/@Model.ActionName</div></td>
     </tr>
 
     <tr>
-        <td>Message</td>
+        <td>@Resources.ErrorMessage</td>
         <td><div class="error-message">@Model.Exception.Message</div></td>
     </tr>
 
     <tr>
-        <td>Stack Trace</td>
+        <td>@Resources.ErrorStack</td>
         <td>
             <div class="error-trace">
                 <pre>@Model.Exception.StackTrace</pre>
@@ -34,5 +36,5 @@
     </table>
 </fieldset>
 
-<p><a href="javascript:window.history.back();">Back to previous page</a></p>
+<p><a href="javascript:window.history.back();">@Resources.BackPreviousPage</a></p>
 

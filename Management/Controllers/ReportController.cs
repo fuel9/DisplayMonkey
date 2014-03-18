@@ -12,7 +12,7 @@ using System.Net;
 
 namespace DisplayMonkey.Controllers
 {
-    public class ReportController : Controller
+    public class ReportController : BaseController
     {
         private DisplayMonkeyEntities db = new DisplayMonkeyEntities();
 
@@ -90,7 +90,7 @@ namespace DisplayMonkey.Controllers
             }
 
             FillServersSelectList(report.ServerId);
-            FillModesSelectList(report.Mode);
+            FillModesSelectList((Content.RenderModes)report.Mode);
             
             return View(report);
         }
@@ -112,7 +112,7 @@ namespace DisplayMonkey.Controllers
             }
 
             FillServersSelectList(report.ServerId);
-            FillModesSelectList(report.Mode);
+            FillModesSelectList((Content.RenderModes)report.Mode);
             
             report.Frame = frame;
             
@@ -151,7 +151,7 @@ namespace DisplayMonkey.Controllers
 
         [Authorize]
         [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult Thumb(int id, int width = 0, int height = 0, int mode = DisplayMonkey.Models.Content.RenderMode_Fit, int trace = 0)
+        public ActionResult Thumb(int id, int width = 0, int height = 0, Content.RenderModes mode = DisplayMonkey.Models.Content.RenderModes.RenderMode_Fit, int trace = 0)
         {
             string message = "";
 
@@ -226,9 +226,9 @@ namespace DisplayMonkey.Controllers
             ViewBag.Servers = new SelectList(db.ReportServers, "ServerId", "Name", selected);
         }
 
-        private void FillModesSelectList(object selected = null)
+        private void FillModesSelectList(Content.RenderModes? selected = null)
         {
-            ViewBag.Modes = new SelectList(DisplayMonkey.Models.Content.RenderModes, "Mode", "Name", selected);
+            ViewBag.Modes = selected.TranslatedSelectList();
         }
 
         protected override void Dispose(bool disposing)

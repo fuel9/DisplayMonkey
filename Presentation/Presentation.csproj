@@ -30,7 +30,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -73,6 +73,53 @@
     <Content Include="files\sechand.png" />
     <Content Include="files\video.gif" />
     <Content Include="files\weather.png" />
+    <Content Include="files\weather\1.gif" />
+    <Content Include="files\weather\10.gif" />
+    <Content Include="files\weather\11.gif" />
+    <Content Include="files\weather\12.gif" />
+    <Content Include="files\weather\13.gif" />
+    <Content Include="files\weather\14.gif" />
+    <Content Include="files\weather\15.gif" />
+    <Content Include="files\weather\16.gif" />
+    <Content Include="files\weather\17.gif" />
+    <Content Include="files\weather\18.gif" />
+    <Content Include="files\weather\19.gif" />
+    <Content Include="files\weather\2.gif" />
+    <Content Include="files\weather\20.gif" />
+    <Content Include="files\weather\21.gif" />
+    <Content Include="files\weather\22.gif" />
+    <Content Include="files\weather\23.gif" />
+    <Content Include="files\weather\24.gif" />
+    <Content Include="files\weather\25.gif" />
+    <Content Include="files\weather\26.gif" />
+    <Content Include="files\weather\27.gif" />
+    <Content Include="files\weather\28.gif" />
+    <Content Include="files\weather\29.gif" />
+    <Content Include="files\weather\3.gif" />
+    <Content Include="files\weather\30.gif" />
+    <Content Include="files\weather\31.gif" />
+    <Content Include="files\weather\32.gif" />
+    <Content Include="files\weather\33.gif" />
+    <Content Include="files\weather\34.gif" />
+    <Content Include="files\weather\35.gif" />
+    <Content Include="files\weather\36.gif" />
+    <Content Include="files\weather\37.gif" />
+    <Content Include="files\weather\38.gif" />
+    <Content Include="files\weather\39.gif" />
+    <Content Include="files\weather\4.gif" />
+    <Content Include="files\weather\40.gif" />
+    <Content Include="files\weather\41.gif" />
+    <Content Include="files\weather\42.gif" />
+    <Content Include="files\weather\43.gif" />
+    <Content Include="files\weather\44.gif" />
+    <Content Include="files\weather\45.gif" />
+    <Content Include="files\weather\46.gif" />
+    <Content Include="files\weather\47.gif" />
+    <Content Include="files\weather\5.gif" />
+    <Content Include="files\weather\6.gif" />
+    <Content Include="files\weather\7.gif" />
+    <Content Include="files\weather\8.gif" />
+    <Content Include="files\weather\9.gif" />
     <Content Include="getIdleInterval.aspx" />
     <Content Include="files\frames\clock.htm" />
     <Content Include="files\frames\picture.htm" />
@@ -97,6 +144,9 @@
     <Content Include="js\pt\slider.js" />
     <Content Include="js\scroller.js" />
     <Content Include="packages.config" />
+    <Content Include="files\fonts\futura.eot" />
+    <Content Include="files\fonts\futura.ttc" />
+    <Content Include="files\fonts\futura.ttf" />
     <None Include="Scripts\jquery-2.0.3-vsdoc.js" />
     <Content Include="Scripts\jquery-2.0.3.js" />
     <Content Include="Scripts\jquery-2.0.3.min.js" />
@@ -126,6 +176,7 @@
       <DependentUpon>getVideo.ashx</DependentUpon>
     </Compile>
     <Compile Include="MimeTypeParser.cs" />
+    <Compile Include="ServerGeoData.cs" />
     <Compile Include="Video.cs" />
     <Compile Include="getIdleInterval.aspx.cs">
       <DependentUpon>getIdleInterval.aspx</DependentUpon>

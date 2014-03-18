@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace DisplayMonkey.Controllers
 {
-    public class ErrorController : Controller
+    public class ErrorController : BaseController
     {
         public ActionResult Index()
         {

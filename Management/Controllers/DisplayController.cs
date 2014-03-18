@@ -10,7 +10,7 @@ using DisplayMonkey.Models;
 
 namespace DisplayMonkey.Controllers
 {
-    public class DisplayController : Controller
+    public class DisplayController : BaseController
     {
         private DisplayMonkeyEntities db = new DisplayMonkeyEntities();
 

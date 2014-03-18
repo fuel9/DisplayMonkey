@@ -9,16 +9,63 @@ using DisplayMonkey.Models;
 
 namespace DisplayMonkey.Controllers
 {
-    public class FrameController : Controller
+    public class FrameController : BaseController
     {
         private DisplayMonkeyEntities db = new DisplayMonkeyEntities();
 
         public const string SelectorFrameKey = "_selectorFrame";
 
+        private void FillCanvasesSelectList(object selected = null)
+        {
+            var query = from c in db.Canvases
+                        orderby c.Name
+                        select c;
+            ViewBag.CanvasId = new SelectList(query, "CanvasId", "Name", selected);
+        }
+
+        private void FillPanelsSelectList(object selected = null, int canvasId = 0)
+        {
+            if (canvasId > 0)
+            {
+                var query = db.Panels
+                    .Where(p => p.CanvasId == canvasId)
+                    .Select(p => new
+                    {
+                        PanelId = p.PanelId,
+                        Name = p.Name
+                    })
+                    .OrderBy(p => p.Name)
+                    .ToList()
+                    ;
+
+                ViewBag.PanelId = new SelectList(query, "PanelId", "Name", selected);
+            }
+            else
+            {
+                var query = db.Panels
+                    .Include(p => p.Canvas)
+                    .Select(p => new
+                    {
+                        PanelId = p.PanelId,
+                        Name = p.Canvas.Name + " : " + p.Name
+                    })
+                    .OrderBy(p => p.Name)
+                    .ToList()
+                    ;
+
+                ViewBag.PanelId = new SelectList(query, "PanelId", "Name", selected);
+            }
+        }
+
+        private void FillFrameTypeSelectList(Frame.FrameTypes? selected = null)
+        {
+            ViewBag.FrameType = selected.TranslatedSelectList(valueAsText: true);
+        }
+
         //
         // GET: /Frame/
 
-        public ActionResult Index(int canvasId = 0, int panelId = 0, string frameType = "")
+        public ActionResult Index(int canvasId = 0, int panelId = 0, Frame.FrameTypes? frameType = null)
         {
             Navigation.SaveCurrent();
 
@@ -44,7 +91,7 @@ namespace DisplayMonkey.Controllers
                 list = list.Where(f => f.PanelId == panelId);
             }
 
-            if (frameType != "")
+            if (frameType != null)
             {
                 list = list.Where(Frame.FilterByFrameType(frameType));
             }
@@ -63,60 +110,10 @@ namespace DisplayMonkey.Controllers
             return View(list.ToList());
         }
 
-        private void FillCanvasesSelectList(object selected = null)
-        {
-            var query = from c in db.Canvases
-                        orderby c.Name
-                        select c;
-            ViewBag.CanvasId = new SelectList(query, "CanvasId", "Name", selected);
-        }
-
-        private void FillPanelsSelectList(object selected = null, int canvasId = 0)
-        {
-            if (canvasId > 0)
-            {
-                var query = db.Panels
-                    .Where(p => p.CanvasId == canvasId)
-                    .Select(p => new { 
-                        PanelId = p.PanelId, 
-                        Name = p.Name 
-                    })
-                    .OrderBy(p => p.Name)
-                    .ToList()
-                    ;
-
-                ViewBag.PanelId = new SelectList(query, "PanelId", "Name", selected);
-            }
-            else
-            {
-                var query = db.Panels
-                    .Include(p => p.Canvas)
-                    .Select(p => new {
-                            PanelId = p.PanelId, 
-                            Name = p.Canvas.Name + " : " + p.Name
-                    })
-                    .OrderBy(p => p.Name)
-                    .ToList()
-                    ;
-
-                ViewBag.PanelId = new SelectList(query, "PanelId", "Name", selected);
-            }
-        }
-
-        private void FillFrameTypeSelectList(object selected = null)
-        {
-            ViewBag.FrameType = new SelectList(
-                Frame.FrameTypes,
-                "FrameType",
-                "FrameType",
-                selected
-            );
-        }
-
         //
         // GET: /Frame/Create
 
-        public ActionResult Create(int canvasId = 0, int panelId = 0, string frameType = "")
+        public ActionResult Create(int canvasId = 0, int panelId = 0, Frame.FrameTypes? frameType = null)
         {
             if (panelId == 0)
             {
@@ -142,12 +139,12 @@ namespace DisplayMonkey.Controllers
                 TempData[SelectorFrameKey] = selector;
             }
 
-            if (string.IsNullOrEmpty(frameType))
+            if (frameType == null)
             {
                 return RedirectToAction("ForFrameType", new { panelId = panelId });
             }
 
-            return RedirectToAction("Create", frameType);
+            return RedirectToAction("Create", frameType.ToString());
         }
 
         public ActionResult ForCanvas()
@@ -222,10 +219,10 @@ namespace DisplayMonkey.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ForFrameType(FrameSelector selector)
         {
-            if (selector.FrameType != "")
+            if (selector.FrameType != null)
             {
                 TempData[SelectorFrameKey] = selector;
-                return RedirectToAction("Create", selector.FrameType);
+                return RedirectToAction("Create", selector.FrameType.ToString());
             }
 
             return RedirectToAction("ForFrameType", new { panelId = selector.PanelId });
@@ -255,7 +252,7 @@ namespace DisplayMonkey.Controllers
                 return View("Missing", new MissingItem(id));
             }
 
-            return RedirectToAction("Details", frame.FrameType, new { id = id });
+            return RedirectToAction("Details", frame.FrameType.ToString(), new { id = id });
         }
 
         //
@@ -282,7 +279,7 @@ namespace DisplayMonkey.Controllers
                 return View("Missing", new MissingItem(id));
             }
 
-            return RedirectToAction("Edit", frame.FrameType, new { id = id });
+            return RedirectToAction("Edit", frame.FrameType.ToString(), new { id = id });
         }
 
         //
@@ -309,7 +306,7 @@ namespace DisplayMonkey.Controllers
                 return View("Missing", new MissingItem(id));
             }
 
-            return RedirectToAction("Delete", frame.FrameType, new { id = id });
+            return RedirectToAction("Delete", frame.FrameType.ToString(), new { id = id });
         }
 
         //

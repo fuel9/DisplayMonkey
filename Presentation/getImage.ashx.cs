@@ -60,14 +60,20 @@ namespace DisplayMonkey
 					data = File.ReadAllBytes("~/files/404.png");
 				}
 
+                // prevent client caching, return PNG
+                Response.Clear();
+                Response.Cache.SetCacheability(HttpCacheability.NoCache);
+                Response.Cache.SetSlidingExpiration(true);
+                Response.Cache.SetNoStore();
+                Response.ContentType = "image/png";
+
 				using (MemoryStream ms = new MemoryStream(data))
 				{
 					Picture.WriteImage(ms, Response.OutputStream, panelWidth, panelHeight, mode);
 				}
-
-				// return PNG
-				Response.ContentType = "image/png";
-			}
+                
+                Response.OutputStream.Flush();
+            }
 
 			catch (Exception ex)
 			{

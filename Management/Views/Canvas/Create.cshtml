@@ -27,7 +27,7 @@
             @Html.LabelFor(model => model.Width)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.Width, new { @class = "pixels" }) pixels
+            @Html.EditorFor(model => model.Width, new { htmlAttributes = new { @class = "pixels" }, }) pixels
             @Html.ValidationMessageFor(model => model.Width)
         </div>
 
@@ -35,7 +35,7 @@
             @Html.LabelFor(model => model.Height)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.Height, new { @class = "pixels" }) pixels
+            @Html.EditorFor(model => model.Height, new { htmlAttributes = new { @class = "pixels" }, }) pixels
             @Html.ValidationMessageFor(model => model.Height)
         </div>
 

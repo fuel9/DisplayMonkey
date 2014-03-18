@@ -13,7 +13,7 @@ using System.Reflection;
 
 namespace DisplayMonkey.Controllers
 {
-    public class LocationController : Controller
+    public class LocationController : BaseController
     {
         private DisplayMonkeyEntities db = new DisplayMonkeyEntities();
 

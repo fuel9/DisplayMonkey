@@ -16,8 +16,8 @@
         <td>
             @switch (item.Type)
             {
-                case DisplayMonkey.Models.Setting.Type_Int:
-                    <div style="width:100%;text-align:right">@Html.DisplayFor(m => item.IntValue)</div>
+                case DisplayMonkey.Models.Setting.Type_IntPositive:
+                    <div style="width:100%;text-align:right">@Html.DisplayFor(m => item.IntValuePositive)</div>
                     break;
                     
                 default:

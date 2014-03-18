@@ -14,6 +14,7 @@
         <title>@ViewBag.Title - Display Monkey</title>
         <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
         <meta name="viewport" content="width=device-width" />
+        @Html.MetaAcceptLanguage()
         @Styles.Render("~/Content/css")
         @Styles.Render("~/Content/themes/base/css", "~/Content/css")
         @Scripts.Render("~/bundles/modernizr")
@@ -85,6 +86,8 @@
         <script type="text/javascript">
                 $(document).ready(function () {
                     $('.menu').jqsimplemenu();
+                    var culture = $("meta[name='culture']").attr("content");
+                    $.datepicker.setDefaults($.datepicker.regional[culture]);
                     $('input[type=datetime]').datepicker();
                 });
         </script>

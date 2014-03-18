@@ -1,4 +1,6 @@
-﻿@{ Layout = "~/Views/Shared/_Layout.cshtml"; } 
+﻿@using DisplayMonkey.Language
+
+@{ Layout = "~/Views/Shared/_Layout.cshtml"; } 
 
 @model DisplayMonkey.Controllers.MissingItem
 
@@ -15,5 +17,5 @@
     <div class="error-source">@(string.Format("{0} with id# {1} could not be found", Model.resource, Model.id))</div>
 </fieldset>
 
-<p><a href="javascript:window.history.back();">Back to previous page</a></p>
+<p><a href="javascript:window.history.back();">@Resources.BackPreviousPage</a></p>
 

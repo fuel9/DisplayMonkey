@@ -3,26 +3,27 @@
 
         @Html.HiddenFor(m => m.FrameId)
         @Html.HiddenFor(m => m.PanelId)
+        @Html.HiddenFor(m => m.Sort)
 
         <div class="editor-label">
             @Html.LabelFor(model => model.Duration)
         </div>
         <div class="editor-field">
-            @Html.TextBoxFor(model => model.Duration, new { @class = "duration" }) sec.
+            @Html.EditorFor(model => model.Duration, new { htmlAttributes = new { @class = "duration" } }) sec.
             @Html.ValidationMessageFor(model => model.Duration)
         </div>
         <div class="editor-label">
             @Html.LabelFor(model => model.BeginsOn)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.BeginsOn, new { @class = "calendar" })
+            @Html.EditorFor(model => model.BeginsOn, new { htmlAttributes = new { @class = "calendar" } })
             @Html.ValidationMessageFor(model => model.BeginsOn)
         </div>
         <div class="editor-label">
             @Html.LabelFor(model => model.EndsOn)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.EndsOn, new { @class = "calendar" })
+            @Html.EditorFor(model => model.EndsOn, new { htmlAttributes = new { @class = "calendar" } })
             @Html.ValidationMessageFor(model => model.EndsOn)
         </div>
 

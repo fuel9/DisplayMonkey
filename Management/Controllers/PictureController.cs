@@ -11,7 +11,7 @@ using System.IO;
 
 namespace DisplayMonkey.Controllers
 {
-    public class PictureController : Controller
+    public class PictureController : BaseController
     {
         private DisplayMonkeyEntities db = new DisplayMonkeyEntities();
 
@@ -99,7 +99,7 @@ namespace DisplayMonkey.Controllers
 
             FillPicturesSelectList();
             FillModesSelectList();
-            ViewBag.MaxImageSize = db.Settings.FirstOrDefault(s => s.Key == DisplayMonkey.Models.Setting.Key_MaxImageSize).IntValue;
+            ViewBag.MaxImageSize = db.Settings.FirstOrDefault(s => s.Key == DisplayMonkey.Models.Setting.Key_MaxImageSize).IntValuePositive;
 
             return View(picture);
         }
@@ -130,7 +130,7 @@ namespace DisplayMonkey.Controllers
 
                     picture.Content = new Models.Content
                     {
-                        Type = Models.Content.ContentType_Picture,
+                        Type = (int)Models.Content.ContentTypes.ContentType_Picture,
                         Name = Path.GetFileName(file.FileName),
                         Data = buffer,
                     };
@@ -144,7 +144,7 @@ namespace DisplayMonkey.Controllers
 
             FillPicturesSelectList();
             FillModesSelectList();
-            ViewBag.MaxImageSize = db.Settings.FirstOrDefault(s => s.Key == DisplayMonkey.Models.Setting.Key_MaxImageSize).IntValue;
+            ViewBag.MaxImageSize = db.Settings.FirstOrDefault(s => s.Key == DisplayMonkey.Models.Setting.Key_MaxImageSize).IntValuePositive;
 
             return View(picture);
         }
@@ -161,7 +161,7 @@ namespace DisplayMonkey.Controllers
             }
 
             FillPicturesSelectList(picture.ContentId);
-            FillModesSelectList(picture.Mode);
+            FillModesSelectList((Content.RenderModes)picture.Mode);
 
             return View(picture);
         }
@@ -183,7 +183,7 @@ namespace DisplayMonkey.Controllers
             }
 
             FillPicturesSelectList(picture.ContentId);
-            FillModesSelectList(picture.Mode);
+            FillModesSelectList((Content.RenderModes)picture.Mode);
 
             picture.Frame = frame;
 
@@ -220,16 +220,16 @@ namespace DisplayMonkey.Controllers
         private void FillPicturesSelectList(object selected = null)
         {
             var savedPictures = from p in db.Contents
-                                where p.Type == DisplayMonkey.Models.Content.ContentType_Picture
+                                where p.Type == (int)DisplayMonkey.Models.Content.ContentTypes.ContentType_Picture
                                 orderby p.Name
                                 select p;
 
             ViewBag.Pictures = new SelectList(savedPictures, "ContentId", "Name", selected);
         }
 
-        private void FillModesSelectList(object selected = null)
+        private void FillModesSelectList(Content.RenderModes? selected = null)
         {
-            ViewBag.Modes = new SelectList(DisplayMonkey.Models.Content.RenderModes, "Mode", "Name", selected);
+            ViewBag.Modes = selected.TranslatedSelectList();
         }
 
         protected override void Dispose(bool disposing)

@@ -9,9 +9,14 @@ using DisplayMonkey.Models;
 
 namespace DisplayMonkey.Controllers
 {
-    public class WeatherController : Controller
+    public class WeatherController : BaseController
     {
         private DisplayMonkeyEntities db = new DisplayMonkeyEntities();
+
+        private void FillWeatherTypeSelectList(Weather.WeatherTypes? selected = null)
+        {
+            ViewBag.Types = selected.TranslatedSelectList();
+        }
 
         //
         // GET: /Weather/Details/5
@@ -47,7 +52,7 @@ namespace DisplayMonkey.Controllers
 
             weather.SetDefaultDuration();
 
-            ViewBag.Types = new SelectList(DisplayMonkey.Models.Weather.WeatherTypes, "Type", "Name");
+            FillWeatherTypeSelectList();
 
             return View(weather);
         }
@@ -68,7 +73,7 @@ namespace DisplayMonkey.Controllers
                 return Navigation.Restore() ?? RedirectToAction("Index");
             }
 
-            ViewBag.Types = new SelectList(DisplayMonkey.Models.Weather.WeatherTypes, "Type", "Name");
+            FillWeatherTypeSelectList();
 
             weather.Frame = frame;
 
@@ -86,7 +91,7 @@ namespace DisplayMonkey.Controllers
                 return View("Missing", new MissingItem(id));
             }
 
-            ViewBag.Types = new SelectList(DisplayMonkey.Models.Weather.WeatherTypes, "Type", "Name");
+            FillWeatherTypeSelectList();
             
             return View(weather);
         }
@@ -107,7 +112,7 @@ namespace DisplayMonkey.Controllers
                 return Navigation.Restore() ?? RedirectToAction("Index");
             }
 
-            ViewBag.Types = new SelectList(DisplayMonkey.Models.Weather.WeatherTypes, "Type", "Name");
+            FillWeatherTypeSelectList();
 
             weather.Frame = frame;
 

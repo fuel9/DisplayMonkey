@@ -1,4 +1,6 @@
-﻿@model IEnumerable<DisplayMonkey.Models.Frame>
+﻿@using DisplayMonkey.Language
+
+@model IEnumerable<DisplayMonkey.Models.Frame>
 
 @{
     ViewBag.Title = "Re-order Panel Frames";
@@ -20,11 +22,11 @@
     }
     else if (item.Clock != null)
     {
-        frameContent += DisplayMonkey.Models.Clock.ClockTypes.FirstOrDefault(t => t.Type == item.Clock.Type).Name;
+        frameContent += item.Clock.TranslatedType;
     }
     else if (item.Weather != null)
     {
-        frameContent += DisplayMonkey.Models.Weather.WeatherTypes.FirstOrDefault(t => t.Type == item.Weather.Type).Name;
+        frameContent += item.Weather.TranslatedType;
     }
     else if (item.Memo != null)
     {
@@ -62,7 +64,7 @@
     @Html.Hidden("json")
     <p>
         <input id="submit" type="submit" value="Save" /> |
-        <a href="javascript:window.history.back();">Back to previous page</a>
+        <a href="javascript:window.history.back();">@Resources.BackPreviousPage</a>
     </p>
 }
 

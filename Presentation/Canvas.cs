@@ -125,8 +125,13 @@ namespace DisplayMonkey
 				if (IsAppleMobileSupported)
 				{
 					head.Append("<meta name=\"apple-mobile-web-app-capable\" content=\"yes\" />\r\n");
-					head.Append("<meta name=\"apple-mobile-web-app-status-bar-style\" content=\"black\" />\r\n");
-				}
+                    head.Append("<meta name=\"apple-mobile-web-app-status-bar-style\" content=\"black\" />\r\n");
+
+                    head.AppendFormat(CultureInfo.InvariantCulture, "<meta name=\"server-latitude\" content=\"{0}\" />\r\n", ServerGeoData.Latitude);
+                    head.AppendFormat(CultureInfo.InvariantCulture, "<meta name=\"server-longitude\" content=\"{0}\" />\r\n", ServerGeoData.Longitude);
+                    head.AppendFormat(CultureInfo.InvariantCulture, "<meta name=\"server-offset-gmt\" content=\"{0}\" />\r\n", ServerGeoData.OffsetGMT);
+                    head.AppendFormat(CultureInfo.InvariantCulture, "<meta name=\"server-external-ip\" content=\"{0}\" />\r\n", ServerGeoData.ServerExternalIPAddress.ToString());
+                }
 
 				// scripts
 				foreach (string js in _js_libs)
@@ -141,8 +146,6 @@ namespace DisplayMonkey
 				head.AppendFormat(CultureInfo.InvariantCulture, "latitude:{0},\r\n", location.Latitude);
 				head.AppendFormat(CultureInfo.InvariantCulture, "longitude:{0},\r\n", location.Longitude);
 				head.AppendFormat(CultureInfo.InvariantCulture, "woeid:{0},\r\n", location.Woeid);
-				//head.AppendFormat(CultureInfo.InvariantCulture, "utcTime:'{0}',\r\n", DateTime.UtcTime);
-				//head.AppendFormat(CultureInfo.InvariantCulture, "gmtOffset:{0},\r\n", location.OffsetGMT);
                 head.AppendFormat(CultureInfo.InvariantCulture, "localTime:'{0}',\r\n", location.LocalTime);
                 head.AppendFormat(CultureInfo.InvariantCulture, "initialIdleInterval:{0},\r\n", this.InitialMaxIdleInterval);
 				head.AppendFormat(CultureInfo.InvariantCulture, "width:{0},\r\n", this.Width);

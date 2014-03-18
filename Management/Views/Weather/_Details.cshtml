@@ -27,7 +27,7 @@
          @Html.DisplayNameFor(model => model.Type)
     </div>
     <div class="display-field">
-        @Html.DisplayFor(model => DisplayMonkey.Models.Weather.WeatherTypes.First(w => w.Type == model.Type).Name)
+        @(Model.TranslatedType)
     </div>
     </div>
     </div>

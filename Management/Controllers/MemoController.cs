@@ -9,7 +9,7 @@ using DisplayMonkey.Models;
 
 namespace DisplayMonkey.Controllers
 {
-    public class MemoController : Controller
+    public class MemoController : BaseController
     {
         private DisplayMonkeyEntities db = new DisplayMonkeyEntities();
 

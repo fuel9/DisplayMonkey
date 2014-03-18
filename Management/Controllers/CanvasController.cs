@@ -9,7 +9,7 @@ using DisplayMonkey.Models;
 
 namespace DisplayMonkey.Controllers
 {
-    public class CanvasController : Controller
+    public class CanvasController : BaseController
     {
         private DisplayMonkeyEntities db = new DisplayMonkeyEntities();
 
@@ -128,6 +128,10 @@ namespace DisplayMonkey.Controllers
             if (ModelState.IsValid)
             {
                 db.Entry(canvas).State = EntityState.Modified;
+                //db.Canvases.Attach(canvas).Version++;
+                
+
+                //db.Entry(canvas).Entity.Version++;
                 db.SaveChanges();
 
                 return Navigation.Restore() ?? RedirectToAction("Index");

@@ -124,6 +124,7 @@
           <Property Name="Width" Type="int" Nullable="false" />
           <Property Name="BackgroundImage" Type="int" />
           <Property Name="BackgroundColor" Type="varchar" MaxLength="20" />
+          <Property Name="Version" Type="timestamp" Nullable="false" StoreGeneratedPattern="Computed" />
         </EntityType>
         <EntityType Name="Clock">
           <Key>

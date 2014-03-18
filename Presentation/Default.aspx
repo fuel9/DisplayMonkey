@@ -4,8 +4,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head id="Head1" runat="server">
     <title>Display Monkey</title>
-    <link rel="Stylesheet" href="~/styles/site.css" />
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <link rel="Stylesheet" href="~/styles/site.css" />
 
 </head>
 <body class="page_style">

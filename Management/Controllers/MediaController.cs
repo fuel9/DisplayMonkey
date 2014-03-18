@@ -15,19 +15,19 @@ using System.Data.Objects.SqlClient;
 
 namespace DisplayMonkey.Controllers
 {
-    public class MediaController : Controller
+    public class MediaController : BaseController
     {
         private DisplayMonkeyEntities db = new DisplayMonkeyEntities();
 
-        private void FillMediaTypesSelectList(object selected = null)
+        private void FillMediaTypesSelectList(Content.ContentTypes? selected = null)
         {
-            ViewBag.MediaType = new SelectList(DisplayMonkey.Models.Content.ContentTypes, "Type", "Name", selected);
+            ViewBag.MediaType = selected.TranslatedSelectList();
         }
 
         //
         // GET: /Media/
 
-        public ActionResult Index(int mediaType = -1)
+        public ActionResult Index(Content.ContentTypes? mediaType = null)
         {
             Navigation.SaveCurrent();
 
@@ -36,12 +36,12 @@ namespace DisplayMonkey.Controllers
                 { 
                     ContentId = m.ContentId,
                     Name = m.Name,
-                    Type = m.Type,
+                    Type = (Content.ContentTypes)m.Type,
                     Size = SqlFunctions.DataLength(m.Data) / 1024
                 })
                 .AsQueryable();
 
-            if (mediaType >= 0)
+            if (mediaType != null)
             {
                 list = list.Where(c => c.Type == mediaType);
             }
@@ -70,8 +70,8 @@ namespace DisplayMonkey.Controllers
 
         public ActionResult Upload()
         {
-            ViewBag.MaxImageSize = db.Settings.FirstOrDefault(s => s.Key == DisplayMonkey.Models.Setting.Key_MaxImageSize).IntValue;
-            ViewBag.MaxVideoSize = db.Settings.FirstOrDefault(s => s.Key == DisplayMonkey.Models.Setting.Key_MaxVideoSize).IntValue;
+            ViewBag.MaxImageSize = db.Settings.FirstOrDefault(s => s.Key == DisplayMonkey.Models.Setting.Key_MaxImageSize).IntValuePositive;
+            ViewBag.MaxVideoSize = db.Settings.FirstOrDefault(s => s.Key == DisplayMonkey.Models.Setting.Key_MaxVideoSize).IntValuePositive;
             return View();
         }
 
@@ -102,7 +102,7 @@ namespace DisplayMonkey.Controllers
                         }
 
                         Content content = new Content {
-                            Type = isPicture ? Models.Content.ContentType_Picture : Models.Content.ContentType_Video,
+                            Type = (int)(isPicture ? Models.Content.ContentTypes.ContentType_Picture : Models.Content.ContentTypes.ContentType_Video),
                             Name = Path.GetFileName(file.FileName),
                             Data = buffer,
                         };
@@ -196,7 +196,7 @@ namespace DisplayMonkey.Controllers
 
         [Authorize]
         [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult Thumb(int id, int width = 0, int height = 0, int mode = DisplayMonkey.Models.Content.RenderMode_Fit, int trace = 0)
+        public ActionResult Thumb(int id, int width = 0, int height = 0, Content.RenderModes mode = DisplayMonkey.Models.Content.RenderModes.RenderMode_Fit, int trace = 0)
         {
             string message = "";
 
@@ -261,7 +261,7 @@ namespace DisplayMonkey.Controllers
         }
 
         // TODO: move to separate file
-        public static void WriteImage(Stream inStream, Stream outStream, int panelWidth, int panelHeight, int mode)
+        public static void WriteImage(Stream inStream, Stream outStream, int panelWidth, int panelHeight, Content.RenderModes mode)
         {
             Bitmap bmpSrc = null, bmpTrg = null;
 
@@ -284,11 +284,11 @@ namespace DisplayMonkey.Controllers
                 {
                     switch (mode)
                     {
-                        case DisplayMonkey.Models.Content.RenderMode_Stretch:
+                        case DisplayMonkey.Models.Content.RenderModes.RenderMode_Stretch:
                             bmpTrg = new Bitmap(bmpSrc, new Size(panelWidth, panelHeight));
                             break;
 
-                        case DisplayMonkey.Models.Content.RenderMode_Fit:
+                        case DisplayMonkey.Models.Content.RenderModes.RenderMode_Fit:
                             int targetWidth = imageWidth, targetHeight = imageHeight;
                             float scale = 1F;
                             // a. panel is greater than image: grow
@@ -308,7 +308,7 @@ namespace DisplayMonkey.Controllers
                             bmpTrg = new Bitmap(bmpSrc, new Size(targetWidth, targetHeight));
                             break;
 
-                        case DisplayMonkey.Models.Content.RenderMode_Crop:
+                        case DisplayMonkey.Models.Content.RenderModes.RenderMode_Crop:
                             targetWidth = Math.Min(panelWidth, imageWidth);
                             targetHeight = Math.Min(panelHeight, imageHeight);
                             bmpTrg = bmpSrc.Clone(

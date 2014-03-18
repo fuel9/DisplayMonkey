@@ -11,7 +11,7 @@ using System.Web.Script.Serialization;
 
 namespace DisplayMonkey.Controllers
 {
-    public class PanelController : Controller
+    public class PanelController : BaseController
     {
         private DisplayMonkeyEntities db = new DisplayMonkeyEntities();
 
@@ -34,7 +34,7 @@ namespace DisplayMonkey.Controllers
                 );
             }
 
-            FillCanvasesSelectList();
+            ViewBag.CanvasId = new SelectList(db.Canvases, "CanvasId", "Name", canvasId);
 
             return View(list.ToList());
         }
@@ -241,14 +241,6 @@ namespace DisplayMonkey.Controllers
             });
             db.SaveChanges();
             return RedirectToAction("Details", new { id = panelId });
-        }
-
-        private void FillCanvasesSelectList(object selected = null)
-        {
-            var query = from c in db.Canvases
-                        orderby c.Name
-                        select c;
-            ViewBag.CanvasId = new SelectList(query, "CanvasId", "Name", selected);
         }
 
         protected override void Dispose(bool disposing)

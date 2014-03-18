@@ -19,7 +19,7 @@
             @Html.LabelFor(model => model.Type)
         </div>
         <div class="editor-field">
-            @Html.DisplayFor(model => DisplayMonkey.Models.Content.ContentTypes.First(t => t.Type == model.Type).Name)
+            @Model.TranslatedType
             @Html.HiddenFor(model => model.Type)
         </div>
 

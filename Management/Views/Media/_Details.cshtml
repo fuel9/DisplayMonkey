@@ -1,4 +1,8 @@
-﻿@model DisplayMonkey.Models.Content
+﻿@using DisplayMonkey
+@using DisplayMonkey.Models
+@using DisplayMonkey.Language
+
+@model DisplayMonkey.Models.Content
 
 <fieldset>
     <legend>Content</legend>
@@ -14,7 +18,7 @@
             @Html.LabelFor(model => model.Type)
         </div>
         <div class="editor-field">
-            @Html.DisplayFor(model => DisplayMonkey.Models.Content.ContentTypes.First(t => t.Type == model.Type).Name)
+            @Model.TranslatedType
         </div>
         </div>
 
@@ -31,11 +35,11 @@
     </td>
     <td>
         <div id="picture">
-            @if (Model.Type == DisplayMonkey.Models.Content.ContentType_Picture)
+            @if (Model.Type == (int)Content.ContentTypes.ContentType_Picture)
             {
                 <img src="@Url.Action("Thumb", "Media", new { id = Model.ContentId, width = 200, height = 200, mode = DisplayMonkey.Models.Content.RenderMode_Fit })" alt="" />
             }
-            else if (Model.Type == DisplayMonkey.Models.Content.ContentType_Video)
+            else if (Model.Type == (int)Content.ContentTypes.ContentType_Video)
             {
                 <video style="width:100%;height:100%" poster="~/images/video.gif" loop autoplay controls>
                     <source src="@Url.Action("Playback", "Media", new { id = Model.ContentId })" />

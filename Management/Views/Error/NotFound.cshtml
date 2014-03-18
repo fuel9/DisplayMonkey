@@ -1,24 +1,26 @@
-﻿@{ Layout = "~/Views/Shared/_Layout.cshtml"; } 
+﻿@using DisplayMonkey.Language
+
+@{ Layout = "~/Views/Shared/_Layout.cshtml"; } 
 
 @{
-    ViewBag.Title = "Not found";
+    ViewBag.Title = @Resources.ResourceNotFound;
 }
 
 <hgroup class="title">
-    <h2 class="error">An error occurred while processing your request.</h2>
+    <h2 class="error">@Resources.AnErrorOccured</h2>
 </hgroup>
 
 <fieldset>
-    <legend>Details</legend>
+    <legend>@Resources.ErrorDetails</legend>
     <table class="error-detail">
 
     <tr>
-        <td>Message</td>
-        <td><div class="error-message">Resource was not found</div></td>
+        <td>@Resources.ErrorMessage</td>
+        <td><div class="error-message">@Resources.ResourceNotFound</div></td>
     </tr>
 
     </table>
 </fieldset>
 
-<p><a href="javascript:window.history.back();">Back to previous page</a></p>
+<p><a href="javascript:window.history.back();">@Resources.BackPreviousPage</a></p>
 
