@@ -1,4 +1,8 @@
-﻿@model DisplayMonkey.Models.Weather
+﻿@using DisplayMonkey
+@using DisplayMonkey.Models
+@using DisplayMonkey.Language
+
+@model DisplayMonkey.Models.Weather
 
 <fieldset>
     <legend>Weather</legend>
@@ -24,10 +28,10 @@
 
     <div class="divRow">
     <div class="display-label">
-         @Html.DisplayNameFor(model => model.Type)
+        @Html.DisplayNameFor(model => model.Type)
     </div>
     <div class="display-field">
-        @(Model.TranslatedType)
+        @Model.Type.Translate()
     </div>
     </div>
     </div>

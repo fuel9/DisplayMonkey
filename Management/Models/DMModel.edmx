@@ -711,7 +711,7 @@
             <PropertyRef Name="FrameId" />
           </Key>
           <Property Name="FrameId" Type="Int32" Nullable="false" />
-          <Property Name="Type" Type="Int32" Nullable="false" />
+          <Property Name="Type" Type="DisplayMonkey.Model.ClockTypes" Nullable="false" />
           <Property Name="ShowDate" Type="Boolean" Nullable="false" />
           <Property Name="ShowTime" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Frame" Relationship="DisplayMonkey.Model.FK_Clock_Frame" FromRole="Clock" ToRole="Frame" />
@@ -723,7 +723,7 @@
           <Property Name="ContentId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
           <Property Name="Data" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
-          <Property Name="Type" Type="Int32" Nullable="false" />
+          <Property Name="Type" Type="DisplayMonkey.Model.ContentTypes" Nullable="false" />
           <NavigationProperty Name="Canvas" Relationship="DisplayMonkey.Model.FK_Canvas_Content" FromRole="Content" ToRole="Canvas" />
           <NavigationProperty Name="Pictures" Relationship="DisplayMonkey.Model.FK_Picture_Content" FromRole="Content" ToRole="Picture" />
           <NavigationProperty Name="Videos" Relationship="DisplayMonkey.Model.VideoAlternative" FromRole="Content" ToRole="Video" />
@@ -836,7 +836,7 @@
           </Key>
           <Property Name="FrameId" Type="Int32" Nullable="false" />
           <Property Name="ContentId" Type="Int32" Nullable="false" />
-          <Property Name="Mode" Type="Int32" Nullable="false" />
+          <Property Name="Mode" Type="DisplayMonkey.Model.RenderModes" Nullable="false" />
           <NavigationProperty Name="Content" Relationship="DisplayMonkey.Model.FK_Picture_Content" FromRole="Picture" ToRole="Content" />
           <NavigationProperty Name="Frame" Relationship="DisplayMonkey.Model.FK_Picture_Frame" FromRole="Picture" ToRole="Frame" />
         </EntityType>
@@ -847,7 +847,7 @@
           <Property Name="FrameId" Type="Int32" Nullable="false" />
           <Property Name="Path" Type="String" Nullable="false" MaxLength="250" Unicode="false" FixedLength="false" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
-          <Property Name="Mode" Type="Int32" Nullable="false" />
+          <Property Name="Mode" Type="DisplayMonkey.Model.RenderModes" Nullable="false" />
           <NavigationProperty Name="Frame" Relationship="DisplayMonkey.Model.FK_Report_Frame" FromRole="Report" ToRole="Frame" />
           <Property Type="Int32" Name="ServerId" Nullable="false" />
           <NavigationProperty Name="ReportServer" Relationship="DisplayMonkey.Model.FK_Report_ReportServer" FromRole="Report" ToRole="ReportServer" />
@@ -868,7 +868,7 @@
           </Key>
           <Property Name="FrameId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Frame" Relationship="DisplayMonkey.Model.FK_Weather_Frame" FromRole="Weather" ToRole="Frame" />
-          <Property Type="Int32" Name="Type" Nullable="false" />
+          <Property Type="DisplayMonkey.Model.WeatherTypes" Name="Type" Nullable="false" />
         </EntityType>
         <Association Name="FK_Canvas_Content">
           <End Role="Content" Type="DisplayMonkey.Model.Content" Multiplicity="0..1" />
@@ -1138,8 +1138,28 @@
           </Key>
           <Property Type="Guid" Name="Key" Nullable="false" />
           <Property Type="Binary" Name="Value" MaxLength="Max" FixedLength="false" />
-          <Property Type="Int32" Name="Type" Nullable="false" />
+          <Property Type="DisplayMonkey.Model.SettingTypes" Name="Type" Nullable="false" />
         </EntityType>
+        <EnumType Name="ContentTypes">
+          <Member Name="ContentType_Picture" Value="0" />
+          <Member Name="ContentType_Video" Value="1" />
+        </EnumType>
+        <EnumType Name="RenderModes" >
+          <Member Name="RenderMode_Crop" Value="0" />
+          <Member Name="RenderMode_Stretch" Value="1" />
+          <Member Name="RenderMode_Fit" Value="2" />
+        </EnumType>
+        <EnumType Name="ClockTypes">
+          <Member Name="ClockType_Text" Value="0" />
+          <Member Name="ClockType_Analog" Value="1" />
+        </EnumType>
+        <EnumType Name="WeatherTypes">
+          <Member Name="WeatherType_Current" Value="0" />
+        </EnumType>
+        <EnumType Name="SettingTypes">
+          <Member Name="SettingType_IntPositive" Value="0" />
+          <Member Name="SettingType_String" Value="1" />
+        </EnumType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->

@@ -1,4 +1,8 @@
-﻿@model DisplayMonkey.Models.Content
+﻿@using DisplayMonkey
+@using DisplayMonkey.Models
+@using DisplayMonkey.Language
+
+@model DisplayMonkey.Models.Content
 
 @{
     ViewBag.Title = "Edit media";
@@ -19,7 +23,7 @@
             @Html.LabelFor(model => model.Type)
         </div>
         <div class="editor-field">
-            @Model.TranslatedType
+            @Model.Type.Translate()
             @Html.HiddenFor(model => model.Type)
         </div>
 

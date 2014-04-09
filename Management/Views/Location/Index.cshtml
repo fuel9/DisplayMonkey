@@ -23,28 +23,28 @@
         <th>
             @Html.DisplayNameFor(model => model.Name)
         </th>
-        <th style="white-space:nowrap">
+        <th class="nw">
             @Html.DisplayNameFor(model => model.Level)
         </th>
-        <th style="white-space:nowrap">
+        <th class="nw">
             @Html.DisplayNameFor(model => model.Area)
         </th>
-        <th style="white-space:nowrap">
+        <th class="nw">
             @Html.DisplayNameFor(model => model.TemperatureUnit)
         </th>
-        <th style="white-space:nowrap">
+        <th class="nw">
             @Html.DisplayNameFor(model => model.Latitude)
         </th>
-        <th style="white-space:nowrap">
+        <th class="nw">
             @Html.DisplayNameFor(model => model.Longitude)
         </th>
-        <th style="white-space:nowrap">
+        <th class="nw">
             @Html.DisplayNameFor(model => model.DateFormat)
         </th>
-        <th style="white-space:nowrap">
+        <th class="nw">
             @Html.DisplayNameFor(model => model.TimeFormat)
         </th>
-        <th style="white-space:nowrap"></th>
+        <th class="nw"></th>
     </tr>
 
 @foreach (var item in Model) {
@@ -52,28 +52,28 @@
         <td>
             @Html.ActionLink(item.Name, "Details", new { id=item.LocationId })
         </td>
-        <td style="white-space:nowrap">
+        <td class="nw">
             @Html.DisplayFor(modelItem => item.Level.Name)
         </td>
-        <td style="white-space:nowrap">
+        <td class="nw">
             @Html.DisplayFor(modelItem => item.Area.Name)
         </td>
-        <td style="white-space:nowrap">
+        <td class="nw">
             @Html.DisplayFor(modelItem => item.TemperatureUnit)
         </td>
-        <td style="white-space:nowrap">
+        <td class="nw">
             @Html.DisplayFor(modelItem => item.Latitude)
         </td>
-        <td style="white-space:nowrap">
+        <td class="nw">
             @Html.DisplayFor(modelItem => item.Longitude)
         </td>
-        <td style="white-space:nowrap">
+        <td class="nw">
             @Html.DisplayFor(modelItem => item.DateFormat)
         </td>
-        <td style="white-space:nowrap">
+        <td class="nw">
             @Html.DisplayFor(modelItem => item.TimeFormat)
         </td>
-        <td style="white-space:nowrap">
+        <td class="nw">
             @Html.ActionLink("Edit", "Edit", new { id=item.LocationId }) |
             @Html.ActionLink("Delete", "Delete", new { id=item.LocationId })
         </td>

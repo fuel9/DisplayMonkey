@@ -14,13 +14,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/27/2013 22:35:56</publishTime>
     </File>
     <File Include="bin/App_global.asax.compiled">
-      <publishTime>03/17/2014 22:38:48</publishTime>
+      <publishTime>03/23/2014 13:44:17</publishTime>
     </File>
     <File Include="bin/App_global.asax.dll">
-      <publishTime>03/17/2014 22:38:48</publishTime>
+      <publishTime>03/23/2014 13:44:17</publishTime>
     </File>
     <File Include="bin/App_global.asax.pdb">
-      <publishTime>03/17/2014 22:38:48</publishTime>
+      <publishTime>03/23/2014 13:44:17</publishTime>
     </File>
     <File Include="bin/DataAnnotationsExtensions.ClientValidation.dll">
       <publishTime>12/20/2013 17:23:38</publishTime>
@@ -38,16 +38,16 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/27/2013 22:35:55</publishTime>
     </File>
     <File Include="bin/DisplayMonkey.Language.dll">
-      <publishTime>03/17/2014 22:38:28</publishTime>
+      <publishTime>03/23/2014 13:31:47</publishTime>
     </File>
     <File Include="bin/DisplayMonkey.Language.pdb">
-      <publishTime>03/17/2014 22:38:28</publishTime>
+      <publishTime>03/23/2014 13:31:47</publishTime>
     </File>
     <File Include="bin/DisplayMonkey.Management.dll">
-      <publishTime>03/17/2014 22:38:29</publishTime>
+      <publishTime>03/23/2014 13:31:48</publishTime>
     </File>
     <File Include="bin/DisplayMonkey.Management.pdb">
-      <publishTime>03/17/2014 22:38:29</publishTime>
+      <publishTime>03/23/2014 13:31:48</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>11/27/2013 22:35:51</publishTime>
@@ -118,6 +118,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="bin/Newtonsoft.Json.dll">
       <publishTime>11/27/2013 22:35:55</publishTime>
     </File>
+    <File Include="bin/ru/DisplayMonkey.Language.resources.dll">
+      <publishTime>03/23/2014 13:44:08</publishTime>
+    </File>
     <File Include="bin/ru/Microsoft.Data.Edm.resources.dll">
       <publishTime>11/27/2013 22:35:56</publishTime>
     </File>
@@ -128,7 +131,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/27/2013 22:35:55</publishTime>
     </File>
     <File Include="bin/sv/DisplayMonkey.Language.resources.dll">
-      <publishTime>03/17/2014 22:38:28</publishTime>
+      <publishTime>03/23/2014 13:31:47</publishTime>
     </File>
     <File Include="bin/sv/Language.resources.dll">
       <publishTime>03/14/2014 17:05:26</publishTime>
@@ -230,7 +233,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/25/2014 14:09:39</publishTime>
     </File>
     <File Include="Content/Site.css">
-      <publishTime>03/03/2014 23:24:26</publishTime>
+      <publishTime>03/19/2014 11:22:34</publishTime>
     </File>
     <File Include="Content/themes/base/images/animated-overlay.gif">
       <publishTime>01/17/2014 10:09:12</publishTime>
@@ -491,7 +494,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/07/2014 23:46:42</publishTime>
     </File>
     <File Include="PrecompiledApp.config">
-      <publishTime>03/17/2014 22:38:47</publishTime>
+      <publishTime>03/23/2014 13:44:16</publishTime>
     </File>
     <File Include="Scripts/canvas-preview.js">
       <publishTime>02/04/2014 09:48:59</publishTime>
@@ -584,7 +587,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/05/2014 21:00:37</publishTime>
     </File>
     <File Include="Views/Canvas/Index.cshtml">
-      <publishTime>02/20/2014 22:09:30</publishTime>
+      <publishTime>03/19/2014 11:25:18</publishTime>
     </File>
     <File Include="Views/Canvas/_Details.cshtml">
       <publishTime>02/04/2014 09:44:40</publishTime>
@@ -602,7 +605,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/25/2014 12:08:12</publishTime>
     </File>
     <File Include="Views/Clock/_Details.cshtml">
-      <publishTime>03/14/2014 08:12:27</publishTime>
+      <publishTime>03/18/2014 22:38:51</publishTime>
     </File>
     <File Include="Views/Clock/_frameData.cshtml">
       <publishTime>01/20/2014 18:41:59</publishTime>
@@ -680,7 +683,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/05/2014 21:00:37</publishTime>
     </File>
     <File Include="Views/Location/Index.cshtml">
-      <publishTime>01/29/2014 10:52:14</publishTime>
+      <publishTime>03/19/2014 11:24:05</publishTime>
     </File>
     <File Include="Views/Location/_Details.cshtml">
       <publishTime>01/31/2014 10:02:34</publishTime>
@@ -692,16 +695,16 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/25/2014 12:02:26</publishTime>
     </File>
     <File Include="Views/Media/Edit.cshtml">
-      <publishTime>03/14/2014 10:02:28</publishTime>
+      <publishTime>03/18/2014 22:39:04</publishTime>
     </File>
     <File Include="Views/Media/Index.cshtml">
-      <publishTime>03/14/2014 10:31:24</publishTime>
+      <publishTime>03/19/2014 11:25:16</publishTime>
     </File>
     <File Include="Views/Media/Upload.cshtml">
       <publishTime>02/26/2014 22:52:30</publishTime>
     </File>
     <File Include="Views/Media/_Details.cshtml">
-      <publishTime>03/14/2014 10:24:36</publishTime>
+      <publishTime>03/18/2014 23:16:04</publishTime>
     </File>
     <File Include="Views/Memo/Create.cshtml">
       <publishTime>02/25/2014 12:08:12</publishTime>
@@ -734,10 +737,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/05/2014 21:00:37</publishTime>
     </File>
     <File Include="Views/Panel/Index.cshtml">
-      <publishTime>03/05/2014 20:19:10</publishTime>
+      <publishTime>03/19/2014 11:24:05</publishTime>
     </File>
     <File Include="Views/Panel/SortFrames.cshtml">
-      <publishTime>03/13/2014 23:02:50</publishTime>
+      <publishTime>03/18/2014 22:39:29</publishTime>
     </File>
     <File Include="Views/Panel/_Details.cshtml">
       <publishTime>02/20/2014 08:57:27</publishTime>
@@ -758,7 +761,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/26/2014 22:44:35</publishTime>
     </File>
     <File Include="Views/Picture/_Details.cshtml">
-      <publishTime>03/14/2014 10:44:30</publishTime>
+      <publishTime>03/18/2014 22:45:34</publishTime>
     </File>
     <File Include="Views/Picture/_Edit.cshtml">
       <publishTime>01/29/2014 10:52:14</publishTime>
@@ -776,7 +779,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/25/2014 12:08:12</publishTime>
     </File>
     <File Include="Views/Report/_Details.cshtml">
-      <publishTime>03/14/2014 10:42:53</publishTime>
+      <publishTime>03/18/2014 22:45:28</publishTime>
     </File>
     <File Include="Views/ReportServer/Create.cshtml">
       <publishTime>02/02/2014 19:26:59</publishTime>
@@ -791,10 +794,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/29/2014 08:16:14</publishTime>
     </File>
     <File Include="Views/Setting/Edit.cshtml">
-      <publishTime>03/14/2014 09:05:01</publishTime>
+      <publishTime>03/18/2014 23:54:08</publishTime>
     </File>
     <File Include="Views/Setting/Index.cshtml">
-      <publishTime>03/14/2014 09:04:56</publishTime>
+      <publishTime>03/19/2014 11:41:39</publishTime>
     </File>
     <File Include="Views/Shared/Error.cshtml">
       <publishTime>03/13/2014 13:41:19</publishTime>
@@ -806,7 +809,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/14/2014 17:02:12</publishTime>
     </File>
     <File Include="Views/Shared/_frameList.cshtml">
-      <publishTime>03/14/2014 10:37:53</publishTime>
+      <publishTime>03/19/2014 11:26:49</publishTime>
     </File>
     <File Include="Views/Shared/_frameLocations.cshtml">
       <publishTime>02/19/2014 14:22:55</publishTime>
@@ -860,7 +863,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/25/2014 12:08:12</publishTime>
     </File>
     <File Include="Views/Weather/_Details.cshtml">
-      <publishTime>03/13/2014 23:05:14</publishTime>
+      <publishTime>03/18/2014 22:41:54</publishTime>
     </File>
     <File Include="Views/Weather/_frameData.cshtml">
       <publishTime>01/20/2014 18:44:45</publishTime>
@@ -872,7 +875,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/27/2013 22:35:50</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>03/17/2014 22:38:46</publishTime>
+      <publishTime>03/23/2014 13:30:06</publishTime>
     </File>
   </ItemGroup>
 </Project>

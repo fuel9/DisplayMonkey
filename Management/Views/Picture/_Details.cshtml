@@ -42,7 +42,7 @@
          @Html.DisplayNameFor(model => model.Mode)
     </div>
     <div class="display-field">
-        @Model.TranslatedMode
+        @Model.Mode.Translate()
     </div>
     </div>
     </div>
@@ -51,7 +51,7 @@
 
         <td>
             <div id="picture">
-                 <img src="@Url.Action("Thumb", "Media", new { id = Model.ContentId, width = 200, height = 200, mode = Content.RenderModes.RenderMode_Fit })" alt="" />
+                 <img src="@Url.Action("Thumb", "Media", new { id = Model.ContentId, width = 200, height = 200, mode = RenderModes.RenderMode_Fit })" alt="" />
             </div>
         </td>
 

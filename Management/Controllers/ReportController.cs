@@ -90,7 +90,7 @@ namespace DisplayMonkey.Controllers
             }
 
             FillServersSelectList(report.ServerId);
-            FillModesSelectList((Content.RenderModes)report.Mode);
+            FillModesSelectList(report.Mode);
             
             return View(report);
         }
@@ -112,7 +112,7 @@ namespace DisplayMonkey.Controllers
             }
 
             FillServersSelectList(report.ServerId);
-            FillModesSelectList((Content.RenderModes)report.Mode);
+            FillModesSelectList(report.Mode);
             
             report.Frame = frame;
             
@@ -151,7 +151,7 @@ namespace DisplayMonkey.Controllers
 
         [Authorize]
         [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult Thumb(int id, int width = 0, int height = 0, Content.RenderModes mode = DisplayMonkey.Models.Content.RenderModes.RenderMode_Fit, int trace = 0)
+        public ActionResult Thumb(int id, int width = 0, int height = 0, RenderModes mode = RenderModes.RenderMode_Fit, int trace = 0)
         {
             string message = "";
 
@@ -226,7 +226,7 @@ namespace DisplayMonkey.Controllers
             ViewBag.Servers = new SelectList(db.ReportServers, "ServerId", "Name", selected);
         }
 
-        private void FillModesSelectList(Content.RenderModes? selected = null)
+        private void FillModesSelectList(RenderModes? selected = null)
         {
             ViewBag.Modes = selected.TranslatedSelectList();
         }

@@ -18,7 +18,7 @@
         <th>
             Information/Content Displayed
         </th>
-        <th style="text-align:right">
+        <th class="num">
             @Html.DisplayNameFor(model => model.FirstOrDefault().Duration), sec.
         </th>
         <th></th>
@@ -26,13 +26,13 @@
 
 @foreach (var item in Model) {
     <tr>
-        <td style="white-space:nowrap">
+        <td class="nw">
             @Html.ActionLink(item.TranslatedType, "Details", "Frame", new { id = item.FrameId }, null)
         </td>
-        <td style="white-space:nowrap">
+        <td class="nw">
             @Html.DisplayFor(m => item.Panel.Canvas.Name)
         </td>
-        <td style="white-space:nowrap">
+        <td class="nw">
             @Html.DisplayFor(m => item.Panel.Name)
         </td>
         <td>
@@ -43,14 +43,14 @@
             else if (item.Clock != null)
             {
                 @(string.Format("{0}{1}{2}",
-                    item.Clock.TranslatedType,
+                    item.Clock.Type.Translate(),
                     item.Clock.ShowDate ? ", Show date" : "",
                     item.Clock.ShowTime ? ", Show time" : ""
                     ))
             }
             else if (item.Weather != null)
             {
-                @item.Weather.TranslatedType
+                @item.Weather.Type.Translate()
             }
             else if (item.Memo != null)
             {
@@ -59,12 +59,12 @@
             }
             else if (item.Report != null)
             {
-                <img class="thumb1" src="@Url.Action("Thumb", "Report", new { id = item.FrameId, width = 50, height = 50, mode = Content.RenderModes.RenderMode_Stretch })" alt="" />
+                <img class="thumb1" src="@Url.Action("Thumb", "Report", new { id = item.FrameId, width = 50, height = 50, mode = RenderModes.RenderMode_Stretch })" alt="" />
                 <span>@Html.DisplayFor(m => item.Report.Name)</span>
             }
             else if (item.Picture != null)
             {
-                <img class="thumb1" src="@Url.Action("Thumb", "Media", new { id = item.Picture.ContentId, width = 50, height = 50, mode = Content.RenderModes.RenderMode_Stretch })" alt="" />
+                <img class="thumb1" src="@Url.Action("Thumb", "Media", new { id = item.Picture.ContentId, width = 50, height = 50, mode = RenderModes.RenderMode_Stretch })" alt="" />
                 <span>@Html.DisplayFor(m => item.Picture.Content.Name)</span>
             }
             else if (item.Video != null)    
@@ -77,13 +77,13 @@
                 <text>Unsupported frame</text>
             }
         </td>
-        <td style="white-space:nowrap;text-align:right">
+        <td class="nw num">
             @if (item.ShowDuration)
             {
                 @Html.DisplayFor(modelItem => item.Duration)
             }
         </td>
-        <td style="white-space:nowrap">
+        <td class="nw">
             @Html.ActionLink("Edit", "Edit", "Frame", new { id=item.FrameId }, null) |
             @Html.ActionLink("Delete", "Delete", "Frame", new { id=item.FrameId }, null)
         </td>

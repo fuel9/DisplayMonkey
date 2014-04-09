@@ -1,4 +1,8 @@
-﻿@model IEnumerable<DisplayMonkey.Models.Setting>
+﻿@using DisplayMonkey
+@using DisplayMonkey.Models
+@using DisplayMonkey.Language
+
+@model IEnumerable<DisplayMonkey.Models.Setting>
 
 @{
     ViewBag.Title = "Application Settings";
@@ -10,14 +14,18 @@
 
 @foreach (var item in Model) {
     <tr>
-        <td>
+        <td class="nw">
             @Html.DisplayFor(m => item.Name)
         </td>
         <td>
             @switch (item.Type)
             {
-                case DisplayMonkey.Models.Setting.Type_IntPositive:
-                    <div style="width:100%;text-align:right">@Html.DisplayFor(m => item.IntValuePositive)</div>
+                case SettingTypes.SettingType_IntPositive:
+                    <div class="num">@Html.DisplayFor(m => item.IntValuePositive)</div>
+                    break;
+                    
+                case SettingTypes.SettingType_String:
+                    @Html.DisplayFor(m => item.StringValue)
                     break;
                     
                 default:

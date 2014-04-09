@@ -27,7 +27,11 @@ namespace DisplayMonkey.Controllers
         public ActionResult Index()
         {
             Navigation.SaveCurrent();
-            return View(db.Levels.ToList());
+            return View(
+                db.Levels
+                    .OrderBy(l => l.Name)
+                    .ToList()
+                );
         }
 
         //

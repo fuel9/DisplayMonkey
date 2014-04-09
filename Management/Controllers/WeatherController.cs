@@ -13,7 +13,7 @@ namespace DisplayMonkey.Controllers
     {
         private DisplayMonkeyEntities db = new DisplayMonkeyEntities();
 
-        private void FillWeatherTypeSelectList(Weather.WeatherTypes? selected = null)
+        private void FillWeatherTypeSelectList(WeatherTypes? selected = null)
         {
             ViewBag.Types = selected.TranslatedSelectList();
         }

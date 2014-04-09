@@ -17,7 +17,7 @@ namespace DisplayMonkey.Models
         public int FrameId { get; set; }
         public string Path { get; set; }
         public string Name { get; set; }
-        public int Mode { get; set; }
+        public RenderModes Mode { get; set; }
         public int ServerId { get; set; }
     
         public virtual Frame Frame { get; set; }

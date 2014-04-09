@@ -15,7 +15,7 @@ namespace DisplayMonkey.Models
     public partial class Clock
     {
         public int FrameId { get; set; }
-        public int Type { get; set; }
+        public ClockTypes Type { get; set; }
         public bool ShowDate { get; set; }
         public bool ShowTime { get; set; }
     

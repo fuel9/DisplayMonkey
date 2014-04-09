@@ -23,13 +23,13 @@
         <th>
             @Html.DisplayNameFor(model => model.Canvas.FullScreen.Panel)
         </th><th></th>
-        <th style="white-space:nowrap">
+        <th class="nw">
             @Html.DisplayNameFor(model => model.Canvas)
         </th>
-        <th style="white-space:nowrap">
+        <th class="nw">
             Options
         </th>
-        <th style="white-space:nowrap"></th>
+        <th class="nw"></th>
     </tr>
 
 @foreach (var item in Model)
@@ -50,10 +50,10 @@
         <td>
             @Html.ActionLink(item.Name, "Details", "Panel", new { id=item.PanelId }, null)
         </td>
-        <td style="white-space:nowrap">
+        <td class="nw">
             @Html.DisplayFor(modelItem => item.Canvas.Name)
         </td>
-        <td style="white-space:nowrap">
+        <td class="nw">
             @if (fs.PanelId == item.PanelId)
             {
                 @Html.DisplayNameFor(m => m.Canvas.FullScreen.MaxIdleInterval)
@@ -75,7 +75,7 @@
                     item.Height))
             }
         </td>
-        <td style="white-space:nowrap">
+        <td class="nw">
             @if (fs.PanelId != item.PanelId)
             {
                 @Html.ActionLink("Edit", "Edit", "Panel", new { id=item.PanelId }, null)

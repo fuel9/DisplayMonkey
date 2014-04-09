@@ -71,18 +71,31 @@ namespace DisplayMonkey.Controllers
 
         public ActionResult Browse(int id = 0)
         {
-            string site = ConfigurationManager.AppSettings["presentationSite"];
-            if (string.IsNullOrEmpty(site)) site = Request.Url.DnsSafeHost;
-            
-            string root = ConfigurationManager.AppSettings["presentationRoot"];
-            if (string.IsNullOrEmpty(root)) root = "";
-            if (root != "" && !site.EndsWith("/"))
-                root += "/";
+            string path = db.Settings
+                .FirstOrDefault(s => s.Key == Setting.Key_PresentationSite)
+                .StringValue
+                ;
+
+            if (string.IsNullOrWhiteSpace(path))
+            {
+                string site = ConfigurationManager.AppSettings["presentationSite"];
+                if (string.IsNullOrEmpty(site)) site = Request.Url.DnsSafeHost;
+
+                string root = ConfigurationManager.AppSettings["presentationRoot"];
+                if (string.IsNullOrEmpty(root)) root = "";
+
+                path = string.Format(
+                    "http://{0}/{1}",
+                    site,
+                    root
+                    );
+            }
+
+            if (!path.EndsWith("/")) path += "/";
             
             string url = string.Format(
-                "http://{0}/{1}getCanvas.aspx?display={2}",
-                site,
-                root,
+                "{0}getCanvas.aspx?display={1}",
+                path,
                 id
                 );
             return Redirect(url);

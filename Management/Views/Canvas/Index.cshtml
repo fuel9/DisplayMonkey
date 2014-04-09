@@ -14,16 +14,16 @@
         <th>
             @Html.DisplayNameFor(model => model.Name)
         </th>
-        <th style="white-space:nowrap">
+        <th class="nw">
             @Html.DisplayNameFor(model => model.Width)
         </th>
-        <th style="white-space:nowrap">
+        <th class="nw">
             @Html.DisplayNameFor(model => model.Height)
         </th>
-        <th style="white-space:nowrap">
+        <th class="nw">
             @Html.DisplayNameFor(model => model.BackgroundImage)
         </th>
-        <th style="white-space:nowrap"></th>
+        <th class="nw"></th>
     </tr>
 
 @foreach (var item in Model) {
@@ -31,18 +31,18 @@
         <td>
             @Html.ActionLink(item.Name, "Details", new { id=item.CanvasId })
         </td>
-        <td style="white-space:nowrap">
+        <td class="nw">
             @Html.DisplayFor(modelItem => item.Width)
         </td>
-        <td style="white-space:nowrap">
+        <td class="nw">
             @Html.DisplayFor(modelItem => item.Height)
         </td>
-        <td style="white-space:nowrap">
+        <td class="nw">
             @if (item.BackgroundImage != null) {
                 <img src="@Html.Raw(Url.Action("Thumb", "Media", new { id=item.BackgroundImage, width=50, height=50 }))" alt="Background" />
             }
         </td>
-        <td style="white-space:nowrap">
+        <td class="nw">
             @Html.ActionLink("Edit", "Edit", new { id=item.CanvasId }) |
             @Html.ActionLink("Delete", "Delete", new { id=item.CanvasId })
         </td>

@@ -330,10 +330,10 @@
   <data name="ClockType_Text" xml:space="preserve">
     <value>Text</value>
   </data>
-  <data name="MaxImageSize" xml:space="preserve">
+  <data name="Settings_MaxImageSize" xml:space="preserve">
     <value>Maximum uploaded image size, Bytes</value>
   </data>
-  <data name="MaxVideoSize" xml:space="preserve">
+  <data name="Settings_MaxVideoSize" xml:space="preserve">
     <value>Maximum uploaded video size, Bytes</value>
   </data>
   <data name="Subject" xml:space="preserve">
@@ -362,5 +362,11 @@
   </data>
   <data name="RenderMode_Stretch" xml:space="preserve">
     <value>Stretch</value>
+  </data>
+  <data name="Settings_PresentationSite" xml:space="preserve">
+    <value>Presentation site URL</value>
+  </data>
+  <data name="ValueNotSet" xml:space="preserve">
+    <value>&lt;&lt; Not Set &gt;&gt;</value>
   </data>
 </root>

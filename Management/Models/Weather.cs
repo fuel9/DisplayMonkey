@@ -15,7 +15,7 @@ namespace DisplayMonkey.Models
     public partial class Weather
     {
         public int FrameId { get; set; }
-        public int Type { get; set; }
+        public WeatherTypes Type { get; set; }
     
         public virtual Frame Frame { get; set; }
     }

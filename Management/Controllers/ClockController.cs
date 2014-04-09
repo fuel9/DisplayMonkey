@@ -13,7 +13,7 @@ namespace DisplayMonkey.Controllers
     {
         private DisplayMonkeyEntities db = new DisplayMonkeyEntities();
 
-        private void FillClockTypeSelectList(Clock.ClockTypes? selected = null)
+        private void FillClockTypeSelectList(ClockTypes? selected = null)
         {
             ViewBag.Types = selected.TranslatedSelectList();
         }

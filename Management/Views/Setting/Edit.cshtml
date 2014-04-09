@@ -1,4 +1,8 @@
-﻿@model DisplayMonkey.Models.Setting
+﻿@using DisplayMonkey
+@using DisplayMonkey.Models
+@using DisplayMonkey.Language
+
+@model DisplayMonkey.Models.Setting
 
 @{
     ViewBag.Title = "Edit application setting";
@@ -20,9 +24,14 @@
             <div class="col-md-10">
                 @switch (Model.Type)
                 {
-                    case DisplayMonkey.Models.Setting.Type_IntPositive:
+                    case SettingTypes.SettingType_IntPositive:
                         @Html.EditorFor(model => model.IntValuePositive)
                         @Html.ValidationMessageFor(model => model.IntValuePositive)
+                        break;
+
+                    case SettingTypes.SettingType_String:
+                        @Html.EditorFor(model => model.StringValue)
+                        @Html.ValidationMessageFor(model => model.StringValue)
                         break;
                 }
             </div>

@@ -982,3 +982,10 @@ div.select {
         height: 300px;
     }
 
+.num {
+    text-align: right;
+}
+
+.nw {
+    white-space: nowrap;
+}

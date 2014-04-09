@@ -439,24 +439,6 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Maximum uploaded image size, Bytes.
-        /// </summary>
-        public static string MaxImageSize {
-            get {
-                return ResourceManager.GetString("MaxImageSize", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Maximum uploaded video size, Bytes.
-        /// </summary>
-        public static string MaxVideoSize {
-            get {
-                return ResourceManager.GetString("MaxVideoSize", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Media options.
         /// </summary>
         public static string MediaOptions {
@@ -637,6 +619,33 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Maximum uploaded image size, Bytes.
+        /// </summary>
+        public static string Settings_MaxImageSize {
+            get {
+                return ResourceManager.GetString("Settings_MaxImageSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Maximum uploaded video size, Bytes.
+        /// </summary>
+        public static string Settings_MaxVideoSize {
+            get {
+                return ResourceManager.GetString("Settings_MaxVideoSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Presentation site URL.
+        /// </summary>
+        public static string Settings_PresentationSite {
+            get {
+                return ResourceManager.GetString("Settings_PresentationSite", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Short body.
         /// </summary>
         public static string ShortBody {
@@ -741,6 +750,15 @@ namespace DisplayMonkey.Language {
         public static string Value {
             get {
                 return ResourceManager.GetString("Value", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;&lt; Not Set &gt;&gt;.
+        /// </summary>
+        public static string ValueNotSet {
+            get {
+                return ResourceManager.GetString("ValueNotSet", resourceCulture);
             }
         }
         

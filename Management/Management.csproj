@@ -191,7 +191,13 @@
     <Compile Include="Models\Clock.cs">
       <DependentUpon>DMModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ClockTypes.cs">
+      <DependentUpon>DMModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Content.cs">
+      <DependentUpon>DMModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ContentTypes.cs">
       <DependentUpon>DMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Display.cs">
@@ -236,6 +242,9 @@
     <Compile Include="Models\Picture.cs">
       <DependentUpon>DMModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\RenderModes.cs">
+      <DependentUpon>DMModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Report.cs">
       <DependentUpon>DMModel.tt</DependentUpon>
     </Compile>
@@ -245,10 +254,16 @@
     <Compile Include="Models\Setting.cs">
       <DependentUpon>DMModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SettingTypes.cs">
+      <DependentUpon>DMModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Video.cs">
       <DependentUpon>DMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Weather.cs">
+      <DependentUpon>DMModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\WeatherTypes.cs">
       <DependentUpon>DMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

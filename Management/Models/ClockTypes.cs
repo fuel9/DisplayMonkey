@@ -10,12 +10,10 @@
 namespace DisplayMonkey.Models
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class Setting
+    public enum ClockTypes : int
     {
-        public System.Guid Key { get; set; }
-        public byte[] Value { get; set; }
-        public SettingTypes Type { get; set; }
+        ClockType_Text = 0,
+        ClockType_Analog = 1
     }
 }

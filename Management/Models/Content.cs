@@ -24,7 +24,7 @@ namespace DisplayMonkey.Models
         public int ContentId { get; set; }
         public string Name { get; set; }
         public byte[] Data { get; set; }
-        public int Type { get; set; }
+        public ContentTypes Type { get; set; }
     
         public virtual ICollection<Canvas> Canvas { get; set; }
         public virtual ICollection<Picture> Pictures { get; set; }

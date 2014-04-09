@@ -1,4 +1,8 @@
-﻿@model DisplayMonkey.Models.Clock
+﻿@using DisplayMonkey
+@using DisplayMonkey.Models
+@using DisplayMonkey.Language
+
+@model DisplayMonkey.Models.Clock
 
 <fieldset>
     <legend>Clock</legend>
@@ -18,7 +22,7 @@
          @Html.DisplayNameFor(model => model.Type)
     </div>
     <div class="display-field">
-        @Model.TranslatedType
+        @Model.Type.Translate()
     </div>
     </div>
 

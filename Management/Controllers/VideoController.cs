@@ -133,7 +133,7 @@ namespace DisplayMonkey.Controllers
 
                         Content content = new Content
                         {
-                            Type = (int)Models.Content.ContentTypes.ContentType_Video,
+                            Type = ContentTypes.ContentType_Video,
                             Name = Path.GetFileName(file.FileName),
                             Data = buffer,
                         };
@@ -254,7 +254,7 @@ namespace DisplayMonkey.Controllers
 
                         Content content = new Content
                         {
-                            Type = (int)Models.Content.ContentTypes.ContentType_Video,
+                            Type = ContentTypes.ContentType_Video,
                             Name = Path.GetFileName(file.FileName),
                             Data = buffer,
                         };
@@ -389,7 +389,7 @@ namespace DisplayMonkey.Controllers
         private void FillVideosSelectList(object selected = null)
         {
             var savedVideos = from m in db.Contents
-                              where m.Type == (int)DisplayMonkey.Models.Content.ContentTypes.ContentType_Video
+                              where m.Type == ContentTypes.ContentType_Video
                               orderby m.Name
                               select m;
 
@@ -399,7 +399,7 @@ namespace DisplayMonkey.Controllers
         private void FillAvailableVideosSelectList(int id = 0)
         {
             var savedVideos = from m in db.Contents
-                              where m.Type == (int)DisplayMonkey.Models.Content.ContentTypes.ContentType_Video
+                              where m.Type == ContentTypes.ContentType_Video
                               && !db.Videos.Any(v => v.FrameId == id && v.Contents.Contains(m)) // exclude videos already linked
                               orderby m.Name
                               select m;

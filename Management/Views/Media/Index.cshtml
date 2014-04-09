@@ -25,16 +25,16 @@
         <th>
             @Html.DisplayNameFor(model => model.Name)
         </th>
-        <th style="white-space:nowrap">
+        <th class="nw">
             @Html.DisplayNameFor(model => model.Type)
         </th>
-        <th style="white-space:nowrap">
+        <th class="nw">
             @Html.DisplayName("Thumb")
         </th>
-        <th style="text-align:right;white-space:nowrap">
+        <th class="nw num">
             @Html.DisplayNameFor(model => model.Size), KB
         </th>
-        <th style="white-space:nowrap"></th>
+        <th class="nw"></th>
     </tr>
 
 @foreach (DisplayMonkey.Models.ContentWithSize item in Model)
@@ -43,23 +43,23 @@
         <td>         
             @Html.ActionLink(item.Name, "Details", new { id=item.ContentId })
         </td>
-        <td style="white-space:nowrap">
+        <td class="nw">
             @item.Type.Translate()
         </td>
-        <td style="white-space:nowrap">
-            @if (item.Type == Content.ContentTypes.ContentType_Picture)
+        <td class="nw">
+            @if (item.Type == ContentTypes.ContentType_Picture)
             {
-                <img src="@Url.Action("Thumb", "Media", new { id = item.ContentId, width = 50, height = 50, mode = DisplayMonkey.Models.Content.RenderModes.RenderMode_Stretch })" alt="" />
+                <img src="@Url.Action("Thumb", "Media", new { id = item.ContentId, width = 50, height = 50, mode = RenderModes.RenderMode_Stretch })" alt="" />
             }
-            else if (item.Type == Content.ContentTypes.ContentType_Video)
+            else if (item.Type == ContentTypes.ContentType_Video)
             {
                 <img src="~/images/video_thmb.png" alt="" />
             }
         </td>
-        <td style="text-align:right;white-space:nowrap">
+        <td class="nw num">
             @Html.DisplayFor(model => item.Size)
         </td>
-        <td style="white-space:nowrap">
+        <td class="nw">
             @Html.ActionLink("Edit", "Edit", new { id=item.ContentId }) |
             @Html.ActionLink("Delete", "Delete", new { id=item.ContentId })
         </td>

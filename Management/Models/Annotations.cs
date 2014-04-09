@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Web;
-//using System.Text;
+using System.Text;
 
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
@@ -328,13 +328,13 @@ namespace DisplayMonkey.Models
 
         public enum FrameTypes
         {
-            Clock = 1,
-            Memo = 2,
-            //News = 3,
-            Picture = 4,
-            Report = 5,
-            Video = 6,
-            Weather = 7,
+            Clock,
+            Memo,
+            //News,
+            Picture,
+            Report,
+            Video,
+            Weather,
         }
 
         [
@@ -472,22 +472,6 @@ namespace DisplayMonkey.Models
             public string Name { get; set; }
         }
 
-        public enum ContentTypes { 
-            ContentType_Picture = 0, 
-            ContentType_Video = 1 
-        }
-
-        public string TranslatedType { get { return ((ContentTypes)this.Type).Translate(); } }
-
-        public enum RenderModes
-        {
-            RenderMode_Crop = 0,
-            RenderMode_Stretch = 1,
-            RenderMode_Fit = 2,
-        }
-
-        public string TranslatedMode { get { return ((RenderModes)this.Type).Translate(); } }
-
         [
             Display(ResourceType = typeof(Resources), Name = "Size"),
         ]
@@ -506,7 +490,7 @@ namespace DisplayMonkey.Models
         [
             Display(ResourceType = typeof(Resources), Name = "Type"),
         ]
-        public Content.ContentTypes Type { get; set; }
+        public ContentTypes Type { get; set; }
 
         [
             Display(ResourceType = typeof(Resources), Name = "Name"),
@@ -593,15 +577,13 @@ namespace DisplayMonkey.Models
                 Display(ResourceType = typeof(Resources), Name = "RenderMode"),
                 Required
             ]
-            public int Mode { get; set; }
+            public RenderModes Mode { get; set; }
 
             [
                 Display(ResourceType = typeof(Resources), Name = "ReportServer"),
             ]
             public int ServerId { get; set; }
         }
-
-        public string TranslatedMode { get { return ((Content.RenderModes)this.Mode).Translate(); } }
     }
 
     [
@@ -620,7 +602,7 @@ namespace DisplayMonkey.Models
                 Display(ResourceType = typeof(Resources), Name = "ClockType"),
                 Required
             ]
-            public int Type { get; set; }
+            public ClockTypes Type { get; set; }
 
             [
                 Display(ResourceType = typeof(Resources), Name = "ShowDate"),
@@ -637,15 +619,6 @@ namespace DisplayMonkey.Models
             ]
             public virtual Frame Frame { get; set; }
         }
-
-        public enum ClockTypes
-        {
-            ClockType_Text = 0,
-            ClockType_Analog = 1,
-            //ClockType_Digital = 2,
-        }
-
-        public string TranslatedType { get { return ((ClockTypes)this.Type).Translate(); } }
 
         public void SetDefaultDuration(int value = 3600)
         {
@@ -670,16 +643,8 @@ namespace DisplayMonkey.Models
                 Display(ResourceType = typeof(Resources), Name = "WeatherType"),
                 Required
             ]
-            public int Type { get; set; }
+            public WeatherTypes Type { get; set; }
         }
-
-        public enum WeatherTypes
-        {
-            WeatherType_Current = 0,
-            //WeatherType_Week = 1,
-        }
-
-        public string TranslatedType { get { return ((WeatherTypes)this.Type).Translate(); } }
 
         public void SetDefaultDuration(int value = 600)
         {
@@ -703,15 +668,13 @@ namespace DisplayMonkey.Models
             [
                 Display(ResourceType = typeof(Resources), Name = "RenderMode"),
             ]
-            public int Mode { get; set; }
+            public RenderModes Mode { get; set; }
 
             [
                 Display(ResourceType = typeof(Resources), Name = "LinkedMedia"),
             ]
             public int ContentId { get; set; }
         }
-
-        public string TranslatedMode { get { return ((Content.RenderModes)this.Mode).Translate(); } }
 
         [
             Display(ResourceType = typeof(Resources), Name = "MediaOptions"),
@@ -796,15 +759,15 @@ namespace DisplayMonkey.Models
         {
         }
 
-        public const int Type_IntPositive = 0;
-
         public static Guid Key_MaxImageSize { get; private set; }
         public static Guid Key_MaxVideoSize { get; private set; }
+        public static Guid Key_PresentationSite { get; private set; }
 
         static Setting()
         {
             Key_MaxImageSize = new Guid("9A0BC012-FF01-4103-8A75-A03B275B0AD1");
             Key_MaxVideoSize = new Guid("4CAB57C4-EFEF-4EDE-91A3-EFFD48660909");
+            Key_PresentationSite = new Guid("417D856B-7EC4-4CBD-A5EA-47BFC0F7B1F9");
         }
         
         [
@@ -815,11 +778,14 @@ namespace DisplayMonkey.Models
             get
             {
                 if (this.Key == Key_MaxImageSize)
-                    return Resources.MaxImageSize;
+                    return Resources.Settings_MaxImageSize;
 
                 if (this.Key == Key_MaxVideoSize)
-                    return Resources.MaxVideoSize;
-                
+                    return Resources.Settings_MaxVideoSize;
+
+                if (this.Key == Key_PresentationSite)
+                    return Resources.Settings_PresentationSite;
+
                 return this.Key.ToString();
             }
         }
@@ -831,11 +797,22 @@ namespace DisplayMonkey.Models
             Range(0, Int32.MaxValue,
                 ErrorMessageResourceType = typeof(Resources),
                 ErrorMessageResourceName = "PositiveIntegerRequired"),
+            DisplayFormat(ApplyFormatInEditMode = false, 
+                DataFormatString = "{0:0,###}"),
         ]
         public int IntValuePositive
         {
             get { return this.Value == null ? 0 : BitConverter.ToInt32(this.Value.Reverse().ToArray(), 0); }
             set { this.Value = BitConverter.GetBytes(value).Reverse().ToArray(); }
+        }
+
+        [
+            Display(ResourceType = typeof(Resources), Name = "Value"),
+        ]
+        public string StringValue
+        {
+            get { return this.Value == null ? null : Encoding.ASCII.GetString(this.Value); }
+            set { this.Value = value == null ? null : Encoding.ASCII.GetBytes(value); }
         }
     }
 

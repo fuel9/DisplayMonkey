@@ -1,4 +1,6 @@
-﻿@using DisplayMonkey.Language
+﻿@using DisplayMonkey
+@using DisplayMonkey.Models
+@using DisplayMonkey.Language
 
 @model IEnumerable<DisplayMonkey.Models.Frame>
 
@@ -22,11 +24,11 @@
     }
     else if (item.Clock != null)
     {
-        frameContent += item.Clock.TranslatedType;
+        frameContent += item.Clock.Type.Translate();
     }
     else if (item.Weather != null)
     {
-        frameContent += item.Weather.TranslatedType;
+        frameContent += item.Weather.Type.Translate();
     }
     else if (item.Memo != null)
     {

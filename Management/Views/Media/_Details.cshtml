@@ -18,7 +18,7 @@
             @Html.LabelFor(model => model.Type)
         </div>
         <div class="editor-field">
-            @Model.TranslatedType
+            @Model.Type.Translate()
         </div>
         </div>
 
@@ -35,11 +35,11 @@
     </td>
     <td>
         <div id="picture">
-            @if (Model.Type == (int)Content.ContentTypes.ContentType_Picture)
+            @if (Model.Type == ContentTypes.ContentType_Picture)
             {
-                <img src="@Url.Action("Thumb", "Media", new { id = Model.ContentId, width = 200, height = 200, mode = DisplayMonkey.Models.Content.RenderMode_Fit })" alt="" />
+                <img src="@Url.Action("Thumb", "Media", new { id = Model.ContentId, width = 200, height = 200, mode = RenderModes.RenderMode_Fit })" alt="" />
             }
-            else if (Model.Type == (int)Content.ContentTypes.ContentType_Video)
+            else if (Model.Type == ContentTypes.ContentType_Video)
             {
                 <video style="width:100%;height:100%" poster="~/images/video.gif" loop autoplay controls>
                     <source src="@Url.Action("Playback", "Media", new { id = Model.ContentId })" />

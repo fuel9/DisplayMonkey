@@ -10,12 +10,10 @@
 namespace DisplayMonkey.Models
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class Setting
+    public enum SettingTypes : int
     {
-        public System.Guid Key { get; set; }
-        public byte[] Value { get; set; }
-        public SettingTypes Type { get; set; }
+        SettingType_IntPositive = 0,
+        SettingType_String = 1
     }
 }

@@ -130,7 +130,7 @@ namespace DisplayMonkey.Controllers
 
                     picture.Content = new Models.Content
                     {
-                        Type = (int)Models.Content.ContentTypes.ContentType_Picture,
+                        Type = ContentTypes.ContentType_Picture,
                         Name = Path.GetFileName(file.FileName),
                         Data = buffer,
                     };
@@ -161,7 +161,7 @@ namespace DisplayMonkey.Controllers
             }
 
             FillPicturesSelectList(picture.ContentId);
-            FillModesSelectList((Content.RenderModes)picture.Mode);
+            FillModesSelectList(picture.Mode);
 
             return View(picture);
         }
@@ -183,7 +183,7 @@ namespace DisplayMonkey.Controllers
             }
 
             FillPicturesSelectList(picture.ContentId);
-            FillModesSelectList((Content.RenderModes)picture.Mode);
+            FillModesSelectList(picture.Mode);
 
             picture.Frame = frame;
 
@@ -220,14 +220,14 @@ namespace DisplayMonkey.Controllers
         private void FillPicturesSelectList(object selected = null)
         {
             var savedPictures = from p in db.Contents
-                                where p.Type == (int)DisplayMonkey.Models.Content.ContentTypes.ContentType_Picture
+                                where p.Type == ContentTypes.ContentType_Picture
                                 orderby p.Name
                                 select p;
 
             ViewBag.Pictures = new SelectList(savedPictures, "ContentId", "Name", selected);
         }
 
-        private void FillModesSelectList(Content.RenderModes? selected = null)
+        private void FillModesSelectList(RenderModes? selected = null)
         {
             ViewBag.Modes = selected.TranslatedSelectList();
         }
