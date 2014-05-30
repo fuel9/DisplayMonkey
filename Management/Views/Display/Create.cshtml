@@ -1,7 +1,9 @@
-﻿@model DisplayMonkey.Models.Display
+﻿@using DisplayMonkey.Language
+
+@model DisplayMonkey.Models.Display
 
 @{
-    ViewBag.Title = "Add display";
+    ViewBag.Title = Resources.AddDisplay;
 }
 
 <h2>@ViewBag.Title</h2>
@@ -11,7 +13,7 @@
     @Html.ValidationSummary(true)
 
     <fieldset>
-        <legend>Display</legend>
+        <legend>@Resources.Display</legend>
 
         <div class="editor-label">
             @Html.LabelFor(model => model.Name)
@@ -46,13 +48,13 @@
         </div>
 
         <p>
-            <input type="submit" value="Add" />
+            <input type="submit" value="@Resources.Add" />
         </p>
     </fieldset>
 }
 
 <div>
-    @Html.ActionLink("View displays", "Index")
+    @Html.ActionLink(Resources.ViewDisplays, "Index")
 </div>
 
 @section Scripts {

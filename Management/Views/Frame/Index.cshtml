@@ -1,20 +1,22 @@
-﻿@model IEnumerable<DisplayMonkey.Models.Frame>
+﻿@using DisplayMonkey.Language
+
+@model IEnumerable<DisplayMonkey.Models.Frame>
 
 @{
-    ViewBag.Title = "Frames";
+    ViewBag.Title = Resources.Frames;
 }
 
 <h2>@ViewBag.Title</h2>
 
 @using (Html.BeginForm("Index", "Frame", FormMethod.Get))
 {    
-    <fieldset><legend>Search</legend><table>
-        <tr><td>Canvas:</td><td><div class="select">@Html.DropDownList("CanvasId", "- Any -")</div></td></tr>
-        <tr><td>Panel:</td><td><div class="select">@Html.DropDownList("PanelId", "- Any -")</div></td></tr>
-        <tr><td>Frame type:</td><td><div class="select">@Html.DropDownList("FrameType", "- Any -")</div></td></tr>
-    <tr><td colspan="2"><input type="submit" value="Filter" /></td></tr></table></fieldset> 
+    <fieldset><legend>@Resources.Search</legend><table>
+        <tr><td>@Resources.Canvas:</td><td><div class="select">@Html.DropDownList("CanvasId",Resources.Any)</div></td></tr>
+        <tr><td>@Resources.Panel:</td><td><div class="select">@Html.DropDownList("PanelId",Resources.Any)</div></td></tr>
+        <tr><td>@Resources.FrameType:</td><td><div class="select">@Html.DropDownList("FrameType",Resources.Any)</div></td></tr>
+    <tr><td colspan="2"><input type="submit" value="@Resources.Filter" /></td></tr></table></fieldset> 
 }
 
-@Html.ActionLink("Create new frame", "Create", new { canvasId = Request["canvasId"], panelId = Request["panelId"], frameType = Request["frameType"] })
+@Html.ActionLink(Resources.CreateNewFrame, "Create", new { canvasId = Request["canvasId"], panelId = Request["panelId"], frameType = Request["frameType"] })
 
 @Html.Partial("_frameList", Model)

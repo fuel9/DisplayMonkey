@@ -1,7 +1,9 @@
-﻿@model DisplayMonkey.Models.Report
+﻿@using DisplayMonkey.Language
+
+@model DisplayMonkey.Models.Report
 
 @{
-    ViewBag.Title = "Report frame details";
+    ViewBag.Title = Resources.ReportFrameDetails;
 }
 
 <h2>@ViewBag.Title</h2>
@@ -9,8 +11,8 @@
 @Html.Partial("_Details")
 
 <p>
-    @Html.ActionLink("Edit", "Edit", "Frame", new { id=Model.FrameId }, null) |
-    @Html.ActionLink("View frames", "Index", "Frame")
+    @Html.ActionLink(Resources.Edit, "Edit", "Frame", new { id=Model.FrameId }, null) |
+    @Html.ActionLink(Resources.ViewFrames, "Index", "Frame")
 </p>
 
 @Html.Partial("_frameLocations", Model.Frame)

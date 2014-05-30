@@ -1,7 +1,9 @@
-﻿@model DisplayMonkey.Models.Panel
+﻿@using DisplayMonkey.Language
+
+@model DisplayMonkey.Models.Panel
 
 @{
-    ViewBag.Title = "Panel details";
+    ViewBag.Title = Resources.PanelDetails;
 }
 
 <h2>@ViewBag.Title</h2>
@@ -11,19 +13,19 @@
 <p>
     @if (Model.IsFullscreen)
     {
-        @Html.ActionLink("Edit", "EditFS", new { id=Model.PanelId })
+        @Html.ActionLink(Resources.Edit, "EditFS", new { id=Model.PanelId })
     }
     else
     {
-        @Html.ActionLink("Edit", "Edit", new { id=Model.PanelId })
+        @Html.ActionLink(Resources.Edit, "Edit", new { id=Model.PanelId })
     }
-     | @Html.ActionLink("View panels", "Index")
+     | @Html.ActionLink(Resources.ViewPanels, "Index")
 </p>
 
-<h2>Associated frames</h2>
+<h2>@Resources.AssociatedFrames</h2>
 
-@Html.ActionLink("Create new frame", "Create", "Frame", new { PanelId = Model.PanelId }, null) |
-@Html.ActionLink("Re-order frames", "SortFrames", new { id = Model.PanelId })
+@Html.ActionLink(Resources.CreateNewFrame, "Create", "Frame", new { PanelId = Model.PanelId }, null) |
+@Html.ActionLink(Resources.ReOrderFrames, "SortFrames", new { id = Model.PanelId })
 
 @Html.Partial("_frameList", Model.Frames)
 

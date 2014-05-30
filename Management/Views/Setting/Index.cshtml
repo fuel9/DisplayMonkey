@@ -5,7 +5,7 @@
 @model IEnumerable<DisplayMonkey.Models.Setting>
 
 @{
-    ViewBag.Title = "Application Settings";
+    ViewBag.Title = Resources.ApplicationSettings;
 }
 
 <h2>@ViewBag.Title</h2>
@@ -34,7 +34,7 @@
             }
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Key })
+            @Html.ActionLink(Resources.Edit, "Edit", new { id=item.Key })
         </td>
     </tr>
 }

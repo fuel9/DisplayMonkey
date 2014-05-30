@@ -5,7 +5,7 @@
 @model DisplayMonkey.Models.Setting
 
 @{
-    ViewBag.Title = "Edit application setting";
+    ViewBag.Title = Resources.EditApplicationSetting;
 }
 
 <h2>@ViewBag.Title</h2>
@@ -39,14 +39,14 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="@Resources.Save" class="btn btn-default" />
             </div>
         </div>
     </div>
 }
 
 <div>
-    @Html.ActionLink("View application settings", "Index")
+    @Html.ActionLink(Resources.ViewApplicationSettings, "Index")
 </div>
 
 @section Scripts {

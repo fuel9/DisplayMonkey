@@ -1,14 +1,16 @@
-﻿@model DisplayMonkey.Models.LocationSelector
+﻿@using DisplayMonkey.Language
+
+@model DisplayMonkey.Models.LocationSelector
 
 @{
-    ViewBag.Title = "Remove location";
+    ViewBag.Title = Resources.RemoveLocation;
 }
 
 <h2>@ViewBag.Title</h2>
 
-<h3>Are you sure you want to remove location from this frame?</h3>
+<h3>@Resources.AreYouSureYouWantToRemoveLocationFromThisFrame</h3>
 <fieldset>
-    <legend>Frame</legend>
+    <legend>@Resources.Frame</legend>
 
     @Html.HiddenFor(m => m.FrameId)
     @Html.HiddenFor(m => m.LocationId)
@@ -23,7 +25,7 @@
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
     <p>
-        <input type="submit" value="Remove" /> |
-        @Html.ActionLink("View frames", "Index")
+        <input type="submit" value="@Resources.Remove" /> |
+        @Html.ActionLink(Resources.ViewFrames, "Index")
     </p>
 }

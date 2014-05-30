@@ -1,14 +1,16 @@
-﻿@model DisplayMonkey.Models.ReportServer
+﻿@using DisplayMonkey.Language
+
+@model DisplayMonkey.Models.ReportServer
 
 @{
-    ViewBag.Title = "Delete report server account";
+    ViewBag.Title = Resources.DeleteReportServerAccount;
 }
 
 <h2>@ViewBag.Title</h2>
 
-<h3>Deleting report server account will cause deletion of all related content. Are you sure you want to continue?</h3>
+<h3>@Resources.DeletingReportServerAccountWillCauseDeletionOfAllRelatedContentAreYouSureYouWantToContinue</h3>
 <fieldset>
-    <legend>Report Server</legend>
+    <legend>@Resources.Report Server</legend>
 
     @Html.HiddenFor(model => model.ServerId)
     
@@ -44,7 +46,7 @@
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
     <p>
-        <input type="submit" value="Delete" /> |
-        @Html.ActionLink("Report server accounts", "Index")
+        <input type="submit" value="@Resources.Delete" /> |
+        @Html.ActionLink(Resources.ReportServerAccounts, "Index")
     </p>
 }

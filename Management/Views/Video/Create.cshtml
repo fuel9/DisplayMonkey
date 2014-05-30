@@ -1,7 +1,9 @@
-﻿@model DisplayMonkey.Models.Video
+﻿@using DisplayMonkey.Language
+
+@model DisplayMonkey.Models.Video
 
 @{
-    ViewBag.Title = "Create new video frame";
+    ViewBag.Title = Resources.CreateNewVideoFrame;
     SelectList videos = ViewBag.Videos as SelectList;
 }
 
@@ -12,7 +14,7 @@
     @Html.ValidationSummary(true)
 
     <fieldset>
-        <legend>Video</legend>
+        <legend>@Resources.Video</legend>
 
         @Html.Partial("_frameData", Model.Frame)
         @Html.Partial("_Edit", Model)
@@ -21,17 +23,17 @@
             @Html.LabelFor(model => model.SavedContentId)
         </div>
         <div class="editor-field select">
-            @Html.DropDownListFor(model => model.SavedContentId, videos, "- Upload new video(s) -")
+            @Html.DropDownListFor(model => model.SavedContentId, videos, Resources.UploadNewVideos)
         </div>
 
         <p>
-            <input type="submit" value="Create" />
+            <input type="submit" value="@Resources.Create" />
         </p>
     </fieldset>
 }
 
 <div>
-    @Html.ActionLink("View frames", "Index", "Frame")
+    @Html.ActionLink(Resources.ViewFrames, "Index", "Frame")
 </div>
 
 @section Scripts {

@@ -1,7 +1,9 @@
-﻿@model DisplayMonkey.Models.Picture
+﻿@using DisplayMonkey.Language
+
+@model DisplayMonkey.Models.Picture
 
 @{
-    ViewBag.Title = "Picture frame details";
+    ViewBag.Title = Resources.PictureFrameDetails;
 }
 
 <h2>@ViewBag.Title</h2>
@@ -9,8 +11,8 @@
 @Html.Partial("_Details")
 
 <p>
-    @Html.ActionLink("Edit", "Edit", "Frame", new { id=Model.FrameId }, null) |
-    @Html.ActionLink("View frames", "Index", "Frame")
+    @Html.ActionLink(Resources.Edit, "Edit", "Frame", new { id=Model.FrameId }, null) |
+    @Html.ActionLink(Resources.ViewFrames, "Index", "Frame")
 </p>
 
 @Html.Partial("_frameLocations", Model.Frame)

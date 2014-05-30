@@ -369,4 +369,578 @@
   <data name="ValueNotSet" xml:space="preserve">
     <value>&lt;&lt; Not Set &gt;&gt;</value>
   </data>
+  <data name="Locations" xml:space="preserve">
+    <value>Locations</value>
+  </data>
+  <data name="NameRequired" xml:space="preserve">
+    <value>Name is required</value>
+  </data>
+  <data name="Displays" xml:space="preserve">
+    <value>Displays</value>
+  </data>
+  <data name="Domain" xml:space="preserve">
+    <value>Domain</value>
+  </data>
+  <data name="Frames" xml:space="preserve">
+    <value>Frames</value>
+  </data>
+  <data name="FullScreens" xml:space="preserve">
+    <value>FullScreens</value>
+  </data>
+  <data name="News" xml:space="preserve">
+    <value>News</value>
+  </data>
+  <data name="Panels" xml:space="preserve">
+    <value>Panels</value>
+  </data>
+  <data name="Pictures" xml:space="preserve">
+    <value>Pictures</value>
+  </data>
+  <data name="Reports" xml:space="preserve">
+    <value>Reports</value>
+  </data>
+  <data name="Sort" xml:space="preserve">
+    <value>Sort</value>
+  </data>
+  <data name="Sublocations" xml:space="preserve">
+    <value>Sublocations</value>
+  </data>
+  <data name="Videos" xml:space="preserve">
+    <value>Videos</value>
+  </data>
+  <data name="BaseURLRequired" xml:space="preserve">
+    <value>Base URL is required</value>
+  </data>
+  <data name="CanvasRequired" xml:space="preserve">
+    <value>Canvas is required</value>
+  </data>
+  <data name="ClockTypeRequired" xml:space="preserve">
+    <value>Clock type is required</value>
+  </data>
+  <data name="FrameTypeRequired" xml:space="preserve">
+    <value>Frame type is required</value>
+  </data>
+  <data name="IDRequired" xml:space="preserve">
+    <value>ID is required</value>
+  </data>
+  <data name="Key" xml:space="preserve">
+    <value>Key</value>
+  </data>
+  <data name="LevelRequired" xml:space="preserve">
+    <value>Level is required</value>
+  </data>
+  <data name="LocationNameRequired" xml:space="preserve">
+    <value>Location name is required</value>
+  </data>
+  <data name="RenderModeRequired" xml:space="preserve">
+    <value>Render mode is required</value>
+  </data>
+  <data name="ReportPathRequired" xml:space="preserve">
+    <value>Report path is required</value>
+  </data>
+  <data name="Server" xml:space="preserve">
+    <value>Server</value>
+  </data>
+  <data name="WeatherTypeRequired" xml:space="preserve">
+    <value>Weather type is required</value>
+  </data>
+  <data name="AreYouSureDeleteCanvas" xml:space="preserve">
+    <value>Are you sure you want to delete this canvas?</value>
+  </data>
+  <data name="DateTimeExpected" xml:space="preserve">
+    <value>Date value is expected</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="DeleteCanvas" xml:space="preserve">
+    <value>Delete canvas</value>
+  </data>
+  <data name="MaxLengthExceeded" xml:space="preserve">
+    <value>Maximum field length exceeded</value>
+  </data>
+  <data name="ViewCanvases" xml:space="preserve">
+    <value>View canvases</value>
+  </data>
+  <data name="About" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="AddDisplay" xml:space="preserve">
+    <value>Add display</value>
+  </data>
+  <data name="Any" xml:space="preserve">
+    <value>- Any -</value>
+  </data>
+  <data name="ApplicationSettings" xml:space="preserve">
+    <value>Application Settings</value>
+  </data>
+  <data name="AreYouSureYouWantToDeleteThisFrame" xml:space="preserve">
+    <value>Are you sure you want to delete this frame?</value>
+  </data>
+  <data name="AreYouSureYouWantToDeleteThisLevel" xml:space="preserve">
+    <value>Are you sure you want to delete this level?</value>
+  </data>
+  <data name="AreYouSureYouWantToDeleteThisLocation" xml:space="preserve">
+    <value>Are you sure you want to delete this location?</value>
+  </data>
+  <data name="AreYousureYouWantToDeleteThisMedia" xml:space="preserve">
+    <value>Are you sure you want to delete this media</value>
+  </data>
+  <data name="AreYouSureYouWantToDeleteThisPanel" xml:space="preserve">
+    <value>Are you sure you want to delete this panel?</value>
+  </data>
+  <data name="AreYouSureYouWantToRemoveLocationFromThisFrame" xml:space="preserve">
+    <value>Are you sure you want to remove location from this frame?</value>
+  </data>
+  <data name="AssociatedDisplays" xml:space="preserve">
+    <value>Associated displays</value>
+  </data>
+  <data name="AssociatedFrames" xml:space="preserve">
+    <value>Associated frames</value>
+  </data>
+  <data name="AssociatedLocations" xml:space="preserve">
+    <value>Associated Locations</value>
+  </data>
+  <data name="AssociatedPanels" xml:space="preserve">
+    <value>Associated panels</value>
+  </data>
+  <data name="BrowseDisplay" xml:space="preserve">
+    <value>Browse display</value>
+  </data>
+  <data name="Bytes" xml:space="preserve">
+    <value>bytes</value>
+  </data>
+  <data name="CanvasDetails" xml:space="preserve">
+    <value>Canvas details</value>
+  </data>
+  <data name="Canvases" xml:space="preserve">
+    <value>Canvases</value>
+  </data>
+  <data name="ChangeDisplayed" xml:space="preserve">
+    <value>Change Displayed</value>
+  </data>
+  <data name="ClockFrameDetails" xml:space="preserve">
+    <value>Clock frame details</value>
+  </data>
+  <data name="ConfigureNewReportServerAccount" xml:space="preserve">
+    <value>Configure new report server account</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Create</value>
+  </data>
+  <data name="CreateNew" xml:space="preserve">
+    <value>Create new</value>
+  </data>
+  <data name="CreateNewCanvas" xml:space="preserve">
+    <value>Create new canvas</value>
+  </data>
+  <data name="CreateNewClockFrame" xml:space="preserve">
+    <value>Create new clock frame</value>
+  </data>
+  <data name="CreateNewDisplay" xml:space="preserve">
+    <value>Create new display</value>
+  </data>
+  <data name="CreateNewFrame" xml:space="preserve">
+    <value>Create new frame</value>
+  </data>
+  <data name="CreateNewLocation" xml:space="preserve">
+    <value>Create new location</value>
+  </data>
+  <data name="CreateNewMemoFrame" xml:space="preserve">
+    <value>Create new memo frame</value>
+  </data>
+  <data name="CreateNewPanel" xml:space="preserve">
+    <value>Create new panel</value>
+  </data>
+  <data name="CreateNewPictureFrame" xml:space="preserve">
+    <value>Create new picture frame</value>
+  </data>
+  <data name="CreateNewReportFrame" xml:space="preserve">
+    <value>Create new report frame</value>
+  </data>
+  <data name="CreateNewReportServerAccount" xml:space="preserve">
+    <value>Create new report server account</value>
+  </data>
+  <data name="CreateOrganizationLevel" xml:space="preserve">
+    <value>Create organization level</value>
+  </data>
+  <data name="CreateOrganizationLocation" xml:space="preserve">
+    <value>Create organization location</value>
+  </data>
+  <data name="CurrentlyDisplayed" xml:space="preserve">
+    <value>Currently Displayed</value>
+  </data>
+  <data name="CurrentMaximumAllowedSizeForImageFilesIsSetTo" xml:space="preserve">
+    <value>Current maximum allowed size for image files is set to</value>
+  </data>
+  <data name="CurrentMaximumAllowedSizeForVideoFilesIsSetTo" xml:space="preserve">
+    <value>Current maximum allowed size for video files is set to</value>
+  </data>
+  <data name="DeleteClockFrame" xml:space="preserve">
+    <value>Delete clock frame</value>
+  </data>
+  <data name="DeleteMedia" xml:space="preserve">
+    <value>Delete media</value>
+  </data>
+  <data name="DeleteMemoFrame" xml:space="preserve">
+    <value>Delete memo frame</value>
+  </data>
+  <data name="DeleteOrganizationLevel" xml:space="preserve">
+    <value>Delete organization level</value>
+  </data>
+  <data name="DeleteOrganizationLocation" xml:space="preserve">
+    <value>Delete organization location</value>
+  </data>
+  <data name="DeletePanel" xml:space="preserve">
+    <value>Delete panel</value>
+  </data>
+  <data name="DeletePictureFrame" xml:space="preserve">
+    <value>Delete picture frame</value>
+  </data>
+  <data name="DeleteReportFrame" xml:space="preserve">
+    <value>Delete report frame</value>
+  </data>
+  <data name="DeleteReportServerAccount" xml:space="preserve">
+    <value>Delete report server account</value>
+  </data>
+  <data name="DeletingReportServerAccountWillCauseDeletionOfAllRelatedContentAreYouSureYouWantToContinue" xml:space="preserve">
+    <value>Deleting report server account will cause deletion of all related content. Are you sure you want to continue?</value>
+  </data>
+  <data name="DesignatedLocations" xml:space="preserve">
+    <value>Designated locations</value>
+  </data>
+  <data name="DesignateLocation" xml:space="preserve">
+    <value>Designate location</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>Details</value>
+  </data>
+  <data name="DisplayMonkey" xml:space="preserve">
+    <value>Display Monkey</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="EditApplicationSetting" xml:space="preserve">
+    <value>Edit application setting</value>
+  </data>
+  <data name="EditCanvas" xml:space="preserve">
+    <value>Edit canvas</value>
+  </data>
+  <data name="EditClockFrame" xml:space="preserve">
+    <value>Edit clock frame</value>
+  </data>
+  <data name="EditFullScreenPanel" xml:space="preserve">
+    <value>Edit full screen panel</value>
+  </data>
+  <data name="EditMedia" xml:space="preserve">
+    <value>Edit media</value>
+  </data>
+  <data name="EditMemoFrame" xml:space="preserve">
+    <value>Edit memo frame</value>
+  </data>
+  <data name="EditOrganizationLevel" xml:space="preserve">
+    <value>Edit organization level</value>
+  </data>
+  <data name="EditOrganizationLocation" xml:space="preserve">
+    <value>Edit organization location</value>
+  </data>
+  <data name="EditPanel" xml:space="preserve">
+    <value>Edit panel</value>
+  </data>
+  <data name="EditPictureFrame" xml:space="preserve">
+    <value>Edit picture frame</value>
+  </data>
+  <data name="EditReportFrame" xml:space="preserve">
+    <value>Edit report frame</value>
+  </data>
+  <data name="EditReportServerAccount" xml:space="preserve">
+    <value>Edit report server account</value>
+  </data>
+  <data name="FileFormat" xml:space="preserve">
+    <value>File format</value>
+  </data>
+  <data name="Filter" xml:space="preserve">
+    <value>Filter</value>
+  </data>
+  <data name="FromArea" xml:space="preserve">
+    <value>- From Area -</value>
+  </data>
+  <data name="Home" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="InformationContentDisplayed" xml:space="preserve">
+    <value>Information/Content Displayed</value>
+  </data>
+  <data name="IsNotSupported" xml:space="preserve">
+    <value>is not supported</value>
+  </data>
+  <data name="Levels" xml:space="preserve">
+    <value>Levels</value>
+  </data>
+  <data name="Media" xml:space="preserve">
+    <value>Media</value>
+  </data>
+  <data name="MediaDetails" xml:space="preserve">
+    <value>Media details</value>
+  </data>
+  <data name="MediaType" xml:space="preserve">
+    <value>Media type</value>
+  </data>
+  <data name="MemoFrameDetails" xml:space="preserve">
+    <value>Memo frame details</value>
+  </data>
+  <data name="Missing" xml:space="preserve">
+    <value>Missing</value>
+  </data>
+  <data name="NewFrame" xml:space="preserve">
+    <value>New frame</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="NoArea" xml:space="preserve">
+    <value>- No Area -</value>
+  </data>
+  <data name="NoBackground" xml:space="preserve">
+    <value>- No Background -</value>
+  </data>
+  <data name="NoteForVarietyOfBrowsersVideoFramesCanBeLinkedToMultipleAlternativeMediaStreamsToSelectMultipleFilesPushAndHoldShiftOrCtrl" xml:space="preserve">
+    <value>Note: for variety of browsers video frames can be linked to multiple alternative media streams, to select multiple files push and hold [Shift] or [Ctrl].</value>
+  </data>
+  <data name="NoteToSelectMultipleFilesPushAndHoldShiftOrCtrl" xml:space="preserve">
+    <value>Note: to select multiple files push and hold [Shift] or [Ctrl].</value>
+  </data>
+  <data name="Organization" xml:space="preserve">
+    <value>Organization</value>
+  </data>
+  <data name="OrganizationLevelDetails" xml:space="preserve">
+    <value>Organization level details</value>
+  </data>
+  <data name="OrganizationLevels" xml:space="preserve">
+    <value>Organization levels</value>
+  </data>
+  <data name="OrganizationLocationDetails" xml:space="preserve">
+    <value>Organization location details</value>
+  </data>
+  <data name="OrganizationLocations" xml:space="preserve">
+    <value>Organization locations</value>
+  </data>
+  <data name="Other" xml:space="preserve">
+    <value>Other</value>
+  </data>
+  <data name="PanelDetails" xml:space="preserve">
+    <value>Panel details</value>
+  </data>
+  <data name="PictureFrameDetails" xml:space="preserve">
+    <value>Picture frame details</value>
+  </data>
+  <data name="Pixels" xml:space="preserve">
+    <value>pixels</value>
+  </data>
+  <data name="PleaseSelectFilesToUploadFirst" xml:space="preserve">
+    <value>Please select file(s) to upload first</value>
+  </data>
+  <data name="PleaseSelectFileToUploadFirst" xml:space="preserve">
+    <value>Please select file to upload first</value>
+  </data>
+  <data name="Remove" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="RemoveLocation" xml:space="preserve">
+    <value>Remove location</value>
+  </data>
+  <data name="ReOrderFrames" xml:space="preserve">
+    <value>Re-order frames</value>
+  </data>
+  <data name="ReOrderPanelFrames" xml:space="preserve">
+    <value>Re-order Panel Frames</value>
+  </data>
+  <data name="ReportFrameDetails" xml:space="preserve">
+    <value>Report frame details</value>
+  </data>
+  <data name="ReportServerAccounts" xml:space="preserve">
+    <value>Report server accounts</value>
+  </data>
+  <data name="RequestedResourceDoesNotExist" xml:space="preserve">
+    <value>Requested resource does not exist.</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="Sec" xml:space="preserve">
+    <value>sec.</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="Setup" xml:space="preserve">
+    <value>Setup</value>
+  </data>
+  <data name="String1" xml:space="preserve">
+    <value>Create</value>
+  </data>
+  <data name="SupportedImageFormatsIncludeAllOtherContentWillBeIgnored" xml:space="preserve">
+    <value>Supported image formats include {0}. All other content will be ignored.</value>
+  </data>
+  <data name="SupportedMediaFormatsIncludeForImagesAndForVideoAllOtherContentWillBeIgnored" xml:space="preserve">
+    <value>Supported media formats include {0} for images and {1} for video. All other content will be ignored.</value>
+  </data>
+  <data name="ThisFrameWillShowInAllLocations" xml:space="preserve">
+    <value>This frame will show in all locations</value>
+  </data>
+  <data name="UnsupportedFrame" xml:space="preserve">
+    <value>Unsupported frame</value>
+  </data>
+  <data name="Upload" xml:space="preserve">
+    <value>Upload</value>
+  </data>
+  <data name="UploadMedia" xml:space="preserve">
+    <value>Upload media</value>
+  </data>
+  <data name="UploadNewMedia" xml:space="preserve">
+    <value>Upload new media</value>
+  </data>
+  <data name="UploadNewPicture" xml:space="preserve">
+    <value>- Upload new picture -</value>
+  </data>
+  <data name="VideoAlternatives" xml:space="preserve">
+    <value>{0} video alternatives
+            </value>
+  </data>
+  <data name="ViewApplicationSettings" xml:space="preserve">
+    <value>View application settings</value>
+  </data>
+  <data name="ViewDisplays" xml:space="preserve">
+    <value>View displays</value>
+  </data>
+  <data name="ViewFrames" xml:space="preserve">
+    <value>View frames</value>
+  </data>
+  <data name="ViewLevels" xml:space="preserve">
+    <value>View levels</value>
+  </data>
+  <data name="ViewLocations" xml:space="preserve">
+    <value>View locations</value>
+  </data>
+  <data name="ViewPanels" xml:space="preserve">
+    <value>View panels</value>
+  </data>
+  <data name="ViewUploadedMedia" xml:space="preserve">
+    <value>View Uploaded Media</value>
+  </data>
+  <data name="WithIdCouldNotBeFound" xml:space="preserve">
+    <value>{0} with id# {1} could not be found</value>
+  </data>
+  <data name="YourBrowserDoesntSupportThisMediaTypePleaseUpgradeYourBrowser" xml:space="preserve">
+    <value>Your browser doesn't support this media type, please upgrade your browser</value>
+  </data>
+  <data name="SelectCanvas" xml:space="preserve">
+    <value>Select canvas</value>
+  </data>
+  <data name="CanvasPositionSizePixels" xml:space="preserve">
+    <value>Canvas: {0}, Position: {1}, {2}, Size: {3} x {4} pixels</value>
+  </data>
+  <data name="CanvasSizePixelsSec" xml:space="preserve">
+    <value>Canvas: {0}, Size: {1} x {2} pixels, {3}: {4} sec.</value>
+  </data>
+  <data name="KB" xml:space="preserve">
+    <value>KB</value>
+  </data>
+  <data name="NotSet" xml:space="preserve">
+    <value>not set</value>
+  </data>
+  <data name="Options" xml:space="preserve">
+    <value>Options</value>
+  </data>
+  <data name="PositionSize" xml:space="preserve">
+    <value>Position: {0}, {1}, Size: {2} x {3}</value>
+  </data>
+  <data name="SelectFrameType" xml:space="preserve">
+    <value>Select frame type</value>
+  </data>
+  <data name="SelectPanel" xml:space="preserve">
+    <value>Select panel</value>
+  </data>
+  <data name="AddMediaAlternative" xml:space="preserve">
+    <value>Add media alternative</value>
+  </data>
+  <data name="AreYouSureYouWantToUnlinkThisMediaAlternative" xml:space="preserve">
+    <value>Are you sure you want to unlink this media alternative?</value>
+  </data>
+  <data name="BackToDetails" xml:space="preserve">
+    <value>Back to details</value>
+  </data>
+  <data name="BackToVideoDetails" xml:space="preserve">
+    <value>Back to video details</value>
+  </data>
+  <data name="CreateNewVideoFrame" xml:space="preserve">
+    <value>Create new video frame</value>
+  </data>
+  <data name="CreateNewWeatherFrame" xml:space="preserve">
+    <value>Create new weather frame</value>
+  </data>
+  <data name="DeleteVideoFrame" xml:space="preserve">
+    <value>Delete video frame</value>
+  </data>
+  <data name="DeleteWeatherFrame" xml:space="preserve">
+    <value>Delete weather frame</value>
+  </data>
+  <data name="EditVideoFrame" xml:space="preserve">
+    <value>Edit video frame</value>
+  </data>
+  <data name="EditWeatherFrame" xml:space="preserve">
+    <value>Edit weather frame</value>
+  </data>
+  <data name="Link" xml:space="preserve">
+    <value>Link</value>
+  </data>
+  <data name="LinkedMediaAlternatives" xml:space="preserve">
+    <value>Linked media alternatives</value>
+  </data>
+  <data name="LinkMediaAlternative" xml:space="preserve">
+    <value>Link media alternative</value>
+  </data>
+  <data name="NoLinkedAlternatives" xml:space="preserve">
+    <value>No linked alternatives</value>
+  </data>
+  <data name="Unlink" xml:space="preserve">
+    <value>Unlink</value>
+  </data>
+  <data name="UnlinkVideoFramemedia" xml:space="preserve">
+    <value>Unlink video frame media</value>
+  </data>
+  <data name="UpdateInterval" xml:space="preserve">
+    <value>Update interval</value>
+  </data>
+  <data name="UploadMediaAlternative" xml:space="preserve">
+    <value>Upload media alternative</value>
+  </data>
+  <data name="UploadNewVideos" xml:space="preserve">
+    <value>- Upload new video(s) -</value>
+  </data>
+  <data name="VideoFrameDetails" xml:space="preserve">
+    <value>Video frame details</value>
+  </data>
+  <data name="WeatherFrameDetails" xml:space="preserve">
+    <value>Weather frame details</value>
+  </data>
+  <data name="AreYouSureYouWantToRemoveThisDisplay" xml:space="preserve">
+    <value>Are you sure you want to remove this display</value>
+  </data>
+  <data name="Background" xml:space="preserve">
+    <value>Background</value>
+  </data>
+  <data name="EditDisplay" xml:space="preserve">
+    <value>Edit display</value>
+  </data>
+  <data name="RemoveDisplay" xml:space="preserve">
+    <value>Remove display</value>
+  </data>
 </root>

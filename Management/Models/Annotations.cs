@@ -32,10 +32,15 @@ namespace DisplayMonkey.Models
 
             [
                 Display(ResourceType = typeof(Resources), Name = "Name"),
-                Required,
-                StringLength(100),
+                Required(ErrorMessageResourceType=typeof(Resources), ErrorMessageResourceName = "NameRequired"),
+                StringLength(100, ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "MaxLengthExceeded"),
             ]
             public string Name { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "Locations"),
+            ]
+            public virtual ICollection<Location> Locations { get; set; }
         }
     }
 
@@ -48,25 +53,25 @@ namespace DisplayMonkey.Models
         {
             [
                 Display(ResourceType = typeof(Resources), Name = "ID"),
-                Required,
+                Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "IDRequired"),
             ]
             public int LocationId { get; set; }
 
-            [
-                Required,
+            [   Display(ResourceType = typeof(Resources), Name = "Level"),
+                Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "LevelRequired"),
             ]
             public int LevelId { get; set; }
 
             [
                 Display(ResourceType = typeof(Resources), Name = "Name"),
-                Required,
-                StringLength(100),
+                Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "NameRequired"),
+                StringLength(100, ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "MaxLengthExceeded"),
             ]
             public string Name { get; set; }
 
             [
                 Display(ResourceType = typeof(Resources), Name = "TemperatureUnit"),
-                StringLength(1),
+                StringLength(1, ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "MaxLengthExceeded"),
             ]
             public string TemperatureUnit { get; set; }
 
@@ -104,6 +109,21 @@ namespace DisplayMonkey.Models
                 Display(ResourceType = typeof(Resources), Name = "Area"),
             ]
             public virtual Location Area { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "Displays"),
+            ]
+            public virtual ICollection<Display> Displays { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "Frames"),
+            ]
+            public virtual ICollection<Frame> Frames { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "Sublocations"),
+            ]
+            public virtual ICollection<Location> Sublocations { get; set; }
         }
 
         public IEnumerable<Location> SelfAndChildren
@@ -126,8 +146,8 @@ namespace DisplayMonkey.Models
             
             [
                 Display(ResourceType = typeof(Resources), Name = "Name"),
-                Required,
-                StringLength(100),
+                Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "NameRequired"),
+                StringLength(100, ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "MaxLengthExceeded"),
             ]
             public string Name { get; set; }
 
@@ -152,7 +172,7 @@ namespace DisplayMonkey.Models
             public int Width { get; set; }
 
             [
-                StringLength(20),
+                StringLength(20, ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "MaxLengthExceeded"),
                 Display(ResourceType = typeof(Resources), Name = "BackgroundColor"),
             ]
             public string BackgroundColor { get; set; }
@@ -171,6 +191,16 @@ namespace DisplayMonkey.Models
                 Display(ResourceType = typeof(Resources), Name = "FullScreen"),
             ]
             public virtual FullScreen FullScreen { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "Displays"),
+            ]
+            public virtual ICollection<Display> Displays { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "Panels"),
+            ]
+            public virtual ICollection<Panel> Panels { get; set; }
         }
     }
 
@@ -183,12 +213,12 @@ namespace DisplayMonkey.Models
         {
             [
                 Display(ResourceType = typeof(Resources), Name = "ID"),
-                Required,
+                Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "IDRequired"),
             ]
             public int PanelId { get; set; }
 
-            [
-                Required
+            [   Display(ResourceType = typeof(Resources), Name = "Canvas"),
+                Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "CanvasRequired"),
             ]
             public int CanvasId { get; set; }
 
@@ -235,8 +265,8 @@ namespace DisplayMonkey.Models
 
             [
                 Display(ResourceType = typeof(Resources), Name = "Name"),
-                Required,
-                StringLength(100),
+                Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "NameRequired"),
+                StringLength(100, ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "MaxLengthExceeded"),
             ]
             public string Name { get; set; }
 
@@ -244,6 +274,16 @@ namespace DisplayMonkey.Models
                 Display(ResourceType = typeof(Resources), Name = "Canvas"),
             ]
             public virtual Canvas Canvas { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "Frames"),
+            ]
+            public virtual ICollection<Frame> Frames { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "FullScreens"),
+            ]
+            public virtual ICollection<FullScreen> FullScreens { get; set; }
         }
 
         public bool IsFullscreen
@@ -268,6 +308,11 @@ namespace DisplayMonkey.Models
                 Display(ResourceType = typeof(Resources), Name = "ID"),
             ]
             public int PanelId { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "Canvas"),
+            ]
+            public int CanvasId { get; set; }
 
             [
                 Display(ResourceType = typeof(Resources), Name = "MaxIdleInterval"),
@@ -299,9 +344,14 @@ namespace DisplayMonkey.Models
         internal class Annotations
         {
             [
-                Display(ResourceType = typeof(Resources), Name = "ID"),
+               Display(ResourceType = typeof(Resources), Name = "ID"), 
             ]
             public int FrameId { get; set; }
+
+            [
+               Display(ResourceType = typeof(Resources), Name = "Panel"),
+            ]
+            public int PanelId { get; set; }
 
             [
                 Display(ResourceType = typeof(Resources), Name = "Duration"),
@@ -313,18 +363,73 @@ namespace DisplayMonkey.Models
 
             [
                 Display(ResourceType = typeof(Resources), Name = "BeginsOn"),
-                DataType(DataType.DateTime),
+                DataType(DataType.DateTime,
+                    ErrorMessageResourceType = typeof(Resources),
+                    ErrorMessageResourceName = "DateTimeExpected"),
                 //DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true),
             ]
             public Nullable<System.DateTime> BeginsOn { get; set; }
 
             [
                 Display(ResourceType = typeof(Resources), Name = "EndsOn"),
-                DataType(DataType.DateTime),
+                DataType(DataType.DateTime,
+                    ErrorMessageResourceType = typeof(Resources),
+                    ErrorMessageResourceName = "DateTimeExpected"),
                 //DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true),
             ]
             public Nullable<System.DateTime> EndsOn { get; set; }
+
+            [
+               Display(ResourceType = typeof(Resources), Name = "Sort"), 
+            ]
+            public Nullable<int> Sort { get; set; }
+
+            [
+               Display(ResourceType = typeof(Resources), Name = "Clock"), 
+            ]
+            public virtual Clock Clock { get; set; }
+
+            [
+               Display(ResourceType = typeof(Resources), Name = "Panel"), 
+            ]
+            public virtual Panel Panel { get; set; }
+
+            [
+               Display(ResourceType = typeof(Resources), Name = "Memo"), 
+            ]
+            public virtual Memo Memo { get; set; }
+
+            [
+               Display(ResourceType = typeof(Resources), Name = "News"), 
+            ]
+            public virtual News News { get; set; }
+
+            [
+               Display(ResourceType = typeof(Resources), Name = "Picture"), 
+            ]
+            public virtual Picture Picture { get; set; }
+
+            [
+               Display(ResourceType = typeof(Resources), Name = "Report"), 
+            ]
+            public virtual Report Report { get; set; }
+
+            [
+               Display(ResourceType = typeof(Resources), Name = "Video"), 
+            ]
+            public virtual Video Video { get; set; }
+
+            [
+               Display(ResourceType = typeof(Resources), Name = "Weather"), 
+            ]
+            public virtual Weather Weather { get; set; }
+
+            [
+               Display(ResourceType = typeof(Resources), Name = "Locations"), 
+            ]
+            public virtual ICollection<Location> Locations { get; set; }
         }
+  
 
         public enum FrameTypes
         {
@@ -392,21 +497,21 @@ namespace DisplayMonkey.Models
     {
         [
             Display(ResourceType = typeof(Resources), Name = "FrameType"),
-            Required
+            Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "FrameTypeRequired"),
         ]
         public override FrameTypes? FrameType { get; set; }
     }
 
     public class LocationSelector : Frame
     {
-        [
-            Required
+        [  Display(ResourceType = typeof(Resources), Name = "ID"),
+           Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "IDRequired"),
         ]
         public int LocationId { get; set; }
 
         [
             Display(ResourceType = typeof(Resources), Name = "LocationName"),
-            Required
+            Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "LocationNameRequired"),
         ]
         public string LocationName { get; set; }
     }
@@ -459,6 +564,11 @@ namespace DisplayMonkey.Models
         internal class Annotations
         {
             [
+               Display(ResourceType = typeof(Resources), Name = "ID"), 
+            ]
+            public int ContentId { get; set; }
+
+            [
                 Display(ResourceType = typeof(Resources), Name = "MediaSource"),
                 DataType(DataType.Upload),
             ]
@@ -466,10 +576,30 @@ namespace DisplayMonkey.Models
 
             [
                 Display(ResourceType = typeof(Resources), Name = "Name"),
-                Required,
-                StringLength(100),
+                Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "NameRequired"),
+                StringLength(100, ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "MaxLengthExceeded"),
             ]
             public string Name { get; set; }
+
+            [
+               Display(ResourceType = typeof(Resources), Name = "Type"), 
+            ]
+            public ContentTypes Type { get; set; }
+
+            [
+               Display(ResourceType = typeof(Resources), Name = "Canvas"), 
+            ]
+            public virtual ICollection<Canvas> Canvas { get; set; }
+
+            [
+               Display(ResourceType = typeof(Resources), Name = "Pictures"), 
+            ]
+            public virtual ICollection<Picture> Pictures { get; set; }
+
+            [
+               Display(ResourceType = typeof(Resources), Name = "Videos"), 
+            ]
+            public virtual ICollection<Video> Videos { get; set; }
         }
 
         [
@@ -506,15 +636,20 @@ namespace DisplayMonkey.Models
         internal class Annotations
         {
             [
+                Display(ResourceType = typeof(Resources), Name = "ID"),
+            ]
+            public int ServerId { get; set; }
+
+            [
                 Display(ResourceType = typeof(Resources), Name = "Name"),
-                Required,
-                StringLength(100),
+                Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "NameRequired"),
+                StringLength(100, ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "MaxLengthExceeded"),
             ]
             public string Name { get; set; }
 
             [
                 Display(ResourceType = typeof(Resources), Name = "BaseURL"),
-                Required
+                Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "BaseURLRequired"),
             ]
             public string BaseUrl { get; set; }
 
@@ -522,6 +657,21 @@ namespace DisplayMonkey.Models
                 Display(ResourceType = typeof(Resources), Name = "User"),
             ]
             public string User { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "Password"),
+            ]
+            public byte[] Password { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "Domain"),
+            ]
+            public string Domain { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "Reports"),
+            ]
+            public virtual ICollection<Report> Reports { get; set; }
         }
 
         [
@@ -562,27 +712,37 @@ namespace DisplayMonkey.Models
 
             [
                 Display(ResourceType = typeof(Resources), Name = "Name"),
-                Required,
-                StringLength(100),
+                Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "NameRequired"),
+                StringLength(100, ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "MaxLengthExceeded"),
             ]
             public string Name { get; set; }
 
             [
                 Display(ResourceType = typeof(Resources), Name = "ReportPath"),
-                Required
+                Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "ReportPathRequired"),
             ]
             public string Path { get; set; }
 
             [
                 Display(ResourceType = typeof(Resources), Name = "RenderMode"),
-                Required
+                Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "RenderModeRequired"),
             ]
             public RenderModes Mode { get; set; }
 
             [
-                Display(ResourceType = typeof(Resources), Name = "ReportServer"),
+                Display(ResourceType = typeof(Resources), Name = "Server"),
             ]
             public int ServerId { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "Frame"),
+            ]
+            public virtual Frame Frame { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "ReportServer"),
+            ]
+            public virtual ReportServer ReportServer { get; set; }
         }
     }
 
@@ -600,7 +760,7 @@ namespace DisplayMonkey.Models
 
             [
                 Display(ResourceType = typeof(Resources), Name = "ClockType"),
-                Required
+                Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "ClockTypeRequired"),
             ]
             public ClockTypes Type { get; set; }
 
@@ -641,9 +801,14 @@ namespace DisplayMonkey.Models
 
             [
                 Display(ResourceType = typeof(Resources), Name = "WeatherType"),
-                Required
+                Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "WeatherTypeRequired"),
             ]
             public WeatherTypes Type { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "Frame"),
+            ]
+            public virtual Frame Frame { get; set; }
         }
 
         public void SetDefaultDuration(int value = 600)
@@ -674,6 +839,11 @@ namespace DisplayMonkey.Models
                 Display(ResourceType = typeof(Resources), Name = "LinkedMedia"),
             ]
             public int ContentId { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "Frame"),
+            ]
+            public virtual Frame Frame { get; set; }
         }
 
         [
@@ -737,9 +907,19 @@ namespace DisplayMonkey.Models
             public int DisplayId { get; set; }
 
             [
+                Display(ResourceType = typeof(Resources), Name = "Canvas"),
+            ]
+            public int CanvasId { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "Location"),
+            ]
+            public int LocationId { get; set; }
+
+            [
                 Display(ResourceType = typeof(Resources), Name = "Name"),
-                Required,
-                StringLength(100),
+                Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "NameRequired"),
+                StringLength(100, ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "MaxLengthExceeded"),
             ]
             public string Name { get; set; }
             
@@ -747,6 +927,16 @@ namespace DisplayMonkey.Models
                 Display(ResourceType = typeof(Resources), Name = "Host"),
             ]
             public string Host { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "Canvas"),
+            ]
+            public virtual Canvas Canvas { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "Location"),
+            ]
+            public virtual Location Location { get; set; }
         }
     }
 
@@ -757,6 +947,20 @@ namespace DisplayMonkey.Models
     {
         internal class Annotations
         {
+            [
+                Display(ResourceType = typeof(Resources), Name = "Key"),
+            ]
+            public System.Guid Key { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "Value"),
+            ]
+            public byte[] Value { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "Type"),
+            ]
+            public SettingTypes Type { get; set; }
         }
 
         public static Guid Key_MaxImageSize { get; private set; }

@@ -1,19 +1,21 @@
-﻿@model DisplayMonkey.Models.Location
+﻿@using DisplayMonkey.Language
+
+@model DisplayMonkey.Models.Location
 
 @{
-    ViewBag.Title = "Delete organization location";
+    ViewBag.Title = Resources.DeleteOrganizationLocation;
 }
 
 <h2>@ViewBag.Title</h2>
 
-<h3>Are you sure you want to delete this location?</h3>
+<h3>@Resources.AreYouSureYouWantToDeleteThisLocation</h3>
 
 @Html.Partial("_Details")
 
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
     <p>
-        <input type="submit" value="Delete" /> |
-        @Html.ActionLink("View locations", "Index")
+        <input type="submit" value="@Resources.Delete" /> |
+        @Html.ActionLink(Resources.ViewLocations, "Index")
     </p>
 }

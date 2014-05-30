@@ -1,22 +1,24 @@
-﻿@model IEnumerable<DisplayMonkey.Models.Location>
+﻿@using DisplayMonkey.Language
+
+@model IEnumerable<DisplayMonkey.Models.Location>
 
 @{
-    ViewBag.Title = "Organization locations";
+    ViewBag.Title = Resources.OrganizationLocations;
 }
 
 <h2>@ViewBag.Title</h2>
 
 @using (Html.BeginForm("Index", "Location", FormMethod.Get))
 {    
-    <fieldset><legend>Search</legend><table>
-        <tr><td>Level:</td><td><div class="select">@Html.DropDownList("LevelId", "- Any -")</div></td></tr>
-        <tr><td>Area:</td><td><div class="select">@Html.DropDownList("AreaId", "- Any -")</div></td></tr>
-        <tr><td>Name:</td><td>@Html.TextBox("name")</td></tr>
-    <tr><td colspan="2"><input type="submit" value="Filter" /></td></tr></table></fieldset> 
+    <fieldset><legend>@Resources.Search</legend><table>
+        <tr><td>@Resources.Level:</td><td><div class="select">@Html.DropDownList("LevelId",Resources.Any)</div></td></tr>
+        <tr><td>@Resources.Area:</td><td><div class="select">@Html.DropDownList("AreaId",Resources.Any)</div></td></tr>
+        <tr><td>@Resources.Name:</td><td>@Html.TextBox("name")</td></tr>
+    <tr><td colspan="2"><input type="submit" value="@Resources.Filter" /></td></tr></table></fieldset> 
 }
 
 <p>
-    @Html.ActionLink("Create new location", "Create")
+    @Html.ActionLink(Resources.CreateNewLocation, "Create")
 </p>
 <table class="grid">
     <tr>
@@ -74,8 +76,8 @@
             @Html.DisplayFor(modelItem => item.TimeFormat)
         </td>
         <td class="nw">
-            @Html.ActionLink("Edit", "Edit", new { id=item.LocationId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.LocationId })
+            @Html.ActionLink(Resources.Edit, "Edit", new { id=item.LocationId }) |
+            @Html.ActionLink(Resources.Delete, "Delete", new { id=item.LocationId })
         </td>
     </tr>
 }

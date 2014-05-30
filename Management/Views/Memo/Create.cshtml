@@ -1,7 +1,9 @@
-﻿@model DisplayMonkey.Models.Memo
+﻿@using DisplayMonkey.Language
+
+@model DisplayMonkey.Models.Memo
 
 @{
-    ViewBag.Title = "Create new memo frame";
+    ViewBag.Title = Resources.CreateNewMemoFrame;
 }
 
 <h2>@ViewBag.Title</h2>
@@ -11,7 +13,7 @@
     @Html.ValidationSummary(true)
 
     <fieldset>
-        <legend>Memo</legend>
+        <legend>@Resources.Memo</legend>
 
         @Html.Partial("_frameData", Model.Frame)
         
@@ -32,13 +34,13 @@
         </div>
 
         <p>
-            <input type="submit" value="Create" />
+            <input type="submit" value="@Resources.Create" />
         </p>
     </fieldset>
 }
 
 <div>
-    @Html.ActionLink("View frames", "Index", "Frame")
+    @Html.ActionLink(Resources.ViewFrames, "Index", "Frame")
 </div>
 
 @section Scripts {

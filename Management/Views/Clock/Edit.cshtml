@@ -1,7 +1,9 @@
-﻿@model DisplayMonkey.Models.Clock
+﻿@using DisplayMonkey.Language
+
+@model DisplayMonkey.Models.Clock
 
 @{
-    ViewBag.Title = "Edit clock frame";
+    ViewBag.Title = Resources.EditClockFrame;
     SelectList types = ViewBag.Types as SelectList;
 }
 
@@ -12,7 +14,7 @@
     @Html.ValidationSummary(true)
 
     <fieldset>
-        <legend>Clock</legend>
+        <legend>@Resources.Clock</legend>
 
         @Html.Partial("_frameData", Model.Frame)
 
@@ -41,13 +43,13 @@
         </div>
 
         <p>
-            <input type="submit" value="Save" />
+            <input type="submit" value="@Resources.Save" />
         </p>
     </fieldset>
 }
 
 <div>
-    @Html.ActionLink("View frames", "Index", "Frame")
+    @Html.ActionLink(Resources.ViewFrames, "Index", "Frame")
 </div>
 
 @section Scripts {

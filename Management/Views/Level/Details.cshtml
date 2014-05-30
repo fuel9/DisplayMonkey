@@ -1,7 +1,9 @@
-﻿@model DisplayMonkey.Models.Level
+﻿@using DisplayMonkey.Language
+
+@model DisplayMonkey.Models.Level
 
 @{
-    ViewBag.Title = "Organization level details";
+    ViewBag.Title = Resources.OrganizationLevelDetails;
 }
 
 <h2>@ViewBag.Title</h2>
@@ -9,11 +11,11 @@
 @Html.Partial("_Details")
 
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id=Model.LevelId }) |
-    @Html.ActionLink("View levels", "Index")
+    @Html.ActionLink(Resources.Edit, "Edit", new { id=Model.LevelId }) |
+    @Html.ActionLink(Resources.ViewLevels, "Index")
 </p>
 
-<h2>Associated Locations</h2>
+<h2>@Resources.AssociatedLocations</h2>
 
 <table class="grid">
     <tr>
@@ -65,8 +67,8 @@
             @Html.DisplayFor(modelItem => item.TimeFormat)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", "Location", new { id=item.LocationId }, null) |
-            @Html.ActionLink("Delete", "Delete", "Location", new { id=item.LocationId }, null)
+            @Html.ActionLink(Resources.Edit, "Edit", "Location", new { id=item.LocationId }, null) |
+            @Html.ActionLink(Resources.Delete, "Delete", "Location", new { id=item.LocationId }, null)
         </td>
     </tr>
 }

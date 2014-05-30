@@ -5,7 +5,7 @@
 @model DisplayMonkey.Models.Weather
 
 <fieldset>
-    <legend>Weather</legend>
+    <legend>@Resources.Weather</legend>
 
     <div class="divTable">
     <div class="divRow">
@@ -22,7 +22,7 @@
          @Html.DisplayName("Update interval")
     </div>
     <div class="display-field">
-        @Html.DisplayFor(model => model.Frame.Duration) sec.
+        @Html.DisplayFor(model => model.Frame.Duration) @Resources.Sec
     </div>
     </div>
 

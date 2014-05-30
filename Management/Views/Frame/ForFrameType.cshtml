@@ -1,7 +1,9 @@
-﻿@model DisplayMonkey.Models.FrameSelector
+﻿@using DisplayMonkey.Language
+
+@model DisplayMonkey.Models.FrameSelector
 
 @{
-    ViewBag.Title = "Create new frame";
+    ViewBag.Title = Resources.CreateNewFrame;
 }
 
 <h2>@ViewBag.Title</h2>
@@ -11,7 +13,7 @@
     @Html.ValidationSummary(true)
 
     <fieldset>
-        <legend>Frame</legend>
+        <legend>@Resources.Frame</legend>
 
         @Html.HiddenFor(s => s.PanelId)
 
@@ -30,20 +32,20 @@
         </div>
 
         <div class="editor-label">
-            @Html.Label("Select frame type")
+            @Html.Label(Resources.SelectFrameType)
         </div>
         <div class="editor-field select">
             @Html.DropDownListFor(s => s.FrameType, ViewBag.FrameType as SelectList)
         </div>
 
         <p>
-            <input type="submit" value="Next" />
+            <input type="submit" value="@Resources.Next" />
         </p>
     </fieldset>
 }
 
 <div>
-    @Html.ActionLink("View frames", "Index")
+    @Html.ActionLink(Resources.ViewFrames, "Index")
 </div>
 
 @section Scripts {

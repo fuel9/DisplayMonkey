@@ -1,20 +1,22 @@
-﻿@model DisplayMonkey.Models.Panel
+﻿@using DisplayMonkey.Language
+
+@model DisplayMonkey.Models.Panel
 
 @{
-    ViewBag.Title = "Delete panel";
+    ViewBag.Title = Resources.DeletePanel;
 }
 
 <h2>@ViewBag.Title</h2>
 
-<h3>Are you sure you want to delete this panel?</h3>
+<h3>@Resources.AreYouSureYouWantToDeleteThisPanel</h3>
 
 @Html.Partial("_Details")
 
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
     <p>
-        <input type="submit" value="Delete" /> |
-        @Html.ActionLink("View panels", "Index")
+        <input type="submit" value="@Resources.Delete" /> |
+        @Html.ActionLink(Resources.ViewPanels, "Index")
     </p>
 }
 

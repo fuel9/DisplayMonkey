@@ -1,11 +1,13 @@
-﻿@model DisplayMonkey.Models.Panel
+﻿@using DisplayMonkey.Language
+
+@model DisplayMonkey.Models.Panel
 
 @{
     DisplayMonkey.Models.FullScreen fs = Model.Canvas.FullScreen;
 }
 
 <fieldset>
-    <legend>Panel</legend>
+    <legend>@Resources.Panel</legend>
         <table><tr>
         <td>
 
@@ -22,7 +24,7 @@
         @Html.Label(Model.Name)
         @if (fs.PanelId == Model.PanelId)
         {
-            @(string.Format("Canvas: {0}, Size: {1} x {2} pixels, {3}: {4} sec.", 
+            @(string.Format(Resources.CanvasSizePixelsSec, 
                 Html.DisplayFor(model => model.Canvas.Name),
                 Model.Canvas.Width, 
                 Model.Canvas.Height,
@@ -32,7 +34,7 @@
         }
         else
         {
-            @(string.Format("Canvas: {0}, Position: {1}, {2}, Size: {3} x {4} pixels", 
+            @(string.Format(Resources.CanvasPositionSizePixels, 
                 Html.DisplayFor(model => model.Canvas.Name),
                 Model.Left, 
                 Model.Top, 

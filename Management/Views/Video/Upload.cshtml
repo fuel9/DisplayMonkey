@@ -1,7 +1,9 @@
-﻿@model DisplayMonkey.Models.Video
+﻿@using DisplayMonkey.Language
+
+@model DisplayMonkey.Models.Video
 
 @{
-    ViewBag.Title = "Create new video frame";
+    ViewBag.Title = Resources.CreateNewVideoFrame;
 }
 
 <h2>@ViewBag.Title</h2>
@@ -11,20 +13,20 @@
     @Html.ValidationSummary(true)
 
     <fieldset>
-        <legend>Picture</legend>
+        <legend>@Resources.Picture</legend>
 
         @Html.Partial("_frameData", Model.Frame)
         @Html.Partial("_Edit", Model)     
         @Html.Partial("_File", Model)
 
         <p>
-            <input type="submit" value="Create" />
+            <input type="submit" value="@Resources.Create" />
         </p>
     </fieldset>
 }
 
 <div>
-    @Html.ActionLink("View frames", "Index", "Frame")
+    @Html.ActionLink(Resources.ViewFrames, "Index", "Frame")
 </div>
 
 @section Scripts {
@@ -33,7 +35,7 @@
         $(document).ready(function () {
             $('input[type="submit"]').click(function () {
                 if ($('#files').val() === "") {
-                    alert("Please select file(s) to upload first");
+                    alert("@Resources.PleaseSelectFilesToUploadFirst");
                     return false;
                 }
             });
@@ -44,11 +46,11 @@
                     if ($('#videoExt').val().indexOf(ext) >= 0) {
                         var max = $('#maxVideoSize').val();
                         if (file.size > max) {
-                            alert("Current maximum allowed size for video files is set to " + max + " bytes");
+                            alert("@Resources.CurrentMaximumAllowedSizeForVideoFilesIsSetTo" + max + "@Resources.Bytes");
                             $(this).val("");
                         }
                     } else {
-                        alert("File format " + ext + " is not supported");
+                        alert("@Resources.FileFormat" + ext + "@Resources.IsNotSupported");
                         $(this).val("");
                     }
                 }

@@ -61,11 +61,65 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to About.
+        /// </summary>
+        public static string About {
+            get {
+                return ResourceManager.GetString("About", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add.
+        /// </summary>
+        public static string Add {
+            get {
+                return ResourceManager.GetString("Add", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add display.
+        /// </summary>
+        public static string AddDisplay {
+            get {
+                return ResourceManager.GetString("AddDisplay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add media alternative.
+        /// </summary>
+        public static string AddMediaAlternative {
+            get {
+                return ResourceManager.GetString("AddMediaAlternative", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An error occurred while processing your request..
         /// </summary>
         public static string AnErrorOccured {
             get {
                 return ResourceManager.GetString("AnErrorOccured", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to - Any -.
+        /// </summary>
+        public static string Any {
+            get {
+                return ResourceManager.GetString("Any", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Application Settings.
+        /// </summary>
+        public static string ApplicationSettings {
+            get {
+                return ResourceManager.GetString("ApplicationSettings", resourceCulture);
             }
         }
         
@@ -79,11 +133,137 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to delete this canvas?.
+        /// </summary>
+        public static string AreYouSureDeleteCanvas {
+            get {
+                return ResourceManager.GetString("AreYouSureDeleteCanvas", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to delete this frame?.
+        /// </summary>
+        public static string AreYouSureYouWantToDeleteThisFrame {
+            get {
+                return ResourceManager.GetString("AreYouSureYouWantToDeleteThisFrame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to delete this level?.
+        /// </summary>
+        public static string AreYouSureYouWantToDeleteThisLevel {
+            get {
+                return ResourceManager.GetString("AreYouSureYouWantToDeleteThisLevel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to delete this location?.
+        /// </summary>
+        public static string AreYouSureYouWantToDeleteThisLocation {
+            get {
+                return ResourceManager.GetString("AreYouSureYouWantToDeleteThisLocation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to delete this media.
+        /// </summary>
+        public static string AreYousureYouWantToDeleteThisMedia {
+            get {
+                return ResourceManager.GetString("AreYousureYouWantToDeleteThisMedia", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to delete this panel?.
+        /// </summary>
+        public static string AreYouSureYouWantToDeleteThisPanel {
+            get {
+                return ResourceManager.GetString("AreYouSureYouWantToDeleteThisPanel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to remove location from this frame?.
+        /// </summary>
+        public static string AreYouSureYouWantToRemoveLocationFromThisFrame {
+            get {
+                return ResourceManager.GetString("AreYouSureYouWantToRemoveLocationFromThisFrame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to remove this display.
+        /// </summary>
+        public static string AreYouSureYouWantToRemoveThisDisplay {
+            get {
+                return ResourceManager.GetString("AreYouSureYouWantToRemoveThisDisplay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to unlink this media alternative?.
+        /// </summary>
+        public static string AreYouSureYouWantToUnlinkThisMediaAlternative {
+            get {
+                return ResourceManager.GetString("AreYouSureYouWantToUnlinkThisMediaAlternative", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Associated displays.
+        /// </summary>
+        public static string AssociatedDisplays {
+            get {
+                return ResourceManager.GetString("AssociatedDisplays", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Associated frames.
+        /// </summary>
+        public static string AssociatedFrames {
+            get {
+                return ResourceManager.GetString("AssociatedFrames", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Associated Locations.
+        /// </summary>
+        public static string AssociatedLocations {
+            get {
+                return ResourceManager.GetString("AssociatedLocations", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Associated panels.
+        /// </summary>
+        public static string AssociatedPanels {
+            get {
+                return ResourceManager.GetString("AssociatedPanels", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Auto-loop.
         /// </summary>
         public static string AutoLoop {
             get {
                 return ResourceManager.GetString("AutoLoop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Background.
+        /// </summary>
+        public static string Background {
+            get {
+                return ResourceManager.GetString("Background", resourceCulture);
             }
         }
         
@@ -115,11 +295,38 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Back to details.
+        /// </summary>
+        public static string BackToDetails {
+            get {
+                return ResourceManager.GetString("BackToDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Back to video details.
+        /// </summary>
+        public static string BackToVideoDetails {
+            get {
+                return ResourceManager.GetString("BackToVideoDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Base URL.
         /// </summary>
         public static string BaseURL {
             get {
                 return ResourceManager.GetString("BaseURL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Base URL is required.
+        /// </summary>
+        public static string BaseURLRequired {
+            get {
+                return ResourceManager.GetString("BaseURLRequired", resourceCulture);
             }
         }
         
@@ -142,6 +349,24 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Browse display.
+        /// </summary>
+        public static string BrowseDisplay {
+            get {
+                return ResourceManager.GetString("BrowseDisplay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to bytes.
+        /// </summary>
+        public static string Bytes {
+            get {
+                return ResourceManager.GetString("Bytes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Canvas.
         /// </summary>
         public static string Canvas {
@@ -151,11 +376,74 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Canvas details.
+        /// </summary>
+        public static string CanvasDetails {
+            get {
+                return ResourceManager.GetString("CanvasDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Canvases.
+        /// </summary>
+        public static string Canvases {
+            get {
+                return ResourceManager.GetString("Canvases", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Canvas: {0}, Position: {1}, {2}, Size: {3} x {4} pixels.
+        /// </summary>
+        public static string CanvasPositionSizePixels {
+            get {
+                return ResourceManager.GetString("CanvasPositionSizePixels", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Canvas is required.
+        /// </summary>
+        public static string CanvasRequired {
+            get {
+                return ResourceManager.GetString("CanvasRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Canvas: {0}, Size: {1} x {2} pixels, {3}: {4} sec..
+        /// </summary>
+        public static string CanvasSizePixelsSec {
+            get {
+                return ResourceManager.GetString("CanvasSizePixelsSec", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Change Displayed.
+        /// </summary>
+        public static string ChangeDisplayed {
+            get {
+                return ResourceManager.GetString("ChangeDisplayed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Clock.
         /// </summary>
         public static string Clock {
             get {
                 return ResourceManager.GetString("Clock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Clock frame details.
+        /// </summary>
+        public static string ClockFrameDetails {
+            get {
+                return ResourceManager.GetString("ClockFrameDetails", resourceCulture);
             }
         }
         
@@ -196,6 +484,24 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Clock type is required.
+        /// </summary>
+        public static string ClockTypeRequired {
+            get {
+                return ResourceManager.GetString("ClockTypeRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Configure new report server account.
+        /// </summary>
+        public static string ConfigureNewReportServerAccount {
+            get {
+                return ResourceManager.GetString("ConfigureNewReportServerAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Content.
         /// </summary>
         public static string Content {
@@ -223,11 +529,345 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Create.
+        /// </summary>
+        public static string Create {
+            get {
+                return ResourceManager.GetString("Create", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create new.
+        /// </summary>
+        public static string CreateNew {
+            get {
+                return ResourceManager.GetString("CreateNew", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create new canvas.
+        /// </summary>
+        public static string CreateNewCanvas {
+            get {
+                return ResourceManager.GetString("CreateNewCanvas", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create new clock frame.
+        /// </summary>
+        public static string CreateNewClockFrame {
+            get {
+                return ResourceManager.GetString("CreateNewClockFrame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create new display.
+        /// </summary>
+        public static string CreateNewDisplay {
+            get {
+                return ResourceManager.GetString("CreateNewDisplay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create new frame.
+        /// </summary>
+        public static string CreateNewFrame {
+            get {
+                return ResourceManager.GetString("CreateNewFrame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create new location.
+        /// </summary>
+        public static string CreateNewLocation {
+            get {
+                return ResourceManager.GetString("CreateNewLocation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create new memo frame.
+        /// </summary>
+        public static string CreateNewMemoFrame {
+            get {
+                return ResourceManager.GetString("CreateNewMemoFrame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create new panel.
+        /// </summary>
+        public static string CreateNewPanel {
+            get {
+                return ResourceManager.GetString("CreateNewPanel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create new picture frame.
+        /// </summary>
+        public static string CreateNewPictureFrame {
+            get {
+                return ResourceManager.GetString("CreateNewPictureFrame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create new report frame.
+        /// </summary>
+        public static string CreateNewReportFrame {
+            get {
+                return ResourceManager.GetString("CreateNewReportFrame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create new report server account.
+        /// </summary>
+        public static string CreateNewReportServerAccount {
+            get {
+                return ResourceManager.GetString("CreateNewReportServerAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create new video frame.
+        /// </summary>
+        public static string CreateNewVideoFrame {
+            get {
+                return ResourceManager.GetString("CreateNewVideoFrame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create new weather frame.
+        /// </summary>
+        public static string CreateNewWeatherFrame {
+            get {
+                return ResourceManager.GetString("CreateNewWeatherFrame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create organization level.
+        /// </summary>
+        public static string CreateOrganizationLevel {
+            get {
+                return ResourceManager.GetString("CreateOrganizationLevel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create organization location.
+        /// </summary>
+        public static string CreateOrganizationLocation {
+            get {
+                return ResourceManager.GetString("CreateOrganizationLocation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Currently Displayed.
+        /// </summary>
+        public static string CurrentlyDisplayed {
+            get {
+                return ResourceManager.GetString("CurrentlyDisplayed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Current maximum allowed size for image files is set to.
+        /// </summary>
+        public static string CurrentMaximumAllowedSizeForImageFilesIsSetTo {
+            get {
+                return ResourceManager.GetString("CurrentMaximumAllowedSizeForImageFilesIsSetTo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Current maximum allowed size for video files is set to.
+        /// </summary>
+        public static string CurrentMaximumAllowedSizeForVideoFilesIsSetTo {
+            get {
+                return ResourceManager.GetString("CurrentMaximumAllowedSizeForVideoFilesIsSetTo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Date format.
         /// </summary>
         public static string DateFormat {
             get {
                 return ResourceManager.GetString("DateFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Date value is expected.
+        /// </summary>
+        public static string DateTimeExpected {
+            get {
+                return ResourceManager.GetString("DateTimeExpected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete.
+        /// </summary>
+        public static string Delete {
+            get {
+                return ResourceManager.GetString("Delete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete canvas.
+        /// </summary>
+        public static string DeleteCanvas {
+            get {
+                return ResourceManager.GetString("DeleteCanvas", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete clock frame.
+        /// </summary>
+        public static string DeleteClockFrame {
+            get {
+                return ResourceManager.GetString("DeleteClockFrame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete media.
+        /// </summary>
+        public static string DeleteMedia {
+            get {
+                return ResourceManager.GetString("DeleteMedia", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete memo frame.
+        /// </summary>
+        public static string DeleteMemoFrame {
+            get {
+                return ResourceManager.GetString("DeleteMemoFrame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete organization level.
+        /// </summary>
+        public static string DeleteOrganizationLevel {
+            get {
+                return ResourceManager.GetString("DeleteOrganizationLevel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete organization location.
+        /// </summary>
+        public static string DeleteOrganizationLocation {
+            get {
+                return ResourceManager.GetString("DeleteOrganizationLocation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete panel.
+        /// </summary>
+        public static string DeletePanel {
+            get {
+                return ResourceManager.GetString("DeletePanel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete picture frame.
+        /// </summary>
+        public static string DeletePictureFrame {
+            get {
+                return ResourceManager.GetString("DeletePictureFrame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete report frame.
+        /// </summary>
+        public static string DeleteReportFrame {
+            get {
+                return ResourceManager.GetString("DeleteReportFrame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete report server account.
+        /// </summary>
+        public static string DeleteReportServerAccount {
+            get {
+                return ResourceManager.GetString("DeleteReportServerAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete video frame.
+        /// </summary>
+        public static string DeleteVideoFrame {
+            get {
+                return ResourceManager.GetString("DeleteVideoFrame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete weather frame.
+        /// </summary>
+        public static string DeleteWeatherFrame {
+            get {
+                return ResourceManager.GetString("DeleteWeatherFrame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deleting report server account will cause deletion of all related content. Are you sure you want to continue?.
+        /// </summary>
+        public static string DeletingReportServerAccountWillCauseDeletionOfAllRelatedContentAreYouSureYouWantToContinue {
+            get {
+                return ResourceManager.GetString("DeletingReportServerAccountWillCauseDeletionOfAllRelatedContentAreYouSureYouWantT" +
+                        "oContinue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Designated locations.
+        /// </summary>
+        public static string DesignatedLocations {
+            get {
+                return ResourceManager.GetString("DesignatedLocations", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Designate location.
+        /// </summary>
+        public static string DesignateLocation {
+            get {
+                return ResourceManager.GetString("DesignateLocation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Details.
+        /// </summary>
+        public static string Details {
+            get {
+                return ResourceManager.GetString("Details", resourceCulture);
             }
         }
         
@@ -241,6 +881,24 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Display Monkey.
+        /// </summary>
+        public static string DisplayMonkey {
+            get {
+                return ResourceManager.GetString("DisplayMonkey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Displays.
+        /// </summary>
+        public static string Displays {
+            get {
+                return ResourceManager.GetString("Displays", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Display type.
         /// </summary>
         public static string DisplayType {
@@ -250,11 +908,164 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Domain.
+        /// </summary>
+        public static string Domain {
+            get {
+                return ResourceManager.GetString("Domain", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Duration.
         /// </summary>
         public static string Duration {
             get {
                 return ResourceManager.GetString("Duration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit.
+        /// </summary>
+        public static string Edit {
+            get {
+                return ResourceManager.GetString("Edit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit application setting.
+        /// </summary>
+        public static string EditApplicationSetting {
+            get {
+                return ResourceManager.GetString("EditApplicationSetting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit canvas.
+        /// </summary>
+        public static string EditCanvas {
+            get {
+                return ResourceManager.GetString("EditCanvas", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit clock frame.
+        /// </summary>
+        public static string EditClockFrame {
+            get {
+                return ResourceManager.GetString("EditClockFrame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit display.
+        /// </summary>
+        public static string EditDisplay {
+            get {
+                return ResourceManager.GetString("EditDisplay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit full screen panel.
+        /// </summary>
+        public static string EditFullScreenPanel {
+            get {
+                return ResourceManager.GetString("EditFullScreenPanel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit media.
+        /// </summary>
+        public static string EditMedia {
+            get {
+                return ResourceManager.GetString("EditMedia", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit memo frame.
+        /// </summary>
+        public static string EditMemoFrame {
+            get {
+                return ResourceManager.GetString("EditMemoFrame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit organization level.
+        /// </summary>
+        public static string EditOrganizationLevel {
+            get {
+                return ResourceManager.GetString("EditOrganizationLevel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit organization location.
+        /// </summary>
+        public static string EditOrganizationLocation {
+            get {
+                return ResourceManager.GetString("EditOrganizationLocation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit panel.
+        /// </summary>
+        public static string EditPanel {
+            get {
+                return ResourceManager.GetString("EditPanel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit picture frame.
+        /// </summary>
+        public static string EditPictureFrame {
+            get {
+                return ResourceManager.GetString("EditPictureFrame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit report frame.
+        /// </summary>
+        public static string EditReportFrame {
+            get {
+                return ResourceManager.GetString("EditReportFrame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit report server account.
+        /// </summary>
+        public static string EditReportServerAccount {
+            get {
+                return ResourceManager.GetString("EditReportServerAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit video frame.
+        /// </summary>
+        public static string EditVideoFrame {
+            get {
+                return ResourceManager.GetString("EditVideoFrame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit weather frame.
+        /// </summary>
+        public static string EditWeatherFrame {
+            get {
+                return ResourceManager.GetString("EditWeatherFrame", resourceCulture);
             }
         }
         
@@ -313,11 +1124,38 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to File format.
+        /// </summary>
+        public static string FileFormat {
+            get {
+                return ResourceManager.GetString("FileFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Filter.
+        /// </summary>
+        public static string Filter {
+            get {
+                return ResourceManager.GetString("Filter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Frame.
         /// </summary>
         public static string Frame {
             get {
                 return ResourceManager.GetString("Frame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Frames.
+        /// </summary>
+        public static string Frames {
+            get {
+                return ResourceManager.GetString("Frames", resourceCulture);
             }
         }
         
@@ -331,6 +1169,24 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Frame type is required.
+        /// </summary>
+        public static string FrameTypeRequired {
+            get {
+                return ResourceManager.GetString("FrameTypeRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to - From Area -.
+        /// </summary>
+        public static string FromArea {
+            get {
+                return ResourceManager.GetString("FromArea", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Full screen.
         /// </summary>
         public static string FullScreen {
@@ -340,11 +1196,29 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to FullScreens.
+        /// </summary>
+        public static string FullScreens {
+            get {
+                return ResourceManager.GetString("FullScreens", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Height.
         /// </summary>
         public static string Height {
             get {
                 return ResourceManager.GetString("Height", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Home.
+        /// </summary>
+        public static string Home {
+            get {
+                return ResourceManager.GetString("Home", resourceCulture);
             }
         }
         
@@ -363,6 +1237,51 @@ namespace DisplayMonkey.Language {
         public static string ID {
             get {
                 return ResourceManager.GetString("ID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ID is required.
+        /// </summary>
+        public static string IDRequired {
+            get {
+                return ResourceManager.GetString("IDRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Information/Content Displayed.
+        /// </summary>
+        public static string InformationContentDisplayed {
+            get {
+                return ResourceManager.GetString("InformationContentDisplayed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to is not supported.
+        /// </summary>
+        public static string IsNotSupported {
+            get {
+                return ResourceManager.GetString("IsNotSupported", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to KB.
+        /// </summary>
+        public static string KB {
+            get {
+                return ResourceManager.GetString("KB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Key.
+        /// </summary>
+        public static string Key {
+            get {
+                return ResourceManager.GetString("Key", resourceCulture);
             }
         }
         
@@ -394,11 +1313,56 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Level is required.
+        /// </summary>
+        public static string LevelRequired {
+            get {
+                return ResourceManager.GetString("LevelRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Levels.
+        /// </summary>
+        public static string Levels {
+            get {
+                return ResourceManager.GetString("Levels", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Link.
+        /// </summary>
+        public static string Link {
+            get {
+                return ResourceManager.GetString("Link", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Linked media.
         /// </summary>
         public static string LinkedMedia {
             get {
                 return ResourceManager.GetString("LinkedMedia", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Linked media alternatives.
+        /// </summary>
+        public static string LinkedMediaAlternatives {
+            get {
+                return ResourceManager.GetString("LinkedMediaAlternatives", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Link media alternative.
+        /// </summary>
+        public static string LinkMediaAlternative {
+            get {
+                return ResourceManager.GetString("LinkMediaAlternative", resourceCulture);
             }
         }
         
@@ -421,6 +1385,24 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Location name is required.
+        /// </summary>
+        public static string LocationNameRequired {
+            get {
+                return ResourceManager.GetString("LocationNameRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Locations.
+        /// </summary>
+        public static string Locations {
+            get {
+                return ResourceManager.GetString("Locations", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Longitude.
         /// </summary>
         public static string Longitude {
@@ -435,6 +1417,33 @@ namespace DisplayMonkey.Language {
         public static string MaxIdleInterval {
             get {
                 return ResourceManager.GetString("MaxIdleInterval", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Maximum field length exceeded.
+        /// </summary>
+        public static string MaxLengthExceeded {
+            get {
+                return ResourceManager.GetString("MaxLengthExceeded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Media.
+        /// </summary>
+        public static string Media {
+            get {
+                return ResourceManager.GetString("Media", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Media details.
+        /// </summary>
+        public static string MediaDetails {
+            get {
+                return ResourceManager.GetString("MediaDetails", resourceCulture);
             }
         }
         
@@ -457,11 +1466,38 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Media type.
+        /// </summary>
+        public static string MediaType {
+            get {
+                return ResourceManager.GetString("MediaType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Memo.
         /// </summary>
         public static string Memo {
             get {
                 return ResourceManager.GetString("Memo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Memo frame details.
+        /// </summary>
+        public static string MemoFrameDetails {
+            get {
+                return ResourceManager.GetString("MemoFrameDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Missing.
+        /// </summary>
+        public static string Missing {
+            get {
+                return ResourceManager.GetString("Missing", resourceCulture);
             }
         }
         
@@ -475,6 +1511,97 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Name is required.
+        /// </summary>
+        public static string NameRequired {
+            get {
+                return ResourceManager.GetString("NameRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New frame.
+        /// </summary>
+        public static string NewFrame {
+            get {
+                return ResourceManager.GetString("NewFrame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to News.
+        /// </summary>
+        public static string News {
+            get {
+                return ResourceManager.GetString("News", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Next.
+        /// </summary>
+        public static string Next {
+            get {
+                return ResourceManager.GetString("Next", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to - No Area -.
+        /// </summary>
+        public static string NoArea {
+            get {
+                return ResourceManager.GetString("NoArea", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to - No Background -.
+        /// </summary>
+        public static string NoBackground {
+            get {
+                return ResourceManager.GetString("NoBackground", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No linked alternatives.
+        /// </summary>
+        public static string NoLinkedAlternatives {
+            get {
+                return ResourceManager.GetString("NoLinkedAlternatives", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Note: for variety of browsers video frames can be linked to multiple alternative media streams, to select multiple files push and hold [Shift] or [Ctrl]..
+        /// </summary>
+        public static string NoteForVarietyOfBrowsersVideoFramesCanBeLinkedToMultipleAlternativeMediaStreamsToSelectMultipleFilesPushAndHoldShiftOrCtrl {
+            get {
+                return ResourceManager.GetString("NoteForVarietyOfBrowsersVideoFramesCanBeLinkedToMultipleAlternativeMediaStreamsTo" +
+                        "SelectMultipleFilesPushAndHoldShiftOrCtrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Note: to select multiple files push and hold [Shift] or [Ctrl]..
+        /// </summary>
+        public static string NoteToSelectMultipleFilesPushAndHoldShiftOrCtrl {
+            get {
+                return ResourceManager.GetString("NoteToSelectMultipleFilesPushAndHoldShiftOrCtrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to not set.
+        /// </summary>
+        public static string NotSet {
+            get {
+                return ResourceManager.GetString("NotSet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to GMT offset, hours.
         /// </summary>
         public static string OffsetGMT {
@@ -484,11 +1611,92 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Options.
+        /// </summary>
+        public static string Options {
+            get {
+                return ResourceManager.GetString("Options", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Organization.
+        /// </summary>
+        public static string Organization {
+            get {
+                return ResourceManager.GetString("Organization", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Organization level details.
+        /// </summary>
+        public static string OrganizationLevelDetails {
+            get {
+                return ResourceManager.GetString("OrganizationLevelDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Organization levels.
+        /// </summary>
+        public static string OrganizationLevels {
+            get {
+                return ResourceManager.GetString("OrganizationLevels", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Organization location details.
+        /// </summary>
+        public static string OrganizationLocationDetails {
+            get {
+                return ResourceManager.GetString("OrganizationLocationDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Organization locations.
+        /// </summary>
+        public static string OrganizationLocations {
+            get {
+                return ResourceManager.GetString("OrganizationLocations", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Other.
+        /// </summary>
+        public static string Other {
+            get {
+                return ResourceManager.GetString("Other", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Panel.
         /// </summary>
         public static string Panel {
             get {
                 return ResourceManager.GetString("Panel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Panel details.
+        /// </summary>
+        public static string PanelDetails {
+            get {
+                return ResourceManager.GetString("PanelDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Panels.
+        /// </summary>
+        public static string Panels {
+            get {
+                return ResourceManager.GetString("Panels", resourceCulture);
             }
         }
         
@@ -511,11 +1719,65 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Picture frame details.
+        /// </summary>
+        public static string PictureFrameDetails {
+            get {
+                return ResourceManager.GetString("PictureFrameDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pictures.
+        /// </summary>
+        public static string Pictures {
+            get {
+                return ResourceManager.GetString("Pictures", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to pixels.
+        /// </summary>
+        public static string Pixels {
+            get {
+                return ResourceManager.GetString("Pixels", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Play muted.
         /// </summary>
         public static string PlayMuted {
             get {
                 return ResourceManager.GetString("PlayMuted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please select file(s) to upload first.
+        /// </summary>
+        public static string PleaseSelectFilesToUploadFirst {
+            get {
+                return ResourceManager.GetString("PleaseSelectFilesToUploadFirst", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please select file to upload first.
+        /// </summary>
+        public static string PleaseSelectFileToUploadFirst {
+            get {
+                return ResourceManager.GetString("PleaseSelectFileToUploadFirst", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Position: {0}, {1}, Size: {2} x {3}.
+        /// </summary>
+        public static string PositionSize {
+            get {
+                return ResourceManager.GetString("PositionSize", resourceCulture);
             }
         }
         
@@ -534,6 +1796,33 @@ namespace DisplayMonkey.Language {
         public static string RederMode {
             get {
                 return ResourceManager.GetString("RederMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove.
+        /// </summary>
+        public static string Remove {
+            get {
+                return ResourceManager.GetString("Remove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove display.
+        /// </summary>
+        public static string RemoveDisplay {
+            get {
+                return ResourceManager.GetString("RemoveDisplay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove location.
+        /// </summary>
+        public static string RemoveLocation {
+            get {
+                return ResourceManager.GetString("RemoveLocation", resourceCulture);
             }
         }
         
@@ -574,11 +1863,47 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Render mode is required.
+        /// </summary>
+        public static string RenderModeRequired {
+            get {
+                return ResourceManager.GetString("RenderModeRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Re-order frames.
+        /// </summary>
+        public static string ReOrderFrames {
+            get {
+                return ResourceManager.GetString("ReOrderFrames", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Re-order Panel Frames.
+        /// </summary>
+        public static string ReOrderPanelFrames {
+            get {
+                return ResourceManager.GetString("ReOrderPanelFrames", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Report.
         /// </summary>
         public static string Report {
             get {
                 return ResourceManager.GetString("Report", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Report frame details.
+        /// </summary>
+        public static string ReportFrameDetails {
+            get {
+                return ResourceManager.GetString("ReportFrameDetails", resourceCulture);
             }
         }
         
@@ -592,11 +1917,47 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Report path is required.
+        /// </summary>
+        public static string ReportPathRequired {
+            get {
+                return ResourceManager.GetString("ReportPathRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reports.
+        /// </summary>
+        public static string Reports {
+            get {
+                return ResourceManager.GetString("Reports", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Report server.
         /// </summary>
         public static string ReportServer {
             get {
                 return ResourceManager.GetString("ReportServer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Report server accounts.
+        /// </summary>
+        public static string ReportServerAccounts {
+            get {
+                return ResourceManager.GetString("ReportServerAccounts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Requested resource does not exist..
+        /// </summary>
+        public static string RequestedResourceDoesNotExist {
+            get {
+                return ResourceManager.GetString("RequestedResourceDoesNotExist", resourceCulture);
             }
         }
         
@@ -610,11 +1971,83 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Save.
+        /// </summary>
+        public static string Save {
+            get {
+                return ResourceManager.GetString("Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search.
+        /// </summary>
+        public static string Search {
+            get {
+                return ResourceManager.GetString("Search", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to sec..
+        /// </summary>
+        public static string Sec {
+            get {
+                return ResourceManager.GetString("Sec", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select canvas.
+        /// </summary>
+        public static string SelectCanvas {
+            get {
+                return ResourceManager.GetString("SelectCanvas", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select frame type.
+        /// </summary>
+        public static string SelectFrameType {
+            get {
+                return ResourceManager.GetString("SelectFrameType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select panel.
+        /// </summary>
+        public static string SelectPanel {
+            get {
+                return ResourceManager.GetString("SelectPanel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Server.
+        /// </summary>
+        public static string Server {
+            get {
+                return ResourceManager.GetString("Server", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Setting.
         /// </summary>
         public static string Setting {
             get {
                 return ResourceManager.GetString("Setting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Settings.
+        /// </summary>
+        public static string Settings {
+            get {
+                return ResourceManager.GetString("Settings", resourceCulture);
             }
         }
         
@@ -642,6 +2075,15 @@ namespace DisplayMonkey.Language {
         public static string Settings_PresentationSite {
             get {
                 return ResourceManager.GetString("Settings_PresentationSite", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Setup.
+        /// </summary>
+        public static string Setup {
+            get {
+                return ResourceManager.GetString("Setup", resourceCulture);
             }
         }
         
@@ -682,6 +2124,24 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sort.
+        /// </summary>
+        public static string Sort {
+            get {
+                return ResourceManager.GetString("Sort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create.
+        /// </summary>
+        public static string String1 {
+            get {
+                return ResourceManager.GetString("String1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Subject.
         /// </summary>
         public static string Subject {
@@ -691,11 +2151,47 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sublocations.
+        /// </summary>
+        public static string Sublocations {
+            get {
+                return ResourceManager.GetString("Sublocations", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Supported image formats include {0}. All other content will be ignored..
+        /// </summary>
+        public static string SupportedImageFormatsIncludeAllOtherContentWillBeIgnored {
+            get {
+                return ResourceManager.GetString("SupportedImageFormatsIncludeAllOtherContentWillBeIgnored", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Supported media formats include {0} for images and {1} for video. All other content will be ignored..
+        /// </summary>
+        public static string SupportedMediaFormatsIncludeForImagesAndForVideoAllOtherContentWillBeIgnored {
+            get {
+                return ResourceManager.GetString("SupportedMediaFormatsIncludeForImagesAndForVideoAllOtherContentWillBeIgnored", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Temperature unit.
         /// </summary>
         public static string TemperatureUnit {
             get {
                 return ResourceManager.GetString("TemperatureUnit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This frame will show in all locations.
+        /// </summary>
+        public static string ThisFrameWillShowInAllLocations {
+            get {
+                return ResourceManager.GetString("ThisFrameWillShowInAllLocations", resourceCulture);
             }
         }
         
@@ -736,6 +2232,96 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unlink.
+        /// </summary>
+        public static string Unlink {
+            get {
+                return ResourceManager.GetString("Unlink", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unlink video frame media.
+        /// </summary>
+        public static string UnlinkVideoFramemedia {
+            get {
+                return ResourceManager.GetString("UnlinkVideoFramemedia", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unsupported frame.
+        /// </summary>
+        public static string UnsupportedFrame {
+            get {
+                return ResourceManager.GetString("UnsupportedFrame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Update interval.
+        /// </summary>
+        public static string UpdateInterval {
+            get {
+                return ResourceManager.GetString("UpdateInterval", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Upload.
+        /// </summary>
+        public static string Upload {
+            get {
+                return ResourceManager.GetString("Upload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Upload media.
+        /// </summary>
+        public static string UploadMedia {
+            get {
+                return ResourceManager.GetString("UploadMedia", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Upload media alternative.
+        /// </summary>
+        public static string UploadMediaAlternative {
+            get {
+                return ResourceManager.GetString("UploadMediaAlternative", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Upload new media.
+        /// </summary>
+        public static string UploadNewMedia {
+            get {
+                return ResourceManager.GetString("UploadNewMedia", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to - Upload new picture -.
+        /// </summary>
+        public static string UploadNewPicture {
+            get {
+                return ResourceManager.GetString("UploadNewPicture", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to - Upload new video(s) -.
+        /// </summary>
+        public static string UploadNewVideos {
+            get {
+                return ResourceManager.GetString("UploadNewVideos", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Account.
         /// </summary>
         public static string User {
@@ -772,11 +2358,120 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} video alternatives
+        ///            .
+        /// </summary>
+        public static string VideoAlternatives {
+            get {
+                return ResourceManager.GetString("VideoAlternatives", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Video frame details.
+        /// </summary>
+        public static string VideoFrameDetails {
+            get {
+                return ResourceManager.GetString("VideoFrameDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Videos.
+        /// </summary>
+        public static string Videos {
+            get {
+                return ResourceManager.GetString("Videos", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View application settings.
+        /// </summary>
+        public static string ViewApplicationSettings {
+            get {
+                return ResourceManager.GetString("ViewApplicationSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View canvases.
+        /// </summary>
+        public static string ViewCanvases {
+            get {
+                return ResourceManager.GetString("ViewCanvases", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View displays.
+        /// </summary>
+        public static string ViewDisplays {
+            get {
+                return ResourceManager.GetString("ViewDisplays", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View frames.
+        /// </summary>
+        public static string ViewFrames {
+            get {
+                return ResourceManager.GetString("ViewFrames", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View levels.
+        /// </summary>
+        public static string ViewLevels {
+            get {
+                return ResourceManager.GetString("ViewLevels", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View locations.
+        /// </summary>
+        public static string ViewLocations {
+            get {
+                return ResourceManager.GetString("ViewLocations", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View panels.
+        /// </summary>
+        public static string ViewPanels {
+            get {
+                return ResourceManager.GetString("ViewPanels", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View Uploaded Media.
+        /// </summary>
+        public static string ViewUploadedMedia {
+            get {
+                return ResourceManager.GetString("ViewUploadedMedia", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Weather.
         /// </summary>
         public static string Weather {
             get {
                 return ResourceManager.GetString("Weather", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Weather frame details.
+        /// </summary>
+        public static string WeatherFrameDetails {
+            get {
+                return ResourceManager.GetString("WeatherFrameDetails", resourceCulture);
             }
         }
         
@@ -808,11 +2503,38 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Weather type is required.
+        /// </summary>
+        public static string WeatherTypeRequired {
+            get {
+                return ResourceManager.GetString("WeatherTypeRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Width.
         /// </summary>
         public static string Width {
             get {
                 return ResourceManager.GetString("Width", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} with id# {1} could not be found.
+        /// </summary>
+        public static string WithIdCouldNotBeFound {
+            get {
+                return ResourceManager.GetString("WithIdCouldNotBeFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your browser doesn&apos;t support this media type, please upgrade your browser.
+        /// </summary>
+        public static string YourBrowserDoesntSupportThisMediaTypePleaseUpgradeYourBrowser {
+            get {
+                return ResourceManager.GetString("YourBrowserDoesntSupportThisMediaTypePleaseUpgradeYourBrowser", resourceCulture);
             }
         }
     }

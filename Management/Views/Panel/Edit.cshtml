@@ -1,7 +1,9 @@
-﻿@model DisplayMonkey.Models.Panel
+﻿@using DisplayMonkey.Language
+
+@model DisplayMonkey.Models.Panel
 
 @{
-    ViewBag.Title = "Edit panel";
+    ViewBag.Title = Resources.EditPanel;
 }
 
 <h2>@ViewBag.Title</h2>
@@ -12,7 +14,7 @@
     @Html.ValidationSummary(true)
 
     <fieldset>
-        <legend>Panel</legend>
+        <legend>@Resources.Panel</legend>
         <table><tr>
         <td>
 
@@ -38,7 +40,7 @@
             @Html.LabelFor(model => model.Top)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.Top, new { htmlAttributes = new { @class = "pixels" }, }) pixels
+            @Html.EditorFor(model => model.Top, new { htmlAttributes = new { @class = "pixels" }, }) @Resources.Pixels
             @Html.ValidationMessageFor(model => model.Top)
         </div>
 
@@ -46,7 +48,7 @@
             @Html.LabelFor(model => model.Left)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.Left, new { htmlAttributes = new { @class = "pixels" }, }) pixels
+            @Html.EditorFor(model => model.Left, new { htmlAttributes = new { @class = "pixels" }, })  @Resources.Pixels
             @Html.ValidationMessageFor(model => model.Left)
         </div>
 
@@ -54,7 +56,7 @@
             @Html.LabelFor(model => model.Width)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.Width, new { htmlAttributes = new { @class = "pixels" }, }) pixels
+            @Html.EditorFor(model => model.Width, new { htmlAttributes = new { @class = "pixels" }, }) @Resources.Pixels
             @Html.ValidationMessageFor(model => model.Width)
         </div>
 
@@ -62,12 +64,12 @@
             @Html.LabelFor(model => model.Height)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.Height, new { htmlAttributes = new { @class = "pixels" }, }) pixels
+            @Html.EditorFor(model => model.Height, new { htmlAttributes = new { @class = "pixels" }, })  @Resources.Pixels
             @Html.ValidationMessageFor(model => model.Height)
         </div>
 
         <p>
-            <input type="submit" value="Save" />
+            <input type="submit" value="@Resources.Save" />
         </p>
         </td>
         <td class="preview">
@@ -82,7 +84,7 @@
 }
 
 <div>
-    @Html.ActionLink("View panels", "Index")
+    @Html.ActionLink(Resources.ViewPanels, "Index")
 </div>
 
 @section Scripts {

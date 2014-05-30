@@ -1,7 +1,9 @@
-﻿@model DisplayMonkey.Models.Canvas
+﻿@using DisplayMonkey.Language
+
+@model DisplayMonkey.Models.Canvas
 
 @{
-    ViewBag.Title = "Create new frame";
+    ViewBag.Title = Resources.CreateNewFrame;
 }
 
 <h2>@ViewBag.Title</h2>
@@ -11,16 +13,16 @@
     @Html.ValidationSummary(true)
 
     <fieldset>
-        <legend>New frame</legend>
+        <legend>@Resources.NewFrame</legend>
 
         <div class="editor-label">
-            @Html.Label("Select canvas")
+            @Html.Label(Resources.SelectCanvas)
         </div>
         <div class="editor-field select">
             @Html.DropDownListFor(c => c.CanvasId, ViewBag.CanvasId as SelectList)
         </div>
         <p>
-            <input type="submit" value="Next" />
+            <input type="submit" value="@Resources.Next" />
         </p>
     </fieldset>
 }

@@ -5,20 +5,20 @@
 @model IEnumerable<DisplayMonkey.Models.ContentWithSize>
 
 @{
-    ViewBag.Title = "Media";
+    ViewBag.Title = Resources.Media;
 }
 
 <h2>@ViewBag.Title</h2>
 
 @using (Html.BeginForm("Index", "Media", FormMethod.Get))
 {    
-    <fieldset><legend>Search</legend><table>
-        <tr><td>Media type:</td><td><div class="select">@Html.DropDownList("MediaType", "- Any -")</div></td></tr>
-    <tr><td colspan="2"><input type="submit" value="Filter" /></td></tr></table></fieldset> 
+    <fieldset><legend>@Resources.Search</legend><table>
+        <tr><td>@Resources.MediaType</td><td><div class="select">@Html.DropDownList("MediaType",Resources.Any)</div></td></tr>
+    <tr><td colspan="2"><input type="submit" value="@Resources.Filter" /></td></tr></table></fieldset> 
 }
 
 <p>
-    @Html.ActionLink("Upload media", "Upload")
+    @Html.ActionLink(Resources.UploadMedia, "Upload")
 </p>
 <table class="grid">
     <tr>
@@ -32,7 +32,7 @@
             @Html.DisplayName("Thumb")
         </th>
         <th class="nw num">
-            @Html.DisplayNameFor(model => model.Size), KB
+            @Html.DisplayNameFor(model => model.Size), @Resources.KB
         </th>
         <th class="nw"></th>
     </tr>
@@ -60,8 +60,8 @@
             @Html.DisplayFor(model => item.Size)
         </td>
         <td class="nw">
-            @Html.ActionLink("Edit", "Edit", new { id=item.ContentId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ContentId })
+            @Html.ActionLink(Resources.Edit, "Edit", new { id=item.ContentId }) |
+            @Html.ActionLink(Resources.Delete, "Delete", new { id=item.ContentId })
         </td>
     </tr>
 }

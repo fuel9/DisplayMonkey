@@ -1,7 +1,9 @@
-﻿@model DisplayMonkey.Models.Picture
+﻿@using DisplayMonkey.Language
+
+@model DisplayMonkey.Models.Picture
 
 @{
-    ViewBag.Title = "Create new picture frame";
+    ViewBag.Title = Resources.CreateNewPictureFrame;
     string supportedImages = string.Join(", ", DisplayMonkey.Models.Picture.SupportedFormats);
 }
 
@@ -14,7 +16,7 @@
     @Html.Hidden("imageExt", (object)supportedImages)
 
     <fieldset>
-        <legend>Picture</legend>
+        <legend>@Resources.Picture</legend>
 
         @Html.Partial("_frameData", Model.Frame)
         @Html.Partial("_Edit", Model)
@@ -25,17 +27,17 @@
         <div class="editor-field">
             <input type="file" name="file" id="file" />
             @Html.ValidationMessageFor(model => Model.Content.Data)
-            <p>Supported image formats include: @supportedImages. All other content will be ignored.</p>
+            <p>@string.Format(Resources.SupportedImageFormatsIncludeAllOtherContentWillBeIgnored, supportedImages)</p>
         </div>
 
         <p>
-            <input type="submit" value="Create" />
+            <input type="submit" value="@Resources.Create" />
         </p>
     </fieldset>
 }
 
 <div>
-    @Html.ActionLink("View frames", "Index", "Frame")
+    @Html.ActionLink(Resources.ViewFrames, "Index", "Frame")
 </div>
 
 @section Scripts {
@@ -44,7 +46,7 @@
         $(document).ready(function () {
             $('input[type="submit"]').click(function () {
                 if ($('#file').val() === "") {
-                    alert("Please select file to upload first");
+                    alert("@Resources.PleaseSelectFileToUploadFirst");
                     return false;
                 }
             });
@@ -55,11 +57,11 @@
                     if ($('#imageExt').val().indexOf(ext) >= 0) {
                         var max = $('#maxImageSize').val();
                         if (file.size > max) {
-                            alert("Current maximum allowed size for image files is set to " + max + " bytes");
+                            alert("@Resources.CurrentMaximumAllowedSizeForImageFilesIsSetTo" + max + " @Resources.Bytes");
                             $(this).val("");
                         }
                     } else {
-                        alert("File format " + ext + " is not supported");
+                        alert("@Resources.FileFormat " + ext + " @Resources.IsNotSupported");
                         $(this).val("");
                     }
                 }

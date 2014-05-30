@@ -1,7 +1,9 @@
-﻿@model DisplayMonkey.Models.Canvas
+﻿@using DisplayMonkey.Language
+
+@model DisplayMonkey.Models.Canvas
 
 <fieldset>
-    <legend>Canvas</legend>
+    <legend>@Resources.Canvas</legend>
         <table><tr>
         <td>
 
@@ -11,7 +13,7 @@
     <div class="divRow">
     <div class="display-field">
         @Html.Label(Model.Name)
-        @Html.DisplayFor(model => model.Width) x @Html.DisplayFor(model => model.Height) pixels
+        @Html.DisplayFor(model => model.Width) x @Html.DisplayFor(model => model.Height) @Resources.Pixels
     </div>
     </div>
     </div>
@@ -19,7 +21,7 @@
         <td class="preview">
             <div id="canvas" data-path="@Html.Raw(Url.Action("Data", "Canvas"))">
                 <div>
-                    <img src="@Html.Raw(Url.Action("Thumb", "Media", new { id="nnn", width="qqq", height="qqq" }))" alt="Background" />
+                    <img src="@Html.Raw(Url.Action("Thumb", "Media", new { id="nnn", width="qqq", height="qqq" }))" alt="@Resources.Background" />
                 </div>
             </div>
         </td>

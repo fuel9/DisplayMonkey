@@ -1,7 +1,9 @@
-﻿@model DisplayMonkey.Models.LocationSelector
+﻿@using DisplayMonkey.Language
+
+@model DisplayMonkey.Models.LocationSelector
 
 @{
-    ViewBag.Title = "Designate location";
+    ViewBag.Title = Resources.DesignateLocation;
 }
 
 <h2>@ViewBag.Title</h2>
@@ -11,7 +13,7 @@
     @Html.ValidationSummary(true)
 
     <fieldset>
-        <legend>Frame</legend>
+        <legend>@Resources.Frame</legend>
 
         @Html.HiddenFor(m => m.FrameId)
         
@@ -23,13 +25,13 @@
         </div>
 
         <p>
-            <input type="submit" value="Create" />
+            <input type="submit" value="@Resources.Create" />
         </p>
     </fieldset>
 }
 
 <div>
-    @Html.ActionLink("View frames", "Index")
+    @Html.ActionLink(Resources.ViewFrames, "Index")
 </div>
 
 @section Scripts {

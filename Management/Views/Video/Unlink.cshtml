@@ -1,15 +1,17 @@
-﻿@model DisplayMonkey.Models.Video
+﻿@using DisplayMonkey.Language
+
+@model DisplayMonkey.Models.Video
 
 @{
-    ViewBag.Title = "Unlink video frame media";
+    ViewBag.Title = Resources.UnlinkVideoFramemedia;
     DisplayMonkey.Models.Content content = ViewBag.Content as DisplayMonkey.Models.Content;
 }
 
 <h2>@ViewBag.Title</h2>
 
-<h3>Are you sure you want to unlink this media alternative?</h3>
+<h3>@Resources.AreYouSureYouWantToUnlinkThisMediaAlternative</h3>
 <fieldset>
-    <legend>Video</legend>
+    <legend>@Resources.Video</legend>
 
     @Html.HiddenFor(m => m.FrameId)
     @Html.HiddenFor(m => content.ContentId)
@@ -25,7 +27,7 @@
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
     <p>
-        <input type="submit" value="Unlink" /> |
-        @Html.ActionLink("Back to video details", "Details", new { id = Model.FrameId })
+        <input type="submit" value="@Resources.Unlink" /> |
+        @Html.ActionLink(Resources.BackToVideoDetails, "Details", new { id = Model.FrameId })
     </p>
 }

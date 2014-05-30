@@ -1,7 +1,9 @@
-﻿@model DisplayMonkey.Models.Memo
+﻿@using DisplayMonkey.Language
+
+@model DisplayMonkey.Models.Memo
 
 <fieldset>
-    <legend>Memo</legend>
+    <legend>@Resources.Memo</legend>
 
     <div class="divTable">
     <div class="divRow">
@@ -18,7 +20,7 @@
          @Html.DisplayNameFor(model => model.Frame.Duration)
     </div>
     <div class="display-field">
-        @Html.DisplayFor(model => model.Frame.Duration) sec.
+        @Html.DisplayFor(model => model.Frame.Duration) @Resources.Sec
     </div>
     </div>
 

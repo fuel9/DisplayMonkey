@@ -1,13 +1,15 @@
-﻿@model DisplayMonkey.Models.Frame
+﻿@using DisplayMonkey.Language
+
+@model DisplayMonkey.Models.Frame
 
 
         @Html.HiddenFor(m => m.FrameId)
         @Html.HiddenFor(m => m.PanelId)
 
         <div class="editor-label">
-            @Html.Label("Update interval")
+            @Html.Label(Resources.UpdateInterval)
         </div>
         <div class="editor-field">
-            @Html.TextBoxFor(model => model.Duration, new { @class = "duration" }) sec.
+            @Html.TextBoxFor(model => model.Duration, new { @class = "duration" })@Resources.Sec
             @Html.ValidationMessageFor(model => model.Duration)
         </div>

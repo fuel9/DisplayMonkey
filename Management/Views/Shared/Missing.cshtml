@@ -5,16 +5,16 @@
 @model DisplayMonkey.Controllers.MissingItem
 
 @{
-    ViewBag.Title = "Missing";
+    ViewBag.Title =Resources.Missing;
 }
 
 <hgroup class="title">
-    <h2 class="error">Requested resource does not exist.</h2>
+    <h2 class="error">@Resources.RequestedResourceDoesNotExist</h2>
 </hgroup>
 
 <fieldset>
-    <legend>Details</legend>
-    <div class="error-source">@(string.Format("{0} with id# {1} could not be found", Model.resource, Model.id))</div>
+    <legend>@Resources.Details</legend>
+    <div class="error-source">@(string.Format(Resources.WithIdCouldNotBeFound, Model.resource, Model.id))</div>
 </fieldset>
 
 <p><a href="javascript:window.history.back();">@Resources.BackPreviousPage</a></p>

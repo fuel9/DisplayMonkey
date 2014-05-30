@@ -16,10 +16,10 @@
             @Html.DisplayNameFor(model => model.FirstOrDefault().Panel)
         </th>
         <th>
-            Information/Content Displayed
+            @Resources.InformationContentDisplayed
         </th>
         <th class="num">
-            @Html.DisplayNameFor(model => model.FirstOrDefault().Duration), sec.
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Duration), @Resources.Sec
         </th>
         <th></th>
     </tr>
@@ -70,11 +70,11 @@
             else if (item.Video != null)    
             {
                 <img class="thumb1" src="~/images/video_thmb.png" alt="" />
-                <span>@(string.Format("{0} video alternatives", item.Video.Contents.Count()))</span>
+                <span>@(string.Format(Resources.VideoAlternatives, item.Video.Contents.Count()))</span>
             }
             else   
             {
-                <text>Unsupported frame</text>
+                <text>@Resources.UnsupportedFrame</text>
             }
         </td>
         <td class="nw num">
@@ -84,8 +84,8 @@
             }
         </td>
         <td class="nw">
-            @Html.ActionLink("Edit", "Edit", "Frame", new { id=item.FrameId }, null) |
-            @Html.ActionLink("Delete", "Delete", "Frame", new { id=item.FrameId }, null)
+            @Html.ActionLink(Resources.Edit, "Edit", "Frame", new { id=item.FrameId }, null) |
+            @Html.ActionLink(Resources.Delete, "Delete", "Frame", new { id=item.FrameId }, null)
         </td>
     </tr>
 }

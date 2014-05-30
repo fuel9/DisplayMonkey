@@ -1,13 +1,15 @@
-﻿@model IEnumerable<DisplayMonkey.Models.Canvas>
+﻿@using DisplayMonkey.Language
+
+@model IEnumerable<DisplayMonkey.Models.Canvas>
 
 @{
-    ViewBag.Title = "Canvases";
+    ViewBag.Title = Resources.Canvases;
 }
 
 <h2>@ViewBag.Title</h2>
 
 <p>
-    @Html.ActionLink("Create new canvas", "Create")
+    @Html.ActionLink(Resources.CreateNewCanvas, "Create")
 </p>
 <table class="grid">
     <tr>
@@ -39,12 +41,12 @@
         </td>
         <td class="nw">
             @if (item.BackgroundImage != null) {
-                <img src="@Html.Raw(Url.Action("Thumb", "Media", new { id=item.BackgroundImage, width=50, height=50 }))" alt="Background" />
+                <img src="@Html.Raw(Url.Action("Thumb", "Media", new { id=item.BackgroundImage, width=50, height=50 }))" alt="@Resources.Background" />
             }
         </td>
         <td class="nw">
-            @Html.ActionLink("Edit", "Edit", new { id=item.CanvasId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.CanvasId })
+            @Html.ActionLink(Resources.Edit, "Edit", new { id=item.CanvasId }) |
+            @Html.ActionLink(Resources.Delete, "Delete", new { id=item.CanvasId })
         </td>
     </tr>
 }

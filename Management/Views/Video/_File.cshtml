@@ -1,4 +1,6 @@
-﻿@model DisplayMonkey.Models.Video
+﻿@using DisplayMonkey.Language
+
+@model DisplayMonkey.Models.Video
 
 @{
     string supportedVideos = string.Join(", ", DisplayMonkey.Models.Video.SupportedFormats);
@@ -13,6 +15,6 @@
         <div class="editor-field">
             <input type="file" name="files" id="files" multiple="" />
             @Html.ValidationMessageFor(model => Model.Contents)
-            <p>Supported image formats include: @supportedVideos. All other content will be ignored.</p>
-            <p>Note: for variety of browsers video frames can be linked to multiple alternative media streams, to select multiple files push and hold [Shift] or [Ctrl].</p>
+            <p>@string.Format(Resources.SupportedImageFormatsIncludeAllOtherContentWillBeIgnored, supportedVideos)</p>
+            <p>@Resources.NoteForVarietyOfBrowsersVideoFramesCanBeLinkedToMultipleAlternativeMediaStreamsToSelectMultipleFilesPushAndHoldShiftOrCtrl</p>
         </div>

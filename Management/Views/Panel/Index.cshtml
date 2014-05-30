@@ -1,7 +1,9 @@
-﻿@model IEnumerable<DisplayMonkey.Models.Panel>
+﻿@using DisplayMonkey.Language
+
+@model IEnumerable<DisplayMonkey.Models.Panel>
 
 @{
-    ViewBag.Title = "Panels";
+    ViewBag.Title = Resources.Panels;
     const string sep = "| ";
 }
 
@@ -9,14 +11,14 @@
 
 @using (Html.BeginForm("Index", "Panel", FormMethod.Get))
 {    
-    <fieldset><legend>Search</legend><table>
-        <tr><td>Canvas:</td><td><div class="select">@Html.DropDownList("CanvasId", "- Any -")</div></td></tr>
-        <tr><td>Name:</td><td>@Html.TextBox("name")</td></tr>
-    <tr><td colspan="2"><input type="submit" value="Filter" /></td></tr></table></fieldset> 
+    <fieldset><legend>@Resources.Search</legend><table>
+        <tr><td>@Resources.Canvas:</td><td><div class="select">@Html.DropDownList("CanvasId", Resources.Any)</div></td></tr>
+        <tr><td>@Resources.Name:</td><td>@Html.TextBox("name")</td></tr>
+    <tr><td colspan="2"><input type="submit" value="@Resources.Filter" /></td></tr></table></fieldset> 
 }
 
 <p>
-    @Html.ActionLink("Create new panel", "Create", new { canvasId = ViewBag.CanvasId.SelectedValue })
+    @Html.ActionLink(Resources.CreateNewPanel, "Create", new { canvasId = ViewBag.CanvasId.SelectedValue })
 </p>
 <table class="grid">
     <tr>
@@ -27,7 +29,7 @@
             @Html.DisplayNameFor(model => model.Canvas)
         </th>
         <th class="nw">
-            Options
+            @Resources.Options
         </th>
         <th class="nw"></th>
     </tr>
@@ -59,16 +61,16 @@
                 @Html.DisplayNameFor(m => m.Canvas.FullScreen.MaxIdleInterval)
                 if (fs.MaxIdleInterval == null) 
                 {
-                    @(": not set")
+                    @(": ")@Resources.NotSet
                 }
                 else
                 {
-                    @(string.Format(": {0} sec.", fs.MaxIdleInterval))
+                    @(": ")@fs.MaxIdleInterval@(" ")@Resources.Sec
                 }
             }
             else
             {
-                @(string.Format("Position: {0}, {1}, Size: {2} x {3}", 
+                @(string.Format(Resources.PositionSize, 
                     item.Top, 
                     item.Left, 
                     item.Width,
@@ -78,15 +80,15 @@
         <td class="nw">
             @if (fs.PanelId != item.PanelId)
             {
-                @Html.ActionLink("Edit", "Edit", "Panel", new { id=item.PanelId }, null)
+                @Html.ActionLink(Resources.Edit, "Edit", "Panel", new { id=item.PanelId }, null)
             }
             else
             {
-                @Html.ActionLink("Edit", "EditFS", "Panel", new { id=item.PanelId }, null)
+                @Html.ActionLink(Resources.Edit, "EditFS", "Panel", new { id=item.PanelId }, null)
             }
             @if (fs.PanelId != item.PanelId)
             {
-                @sep @Html.ActionLink("Delete", "Delete", "Panel", new { id=item.PanelId }, null)
+                @sep @Html.ActionLink(Resources.Delete, "Delete", "Panel", new { id=item.PanelId }, null)
             }
         </td>
     </tr>

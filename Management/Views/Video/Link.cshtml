@@ -1,7 +1,9 @@
-﻿@model DisplayMonkey.Models.Video
+﻿@using DisplayMonkey.Language
+
+@model DisplayMonkey.Models.Video
 
 @{
-    ViewBag.Title = "Link media alternative";
+    ViewBag.Title = Resources.LinkMediaAlternative;
     SelectList videos = ViewBag.Videos as SelectList;
 }
 
@@ -12,7 +14,7 @@
     @Html.ValidationSummary(true)
 
     <fieldset>
-        <legend>Video</legend>
+        <legend>@Resources.Video</legend>
 
         @Html.HiddenFor(m => m.FrameId)
         
@@ -20,17 +22,17 @@
             @Html.LabelFor(model => model.SavedContentId)
         </div>
         <div class="editor-field select">
-            @Html.DropDownListFor(model => model.SavedContentId, videos, "- Upload new video(s) -")
+            @Html.DropDownListFor(model => model.SavedContentId, videos, Resources.UploadNewVideos)
         </div>
 
         <p>
-            <input type="submit" value="Link" />
+            <input type="submit" value="@Resources.Link" />
         </p>
     </fieldset>
 }
 
 <div>
-    @Html.ActionLink("Back to video details", "Details", new { id = Model.FrameId })
+    @Html.ActionLink(Resources.BackToVideoDetails, "Details", new { id = Model.FrameId })
 </div>
 
 @section Scripts {

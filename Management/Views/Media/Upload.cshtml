@@ -1,7 +1,9 @@
-﻿@model DisplayMonkey.Models.Content
+﻿@using DisplayMonkey.Language
+
+@model DisplayMonkey.Models.Content
 
 @{
-    ViewBag.Title = "Upload new media";
+    ViewBag.Title = Resources.UploadNewMedia;
     string supportedImages = string.Join(", ", DisplayMonkey.Models.Picture.SupportedFormats);
     string supportedVideos = string.Join(", ", DisplayMonkey.Models.Video.SupportedFormats);
 }
@@ -18,7 +20,7 @@
     @Html.Hidden("videoExt", (object)supportedVideos)
 
     <fieldset>
-        <legend>Media</legend>
+        <legend>@Resources.Media</legend>
 
         <div class="editor-label">
             @Html.LabelFor(model => model.Data)
@@ -26,18 +28,18 @@
         <div class="editor-field">
             <input type="file" name="files" id="files" multiple="" />
             @Html.ValidationMessageFor(model => Model.Data)
-            <p>Supported media formats include: @supportedImages for images and @supportedVideos for video. All other content will be ignored.</p>
-            <p>Note: to select multiple files push and hold [Shift] or [Ctrl].</p>
+            <p>@(string.Format(Resources.SupportedMediaFormatsIncludeForImagesAndForVideoAllOtherContentWillBeIgnored, supportedImages, supportedVideos))</p>
+            <p>@Resources.NoteToSelectMultipleFilesPushAndHoldShiftOrCtrl</p>
         </div>
 
         <p>
-            <input type="submit" value="Upload" />
+            <input type="submit" value="@Resources.Upload" />
         </p>
     </fieldset>
 }
 
 <div>
-    @Html.ActionLink("View Uploaded Media", "Index")
+    @Html.ActionLink(Resources.ViewUploadedMedia, "Index")
 </div>
 
 @section Scripts {
@@ -46,7 +48,7 @@
         $(document).ready(function () {
             $('input[type="submit"]').click(function () {
                 if ($('#files').val() === "") {
-                    alert("Please select file(s) to upload first");
+                    alert("@Resources.PleaseSelectFilesToUploadFirst");
                     return false;
                 }
             });
@@ -57,17 +59,17 @@
                     if ($('#videoExt').val().indexOf(ext) >= 0) {
                         var max = $('#maxVideoSize').val();
                         if (file.size > max) {
-                            alert("Current maximum allowed size for video files is set to " + max + " bytes");
+                            alert("@Resources.CurrentMaximumAllowedSizeForVideoFilesIsSetTo " + max + " @Resources.Bytes"); 
                             $(this).val("");
                         }
                     } else if ($('#imageExt').val().indexOf(ext) >= 0) {
                         var max = $('#maxImageSize').val();
                         if (file.size > max) {
-                            alert("Current maximum allowed size for image files is set to " + max + " bytes");
+                            alert("@Resources.CurrentMaximumAllowedSizeForImageFilesIsSetTo " + max + " @Resources.Bytes"); 
                             $(this).val("");
                         }
                     } else {
-                        alert("File format " + ext + " is not supported");
+                        alert("@Resources.FileFormat " + ext + "@Resources.IsNotSupported"); 
                         $(this).val("");
                     }
                 }

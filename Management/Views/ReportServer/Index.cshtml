@@ -1,13 +1,15 @@
-﻿@model IEnumerable<DisplayMonkey.Models.ReportServer>
+﻿@using DisplayMonkey.Language
+
+@model IEnumerable<DisplayMonkey.Models.ReportServer>
 
 @{
-    ViewBag.Title = "Report server accounts";
+    ViewBag.Title = Resources.ReportServerAccounts;
 }
 
 <h2>@ViewBag.Title</h2>
 
 <p>
-    @Html.ActionLink("Configure new report server account", "Create")
+    @Html.ActionLink(Resources.ConfigureNewReportServerAccount, "Create")
 </p>
 <table class="grid">
     <tr>
@@ -35,7 +37,7 @@
             @(string.Format("{0}\\{1}", string.IsNullOrEmpty(item.Domain) ? "." : item.Domain, item.User))
         </td>
         <td>
-            @Html.ActionLink("Delete", "Delete", new { id=item.ServerId })
+            @Html.ActionLink(Resources.Delete, "Delete", new { id=item.ServerId })
         </td>
     </tr>
 }

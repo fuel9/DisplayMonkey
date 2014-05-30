@@ -1,7 +1,9 @@
-﻿@model DisplayMonkey.Models.Video
+﻿@using DisplayMonkey.Language
+
+@model DisplayMonkey.Models.Video
 
 @{
-    ViewBag.Title = "Upload media alternative";
+    ViewBag.Title = Resources.UploadMediaAlternative;
 }
 
 <h2>@ViewBag.Title</h2>
@@ -12,19 +14,19 @@
     @Html.ValidationSummary(true)
 
     <fieldset>
-        <legend>Video</legend>
+        <legend>@Resources.Video</legend>
 
         @Html.HiddenFor(m => Model.FrameId)
         @Html.Partial("_File", Model)
 
         <p>
-            <input type="submit" value="Upload" />
+            <input type="submit" value="@Resources.Upload" />
         </p>
     </fieldset>
 }
 
 <div>
-    @Html.ActionLink("Back to details", "Details", new { id = Model.FrameId })
+    @Html.ActionLink(Resources.BackToDetails, "Details", new { id = Model.FrameId })
 </div>
 
 @section Scripts {

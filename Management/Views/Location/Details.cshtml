@@ -1,7 +1,9 @@
-﻿@model DisplayMonkey.Models.Location
+﻿@using DisplayMonkey.Language
+
+@model DisplayMonkey.Models.Location
 
 @{
-    ViewBag.Title = "Organization location details";
+    ViewBag.Title = Resources.OrganizationLocationDetails;
     IEnumerable<DisplayMonkey.Models.Display> displays = ViewBag.Displays;
     IEnumerable<DisplayMonkey.Models.Frame> frames = ViewBag.Frames;
 }
@@ -11,13 +13,13 @@
 @Html.Partial("_Details")
 
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id=Model.LocationId }) |
-    @Html.ActionLink("View locations", "Index")
+    @Html.ActionLink(Resources.Edit, "Edit", new { id=Model.LocationId }) |
+    @Html.ActionLink(Resources.ViewLocations, "Index")
 </p>
 
-<h2>Associated displays</h2>
+<h2>@Resources.AssociatedDisplays</h2>
 
-@Html.ActionLink("Create new display", "Create", "Display", new { locationId=Model.LocationId }, null)
+@Html.ActionLink(Resources.CreateNewDisplay, "Create", "Display", new { locationId=Model.LocationId }, null)
 
 <table class="grid">
     <tr>
@@ -46,14 +48,14 @@
             @Html.DisplayFor(modelItem => item.Location.Name)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", "Display", new { id=item.DisplayId }, null) |
-            @Html.ActionLink("Delete", "Delete", "Display", new { id=item.DisplayId }, null)
+            @Html.ActionLink(Resources.Edit, "Edit", "Display", new { id=item.DisplayId }, null) |
+            @Html.ActionLink(Resources.Delete, "Delete", "Display", new { id=item.DisplayId }, null)
         </td>
     </tr>
 }
 
 </table>
 
-<h2>Associated frames</h2>
+<h2>@Resources.AssociatedFrames</h2>
 
 @Html.Partial("_frameList", frames)

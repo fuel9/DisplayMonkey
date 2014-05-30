@@ -1,7 +1,9 @@
-﻿@model DisplayMonkey.Models.Video
+﻿@using DisplayMonkey.Language
+
+@model DisplayMonkey.Models.Video
 
 <fieldset>
-    <legend>Video</legend>
+    <legend>@Resources.Video</legend>
 
     <table class="divTable"><tr>
         <td>
@@ -20,7 +22,7 @@
          @Html.DisplayNameFor(model => model.Frame.Duration)
     </div>
     <div class="display-field">
-        @Html.DisplayFor(model => model.Frame.Duration) sec.
+        @Html.DisplayFor(model => model.Frame.Duration) @Resources.Sec
     </div>
     </div>
 
@@ -49,7 +51,7 @@
             <div id="picture">
                 <video style="width:100%;height:100%" poster="~/images/video.gif" loop autoplay controls>
                     <source src="@Url.Action("Playback", "Media", new { id = Model.Contents.FirstOrDefault().ContentId })" />
-                    Your browser doesn't support this media type, please upgrade your browser.
+                    @Resources.YourBrowserDoesntSupportThisMediaTypePleaseUpgradeYourBrowser
                 </video>
             </div>
         </td>

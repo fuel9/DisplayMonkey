@@ -1,7 +1,9 @@
-﻿@model DisplayMonkey.Models.Content
+﻿@using DisplayMonkey.Language
+
+@model DisplayMonkey.Models.Content
 
 @{
-    ViewBag.Title = "Media details";
+    ViewBag.Title = Resources.MediaDetails;
 }
 
 <h2>@ViewBag.Title</h2>
@@ -9,6 +11,6 @@
 @Html.Partial("_Details")
 
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id=Model.ContentId }) |
-    @Html.ActionLink("View Uploaded Media", "Index")
+    @Html.ActionLink(Resources.Edit, "Edit", new { id=Model.ContentId }) |
+    @Html.ActionLink(Resources.ViewUploadedMedia, "Index")
 </p>

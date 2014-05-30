@@ -1,7 +1,9 @@
-﻿@model DisplayMonkey.Models.ReportServer
+﻿@using DisplayMonkey.Language
+
+@model DisplayMonkey.Models.ReportServer
 
 @{
-    ViewBag.Title = "Edit report server account";
+    ViewBag.Title = Resources.EditReportServerAccount;
 }
 
 <h2>@ViewBag.Title</h2>
@@ -11,7 +13,7 @@
     @Html.ValidationSummary(true)
 
     <fieldset>
-        <legend>ReportServer</legend>
+        <legend>@Resources.ReportServer</legend>
 
         @Html.HiddenFor(model => model.ServerId)
 
@@ -56,13 +58,13 @@
         </div>
 
         <p>
-            <input type="submit" value="Save" />
+            <input type="submit" value="@Resources.Save" />
         </p>
     </fieldset>
 }
 
 <div>
-    @Html.ActionLink("Report server accounts", "Index")
+    @Html.ActionLink(Resources.ReportServerAccounts, "Index")
 </div>
 
 @section Scripts {

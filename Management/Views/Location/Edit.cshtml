@@ -1,7 +1,9 @@
-﻿@model DisplayMonkey.Models.Location
+﻿@using DisplayMonkey.Language
+
+@model DisplayMonkey.Models.Location
 
 @{
-    ViewBag.Title = "Edit organization location";
+    ViewBag.Title = Resources.EditOrganizationLocation;
 }
 
 <h2>@ViewBag.Title</h2>
@@ -11,7 +13,7 @@
     @Html.ValidationSummary(true)
 
     <fieldset>
-        <legend>Location</legend>
+        <legend>@Resources.Location</legend>
 
         @Html.HiddenFor(model => model.LocationId)
 
@@ -41,7 +43,7 @@
             @Html.LabelFor(model => model.TemperatureUnit)
         </div>
         <div class="editor-field select">
-            @Html.DropDownList("TemperatureUnit", "- From Area -")
+            @Html.DropDownList("TemperatureUnit", Resources.FromArea)
             @Html.ValidationMessageFor(model => model.TemperatureUnit)
         </div>
 
@@ -86,13 +88,13 @@
         </div>
 
         <p>
-            <input type="submit" value="Save" />
+            <input type="submit" value="@Resources.Save" />
         </p>
     </fieldset>
 }
 
 <div>
-    @Html.ActionLink("View locations", "Index")
+    @Html.ActionLink(Resources.ViewLocations, "Index")
 </div>
 
 @section Scripts {

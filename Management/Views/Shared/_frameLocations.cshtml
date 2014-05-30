@@ -1,12 +1,14 @@
-﻿@model DisplayMonkey.Models.Frame
+﻿@using DisplayMonkey.Language
 
-<h2>Designated locations</h2>
+@model DisplayMonkey.Models.Frame
 
-@Html.ActionLink("Designate location", "Attach", "Frame", new { id = Model.FrameId }, null)
+<h2>@Resources.DesignatedLocations</h2>
+
+@Html.ActionLink(Resources.DesignateLocation, "Attach", "Frame", new { id = Model.FrameId }, null)
 
 @if (Model.Locations.Count == 0)
 {
-    <p>This frame will show in all locations</p>
+    <p>@Resources.ThisFrameWillShowInAllLocations</p>
 }
 
 else
@@ -33,7 +35,7 @@ else
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                @Html.ActionLink("Remove", "Detach", "Frame", new { id = Model.FrameId, locationId = item.LocationId }, null)
+                @Html.ActionLink(Resources.Remove, "Detach", "Frame", new { id = Model.FrameId, locationId = item.LocationId }, null)
             </td>
         </tr>
     }

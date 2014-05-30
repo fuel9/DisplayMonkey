@@ -1,7 +1,9 @@
-﻿@model DisplayMonkey.Models.Canvas
+﻿@using DisplayMonkey.Language
+
+@model DisplayMonkey.Models.Canvas
 
 @{
-    ViewBag.Title = "Canvas details";
+    ViewBag.Title = Resources.CanvasDetails;
 }
 
 <h2>@ViewBag.Title</h2>
@@ -9,13 +11,13 @@
 @Html.Partial("_Details")
 
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id=Model.CanvasId }) |
-    @Html.ActionLink("View canvases", "Index")
+    @Html.ActionLink(Resources.Edit, "Edit", new { id=Model.CanvasId }) |
+    @Html.ActionLink(Resources.ViewCanvases, "Index")
 </p>
 
-<h2>Associated panels</h2>
+<h2>@Resources.AssociatedPanels</h2>
 
-@Html.ActionLink("Create new panel", "Create", "Panel", new { canvasId=Model.CanvasId }, null)
+@Html.ActionLink(Resources.CreateNewPanel, "Create", "Panel", new { canvasId=Model.CanvasId }, null)
 
 <table class="grid">
     <tr>
@@ -23,7 +25,7 @@
             @Html.DisplayNameFor(model => model.Panels.FirstOrDefault().Name)
         </th>
         <th>
-            Settings
+            @Resources.Settings
         </th>
         <th></th>
     </tr>
@@ -61,15 +63,15 @@
         <td>
             @if (fs.PanelId != item.PanelId)
             {
-                @Html.ActionLink("Edit", "Edit", "Panel", new { id=item.PanelId }, null)
+                @Html.ActionLink(Resources.Edit, "Edit", "Panel", new { id=item.PanelId }, null)
             }
             else
             {
-                @Html.ActionLink("Edit", "EditFS", "Panel", new { id=item.PanelId }, null)
+                @Html.ActionLink(Resources.Edit, "EditFS", "Panel", new { id=item.PanelId }, null)
             }
             @if (fs.PanelId != item.PanelId)
             {
-                <text>| </text>@Html.ActionLink("Delete", "Delete", "Panel", new { id=item.PanelId }, null)
+                <text>| </text>@Html.ActionLink(Resources.Delete, "Delete", "Panel", new { id=item.PanelId }, null)
             }
         </td>
     </tr>
@@ -77,9 +79,9 @@
 
 </table>
 
-<h2>Associated displays</h2>
+<h2>@Resources.AssociatedDisplays</h2>
 
-@Html.ActionLink("Create new display", "Create", "Display", new { canvasId=Model.CanvasId }, null)
+@Html.ActionLink(Resources.CreateNewDisplay, "Create", "Display", new { canvasId=Model.CanvasId }, null)
 
 <table class="grid">
     <tr>
@@ -98,7 +100,7 @@
 @foreach (var item in Model.Displays) {
     <tr>
         <td>
-            @Html.ActionLink(item.Name, "Browse", "Display", new { id = item.DisplayId }, new { target = "_blank", title = "Browse display" })
+            @Html.ActionLink(item.Name, "Browse", "Display", new { id = item.DisplayId }, new { target = "_blank", title = Resources.BrowseDisplay })
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Host)
@@ -107,8 +109,8 @@
             @Html.DisplayFor(modelItem => item.Location.Name)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", "Display", new { id=item.DisplayId }, null) |
-            @Html.ActionLink("Delete", "Delete", "Display", new { id=item.DisplayId }, null)
+            @Html.ActionLink(Resources.Edit, "Edit", "Display", new { id=item.DisplayId }, null) |
+            @Html.ActionLink(Resources.Delete, "Delete", "Display", new { id=item.DisplayId }, null)
         </td>
     </tr>
 }

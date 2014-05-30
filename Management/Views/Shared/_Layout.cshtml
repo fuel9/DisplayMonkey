@@ -1,4 +1,6 @@
-﻿@{
+﻿@using DisplayMonkey.Language
+
+@{
     string appPath = Request.ApplicationPath;
     string path = Request.Path;
     if (appPath != "/")
@@ -27,7 +29,7 @@
         <header>
             <div class="content-wrapper">
                 <div class="float-left">
-                    <p class="site-title">@Html.ActionLink("Display Monkey", "Index", "Home")</p>
+                    <p class="site-title">@Html.ActionLink(Resources.DisplayMonkey, "Index", "Home")</p>
                 </div>
                 <div class="float-right">
                     <section id="login">
@@ -35,35 +37,35 @@
                     </section>
                     <nav>
                         <ul class="menu">
-                            <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                            <li>@Html.ActionLink("Currently Displayed", "Index", "Display")</li>
-                            <li>@Html.ActionLink("Change Displayed", "Index", "Frame")</li>
+                            <li>@Html.ActionLink(Resources.Home, "Index", "Home")</li>
+                            <li>@Html.ActionLink(Resources.CurrentlyDisplayed, "Index", "Display")</li>
+                            <li>@Html.ActionLink(Resources.ChangeDisplayed, "Index", "Frame")</li>
                             <li><a href="#">Media</a>
                                 <ul>
-                                    <li>@Html.ActionLink("View Uploaded Media", "Index", "Media")</li>
-                                    <li>@Html.ActionLink("Upload Media", "Upload", "Media")</li>
+                                    <li>@Html.ActionLink(Resources.ViewUploadedMedia, "Index", "Media")</li>
+                                    <li>@Html.ActionLink(Resources.UploadMedia, "Upload", "Media")</li>
                                 </ul>
                             </li>
-                            <li><a href="#">Setup</a>
+                            <li><a href="#">@Resources.Setup</a>
                                 <ul>
-                                    <li><a href="#">Organization</a>
+                                    <li><a href="#">@Resources.Organization</a>
                                         <ul>
-                                            <li>@Html.ActionLink("Levels", "Index", "Level")</li>
-                                            <li>@Html.ActionLink("Locations", "Index", "Location")</li>
+                                            <li>@Html.ActionLink(Resources.Levels, "Index", "Level")</li>
+                                            <li>@Html.ActionLink(Resources.Locations, "Index", "Location")</li>
                                         </ul>
                                     </li>
-                                    <li>@Html.ActionLink("Canvases", "Index", "Canvas")</li>
-                                    <li>@Html.ActionLink("Panels", "Index", "Panel")</li>
-                                    <li><a href="#">Other</a>
+                                    <li>@Html.ActionLink(Resources.Canvases, "Index", "Canvas")</li>
+                                    <li>@Html.ActionLink(Resources.Panels, "Index", "Panel")</li>
+                                    <li><a href="#">@Resources.Other</a>
                                         <ul>
-                                            <li>@Html.ActionLink("Application settings", "Index", "Setting")</li>
-                                            <li>@Html.ActionLink("Report server accounts", "Index", "ReportServer")</li>
+                                            <li>@Html.ActionLink(Resources.ApplicationSettings, "Index", "Setting")</li>
+                                            <li>@Html.ActionLink(Resources.ReportServerAccounts, "Index", "ReportServer")</li>
                                         </ul>
                                     </li>
                                 </ul>
                             </li>
                             <li><a href="@help" onclick="window.open('@help','Help','width=640,height=480,resizable=1,scrollbars=1'); return false;" target="_blank">Help</a></li>
-                            <li>@Html.ActionLink("About", "About", "Home")</li>
+                            <li>@Html.ActionLink(Resources.About, "About", "Home")</li>
                         </ul>
                     </nav>
                 </div>

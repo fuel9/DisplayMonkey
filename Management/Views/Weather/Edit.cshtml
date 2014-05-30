@@ -1,7 +1,9 @@
-﻿@model DisplayMonkey.Models.Weather
+﻿@using DisplayMonkey.Language
+
+@model DisplayMonkey.Models.Weather
 
 @{
-    ViewBag.Title = "Edit weather frame";
+    ViewBag.Title = Resources.EditWeatherFrame;
     SelectList types = ViewBag.Types as SelectList;
 }
 
@@ -12,7 +14,7 @@
     @Html.ValidationSummary(true)
 
     <fieldset>
-        <legend>Weather</legend>
+        <legend>@Resources.Weather</legend>
 
         @Html.Partial("_frameData", Model.Frame)
 
@@ -25,13 +27,13 @@
         </div>
 
         <p>
-            <input type="submit" value="Save" />
+            <input type="submit" value="@Resources.Save" />
         </p>
     </fieldset>
 }
 
 <div>
-    @Html.ActionLink("View frames", "Index", "Frame")
+    @Html.ActionLink(Resources.ViewFrames, "Index", "Frame")
 </div>
 
 @section Scripts {

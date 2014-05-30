@@ -1,14 +1,16 @@
-﻿@model DisplayMonkey.Models.Display
+﻿@using DisplayMonkey.Language
+
+@model DisplayMonkey.Models.Display
 
 @{
-    ViewBag.Title = "Remove display";
+    ViewBag.Title = Resources.RemoveDisplay;
 }
 
 <h2>@ViewBag.Title</h2>
 
-<h3>Are you sure you want to remove this display?</h3>
+<h3>@Resources.AreYouSureYouWantToRemoveThisDisplay</h3>
 <fieldset>
-    <legend>Display</legend>
+    <legend>@Resources.Display</legend>
 
     <div class="divTable">
     <div class="divRow">
@@ -51,7 +53,7 @@
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
     <p>
-        <input type="submit" value="Remove" /> |
-        @Html.ActionLink("View displays", "Index")
+        <input type="submit" value="@Resources.Remove" /> |
+        @Html.ActionLink(Resources.ViewDisplays , "Index")
     </p>
 }

@@ -1,7 +1,9 @@
-﻿@model DisplayMonkey.Models.Report
+﻿@using DisplayMonkey.Language
+
+@model DisplayMonkey.Models.Report
 
 @{
-    ViewBag.Title = "Create new report frame";
+    ViewBag.Title = Resources.CreateNewReportFrame;
     SelectList modes = ViewBag.Modes as SelectList;
     SelectList servers = ViewBag.Servers as SelectList;
 }
@@ -13,7 +15,7 @@
     @Html.ValidationSummary(true)
 
     <fieldset>
-        <legend>Report</legend>
+        <legend>@Resources.Report</legend>
 
         @Html.Partial("_frameData", Model.Frame)
         
@@ -50,13 +52,13 @@
         </div>
 
         <p>
-            <input type="submit" value="Create" />
+            <input type="submit" value="@Resources.Create" />
         </p>
     </fieldset>
 }
 
 <div>
-    @Html.ActionLink("View frames", "Index", "Frame")
+    @Html.ActionLink(Resources.ViewFrames, "Index", "Frame")
 </div>
 
 @section Scripts {

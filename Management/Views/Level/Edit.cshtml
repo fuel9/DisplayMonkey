@@ -1,7 +1,9 @@
-﻿@model DisplayMonkey.Models.Level
+﻿@using DisplayMonkey.Language
+
+@model DisplayMonkey.Models.Level
 
 @{
-    ViewBag.Title = "Edit organization level";
+    ViewBag.Title = Resources.EditOrganizationLevel;
 }
 
 <h2>@ViewBag.Title</h2>
@@ -11,7 +13,7 @@
     @Html.ValidationSummary(true)
 
     <fieldset>
-        <legend>Level</legend>
+        <legend>@Resources.Level</legend>
 
         @Html.HiddenFor(model => model.LevelId)
 
@@ -24,13 +26,13 @@
         </div>
 
         <p>
-            <input type="submit" value="Save" />
+            <input type="submit" value="@Resources.Save" />
         </p>
     </fieldset>
 }
 
 <div>
-    @Html.ActionLink("View levels", "Index")
+    @Html.ActionLink(Resources.ViewLevels, "Index")
 </div>
 
 @section Scripts {

@@ -5,7 +5,7 @@
 @model IEnumerable<DisplayMonkey.Models.Frame>
 
 @{
-    ViewBag.Title = "Re-order Panel Frames";
+    ViewBag.Title = Resources.ReOrderPanelFrames;
     string frameContent = "";
     int i = 0;
 }
@@ -48,12 +48,12 @@
     }
     else
     {
-        frameContent += "Unsupported frame";
+        frameContent += Resources.UnsupportedFrame;
     }
 
     if (item.ShowDuration)
     {
-        frameContent += ", " + item.Duration + " sec.";
+        frameContent += string.Format(", {0} {1}", item.Duration, Resources.Sec);
     }
     <li data-frame-id="@item.FrameId" data-old-sort="@((i++).ToString())"><div>@frameContent</div></li>
 }
@@ -65,7 +65,7 @@
     @Html.HiddenFor(m => Model.FirstOrDefault().PanelId)
     @Html.Hidden("json")
     <p>
-        <input id="submit" type="submit" value="Save" /> |
+        <input id="submit" type="submit" value="@Resources.Save" /> |
         <a href="javascript:window.history.back();">@Resources.BackPreviousPage</a>
     </p>
 }

@@ -1,7 +1,9 @@
-﻿@model DisplayMonkey.Models.Video
+﻿@using DisplayMonkey.Language
+
+@model DisplayMonkey.Models.Video
 
 @{
-    ViewBag.Title = "Edit video frame";
+    ViewBag.Title = Resources.EditVideoFrame;
 }
 
 <h2>@ViewBag.Title</h2>
@@ -11,19 +13,19 @@
     @Html.ValidationSummary(true)
 
     <fieldset>
-        <legend>Video</legend>
+        <legend>@Resources.Video</legend>
 
         @Html.Partial("_frameData", Model.Frame)
         @Html.Partial("_Edit", Model)
 
         <p>
-            <input type="submit" value="Save" />
+            <input type="submit" value="@Resources.Save" />
         </p>
     </fieldset>
 }
 
 <div>
-    @Html.ActionLink("View frames", "Index", "Frame")
+    @Html.ActionLink(Resources.ViewFrames, "Index", "Frame")
 </div>
 
 @section Scripts {

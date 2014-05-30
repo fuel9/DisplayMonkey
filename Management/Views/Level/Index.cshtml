@@ -1,13 +1,15 @@
-﻿@model IEnumerable<DisplayMonkey.Models.Level>
+﻿@using DisplayMonkey.Language
+
+@model IEnumerable<DisplayMonkey.Models.Level>
 
 @{
-    ViewBag.Title = "Organization levels";
+    ViewBag.Title = Resources.OrganizationLevels;
 }
 
 <h2>@ViewBag.Title</h2>
 
 <p>
-    @Html.ActionLink("Create new", "Create")
+    @Html.ActionLink(Resources.CreateNew, "Create")
 </p>
 <table class="grid">
     <tr>
@@ -23,8 +25,8 @@
             @Html.ActionLink(item.Name, "Details", new { id=item.LevelId })
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.LevelId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.LevelId })
+            @Html.ActionLink(Resources.Edit, "Edit", new { id=item.LevelId }) |
+            @Html.ActionLink(Resources.Delete, "Delete", new { id=item.LevelId })
         </td>
     </tr>
 }
