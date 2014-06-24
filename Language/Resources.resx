@@ -783,9 +783,6 @@
   <data name="Setup" xml:space="preserve">
     <value>Setup</value>
   </data>
-  <data name="String1" xml:space="preserve">
-    <value>Create</value>
-  </data>
   <data name="SupportedImageFormatsIncludeAllOtherContentWillBeIgnored" xml:space="preserve">
     <value>Supported image formats include {0}. All other content will be ignored.</value>
   </data>
@@ -951,5 +948,29 @@
   </data>
   <data name="DateCreated" xml:space="preserve">
     <value>Date Created</value>
+  </data>
+  <data name="Dashboard" xml:space="preserve">
+    <value>Dashboard</value>
+  </data>
+  <data name="Dashboard_FramesByType" xml:space="preserve">
+    <value>Frames by Type</value>
+  </data>
+  <data name="Dashboard_NumberOfActiveFrames" xml:space="preserve">
+    <value>Number of Active Frames</value>
+  </data>
+  <data name="Dashboard_NumberOfFrames" xml:space="preserve">
+    <value>Number of Frames</value>
+  </data>
+  <data name="Dashboard_PreviousSevenDays" xml:space="preserve">
+    <value>Previous 7 Days</value>
+  </data>
+  <data name="Dashboard_TopFiveContent" xml:space="preserve">
+    <value>Top 5 Content</value>
+  </data>
+  <data name="Dashboard_TotalDuration" xml:space="preserve">
+    <value>Total Duration (Hours)</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Total</value>
   </data>
 </root>

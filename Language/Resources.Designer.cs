@@ -700,6 +700,69 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Dashboard.
+        /// </summary>
+        public static string Dashboard {
+            get {
+                return ResourceManager.GetString("Dashboard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Frames by Type.
+        /// </summary>
+        public static string Dashboard_FramesByType {
+            get {
+                return ResourceManager.GetString("Dashboard_FramesByType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Number of Active Frames.
+        /// </summary>
+        public static string Dashboard_NumberOfActiveFrames {
+            get {
+                return ResourceManager.GetString("Dashboard_NumberOfActiveFrames", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Number of Frames.
+        /// </summary>
+        public static string Dashboard_NumberOfFrames {
+            get {
+                return ResourceManager.GetString("Dashboard_NumberOfFrames", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Previous 7 Days.
+        /// </summary>
+        public static string Dashboard_PreviousSevenDays {
+            get {
+                return ResourceManager.GetString("Dashboard_PreviousSevenDays", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Top 5 Content.
+        /// </summary>
+        public static string Dashboard_TopFiveContent {
+            get {
+                return ResourceManager.GetString("Dashboard_TopFiveContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Total Duration (Hours).
+        /// </summary>
+        public static string Dashboard_TotalDuration {
+            get {
+                return ResourceManager.GetString("Dashboard_TotalDuration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Date Created.
         /// </summary>
         public static string DateCreated {
@@ -2160,15 +2223,6 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Create.
-        /// </summary>
-        public static string String1 {
-            get {
-                return ResourceManager.GetString("String1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Subject.
         /// </summary>
         public static string Subject {
@@ -2237,6 +2291,15 @@ namespace DisplayMonkey.Language {
         public static string Top {
             get {
                 return ResourceManager.GetString("Top", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Total.
+        /// </summary>
+        public static string Total {
+            get {
+                return ResourceManager.GetString("Total", resourceCulture);
             }
         }
         

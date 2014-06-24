@@ -14,13 +14,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/27/2013 22:35:56</publishTime>
     </File>
     <File Include="bin/App_global.asax.compiled">
-      <publishTime>06/19/2014 11:28:44</publishTime>
+      <publishTime>06/24/2014 14:33:47</publishTime>
     </File>
     <File Include="bin/App_global.asax.dll">
-      <publishTime>06/19/2014 11:28:44</publishTime>
+      <publishTime>06/24/2014 14:33:47</publishTime>
     </File>
     <File Include="bin/App_global.asax.pdb">
-      <publishTime>06/19/2014 11:28:44</publishTime>
+      <publishTime>06/24/2014 14:33:47</publishTime>
     </File>
     <File Include="bin/DataAnnotationsExtensions.ClientValidation.dll">
       <publishTime>12/20/2013 17:23:38</publishTime>
@@ -38,16 +38,16 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/27/2013 22:35:55</publishTime>
     </File>
     <File Include="bin/DisplayMonkey.Language.dll">
-      <publishTime>06/19/2014 11:27:37</publishTime>
+      <publishTime>06/24/2014 14:33:35</publishTime>
     </File>
     <File Include="bin/DisplayMonkey.Language.pdb">
-      <publishTime>06/19/2014 11:27:37</publishTime>
+      <publishTime>06/24/2014 14:33:35</publishTime>
     </File>
     <File Include="bin/DisplayMonkey.Management.dll">
-      <publishTime>06/19/2014 11:27:39</publishTime>
+      <publishTime>06/24/2014 14:33:36</publishTime>
     </File>
     <File Include="bin/DisplayMonkey.Management.pdb">
-      <publishTime>06/19/2014 11:27:39</publishTime>
+      <publishTime>06/24/2014 14:33:36</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>11/27/2013 22:35:51</publishTime>
@@ -119,7 +119,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/27/2013 22:35:55</publishTime>
     </File>
     <File Include="bin/ru/DisplayMonkey.Language.resources.dll">
-      <publishTime>06/19/2014 11:27:37</publishTime>
+      <publishTime>06/24/2014 14:33:35</publishTime>
     </File>
     <File Include="bin/ru/Microsoft.Data.Edm.resources.dll">
       <publishTime>11/27/2013 22:35:56</publishTime>
@@ -131,7 +131,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/27/2013 22:35:55</publishTime>
     </File>
     <File Include="bin/sv/DisplayMonkey.Language.resources.dll">
-      <publishTime>06/19/2014 11:27:38</publishTime>
+      <publishTime>06/24/2014 14:33:35</publishTime>
     </File>
     <File Include="bin/sv/Language.resources.dll">
       <publishTime>03/14/2014 17:05:26</publishTime>
@@ -230,10 +230,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/01/2014 13:45:47</publishTime>
     </File>
     <File Include="Content/jqsimplemenu.css">
-      <publishTime>02/25/2014 14:09:39</publishTime>
+      <publishTime>02/25/2014 08:09:38</publishTime>
     </File>
     <File Include="Content/Site.css">
-      <publishTime>06/05/2014 20:49:38</publishTime>
+      <publishTime>06/24/2014 13:44:06</publishTime>
     </File>
     <File Include="Content/themes/base/images/animated-overlay.gif">
       <publishTime>01/17/2014 10:09:12</publishTime>
@@ -425,67 +425,67 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/27/2014 16:39:42</publishTime>
     </File>
     <File Include="Images/accent.png">
-      <publishTime>11/27/2013 22:35:50</publishTime>
+      <publishTime>11/27/2013 16:35:50</publishTime>
     </File>
     <File Include="Images/bullet.png">
-      <publishTime>11/27/2013 22:35:50</publishTime>
+      <publishTime>11/27/2013 16:35:50</publishTime>
     </File>
     <File Include="Images/dropdown.png">
-      <publishTime>01/29/2014 10:14:15</publishTime>
+      <publishTime>01/29/2014 04:14:14</publishTime>
     </File>
     <File Include="Images/film.png">
-      <publishTime>02/19/2014 15:11:37</publishTime>
+      <publishTime>02/19/2014 09:11:36</publishTime>
     </File>
     <File Include="Images/full.png">
-      <publishTime>12/15/2013 15:52:24</publishTime>
+      <publishTime>12/15/2013 09:52:24</publishTime>
     </File>
     <File Include="Images/heroAccent.png">
-      <publishTime>11/27/2013 22:35:50</publishTime>
+      <publishTime>11/27/2013 16:35:50</publishTime>
     </File>
     <File Include="Images/logo.png">
-      <publishTime>02/25/2014 12:46:57</publishTime>
+      <publishTime>02/25/2014 06:46:56</publishTime>
     </File>
     <File Include="Images/orderedList0.png">
-      <publishTime>11/27/2013 22:35:50</publishTime>
+      <publishTime>11/27/2013 16:35:50</publishTime>
     </File>
     <File Include="Images/orderedList1.png">
-      <publishTime>11/27/2013 22:35:50</publishTime>
+      <publishTime>11/27/2013 16:35:50</publishTime>
     </File>
     <File Include="Images/orderedList2.png">
-      <publishTime>11/27/2013 22:35:50</publishTime>
+      <publishTime>11/27/2013 16:35:50</publishTime>
     </File>
     <File Include="Images/orderedList3.png">
-      <publishTime>11/27/2013 22:35:50</publishTime>
+      <publishTime>11/27/2013 16:35:50</publishTime>
     </File>
     <File Include="Images/orderedList4.png">
-      <publishTime>11/27/2013 22:35:50</publishTime>
+      <publishTime>11/27/2013 16:35:50</publishTime>
     </File>
     <File Include="Images/orderedList5.png">
-      <publishTime>11/27/2013 22:35:50</publishTime>
+      <publishTime>11/27/2013 16:35:50</publishTime>
     </File>
     <File Include="Images/orderedList6.png">
-      <publishTime>11/27/2013 22:35:50</publishTime>
+      <publishTime>11/27/2013 16:35:50</publishTime>
     </File>
     <File Include="Images/orderedList7.png">
-      <publishTime>11/27/2013 22:35:50</publishTime>
+      <publishTime>11/27/2013 16:35:50</publishTime>
     </File>
     <File Include="Images/orderedList8.png">
-      <publishTime>11/27/2013 22:35:50</publishTime>
+      <publishTime>11/27/2013 16:35:50</publishTime>
     </File>
     <File Include="Images/orderedList9.png">
-      <publishTime>11/27/2013 22:35:50</publishTime>
+      <publishTime>11/27/2013 16:35:50</publishTime>
     </File>
     <File Include="Images/partial.png">
-      <publishTime>12/15/2013 16:01:53</publishTime>
+      <publishTime>12/15/2013 10:01:52</publishTime>
     </File>
     <File Include="Images/question.png">
-      <publishTime>02/20/2014 21:28:24</publishTime>
+      <publishTime>02/20/2014 15:28:24</publishTime>
     </File>
     <File Include="Images/video.gif">
-      <publishTime>11/18/2013 17:11:20</publishTime>
+      <publishTime>11/18/2013 11:11:20</publishTime>
     </File>
     <File Include="Images/video_thmb.png">
-      <publishTime>02/25/2014 12:25:32</publishTime>
+      <publishTime>02/25/2014 06:25:32</publishTime>
     </File>
     <File Include="Models/DMModel.edmx.diagram">
       <publishTime>06/05/2014 20:31:26</publishTime>
@@ -494,7 +494,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/07/2014 23:46:42</publishTime>
     </File>
     <File Include="PrecompiledApp.config">
-      <publishTime>06/19/2014 11:28:42</publishTime>
+      <publishTime>06/24/2014 14:33:46</publishTime>
     </File>
     <File Include="Scripts/canvas-preview.js">
       <publishTime>02/04/2014 09:48:59</publishTime>
@@ -650,7 +650,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Home/Index.cshtml">
-      <publishTime>06/05/2014 21:02:57</publishTime>
+      <publishTime>06/24/2014 14:32:46</publishTime>
     </File>
     <File Include="Views/Level/Create.cshtml">
       <publishTime>05/30/2014 15:09:29</publishTime>
@@ -800,7 +800,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Shared/Error.cshtml">
-      <publishTime>06/19/2014 11:27:31</publishTime>
+      <publishTime>06/19/2014 12:03:46</publishTime>
     </File>
     <File Include="Views/Shared/Missing.cshtml">
       <publishTime>05/30/2014 15:09:29</publishTime>
@@ -875,7 +875,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>06/19/2014 11:28:40</publishTime>
+      <publishTime>06/24/2014 14:33:44</publishTime>
     </File>
   </ItemGroup>
 </Project>

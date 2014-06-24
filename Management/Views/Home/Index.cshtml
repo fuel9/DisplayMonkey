@@ -7,7 +7,7 @@
     <table class="dashboard">
 	<thead>
 		<tr>
-			<td colspan="7">Dashboard</td>
+			<td colspan="7">@Resources.Dashboard</td>
 		</tr>
 		<tr>
 			<td colspan="7" class="Space"></td>
@@ -18,14 +18,14 @@
           <td class="Heading_Table1_Left">@Html.ActionLink(@Resources.Frames, "Index", "Frame")</td>
           <td class="Heading_Table1_Right">&nbsp;</td>
           <td class="Space">&nbsp;</td>
-		  <td class="Heading_Table1_Left">Top 5 Content</td>
+		  <td class="Heading_Table1_Left">@Resources.Dashboard_TopFiveContent</td>
           <td class="Heading_Table1_Right">&nbsp;</td>
           <td class="Space">&nbsp;</td> 
-		  <td class="Heading_Table1_Left">Setup</td>
+		  <td class="Heading_Table1_Left">@Resources.Setup</td>
           <td class="Heading_Table1_Right">&nbsp;</td>
         </tr>
         <tr>
-          <td class="Left_Align">Number of Frames</td>
+          <td class="Left_Align">@Resources.Dashboard_NumberOfFrames</td>
           <td class="Right_Align">@Model.Number_of_Frames</td>
 		  <td class="Space">&nbsp;</td>
           <td class="Left_Align">@Model.Top_Content_1</td>
@@ -35,7 +35,7 @@
           <td class="Right_Align">@Model.Levels</td>
         </tr>
         <tr>
-          <td class="Left_Align_Alt">Total Duration (Hours)</td>
+          <td class="Left_Align_Alt">@Resources.Dashboard_TotalDuration</td>
           <td class="Right_Align_Alt">@Model.Total_Duration_Hours</td>
           <td class="Space">&nbsp;</td>         
 		  <td class="Left_Align_Alt">@Model.Top_Content_2</td>
@@ -45,7 +45,7 @@
           <td class="Right_Align_Alt">@Model.Location</td>
         </tr>
         <tr>
-          <td class="Left_Align">Number of Active Frames</td>
+          <td class="Left_Align">@Resources.Dashboard_NumberOfActiveFrames</td>
           <td class="Right_Align">@Model.Number_of_Active_Frames</td>
           <td class="Space">&nbsp;</td>         
 		  <td class="Left_Align">@Model.Top_Content_3</td>
@@ -79,9 +79,9 @@
     <table class="dashboard">
       <tbody>	
         <tr>
-          <td class="Heading_Table2_Left">Frames by Type</td>
-          <td class="Heading_Table2_Right" colspan="2">Previous 7 Days</td>
-          <td class="Heading_Table2_Right" colspan="2">Total</td>
+          <td class="Heading_Table2_Left">@Resources.Dashboard_FramesByType</td>
+          <td class="Heading_Table2_Right" colspan="2">@Resources.Dashboard_PreviousSevenDays</td>
+          <td class="Heading_Table2_Right" colspan="2">@Resources.Total</td>
         </tr>
         <tr>
           <td class="Left_Align">@Html.ActionLink(Resources.Memo, "Index", "Frame", new { FrameType = "Memo" }, null)</td>
