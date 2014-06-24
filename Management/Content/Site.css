@@ -1000,74 +1000,80 @@ font-family: "Open Sans";
 src: url(http://themes.googleusercontent.com/static/fonts/opensans/v7/cJZKeOuBrn4kERxqtaUH3T8E0i7KZn-EPnyo3HZu7kw.woff);
 }
 
-table.homeSummary
+table.dashboard
 {
-    border-spacing: 2px;
+    border-spacing: 0px;
     border-collapse: separate;
     text-align: left;
     border: none;
 }
 
-    table.homeSummary td
+    table.dashboard thead 
     {
-        padding: 2px;
+        color: #376092;
+		font-size: 1.4em;
+		font-weight: bold;
     }
 
-        .style1
+    table.dashboard td
+    {
+        padding: 2px;
+
+    }
+
+        .Right_Align
         {
-            width: 434px;
+			text-align:right;
         }
-        .style3
+        .Right_Align_Alt
         {
-            width: 434px;
-            height: 25px;
+			text-align:right;
+			background-color: #f7f7f7;	
         }
-        .style5
+		.Left_Align
         {
-            width: 397px;
-            height: 25px;
-        }
-        .style7
+			text-align:left;
+        }	
+	     .Left_Align_Alt
         {
-            width: 374px;
-            height: 25px;
-        }
-        .style12
+			text-align:left;
+			background-color: #f7f7f7;
+        }		
+	    .Heading_Table1_Left
         {
-            width: 374px;
-        }
-        .style13
+            width: 30%;
+			font-size: 100%;
+			color:#376092;
+			border-bottom: 1px solid #e2e2e2;	
+			font-weight: bold;
+        }	
+	    .Heading_Table1_Right
         {
-            width: 397px;
-        }
-        .style14
+            width: 50px;
+			font-size: 100%;
+			text-align:right;
+			color:#376092;
+			border-bottom: 1px solid #e2e2e2;	
+		}	
+	    .Heading_Table2_Left
         {
-            height: 25px;
+            width: 135px;
+			font-size: 100%;
+			color:#376092;
+			border-bottom: 1px solid #e2e2e2;
+			font-weight: bold;			
+        }	
+	    .Heading_Table2_Right
+        {
+            width: 135px;
+			font-size: 100%;
+			text-align:right;
+			color:#376092;
+			border-bottom: 1px solid #e2e2e2;	
+			font-weight: bold;			
+		}			
+        .Space
+        {
             width: 30px;
-        }
-        .style15
-        {
-            width: 30px;
-        }
-        .style16
-        {
-            height: 25px;
-            width: 28px;
-        }
-        .style17
-        {
-            width: 28px;
-        }
-        .style18
-        {
-            height: 25px;
-            width: 139px;
-        }
-        .style19
-        {
-            width: 139px;
-        }
-        .style20
-        {
-            width: 139px;
-        }
+			height: 10px;
+        }		
