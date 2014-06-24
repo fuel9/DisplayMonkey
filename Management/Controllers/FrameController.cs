@@ -65,9 +65,11 @@ namespace DisplayMonkey.Controllers
         //
         // GET: /Frame/
 
-        public ActionResult Index(int canvasId = 0, int panelId = 0, Frame.FrameTypes? frameType = null)
+        public ActionResult Index(int canvasId = 0, int panelId = 0, Frame.FrameTypes? frameType = null /*, int page = 1*/)
         {
             Navigation.SaveCurrent();
+
+            //if (page <= 0) page = 1;
 
             IQueryable<Frame> list = db.Frames
                 .Include(f => f.Panel)
@@ -96,7 +98,12 @@ namespace DisplayMonkey.Controllers
                 list = list.Where(Frame.FilterByFrameType(frameType));
             }
 
+            //ViewBag.TotalPages = (int)Math.Ceiling((float)list.Count() / 20.0);
+            //ViewBag.CurrentPage = page;
+
             list = list
+                //.Skip((page - 1) * 20)
+                //.Take(20)
                 .OrderBy(f => f.Panel.Canvas.Name)
                 .ThenBy(f => f.Panel.Name)
                 .ThenBy(f => f.Sort == null ? (float)f.FrameId : (float)f.Sort)

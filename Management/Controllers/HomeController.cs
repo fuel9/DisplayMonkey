@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DisplayMonkey.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,25 +9,19 @@ namespace DisplayMonkey.Controllers
 {
     public class HomeController : BaseController
     {
+        private DisplayMonkeyEntities db = new DisplayMonkeyEntities();
+
         public ActionResult Index()
         {
-            ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
-
-            return View();
+            var result = db.sp_Get_Dashboard().FirstOrDefault();
+            
+            return View(result);
         }
 
-        public ActionResult About()
+        protected override void Dispose(bool disposing)
         {
-            ViewBag.Message = "Your app description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
+            db.Dispose();
+            base.Dispose(disposing);
         }
     }
 }

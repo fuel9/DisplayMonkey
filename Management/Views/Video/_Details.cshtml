@@ -2,6 +2,10 @@
 
 @model DisplayMonkey.Models.Video
 
+@{
+    DisplayMonkey.Models.Content alt1 = Model.Contents.FirstOrDefault();
+}
+
 <fieldset>
     <legend>@Resources.Video</legend>
 
@@ -49,10 +53,13 @@
 
         <td>
             <div id="picture">
-                <video style="width:100%;height:100%" poster="~/images/video.gif" loop autoplay controls>
-                    <source src="@Url.Action("Playback", "Media", new { id = Model.Contents.FirstOrDefault().ContentId })" />
-                    @Resources.YourBrowserDoesntSupportThisMediaTypePleaseUpgradeYourBrowser
-                </video>
+                @if (alt1 != null && alt1.ContentId != 0)
+                {
+                    <video style="width:100%;height:100%" poster="~/images/video.gif" loop autoplay controls>
+                        <source src="@Url.Action("Playback", "Media", new { id = alt1.ContentId })" />
+                        @Resources.YourBrowserDoesntSupportThisMediaTypePleaseUpgradeYourBrowser
+                    </video>
+                }
             </div>
         </td>
 

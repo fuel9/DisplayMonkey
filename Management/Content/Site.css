@@ -989,3 +989,85 @@ div.select {
 .nw {
     white-space: nowrap;
 }
+
+
+
+/********************************* Dashboard **********************************/
+
+@font-face
+{
+font-family: "Open Sans";
+src: url(http://themes.googleusercontent.com/static/fonts/opensans/v7/cJZKeOuBrn4kERxqtaUH3T8E0i7KZn-EPnyo3HZu7kw.woff);
+}
+
+table.homeSummary
+{
+    border-spacing: 2px;
+    border-collapse: separate;
+    text-align: left;
+    border: none;
+}
+
+    table.homeSummary td
+    {
+        padding: 2px;
+    }
+
+        .style1
+        {
+            width: 434px;
+        }
+        .style3
+        {
+            width: 434px;
+            height: 25px;
+        }
+        .style5
+        {
+            width: 397px;
+            height: 25px;
+        }
+        .style7
+        {
+            width: 374px;
+            height: 25px;
+        }
+        .style12
+        {
+            width: 374px;
+        }
+        .style13
+        {
+            width: 397px;
+        }
+        .style14
+        {
+            height: 25px;
+            width: 30px;
+        }
+        .style15
+        {
+            width: 30px;
+        }
+        .style16
+        {
+            height: 25px;
+            width: 28px;
+        }
+        .style17
+        {
+            width: 28px;
+        }
+        .style18
+        {
+            height: 25px;
+            width: 139px;
+        }
+        .style19
+        {
+            width: 139px;
+        }
+        .style20
+        {
+            width: 139px;
+        }

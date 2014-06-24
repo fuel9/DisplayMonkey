@@ -6,6 +6,11 @@
 
 @{
     ViewBag.Title = Resources.Error;
+    Exception ex = Model.Exception;
+    while (ex.InnerException != null)
+    {
+        ex = ex.InnerException;
+    }
 }
 
 <hgroup class="title">
@@ -22,7 +27,7 @@
 
     <tr>
         <td>@Resources.ErrorMessage</td>
-        <td><div class="error-message">@Model.Exception.Message</div></td>
+        <td><div class="error-message">@ex.Message</div></td>
     </tr>
 
     <tr>

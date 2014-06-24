@@ -14,13 +14,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/27/2013 22:35:56</publishTime>
     </File>
     <File Include="bin/App_global.asax.compiled">
-      <publishTime>03/23/2014 13:44:17</publishTime>
+      <publishTime>06/19/2014 11:28:44</publishTime>
     </File>
     <File Include="bin/App_global.asax.dll">
-      <publishTime>03/23/2014 13:44:17</publishTime>
+      <publishTime>06/19/2014 11:28:44</publishTime>
     </File>
     <File Include="bin/App_global.asax.pdb">
-      <publishTime>03/23/2014 13:44:17</publishTime>
+      <publishTime>06/19/2014 11:28:44</publishTime>
     </File>
     <File Include="bin/DataAnnotationsExtensions.ClientValidation.dll">
       <publishTime>12/20/2013 17:23:38</publishTime>
@@ -38,16 +38,16 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/27/2013 22:35:55</publishTime>
     </File>
     <File Include="bin/DisplayMonkey.Language.dll">
-      <publishTime>03/23/2014 13:31:47</publishTime>
+      <publishTime>06/19/2014 11:27:37</publishTime>
     </File>
     <File Include="bin/DisplayMonkey.Language.pdb">
-      <publishTime>03/23/2014 13:31:47</publishTime>
+      <publishTime>06/19/2014 11:27:37</publishTime>
     </File>
     <File Include="bin/DisplayMonkey.Management.dll">
-      <publishTime>03/23/2014 13:31:48</publishTime>
+      <publishTime>06/19/2014 11:27:39</publishTime>
     </File>
     <File Include="bin/DisplayMonkey.Management.pdb">
-      <publishTime>03/23/2014 13:31:48</publishTime>
+      <publishTime>06/19/2014 11:27:39</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>11/27/2013 22:35:51</publishTime>
@@ -119,7 +119,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/27/2013 22:35:55</publishTime>
     </File>
     <File Include="bin/ru/DisplayMonkey.Language.resources.dll">
-      <publishTime>03/23/2014 13:44:08</publishTime>
+      <publishTime>06/19/2014 11:27:37</publishTime>
     </File>
     <File Include="bin/ru/Microsoft.Data.Edm.resources.dll">
       <publishTime>11/27/2013 22:35:56</publishTime>
@@ -131,7 +131,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/27/2013 22:35:55</publishTime>
     </File>
     <File Include="bin/sv/DisplayMonkey.Language.resources.dll">
-      <publishTime>03/23/2014 13:31:47</publishTime>
+      <publishTime>06/19/2014 11:27:38</publishTime>
     </File>
     <File Include="bin/sv/Language.resources.dll">
       <publishTime>03/14/2014 17:05:26</publishTime>
@@ -233,7 +233,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/25/2014 14:09:39</publishTime>
     </File>
     <File Include="Content/Site.css">
-      <publishTime>03/19/2014 11:22:34</publishTime>
+      <publishTime>06/05/2014 20:49:38</publishTime>
     </File>
     <File Include="Content/themes/base/images/animated-overlay.gif">
       <publishTime>01/17/2014 10:09:12</publishTime>
@@ -488,13 +488,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/25/2014 12:25:32</publishTime>
     </File>
     <File Include="Models/DMModel.edmx.diagram">
-      <publishTime>02/26/2014 14:00:41</publishTime>
+      <publishTime>06/05/2014 20:31:26</publishTime>
     </File>
     <File Include="packages.config">
       <publishTime>03/07/2014 23:46:42</publishTime>
     </File>
     <File Include="PrecompiledApp.config">
-      <publishTime>03/23/2014 13:44:16</publishTime>
+      <publishTime>06/19/2014 11:28:42</publishTime>
     </File>
     <File Include="Scripts/canvas-preview.js">
       <publishTime>02/04/2014 09:48:59</publishTime>
@@ -575,307 +575,307 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/17/2014 10:09:18</publishTime>
     </File>
     <File Include="Views/Canvas/Create.cshtml">
-      <publishTime>03/05/2014 21:00:37</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Canvas/Delete.cshtml">
-      <publishTime>02/25/2014 12:08:12</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Canvas/Details.cshtml">
-      <publishTime>02/25/2014 12:08:12</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Canvas/Edit.cshtml">
-      <publishTime>03/05/2014 21:00:37</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Canvas/Index.cshtml">
-      <publishTime>03/19/2014 11:25:18</publishTime>
+      <publishTime>05/30/2014 15:12:13</publishTime>
     </File>
     <File Include="Views/Canvas/_Details.cshtml">
-      <publishTime>02/04/2014 09:44:40</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Clock/Create.cshtml">
-      <publishTime>03/13/2014 21:48:15</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Clock/Delete.cshtml">
-      <publishTime>02/25/2014 12:08:12</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Clock/Details.cshtml">
-      <publishTime>02/25/2014 12:08:12</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Clock/Edit.cshtml">
-      <publishTime>02/25/2014 12:08:12</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Clock/_Details.cshtml">
-      <publishTime>03/18/2014 22:38:51</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Clock/_frameData.cshtml">
-      <publishTime>01/20/2014 18:41:59</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Display/Create.cshtml">
-      <publishTime>02/25/2014 12:08:12</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Display/Delete.cshtml">
-      <publishTime>02/25/2014 12:08:12</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Display/Edit.cshtml">
-      <publishTime>02/25/2014 12:08:12</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Display/Index.cshtml">
-      <publishTime>01/29/2014 10:46:18</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Error/NotFound.cshtml">
-      <publishTime>03/13/2014 13:41:24</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Frame/Attach.cshtml">
-      <publishTime>02/25/2014 12:08:12</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Frame/Detach.cshtml">
-      <publishTime>02/25/2014 12:08:12</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Frame/ForCanvas.cshtml">
-      <publishTime>01/29/2014 10:46:18</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Frame/ForFrameType.cshtml">
-      <publishTime>02/25/2014 12:08:12</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Frame/ForPanel.cshtml">
-      <publishTime>01/29/2014 10:52:14</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Frame/Index.cshtml">
-      <publishTime>01/29/2014 10:52:14</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Home/About.cshtml">
-      <publishTime>11/27/2013 22:35:50</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Home/Contact.cshtml">
-      <publishTime>11/27/2013 22:35:50</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Home/Index.cshtml">
-      <publishTime>11/27/2013 22:35:50</publishTime>
+      <publishTime>06/05/2014 21:02:57</publishTime>
     </File>
     <File Include="Views/Level/Create.cshtml">
-      <publishTime>02/25/2014 12:08:12</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Level/Delete.cshtml">
-      <publishTime>02/25/2014 12:08:12</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Level/Details.cshtml">
-      <publishTime>02/25/2014 12:08:12</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Level/Edit.cshtml">
-      <publishTime>03/10/2014 20:37:42</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Level/Index.cshtml">
-      <publishTime>03/10/2014 20:36:47</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Level/_Details.cshtml">
-      <publishTime>01/31/2014 10:00:13</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Location/Create.cshtml">
-      <publishTime>02/25/2014 12:08:12</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Location/Delete.cshtml">
-      <publishTime>02/25/2014 12:08:12</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Location/Details.cshtml">
-      <publishTime>02/25/2014 12:08:12</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Location/Edit.cshtml">
-      <publishTime>03/05/2014 21:00:37</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Location/Index.cshtml">
-      <publishTime>03/19/2014 11:24:05</publishTime>
+      <publishTime>05/30/2014 15:14:03</publishTime>
     </File>
     <File Include="Views/Location/_Details.cshtml">
-      <publishTime>01/31/2014 10:02:34</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Media/Delete.cshtml">
-      <publishTime>02/25/2014 12:02:27</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Media/Details.cshtml">
-      <publishTime>02/25/2014 12:02:26</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Media/Edit.cshtml">
-      <publishTime>03/18/2014 22:39:04</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Media/Index.cshtml">
-      <publishTime>03/19/2014 11:25:16</publishTime>
+      <publishTime>05/30/2014 15:15:11</publishTime>
     </File>
     <File Include="Views/Media/Upload.cshtml">
-      <publishTime>02/26/2014 22:52:30</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Media/_Details.cshtml">
-      <publishTime>03/18/2014 23:16:04</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Memo/Create.cshtml">
-      <publishTime>02/25/2014 12:08:12</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Memo/Delete.cshtml">
-      <publishTime>02/25/2014 12:08:12</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Memo/Details.cshtml">
-      <publishTime>02/25/2014 12:08:12</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Memo/Edit.cshtml">
-      <publishTime>02/25/2014 12:08:12</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Memo/_Details.cshtml">
-      <publishTime>01/31/2014 10:06:02</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Panel/Create.cshtml">
-      <publishTime>03/05/2014 21:00:37</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Panel/Delete.cshtml">
-      <publishTime>02/25/2014 12:08:12</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Panel/Details.cshtml">
-      <publishTime>02/25/2014 12:08:12</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Panel/Edit.cshtml">
-      <publishTime>03/05/2014 21:00:37</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Panel/EditFS.cshtml">
-      <publishTime>03/05/2014 21:00:37</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Panel/Index.cshtml">
-      <publishTime>03/19/2014 11:24:05</publishTime>
+      <publishTime>05/30/2014 15:15:33</publishTime>
     </File>
     <File Include="Views/Panel/SortFrames.cshtml">
-      <publishTime>03/18/2014 22:39:29</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Panel/_Details.cshtml">
-      <publishTime>02/20/2014 08:57:27</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Picture/Create.cshtml">
-      <publishTime>02/25/2014 12:08:12</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Picture/Delete.cshtml">
-      <publishTime>02/25/2014 12:08:12</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Picture/Details.cshtml">
-      <publishTime>02/25/2014 12:08:12</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Picture/Edit.cshtml">
-      <publishTime>02/25/2014 12:08:12</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Picture/Upload.cshtml">
-      <publishTime>02/26/2014 22:44:35</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Picture/_Details.cshtml">
-      <publishTime>03/18/2014 22:45:34</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Picture/_Edit.cshtml">
-      <publishTime>01/29/2014 10:52:14</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Report/Create.cshtml">
-      <publishTime>02/25/2014 12:08:12</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Report/Delete.cshtml">
-      <publishTime>02/25/2014 12:08:12</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Report/Details.cshtml">
-      <publishTime>03/14/2014 10:50:54</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Report/Edit.cshtml">
-      <publishTime>02/25/2014 12:08:12</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Report/_Details.cshtml">
-      <publishTime>03/18/2014 22:45:28</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/ReportServer/Create.cshtml">
-      <publishTime>02/02/2014 19:26:59</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/ReportServer/Delete.cshtml">
-      <publishTime>02/02/2014 19:26:59</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/ReportServer/Edit.cshtml">
-      <publishTime>02/02/2014 19:26:59</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/ReportServer/Index.cshtml">
-      <publishTime>01/29/2014 08:16:14</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Setting/Edit.cshtml">
-      <publishTime>03/18/2014 23:54:08</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Setting/Index.cshtml">
-      <publishTime>03/19/2014 11:41:39</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Shared/Error.cshtml">
-      <publishTime>03/13/2014 13:41:19</publishTime>
+      <publishTime>06/19/2014 11:27:31</publishTime>
     </File>
     <File Include="Views/Shared/Missing.cshtml">
-      <publishTime>03/13/2014 13:41:28</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Shared/_frameData.cshtml">
-      <publishTime>03/14/2014 17:02:12</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Shared/_frameList.cshtml">
-      <publishTime>03/19/2014 11:26:49</publishTime>
+      <publishTime>06/18/2014 22:55:53</publishTime>
     </File>
     <File Include="Views/Shared/_frameLocations.cshtml">
-      <publishTime>02/19/2014 14:22:55</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>03/13/2014 13:29:22</publishTime>
+      <publishTime>06/03/2014 21:19:43</publishTime>
     </File>
     <File Include="Views/Video/Create.cshtml">
-      <publishTime>02/25/2014 12:08:12</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Video/Delete.cshtml">
-      <publishTime>02/25/2014 12:08:12</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Video/Details.cshtml">
-      <publishTime>02/25/2014 12:08:12</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Video/Edit.cshtml">
-      <publishTime>02/25/2014 12:08:12</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Video/Link.cshtml">
-      <publishTime>02/02/2014 19:26:59</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Video/Unlink.cshtml">
-      <publishTime>01/21/2014 22:19:56</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Video/Uplink.cshtml">
-      <publishTime>01/15/2014 13:44:25</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Video/Upload.cshtml">
-      <publishTime>02/26/2014 22:53:58</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Video/_Details.cshtml">
-      <publishTime>02/25/2014 12:36:50</publishTime>
+      <publishTime>06/03/2014 11:07:36</publishTime>
     </File>
     <File Include="Views/Video/_Edit.cshtml">
-      <publishTime>01/13/2014 16:23:34</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Video/_File.cshtml">
-      <publishTime>02/26/2014 22:51:51</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Weather/Create.cshtml">
-      <publishTime>02/25/2014 12:08:12</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Weather/Delete.cshtml">
-      <publishTime>02/25/2014 12:08:12</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Weather/Details.cshtml">
-      <publishTime>02/25/2014 12:08:12</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Weather/Edit.cshtml">
-      <publishTime>02/25/2014 12:08:12</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Weather/_Details.cshtml">
-      <publishTime>03/18/2014 22:41:54</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Weather/_frameData.cshtml">
-      <publishTime>01/20/2014 18:44:45</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Web.config">
       <publishTime>01/23/2014 20:24:14</publishTime>
     </File>
     <File Include="Views/_ViewStart.cshtml">
-      <publishTime>11/27/2013 22:35:50</publishTime>
+      <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>03/23/2014 13:30:06</publishTime>
+      <publishTime>06/19/2014 11:28:40</publishTime>
     </File>
   </ItemGroup>
 </Project>

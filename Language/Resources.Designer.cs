@@ -700,6 +700,15 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Date Created.
+        /// </summary>
+        public static string DateCreated {
+            get {
+                return ResourceManager.GetString("DateCreated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Date format.
         /// </summary>
         public static string DateFormat {
@@ -1255,6 +1264,15 @@ namespace DisplayMonkey.Language {
         public static string InformationContentDisplayed {
             get {
                 return ResourceManager.GetString("InformationContentDisplayed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter a valid integer number.
+        /// </summary>
+        public static string IntegerRequired {
+            get {
+                return ResourceManager.GetString("IntegerRequired", resourceCulture);
             }
         }
         
@@ -2048,6 +2066,15 @@ namespace DisplayMonkey.Language {
         public static string Settings {
             get {
                 return ResourceManager.GetString("Settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Help site URL.
+        /// </summary>
+        public static string Settings_HelpSite {
+            get {
+                return ResourceManager.GetString("Settings_HelpSite", resourceCulture);
             }
         }
         

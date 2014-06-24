@@ -16,10 +16,13 @@ namespace DisplayMonkey
 		}
 
 		public FullScreenPanel(int panelId)
+            : base(panelId)
 		{
-			string sql = string.Format(
+            Top = Left = 0;
+            
+            string sql = string.Format(
 				"SELECT TOP 1 c.* FROM FullScreen s INNER JOIN Canvas c ON c.CanvasId=s.CanvasId WHERE PanelId={0};",
-				PanelId
+			    PanelId
 				);
 
 			using (DataSet ds = DataAccess.RunSql(sql))
@@ -27,34 +30,15 @@ namespace DisplayMonkey
 				if (ds.Tables[0].Rows.Count > 0)
 				{
 					DataRow r = ds.Tables[0].Rows[0];
-					InitFromRow(r);
+                    InitFromCanvasRow(r);
 				}
 			}
 		}
 
-		public void InitFromRow(DataRow r)
+		public void InitFromCanvasRow(DataRow r)
 		{
-			Top = Left = 0;
 			Width = DataAccess.IntOrZero(r["Width"]);
 			Height = DataAccess.IntOrZero(r["Height"]);
-		}
-
-		public static bool Exists(int panelId)
-		{
-			string sql = string.Format(
-				"SELECT 1 FROM FullScreen WHERE PanelId={0};",
-				panelId
-				);
-
-			using (DataSet ds = DataAccess.RunSql(sql))
-			{
-				if (ds.Tables[0].Rows.Count > 0)
-				{
-					return true;
-				}
-			}
-
-			return false;
 		}
 
 		public override string Style
@@ -64,16 +48,16 @@ namespace DisplayMonkey
 				StringBuilder style = new StringBuilder();
 
 				style.AppendFormat(
-					"#full {{width:{0}px;height:{1}px;}}\r\n",
+					"#full {{width:{0}px;height:{1}px;overflow:hidden;}}\r\n",
 					Width,
 					Height
 					);
 
-				style.AppendFormat(
+				/*style.AppendFormat(
 					"#full>img {{max-width:{0}px;max-height:{1}px;}}\r\n",
 					Width,
 					Height
-					);
+					);*/
 
 				return style.ToString();
 			}

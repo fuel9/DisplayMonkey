@@ -385,6 +385,11 @@ namespace DisplayMonkey.Models
             public Nullable<int> Sort { get; set; }
 
             [
+               Display(ResourceType = typeof(Resources), Name = "DateCreated"),
+            ]
+            public System.DateTime DateCreated { get; protected set; }
+            
+            [
                Display(ResourceType = typeof(Resources), Name = "Clock"), 
             ]
             public virtual Clock Clock { get; set; }
@@ -966,12 +971,14 @@ namespace DisplayMonkey.Models
         public static Guid Key_MaxImageSize { get; private set; }
         public static Guid Key_MaxVideoSize { get; private set; }
         public static Guid Key_PresentationSite { get; private set; }
+        public static Guid Key_HelpSite { get; private set; }
 
         static Setting()
         {
             Key_MaxImageSize = new Guid("9A0BC012-FF01-4103-8A75-A03B275B0AD1");
             Key_MaxVideoSize = new Guid("4CAB57C4-EFEF-4EDE-91A3-EFFD48660909");
             Key_PresentationSite = new Guid("417D856B-7EC4-4CBD-A5EA-47BFC0F7B1F9");
+            Key_HelpSite = new Guid("30F7521D-0058-4ED5-9B1E-D0AB0BACB7D8");
         }
         
         [
@@ -990,8 +997,24 @@ namespace DisplayMonkey.Models
                 if (this.Key == Key_PresentationSite)
                     return Resources.Settings_PresentationSite;
 
+                if (this.Key == Key_HelpSite)
+                    return Resources.Settings_HelpSite;
+
                 return this.Key.ToString();
             }
+        }
+
+        [
+            Display(ResourceType = typeof(Resources), Name = "Value"),
+            Required(ErrorMessageResourceType = typeof(Resources),
+                ErrorMessageResourceName = "IntegerRequired"),
+            DisplayFormat(ApplyFormatInEditMode = false,
+                DataFormatString = "{0:0,###}"),
+        ]
+        public int IntValue
+        {
+            get { return this.Value == null ? 0 : BitConverter.ToInt32(this.Value.Reverse().ToArray(), 0); }
+            set { this.Value = BitConverter.GetBytes(value).Reverse().ToArray(); }
         }
 
         [
@@ -1006,8 +1029,8 @@ namespace DisplayMonkey.Models
         ]
         public int IntValuePositive
         {
-            get { return this.Value == null ? 0 : BitConverter.ToInt32(this.Value.Reverse().ToArray(), 0); }
-            set { this.Value = BitConverter.GetBytes(value).Reverse().ToArray(); }
+            get { return this.IntValue; }
+            set { this.IntValue = value; }
         }
 
         [

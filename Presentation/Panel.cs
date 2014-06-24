@@ -43,7 +43,25 @@ namespace DisplayMonkey
 				Name = string.Format("Panel {0}", PanelId);
 		}
 
-		public static List<Panel> List(int canvasId)
+        public static bool IsFullScreen(int panelId)
+        {
+            string sql = string.Format(
+                "SELECT 1 FROM FullScreen WHERE PanelId={0};",
+                panelId
+                );
+
+            using (DataSet ds = DataAccess.RunSql(sql))
+            {
+                if (ds.Tables[0].Rows.Count > 0)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public static List<Panel> List(int canvasId)
 		{
 			List<Panel> list = new List<Panel>();
 			string sql = string.Format(

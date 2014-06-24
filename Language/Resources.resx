@@ -943,4 +943,13 @@
   <data name="RemoveDisplay" xml:space="preserve">
     <value>Remove display</value>
   </data>
+  <data name="Settings_HelpSite" xml:space="preserve">
+    <value>Help site URL</value>
+  </data>
+  <data name="IntegerRequired" xml:space="preserve">
+    <value>Please enter a valid integer number</value>
+  </data>
+  <data name="DateCreated" xml:space="preserve">
+    <value>Date Created</value>
+  </data>
 </root>

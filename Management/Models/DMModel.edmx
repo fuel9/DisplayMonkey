@@ -164,6 +164,7 @@
           <Property Name="BeginsOn" Type="datetime" />
           <Property Name="EndsOn" Type="datetime" />
           <Property Name="Sort" Type="int" />
+          <Property Name="DateCreated" Type="datetime" Nullable="false" StoreGeneratedPattern="Computed" />
         </EntityType>
         <EntityType Name="FrameLocation">
           <Key>
@@ -588,6 +589,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="sp_Get_Dashboard" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -690,6 +692,7 @@
             <End Role="Report" EntitySet="Reports" />
           </AssociationSet>
           <EntitySet Name="Settings" EntityType="DisplayMonkey.Model.Setting" />
+          <FunctionImport Name="sp_Get_Dashboard" ReturnType="Collection(DisplayMonkey.Model.sp_Get_Dashboard_Result)" />
         </EntityContainer>
         <EntityType Name="Canvas">
           <Key>
@@ -759,6 +762,7 @@
           <Property Type="DateTime" Name="BeginsOn" Precision="3" />
           <Property Type="DateTime" Name="EndsOn" Precision="3" />
           <Property Type="Int32" Name="Sort" />
+          <Property Type="DateTime" Name="DateCreated" Nullable="false" Precision="3" annotation:StoreGeneratedPattern="Computed" a:SetterAccess="Protected" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
         </EntityType>
         <EntityType Name="FullScreen">
           <Key>
@@ -1160,6 +1164,34 @@
           <Member Name="SettingType_IntPositive" Value="0" />
           <Member Name="SettingType_String" Value="1" />
         </EnumType>
+        <ComplexType Name="sp_Get_Dashboard_Result">
+          <Property Type="Int32" Name="Number_of_Frames" Nullable="true" />
+          <Property Type="Decimal" Name="Total_Duration_Hours" Nullable="true" Precision="5" Scale="2" />
+          <Property Type="Int32" Name="Number_of_Active_Frames" Nullable="true" />
+          <Property Type="Int32" Name="Number_of_Memos" Nullable="true" />
+          <Property Type="Int32" Name="Number_of_Memos_7" Nullable="true" />
+          <Property Type="Int32" Name="Number_of_Pictures" Nullable="true" />
+          <Property Type="Int32" Name="Number_of_Pictures_7" Nullable="true" />
+          <Property Type="Int32" Name="Number_of_Reports" Nullable="true" />
+          <Property Type="Int32" Name="Number_of_Reports_7" Nullable="true" />
+          <Property Type="Int32" Name="Number_of_Videos" Nullable="true" />
+          <Property Type="Int32" Name="Number_of_Videos_7" Nullable="true" />
+          <Property Type="String" Name="Top_Content_1" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="Top_Content_2" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="Top_Content_3" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="Top_Content_4" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="Top_Content_5" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="Top_Content_1_Count" Nullable="true" />
+          <Property Type="Int32" Name="Top_Content_2_Count" Nullable="true" />
+          <Property Type="Int32" Name="Top_Content_3_Count" Nullable="true" />
+          <Property Type="Int32" Name="Top_Content_4_Count" Nullable="true" />
+          <Property Type="Int32" Name="Top_Content_5_Count" Nullable="true" />
+          <Property Type="Int32" Name="Levels" Nullable="true" />
+          <Property Type="Int32" Name="Location" Nullable="true" />
+          <Property Type="Int32" Name="Canvas" Nullable="true" />
+          <Property Type="Int32" Name="Panel" Nullable="true" />
+          <Property Type="Int32" Name="Display" Nullable="true" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1212,6 +1244,7 @@
           <EntitySetMapping Name="Frames">
             <EntityTypeMapping TypeName="DisplayMonkey.Model.Frame">
               <MappingFragment StoreEntitySet="Frame">
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
                 <ScalarProperty Name="Sort" ColumnName="Sort" />
                 <ScalarProperty Name="EndsOn" ColumnName="EndsOn" />
                 <ScalarProperty Name="BeginsOn" ColumnName="BeginsOn" />
@@ -1358,6 +1391,38 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_Get_Dashboard" FunctionName="DisplayMonkey.Model.Store.sp_Get_Dashboard">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DisplayMonkey.Model.sp_Get_Dashboard_Result">
+                <ScalarProperty Name="Number_of_Frames" ColumnName="Number_of_Frames" />
+                <ScalarProperty Name="Total_Duration_Hours" ColumnName="Total_Duration_Hours" />
+                <ScalarProperty Name="Number_of_Active_Frames" ColumnName="Number_of_Active_Frames" />
+                <ScalarProperty Name="Number_of_Memos" ColumnName="Number_of_Memos" />
+                <ScalarProperty Name="Number_of_Memos_7" ColumnName="Number_of_Memos_7" />
+                <ScalarProperty Name="Number_of_Pictures" ColumnName="Number_of_Pictures" />
+                <ScalarProperty Name="Number_of_Pictures_7" ColumnName="Number_of_Pictures_7" />
+                <ScalarProperty Name="Number_of_Reports" ColumnName="Number_of_Reports" />
+                <ScalarProperty Name="Number_of_Reports_7" ColumnName="Number_of_Reports_7" />
+                <ScalarProperty Name="Number_of_Videos" ColumnName="Number_of_Videos" />
+                <ScalarProperty Name="Number_of_Videos_7" ColumnName="Number_of_Videos_7" />
+                <ScalarProperty Name="Top_Content_1" ColumnName="Top_Content_1" />
+                <ScalarProperty Name="Top_Content_2" ColumnName="Top_Content_2" />
+                <ScalarProperty Name="Top_Content_3" ColumnName="Top_Content_3" />
+                <ScalarProperty Name="Top_Content_4" ColumnName="Top_Content_4" />
+                <ScalarProperty Name="Top_Content_5" ColumnName="Top_Content_5" />
+                <ScalarProperty Name="Top_Content_1_Count" ColumnName="Top_Content_1_Count" />
+                <ScalarProperty Name="Top_Content_2_Count" ColumnName="Top_Content_2_Count" />
+                <ScalarProperty Name="Top_Content_3_Count" ColumnName="Top_Content_3_Count" />
+                <ScalarProperty Name="Top_Content_4_Count" ColumnName="Top_Content_4_Count" />
+                <ScalarProperty Name="Top_Content_5_Count" ColumnName="Top_Content_5_Count" />
+                <ScalarProperty Name="Levels" ColumnName="Levels" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="Canvas" ColumnName="Canvas" />
+                <ScalarProperty Name="Panel" ColumnName="Panel" />
+                <ScalarProperty Name="Display" ColumnName="Display" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -1372,8 +1437,8 @@
     <Options>
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
-        <DesignerProperty Name="EnablePluralization" Value="True" />
-        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="False" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
       </DesignerInfoPropertySet>
     </Options>

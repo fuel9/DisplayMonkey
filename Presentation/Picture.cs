@@ -36,8 +36,6 @@ namespace DisplayMonkey
 					ContentId = DataAccess.IntOrZero(dr["ContentId"]);
 					Mode = (PictureMode)DataAccess.IntOrZero(dr["Mode"]);
 					Name = DataAccess.StringOrBlank(dr["Name"]);
-					//PanelWidth = DataAccess.IntOrZero(dr["Width"]);
-					//PanelHeight = DataAccess.IntOrZero(dr["Height"]);
 				}
 			}
 		}
@@ -61,7 +59,7 @@ namespace DisplayMonkey
 						{
 							Panel panel = null;
 
-							if (FullScreenPanel.Exists(PanelId))
+							if (Panel.IsFullScreen(PanelId))
 								panel = new FullScreenPanel(PanelId);
 							else
 								panel = new Panel(PanelId);
@@ -186,7 +184,5 @@ namespace DisplayMonkey
 		public string Name = "";
 		public int ContentId = 0;
 		public PictureMode Mode = PictureMode.CROP;
-
-		protected string _templatePath;
 	}
 }

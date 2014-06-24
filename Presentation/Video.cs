@@ -50,7 +50,7 @@ namespace DisplayMonkey
 					{
 						// styles
 						Panel panel = null;
-						if (FullScreenPanel.Exists(PanelId))
+						if (Panel.IsFullScreen(PanelId))
 							panel = new FullScreenPanel(PanelId);
 						else
 							panel = new Panel(PanelId);
