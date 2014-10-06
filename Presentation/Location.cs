@@ -31,26 +31,6 @@ namespace DisplayMonkey
 					InitFromRow(dr);
 				}
 			}
-
-			// translate LAT/LNG to WOEID
-			// get local time
-			string url, xml;
-
-            // get GEO data
-            url = string.Format(CultureInfo.InvariantCulture,
-                @"http://query.yahooapis.com/v1/public/yql?q=select+*+from+geo.placefinder+where+text%3D%22{0}%2C{1}%22+and+gflags%3D%22R%22",
-                Latitude,
-                Longitude
-                );
-
-            using (WebClient client = new WebClient())
-			{
-				xml = Encoding.ASCII.GetString(client.DownloadData(url));
-			}
-
-            XmlDocument doc = new XmlDocument();
-            doc.LoadXml(xml);
-			Woeid = Convert.ToInt32(doc.SelectSingleNode("//woeid").InnerText);
 		}
 
 		public void InitFromRow(DataRow r)
@@ -72,6 +52,9 @@ namespace DisplayMonkey
 
             double? longitude = r["Longitude"] as Nullable<double>;
             if (longitude != null) Longitude = Convert.ToDecimal(longitude.Value);
+
+            int? woeid = r["Woeid"] as Nullable<int>;
+            if (woeid != null) Woeid = woeid.Value;
         }
 
 		public static List<Location> List(int levelId = 0)

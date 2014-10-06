@@ -32,7 +32,7 @@ namespace DisplayMonkey
 			Canvas canvas = null;
 
 			string sql = string.Format(
-				"SELECT c.* FROM Display d INNER JOIN Canvas c on c.CanvasId=d.CanvasId WHERE DisplayId={0};",
+                "SELECT c.* FROM Display d INNER JOIN Canvas c on c.CanvasId=d.CanvasId WHERE DisplayId={0};",
 				displayId
 				);
 
@@ -139,8 +139,9 @@ namespace DisplayMonkey
 					head.AppendFormat("<script src=\"{0}\" type=\"text/javascript\" charset=\"utf-8\"></script>\r\n", js);
 				}
 				head.Append("<script type=\"text/javascript\" charset=\"utf-8\"><!--\r\n_canvas=new Canvas({\r\n");
-				head.AppendFormat(CultureInfo.InvariantCulture, "displayId:{0},\r\n", DisplayId);
-				head.AppendFormat(CultureInfo.InvariantCulture, "temperatureUnit:'{0}',\r\n", location.TemperatureUnit);
+                head.AppendFormat(CultureInfo.InvariantCulture, "displayId:{0},\r\n", DisplayId);
+                head.AppendFormat(CultureInfo.InvariantCulture, "hash:{0},\r\n", Display.GetHash(DisplayId));
+                head.AppendFormat(CultureInfo.InvariantCulture, "temperatureUnit:'{0}',\r\n", location.TemperatureUnit);
 				head.AppendFormat(CultureInfo.InvariantCulture, "dateFormat:'{0}',\r\n", location.DateFormat);
 				head.AppendFormat(CultureInfo.InvariantCulture, "timeFormat:'{0}',\r\n", location.TimeFormat);
 				head.AppendFormat(CultureInfo.InvariantCulture, "latitude:{0},\r\n", location.Latitude);
@@ -149,8 +150,8 @@ namespace DisplayMonkey
                 head.AppendFormat(CultureInfo.InvariantCulture, "localTime:'{0}',\r\n", location.LocalTime);
                 head.AppendFormat(CultureInfo.InvariantCulture, "initialIdleInterval:{0},\r\n", this.InitialMaxIdleInterval);
 				head.AppendFormat(CultureInfo.InvariantCulture, "width:{0},\r\n", this.Width);
-				head.AppendFormat(CultureInfo.InvariantCulture, "height:{0},\r\n", this.Height);
-				if (this.BackgroundImage > 0) 
+                head.AppendFormat(CultureInfo.InvariantCulture, "height:{0},\r\n", this.Height);
+                if (this.BackgroundImage > 0) 
 					head.AppendFormat(CultureInfo.InvariantCulture, "backImage:{0},\r\n", this.BackgroundImage);
 				if (this.BackgroundColor != "") 
 					head.AppendFormat(CultureInfo.InvariantCulture, "backColor:'{0}',\r\n", this.BackgroundColor);
@@ -196,7 +197,7 @@ namespace DisplayMonkey
 			}
 		}
 
-		#region Private Members
+        #region Private Members
 
 		private static string[] _js_libs = new string[] {
 			"js/pt/prototype.js", 

@@ -61,6 +61,7 @@
     <Reference Include="System.Web.ApplicationServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="getDisplayHash.aspx" />
     <Content Include="favicon.ico" />
     <Content Include="files\404.png" />
     <Content Include="files\clockface.png" />
@@ -172,6 +173,13 @@
     </Compile>
     <Compile Include="Canvas.cs" />
     <Compile Include="Clock.cs" />
+    <Compile Include="getDisplayHash.aspx.cs">
+      <DependentUpon>getDisplayHash.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="getDisplayHash.aspx.designer.cs">
+      <DependentUpon>getDisplayHash.aspx</DependentUpon>
+    </Compile>
     <Compile Include="getVideo.ashx.cs">
       <DependentUpon>getVideo.ashx</DependentUpon>
     </Compile>

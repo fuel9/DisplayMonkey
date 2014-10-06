@@ -26,6 +26,7 @@ namespace DisplayMonkey.Models
         public int Width { get; set; }
         public Nullable<int> BackgroundImage { get; set; }
         public string BackgroundColor { get; set; }
+        public byte[] Version { get; set; }
     
         public virtual Content Content { get; set; }
         public virtual ICollection<Display> Displays { get; set; }

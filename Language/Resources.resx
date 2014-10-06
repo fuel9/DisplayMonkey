@@ -973,4 +973,7 @@
   <data name="Total" xml:space="preserve">
     <value>Total</value>
   </data>
+  <data name="GeoTranslationHasFailed" xml:space="preserve">
+    <value>GEO translation has failed. Please try saving again.</value>
+  </data>
 </root>

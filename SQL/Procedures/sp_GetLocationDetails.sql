@@ -2,6 +2,7 @@ USE [DisplayMonkey]
 GO
 /*******************************************************************
   2013-11-09 [DPA] - DisplayMonkey object
+  2014-10-04 [LTL] - added woeid
 *******************************************************************/
 alter procedure dbo.sp_GetLocationDetails
 	@displayId int
@@ -11,6 +12,7 @@ as begin
 	declare 
 		@lat float
 	,	@lng float
+	,	@woeid int
 	,	@unit char
 	,	@locId int
 	,	@levelId int
@@ -29,6 +31,7 @@ as begin
 		select top 1 
 			@lat = isnull(@lat,Latitude)
 		,	@lng = isnull(@lng,Longitude)
+		,	@woeid = isnull(@woeid,Woeid)
 		,	@unit = isnull(@unit,TemperatureUnit)
 		,	@parentLoc = AreaId
 		,	@dateFmt = isnull(@dateFmt, DateFormat)
@@ -46,6 +49,7 @@ as begin
 	,	Name = isnull(@name,N'')
 	,	Latitude = isnull(@lat,0)
 	,	Longitude = isnull(@lng,0)
+	,	Woeid = isnull(@woeid,0)
 	,	TemperatureUnit = isnull(@unit,'C')
 	,	DateFormat = isnull(@dateFmt,'LL')
 	,	TimeFormat = isnull(@timeFmt,'LT')

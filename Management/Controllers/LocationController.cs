@@ -9,6 +9,10 @@ using DisplayMonkey.Models;
 
 using System.Data.Entity.Infrastructure;
 using System.Reflection;
+using System.Net;
+using System.Text;
+using System.Xml;
+using DisplayMonkey.Language;
 
 
 namespace DisplayMonkey.Controllers
@@ -110,6 +114,11 @@ namespace DisplayMonkey.Controllers
         {
             if (ModelState.IsValid)
             {
+                // compute Woeid & GMT offset
+                location.Woeid = GetWoeid(location.Latitude, location.Longitude);
+                if (location.OffsetGMT == null)
+                    location.OffsetGMT = GetTimeOffset(location.Latitude, location.Longitude);
+                
                 db.Locations.Add(location);
                 db.SaveChanges();
 
@@ -148,6 +157,11 @@ namespace DisplayMonkey.Controllers
         {
             if (ModelState.IsValid)
             {
+                // compute Woeid & GMT offset
+                location.Woeid = GetWoeid(location.Latitude, location.Longitude);
+                if (location.OffsetGMT == null)
+                    location.OffsetGMT = GetTimeOffset(location.Latitude, location.Longitude);
+
                 db.Entry(location).State = EntityState.Modified;
                 db.Entry(location).Property(l => l.LevelId).IsModified = false;
                 db.Entry(location).Property(l => l.AreaId).IsModified = false;
@@ -189,16 +203,6 @@ namespace DisplayMonkey.Controllers
             return Navigation.Restore() ?? RedirectToAction("Index");
         }
 
-        //private class HH { public int H1 = 0; public int H2 = 0; }
-
-        public ActionResult Test()
-        {
-            //return JavaScript("<script type='text/javascript'>alert('Hello World!');</script>");
-            //return File("e:\\permobil_displaymonkey_background.png", "image/png");
-            //return Json(new () { H1 = 300, H2 = 400 }, JsonRequestBehavior.AllowGet);
-            return Content("Test!");
-        }
-
         private void FillLevelsSelectList(object selected = null)
         {
             var query = from d in db.Levels
@@ -228,6 +232,86 @@ namespace DisplayMonkey.Controllers
                 "TemperatureUnit", 
                 selected
             );
+        }
+
+        private int? GetWoeid(double? latitude, double? longitude)
+        {
+            // translate LAT/LNG to WOEID
+            // get local time
+            string url, xml = "";
+
+            if ((latitude ?? 0) == 0 || (longitude ?? 0) == 0)
+                return null;
+
+            // get GEO data
+            url = string.Format(System.Globalization.CultureInfo.InvariantCulture,
+                @"http://query.yahooapis.com/v1/public/yql?q=select+*+from+geo.placefinder+where+text%3D%22{0}%2C{1}%22+and+gflags%3D%22R%22",
+                latitude.Value,
+                longitude.Value
+                );
+
+            try
+            {
+                using (WebClient client = new WebClient())
+                {
+                    xml = Encoding.ASCII.GetString(client.DownloadData(url));
+                }
+            }
+
+            catch (WebException ex)
+            {
+                throw new Exception(Resources.GeoTranslationHasFailed, ex);
+            }
+
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(xml);
+            XmlNode nWoeid = doc.SelectSingleNode("//woeid");
+            if (nWoeid != null)
+            {
+                return Convert.ToInt32(nWoeid.InnerText);
+            }
+
+            return null;
+        }
+
+        private int? GetTimeOffset(double? latitude, double? longitude)
+        {
+            // translate LAT/LNG to WOEID
+            // get local time
+            string url, xml = "";
+
+            if ((latitude ?? 0) == 0 || (longitude ?? 0) == 0)
+                return null;
+
+            // get GEO data
+            url = string.Format(System.Globalization.CultureInfo.InvariantCulture,
+                @"https://maps.googleapis.com/maps/api/timezone/xml?location={0},{1}&timestamp=0",
+                latitude.Value,
+                longitude.Value
+                );
+
+            try
+            {
+                using (WebClient client = new WebClient())
+                {
+                    xml = Encoding.ASCII.GetString(client.DownloadData(url));
+                }
+            }
+
+            catch (WebException ex)
+            {
+                throw new Exception(Resources.GeoTranslationHasFailed, ex);
+            }
+
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(xml);
+            XmlNode nWoeid = doc.SelectSingleNode("//raw_offset");
+            if (nWoeid != null)
+            {
+                return (int)Convert.ToDouble(nWoeid.InnerText) / 3600;
+            }
+
+            return null;
         }
 
         protected override void Dispose(bool disposing)

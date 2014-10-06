@@ -10,20 +10,24 @@
         }
         switch (this.faceType) {
             case '1':
-                this.initAnalog();
+                this._initAnalog();
                 break;
             case '2':
-                this.initDigital();
+                this._initDigital();
                 break;
             default:
                 break;
         }
 
-        this.callBack();
-        this.timer = setInterval(this.callBack.bind(this), 1000);
+        this._callBack();
+        this.timer = setInterval(this._callBack.bind(this), 1000);
     }
+	
+	, stop: function() {
+		clearInterval(this.timer);
+	}
 
-    , initAnalog: function () {
+    , _initAnalog: function () {
         var s = this.panelWidth > this.panelHeight ? this.panelHeight : this.panelWidth;
         var face = new Element('ul', { "class": "analogFace", style: "background-size: " + s + "px " + s + "px;" })
         face.insert(this.elemSec = new Element('li', { "class": "analogSec", style: "width:" + s + "px; height:" + s + "px; background-size:" + s + "px " + s + "px;" }));
@@ -34,12 +38,12 @@
         //alert(this.div.innerHTML);
     }
 
-    , initDigital: function () {
+    , _initDigital: function () {
     }
 
-    , callBack: function () {
+    , _callBack: function () {
         if (!this.div) {
-            clearInterval(this.timer); return;
+            this.stop(); return;
         }
         var time = moment();
         if (_canvas.offsetMilliseconds > 0)
@@ -58,14 +62,14 @@
                 var sec = time.seconds();
                 var min = time.minutes();
                 var hrs = time.hours(); if (hrs > 12) hrs -= 12;
-                this.rotateHand(this.elemSec, "rotate(" + (sec * 6) + "deg)");
-                this.rotateHand(this.elemMin, "rotate(" + (min * 6) + "deg)");
-                this.rotateHand(this.elemHour, "rotate(" + (hrs * 30 + (min / 2)) + "deg)");
+                this._rotateHand(this.elemSec, "rotate(" + (sec * 6) + "deg)");
+                this._rotateHand(this.elemMin, "rotate(" + (min * 6) + "deg)");
+                this._rotateHand(this.elemHour, "rotate(" + (hrs * 30 + (min / 2)) + "deg)");
                 break;
         }
     }
 
-    , rotateHand: function (e, r) {
+    , _rotateHand: function (e, r) {
         e.setStyle({ "transform": r, "-moz-transform": r, "-webkit-transform": r, "-ms-transform": r, "-o-transform": r });
     }
 });

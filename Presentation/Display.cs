@@ -91,11 +91,34 @@ namespace DisplayMonkey
 				DisplayId = DataAccess.IntOrZero(cmd.Parameters["@displayId"].Value);
 			}
 		}
-		
-		public string Name = "";
+
+        public static int GetHash(int displayId)
+        {
+            if (_fn_GetDisplayHash == null)
+            {
+                _fn_GetDisplayHash = new SqlCommand("select dbo.fn_GetDisplayHash(@displayId);");
+                _fn_GetDisplayHash.CommandType = CommandType.Text;
+                _fn_GetDisplayHash.Parameters.Add("@displayId", SqlDbType.Int);
+            }
+            _fn_GetDisplayHash.Connection = DataAccess.Connection;
+            _fn_GetDisplayHash.Parameters["@displayId"].Value = displayId;
+
+            using (DataSet ds = DataAccess.RunSql(_fn_GetDisplayHash))
+            {
+                return DataAccess.IntOrZero(ds.Tables[0].Rows[0][0]);
+            }
+        }
+
+        public string Name = "";
 		public string Host = "";
 		public int DisplayId = 0;
 		public int CanvasId = 0;
 		public int LocationId = 0;
-	}
+
+        #region Private Members
+
+        private static SqlCommand _fn_GetDisplayHash = null;
+
+        #endregion
+    }
 }

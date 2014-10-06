@@ -1,4 +1,5 @@
 // 12-08-13 [DPA] - client side scripting BEGIN
+// 14-10-06 [LTL] - reload when display hash changes
 
 var $j = jQuery.noConflict();
 var _canvas = {};
@@ -14,6 +15,7 @@ var Canvas = Class.create({
 		var serverTime = moment(options.localTime);
 		this.offsetMilliseconds = moment().diff(serverTime);
 		this.displayId = options.displayId;
+		this.hash = options.hash;
 		this.dateFormat = (options.dateFormat || 'LL');
 		this.timeFormat = (options.timeFormat || 'LT');
 		this.latitude = (options.latitude || 0);
@@ -61,6 +63,38 @@ var Canvas = Class.create({
 			width = body.clientWidth + 'px';
 		}*/
 	}
+
+    , checkDisplayHash: function () {
+        new Ajax.Request("getDisplayHash.aspx", {
+            method: 'get'
+            , parameters: $H({display: this.displayId})
+            , canvas: this
+            , evalJSON: false
+
+            , onSuccess: function (resp) {
+                var json = null;
+                with (resp.responseText) {
+                    if (isJSON()) json = evalJSON();
+                }
+                with (resp.request.options.canvas) {
+                    try {
+                        if (!json) throw "JSON expected"; // <-- shouldn't get here
+                        //alert($H(json).inspect());
+                        var _displayId = json["DisplayId"];
+                        if (displayId != _displayId)
+                            return;
+                        var _hash = json["Hash"];
+                        if (hash != _hash)
+                            location.reload();
+                    }
+                    catch (e) {
+                        /* shouldn't get here */
+                        alert("Error in checkDisplayHash: " + e.message);
+                    }
+                }
+            }
+        });
+    }
 });
 
 Ajax.PanelUpdaterBase = Class.create(Ajax.Base, {
@@ -518,6 +552,7 @@ document.observe("dom:loaded", function () {
 			if (0 == now.getHours() == now.getMinutes()) {
 				location.reload();
 			}
+			_canvas.checkDisplayHash();
 		}, 60000);
 
 		// rig up screen div
@@ -551,10 +586,11 @@ document.observe("dom:loaded", function () {
 
 		// init panels
 		$$('div[data-panel-id]').each(function (e) {
+			var pi = e.readAttribute('data-panel-id');
 			if (e.id === "full")
-				initFullScreenPanel(e.readAttribute('data-panel-id'));
+				initFullScreenPanel(pi);
 			else
-				initPanel(e.readAttribute('data-panel-id'), e.id);
+				initPanel(pi, e.id);
 		});
 
 		//initPanel(1, 'div1');

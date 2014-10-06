@@ -1277,6 +1277,15 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to GEO translation has failed. Please try saving again..
+        /// </summary>
+        public static string GeoTranslationHasFailed {
+            get {
+                return ResourceManager.GetString("GeoTranslationHasFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Height.
         /// </summary>
         public static string Height {
