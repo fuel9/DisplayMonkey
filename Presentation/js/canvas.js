@@ -1,6 +1,6 @@
 // 12-08-13 [DPA] - client side scripting BEGIN
 // 14-10-06 [LTL] - reload when display hash changes
-// 14-10-10 [LTL] - error reporting
+// 14-10-11 [LTL] - error reporting
 
 var $j = jQuery.noConflict();
 var _canvas = {};
@@ -102,14 +102,21 @@ var ErrorReport = Class.create({
     initialize: function (options) {
         this.length = options.length || 100;
         this.div = /*$('error') ||*/ new Element('div', { id: 'error' });
+        var l = {
+            Error: ((options.exception.message == undefined ? options.exception : options.exception.message) || "unspecified"),
+            Where: (options.source || "unspecified"),
+            When: moment().format(),
+            Data: (options.data || "none")
+        };
         var report =
             //this.div.innerHTML +
-            "Error:&nbsp;" + ((options.exception.message == undefined ? options.exception : options.exception.message) || "unspecified") + "<br>" +
-            "Where:&nbsp;" + (options.source || "unspecified") + "<br>" +
-            "When:&nbsp;&nbsp;" + moment().format() + "<br>" +
-            "Data:&nbsp;&nbsp;" + (options.data || "none") + "<br>"
+            "<table><tr><td>Error:</td><td>" + l.Error + "</td></tr>" +
+            "<tr><td>Where:</td><td>" + l.Where + "</td></tr>" +
+            "<tr><td>When:</td><td>" + l.When + "</td></tr>" +
+            "<tr><td>Data:</td><td>" + l.Data + "</td></tr></table>"
         ;
         this.div.update(report);
+        console.log("!Display Monkey error: " + JSON.stringify(l));
     },
 
     show: function () {
@@ -582,19 +589,24 @@ function initFullScreenPanel (panelId) {
 	});
 }
 
+
+// to prevent webkit issues this func needs to be a global object
+function ticker() {
+    // refresh the window every midnight
+    var now = new Date();
+    if (0 == now.getHours() == now.getMinutes()) {
+        document.location.reload(true);
+        return;
+    }
+    _canvas.checkDisplayHash();
+}
+
 document.observe("dom:loaded", function () {
 
 	try {
 
-	    // refresh the window every midnight
-		setInterval(function () {
-		    var now = new Date();
-			if (0 == now.getHours() == now.getMinutes()) {
-			    document.location.reload(true);
-			    return;
-			}
-			_canvas.checkDisplayHash();
-		}, 60000);
+	    // periodic checker
+		setInterval(ticker, 60000);
 
 		// rig up screen div
 		_canvas.initStyles();

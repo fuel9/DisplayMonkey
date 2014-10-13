@@ -51,7 +51,7 @@
         </td></tr>
 		</tbody></table></fieldset>
     
-    </div><p />
+    </div>
     <div id="WebPageLinks"><fieldset><legend>Registered 
     Displays</legend>
     <ul><asp:Label ID="labelDisplays" runat="server"></asp:Label></ul></fieldset></div>

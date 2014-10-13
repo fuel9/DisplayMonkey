@@ -10,8 +10,9 @@
 
 	@font-face {  
     	font-family:Futura;  
-    	src:url('../files/fonts/futura.eot'); /* For IE */ 
+    	src:url('../files/fonts/futura.eot') format('embedded-opentype'); /* For IE */ 
     	src:local('futura'), url('../files/fonts/futura.ttf') format('truetype'); /* For non-IE */ 
+        src: url(http://themes.googleusercontent.com/static/fonts/opensans/v7/cJZKeOuBrn4kERxqtaUH3T8E0i7KZn-EPnyo3HZu7kw.woff);
 	}  
 	
 	/*******************************************************************************/
