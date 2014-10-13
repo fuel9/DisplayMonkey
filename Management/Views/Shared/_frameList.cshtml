@@ -72,6 +72,10 @@
                 <img class="thumb1" src="~/images/video_thmb.png" alt="" />
                 <span>@(string.Format(Resources.VideoAlternatives, item.Video.Contents.Count()))</span>
             }
+            else if (item.Html != null)    
+            {
+                <text>Name: <span>@Html.DisplayFor(m => item.Html.Name)</span></text>
+            }
             else   
             {
                 <text>@Resources.UnsupportedFrame</text>

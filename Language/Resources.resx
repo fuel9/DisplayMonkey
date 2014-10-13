@@ -976,4 +976,22 @@
   <data name="GeoTranslationHasFailed" xml:space="preserve">
     <value>GEO translation has failed. Please try saving again.</value>
   </data>
+  <data name="CreateNewHtmlFrame" xml:space="preserve">
+    <value>Create new HTML frame</value>
+  </data>
+  <data name="Html" xml:space="preserve">
+    <value>HTML</value>
+  </data>
+  <data name="DeleteHtmlFrame" xml:space="preserve">
+    <value>Delete HTML frame</value>
+  </data>
+  <data name="EditHtmlFrame" xml:space="preserve">
+    <value>Edit HTML frame</value>
+  </data>
+  <data name="ContentRequired" xml:space="preserve">
+    <value>Content is required</value>
+  </data>
+  <data name="HtmlFrameDetails" xml:space="preserve">
+    <value>HTML frame details</value>
+  </data>
 </root>

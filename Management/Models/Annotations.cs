@@ -18,6 +18,19 @@ using DisplayMonkey.Language;
 
 namespace DisplayMonkey.Models
 {
+    public partial class TopContent
+    {
+            [
+                Display(ResourceType = typeof(Resources), Name = "Count"),
+            ]
+            public int Count { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "Name"),
+            ]
+            public string Name { get; set; }
+    }
+
     [
         MetadataType(typeof(Level.Annotations)),
     ]
@@ -425,9 +438,14 @@ namespace DisplayMonkey.Models
             public virtual Video Video { get; set; }
 
             [
-               Display(ResourceType = typeof(Resources), Name = "Weather"), 
+               Display(ResourceType = typeof(Resources), Name = "Weather"),
             ]
             public virtual Weather Weather { get; set; }
+
+            [
+               Display(ResourceType = typeof(Resources), Name = "Html"),
+            ]
+            public virtual Html Html { get; set; }
 
             [
                Display(ResourceType = typeof(Resources), Name = "Locations"), 
@@ -439,6 +457,7 @@ namespace DisplayMonkey.Models
         public enum FrameTypes
         {
             Clock,
+            Html,
             Memo,
             //News,
             Picture,
@@ -461,6 +480,7 @@ namespace DisplayMonkey.Models
                 if (this.Report != null) return FrameTypes.Report;
                 if (this.Video != null) return FrameTypes.Video;
                 if (this.Weather != null) return FrameTypes.Weather;
+                if (this.Html != null) return FrameTypes.Html;
                 return null;
             }
 
@@ -487,6 +507,8 @@ namespace DisplayMonkey.Models
                     return (frame => frame.Video != null);
                 case FrameTypes.Weather:
                     return (frame => frame.Weather != null);
+                case FrameTypes.Html:
+                    return (frame => frame.Html != null);
                 default:
                     return (frame => true);
             }
@@ -558,6 +580,38 @@ namespace DisplayMonkey.Models
             {
                 return this.Body.Length > 100 ? this.Body.Substring(0, 100) + "..." : this.Body;
             }
+        }
+    }
+
+    [
+        MetadataType(typeof(Html.Annotations))
+    ]
+    public partial class Html
+    {
+        internal class Annotations
+        {
+            [
+                Display(ResourceType = typeof(Resources), Name = "ID"),
+            ]
+            public int FrameId { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "Name"),
+                Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "NameRequired"),
+                StringLength(100, ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "MaxLengthExceeded"),
+            ]
+            public string Name { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "Content"),
+                Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "ContentRequired"),
+            ]
+            public string Content { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "Frame"),
+            ]
+            public virtual Frame Frame { get; set; }
         }
     }
 

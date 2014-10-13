@@ -19,11 +19,12 @@
         @Html.MetaAcceptLanguage()
         @Styles.Render("~/Content/css")
         @Styles.Render("~/Content/themes/base/css", "~/Content/css")
+        @RenderSection("Styles", required: false)
         @Scripts.Render("~/bundles/modernizr")
         @Scripts.Render("~/bundles/jquery")
         @Scripts.Render("~/bundles/jqueryui")
         @Scripts.Render("~/bundles/jqueryval")
-        @RenderSection("scripts", required: false)
+        @RenderSection("Scripts", required: false)
     </head>
     <body>
         <header>

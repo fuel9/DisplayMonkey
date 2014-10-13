@@ -81,6 +81,7 @@ namespace DisplayMonkey.Controllers
                 .Include(f => f.Report)
                 .Include(f => f.Picture)
                 .Include(f => f.Video)
+                .Include(f => f.Html)
                 ;
 
             if (canvasId > 0)
@@ -251,6 +252,7 @@ namespace DisplayMonkey.Controllers
                 .Include(f => f.Report)
                 .Include(f => f.Picture)
                 .Include(f => f.Video)
+                .Include(f => f.Html)
                 .FirstOrDefault()
                 ;
 
@@ -278,6 +280,7 @@ namespace DisplayMonkey.Controllers
                 .Include(f => f.Report)
                 .Include(f => f.Picture)
                 .Include(f => f.Video)
+                .Include(f => f.Html)
                 .FirstOrDefault()
                 ;
 
@@ -305,6 +308,7 @@ namespace DisplayMonkey.Controllers
                 .Include(f => f.Report)
                 .Include(f => f.Picture)
                 .Include(f => f.Video)
+                .Include(f => f.Html)
                 .FirstOrDefault()
                 ;
 

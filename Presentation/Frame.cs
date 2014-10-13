@@ -71,7 +71,7 @@ namespace DisplayMonkey
 			return nci;
 		}
 
-		public virtual string Html { get { return ""; } }
+		public virtual string Payload { get { return ""; } }
 
 		#region Protected Members
 

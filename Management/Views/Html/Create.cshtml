@@ -1,0 +1,47 @@
+﻿@using DisplayMonkey.Language
+
+@model DisplayMonkey.Models.Html
+
+@{
+    ViewBag.Title = Resources.CreateNewHtmlFrame;
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>@Resources.Html</legend>
+
+        @Html.Partial("_frameData", Model.Frame)
+        
+        @Html.Partial("_Edit")
+
+        <p>
+            <input type="submit" value="@Resources.Create" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink(Resources.ViewFrames, "Index", "Frame")
+</div>
+
+@section Styles {
+    @Styles.Render("~/Content/cleditorcss")
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/cleditor")
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //var x = jHtmlArea.defaultOptions;
+            //x.toolbar.push(["forecolor"]);
+            //$("textarea").htmlarea(x);
+            $("textarea").cleditor();
+        });
+    </script>
+}

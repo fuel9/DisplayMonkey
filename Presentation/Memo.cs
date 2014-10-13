@@ -28,7 +28,7 @@ namespace DisplayMonkey
 			}
 		}
 
-		public override string Html
+        public override string Payload
 		{
 			get
 			{

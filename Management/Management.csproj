@@ -40,7 +40,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Antlr3.Runtime, Version=3.4.1.9004, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.5.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity">
@@ -112,9 +120,6 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System.Net.Http">
     </Reference>
     <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -143,13 +148,9 @@
       <Private>True</Private>
       <HintPath>..\packages\System.Spatial.5.2.0\lib\net40\System.Spatial.dll</HintPath>
     </Reference>
-    <Reference Include="WebGrease">
-      <Private>True</Private>
-      <HintPath>..\packages\WebGrease.1.3.0\lib\WebGrease.dll</HintPath>
-    </Reference>
-    <Reference Include="Antlr3.Runtime">
-      <Private>True</Private>
-      <HintPath>..\packages\WebGrease.1.3.0\lib\Antlr3.Runtime.dll</HintPath>
+    <Reference Include="WebGrease, Version=1.6.5135.21930, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -166,6 +167,7 @@
     <Compile Include="Controllers\DisplayController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HelpController.cs" />
+    <Compile Include="Controllers\HtmlController.cs" />
     <Compile Include="Controllers\MediaController.cs" />
     <Compile Include="Controllers\FrameController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -225,6 +227,9 @@
     <Compile Include="Models\FullScreen.cs">
       <DependentUpon>DMModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Html.cs">
+      <DependentUpon>DMModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Level.cs">
       <DependentUpon>DMModel.tt</DependentUpon>
     </Compile>
@@ -258,9 +263,6 @@
     <Compile Include="Models\SettingTypes.cs">
       <DependentUpon>DMModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\sp_Get_Dashboard_Result.cs">
-      <DependentUpon>DMModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\Video.cs">
       <DependentUpon>DMModel.tt</DependentUpon>
     </Compile>
@@ -280,9 +282,12 @@
     <Compile Include="Views\CustomControls.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\images\buttons.gif" />
     <Content Include="Content\images\darrow.png" />
     <Content Include="Content\images\rarrow.png" />
+    <Content Include="Content\images\toolbar.gif" />
     <Content Include="Content\jqsimplemenu.css" />
+    <Content Include="Content\jquery.cleditor.css" />
     <Content Include="Content\themes\base\images\animated-overlay.gif" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -387,6 +392,8 @@
     <Content Include="Scripts\jquery-ui-1.10.3.min.js" />
     <Content Include="Scripts\jquery-ui-i18n.js" />
     <Content Include="Scripts\jquery-ui-i18n.min.js" />
+    <Content Include="Scripts\jquery.cleditor.js" />
+    <Content Include="Scripts\jquery.cleditor.min.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -530,6 +537,12 @@
     <Content Include="Views\Shared\Missing.cshtml" />
     <Content Include="Views\Setting\Edit.cshtml" />
     <Content Include="Views\Setting\Index.cshtml" />
+    <Content Include="Views\Html\Create.cshtml" />
+    <Content Include="Views\Html\Delete.cshtml" />
+    <Content Include="Views\Html\Details.cshtml" />
+    <Content Include="Views\Html\Edit.cshtml" />
+    <Content Include="Views\Html\_Details.cshtml" />
+    <Content Include="Views\Html\_Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

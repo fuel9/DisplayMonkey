@@ -35,7 +35,7 @@ namespace DisplayMonkey
 			_list = VideoAlternative.List(frameId);
 		}
 
-		public override string Html
+        public override string Payload
 		{
 			get
 			{

@@ -1,0 +1,21 @@
+﻿@using DisplayMonkey.Language
+
+@model DisplayMonkey.Models.Html
+
+@{
+    ViewBag.Title = Resources.DeleteHtmlFrame;
+}
+
+<h2>@ViewBag.Title</h2>
+
+<h3>@Resources.AreYouSureYouWantToDeleteThisFrame</h3>
+
+@Html.Partial("_Details")
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    <p>
+        <input type="submit" value="@Resources.Delete" /> |
+        @Html.ActionLink(Resources.ViewFrames, "Index", "Frame")
+    </p>
+}

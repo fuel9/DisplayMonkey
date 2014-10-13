@@ -61,6 +61,7 @@
     <Reference Include="System.Web.ApplicationServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="files\frames\html.htm" />
     <Content Include="getDisplayHash.aspx" />
     <Content Include="favicon.ico" />
     <Content Include="files\404.png" />
@@ -148,6 +149,7 @@
     <Content Include="files\fonts\futura.eot" />
     <Content Include="files\fonts\futura.ttc" />
     <Content Include="files\fonts\futura.ttf" />
+    <Content Include="getHtml.ashx" />
     <None Include="Scripts\jquery-2.0.3-vsdoc.js" />
     <Content Include="Scripts\jquery-2.0.3.js" />
     <Content Include="Scripts\jquery-2.0.3.min.js" />
@@ -173,12 +175,16 @@
     </Compile>
     <Compile Include="Canvas.cs" />
     <Compile Include="Clock.cs" />
+    <Compile Include="Html.cs" />
     <Compile Include="getDisplayHash.aspx.cs">
       <DependentUpon>getDisplayHash.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="getDisplayHash.aspx.designer.cs">
       <DependentUpon>getDisplayHash.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="getHtml.ashx.cs">
+      <DependentUpon>getHtml.ashx</DependentUpon>
     </Compile>
     <Compile Include="getVideo.ashx.cs">
       <DependentUpon>getVideo.ashx</DependentUpon>

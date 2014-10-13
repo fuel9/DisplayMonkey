@@ -500,10 +500,22 @@ input.duration, input.pixels
     width: 100px;
 }
 
+#htmlPreview {
+    border: 1px solid grey;
+    box-shadow: 10px 10px 5px #AAA;
+    width: 600px;
+    height: 600px;
+}
+
 textarea {
     font-family: inherit;
     width: 500px;
 }
+
+    textarea.htmlEdit {
+        width: 100%;
+        height: 600px;
+    }
 
     input:focus, textarea:focus {
         border: 1px solid #376092;
@@ -1025,18 +1037,12 @@ table.dashboard
         {
 			text-align:right;
         }
-        .Right_Align_Alt
-        {
-			text-align:right;
-			background-color: #f7f7f7;	
-        }
 		.Left_Align
         {
 			text-align:left;
         }	
-	     .Left_Align_Alt
+	    .Alt
         {
-			text-align:left;
 			background-color: #f7f7f7;
         }		
 	    .Heading_Table1_Left

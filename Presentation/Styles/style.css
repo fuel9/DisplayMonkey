@@ -33,6 +33,21 @@
 	
 	/*******************************************************************************/
 	
+	#error {
+		position:absolute;
+		padding:20px;
+        text-align:left;
+        font-size:3em;
+        font-family:'Lucida Console';
+		background-color:red;
+        color:white;
+		top:10px;
+		left:10px;
+		width:auto;
+		height:auto;
+		z-index:100000;
+	}
+
 	#screen {
 		position:absolute;
 		padding:0px;
@@ -236,4 +251,12 @@
 		left:20px;
 		text-align:left;
 	}
+
+	/*******************************************************************************/
 	
+    iframe.html {
+        width:100%;
+        height:100%;
+        border:none;
+        overflow:hidden;
+    }

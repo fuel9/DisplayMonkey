@@ -36,5 +36,6 @@ namespace DisplayMonkey.Models
         public virtual Video Video { get; set; }
         public virtual Weather Weather { get; set; }
         public virtual ICollection<Location> Locations { get; set; }
+        public virtual Html Html { get; set; }
     }
 }

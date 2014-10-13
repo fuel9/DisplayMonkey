@@ -12,9 +12,6 @@ namespace DisplayMonkey.Models
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
-    using System.Data.Objects;
-    using System.Data.Objects.DataClasses;
-    using System.Linq;
     
     public partial class DisplayMonkeyEntities : DbContext
     {
@@ -45,10 +42,6 @@ namespace DisplayMonkey.Models
         public DbSet<Weather> Weathers { get; set; }
         public DbSet<ReportServer> ReportServers { get; set; }
         public DbSet<Setting> Settings { get; set; }
-    
-        public virtual ObjectResult<sp_Get_Dashboard_Result> sp_Get_Dashboard()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Get_Dashboard_Result>("sp_Get_Dashboard");
-        }
+        public DbSet<Html> Html { get; set; }
     }
 }

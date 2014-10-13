@@ -1,5 +1,6 @@
 // 12-08-13 [DPA] - client side scripting BEGIN
 // 14-10-06 [LTL] - reload when display hash changes
+// 14-10-10 [LTL] - error reporting
 
 var $j = jQuery.noConflict();
 var _canvas = {};
@@ -78,23 +79,53 @@ var Canvas = Class.create({
                 }
                 with (resp.request.options.canvas) {
                     try {
-                        if (!json) throw "JSON expected"; // <-- shouldn't get here
+                        if (!json)
+                            throw new Error("JSON expected"); // <-- shouldn't get here
                         //alert($H(json).inspect());
                         var _displayId = json["DisplayId"];
                         if (displayId != _displayId)
                             return;
                         var _hash = json["Hash"];
                         if (hash != _hash)
-                            location.reload();
+                            document.location.reload(true);
                     }
                     catch (e) {
-                        /* shouldn't get here */
-                        alert("Error in checkDisplayHash: " + e.message);
+                        new ErrorReport({ exception: e, data: resp.responseText, source: "checkDisplayHash" }).show();
                     }
                 }
             }
         });
     }
+});
+
+var ErrorReport = Class.create({
+    initialize: function (options) {
+        this.length = options.length || 100;
+        this.div = /*$('error') ||*/ new Element('div', { id: 'error' });
+        var report =
+            //this.div.innerHTML +
+            "Error:&nbsp;" + ((options.exception.message == undefined ? options.exception : options.exception.message) || "unspecified") + "<br>" +
+            "Where:&nbsp;" + (options.source || "unspecified") + "<br>" +
+            "When:&nbsp;&nbsp;" + moment().format() + "<br>" +
+            "Data:&nbsp;&nbsp;" + (options.data || "none") + "<br>"
+        ;
+        this.div.update(report);
+    },
+
+    show: function () {
+        this._hide.bind(this).delay(this.length);
+        $(document.body).insert({ top: this.div });
+        $(this.div).fade({ duration: 1, from: 0, to: 1 });
+    },
+
+    _hide: function () {
+        this._remove.bind(this).delay(1);
+        $(this.div).fade({ duration: 1, from: 1, to: 0 });
+    },
+
+    _remove: function () {
+        $(this.div).remove();
+    },
 });
 
 Ajax.PanelUpdaterBase = Class.create(Ajax.Base, {
@@ -191,7 +222,7 @@ Ajax.PanelUpdaterBase = Class.create(Ajax.Base, {
 			}
 			with (resp.request.options.panelUpdater) {
 				try {
-					if (!json) throw "JSON expected"; // <-- shouldn't get here
+					if (!json) throw new Error("JSON expected"); // <-- shouldn't get here
 
 					//alert($H(json).inspect());
 					currentId = json["FrameId"];
@@ -238,13 +269,15 @@ Ajax.PanelUpdaterBase = Class.create(Ajax.Base, {
 	_updateBegin: function () {
 		try { this.onBeforeUpdate(this.currentType); }
 		catch (e) {
-			alert("Error in onBeforeUpdate: " + e.message); // <-- shouldn't get here
+		    //alert("Error in onBeforeUpdate: " + e.message == undefined ? e : e.message); // <-- shouldn't get here
+		    new ErrorReport({ exception: e, source: "onBeforeUpdate" }).show(); // <-- shouldn't get here
 		}
 		this.updater = new Ajax.Updater(this.h_container, this._hashUrl(this.url), this.options);
 	},
 
 	_dispatchException: function (e) {
-		alert("Error in _dispatchException: " + e.message); 	// <-- shouldn't get here
+	    //alert("Error in _dispatchException: " + e.message == undefined ? e : e.message); 	// <-- shouldn't get here
+	    new ErrorReport({ exception: e, source: "_dispatchException" }).show(); // <-- shouldn't get here
 	},
 
 	_updateEnd: function (response) {
@@ -263,8 +296,9 @@ Ajax.PanelUpdaterBase = Class.create(Ajax.Base, {
 		if (this.fadeLength > 0) {
 			try { this.onFade(false, this.previousType, this.fadeLength); }
 			catch (e) {
-				alert("Error in onFade: " + e.message); // <-- shouldn't get here
-			}
+			    //alert("Error in onFade: " + e.message == undefined ? e : e.message); // <-- shouldn't get here
+			    new ErrorReport({ exception: e, source: "onFade" }).show(); // <-- shouldn't get here
+            }
 			this.fader = this._fadeOutEnd.bind(this).delay(this.fadeLength);
 		}
 		else
@@ -286,15 +320,17 @@ Ajax.PanelUpdaterBase = Class.create(Ajax.Base, {
 		// 1. call after update
 		try { this.onAfterUpdate(this.previousType); }
 		catch (e) {
-			alert("Error in onAfterUpdate: " + e.message); // <-- shouldn't get here
-		}
+		    //alert("Error in onAfterUpdate: " + e.message == undefined ? e : e.message); // <-- shouldn't get here
+		    new ErrorReport({ exception: e, source: "onAfterUpdate" }).show(); // <-- shouldn't get here
+        }
 
 		// 2. fade in last
 		if (this.fadeLength > 0) {
 			try { this.onFade(true, this.currentType, this.fadeLength); }
 			catch (e) {
-				alert("Error in onFade: " + e.message); // <-- shouldn't get here
-			}
+			    //alert("Error in onFade: " + e.message == undefined ? e : e.message); // <-- shouldn't get here
+			    new ErrorReport({ exception: e, source: "onFade" }).show(); // <-- shouldn't get here
+            }
 			this.fader = this._fadeInEnd.bind(this).delay(this.fadeLength);
 		}
 		else
@@ -339,8 +375,9 @@ Ajax.FullScreenPanelUpdater = Class.create(Ajax.PanelUpdaterBase, {
 		if (this.fadeLength > 0) {
 			try { this.onFade(false, this.previousType, this.fadeLength); }
 			catch (e) {
-				alert("Error in onFade: " + e.message); // <-- shouldn't get here
-			}
+			    //alert("Error in onFade: " + e.message == undefined ? e : e.message); // <-- shouldn't get here
+			    new ErrorReport({ exception: e, source: "onFade" }).show(); // <-- shouldn't get here
+            }
 
 			// 2. start fader
 			this.fader = this._fadeOutEnd.bind(this).delay(this.fadeLength);
@@ -352,8 +389,9 @@ Ajax.FullScreenPanelUpdater = Class.create(Ajax.PanelUpdaterBase, {
 	_fadeOutEnd: function () {
 		try { this.onBeforeIdle(this.currentType); }
 		catch (e) {
-			alert("Error in onBeforeIdle: " + e.message); // <-- shouldn't get here
-		}
+		    //alert("Error in onBeforeIdle: " + e.message == undefined ? e : e.message); // <-- shouldn't get here
+		    new ErrorReport({ exception: e, source: "onBeforeIdle" }).show(); // <-- shouldn't get here
+        }
 		this.idler = this._onGetNextFrame.bind(this).delay(this.idleInterval);
 	},
 
@@ -446,7 +484,8 @@ function initPanel (panelId, container) {
 		}
 
 		, onException: function (request, ex) {
-			alert(ex.description); // <-- shouldn't get here
+			//alert(ex.description); // <-- shouldn't get here
+			new ErrorReport({ exception: new Error(ex.description), source: "onException" }).show(); // <-- shouldn't get here
 		}
 	});
 }
@@ -502,7 +541,7 @@ function initFullScreenPanel (panelId) {
 					}
 					with (resp.request.options.panelUpdater) {
 						try {
-							if (!json) throw "JSON expected"; // <-- shouldn't get here
+							if (!json) throw new Error("JSON expected"); // <-- shouldn't get here
 							//alert($H(json).inspect());
 							idleInterval = json["IdleInterval"];
 						}
@@ -537,7 +576,8 @@ function initFullScreenPanel (panelId) {
 		}
 
 		, onException: function (request, ex) {
-			alert(ex.description); // <-- shouldn't get here
+			//alert(ex.description); // <-- shouldn't get here
+			new ErrorReport({ exception: new Error(ex.description), source: "onException" }).show(); // <-- shouldn't get here
 		}
 	});
 }
@@ -546,11 +586,12 @@ document.observe("dom:loaded", function () {
 
 	try {
 
-		// refresh the window every midnight
+	    // refresh the window every midnight
 		setInterval(function () {
-			var now = new Date();
+		    var now = new Date();
 			if (0 == now.getHours() == now.getMinutes()) {
-				location.reload();
+			    document.location.reload(true);
+			    return;
 			}
 			_canvas.checkDisplayHash();
 		}, 60000);
@@ -569,7 +610,7 @@ document.observe("dom:loaded", function () {
 
 			, stopScroller: function (e) {
 				if (typeof e.__textScroller === 'object') {
-					e.__textScroller.stop(); //e.__textScroller = {};
+					e.__textScroller.stop();
 				}
 			}
 
@@ -579,7 +620,7 @@ document.observe("dom:loaded", function () {
 
 			, stopClock: function (e) {
 				if (typeof e.__clock === 'object') {
-					e.__clock.stop(); //e.__clock = {};
+					e.__clock.stop();
 				}
 			}
 		});
@@ -594,9 +635,11 @@ document.observe("dom:loaded", function () {
 		});
 
 		//initPanel(1, 'div1');
-		//initFullScreenPanel(12);
+	    //initFullScreenPanel(12);
 	}
-	catch (e) { alert("Error in dom:loaded: " + e.description) }
+    catch (e) {
+        new ErrorReport({ exception: e, source: "dom:loaded" }).show(); // <-- shouldn't get here
+    }
 });
 
 // 12-08-13 [DPA] - client side scripting END

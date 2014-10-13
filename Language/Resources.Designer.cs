@@ -511,6 +511,15 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Content is required.
+        /// </summary>
+        public static string ContentRequired {
+            get {
+                return ResourceManager.GetString("ContentRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Picture.
         /// </summary>
         public static string ContentType_Picture {
@@ -579,6 +588,15 @@ namespace DisplayMonkey.Language {
         public static string CreateNewFrame {
             get {
                 return ResourceManager.GetString("CreateNewFrame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create new HTML frame.
+        /// </summary>
+        public static string CreateNewHtmlFrame {
+            get {
+                return ResourceManager.GetString("CreateNewHtmlFrame", resourceCulture);
             }
         }
         
@@ -817,6 +835,15 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Delete HTML frame.
+        /// </summary>
+        public static string DeleteHtmlFrame {
+            get {
+                return ResourceManager.GetString("DeleteHtmlFrame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Delete media.
         /// </summary>
         public static string DeleteMedia {
@@ -1048,6 +1075,15 @@ namespace DisplayMonkey.Language {
         public static string EditFullScreenPanel {
             get {
                 return ResourceManager.GetString("EditFullScreenPanel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit HTML frame.
+        /// </summary>
+        public static string EditHtmlFrame {
+            get {
+                return ResourceManager.GetString("EditHtmlFrame", resourceCulture);
             }
         }
         
@@ -1309,6 +1345,24 @@ namespace DisplayMonkey.Language {
         public static string Host {
             get {
                 return ResourceManager.GetString("Host", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to HTML.
+        /// </summary>
+        public static string Html {
+            get {
+                return ResourceManager.GetString("Html", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to HTML frame details.
+        /// </summary>
+        public static string HtmlFrameDetails {
+            get {
+                return ResourceManager.GetString("HtmlFrameDetails", resourceCulture);
             }
         }
         

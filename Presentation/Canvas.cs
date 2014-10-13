@@ -64,7 +64,7 @@ namespace DisplayMonkey
 			BackgroundImage = DataAccess.IntOrZero(r["BackgroundImage"]);
 			Name = DataAccess.StringOrBlank(r["Name"]);
 			if (Name == "")
-				Name = string.Format("Display {0}", CanvasId);
+				Name = string.Format("Canvas {0}", CanvasId);
 		}
 
 		public static List<Canvas> List
@@ -97,8 +97,8 @@ namespace DisplayMonkey
 		public int Height = 0;
 		public int Width = 0;
 		public int DisplayId = 0;
-		public string Name = "";
-		public int FullScreenPanelId = 0;
+        public string Name = "";
+        public int FullScreenPanelId = 0;
 
 		public int InitialMaxIdleInterval
 		{
@@ -179,12 +179,17 @@ namespace DisplayMonkey
 			{
 				StringBuilder body = new StringBuilder();
 
-				body.AppendFormat(CultureInfo.InvariantCulture, 
-					"<div id=\"segments\" style=\"width:{0}px;height:{1}px;\">\r\n", 
-					Width, 
-					Height
-					);
-				foreach (Panel panel in Panels)
+                //body.AppendFormat(CultureInfo.InvariantCulture,
+                //    "<div id=\"error\" style=\"width:{0}px;height:{1}px;\"></div>\r\n",
+                //    Width,
+                //    Height
+                //    );
+                body.AppendFormat(CultureInfo.InvariantCulture,
+                    "<div id=\"segments\" style=\"width:{0}px;height:{1}px;\">\r\n",
+                    Width,
+                    Height
+                    );
+                foreach (Panel panel in Panels)
 				{
 					if (panel.GetType() == typeof(FullScreenPanel))
 						body.Insert(0, panel.Element);
