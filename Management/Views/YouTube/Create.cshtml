@@ -1,0 +1,50 @@
+﻿@using DisplayMonkey.Language
+
+@model DisplayMonkey.Models.Youtube
+
+@{
+    ViewBag.Title = Resources.CreateNewYoutubeFrame;
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>@Resources.YouTube</legend>
+
+        @Html.Partial("_frameData", Model.Frame)
+        
+        @Html.Partial("_Edit")
+
+        <p>
+            <input type="submit" value="@Resources.Create" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink(Resources.ViewFrames, "Index", "Frame")
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        $(function () {
+            $("#slider-volume").slider({
+                range: "min",
+                value: @(Model.Volume),
+                min: 0,
+                max: 100,
+                slide: function (event, ui) {
+                    $("#Volume").val(ui.value);
+                }
+            });
+            $("#Volume").prop('readonly', true);
+        });
+    </script>
+}

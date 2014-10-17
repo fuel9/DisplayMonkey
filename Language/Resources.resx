@@ -757,7 +757,7 @@
     <value>Re-order frames</value>
   </data>
   <data name="ReOrderPanelFrames" xml:space="preserve">
-    <value>Re-order Panel Frames</value>
+    <value>Re-order panel frames</value>
   </data>
   <data name="ReportFrameDetails" xml:space="preserve">
     <value>Report frame details</value>
@@ -842,10 +842,10 @@
     <value>Select canvas</value>
   </data>
   <data name="CanvasPositionSizePixels" xml:space="preserve">
-    <value>Canvas: {0}, Position: {1}, {2}, Size: {3} x {4} pixels</value>
+    <value>Position: {0}, {1}, Size: {2} x {3} pixels</value>
   </data>
   <data name="CanvasSizePixelsSec" xml:space="preserve">
-    <value>Canvas: {0}, Size: {1} x {2} pixels, {3}: {4} sec.</value>
+    <value>Size: {0} x {1} pixels, {2}: {3} sec.</value>
   </data>
   <data name="KB" xml:space="preserve">
     <value>KB</value>
@@ -993,5 +993,59 @@
   </data>
   <data name="HtmlFrameDetails" xml:space="preserve">
     <value>HTML frame details</value>
+  </data>
+  <data name="YouTube" xml:space="preserve">
+    <value>YouTube</value>
+  </data>
+  <data name="Aspect" xml:space="preserve">
+    <value>Aspect</value>
+  </data>
+  <data name="AspectRequired" xml:space="preserve">
+    <value>Aspect is required</value>
+  </data>
+  <data name="Volume" xml:space="preserve">
+    <value>Volume</value>
+  </data>
+  <data name="VolumeRequired" xml:space="preserve">
+    <value>Volume is required</value>
+  </data>
+  <data name="YoutubeId" xml:space="preserve">
+    <value>YouTube ID</value>
+  </data>
+  <data name="YoutubeIdRequired" xml:space="preserve">
+    <value>YouTube ID or URL is required</value>
+  </data>
+  <data name="Aspect16x9" xml:space="preserve">
+    <value>Widescreen (16 : 9)</value>
+  </data>
+  <data name="Aspect4x3" xml:space="preserve">
+    <value>TV (4 : 3)</value>
+  </data>
+  <data name="AspectAuto" xml:space="preserve">
+    <value>Auto</value>
+  </data>
+  <data name="YoutubeFrameDetails" xml:space="preserve">
+    <value>YouTube frame details</value>
+  </data>
+  <data name="CreateNewYoutubeFrame" xml:space="preserve">
+    <value>Create new YouTube frame</value>
+  </data>
+  <data name="DeleteYoutubeFrame" xml:space="preserve">
+    <value>Delete YouTube frame</value>
+  </data>
+  <data name="EditYoutubeFrame" xml:space="preserve">
+    <value>Edit YouTube frame</value>
+  </data>
+  <data name="VolumeRangeError" xml:space="preserve">
+    <value>Volume must be between 0 (mute) and 100.</value>
+  </data>
+  <data name="Designate" xml:space="preserve">
+    <value>Designate</value>
+  </data>
+  <data name="ShowErrors" xml:space="preserve">
+    <value>Show errors</value>
+  </data>
+  <data name="Auto" xml:space="preserve">
+    <value>Auto</value>
   </data>
 </root>

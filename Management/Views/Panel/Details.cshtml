@@ -24,8 +24,11 @@
 
 <h2>@Resources.AssociatedFrames</h2>
 
-@Html.ActionLink(Resources.CreateNewFrame, "Create", "Frame", new { PanelId = Model.PanelId }, null) |
-@Html.ActionLink(Resources.ReOrderFrames, "SortFrames", new { id = Model.PanelId })
+@Html.ActionLink(Resources.CreateNewFrame, "Create", "Frame", new { PanelId = Model.PanelId }, null)
+@if (Model.Frames.Count > 1) 
+{ 
+    @(" | ")@Html.ActionLink(Resources.ReOrderFrames, "SortFrames", new { id = Model.PanelId })
+}
 
 @Html.Partial("_frameList", Model.Frames)
 

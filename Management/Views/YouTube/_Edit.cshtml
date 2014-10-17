@@ -1,0 +1,48 @@
+﻿@using DisplayMonkey.Language
+
+@model DisplayMonkey.Models.Youtube
+
+@{
+    SelectList aspects = ViewBag.Aspects as SelectList;
+}
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Name)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.YoutubeId)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.YoutubeId)
+            @Html.ValidationMessageFor(model => model.YoutubeId)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Volume)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Volume)
+            @Html.ValidationMessageFor(model => model.Volume)
+            <div id="slider-volume" style="width:310px;"></div>
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.AutoLoop)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.AutoLoop)
+            @Html.ValidationMessageFor(model => model.AutoLoop)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Aspect)
+        </div>
+        <div class="editor-field select">
+            @Html.DropDownListFor(model => model.Aspect, aspects)
+            @Html.ValidationMessageFor(model => model.Aspect)
+        </div>

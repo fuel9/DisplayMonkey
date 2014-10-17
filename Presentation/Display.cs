@@ -45,6 +45,7 @@ namespace DisplayMonkey
 			CanvasId = DataAccess.IntOrZero(r["CanvasId"]);
 			LocationId = DataAccess.IntOrZero(r["LocationId"]);
 			Host = DataAccess.StringOrBlank(r["Host"]);
+            ShowErrors = DataAccess.Boolean(r["ShowErrors"]);
 			Name = DataAccess.StringOrBlank(r["Name"]);
 			if (Name == "")
 				Name = string.Format("Display {0}", DisplayId);
@@ -109,14 +110,32 @@ namespace DisplayMonkey
             }
         }
 
+        public static int GetIdleInterval(int displayId)
+        {
+            if (_sp_GetIdleInterval == null)
+            {
+                _sp_GetIdleInterval = new SqlCommand("sp_GetIdleInterval");
+                _sp_GetIdleInterval.CommandType = CommandType.StoredProcedure;
+                _sp_GetIdleInterval.Parameters.Add("@displayId", SqlDbType.Int);
+                _sp_GetIdleInterval.Parameters.Add("@idleInterval", SqlDbType.Int).Direction = ParameterDirection.Output;
+            }
+            _sp_GetIdleInterval.Connection = DataAccess.Connection;
+            _sp_GetIdleInterval.Parameters["@displayId"].Value = displayId;
+
+            DataAccess.ExecuteNonQuery(_sp_GetIdleInterval);
+            return DataAccess.IntOrZero(_sp_GetIdleInterval.Parameters["@idleInterval"].Value);
+        }
+
         public string Name = "";
-		public string Host = "";
-		public int DisplayId = 0;
-		public int CanvasId = 0;
-		public int LocationId = 0;
+        public string Host = "";
+        public int DisplayId = 0;
+        public int CanvasId = 0;
+        public int LocationId = 0;
+        public bool ShowErrors = false;
 
         #region Private Members
 
+        private static SqlCommand _sp_GetIdleInterval = null;
         private static SqlCommand _fn_GetDisplayHash = null;
 
         #endregion

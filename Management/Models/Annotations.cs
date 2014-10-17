@@ -329,8 +329,8 @@ namespace DisplayMonkey.Models
 
             [
                 Display(ResourceType = typeof(Resources), Name = "MaxIdleInterval"),
-                Required(ErrorMessageResourceType = typeof(Resources),
-                    ErrorMessageResourceName = "PositiveIntegerRequired"),
+                /*Required(ErrorMessageResourceType = typeof(Resources),
+                    ErrorMessageResourceName = "PositiveIntegerRequired"),*/
                 Range(0, Int32.MaxValue,
                     ErrorMessageResourceType = typeof(Resources),
                     ErrorMessageResourceName = "PositiveIntegerRequired"),
@@ -464,6 +464,7 @@ namespace DisplayMonkey.Models
             Report,
             Video,
             Weather,
+            YouTube
         }
 
         [
@@ -474,13 +475,14 @@ namespace DisplayMonkey.Models
             get
             {
                 if (this.Clock != null) return FrameTypes.Clock;
+                if (this.Html != null) return FrameTypes.Html;
                 if (this.Memo != null) return FrameTypes.Memo;
                 //if (this.News != null) return FrameTypes.News;
                 if (this.Picture != null) return FrameTypes.Picture;
                 if (this.Report != null) return FrameTypes.Report;
                 if (this.Video != null) return FrameTypes.Video;
                 if (this.Weather != null) return FrameTypes.Weather;
-                if (this.Html != null) return FrameTypes.Html;
+                if (this.Youtube != null) return FrameTypes.YouTube;
                 return null;
             }
 
@@ -495,6 +497,8 @@ namespace DisplayMonkey.Models
             {
                 case FrameTypes.Clock:
                     return (frame => frame.Clock != null);
+                case FrameTypes.Html:
+                    return (frame => frame.Html != null);
                 case FrameTypes.Memo:
                     return (frame => frame.Memo != null);
                 //case FrameTypes.News:
@@ -507,8 +511,8 @@ namespace DisplayMonkey.Models
                     return (frame => frame.Video != null);
                 case FrameTypes.Weather:
                     return (frame => frame.Weather != null);
-                case FrameTypes.Html:
-                    return (frame => frame.Html != null);
+                case FrameTypes.YouTube:
+                    return (frame => frame.Youtube != null);
                 default:
                     return (frame => true);
             }
@@ -954,6 +958,54 @@ namespace DisplayMonkey.Models
     }
 
     [
+        MetadataType(typeof(Youtube.Annotations))
+    ]
+    public partial class Youtube
+    {
+        internal class Annotations
+        {
+            [
+                Display(ResourceType = typeof(Resources), Name = "ID"),
+            ]
+            public int FrameId { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "Name"),
+                Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "NameRequired"),
+                StringLength(100, ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "MaxLengthExceeded"),
+            ]
+            public string Name { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "YoutubeId"),
+                Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "YoutubeIdRequired"),
+                StringLength(100, ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "MaxLengthExceeded"),
+            ]
+            public string YoutubeId { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "Volume"),
+                Range(0, 100,
+                    ErrorMessageResourceType = typeof(Resources),
+                    ErrorMessageResourceName = "VolumeRangeError"),
+                Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "VolumeRequired"),
+            ]
+            public int Volume { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "AutoLoop"),
+            ]
+            public bool AutoLoop { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "Aspect"),
+                Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "AspectRequired"),
+            ]
+            public VideoAspects Aspect { get; set; }
+        }
+    }
+
+    [
         MetadataType(typeof(Display.Annotations))
     ]
     public partial class Display
@@ -988,6 +1040,11 @@ namespace DisplayMonkey.Models
             public string Host { get; set; }
 
             [
+                Display(ResourceType = typeof(Resources), Name = "ShowErrors"),
+            ]
+            public bool ShowErrors { get; set; }
+
+            [
                 Display(ResourceType = typeof(Resources), Name = "Canvas"),
             ]
             public virtual Canvas Canvas { get; set; }
@@ -996,6 +1053,7 @@ namespace DisplayMonkey.Models
                 Display(ResourceType = typeof(Resources), Name = "Location"),
             ]
             public virtual Location Location { get; set; }
+
         }
     }
 

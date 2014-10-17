@@ -10,19 +10,11 @@
 namespace DisplayMonkey.Models
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class Display
+    public enum VideoAspects : int
     {
-        public int DisplayId { get; set; }
-        public string Name { get; set; }
-        public string Host { get; set; }
-        public int CanvasId { get; set; }
-        public int LocationId { get; set; }
-        public bool ShowErrors { get; set; }
-        public byte[] Version { get; set; }
-    
-        public virtual Canvas Canvas { get; set; }
-        public virtual Location Location { get; set; }
+        AspectAuto = 0,
+        Aspect16x9 = 1,
+        Aspect4x3 = 2
     }
 }

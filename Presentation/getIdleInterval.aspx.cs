@@ -14,14 +14,14 @@ namespace DisplayMonkey
         {
             if (!IsPostBack)
             {
-				int panelId = DataAccess.IntOrZero(Request.QueryString["panel"]);
+				int displayId = DataAccess.IntOrZero(Request.QueryString["display"]);
  
 				string json = "";
 				
 				try
 				{
-					FullScreenPanel fs = new FullScreenPanel(panelId);
-					json = string.Format("{{IdleInterval:{0}}}", fs.IdleInterval);
+					//FullScreenPanel fs = new FullScreenPanel(panelId);
+					json = string.Format("{{IdleInterval:{0}}}", Display.GetIdleInterval(displayId));
 				}
 
 				catch (Exception)

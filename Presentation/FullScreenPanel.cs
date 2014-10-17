@@ -73,23 +73,5 @@ namespace DisplayMonkey
 					);
 			}
 		}
-
-		public int IdleInterval
-		{
-			get
-			{
-				using (SqlCommand cmd = new SqlCommand("sp_GetIdleInterval", DataAccess.Connection))
-				{
-					cmd.CommandType = CommandType.StoredProcedure;
-					cmd.Parameters.Add("@panelId", SqlDbType.Int).Value = PanelId;
-					cmd.Parameters.Add("@idleInterval", SqlDbType.Int).Direction = ParameterDirection.Output;
-					cmd.Parameters["@panelId"].Value = PanelId;
-
-					DataAccess.ExecuteNonQuery(cmd);
-
-					return DataAccess.IntOrZero(cmd.Parameters["@idleInterval"].Value);
-				}
-			}
-		}
 	}
 }

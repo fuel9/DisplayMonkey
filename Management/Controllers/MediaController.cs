@@ -62,6 +62,25 @@ namespace DisplayMonkey.Controllers
             {
                 return View("Missing", new MissingItem(id));
             }
+
+            if (content.Type == ContentTypes.ContentType_Video)
+            {
+                ViewBag.FrameList = content.Videos
+                    .Select(f => f.Frame)
+                    .OrderBy(f => f.FrameId)
+                    .AsEnumerable()
+                    ;
+            }
+
+            else
+            {
+                ViewBag.FrameList = content.Pictures
+                    .Select(f => f.Frame)
+                    .OrderBy(f => f.FrameId)
+                    .AsEnumerable()
+                    ;
+            }
+
             return View(content);
         }
 

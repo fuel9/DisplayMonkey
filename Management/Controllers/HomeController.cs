@@ -37,11 +37,14 @@ namespace DisplayMonkey.Controllers
             ViewBag.Count_Pictures = db.Pictures.Count();
             ViewBag.Count_Pictures_7 = db.Pictures.Count(t => t.Frame.DateCreated >= sevenDaysAgo);
 
+            ViewBag.Count_Reports = db.Reports.Count();
+            ViewBag.Count_Reports_7 = db.Reports.Count(t => t.Frame.DateCreated >= sevenDaysAgo);
+
             ViewBag.Count_Videos = db.Videos.Count();
             ViewBag.Count_Videos_7 = db.Videos.Count(t => t.Frame.DateCreated >= sevenDaysAgo);
 
-            ViewBag.Count_Reports = db.Reports.Count();
-            ViewBag.Count_Reports_7 = db.Reports.Count(t => t.Frame.DateCreated >= sevenDaysAgo);
+            ViewBag.Count_Youtube = db.Youtube.Count();
+            ViewBag.Count_Youtube_7 = db.Youtube.Count(t => t.Frame.DateCreated >= sevenDaysAgo);
 
             TopContent [] topFiveContent = db.Frames
                 .Where(f => 

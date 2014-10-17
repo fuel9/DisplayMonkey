@@ -1,0 +1,39 @@
+﻿@using DisplayMonkey.Language
+
+@model DisplayMonkey.Models.Youtube
+
+@{
+    ViewBag.Title = Resources.YoutubeFrameDetails;
+}
+
+<h2>@ViewBag.Title</h2>
+
+@Html.Partial("_Details")
+
+<p>
+    @Html.ActionLink(Resources.Edit, "Edit", "Frame", new { id=Model.FrameId }, null) |
+    @Html.ActionLink(Resources.ViewFrames, "Index", "Frame")
+</p>
+
+@Html.Partial("_frameLocations", Model.Frame)
+
+@section Scripts {
+    <script>
+        var tag = document.createElement('script');
+        tag.src = "https" + "://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        function onYouTubeIframeAPIReady() {
+            new YT.Player('ytplayer', {
+                videoId: '@(Model.YoutubeId)',
+                playerVars: { rel: 0, modestbranding: 1 },
+                events: {
+                    'onReady': function (event) {
+                        event.target.setVolume(@(Model.Volume));
+                    }
+                }
+            });
+        }
+    </script>
+}

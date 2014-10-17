@@ -25,6 +25,7 @@ namespace DisplayMonkey.Models
         public string Name { get; set; }
         public byte[] Data { get; set; }
         public ContentTypes Type { get; set; }
+        public byte[] Version { get; set; }
     
         public virtual ICollection<Canvas> Canvas { get; set; }
         public virtual ICollection<Picture> Pictures { get; set; }

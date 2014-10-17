@@ -1,0 +1,43 @@
+﻿@using DisplayMonkey.Language
+
+@model DisplayMonkey.Models.Display
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Name)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Host)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Host)
+            @Html.ValidationMessageFor(model => model.Host)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Canvas)
+        </div>
+        <div class="editor-field select">
+            @Html.DropDownList("CanvasId")
+            @Html.ValidationMessageFor(model => model.CanvasId)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Location)
+        </div>
+        <div class="editor-field select">
+            @Html.DropDownList("LocationId")
+            @Html.ValidationMessageFor(model => model.LocationId)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ShowErrors)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ShowErrors)
+            @Html.ValidationMessageFor(model => model.ShowErrors)
+        </div>

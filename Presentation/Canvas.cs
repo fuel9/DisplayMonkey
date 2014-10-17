@@ -25,6 +25,8 @@ namespace DisplayMonkey
 					InitFromRow(r);
 				}
 			}
+
+            this.Display = new Display(this.DisplayId);
 		}
 
 		public static Canvas InitFromDisplay(int displayId)
@@ -44,6 +46,7 @@ namespace DisplayMonkey
 				canvas = new Canvas()
 				{
 					DisplayId = displayId,
+                    Display = new Display(displayId),
 				};
 				canvas.InitFromRow(ds.Tables[0].Rows[0]);
 			}
@@ -100,16 +103,19 @@ namespace DisplayMonkey
         public string Name = "";
         public int FullScreenPanelId = 0;
 
+        public Display Display { get; private set; }
+
 		public int InitialMaxIdleInterval
 		{
 			get
 			{
-				foreach (Panel panel in Panels)
-				{
-					if (panel.GetType() == typeof(FullScreenPanel))
-				        return (panel as FullScreenPanel).IdleInterval;
-				}
-				return 0;
+                //foreach (Panel panel in Panels)
+                //{
+                //    if (panel.GetType() == typeof(FullScreenPanel))
+                //        return (panel as FullScreenPanel).IdleInterval;
+                //}
+                //return 0;
+                return Display.GetIdleInterval(DisplayId);
 			}
 		}
 
@@ -155,6 +161,7 @@ namespace DisplayMonkey
 					head.AppendFormat(CultureInfo.InvariantCulture, "backImage:{0},\r\n", this.BackgroundImage);
 				if (this.BackgroundColor != "") 
 					head.AppendFormat(CultureInfo.InvariantCulture, "backColor:'{0}',\r\n", this.BackgroundColor);
+                head.AppendFormat(CultureInfo.InvariantCulture, "showErrors:{0},\r\n", this.Display.ShowErrors ? "true" : "false");
                 head.Append("});\r\n--></script>\r\n");
 				
 				// add styles
@@ -212,8 +219,12 @@ namespace DisplayMonkey
 			"js/moment.min.js",
 			"js/scroller.js",
 			"js/clock.js",
+            "js/youtube.js",
             "scripts/jquery-2.0.3.min.js",
-            "js/mediaelement.min.js",
+            //"js/mediaelement.min.js",
+            //"js/jquery.tubular.1.0.js",
+
+            // comes last:
 			"js/canvas.js"
 		};
 

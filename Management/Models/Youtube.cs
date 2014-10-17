@@ -12,17 +12,15 @@ namespace DisplayMonkey.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Display
+    public partial class Youtube
     {
-        public int DisplayId { get; set; }
+        public int FrameId { get; set; }
         public string Name { get; set; }
-        public string Host { get; set; }
-        public int CanvasId { get; set; }
-        public int LocationId { get; set; }
-        public bool ShowErrors { get; set; }
-        public byte[] Version { get; set; }
+        public string YoutubeId { get; set; }
+        public int Volume { get; set; }
+        public bool AutoLoop { get; set; }
+        public VideoAspects Aspect { get; set; }
     
-        public virtual Canvas Canvas { get; set; }
-        public virtual Location Location { get; set; }
+        public virtual Frame Frame { get; set; }
     }
 }

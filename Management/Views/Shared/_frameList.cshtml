@@ -36,11 +36,7 @@
             @Html.DisplayFor(m => item.Panel.Name)
         </td>
         <td>
-            @if (item.News != null)
-            {
-                @Html.DisplayFor(m => item.News.Source)
-            }
-            else if (item.Clock != null)
+            @if (item.Clock != null)
             {
                 @(string.Format("{0}{1}{2}",
                     item.Clock.Type.Translate(),
@@ -48,33 +44,42 @@
                     item.Clock.ShowTime ? ", Show time" : ""
                     ))
             }
-            else if (item.Weather != null)
+            else if (item.Html != null)    
             {
-                @item.Weather.Type.Translate()
+                <text>Name: <span>@Html.DisplayFor(m => item.Html.Name)</span></text>
+            }
+            else if (item.News != null)
+            {
+                @Html.DisplayFor(m => item.News.Source)
             }
             else if (item.Memo != null)
             {
                 <text>Subject: <span>@Html.DisplayFor(m => item.Memo.Subject)</span></text>
                 <p>Body: <span>@Html.DisplayFor(m => item.Memo.ShortBody)</span></p>
             }
-            else if (item.Report != null)
-            {
-                <img class="thumb1" src="@Url.Action("Thumb", "Report", new { id = item.FrameId, width = 50, height = 50, mode = RenderModes.RenderMode_Stretch })" alt="" />
-                <span>@Html.DisplayFor(m => item.Report.Name)</span>
-            }
             else if (item.Picture != null)
             {
                 <img class="thumb1" src="@Url.Action("Thumb", "Media", new { id = item.Picture.ContentId, width = 50, height = 50, mode = RenderModes.RenderMode_Stretch })" alt="" />
                 <span>@Html.DisplayFor(m => item.Picture.Content.Name)</span>
+            }
+            else if (item.Report != null)
+            {
+                <img class="thumb1" src="@Url.Action("Thumb", "Report", new { id = item.FrameId, width = 50, height = 50, mode = RenderModes.RenderMode_Stretch })" alt="" />
+                <span>@Html.DisplayFor(m => item.Report.Name)</span>
             }
             else if (item.Video != null)    
             {
                 <img class="thumb1" src="~/images/video_thmb.png" alt="" />
                 <span>@(string.Format(Resources.VideoAlternatives, item.Video.Contents.Count()))</span>
             }
-            else if (item.Html != null)    
+            else if (item.Weather != null)
             {
-                <text>Name: <span>@Html.DisplayFor(m => item.Html.Name)</span></text>
+                @item.Weather.Type.Translate()
+            }
+            else if (item.Youtube != null)    
+            {
+                <img class="thumb1" src="@Html.Raw(string.Format("http://i.ytimg.com/vi/{0}/0.jpg", item.Youtube.YoutubeId))" alt="" />
+                <span>@Html.DisplayFor(m => item.Youtube.Name)</span>
             }
             else   
             {

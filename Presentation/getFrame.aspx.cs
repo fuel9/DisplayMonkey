@@ -62,10 +62,14 @@ namespace DisplayMonkey
                             break;
 
                         case "WEATHER":
-							int woeid = DataAccess.IntOrZero(Request.QueryString["woeid"]);
-							string tempUnit = Request.QueryString["temperatureUnit"];
+                            int woeid = DataAccess.IntOrZero(Request.QueryString["woeid"]);
+                            string tempUnit = Request.QueryString["temperatureUnit"];
                             html = new Weather(frameId, panelId, displayId, woeid, tempUnit).Payload;
-							break;
+                            break;
+
+                        case "YOUTUBE":
+                            html = new YouTube(frameId, panelId).Payload;
+                            break;
 
 						case "NEWS":
 						default:

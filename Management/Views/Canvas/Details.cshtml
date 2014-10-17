@@ -44,16 +44,16 @@
                 @Html.DisplayNameFor(m => m.FullScreen.MaxIdleInterval)
                 if (fs.MaxIdleInterval == null) 
                 {
-                    @(": not set")
+                    @(string.Format(": {0}", Resources.Auto))
                 }
                 else
                 {
-                    @(string.Format(": {0} sec.", fs.MaxIdleInterval))
+                    @(string.Format(": {0} {1}", fs.MaxIdleInterval, Resources.Sec))
                 }
             }
             else
             {
-                @(string.Format("Position: {0}, {1}, Size: {2} x {3}", 
+                @(string.Format(Resources.PositionSize, 
                     item.Top, 
                     item.Left, 
                     item.Width,

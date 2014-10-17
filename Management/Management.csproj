@@ -182,6 +182,7 @@
     <Compile Include="Controllers\SettingController.cs" />
     <Compile Include="Controllers\VideoController.cs" />
     <Compile Include="Controllers\WeatherController.cs" />
+    <Compile Include="Controllers\YouTubeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -266,10 +267,16 @@
     <Compile Include="Models\Video.cs">
       <DependentUpon>DMModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\VideoAspects.cs">
+      <DependentUpon>DMModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Weather.cs">
       <DependentUpon>DMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\WeatherTypes.cs">
+      <DependentUpon>DMModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Youtube.cs">
       <DependentUpon>DMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -543,6 +550,13 @@
     <Content Include="Views\Html\Edit.cshtml" />
     <Content Include="Views\Html\_Details.cshtml" />
     <Content Include="Views\Html\_Edit.cshtml" />
+    <Content Include="Views\YouTube\Create.cshtml" />
+    <Content Include="Views\YouTube\Delete.cshtml" />
+    <Content Include="Views\YouTube\Details.cshtml" />
+    <Content Include="Views\YouTube\Edit.cshtml" />
+    <Content Include="Views\YouTube\_Details.cshtml" />
+    <Content Include="Views\YouTube\_Edit.cshtml" />
+    <Content Include="Views\Display\_Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

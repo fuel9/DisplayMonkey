@@ -45,6 +45,8 @@
         <EntityTypeShape EntityType="DisplayMonkey.Model.Setting" Width="1.5" PointX="6.5" PointY="20.375" />
         <EntityTypeShape EntityType="DisplayMonkey.Model.Html" Width="1.5" PointX="13.5" PointY="17.5" />
         <AssociationConnector Association="DisplayMonkey.Model.FK_Html_Frame" />
+        <EntityTypeShape EntityType="DisplayMonkey.Model.Youtube" Width="1.5" PointX="13.5" PointY="19.5" />
+        <AssociationConnector Association="DisplayMonkey.Model.FK_Youtube_Frame" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

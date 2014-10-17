@@ -16,51 +16,97 @@
 
 @foreach (var item in Model)
 {
-    frameContent = item.FrameType + ": ";
+    <li data-frame-id="@item.FrameId" data-old-sort="@((i++).ToString())">
+        @{frameContent = item.FrameType + ": ";}
 
-    if (item.News != null)
-    {
-        frameContent += item.News.Source;
-    }
-    else if (item.Clock != null)
-    {
-        frameContent += item.Clock.Type.Translate();
-    }
-    else if (item.Weather != null)
-    {
-        frameContent += item.Weather.Type.Translate();
-    }
-    else if (item.Memo != null)
-    {
-        frameContent += item.Memo.Subject;
-    }
-    else if (item.Report != null)
-    {
-        frameContent += item.Report.Name;
-    }
-    else if (item.Picture != null)
-    {
-        frameContent += item.Picture.Content.Name;
-    }
-    else if (item.Video != null)
-    {
-        frameContent += item.Video.Contents.FirstOrDefault().Name;
-    }
-    else
-    {
-        frameContent += Resources.UnsupportedFrame;
-    }
+        @if (item.Clock != null)
+        {
+            <div></div>
+            <div>
+                @(string.Format("{0}: {1}", item.FrameType, item.Clock.Type.Translate()))
+            </div>
+        }
+        else if (item.Html != null)
+        {
+            <div></div>
+            <div>
+                @(string.Format("{0}: {1}, {2} {3}", item.FrameType, item.Html.Name, item.Duration, Resources.Sec))
+            </div>
+        }
+        else if (item.Memo != null)
+        {
+            <div></div>
+            <div>
+                @(string.Format("{0}: {1}, {2} {3}", item.FrameType, item.Memo.Subject, item.Duration, Resources.Sec))
+            </div>
+        }
+        else if (item.News != null)
+        {
+            <div></div>
+            <div>
+                @(string.Format("{0}: {1}, {2} {3}", item.FrameType, item.News.Source, item.Duration, Resources.Sec))
+            </div>
+        }
+        else if (item.Picture != null)
+        {
+            <div>
+                <img class="thumb2" src="@Url.Action("Thumb", "Media", new { id = item.Picture.ContentId, width = 50, height = 50, mode = RenderModes.RenderMode_Stretch })" alt="" />
+            </div>
+            <div>
+                @(string.Format("{0}, {1} {2}", item.FrameType, item.Duration, Resources.Sec))
+            </div>
+        }
+        else if (item.Report != null)
+        {
+            <div>
+                <img class="thumb2" src="@Url.Action("Thumb", "Report", new { id = item.FrameId, width = 50, height = 50, mode = RenderModes.RenderMode_Stretch })" alt="" />
+            </div>
+            <div>
+                @(string.Format("{0}, {1} {2}", item.FrameType, item.Duration, Resources.Sec))
+            </div>
+        }
+        else if (item.Video != null)
+        {
+            <div>
+                <img class="thumb2" src="~/images/video_thmb.png" alt="" />
+            </div>
+            <div>
+                @(string.Format("{0}, {1} {2}", item.FrameType, item.Duration, Resources.Sec))
+            </div>
+            //frameContent += item.Video.Contents.FirstOrDefault().Name;
+        }
+        else if (item.Weather != null)
+        {
+            <div></div>
+            <div>
+                @(string.Format("{0}: {1}", item.FrameType, item.Weather.Type.Translate()))
+            </div>
+        }
+        else if (item.Youtube != null)
+        {
+            <div>
+                <img class="thumb2" src="@Html.Raw(string.Format("http://i.ytimg.com/vi/{0}/0.jpg", item.Youtube.YoutubeId))" alt="" />
+            </div>
+            <div>
+                @(string.Format("{0}, {1} {2}", item.FrameType, item.Duration, Resources.Sec))
+            </div>
+        }
+        else
+        {
+            <div></div>
+            <div>
+                @(string.Format("{0}, {1} {2}", item.FrameType, item.Duration, Resources.Sec))
+            </div>
+            //frameContent += Resources.UnsupportedFrame;
+        }
 
-    if (item.ShowDuration)
-    {
-        frameContent += string.Format(", {0} {1}", item.Duration, Resources.Sec);
-    }
-    <li data-frame-id="@item.FrameId" data-old-sort="@((i++).ToString())"><div>@frameContent</div></li>
+    </li>
 }
 
 </ul>
 
-@using (Html.BeginForm()) {
+@using (Html.BeginForm())
+{
     @Html.AntiForgeryToken()
     @Html.HiddenFor(m => Model.FirstOrDefault().PanelId)
     @Html.Hidden("json")

@@ -214,6 +214,51 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Aspect.
+        /// </summary>
+        public static string Aspect {
+            get {
+                return ResourceManager.GetString("Aspect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Widescreen (16 : 9).
+        /// </summary>
+        public static string Aspect16x9 {
+            get {
+                return ResourceManager.GetString("Aspect16x9", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to TV (4 : 3).
+        /// </summary>
+        public static string Aspect4x3 {
+            get {
+                return ResourceManager.GetString("Aspect4x3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Auto.
+        /// </summary>
+        public static string AspectAuto {
+            get {
+                return ResourceManager.GetString("AspectAuto", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Aspect is required.
+        /// </summary>
+        public static string AspectRequired {
+            get {
+                return ResourceManager.GetString("AspectRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Associated displays.
         /// </summary>
         public static string AssociatedDisplays {
@@ -246,6 +291,15 @@ namespace DisplayMonkey.Language {
         public static string AssociatedPanels {
             get {
                 return ResourceManager.GetString("AssociatedPanels", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Auto.
+        /// </summary>
+        public static string Auto {
+            get {
+                return ResourceManager.GetString("Auto", resourceCulture);
             }
         }
         
@@ -394,7 +448,7 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Canvas: {0}, Position: {1}, {2}, Size: {3} x {4} pixels.
+        ///   Looks up a localized string similar to Position: {0}, {1}, Size: {2} x {3} pixels.
         /// </summary>
         public static string CanvasPositionSizePixels {
             get {
@@ -412,7 +466,7 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Canvas: {0}, Size: {1} x {2} pixels, {3}: {4} sec..
+        ///   Looks up a localized string similar to Size: {0} x {1} pixels, {2}: {3} sec..
         /// </summary>
         public static string CanvasSizePixelsSec {
             get {
@@ -669,6 +723,15 @@ namespace DisplayMonkey.Language {
         public static string CreateNewWeatherFrame {
             get {
                 return ResourceManager.GetString("CreateNewWeatherFrame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create new YouTube frame.
+        /// </summary>
+        public static string CreateNewYoutubeFrame {
+            get {
+                return ResourceManager.GetString("CreateNewYoutubeFrame", resourceCulture);
             }
         }
         
@@ -934,12 +997,30 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Delete YouTube frame.
+        /// </summary>
+        public static string DeleteYoutubeFrame {
+            get {
+                return ResourceManager.GetString("DeleteYoutubeFrame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Deleting report server account will cause deletion of all related content. Are you sure you want to continue?.
         /// </summary>
         public static string DeletingReportServerAccountWillCauseDeletionOfAllRelatedContentAreYouSureYouWantToContinue {
             get {
                 return ResourceManager.GetString("DeletingReportServerAccountWillCauseDeletionOfAllRelatedContentAreYouSureYouWantT" +
                         "oContinue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Designate.
+        /// </summary>
+        public static string Designate {
+            get {
+                return ResourceManager.GetString("Designate", resourceCulture);
             }
         }
         
@@ -1174,6 +1255,15 @@ namespace DisplayMonkey.Language {
         public static string EditWeatherFrame {
             get {
                 return ResourceManager.GetString("EditWeatherFrame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit YouTube frame.
+        /// </summary>
+        public static string EditYoutubeFrame {
+            get {
+                return ResourceManager.GetString("EditYoutubeFrame", resourceCulture);
             }
         }
         
@@ -2025,7 +2115,7 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Re-order Panel Frames.
+        ///   Looks up a localized string similar to Re-order panel frames.
         /// </summary>
         public static string ReOrderPanelFrames {
             get {
@@ -2255,6 +2345,15 @@ namespace DisplayMonkey.Language {
         public static string ShowDate {
             get {
                 return ResourceManager.GetString("ShowDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show errors.
+        /// </summary>
+        public static string ShowErrors {
+            get {
+                return ResourceManager.GetString("ShowErrors", resourceCulture);
             }
         }
         
@@ -2611,6 +2710,33 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Volume.
+        /// </summary>
+        public static string Volume {
+            get {
+                return ResourceManager.GetString("Volume", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Volume must be between 0 (mute) and 100..
+        /// </summary>
+        public static string VolumeRangeError {
+            get {
+                return ResourceManager.GetString("VolumeRangeError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Volume is required.
+        /// </summary>
+        public static string VolumeRequired {
+            get {
+                return ResourceManager.GetString("VolumeRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Weather.
         /// </summary>
         public static string Weather {
@@ -2688,6 +2814,42 @@ namespace DisplayMonkey.Language {
         public static string YourBrowserDoesntSupportThisMediaTypePleaseUpgradeYourBrowser {
             get {
                 return ResourceManager.GetString("YourBrowserDoesntSupportThisMediaTypePleaseUpgradeYourBrowser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to YouTube.
+        /// </summary>
+        public static string YouTube {
+            get {
+                return ResourceManager.GetString("YouTube", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to YouTube frame details.
+        /// </summary>
+        public static string YoutubeFrameDetails {
+            get {
+                return ResourceManager.GetString("YoutubeFrameDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to YouTube ID.
+        /// </summary>
+        public static string YoutubeId {
+            get {
+                return ResourceManager.GetString("YoutubeId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to YouTube ID or URL is required.
+        /// </summary>
+        public static string YoutubeIdRequired {
+            get {
+                return ResourceManager.GetString("YoutubeIdRequired", resourceCulture);
             }
         }
     }

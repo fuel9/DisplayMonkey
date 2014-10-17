@@ -61,6 +61,7 @@
     <Reference Include="System.Web.ApplicationServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="files\frames\youtube.htm" />
     <Content Include="files\frames\html.htm" />
     <Content Include="getDisplayHash.aspx" />
     <Content Include="favicon.ico" />
@@ -145,6 +146,7 @@
     <Content Include="js\pt\scriptaculous.js" />
     <Content Include="js\pt\slider.js" />
     <Content Include="js\scroller.js" />
+    <Content Include="js\youtube.js" />
     <Content Include="packages.config" />
     <Content Include="files\fonts\futura.eot" />
     <Content Include="files\fonts\futura.ttc" />
@@ -175,6 +177,7 @@
     </Compile>
     <Compile Include="Canvas.cs" />
     <Compile Include="Clock.cs" />
+    <Compile Include="YouTube.cs" />
     <Compile Include="Html.cs" />
     <Compile Include="getDisplayHash.aspx.cs">
       <DependentUpon>getDisplayHash.aspx</DependentUpon>
@@ -284,7 +287,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>49738</DevelopmentServerPort>
+          <DevelopmentServerPort>49904</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>

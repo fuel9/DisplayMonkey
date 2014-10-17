@@ -43,5 +43,6 @@ namespace DisplayMonkey.Models
         public DbSet<ReportServer> ReportServers { get; set; }
         public DbSet<Setting> Settings { get; set; }
         public DbSet<Html> Html { get; set; }
+        public DbSet<Youtube> Youtube { get; set; }
     }
 }

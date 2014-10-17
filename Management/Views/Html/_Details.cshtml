@@ -11,10 +11,19 @@
     <div class="divTable">
     <div class="divRow">
     <div class="display-label">
-         @Html.DisplayNameFor(model => model.Frame.Panel.Name)
+         @Resources.Canvas
     </div>
     <div class="display-field">
-        @Html.DisplayFor(model => model.Frame.Panel.Name)
+        @Html.ActionLink(Model.Frame.Panel.Canvas.Name, "Details", "Canvas", new { id=Model.Frame.Panel.CanvasId }, null)
+    </div>
+    </div>
+
+    <div class="divRow">
+    <div class="display-label">
+         @Resources.Panel
+    </div>
+    <div class="display-field">
+        @Html.ActionLink(Model.Frame.Panel.Name, "Details", "Panel", new { id=Model.Frame.PanelId }, null)
     </div>
     </div>
 

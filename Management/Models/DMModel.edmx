@@ -26,6 +26,7 @@
           <EntitySet Name="Video" EntityType="DisplayMonkey.Model.Store.Video" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="VideoAlternative" EntityType="DisplayMonkey.Model.Store.VideoAlternative" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Weather" EntityType="DisplayMonkey.Model.Store.Weather" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Youtube" EntityType="DisplayMonkey.Model.Store.Youtube" store:Type="Tables" Schema="dbo" />
           <AssociationSet Name="FK_Canvas_Content" Association="DisplayMonkey.Model.Store.FK_Canvas_Content">
             <End Role="Content" EntitySet="Content" />
             <End Role="Canvas" EntitySet="Canvas" />
@@ -118,6 +119,10 @@
             <End Role="Frame" EntitySet="Frame" />
             <End Role="Weather" EntitySet="Weather" />
           </AssociationSet>
+          <AssociationSet Name="FK_Youtube_Frame" Association="DisplayMonkey.Model.Store.FK_Youtube_Frame">
+            <End Role="Frame" EntitySet="Frame" />
+            <End Role="Youtube" EntitySet="Youtube" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Canvas">
           <Key>
@@ -148,6 +153,7 @@
           <Property Name="Name" Type="varchar" MaxLength="100" />
           <Property Name="Data" Type="varbinary(max)" Nullable="false" />
           <Property Name="Type" Type="int" Nullable="false" />
+          <Property Name="Version" Type="timestamp" Nullable="false" StoreGeneratedPattern="Computed" />
         </EntityType>
         <EntityType Name="Display">
           <Key>
@@ -158,6 +164,8 @@
           <Property Name="Host" Type="varchar" MaxLength="50" />
           <Property Name="CanvasId" Type="int" Nullable="false" />
           <Property Name="LocationId" Type="int" Nullable="false" />
+          <Property Name="ShowErrors" Type="bit" Nullable="false" />
+          <Property Name="Version" Type="timestamp" Nullable="false" StoreGeneratedPattern="Computed" />
         </EntityType>
         <EntityType Name="Frame">
           <Key>
@@ -306,6 +314,17 @@
           </Key>
           <Property Name="FrameId" Type="int" Nullable="false" />
           <Property Name="Type" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Youtube">
+          <Key>
+            <PropertyRef Name="FrameId" />
+          </Key>
+          <Property Name="FrameId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="YoutubeId" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="Volume" Type="int" Nullable="false" />
+          <Property Name="AutoLoop" Type="bit" Nullable="false" />
+          <Property Name="Aspect" Type="int" Nullable="false" />
         </EntityType>
         <Association Name="FK_Canvas_Content">
           <End Role="Content" Type="DisplayMonkey.Model.Store.Content" Multiplicity="0..1" />
@@ -619,6 +638,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Youtube_Frame">
+          <End Role="Frame" Type="DisplayMonkey.Model.Store.Frame" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Youtube" Type="DisplayMonkey.Model.Store.Youtube" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Frame">
+              <PropertyRef Name="FrameId" />
+            </Principal>
+            <Dependent Role="Youtube">
+              <PropertyRef Name="FrameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -726,6 +759,11 @@
             <End Role="Frame" EntitySet="Frames" />
             <End Role="Html" EntitySet="Html" />
           </AssociationSet>
+          <EntitySet Name="Youtube" EntityType="DisplayMonkey.Model.Youtube" />
+          <AssociationSet Name="FK_Youtube_Frame" Association="DisplayMonkey.Model.FK_Youtube_Frame">
+            <End Role="Frame" EntitySet="Frames" />
+            <End Role="Youtube" EntitySet="Youtube" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Canvas">
           <Key>
@@ -764,6 +802,7 @@
           <NavigationProperty Name="Canvas" Relationship="DisplayMonkey.Model.FK_Canvas_Content" FromRole="Content" ToRole="Canvas" />
           <NavigationProperty Name="Pictures" Relationship="DisplayMonkey.Model.FK_Picture_Content" FromRole="Content" ToRole="Picture" />
           <NavigationProperty Name="Videos" Relationship="DisplayMonkey.Model.VideoAlternative" FromRole="Content" ToRole="Video" />
+          <Property Type="Binary" Name="Version" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
         </EntityType>
         <EntityType Name="Display">
           <Key>
@@ -776,6 +815,8 @@
           <Property Name="LocationId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Canvas" Relationship="DisplayMonkey.Model.FK_Display_Canvas" FromRole="Display" ToRole="Canvas" />
           <NavigationProperty Name="Location" Relationship="DisplayMonkey.Model.FK_Display_Location" FromRole="Display" ToRole="Location" />
+          <Property Type="Boolean" Name="ShowErrors" Nullable="false" />
+          <Property Type="Binary" Name="Version" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
         </EntityType>
         <EntityType Name="Frame">
           <Key>
@@ -798,6 +839,7 @@
           <Property Type="Int32" Name="Sort" />
           <Property Type="DateTime" Name="DateCreated" Nullable="false" Precision="3" annotation:StoreGeneratedPattern="Computed" a:SetterAccess="Protected" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
           <NavigationProperty Name="Html" Relationship="DisplayMonkey.Model.FK_Html_Frame" FromRole="Frame" ToRole="Html" />
+          <NavigationProperty Name="Youtube" Relationship="DisplayMonkey.Model.FK_Youtube_Frame" FromRole="Frame" ToRole="Youtube" />
         </EntityType>
         <EntityType Name="FullScreen">
           <Key>
@@ -1225,6 +1267,37 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Youtube">
+          <Key>
+            <PropertyRef Name="FrameId" />
+          </Key>
+          <Property Type="Int32" Name="FrameId" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="YoutubeId" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="Volume" Nullable="false" />
+          <Property Type="Boolean" Name="AutoLoop" Nullable="false" />
+          <Property Type="DisplayMonkey.Model.VideoAspects" Name="Aspect" Nullable="false" />
+          <NavigationProperty Name="Frame" Relationship="DisplayMonkey.Model.FK_Youtube_Frame" FromRole="Youtube" ToRole="Frame" />
+        </EntityType>
+        <Association Name="FK_Youtube_Frame">
+          <End Type="DisplayMonkey.Model.Frame" Role="Frame" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="DisplayMonkey.Model.Youtube" Role="Youtube" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Frame">
+              <PropertyRef Name="FrameId" />
+            </Principal>
+            <Dependent Role="Youtube">
+              <PropertyRef Name="FrameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EnumType Name="VideoAspects">
+          <Member Name="AspectAuto" Value="0" />
+          <Member Name="Aspect16x9" Value="1" />
+          <Member Name="Aspect4x3" Value="2" />
+        </EnumType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1257,6 +1330,7 @@
           <EntitySetMapping Name="Contents">
             <EntityTypeMapping TypeName="DisplayMonkey.Model.Content">
               <MappingFragment StoreEntitySet="Content">
+                <ScalarProperty Name="Version" ColumnName="Version" />
                 <ScalarProperty Name="ContentId" ColumnName="ContentId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Data" ColumnName="Data" />
@@ -1267,6 +1341,8 @@
           <EntitySetMapping Name="Displays">
             <EntityTypeMapping TypeName="DisplayMonkey.Model.Display">
               <MappingFragment StoreEntitySet="Display">
+                <ScalarProperty Name="Version" ColumnName="Version" />
+                <ScalarProperty Name="ShowErrors" ColumnName="ShowErrors" />
                 <ScalarProperty Name="DisplayId" ColumnName="DisplayId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Host" ColumnName="Host" />
@@ -1432,6 +1508,18 @@
             <EntityTypeMapping TypeName="DisplayMonkey.Model.Html">
               <MappingFragment StoreEntitySet="Html">
                 <ScalarProperty Name="Content" ColumnName="Content" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="FrameId" ColumnName="FrameId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Youtube">
+            <EntityTypeMapping TypeName="DisplayMonkey.Model.Youtube">
+              <MappingFragment StoreEntitySet="Youtube">
+                <ScalarProperty Name="Aspect" ColumnName="Aspect" />
+                <ScalarProperty Name="AutoLoop" ColumnName="AutoLoop" />
+                <ScalarProperty Name="Volume" ColumnName="Volume" />
+                <ScalarProperty Name="YoutubeId" ColumnName="YoutubeId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="FrameId" ColumnName="FrameId" />
               </MappingFragment>

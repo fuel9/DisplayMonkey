@@ -102,14 +102,19 @@
           <td class="Right_Align Alt" colspan="2">@ViewBag.Count_Pictures</td>
         </tr>
         <tr>
-          <td class="Left_Align">@Html.ActionLink(Resources.Video, "Index", "Frame", new { FrameType = "Video" }, null)</td>
-          <td class="Right_Align" colspan="2">@ViewBag.Count_Videos_7</td>
-          <td class="Right_Align" colspan="2">@ViewBag.Count_Videos</td>
+          <td class="Left_Align">@Html.ActionLink(Resources.Report, "Index", "Frame", new { FrameType = "Report" }, null)</td>
+          <td class="Right_Align" colspan="2">@ViewBag.Count_Reports_7</td>
+          <td class="Right_Align" colspan="2">@ViewBag.Count_Reports</td>
         </tr>
         <tr>
-          <td class="Left_Align Alt">@Html.ActionLink(Resources.Report, "Index", "Frame", new { FrameType = "Report" }, null)</td>
-          <td class="Right_Align Alt" colspan="2">@ViewBag.Count_Reports_7</td>
-          <td class="Right_Align Alt" colspan="2">@ViewBag.Count_Reports</td>
+          <td class="Left_Align Alt">@Html.ActionLink(Resources.Video, "Index", "Frame", new { FrameType = "Video" }, null)</td>
+          <td class="Right_Align Alt" colspan="2">@ViewBag.Count_Videos_7</td>
+          <td class="Right_Align Alt" colspan="2">@ViewBag.Count_Videos</td>
+        </tr>
+        <tr>
+          <td class="Left_Align">@Html.ActionLink(Resources.YouTube, "Index", "Frame", new { FrameType = "Youtube" }, null)</td>
+          <td class="Right_Align" colspan="2">@ViewBag.Count_Youtube_7</td>
+          <td class="Right_Align" colspan="2">@ViewBag.Count_Youtube</td>
         </tr>
       </tbody>
     </table>

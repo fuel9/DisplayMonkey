@@ -1,13 +1,11 @@
-﻿@using DisplayMonkey.Language
+﻿@using DisplayMonkey
+@using DisplayMonkey.Models
+@using DisplayMonkey.Language
 
-@model DisplayMonkey.Models.Video
-
-@{
-    DisplayMonkey.Models.Content alt1 = Model.Contents.FirstOrDefault();
-}
+@model DisplayMonkey.Models.Youtube
 
 <fieldset>
-    <legend>@Resources.Video</legend>
+    <legend>@Resources.YouTube</legend>
 
     <table class="divTable"><tr>
         <td>
@@ -41,10 +39,28 @@
 
     <div class="divRow">
     <div class="display-label">
-         @Html.DisplayNameFor(model => model.PlayMuted)
+         @Html.DisplayNameFor(model => model.Name)
     </div>
     <div class="display-field">
-        @Html.DisplayFor(model => model.PlayMuted)
+        @Html.DisplayFor(model => model.Name)
+    </div>
+    </div>
+
+    <div class="divRow">
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.YoutubeId)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.YoutubeId)
+    </div>
+    </div>
+
+    <div class="divRow">
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Volume)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Volume)
     </div>
     </div>
 
@@ -56,19 +72,22 @@
         @Html.DisplayFor(model => model.AutoLoop)
     </div>
     </div>
+
+    <div class="divRow">
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Aspect)
+    </div>
+    <div class="display-field">
+        @Model.Aspect.Translate()
+    </div>
+    </div>
     </div>
 
         </td>
 
         <td>
             <div id="picture">
-                @if (alt1 != null && alt1.ContentId != 0)
-                {
-                    <video style="width:100%;height:100%" poster="~/images/video.gif" loop autoplay controls>
-                        <source src="@Url.Action("Playback", "Media", new { id = alt1.ContentId })" />
-                        @Resources.YourBrowserDoesntSupportThisMediaTypePleaseUpgradeYourBrowser
-                    </video>
-                }
+                <div id="ytplayer"></div>
             </div>
         </td>
 

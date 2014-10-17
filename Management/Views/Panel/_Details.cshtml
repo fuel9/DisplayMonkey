@@ -20,22 +20,37 @@
 
     <div class="divTable">
     <div class="divRow">
+    <div class="display-label">
+        @Resources.Canvas
+    </div>
+    <div class="display-field">
+        @Html.ActionLink(Model.Canvas.Name, "Details", "Canvas", new { id=Model.CanvasId }, null)
+    </div>
+    </div>
+
+    <div class="divRow">
+    <div class="display-label">
+        @Resources.Panel
+    </div>
     <div class="display-field">
         @Html.Label(Model.Name)
         @if (fs.PanelId == Model.PanelId)
         {
+            int m = fs.MaxIdleInterval ?? -1;
+            string maxInterval = m < 0 ? Resources.Auto : m.ToString();
+            
             @(string.Format(Resources.CanvasSizePixelsSec, 
-                Html.DisplayFor(model => model.Canvas.Name),
+                //Html.DisplayFor(model => model.Canvas.Name),
                 Model.Canvas.Width, 
                 Model.Canvas.Height,
-                Html.DisplayNameFor(m => fs.MaxIdleInterval),
-                fs.MaxIdleInterval
+                Html.DisplayNameFor(model => fs.MaxIdleInterval),
+                maxInterval
                 ))
         }
         else
         {
             @(string.Format(Resources.CanvasPositionSizePixels, 
-                Html.DisplayFor(model => model.Canvas.Name),
+                //Html.DisplayFor(model => model.Canvas.Name),
                 Model.Left, 
                 Model.Top, 
                 Model.Width, 
