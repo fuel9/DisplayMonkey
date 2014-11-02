@@ -62,10 +62,15 @@ namespace DisplayMonkey.Controllers
             ViewBag.FrameType = selected.TranslatedSelectList(valueAsText: true);
         }
 
+        private void FillTimingOptionsSelectList(Frame.TimingOptions? selected = null)
+        {
+            ViewBag.TimingOption = selected.TranslatedSelectList(valueAsText: false);
+        }
+
         //
         // GET: /Frame/
 
-        public ActionResult Index(int canvasId = 0, int panelId = 0, Frame.FrameTypes? frameType = null /*, int page = 1*/)
+        public ActionResult Index(int canvasId = 0, int panelId = 0, Frame.FrameTypes? frameType = null, int? timingOption = null /*, int page = 1*/)
         {
             Navigation.SaveCurrent();
 
@@ -99,6 +104,25 @@ namespace DisplayMonkey.Controllers
                 list = list.Where(Frame.FilterByFrameType(frameType));
             }
 
+            DateTime dt = DateTime.Now;
+            if (timingOption != null)
+            {
+                switch ((Frame.TimingOptions)timingOption)
+                {
+                    case Frame.TimingOptions.TimingOption_Pending:
+                        list = list.Where(f => dt < f.BeginsOn);
+                        break;
+
+                    case Frame.TimingOptions.TimingOption_Current:
+                        list = list.Where(f => (f.BeginsOn == null || f.BeginsOn <= dt) && (f.EndsOn == null || dt < f.EndsOn));
+                        break;
+
+                    case Frame.TimingOptions.TimingOption_Expired:
+                        list = list.Where(f => f.EndsOn <= dt);
+                        break;
+                }
+            }
+
             //ViewBag.TotalPages = (int)Math.Ceiling((float)list.Count() / 20.0);
             //ViewBag.CurrentPage = page;
 
@@ -114,6 +138,7 @@ namespace DisplayMonkey.Controllers
             FillCanvasesSelectList(canvasId);
             FillPanelsSelectList(panelId, canvasId);
             FillFrameTypeSelectList(frameType);
+            FillTimingOptionsSelectList((Frame.TimingOptions?)timingOption);
              
             return View(list.ToList());
         }

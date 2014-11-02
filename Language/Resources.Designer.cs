@@ -214,51 +214,6 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Aspect.
-        /// </summary>
-        public static string Aspect {
-            get {
-                return ResourceManager.GetString("Aspect", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Widescreen (16 : 9).
-        /// </summary>
-        public static string Aspect16x9 {
-            get {
-                return ResourceManager.GetString("Aspect16x9", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to TV (4 : 3).
-        /// </summary>
-        public static string Aspect4x3 {
-            get {
-                return ResourceManager.GetString("Aspect4x3", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Auto.
-        /// </summary>
-        public static string AspectAuto {
-            get {
-                return ResourceManager.GetString("AspectAuto", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Aspect is required.
-        /// </summary>
-        public static string AspectRequired {
-            get {
-                return ResourceManager.GetString("AspectRequired", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Associated displays.
         /// </summary>
         public static string AssociatedDisplays {
@@ -808,11 +763,29 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Number of Expired Frames.
+        /// </summary>
+        public static string Dashboard_NumberOfExpiredFrames {
+            get {
+                return ResourceManager.GetString("Dashboard_NumberOfExpiredFrames", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Number of Frames.
         /// </summary>
         public static string Dashboard_NumberOfFrames {
             get {
                 return ResourceManager.GetString("Dashboard_NumberOfFrames", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Number of Pending Frames.
+        /// </summary>
+        public static string Dashboard_NumberOfPendingFrames {
+            get {
+                return ResourceManager.GetString("Dashboard_NumberOfPendingFrames", resourceCulture);
             }
         }
         
@@ -2448,6 +2421,51 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Timing option.
+        /// </summary>
+        public static string TimingOption {
+            get {
+                return ResourceManager.GetString("TimingOption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Any.
+        /// </summary>
+        public static string TimingOption_Any {
+            get {
+                return ResourceManager.GetString("TimingOption_Any", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Current.
+        /// </summary>
+        public static string TimingOption_Current {
+            get {
+                return ResourceManager.GetString("TimingOption_Current", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expired.
+        /// </summary>
+        public static string TimingOption_Expired {
+            get {
+                return ResourceManager.GetString("TimingOption_Expired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pending.
+        /// </summary>
+        public static string TimingOption_Pending {
+            get {
+                return ResourceManager.GetString("TimingOption_Pending", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Top.
         /// </summary>
         public static string Top {
@@ -2850,6 +2868,195 @@ namespace DisplayMonkey.Language {
         public static string YoutubeIdRequired {
             get {
                 return ResourceManager.GetString("YoutubeIdRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Aspect.
+        /// </summary>
+        public static string YTAspect {
+            get {
+                return ResourceManager.GetString("YTAspect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Widescreen (16 : 9).
+        /// </summary>
+        public static string YTAspect_16x9 {
+            get {
+                return ResourceManager.GetString("YTAspect_16x9", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to TV (4 : 3).
+        /// </summary>
+        public static string YTAspect_4x3 {
+            get {
+                return ResourceManager.GetString("YTAspect_4x3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Auto.
+        /// </summary>
+        public static string YTAspect_Auto {
+            get {
+                return ResourceManager.GetString("YTAspect_Auto", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Aspect is required.
+        /// </summary>
+        public static string YTAspectRequired {
+            get {
+                return ResourceManager.GetString("YTAspectRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Video quality.
+        /// </summary>
+        public static string YTQuality {
+            get {
+                return ResourceManager.GetString("YTQuality", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Default.
+        /// </summary>
+        public static string YTQuality_Default {
+            get {
+                return ResourceManager.GetString("YTQuality_Default", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to HD 1080, 1920x1080 or 1440x1080.
+        /// </summary>
+        public static string YTQuality_Hd1080 {
+            get {
+                return ResourceManager.GetString("YTQuality_Hd1080", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to HD 720, 1280x720 or 960x720.
+        /// </summary>
+        public static string YTQuality_Hd720 {
+            get {
+                return ResourceManager.GetString("YTQuality_Hd720", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hi Resolution, above 1080.
+        /// </summary>
+        public static string YTQuality_HiRes {
+            get {
+                return ResourceManager.GetString("YTQuality_HiRes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Large, 853x480 or 640x480.
+        /// </summary>
+        public static string YTQuality_Large {
+            get {
+                return ResourceManager.GetString("YTQuality_Large", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Medium, 640x360 or 480x360.
+        /// </summary>
+        public static string YTQuality_Medium {
+            get {
+                return ResourceManager.GetString("YTQuality_Medium", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Small, 320x240.
+        /// </summary>
+        public static string YTQuality_Small {
+            get {
+                return ResourceManager.GetString("YTQuality_Small", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Video speed.
+        /// </summary>
+        public static string YTRate {
+            get {
+                return ResourceManager.GetString("YTRate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fast.
+        /// </summary>
+        public static string YTRate_Fast {
+            get {
+                return ResourceManager.GetString("YTRate_Fast", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Normal.
+        /// </summary>
+        public static string YTRate_Normal {
+            get {
+                return ResourceManager.GetString("YTRate_Normal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Slow.
+        /// </summary>
+        public static string YTRate_Slow {
+            get {
+                return ResourceManager.GetString("YTRate_Slow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Very fast.
+        /// </summary>
+        public static string YTRate_VeryFast {
+            get {
+                return ResourceManager.GetString("YTRate_VeryFast", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Very slow.
+        /// </summary>
+        public static string YTRate_VerySlow {
+            get {
+                return ResourceManager.GetString("YTRate_VerySlow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start video at.
+        /// </summary>
+        public static string YTStart {
+            get {
+                return ResourceManager.GetString("YTStart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start video at is required.
+        /// </summary>
+        public static string YTStartRequired {
+            get {
+                return ResourceManager.GetString("YTStartRequired", resourceCulture);
             }
         }
     }

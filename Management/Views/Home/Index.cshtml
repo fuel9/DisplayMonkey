@@ -48,7 +48,7 @@
           <td class="Right_Align Alt">@ViewBag.Count_Locations</td>
         </tr>
         <tr>
-          <td class="Left_Align">@Resources.Dashboard_NumberOfActiveFrames</td>
+          <td class="Left_Align">@Html.ActionLink(Resources.Dashboard_NumberOfActiveFrames, "Index", "Frame", new { timingOption = (int)DisplayMonkey.Models.Frame.TimingOptions.TimingOption_Current }, null)</td>
           <td class="Right_Align">@ViewBag.Count_Active_Frames</td>
           <td class="Space">&nbsp;</td>         
 		  <td class="Left_Align">@if (cnt >= 2) {@top[2].Name}</td>
@@ -58,8 +58,8 @@
           <td class="Right_Align">@ViewBag.Count_Canvases</td>
         </tr>
         <tr>
-          <td class="Left_Align">&nbsp;</td>
-          <td class="Right_Align">&nbsp;</td>
+          <td class="Left_Align Alt">@Html.ActionLink(Resources.Dashboard_NumberOfPendingFrames, "Index", "Frame", new { timingOption = (int)DisplayMonkey.Models.Frame.TimingOptions.TimingOption_Pending }, null)</td>
+          <td class="Right_Align Alt">@ViewBag.Count_Pending_Frames</td>
           <td class="Space">&nbsp;</td>         
 		  <td class="Left_Align Alt">@if (cnt >= 3) {@top[3].Name}</td>
           <td class="Right_Align Alt">@if (cnt >= 3) {@top[3].Count}</td>
@@ -68,8 +68,8 @@
           <td class="Right_Align Alt">@ViewBag.Count_Panels</td>
         </tr>
         <tr>
-          <td class="Left_Align">&nbsp;</td>
-          <td class="Right_Align">&nbsp;</td>
+          <td class="Left_Align">@Html.ActionLink(Resources.Dashboard_NumberOfExpiredFrames, "Index", "Frame", new { timingOption = (int)DisplayMonkey.Models.Frame.TimingOptions.TimingOption_Expired }, null)</td>
+          <td class="Right_Align">@ViewBag.Count_Expired_Frames</td>
           <td class="Space">&nbsp;</td>         
 		  <td class="Left_Align">@if (cnt >= 4) {@top[4].Name}</td>
           <td class="Right_Align">@if (cnt >= 4) {@top[4].Count}</td>

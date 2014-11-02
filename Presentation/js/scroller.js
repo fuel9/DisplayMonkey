@@ -1,21 +1,38 @@
-﻿var TextScroller = Class.create(PeriodicalExecuter, {
+﻿// 12-08-13 [DPA] - client side scripting BEGIN
+// 14-10-25 [LTL] - use strict, code improvements
+
+var TextScroller = Class.create(PeriodicalExecuter, {
     initialize: function ($super, id) {
+        "use strict";
         this.containerId = id;
         this.state = 0;
         this.delay = 0;
         this.tick = 0.1; 			// seconds
         this.length = 5 / this.tick; // seconds
+        this.paused = false;
         $super(this.callBack, this.tick);
     }
 
+    , pause: function () {
+        this.paused = true;
+    }
+
+    , resume: function () {
+        this.paused = false;
+    }
+
     , callBack: function (pe) {
+        "use strict";
         var div = $(this.containerId);
         if (!div) {
             pe.stop();
         } else {
-            // freeze until full screen frame is up, unless it is itself scrolling
-            if (_canvas.fullScreenActive && div != 'full')
+            if (this.paused)
                 return;
+
+            // freeze until full screen frame is up, unless it is itself scrolling
+            //if (_canvas.fullScreenActive && div != 'full')
+            //    return;
 
             // no need to do anything if our text fits container completely
             var par = div.parentNode;
@@ -65,3 +82,32 @@
     }
 });
 
+/*(function () {
+    Element.addMethods('div', {
+        __textScroller: {},
+
+        startScroller: function (e) {
+            e.__textScroller = new TextScroller(e.id);
+        },
+
+        stopScroller: function (e) {
+            if (e.__textScroller instanceof TextScroller) {
+                e.__textScroller.stop();
+            }
+        },
+
+        pauseScroller: function (e) {
+            if (e.__textScroller instanceof TextScroller) {
+                e.__textScroller.pause();
+            }
+        },
+
+        resumeScroller: function (e) {
+            if (e.__textScroller instanceof TextScroller) {
+                e.__textScroller.resume();
+            }
+        },
+    });
+})();*/
+
+// 12-08-13 [DPA] - client side scripting END

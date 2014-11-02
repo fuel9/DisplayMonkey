@@ -17,13 +17,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/09/2014 12:24:58</publishTime>
     </File>
     <File Include="bin/App_global.asax.compiled">
-      <publishTime>10/17/2014 15:00:25</publishTime>
+      <publishTime>11/01/2014 13:12:15</publishTime>
     </File>
     <File Include="bin/App_global.asax.dll">
-      <publishTime>10/17/2014 15:00:25</publishTime>
+      <publishTime>11/01/2014 13:12:15</publishTime>
     </File>
     <File Include="bin/App_global.asax.pdb">
-      <publishTime>10/17/2014 15:00:25</publishTime>
+      <publishTime>11/01/2014 13:12:15</publishTime>
     </File>
     <File Include="bin/DataAnnotationsExtensions.ClientValidation.dll">
       <publishTime>12/20/2013 17:23:38</publishTime>
@@ -41,16 +41,16 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/27/2013 22:35:55</publishTime>
     </File>
     <File Include="bin/DisplayMonkey.Language.dll">
-      <publishTime>10/17/2014 15:00:15</publishTime>
+      <publishTime>11/01/2014 13:12:04</publishTime>
     </File>
     <File Include="bin/DisplayMonkey.Language.pdb">
-      <publishTime>10/17/2014 15:00:15</publishTime>
+      <publishTime>11/01/2014 13:12:04</publishTime>
     </File>
     <File Include="bin/DisplayMonkey.Management.dll">
-      <publishTime>10/17/2014 15:00:17</publishTime>
+      <publishTime>11/01/2014 13:12:05</publishTime>
     </File>
     <File Include="bin/DisplayMonkey.Management.pdb">
-      <publishTime>10/17/2014 15:00:17</publishTime>
+      <publishTime>11/01/2014 13:12:05</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>11/27/2013 22:35:51</publishTime>
@@ -122,7 +122,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/09/2014 12:24:58</publishTime>
     </File>
     <File Include="bin/ru/DisplayMonkey.Language.resources.dll">
-      <publishTime>10/17/2014 15:00:15</publishTime>
+      <publishTime>11/01/2014 13:12:04</publishTime>
     </File>
     <File Include="bin/ru/Microsoft.Data.Edm.resources.dll">
       <publishTime>11/27/2013 22:35:56</publishTime>
@@ -134,7 +134,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/27/2013 22:35:55</publishTime>
     </File>
     <File Include="bin/sv/DisplayMonkey.Language.resources.dll">
-      <publishTime>10/17/2014 15:00:15</publishTime>
+      <publishTime>11/01/2014 13:12:04</publishTime>
     </File>
     <File Include="bin/sv/Language.resources.dll">
       <publishTime>03/14/2014 17:05:26</publishTime>
@@ -524,7 +524,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/13/2014 09:14:31</publishTime>
     </File>
     <File Include="PrecompiledApp.config">
-      <publishTime>10/17/2014 15:00:24</publishTime>
+      <publishTime>11/01/2014 13:12:13</publishTime>
     </File>
     <File Include="Scripts/canvas-preview.js">
       <publishTime>02/04/2014 09:48:59</publishTime>
@@ -692,7 +692,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Frame/Index.cshtml">
-      <publishTime>10/09/2014 14:01:10</publishTime>
+      <publishTime>11/01/2014 12:39:51</publishTime>
     </File>
     <File Include="Views/Home/About.cshtml">
       <publishTime>05/30/2014 15:09:29</publishTime>
@@ -701,7 +701,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Home/Index.cshtml">
-      <publishTime>10/16/2014 12:19:59</publishTime>
+      <publishTime>11/01/2014 13:10:46</publishTime>
     </File>
     <File Include="Views/Html/Create.cshtml">
       <publishTime>10/10/2014 17:04:37</publishTime>
@@ -944,25 +944,25 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/16/2014 15:51:15</publishTime>
     </File>
     <File Include="Views/YouTube/Delete.cshtml">
-      <publishTime>10/17/2014 09:26:44</publishTime>
+      <publishTime>11/01/2014 02:16:43</publishTime>
     </File>
     <File Include="Views/YouTube/Details.cshtml">
-      <publishTime>10/17/2014 09:26:55</publishTime>
+      <publishTime>11/01/2014 02:13:11</publishTime>
     </File>
     <File Include="Views/YouTube/Edit.cshtml">
       <publishTime>10/16/2014 15:51:08</publishTime>
     </File>
     <File Include="Views/YouTube/_Details.cshtml">
-      <publishTime>10/17/2014 10:37:52</publishTime>
+      <publishTime>11/01/2014 01:50:51</publishTime>
     </File>
     <File Include="Views/YouTube/_Edit.cshtml">
-      <publishTime>10/16/2014 16:06:29</publishTime>
+      <publishTime>11/01/2014 01:34:30</publishTime>
     </File>
     <File Include="Views/_ViewStart.cshtml">
       <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>10/17/2014 15:00:23</publishTime>
+      <publishTime>11/01/2014 13:12:13</publishTime>
     </File>
   </ItemGroup>
 </Project>

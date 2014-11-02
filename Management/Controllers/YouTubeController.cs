@@ -55,7 +55,7 @@ namespace DisplayMonkey.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "FrameId,Name,YoutubeId,Volume,AutoLoop,Aspect")] Youtube youtube, Frame frame)
+        public ActionResult Create([Bind(Include = "FrameId,Name,YoutubeId,Volume,AutoLoop,Aspect,Quality,Rate,Start")] Youtube youtube, Frame frame)
         {
             if (ModelState.IsValid)
             {
@@ -71,6 +71,8 @@ namespace DisplayMonkey.Controllers
             }
 
             FillAspectsSelectList();
+            FillQualitySelectList();
+            FillRatesSelectList();
 
             youtube.Frame = frame;
 
@@ -87,6 +89,8 @@ namespace DisplayMonkey.Controllers
             }
 
             FillAspectsSelectList(youtube.Aspect);
+            FillQualitySelectList();
+            FillRatesSelectList();
 
             return View(youtube);
         }
@@ -96,7 +100,7 @@ namespace DisplayMonkey.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "FrameId,Name,YoutubeId,Volume,AutoLoop,Aspect")] Youtube youtube, Frame frame)
+        public ActionResult Edit([Bind(Include = "FrameId,Name,YoutubeId,Volume,AutoLoop,Aspect,Quality,Rate,Start")] Youtube youtube, Frame frame)
         {
             if (ModelState.IsValid)
             {
@@ -111,6 +115,8 @@ namespace DisplayMonkey.Controllers
             }
 
             FillAspectsSelectList(youtube.Aspect);
+            FillQualitySelectList();
+            FillRatesSelectList();
 
             youtube.Frame = frame;
 
@@ -140,9 +146,19 @@ namespace DisplayMonkey.Controllers
             return Navigation.Restore() ?? RedirectToAction("Index", "Frame");
         }
 
-        private void FillAspectsSelectList(VideoAspects? selected = null)
+        private void FillAspectsSelectList(YTAspect? selected = null)
         {
             ViewBag.Aspects = selected.TranslatedSelectList();
+        }
+
+        private void FillQualitySelectList(YTQuality? selected = null)
+        {
+            ViewBag.Qualities = selected.TranslatedSelectList();
+        }
+
+        private void FillRatesSelectList(YTRate? selected = null)
+        {
+            ViewBag.Rates = selected.TranslatedSelectList();
         }
 
         protected override void Dispose(bool disposing)

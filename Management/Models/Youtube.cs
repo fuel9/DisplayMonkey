@@ -19,7 +19,10 @@ namespace DisplayMonkey.Models
         public string YoutubeId { get; set; }
         public int Volume { get; set; }
         public bool AutoLoop { get; set; }
-        public VideoAspects Aspect { get; set; }
+        public YTAspect Aspect { get; set; }
+        public YTQuality Quality { get; set; }
+        public int Start { get; set; }
+        public YTRate Rate { get; set; }
     
         public virtual Frame Frame { get; set; }
     }

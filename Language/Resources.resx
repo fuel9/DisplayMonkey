@@ -997,10 +997,10 @@
   <data name="YouTube" xml:space="preserve">
     <value>YouTube</value>
   </data>
-  <data name="Aspect" xml:space="preserve">
+  <data name="YTAspect" xml:space="preserve">
     <value>Aspect</value>
   </data>
-  <data name="AspectRequired" xml:space="preserve">
+  <data name="YTAspectRequired" xml:space="preserve">
     <value>Aspect is required</value>
   </data>
   <data name="Volume" xml:space="preserve">
@@ -1015,13 +1015,13 @@
   <data name="YoutubeIdRequired" xml:space="preserve">
     <value>YouTube ID or URL is required</value>
   </data>
-  <data name="Aspect16x9" xml:space="preserve">
+  <data name="YTAspect_16x9" xml:space="preserve">
     <value>Widescreen (16 : 9)</value>
   </data>
-  <data name="Aspect4x3" xml:space="preserve">
+  <data name="YTAspect_4x3" xml:space="preserve">
     <value>TV (4 : 3)</value>
   </data>
-  <data name="AspectAuto" xml:space="preserve">
+  <data name="YTAspect_Auto" xml:space="preserve">
     <value>Auto</value>
   </data>
   <data name="YoutubeFrameDetails" xml:space="preserve">
@@ -1047,5 +1047,74 @@
   </data>
   <data name="Auto" xml:space="preserve">
     <value>Auto</value>
+  </data>
+  <data name="YTQuality" xml:space="preserve">
+    <value>Video quality</value>
+  </data>
+  <data name="YTQuality_Default" xml:space="preserve">
+    <value>Default</value>
+  </data>
+  <data name="YTQuality_Hd1080" xml:space="preserve">
+    <value>HD 1080, 1920x1080 or 1440x1080</value>
+  </data>
+  <data name="YTQuality_Hd720" xml:space="preserve">
+    <value>HD 720, 1280x720 or 960x720</value>
+  </data>
+  <data name="YTQuality_HiRes" xml:space="preserve">
+    <value>Hi Resolution, above 1080</value>
+  </data>
+  <data name="YTQuality_Large" xml:space="preserve">
+    <value>Large, 853x480 or 640x480</value>
+  </data>
+  <data name="YTQuality_Medium" xml:space="preserve">
+    <value>Medium, 640x360 or 480x360</value>
+  </data>
+  <data name="YTQuality_Small" xml:space="preserve">
+    <value>Small, 320x240</value>
+  </data>
+  <data name="YTRate" xml:space="preserve">
+    <value>Video speed</value>
+  </data>
+  <data name="YTRate_Fast" xml:space="preserve">
+    <value>Fast</value>
+  </data>
+  <data name="YTRate_Normal" xml:space="preserve">
+    <value>Normal</value>
+  </data>
+  <data name="YTRate_Slow" xml:space="preserve">
+    <value>Slow</value>
+  </data>
+  <data name="YTRate_VeryFast" xml:space="preserve">
+    <value>Very fast</value>
+  </data>
+  <data name="YTRate_VerySlow" xml:space="preserve">
+    <value>Very slow</value>
+  </data>
+  <data name="YTStart" xml:space="preserve">
+    <value>Start video at</value>
+  </data>
+  <data name="YTStartRequired" xml:space="preserve">
+    <value>Start video at is required</value>
+  </data>
+  <data name="TimingOption" xml:space="preserve">
+    <value>Timing option</value>
+  </data>
+  <data name="TimingOption_Any" xml:space="preserve">
+    <value>Any</value>
+  </data>
+  <data name="TimingOption_Current" xml:space="preserve">
+    <value>Current</value>
+  </data>
+  <data name="TimingOption_Expired" xml:space="preserve">
+    <value>Expired</value>
+  </data>
+  <data name="TimingOption_Pending" xml:space="preserve">
+    <value>Pending</value>
+  </data>
+  <data name="Dashboard_NumberOfExpiredFrames" xml:space="preserve">
+    <value>Number of Expired Frames</value>
+  </data>
+  <data name="Dashboard_NumberOfPendingFrames" xml:space="preserve">
+    <value>Number of Pending Frames</value>
   </data>
 </root>

@@ -453,7 +453,6 @@ namespace DisplayMonkey.Models
             public virtual ICollection<Location> Locations { get; set; }
         }
   
-
         public enum FrameTypes
         {
             Clock,
@@ -465,6 +464,13 @@ namespace DisplayMonkey.Models
             Video,
             Weather,
             YouTube
+        }
+
+        public enum TimingOptions : int
+        {
+            TimingOption_Pending = 0,
+            TimingOption_Current = 1,
+            TimingOption_Expired = 2
         }
 
         [
@@ -962,6 +968,15 @@ namespace DisplayMonkey.Models
     ]
     public partial class Youtube
     {
+        public Youtube()
+        {
+            Aspect = YTAspect.YTAspect_Auto;
+            Quality = YTQuality.YTQuality_Default;
+            Rate = YTRate.YTRate_Normal;
+            Start = 0;
+            Volume = 0;
+        }
+
         internal class Annotations
         {
             [
@@ -998,10 +1013,31 @@ namespace DisplayMonkey.Models
             public bool AutoLoop { get; set; }
 
             [
-                Display(ResourceType = typeof(Resources), Name = "Aspect"),
-                Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "AspectRequired"),
+                Display(ResourceType = typeof(Resources), Name = "YTAspect"),
+                //Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "YTAspectRequired"),
             ]
-            public VideoAspects Aspect { get; set; }
+            public YTAspect Aspect { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "YTQuality"),
+                //Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "AspectRequired"),
+            ]
+            public YTQuality Quality { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "YTStart"),
+                Range(0, Int32.MaxValue,
+                    ErrorMessageResourceType = typeof(Resources),
+                    ErrorMessageResourceName = "PositiveIntegerRequired"),
+                Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "YTStartRequired"),
+            ]
+            public int Start { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "YTRate"),
+                //Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "AspectRequired"),
+            ]
+            public YTRate Rate { get; set; }
         }
     }
 

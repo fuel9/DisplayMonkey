@@ -2,59 +2,56 @@
 // 14-10-06 [LTL] - reload when display hash changes
 // 14-10-11 [LTL] - error reporting
 // 14-10-16 [LTL] - YouTube support
+// 14-10-25 [LTL] - use strict, code improvements
 
 var $j = jQuery.noConflict();
 
 var ErrorReport = Class.create({
     initialize: function (options) {
-        this.length = options.length || 100;
-        this.div = /*$('error') ||*/ new Element('div', { id: 'error' });
-        var l = {
-            Error: ((options.exception.message == undefined ? options.exception : options.exception.message) || "unspecified"),
+        "use strict";
+        this.info = {
+            Error: ((options.exception instanceof Error ? options.exception.message : options.exception) || "unspecified"),
             Where: (options.source || "unspecified"),
             When: moment().format(),
             Data: (options.data || "none")
         };
-        var report =
-            //this.div.innerHTML +
-            "<table><tr><td>Error:</td><td>" + l.Error + "</td></tr>" +
-            "<tr><td>Where:</td><td>" + l.Where + "</td></tr>" +
-            "<tr><td>When:</td><td>" + l.When + "</td></tr>" +
-            "<tr><td>Data:</td><td>" + l.Data + "</td></tr></table>"
-        ;
-        this.div.update(report);
-        console.log("!Display Monkey error: " + JSON.stringify(l));
-        this.show();
+        console.log("!Display Monkey error: " + JSON.stringify(this.info));
+        this.length = options.length || 100;
+        if (_canvas.showErrors) {
+            this.show(this.length);
+        }
     },
 
-    show: function () {
-        if (!_canvas.showErrors)
-            return;
-        this._hide.bind(this).delay(this.length);
-        $(document.body).insert({ top: this.div });
-        $(this.div).fade({ duration: 1, from: 0, to: 1 });
-    },
-
-    _hide: function () {
-        this._remove.bind(this).delay(1);
-        $(this.div).fade({ duration: 1, from: 1, to: 0 });
-    },
-
-    _remove: function () {
-        $(this.div).remove();
+    show: function (length) {
+        "use strict";
+        var div = /*$('error') ||*/ new Element('div', { id: 'error' });
+        div.update(div.innerHTML.concat(
+            "<table>",
+            "<tr><td>Error:</td><td>#{Error}</td></tr>",
+            "<tr><td>Where:</td><td>#{Where}</td></tr>",
+            "<tr><td>When:</td><td>#{When}</td></tr>",
+            "<tr><td>Data:</td><td>#{Data}</td></tr>",
+            "</table>"
+            ).interpolate(this.info)
+        );
+        $(document.body).insert({ bottom: div });
+        div.fade({ duration: 1, from: 0, to: 1 });
+        function _remove() { div.remove(); }
+        function _hide() {
+            _remove.delay(2);
+            div.fade({ duration: 1, from: 1, to: 0 });
+        }
+        length = length || this.length;
+        _hide.delay(length < 1 ? 1 : length);
     },
 });
 
 var _canvas = {};
 var Canvas = Class.create({
 	initialize: function (options) {
-		this.fullScreenActive = false;
+	    "use strict";
+	    this.fullScreenActive = false;
 
-		/*var serverTime = moment(options.utcTime);
-		if (options.gmtOffset > 0)
-		    serverTime.add('h', options.gmtOffset);
-		else
-		    serverTime.subtract('h', -options.gmtOffset);*/
 		var serverTime = moment(options.localTime);
 		this.offsetMilliseconds = moment().diff(serverTime);
 		this.displayId = options.displayId;
@@ -76,42 +73,42 @@ var Canvas = Class.create({
 
 		this.panels = [];
 		this.fullPanel = {};
-	}
+	},
 
-	, initStyles: function () {
-		this.fixScreenDiv();
-		Event.observe(window, "resize", this.fixScreenDiv);
+	initPanels: function () {
+	    "use strict";
+	    this.fixScreenDiv();
+	    Event.observe(window, "resize", this.fixScreenDiv);
 
-		/*with ($('full').style) {
-			height = this.height + 'px';
-			width = this.width + 'px';
-		}*/
+	    var s = $('segments').style;
+	    if (this.backImage > 0) {
+	        s.backgroundImage = "url('getImage.ashx?content=" + this.backImage + "')";
+	    }
+	    if (this.backColor != '') {
+	        s.backgroundColor = this.backColor;
+	    }
 
-		with ($('segments').style) {
-			if (this.backImage > 0) {
-				backgroundImage = "url('getImage.ashx?content=" + this.backImage + "')";
-			}
-			if (this.backColor != '') {
-				backgroundColor = this.backColor;
-			}
-		}
-	}
+	    $$('div[data-panel-id]').each(function (e) {
+	        var pi = e.readAttribute('data-panel-id');
+	        if (e.id === "full")
+	            this.fullPanel = initFullScreenPanel(pi);
+	        else
+	            this.panels.push(initPanel(pi, e.id));
+	    }.bind(this));
+	},
 
-	, fixScreenDiv: function () {
-		var body = $$('body')[0];
+	fixScreenDiv: function () {
+	    "use strict";
+	    var body = $$('body')[0];
 		body.style.backgroundColor = this.backColor;
-		with ($('screen').style) {
-			height = body.clientHeight + 'px';
-			width = body.clientWidth + 'px';
-			backgroundColor = this.backColor;
-		}
-		/*with ($('segments').style) {
-			height = body.clientHeight + 'px';
-			width = body.clientWidth + 'px';
-		}*/
-	}
+		var s = $('screen').style;
+		s.height = body.clientHeight + 'px';
+		s.width = body.clientWidth + 'px';
+		s.backgroundColor = this.backColor;
+	},
 
-    , checkDisplayHash: function () {
+    checkDisplayHash: function () {
+        "use strict";
         new Ajax.Request("getDisplayHash.aspx", {
             method: 'get'
             , parameters: $H({display: this.displayId})
@@ -119,33 +116,36 @@ var Canvas = Class.create({
             , evalJSON: false
 
             , onSuccess: function (resp) {
-                var json = null;
-                with (resp.responseText) {
-                    if (isJSON()) json = evalJSON();
+                try {
+                    var json = null;
+                    if (resp.responseText.isJSON())
+                        json = resp.responseText.evalJSON();
+                    if (!json)
+                        throw new Error("JSON expected"); // <-- shouldn't get here
+                    var c = resp.request.options.canvas;
+                    var _displayId = json["DisplayId"];
+                    if (c.displayId != _displayId)
+                        return;
+                    var _hash = json["Hash"];
+                    if (c.hash != _hash)
+                        document.location.reload(true);
                 }
-                with (resp.request.options.canvas) {
-                    try {
-                        if (!json)
-                            throw new Error("JSON expected"); // <-- shouldn't get here
-                        var _displayId = json["DisplayId"];
-                        if (displayId != _displayId)
-                            return;
-                        var _hash = json["Hash"];
-                        if (hash != _hash)
-                            document.location.reload(true);
-                    }
-                    catch (e) {
-                        new ErrorReport({ exception: e, data: resp.responseText, source: "checkDisplayHash" });
-                    }
+                catch (e) {
+                    new ErrorReport({ exception: e, data: resp.responseText, source: "checkDisplayHash::onSuccess" });
                 }
             }
+
+			, onFailure: function (resp) {
+			    new ErrorReport({ exception: resp, source: "checkDisplayHash::onFailure" });
+			}
         });
-    }
+    },
 });
 
 Ajax.PanelUpdaterBase = Class.create(Ajax.Base, {
 	initialize: function ($super, options) {
-		$super(options);
+	    "use strict";
+	    $super(options);
 
 		/*
 		this.options.requestHeaders = (options.requestHeaders||{
@@ -194,31 +194,26 @@ Ajax.PanelUpdaterBase = Class.create(Ajax.Base, {
 	},
 
 	start: function () {
-		this._onFrameExpire();
+	    "use strict";
+	    this._onFrameExpire();
 	},
 
-	/*stop: function() {
-	clearTimeout(this.expire);
-	clearTimeout(this.idler);
-	clearTimeout(this.fader);
-	this.updater.options.onComplete = undefined;
-	this.updater.options.onException = undefined;
-	(this.onComplete || Prototype.emptyFunction).apply(this, arguments);
-	},*/
-
 	_hashUrl: function (url) {
-		var u = url.split('?'), p = $H();
+	    "use strict";
+	    var u = url.split('?'), p = $H();
 		if (u.length > 1) p = p.merge(u[1].toQueryParams());
 		p.set('ts', (new Date()).getTime());
 		return u[0] + '?' + p.toQueryString();
 	},
 
 	_onFrameExpire: function () {
-		this._onGetNextFrame();
+	    "use strict";
+	    this._onGetNextFrame();
 	},
 
 	_onGetNextFrame: function () {
-		// get next frame
+	    "use strict";
+	    // get next frame
 	    var p = $H({
 	        panel: this.panelId,
 	        display: _canvas.displayId,
@@ -227,76 +222,82 @@ Ajax.PanelUpdaterBase = Class.create(Ajax.Base, {
 	    });
 		new Ajax.Request("getNextFrame.aspx", {
 			method: 'get'
-		, parameters: p
-		, panelUpdater: this
-		, evalJSON: false
+		    , parameters: p
+		    , panelUpdater: this
+		    , evalJSON: false
 
-		, onSuccess: function (resp) {
-			var json = null;
-			with (resp.responseText) {
-				if (isJSON()) json = evalJSON();
-			}
-			with (resp.request.options.panelUpdater) {
-				try {
-					if (!json) throw new Error("JSON expected"); // <-- shouldn't get here
+		    , onSuccess: function (resp) {
+		        var p = resp.request.options.panelUpdater;
+		        try {
+				    var json = null;
+				    if (resp.responseText.isJSON())
+				        json = resp.responseText.evalJSON();
+				    if (!json)
+				        throw new Error("JSON expected"); // <-- shouldn't get here
+				    //console.log($H(json).inspect());
 
-					//console.log($H(json).inspect());
-					currentId = json["FrameId"];
-					if (!currentId)
-						return _updateEnd(null);
+				    p.currentId = json["FrameId"];
+				    if (!p.currentId)
+					    return p._updateEnd();
 
-					currentType = json["FrameType"];
-					frequency = json["Duration"];
-					if (!frequency)
-						frequency = 1;
+				    p.currentType = json["FrameType"];
+				    p.frequency = json["Duration"];
+				    if (!p.frequency)
+					    p.frequency = 1;
 
-					url = "getFrame.aspx?" + $H({
-						"frame": currentId,
-						"panel": panelId,
-						"type": currentType,
-						"display": _canvas.displayId
-					}).toQueryString();
-					//console.log(url);
+				    p.url = "getFrame.aspx?" + $H({
+					    "frame": p.currentId,
+					    "panel": p.panelId,
+					    "type": p.currentType,
+					    "display": _canvas.displayId,
+		                "woeid": _canvas.woeid,
+				        "temperatureUnit": _canvas.temperatureUnit
+                    }).toQueryString();
+				    //console.log(p.url);
 
-					_updateBegin();
-				}
-				catch (e) {
-					_updateEnd(null);
-				}
-			}
-		}
+				    p._updateBegin();
+			    }
+			    catch (e) {
+			        new ErrorReport({ exception: e, data: resp.responseText, source: "_onGetNextFrame::onSuccess" });
+			        p._updateEnd();
+			    }
+		    }
 
-		, onFailure: function (resp) {
-			/*switch(resp.status)
-			{
-			case 404:
-			case 415:
-			default:
-			break;
-			}*/
-			with (resp.request.options.panelUpdater) {
-				//_updateBegin();
-				_updateEnd(null);
-			}
-		}
+		    , onFailure: function (resp) {
+			    /*switch(resp.status)
+			    {
+			    case 404:
+			    case 415:
+			    default:
+			    break;
+			    }*/
+		        //_updateBegin();
+		        new ErrorReport({ exception: resp, source: "_onGetNextFrame::onFailure" });
+		        var p = resp.request.options.panelUpdater;
+		        p._updateEnd();
+		    }
 		});
 	},
 
 	_updateBegin: function () {
-		try { this.onBeforeUpdate(this.currentType); }
+	    "use strict";
+	    try { this.onBeforeUpdate(this.currentType); }
 		catch (e) {
-		    new ErrorReport({ exception: e, source: "onBeforeUpdate" }); // <-- shouldn't get here
+		    new ErrorReport({ exception: e, source: "_updateBegin::onBeforeUpdate" });
 		}
-		this.updater = new Ajax.Updater(this.h_container, this._hashUrl(this.url), this.options);
+	    this.updater = new Ajax.Updater(this.h_container, this._hashUrl(this.url), this.options);
 	},
 
+    // Ajax.Updater callback
 	_dispatchException: function (e) {
+	    "use strict";
 	    new ErrorReport({ exception: e, source: "_dispatchException" }); // <-- shouldn't get here
 	},
 
+    // Ajax.Updater callback
 	_updateEnd: function (response) {
-
-		var needRedraw = (
+	    "use strict";
+	    var needRedraw = (
 			this.previousType != this.currentType ||
 			$(this.container).innerHTML != $(this.h_container).innerHTML
 		);
@@ -310,7 +311,7 @@ Ajax.PanelUpdaterBase = Class.create(Ajax.Base, {
 		if (this.fadeLength > 0) {
 			try { this.onFade(false, this.previousType, this.fadeLength); }
 			catch (e) {
-			    new ErrorReport({ exception: e, source: "onFade" }); // <-- shouldn't get here
+			    new ErrorReport({ exception: e, source: "_updateEnd::onFade" });
             }
 			this.fader = this._fadeOutEnd.bind(this).delay(this.fadeLength);
 		}
@@ -319,10 +320,12 @@ Ajax.PanelUpdaterBase = Class.create(Ajax.Base, {
 	},
 
 	_fadeOutEnd: function () {
-		this._beginNewFrame();
+	    "use strict";
+	    this._beginNewFrame();
 	},
 
 	_beginNewFrame: function () {
+	    "use strict";
 
 		// substitute html
 		this.previousType = this.currentType;
@@ -333,14 +336,14 @@ Ajax.PanelUpdaterBase = Class.create(Ajax.Base, {
 		// 1. call after update
 		try { this.onAfterUpdate(this.previousType); }
 		catch (e) {
-		    new ErrorReport({ exception: e, source: "onAfterUpdate" }); // <-- shouldn't get here
+		    new ErrorReport({ exception: e, source: "_beginNewFrame::onAfterUpdate" });
         }
 
 		// 2. fade in last
 		if (this.fadeLength > 0) {
 			try { this.onFade(true, this.currentType, this.fadeLength); }
 			catch (e) {
-			    new ErrorReport({ exception: e, source: "onFade" }); // <-- shouldn't get here
+			    new ErrorReport({ exception: e, source: "_beginNewFrame::onFade" });
             }
 			this.fader = this._fadeInEnd.bind(this).delay(this.fadeLength);
 		}
@@ -349,22 +352,122 @@ Ajax.PanelUpdaterBase = Class.create(Ajax.Base, {
 	},
 
 	_fadeInEnd: function () {
-		this.expire = this._onFrameExpire.bind(this).delay(this.frequency);
-	}
+	    "use strict";
+	    this.expire = this._onFrameExpire.bind(this).delay(this.frequency);
+	},
+
+	_initFrame: function (currentType) {
+	    "use strict";
+        try {
+            // pause others
+            if (this instanceof Ajax.FullScreenPanelUpdater) {
+                _canvas.panels.forEach(function (p) {
+                    if (p.ytPlayer) p.ytPlayer.pause();
+                    if (p.video) p.video.pause();
+                    if (p.scroller) p.scroller.pause();
+                });
+            }
+
+            // start scroller
+	        var tc = $(this.container).down('div[id=memo]');
+	        if (tc) {
+	            this.scroller = new TextScroller(tc.id);
+	        }
+
+	        // start clock
+	        var cc = $(this.container).down('div[id=clock]');
+	        if (cc) {
+	            this.clock = new Clock(cc.id);
+	        }
+
+	        // start video
+	        var v = $(this.container).down('video');
+	        if (v && _canvas.supports_video) {
+	            this.video = v;
+	            var a;
+	            if (a = v.readAttribute('loop')) v.loop = a;
+	            if (a = v.readAttribute('muted')) v.muted = a;
+	            if (this instanceof Ajax.FullScreenPanelUpdater || !_canvas.fullScreenActive) {
+	                v.play();
+	            }
+	            var vc = v.up('div[id=videoContainer]');
+	            if (vc) {
+	                vc.style.backgroundColor = _canvas.backColor;
+	            }
+            }
+
+	        // start youtube
+	        var yt = $(this.container).down('div[id^=ytplayer]');
+	        if (yt) {
+	            this.ytPlayer = new YtLib.YtPlayer({ div: yt });
+	        }
+
+            // immune to full frame
+	        if (this instanceof Ajax.PanelUpdater)
+	            this.freezeOnFullScreen = (currentType != "WEATHER");
+        }
+	    catch (e) {
+	        new ErrorReport({ exception: e, source: "_initFrame" }); // <-- shouldn't get here
+	    }
+	},
+
+	_uninitFrame: function (currentType) {
+	    "use strict";
+	    try {
+	        // kill scroller if any
+	        if (this.scroller) {
+	            this.scroller.stop();
+            }
+
+	        // kill clock
+	        if (this.clock) {
+	            this.clock.stop();
+            }
+
+	        // kill video
+	        if (this.video) {
+                this.video.pause();
+	        }
+
+	        // kill youtube
+	        if (this.ytPlayer) {
+	            this.ytPlayer.stop();
+	        }
+
+	        // resume others
+	        if (this instanceof Ajax.FullScreenPanelUpdater) {
+	            _canvas.panels.forEach(function (p) {
+	                if (p.ytPlayer) p.ytPlayer.play();
+	                if (p.video) p.video.play();
+	                if (p.scroller) p.scroller.resume();
+	            });
+	        }
+
+        }
+	    catch (e) {
+	        new ErrorReport({ exception: e, source: "_uninitFrame" }); // <-- shouldn't get here
+	    }
+	    finally {
+	        this.scroller = null;
+	        this.clock = null;
+	        this.video = null;
+	        this.ytPlayer = null;
+        }
+	},
 });
 
 Ajax.PanelUpdater = Class.create(Ajax.PanelUpdaterBase, {
 	initialize: function ($super, options) {
-		$super(options);
-
-		this.freezeOnFullScreen = (this.options.freezeOnFullScreen || true);
-
+	    "use strict";
+	    $super(options);
+		this.freezeOnFullScreen = (options.freezeOnFullScreen || true);
 		this.start();
 	},
 
 	_onFrameExpire: function ($super) {
+	    "use strict";
 	    if (this.freezeOnFullScreen && _canvas.fullScreenActive) {
-            // TODO: fix expire and frequency when caught up in fullscreen
+            // TODO: recalculate expire and frequency when caught up in fullscreen
 	        this.expire = this._onFrameExpire.bind(this).delay(this.frequency);
 	    } else {
 	        $super();
@@ -374,21 +477,21 @@ Ajax.PanelUpdater = Class.create(Ajax.PanelUpdaterBase, {
 
 Ajax.FullScreenPanelUpdater = Class.create(Ajax.PanelUpdaterBase, {
 	initialize: function ($super, options) {
-		$super(options);
-
+	    "use strict";
+	    $super(options);
 		this.idler = {};
 		this.idleInterval = (this.options.idleInterval || 0);
 		this.onBeforeIdle = (this.options.onBeforeIdle || Prototype.emptyFunction);
 		this.onBeforeIdle.bind(this);
-
 		this.start();
 	},
 
 	_onFrameExpire: function () {
-		if (this.fadeLength > 0) {
+	    "use strict";
+	    if (this.fadeLength > 0) {
 			try { this.onFade(false, this.previousType, this.fadeLength); }
 			catch (e) {
-			    new ErrorReport({ exception: e, source: "onFade" }); // <-- shouldn't get here
+			    new ErrorReport({ exception: e, source: "_onFrameExpire::onFade" });
             }
 
 			// 2. start fader
@@ -399,16 +502,17 @@ Ajax.FullScreenPanelUpdater = Class.create(Ajax.PanelUpdaterBase, {
 	},
 
 	_fadeOutEnd: function () {
-		try { this.onBeforeIdle(this.currentType); }
+	    "use strict";
+	    try { this.onBeforeIdle(this.currentType); }
 		catch (e) {
-		    new ErrorReport({ exception: e, source: "onBeforeIdle" }); // <-- shouldn't get here
+		    new ErrorReport({ exception: e, source: "_fadeOutEnd::onBeforeIdle" });
         }
 		this.idler = this._onGetNextFrame.bind(this).delay(this.idleInterval);
 	},
 
 	_updateEnd: function (response) {
-
-		var needRedraw = (
+	    "use strict";
+	    var needRedraw = (
 			this.currentId > 0
 		);
 
@@ -423,7 +527,8 @@ Ajax.FullScreenPanelUpdater = Class.create(Ajax.PanelUpdaterBase, {
 
 
 function initPanel (panelId, container) {
-	return new Ajax.PanelUpdater({
+    "use strict";
+    return new Ajax.PanelUpdater({
 		method: 'get'
 		, panelId: panelId
 		, container: container
@@ -431,64 +536,11 @@ function initPanel (panelId, container) {
 		, fadeLength: 0.2 // sec (default)
 
 		, onBeforeUpdate: function (currentType) {
-			// kill scroller if any
-			if (this.textContainerDiv) {
-				this.textContainerDiv.stopScroller();
-			}
-
-			if (this.clockDiv) {
-				this.clockDiv.stopClock();
-			}
-
-			if (currentType == "WEATHER") {
-				this.url += "&" + $H({
-					"woeid": _canvas.woeid,
-					"temperatureUnit": _canvas.temperatureUnit
-				}).toQueryString();
-				this.freezeOnFullScreen = false;
-			}
-
-			if (this.ytPlayer) {
-			    this.ytPlayer.stop();
-			    this.ytPlayer = null;
-			}
+		    this._uninitFrame(currentType);
 		}
 
 		, onAfterUpdate: function (currentType) {
-			// start scroller
-			var tc = $(this.container).down('div[id=memo]');
-			if (tc) {
-				(this.textContainerDiv = tc).startScroller();
-			}
-
-			var cc = $(this.container).down('div[id=clock]');
-			if (cc) {
-				(this.clockDiv = cc).startClock();
-			}
-
-			var v = $(this.container).down('video');
-			if (v) {
-			    var a;
-			    if (a = v.readAttribute('loop')) v.loop = a;
-			    if (a = v.readAttribute('muted')) v.muted = a;
-			    if (_canvas.supports_video && !_canvas.fullScreenActive)
-			        try { v.play(); } catch (e) { }
-			    /*new MediaElement('videoPlayer', {
-				    success: function (me) {
-				        me.play();
-				    }
-				});*/
-			}
-
-			var v = $(this.container).down('div[id=videoContainer]');
-			if (v) {
-				v.style.backgroundColor = _canvas.backColor;
-			}
-
-			var yt = $(this.container).down('div[id^=ytplayer]');
-			if (yt) {
-			    this.ytPlayer = new YtLib.YtPlayer({ div: yt });
-			}
+		    this._initFrame(currentType);
 		}
 
 		, onFade: function (appear, contentType, fadeLength) {
@@ -505,7 +557,8 @@ function initPanel (panelId, container) {
 }
 
 function initFullScreenPanel (panelId) {
-	return new Ajax.FullScreenPanelUpdater({
+    "use strict";
+    return new Ajax.FullScreenPanelUpdater({
 		method: 'get'
 		, panelId: panelId
 		, container: 'full'
@@ -517,40 +570,11 @@ function initFullScreenPanel (panelId) {
 		 //}
 
 		, onAfterUpdate: function (currentType) {
-			_canvas.fullScreenActive = true;
+
+		    _canvas.fullScreenActive = true;
 			$("screen").style.display = "block";
-			_canvas.panels.forEach(function (p) {
-			    if (p.ytPlayer) p.ytPlayer.pause();
-			});
-			if (_canvas.supports_video) {
-			    $$("video").each(function (v) {
-			        try { v.pause(); } catch (e) { }
-			    });
-			}
 
-			// start scroller
-			var tc = $(this.container).down('div[id=memo]');
-			if (tc) {
-				(this.textContainerDiv = tc).startScroller();
-			}
-
-			var cc = $(this.container).down('div[id=clock]');
-			if (cc) {
-				(this.clockDiv = cc).startClock();
-			}
-
-			var v = $(this.container).down('video');
-			if (v) {
-				var a;
-				if (a = v.readAttribute('loop')) v.loop = a;
-				if (a = v.readAttribute('muted')) v.muted = a;
-				if (_canvas.supports_video) try { v.play(); } catch (e) { }
-			}
-
-			var yt = $(this.container).down('div[id^=ytplayer]');
-			if (yt) {
-			    this.ytPlayer = new YtLib.YtPlayer({ div: yt });
-			}
+			this._initFrame(currentType);
 
 			// obtain idle interval
 			var p = $H({ display: _canvas.displayId });
@@ -561,18 +585,22 @@ function initFullScreenPanel (panelId) {
 				, evalJSON: false
 
 				, onSuccess: function (resp) {
-					var json = null;
-					with (resp.responseText) {
-						if (isJSON()) json = evalJSON();
+					try {
+						var json = null;
+						if (resp.responseText.isJSON()) 
+						    json = resp.responseText.evalJSON();
+						if (!json)
+						    throw new Error("JSON expected, received ".concat(resp.responseText)); // <-- shouldn't get here
+						var p = resp.request.options.panelUpdater;
+						p.idleInterval = json["IdleInterval"];
 					}
-					with (resp.request.options.panelUpdater) {
-						try {
-							if (!json) throw new Error("JSON expected"); // <-- shouldn't get here
-							idleInterval = json["IdleInterval"];
-						}
-						catch (e) {
-						}
+					catch (e) {
+					    new ErrorReport({ exception: e, data: resp.responseText, source: "onAfterUpdate::onSuccess" });
 					}
+				}
+
+				, onFailure: function (resp) {
+				    new ErrorReport({ exception: resp, source: "onAfterUpdate::onFailure" });
 				}
 			});
 		}
@@ -581,28 +609,7 @@ function initFullScreenPanel (panelId) {
 			$("screen").style.display = "none";
 			_canvas.fullScreenActive = false;
 
-			// kill scroller if any
-			if (this.textContainerDiv) {
-				this.textContainerDiv.stopScroller();
-			}
-
-			if (this.clockDiv) {
-				this.clockDiv.stopClock();
-			}
-
-			if (this.ytPlayer) {
-			    this.ytPlayer.stop();
-			    this.ytPlayer = null;
-			}
-
-			if (_canvas.supports_video) {
-			    $$("video").each(function (v) {
-			        try { v.play(); } catch (e) { }
-			    });
-			}
-			_canvas.panels.forEach(function (p) {
-			    if (p.ytPlayer) p.ytPlayer.play();
-			});
+			this._uninitFrame(currentType);
 		}
 
 		, onFade: function (appear, contentType, fadeLength) {
@@ -621,6 +628,7 @@ function initFullScreenPanel (panelId) {
 
 // to prevent webkit issues this func needs to be a global object
 function ticker() {
+    "use strict";
     // refresh the window every midnight
     var now = new Date();
     if (0 == now.getHours() == now.getMinutes()) {
@@ -631,49 +639,13 @@ function ticker() {
 }
 
 document.observe("dom:loaded", function () {
-
+    "use strict";
 	try {
-
 	    // periodic checker
 		setInterval(ticker, 60000);
 
-		// rig up screen div
-		_canvas.initStyles();
-
-		// rig up text scroller
-		Element.addMethods('div', {
-			__textScroller: {}
-			, __clock: {}
-
-			, startScroller: function (e) {
-				e.__textScroller = new TextScroller(e.id);
-			}
-
-			, stopScroller: function (e) {
-				if (typeof e.__textScroller === 'object') {
-					e.__textScroller.stop();
-				}
-			}
-
-			, startClock: function (e) {
-				e.__clock = new Clock(e.id);
-			}
-
-			, stopClock: function (e) {
-				if (typeof e.__clock === 'object') {
-					e.__clock.stop();
-				}
-			}
-		});
-
 		// init panels
-		$$('div[data-panel-id]').each(function (e) {
-			var pi = e.readAttribute('data-panel-id');
-			if (e.id === "full")
-				_canvas.fullPanel = initFullScreenPanel(pi);
-			else
-				_canvas.panels.push(initPanel(pi, e.id));
-		});
+		_canvas.initPanels();
 	}
     catch (e) {
         new ErrorReport({ exception: e, source: "dom:loaded" }); // <-- shouldn't get here

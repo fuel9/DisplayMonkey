@@ -16,10 +16,12 @@ namespace DisplayMonkey.Controllers
             DateTime sevenDaysAgo = DateTime.Now.AddDays(-7);
 
             ViewBag.Count_Frames = db.Frames.Count();
-            ViewBag.Count_Active_Frames = db.Frames.Count(t => 
+            ViewBag.Count_Active_Frames = db.Frames.Count(t =>
                 (t.BeginsOn == null || t.BeginsOn <= DateTime.Now) &&
-                (t.EndsOn == null | t.EndsOn >= DateTime.Now)
+                (t.EndsOn == null || t.EndsOn > DateTime.Now)
             );
+            ViewBag.Count_Expired_Frames = db.Frames.Count(t => t.EndsOn <= DateTime.Now);
+            ViewBag.Count_Pending_Frames = db.Frames.Count(t => DateTime.Now < t.BeginsOn);
             ViewBag.Duration_Hours = db.Frames.Sum(t => Math.Round((double)t.Duration / 3600.0, 2));
 
             ViewBag.Count_Levels = db.Levels.Count();

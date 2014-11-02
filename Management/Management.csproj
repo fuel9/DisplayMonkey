@@ -267,9 +267,6 @@
     <Compile Include="Models\Video.cs">
       <DependentUpon>DMModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\VideoAspects.cs">
-      <DependentUpon>DMModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\Weather.cs">
       <DependentUpon>DMModel.tt</DependentUpon>
     </Compile>
@@ -277,6 +274,15 @@
       <DependentUpon>DMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Youtube.cs">
+      <DependentUpon>DMModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\YTAspect.cs">
+      <DependentUpon>DMModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\YTQuality.cs">
+      <DependentUpon>DMModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\YTRate.cs">
       <DependentUpon>DMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

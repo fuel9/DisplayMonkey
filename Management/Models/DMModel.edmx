@@ -325,6 +325,9 @@
           <Property Name="Volume" Type="int" Nullable="false" />
           <Property Name="AutoLoop" Type="bit" Nullable="false" />
           <Property Name="Aspect" Type="int" Nullable="false" />
+          <Property Name="Quality" Type="int" Nullable="false" />
+          <Property Name="Start" Type="int" Nullable="false" />
+          <Property Name="Rate" Type="int" Nullable="false" />
         </EntityType>
         <Association Name="FK_Canvas_Content">
           <End Role="Content" Type="DisplayMonkey.Model.Store.Content" Multiplicity="0..1" />
@@ -1276,8 +1279,11 @@
           <Property Type="String" Name="YoutubeId" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="Volume" Nullable="false" />
           <Property Type="Boolean" Name="AutoLoop" Nullable="false" />
-          <Property Type="DisplayMonkey.Model.VideoAspects" Name="Aspect" Nullable="false" />
+          <Property Type="DisplayMonkey.Model.YTAspect" Name="Aspect" Nullable="false" />
           <NavigationProperty Name="Frame" Relationship="DisplayMonkey.Model.FK_Youtube_Frame" FromRole="Youtube" ToRole="Frame" />
+          <Property Type="DisplayMonkey.Model.YTQuality" Name="Quality" Nullable="false" />
+          <Property Type="Int32" Name="Start" Nullable="false" />
+          <Property Type="DisplayMonkey.Model.YTRate" Name="Rate" Nullable="false" />
         </EntityType>
         <Association Name="FK_Youtube_Frame">
           <End Type="DisplayMonkey.Model.Frame" Role="Frame" Multiplicity="1">
@@ -1293,10 +1299,26 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EnumType Name="VideoAspects">
-          <Member Name="AspectAuto" Value="0" />
-          <Member Name="Aspect16x9" Value="1" />
-          <Member Name="Aspect4x3" Value="2" />
+        <EnumType Name="YTAspect">
+          <Member Name="YTAspect_Auto" Value="0" />
+          <Member Name="YTAspect_16x9" Value="1" />
+          <Member Name="YTAspect_4x3" Value="2" />
+        </EnumType>
+        <EnumType Name="YTQuality">
+          <Member Name="YTQuality_Default" Value="0" />
+          <Member Name="YTQuality_Small" Value="1" />
+          <Member Name="YTQuality_Medium" Value="2" />
+          <Member Name="YTQuality_Large" Value="3" />
+          <Member Name="YTQuality_Hd720" Value="4" />
+          <Member Name="YTQuality_Hd1080" Value="5" />
+          <Member Name="YTQuality_HiRes" Value="6" />
+        </EnumType>
+        <EnumType Name="YTRate">
+          <Member Name="YTRate_Normal" Value="0" />
+          <Member Name="YTRate_VerySlow" Value="1" />
+          <Member Name="YTRate_Slow" Value="2" />
+          <Member Name="YTRate_Fast" Value="3" />
+          <Member Name="YTRate_VeryFast" Value="4" />
         </EnumType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1516,6 +1538,9 @@
           <EntitySetMapping Name="Youtube">
             <EntityTypeMapping TypeName="DisplayMonkey.Model.Youtube">
               <MappingFragment StoreEntitySet="Youtube">
+                <ScalarProperty Name="Rate" ColumnName="Rate" />
+                <ScalarProperty Name="Start" ColumnName="Start" />
+                <ScalarProperty Name="Quality" ColumnName="Quality" />
                 <ScalarProperty Name="Aspect" ColumnName="Aspect" />
                 <ScalarProperty Name="AutoLoop" ColumnName="AutoLoop" />
                 <ScalarProperty Name="Volume" ColumnName="Volume" />

@@ -20,8 +20,8 @@ namespace DisplayMonkey
 				
 				try
 				{
-					//FullScreenPanel fs = new FullScreenPanel(panelId);
-					json = string.Format("{{IdleInterval:{0}}}", Display.GetIdleInterval(displayId));
+                    JavaScriptSerializer oSerializer = new JavaScriptSerializer();
+                    json = oSerializer.Serialize(new { IdleInterval = Display.GetIdleInterval(displayId) });
 				}
 
 				catch (Exception)

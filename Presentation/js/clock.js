@@ -1,13 +1,15 @@
-﻿var Clock = Class.create({
+﻿// 12-08-13 [DPA] - client side scripting BEGIN
+// 14-10-25 [LTL] - use strict, code improvements
+
+var Clock = Class.create({
     initialize: function (id) {
+        "use strict";
         this.div = $(id);
-        with (this.div) {
-            this.showDate = readAttribute("data-show-date") === 'True';
-            this.showTime = readAttribute("data-show-time") === 'True';
-            this.faceType = readAttribute("data-face-type");
-            this.panelWidth = readAttribute("data-panel-width");
-            this.panelHeight = readAttribute("data-panel-height");
-        }
+        this.showDate = this.div.readAttribute("data-show-date") === 'True';
+        this.showTime = this.div.readAttribute("data-show-time") === 'True';
+        this.faceType = this.div.readAttribute("data-face-type");
+        this.panelWidth = this.div.readAttribute("data-panel-width");
+        this.panelHeight = this.div.readAttribute("data-panel-height");
         switch (this.faceType) {
             case '1':
                 this._initAnalog();
@@ -24,10 +26,12 @@
     }
 	
 	, stop: function() {
-		clearInterval(this.timer);
+	    "use strict";
+	    clearInterval(this.timer);
 	}
 
     , _initAnalog: function () {
+        "use strict";
         var s = this.panelWidth > this.panelHeight ? this.panelHeight : this.panelWidth;
         var face = new Element('ul', { "class": "analogFace", style: "background-size: " + s + "px " + s + "px;" })
         face.insert(this.elemSec = new Element('li', { "class": "analogSec", style: "width:" + s + "px; height:" + s + "px; background-size:" + s + "px " + s + "px;" }));
@@ -39,9 +43,11 @@
     }
 
     , _initDigital: function () {
+        "use strict";
     }
 
     , _callBack: function () {
+        "use strict";
         if (!this.div) {
             this.stop(); return;
         }
@@ -70,36 +76,25 @@
     }
 
     , _rotateHand: function (e, r) {
+        "use strict";
         e.setStyle({ "transform": r, "-moz-transform": r, "-webkit-transform": r, "-ms-transform": r, "-o-transform": r });
     }
 });
 
-/*          setInterval( function() {
-              var seconds = new Date().getSeconds();
-              var sdegree = seconds * 6;
-              var srotate = "rotate(" + sdegree + "deg)";
-              
-              $("#sec").css({"-moz-transform" : srotate, "-webkit-transform" : srotate});
-                  
-              }, 1000 );
-              
-         
-              setInterval( function() {
-              var hours = new Date().getHours();
-              var mins = new Date().getMinutes();
-              var hdegree = hours * 30 + (mins / 2);
-              var hrotate = "rotate(" + hdegree + "deg)";
-              
-              $("#hour").css({"-moz-transform" : hrotate, "-webkit-transform" : hrotate});
-                  
-              }, 1000 );
-        
-        
-              setInterval( function() {
-              var mins = new Date().getMinutes();
-              var mdegree = mins * 6;
-              var mrotate = "rotate(" + mdegree + "deg)";
-              
-              $("#min").css({"-moz-transform" : mrotate, "-webkit-transform" : mrotate});
-                  
-              }, 1000 );*/
+/*(function () {
+    Element.addMethods('div', {
+        __clock: {},
+
+		startClock: function (e) {
+			e.__clock = new Clock(e.id);
+		},
+
+		stopClock: function (e) {
+		    if (e.__clock instanceof Clock) {
+			    e.__clock.stop();
+			}
+		}
+    });
+})();*/
+
+// 12-08-13 [DPA] - client side scripting END

@@ -30,7 +30,10 @@ namespace DisplayMonkey
                     YoutubeId = DataAccess.StringOrBlank(dr["YoutubeId"]);
 					AutoLoop = DataAccess.Boolean(dr["AutoLoop"]);
                     Volume = DataAccess.IntOrZero(dr["Volume"]);
-                    Aspect = DataAccess.DoubleOrZero(dr["Aspect"]);
+                    Aspect = DataAccess.IntOrZero(dr["Aspect"]);
+                    Quality = DataAccess.IntOrZero(dr["Quality"]);
+                    Start = DataAccess.IntOrZero(dr["Start"]);
+                    Rate = DataAccess.IntOrZero(dr["Rate"]);
                 }
 			}
 		}
@@ -64,7 +67,10 @@ namespace DisplayMonkey
                             Volume,
                             panel.Width,
                             panel.Height,
-                            Aspect
+                            Aspect,
+                            Quality,
+                            Start,
+                            Rate
                             );
 					}
 				}
@@ -88,6 +94,9 @@ namespace DisplayMonkey
         public string YoutubeId = null;
 		public bool AutoLoop = true;
         public int Volume = 0;
-        public double Aspect = 0;   
+        public int Aspect = 0;
+        public int Quality = 0;
+        public int Start = 0;
+        public int Rate = 0;
     }
 }

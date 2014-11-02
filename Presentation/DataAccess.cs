@@ -133,16 +133,12 @@ namespace DisplayMonkey
 		{
 			get
 			{
-				// TODO: put to app settings
-				/*return string.Format(
-					"Data Source={0};User ID={1};Password={2};Persist Security Info=True;Initial Catalog={3};",
-					Properties.Settings.Default.db_server,
-					Properties.Settings.Default.db_user,
-					Properties.Settings.Default.db_password,
-					Properties.Settings.Default.db_catalog
-					);*/
-
-                return ConfigurationManager.ConnectionStrings["DisplayMonkeyDB"].ConnectionString;
+                return (
+                    new SqlConnectionStringBuilder(
+                        ConfigurationManager.ConnectionStrings["DisplayMonkeyDB"].ConnectionString
+                    ) { ApplicationName = "DisplayMonkey Presentation Services" }
+                ).ConnectionString
+                ;
 			}
 		}
 

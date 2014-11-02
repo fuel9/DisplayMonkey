@@ -4,6 +4,8 @@
 
 @{
     SelectList aspects = ViewBag.Aspects as SelectList;
+    SelectList qualities = ViewBag.Qualities as SelectList;
+    SelectList rates = ViewBag.Rates as SelectList;
 }
 
         <div class="editor-label">
@@ -45,4 +47,28 @@
         <div class="editor-field select">
             @Html.DropDownListFor(model => model.Aspect, aspects)
             @Html.ValidationMessageFor(model => model.Aspect)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Quality)
+        </div>
+        <div class="editor-field select">
+            @Html.DropDownListFor(model => model.Quality, qualities)
+            @Html.ValidationMessageFor(model => model.Quality)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Rate)
+        </div>
+        <div class="editor-field select">
+            @Html.DropDownListFor(model => model.Rate, rates)
+            @Html.ValidationMessageFor(model => model.Rate)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Start)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Start)
+            @Html.ValidationMessageFor(model => model.Start) @Resources.Sec
         </div>

@@ -11,10 +11,12 @@ namespace DisplayMonkey.Models
 {
     using System;
     
-    public enum VideoAspects : int
+    public enum YTRate : int
     {
-        AspectAuto = 0,
-        Aspect16x9 = 1,
-        Aspect4x3 = 2
+        YTRate_Normal = 0,
+        YTRate_VerySlow = 1,
+        YTRate_Slow = 2,
+        YTRate_Fast = 3,
+        YTRate_VeryFast = 4
     }
 }

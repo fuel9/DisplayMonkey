@@ -28,14 +28,30 @@
         firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
         function onYouTubeIframeAPIReady() {
+            var quality = "default";
+            switch (@((int)Model.Quality)) {
+                case 1: quality = "small"; break;
+                case 2: quality = "medium"; break;
+                case 3: quality = "large"; break;
+                case 4: quality = "hd720"; break;
+                case 5: quality = "hd1080"; break;
+                case 6: quality = "highres"; break;
+            }
+            var rate = 1.0;
+            switch (@((int)Model.Rate)) {
+                case 1: rate = 0.25; break;
+                case 2: rate = 0.5; break;
+                case 3: rate = 1.5; break;
+                case 4: rate = 2.0; break;
+            }
+
             new YT.Player('ytplayer', {
-                videoId: '@(Model.YoutubeId)',
                 playerVars: { rel: 0, modestbranding: 1 },
-                events: {
-                    'onReady': function (event) {
-                        event.target.setVolume(@(Model.Volume));
-                    }
-                }
+                events: { 'onReady': function (event) {
+                    event.target.setVolume(@(Model.Volume));
+                    event.target.loadVideoById('@(Model.YoutubeId)', @(Model.Start), quality);
+                    event.target.setPlaybackRate(rate);
+                }}
             });
         }
     </script>

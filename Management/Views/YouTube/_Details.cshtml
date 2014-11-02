@@ -10,12 +10,13 @@
     <table class="divTable"><tr>
         <td>
     <div class="divTable">
+    
     <div class="divRow">
     <div class="display-label">
          @Resources.Canvas
     </div>
     <div class="display-field">
-        @Html.ActionLink(Model.Frame.Panel.Canvas.Name, "Details", "Canvas", new { id=Model.Frame.Panel.CanvasId }, null)
+        @Html.ActionLink(Model.Frame.Panel.Canvas.Name, "Details", "Canvas", new { id = Model.Frame.Panel.CanvasId }, null)
     </div>
     </div>
 
@@ -24,7 +25,7 @@
          @Resources.Panel
     </div>
     <div class="display-field">
-        @Html.ActionLink(Model.Frame.Panel.Name, "Details", "Panel", new { id=Model.Frame.PanelId }, null)
+        @Html.ActionLink(Model.Frame.Panel.Name, "Details", "Panel", new { id = Model.Frame.PanelId }, null)
     </div>
     </div>
 
@@ -81,6 +82,34 @@
         @Model.Aspect.Translate()
     </div>
     </div>
+
+    <div class="divRow">
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Quality)
+    </div>
+    <div class="display-field">
+        @Model.Quality.Translate()
+    </div>
+    </div>
+
+    <div class="divRow">
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Rate)
+    </div>
+    <div class="display-field">
+        @Model.Rate.Translate()
+    </div>
+    </div>
+
+    <div class="divRow">
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Start)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Start) @Resources.Sec
+    </div>
+    </div>
+
     </div>
 
         </td>
