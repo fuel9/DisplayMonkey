@@ -117,16 +117,4 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="RenderMode" xml:space="preserve">
-    <value>Режим</value>
-  </data>
-  <data name="RenderMode_Crop" xml:space="preserve">
-    <value>Обрезать</value>
-  </data>
-  <data name="RenderMode_Fit" xml:space="preserve">
-    <value>Заполнить</value>
-  </data>
-  <data name="RenderMode_Stretch" xml:space="preserve">
-    <value>Растянуть</value>
-  </data>
 </root>

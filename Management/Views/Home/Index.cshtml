@@ -18,7 +18,7 @@
 	</thead>
       <tbody>
         <tr>
-          <td class="Heading_Table1_Left">@Html.ActionLink(@Resources.Frames, "Index", "Frame")</td>
+          <td class="Heading_Table1_Left">@Resources.Frames</td>
           <td class="Heading_Table1_Right">&nbsp;</td>
           <td class="Space">&nbsp;</td>
 		  <td class="Heading_Table1_Left">@Resources.Dashboard_TopFiveContent</td>
@@ -28,7 +28,7 @@
           <td class="Heading_Table1_Right">&nbsp;</td>
         </tr>
         <tr>
-          <td class="Left_Align">@Resources.Dashboard_NumberOfFrames</td>
+          <td class="Left_Align">@Html.ActionLink(Resources.Dashboard_NumberOfFrames, "Index", "Frame")</td>
           <td class="Right_Align">@ViewBag.Count_Frames</td>
 		  <td class="Space">&nbsp;</td>
           <td class="Left_Align">@if (cnt >= 0) {@top[0].Name}</td>

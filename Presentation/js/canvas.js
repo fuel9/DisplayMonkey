@@ -236,15 +236,17 @@ Ajax.PanelUpdaterBase = Class.create(Ajax.Base, {
 				        throw new Error("JSON expected"); // <-- shouldn't get here
 				    //console.log($H(json).inspect());
 
+                    // get duration first
+				    p.frequency = json["Duration"];
+				    if (p.frequency == null || p.frequency <= 0)
+				        p.frequency = 1;
+
+                    // now get frame id
 				    p.currentId = json["FrameId"];
-				    if (!p.currentId)
+				    if (p.currentId == null || !p.currentId)
 					    return p._updateEnd();
 
 				    p.currentType = json["FrameType"];
-				    p.frequency = json["Duration"];
-				    if (!p.frequency)
-					    p.frequency = 1;
-
 				    p.url = "getFrame.aspx?" + $H({
 					    "frame": p.currentId,
 					    "panel": p.panelId,

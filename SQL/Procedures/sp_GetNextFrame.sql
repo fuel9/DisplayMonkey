@@ -2,24 +2,30 @@ USE [DisplayMonkey]
 GO
 /*******************************************************************
   2013-11-07 [DPA] - DisplayMonkey object
-  2014-02-19 [DPA] - using Sort
+  2014-02-19 [LTL] - using Sort
+  2014-11-07 [LTL] - improvements, blank cycle
 *******************************************************************/
 alter procedure dbo.sp_GetNextFrame
 	@panelId int
 ,	@displayId int
 ,	@lastFrameId int
---,	@featureID int
 ,	@nextFrameId int OUT
 ,	@duration int OUT
 ,	@frameType varchar(20) OUT
 as begin
 
 	set nocount on;
-	declare @now as datetime, @lid int; set @now = getdate();
-
+	declare @now as datetime, @lid int; 
+	select 
+		@now = getdate()
+	,	@nextFrameId = null
+	,	@duration = null
+	,	@frameType = null
+	;
+	
 	declare @l table (LocationId int not null, FrameId int not null);
 	select @lid=LocationId from Display where DisplayId=@displayId;
-	while(1=1) begin
+	while (not @lid is null) begin
 		--print @lid
 		insert @l 
 			select LocationId, FrameId
@@ -27,13 +33,11 @@ as begin
 			;
 		select @lid=AreaId from Location where LocationId=@lid
 		;
-		if (@lid is null) break;
 	end
 	;
 
 	with _curr as (
-		select isnull(Sort,FrameId) S from Frame 
-		where PanelId = @panelId and FrameId = @lastFrameId 
+		select isnull(Sort,FrameId) S from Frame where FrameId = @lastFrameId 
 	)
 	, _next as (
 		select 1 S, FrameId, isnull(Sort,FrameId) Sort from Frame 
@@ -56,8 +60,12 @@ as begin
 				or  exists(select 1 from @l where FrameId=f.FrameId)
 			)
 	order by f.S, f.Sort
+	;
+	
+	-- no frame, set blank cycle duration
+	if (@duration is null) set @duration = 60
+	;
 
 end
 go
-
 
