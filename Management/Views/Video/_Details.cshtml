@@ -12,32 +12,8 @@
     <table class="divTable"><tr>
         <td>
     <div class="divTable">
-    <div class="divRow">
-    <div class="display-label">
-         @Resources.Canvas
-    </div>
-    <div class="display-field">
-        @Html.ActionLink(Model.Frame.Panel.Canvas.Name, "Details", "Canvas", new { id=Model.Frame.Panel.CanvasId }, null)
-    </div>
-    </div>
 
-    <div class="divRow">
-    <div class="display-label">
-         @Resources.Panel
-    </div>
-    <div class="display-field">
-        @Html.ActionLink(Model.Frame.Panel.Name, "Details", "Panel", new { id=Model.Frame.PanelId }, null)
-    </div>
-    </div>
-
-    <div class="divRow">
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Frame.Duration)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Frame.Duration) @Resources.Sec
-    </div>
-    </div>
+    @Html.Partial("_frameDetails", Model.Frame)
 
     <div class="divRow">
     <div class="display-label">

@@ -38,6 +38,7 @@
         <td>
             @if (item.Clock != null)
             {
+                <img class="thumb1" src="~/images/clock.png" alt="" />
                 @(string.Format("{0}{1}{2}",
                     item.Clock.Type.Translate(),
                     item.Clock.ShowDate ? ", Show date" : "",
@@ -46,6 +47,7 @@
             }
             else if (item.Html != null)    
             {
+                <img class="thumb1" src="~/images/html.png" alt="" />
                 <text>Name: <span>@Html.DisplayFor(m => item.Html.Name)</span></text>
             }
             else if (item.News != null)
@@ -54,6 +56,7 @@
             }
             else if (item.Memo != null)
             {
+                <img class="thumb1" src="~/images/memo.png" alt="" />
                 <text>Subject: <span>@Html.DisplayFor(m => item.Memo.Subject)</span></text>
                 <p>Body: <span>@Html.DisplayFor(m => item.Memo.ShortBody)</span></p>
             }
@@ -74,6 +77,7 @@
             }
             else if (item.Weather != null)
             {
+                <img class="thumb1" src="~/images/weather.png" alt="" />
                 @item.Weather.Type.Translate()
             }
             else if (item.Youtube != null)    
@@ -83,6 +87,7 @@
             }
             else   
             {
+                <img class="thumb1" src="~/images/unknown.png" alt="" />
                 <text>@Resources.UnsupportedFrame</text>
             }
         </td>

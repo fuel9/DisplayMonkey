@@ -46,6 +46,8 @@ namespace DisplayMonkey.Controllers
             };
 
             FillAspectsSelectList();
+            FillQualitySelectList();
+            FillRatesSelectList();
 
             return View(youtube);
         }

@@ -365,14 +365,19 @@
     <Content Include="Content\themes\base\minified\jquery.ui.tooltip.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="Images\clock.png" />
     <Content Include="Images\dropdown.png" />
     <Content Include="Images\film.png" />
     <Content Include="Images\full.png" />
+    <Content Include="Images\html.png" />
     <Content Include="Images\logo.png" />
+    <Content Include="Images\memo.png" />
     <Content Include="Images\partial.png" />
     <Content Include="Images\question.png" />
+    <Content Include="Images\unknown.png" />
     <Content Include="Images\video.gif" />
     <Content Include="Images\video_thmb.png" />
+    <Content Include="Images\weather.png" />
     <Content Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -563,6 +568,7 @@
     <Content Include="Views\YouTube\_Details.cshtml" />
     <Content Include="Views\YouTube\_Edit.cshtml" />
     <Content Include="Views\Display\_Edit.cshtml" />
+    <Content Include="Views\Shared\_frameDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

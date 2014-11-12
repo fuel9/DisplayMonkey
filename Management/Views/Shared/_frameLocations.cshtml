@@ -17,10 +17,10 @@ else
         
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Locations.FirstOrDefault().Area)
+                @Html.DisplayNameFor(model => model.Locations.FirstOrDefault().Name)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Locations.FirstOrDefault().Name)
+                @Html.DisplayNameFor(model => model.Locations.FirstOrDefault().Area)
             </th>
             <th></th>
         </tr>
@@ -29,10 +29,10 @@ else
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Area.Name)
+                @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Name)
+                @Html.DisplayFor(modelItem => item.Area.Name)
             </td>
             <td>
                 @Html.ActionLink(Resources.Remove, "Detach", "Frame", new { id = Model.FrameId, locationId = item.LocationId }, null)

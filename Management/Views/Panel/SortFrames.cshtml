@@ -10,6 +10,14 @@
     int i = 0;
 }
 
+@functions {
+    string Short(string txt)
+    {
+        txt = txt ?? "";
+        return (txt.Length > 17) ? txt.Substring(0,17) + "..." : txt;
+    }
+}
+
 <h2>@ViewBag.Title</h2>
 
 <ul id="film">
@@ -21,82 +29,102 @@
 
         @if (item.Clock != null)
         {
-            <div></div>
+            <div class="d1">
+                <div><img src="~/images/clock.png" alt="" /></div>
+                <div>@item.FrameType</div>
+            </div>
             <div>
-                @(string.Format("{0}: {1}", item.FrameType, item.Clock.Type.Translate()))
+                @item.Clock.Type.Translate()
             </div>
         }
         else if (item.Html != null)
         {
-            <div></div>
+            <div class="d1">
+                <div><img src="~/images/html.png" alt="" /></div>
+                <div>@(string.Format("{0}, {1} {2}", item.FrameType, item.Duration, Resources.Sec))</div>
+            </div>
             <div>
-                @(string.Format("{0}: {1}, {2} {3}", item.FrameType, item.Html.Name, item.Duration, Resources.Sec))
+                @Short(item.Html.Name)
             </div>
         }
         else if (item.Memo != null)
         {
-            <div></div>
+            <div class="d1">
+                <div><img src="~/images/memo.png" alt="" /></div>
+                <div>@(string.Format("{0}, {1} {2}", item.FrameType, item.Duration, Resources.Sec))</div>
+            </div>
             <div>
-                @(string.Format("{0}: {1}, {2} {3}", item.FrameType, item.Memo.Subject, item.Duration, Resources.Sec))
+                @Short(item.Memo.Subject)
             </div>
         }
         else if (item.News != null)
         {
-            <div></div>
+            <div class="d1">
+                <div></div>
+                <div>@(string.Format("{0}, {1} {2}", item.FrameType, item.Duration, Resources.Sec))</div>
+            </div>
             <div>
-                @(string.Format("{0}: {1}, {2} {3}", item.FrameType, item.News.Source, item.Duration, Resources.Sec))
+                @item.News.Source
             </div>
         }
         else if (item.Picture != null)
         {
-            <div>
-                <img class="thumb2" src="@Url.Action("Thumb", "Media", new { id = item.Picture.ContentId, width = 50, height = 50, mode = RenderModes.RenderMode_Stretch })" alt="" />
+            <div class="d1">
+                <div><img src="@Url.Action("Thumb", "Media", new { id = item.Picture.ContentId, width = 50, height = 50, mode = RenderModes.RenderMode_Stretch })" alt="" /></div>
+                <div>@(string.Format("{0}, {1} {2}", item.FrameType, item.Duration, Resources.Sec))</div>
             </div>
             <div>
-                @(string.Format("{0}, {1} {2}", item.FrameType, item.Duration, Resources.Sec))
+                @item.Picture.Content.Name
             </div>
         }
         else if (item.Report != null)
         {
-            <div>
-                <img class="thumb2" src="@Url.Action("Thumb", "Report", new { id = item.FrameId, width = 50, height = 50, mode = RenderModes.RenderMode_Stretch })" alt="" />
+            <div class="d1">
+                <div><img src="@Url.Action("Thumb", "Report", new { id = item.FrameId, width = 50, height = 50, mode = RenderModes.RenderMode_Stretch })" alt="" /></div>
+                <div>@(string.Format("{0}, {1} {2}", item.FrameType, item.Duration, Resources.Sec))</div>
             </div>
             <div>
-                @(string.Format("{0}, {1} {2}", item.FrameType, item.Duration, Resources.Sec))
+                @Short(item.Report.Name)
             </div>
         }
         else if (item.Video != null)
         {
-            <div>
-                <img class="thumb2" src="~/images/video_thmb.png" alt="" />
+            <div class="d1">
+                <div><img src="~/images/video_thmb.png" alt="" /></div>
+                <div>@(string.Format("{0}, {1} {2}", item.FrameType, item.Duration, Resources.Sec))</div>
             </div>
             <div>
-                @(string.Format("{0}, {1} {2}", item.FrameType, item.Duration, Resources.Sec))
+                @Short(item.Video.Contents.FirstOrDefault().Name)
             </div>
             //frameContent += item.Video.Contents.FirstOrDefault().Name;
         }
         else if (item.Weather != null)
         {
-            <div></div>
+            <div class="d1">
+                <div><img src="~/images/weather.png" alt="" /></div>
+                <div>@(string.Format("{0}, {1} {2}", item.FrameType, item.Duration, Resources.Sec))</div>
+            </div>
             <div>
-                @(string.Format("{0}: {1}", item.FrameType, item.Weather.Type.Translate()))
+                @item.Weather.Type.Translate()
             </div>
         }
         else if (item.Youtube != null)
         {
-            <div>
-                <img class="thumb2" src="@Html.Raw(string.Format("http://i.ytimg.com/vi/{0}/0.jpg", item.Youtube.YoutubeId))" alt="" />
+            <div class="d1">
+                <div><img src="@Html.Raw(string.Format("http://i.ytimg.com/vi/{0}/0.jpg", item.Youtube.YoutubeId))" alt="" /></div>
+                <div>@(string.Format("{0}, {1} {2}", item.FrameType, item.Duration, Resources.Sec))</div>
             </div>
             <div>
-                @(string.Format("{0}, {1} {2}", item.FrameType, item.Duration, Resources.Sec))
+                @Short(item.Youtube.Name)
             </div>
         }
         else
         {
-            <div></div>
-            <div>
-                @(string.Format("{0}, {1} {2}", item.FrameType, item.Duration, Resources.Sec))
+            <div class="d1">
+                <div><img src="~/images/unknown.png" alt="" /></div>
+                <div>@(string.Format("{0}, {1} {2}", item.FrameType, item.Duration, Resources.Sec))</div>
             </div>
+            <div></div>
             //frameContent += Resources.UnsupportedFrame;
         }
 

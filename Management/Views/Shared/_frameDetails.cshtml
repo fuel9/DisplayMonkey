@@ -1,0 +1,48 @@
+﻿@using DisplayMonkey.Language
+
+@model DisplayMonkey.Models.Frame
+
+    <div class="divRow">
+    <div class="display-label">
+         @Resources.Canvas
+    </div>
+    <div class="display-field">
+        @Html.ActionLink(Model.Panel.Canvas.Name, "Details", "Canvas", new { id=Model.Panel.CanvasId }, null)
+    </div>
+    </div>
+
+    <div class="divRow">
+    <div class="display-label">
+         @Resources.Panel
+    </div>
+    <div class="display-field">
+        @Html.ActionLink(Model.Panel.Name, "Details", "Panel", new { id=Model.PanelId }, null)
+    </div>
+    </div>
+
+    <div class="divRow">
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Duration)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Duration) @Resources.Sec
+    </div>
+    </div>
+
+    <div class="divRow">
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.BeginsOn)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.BeginsOn)
+    </div>
+    </div>
+
+    <div class="divRow">
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.EndsOn)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.EndsOn)
+    </div>
+    </div>

@@ -211,47 +211,6 @@ namespace DisplayMonkey.Controllers
         }
 
         //
-        // GET: /Media/Thumb/5
-
-        [Authorize]
-        [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult Thumb(int id, int width = 0, int height = 0, RenderModes mode = RenderModes.RenderMode_Fit, int trace = 0)
-        {
-            string message = "";
-
-            try
-            {
-                byte[] img = db.Contents.Find(id).Data;
-
-                if (img != null)
-                {
-                    using (MemoryStream src = new MemoryStream(img))
-                    {
-                        /*Response.ContentType = "image/png";
-                        WriteImage(src, Response.OutputStream, width, height, mode);
-                        Response.OutputStream.Flush();
-                        return Content("");*/
-
-                        MemoryStream trg = new MemoryStream();
-                        MediaController.WriteImage(src, trg, width, height, mode);
-                        trg.Seek(0, SeekOrigin.Begin);
-                        return new FileStreamResult(trg, "image/png");
-                    }
-                }
-            }
-
-            catch (Exception ex)
-            {
-                message += ex.ToString();
-            }
-
-            if (trace == 0)
-                return RedirectToAction("BadImg");
-            else
-                return Content(message);
-        }
-
-        //
         // GET: /Media/BadImg
 
         public ActionResult BadImg()
@@ -270,13 +229,63 @@ namespace DisplayMonkey.Controllers
             if (content.Data != null)
             {
                 string contentType = string.Format(
-                    "video/{0}", 
+                    "video/{0}",
                     System.IO.Path.GetExtension(content.Name).Replace(".", "").ToLower()
                     );
                 return File(content.Data, contentType);
             }
 
             return Content("Not supported");
+        }
+
+        //
+        // GET: /Media/Thumb/5
+
+        [Authorize]
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult Thumb(int id, int width = 0, int height = 0, RenderModes mode = RenderModes.RenderMode_Fit, int trace = 0)
+        {
+            string message = "";
+
+            try
+            {
+                string thumbKey = string.Format("thumb_{0}_{1}x{2}_{3}", id, width, height, mode);
+
+                if (width <= 120 && height <= 120 && Session[thumbKey] != null)
+                {
+                    byte [] src = (byte[])Session[thumbKey];
+                    return new FileStreamResult(new MemoryStream(src), "image/png");
+                }
+
+                else
+                {
+                    byte[] img = db.Contents.Find(id).Data;
+
+                    if (img != null)
+                    {
+                        using (MemoryStream src = new MemoryStream(img))
+                        {
+                            MemoryStream trg = new MemoryStream();
+                            MediaController.WriteImage(src, trg, width, height, mode);
+                            if (width <= 120 && height <= 120)
+                            {
+                                Session[thumbKey] = trg.GetBuffer();
+                            }
+                            return new FileStreamResult(trg, "image/png");
+                        }
+                    }
+                }
+            }
+
+            catch (Exception ex)
+            {
+                message += ex.ToString();
+            }
+
+            if (trace == 0)
+                return RedirectToAction("BadImg");
+            else
+                return Content(message);
         }
 
         // TODO: move to separate file
@@ -304,7 +313,10 @@ namespace DisplayMonkey.Controllers
                     switch (mode)
                     {
                         case RenderModes.RenderMode_Stretch:
-                            bmpTrg = new Bitmap(bmpSrc, new Size(panelWidth, panelHeight));
+                            if (panelWidth <= 120 && panelHeight <= 120)
+                                bmpTrg = new Bitmap(bmpSrc.GetThumbnailImage(panelWidth, panelHeight, () => false, IntPtr.Zero)); 
+                            else
+                                bmpTrg = new Bitmap(bmpSrc, new Size(panelWidth, panelHeight));
                             break;
 
                         case RenderModes.RenderMode_Fit:
@@ -324,7 +336,10 @@ namespace DisplayMonkey.Controllers
                                 targetWidth = Math.Min((int)((float)imageWidth / scale), panelWidth);
                                 targetHeight = Math.Min((int)((float)imageHeight / scale), panelHeight);
                             }
-                            bmpTrg = new Bitmap(bmpSrc, new Size(targetWidth, targetHeight));
+                            if (targetWidth <= 120 && targetHeight <= 120)
+                                bmpTrg = new Bitmap(bmpSrc.GetThumbnailImage(targetWidth, targetHeight, () => false, IntPtr.Zero)); 
+                            else
+                                bmpTrg = new Bitmap(bmpSrc, new Size(targetWidth, targetHeight));
                             break;
 
                         case RenderModes.RenderMode_Crop:
@@ -337,10 +352,12 @@ namespace DisplayMonkey.Controllers
                             break;
                     }
 
-                    bmpTrg.Save(outStream, ImageFormat.Png);
+                    bmpTrg.Save(outStream, ImageFormat.Png);    
                 }
                 else
                     bmpSrc.Save(outStream, ImageFormat.Png);
+
+                outStream.Seek(0, SeekOrigin.Begin);
             }
 
             finally

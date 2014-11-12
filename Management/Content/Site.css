@@ -473,6 +473,10 @@ fieldset {
     padding:0px 20px 0px 20px;
 }
 
+.divRow .display-label {
+    color: #888;
+}
+
 label {
     display: block;
     font-size: 1.2em;
@@ -966,31 +970,35 @@ div.select {
 
         #film div { 
             overflow: hidden;
-            /*vertical-align: middle;*/
-            /*height: 90px;*/
-            /*line-height: 90px;*/
         }
 
         #film div:nth-child(2) { 
-            overflow: hidden;
-            float: right;
-            /*vertical-align: middle;*/
-            /*height: 90px;*/
-            /*line-height: 90px;*/
+            padding-top: 5px;
         }
+
+            #film .d1 {
+                padding-top: 5px;
+            }
+
+                #film .d1 div:nth-child(1) { 
+                    float: left;
+                }
+
+                #film .d1 div:nth-child(2) { 
+                    padding-left: 5px;
+                }
+
+                #film .d1 img {
+                    width: 50px;
+                    height: 50px;
+	                vertical-align:text-bottom;
+                    text-align:center;
+                }
 
 .thumb1 {
     width: 50px;
     height: 50px;
 	vertical-align: top;
-}
-
-.thumb2 {
-    width: 50px;
-    height: 50px;
-	vertical-align:text-bottom;
-    text-align:center;
-    padding:5px;
 }
 
 .error-info {
