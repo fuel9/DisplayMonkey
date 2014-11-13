@@ -157,55 +157,64 @@ namespace DisplayMonkey.Controllers
 
             try
             {
-                Report report = db.Reports
-                    .Include(r => r.ReportServer)
-                    .FirstOrDefault(r => r.FrameId == id)
-                    ;
+                string thumbKey = string.Format("thumb_report_{0}_{1}x{2}_{3}", id, width, height, mode);
 
-                if (report.Path != null && report.ReportServer != null)
+                if (width <= 120 && height <= 120 && Session[thumbKey] != null)
                 {
-                    string baseUrl = (report.ReportServer.BaseUrl ?? "").Trim()
-                        , url = (report.Path ?? "").Trim();
+                    byte[] src = (byte[])Session[thumbKey];
+                    return new FileStreamResult(new MemoryStream(src), "image/png");
+                }
 
-                    if (baseUrl.EndsWith("/"))
-                        baseUrl = baseUrl.Substring(0, baseUrl.Length - 1);
+                else
+                {
+                    Report report = db.Reports
+                        .Include(r => r.ReportServer)
+                        .FirstOrDefault(r => r.FrameId == id)
+                        ;
 
-                    if (!url.StartsWith("/"))
-                        url = "/" + url;
-
-                    url = string.Format(
-                        "{0}?{1}&rs:format=IMAGE",
-                        baseUrl,
-                        HttpUtility.UrlEncode(url)
-                        );
-
-                    message = url + "<br>";
-
-                    WebClient client = new WebClient();
-                    string user = report.ReportServer.User ?? ""
-                        , domain = report.ReportServer.Domain ?? "";
-                    if (!string.IsNullOrWhiteSpace(user))
+                    if (report.Path != null && report.ReportServer != null)
                     {
-                        client.Credentials = new NetworkCredential(
-                            user.Trim(),
-                            RsaUtil.Decrypt(report.ReportServer.Password),
-                            domain.Trim()
+                        string baseUrl = (report.ReportServer.BaseUrl ?? "").Trim()
+                            , url = (report.Path ?? "").Trim();
+
+                        if (baseUrl.EndsWith("/"))
+                            baseUrl = baseUrl.Substring(0, baseUrl.Length - 1);
+
+                        if (!url.StartsWith("/"))
+                            url = "/" + url;
+
+                        url = string.Format(
+                            "{0}?{1}&rs:format=IMAGE",
+                            baseUrl,
+                            HttpUtility.UrlEncode(url)
                             );
-                    }
 
-                    byte[] img = client.DownloadData(url);
+                        message = url + "<br>";
 
-                    using (MemoryStream src = new MemoryStream(img))
-                    {
-                        /*Response.ContentType = "image/png";
-                        MediaController.WriteImage(src, Response.OutputStream, width, height, mode);
-                        Response.OutputStream.Flush();
-                        return Content("");*/
+                        WebClient client = new WebClient();
+                        string user = report.ReportServer.User ?? ""
+                            , domain = report.ReportServer.Domain ?? "";
+                        if (!string.IsNullOrWhiteSpace(user))
+                        {
+                            client.Credentials = new NetworkCredential(
+                                user.Trim(),
+                                RsaUtil.Decrypt(report.ReportServer.Password),
+                                domain.Trim()
+                                );
+                        }
 
-                        MemoryStream trg = new MemoryStream();
-                        MediaController.WriteImage(src, trg, width, height, mode);
-                        trg.Seek(0, SeekOrigin.Begin);
-                        return new FileStreamResult(trg, "image/png");
+                        byte[] img = client.DownloadData(url);
+
+                        using (MemoryStream src = new MemoryStream(img))
+                        {
+                            MemoryStream trg = new MemoryStream();
+                            MediaController.WriteImage(src, trg, width, height, mode);
+                            if (width <= 120 && height <= 120)
+                            {
+                                Session[thumbKey] = trg.GetBuffer();
+                            }
+                            return new FileStreamResult(trg, "image/png");
+                        }
                     }
                 }
             }

@@ -249,7 +249,7 @@ namespace DisplayMonkey.Controllers
 
             try
             {
-                string thumbKey = string.Format("thumb_{0}_{1}x{2}_{3}", id, width, height, mode);
+                string thumbKey = string.Format("thumb_image_{0}_{1}x{2}_{3}", id, width, height, mode);
 
                 if (width <= 120 && height <= 120 && Session[thumbKey] != null)
                 {

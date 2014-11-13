@@ -17,13 +17,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/09/2014 12:24:58</publishTime>
     </File>
     <File Include="bin/App_global.asax.compiled">
-      <publishTime>11/12/2014 16:57:21</publishTime>
+      <publishTime>11/13/2014 08:04:57</publishTime>
     </File>
     <File Include="bin/App_global.asax.dll">
-      <publishTime>11/12/2014 16:57:21</publishTime>
+      <publishTime>11/13/2014 08:04:57</publishTime>
     </File>
     <File Include="bin/App_global.asax.pdb">
-      <publishTime>11/12/2014 16:57:21</publishTime>
+      <publishTime>11/13/2014 08:04:57</publishTime>
     </File>
     <File Include="bin/DataAnnotationsExtensions.ClientValidation.dll">
       <publishTime>12/20/2013 17:23:38</publishTime>
@@ -41,16 +41,16 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/27/2013 22:35:55</publishTime>
     </File>
     <File Include="bin/DisplayMonkey.Language.dll">
-      <publishTime>11/12/2014 16:57:07</publishTime>
+      <publishTime>11/13/2014 08:04:43</publishTime>
     </File>
     <File Include="bin/DisplayMonkey.Language.pdb">
-      <publishTime>11/12/2014 16:57:07</publishTime>
+      <publishTime>11/13/2014 08:04:43</publishTime>
     </File>
     <File Include="bin/DisplayMonkey.Management.dll">
-      <publishTime>11/12/2014 16:57:09</publishTime>
+      <publishTime>11/13/2014 08:04:46</publishTime>
     </File>
     <File Include="bin/DisplayMonkey.Management.pdb">
-      <publishTime>11/12/2014 16:57:09</publishTime>
+      <publishTime>11/13/2014 08:04:46</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>11/27/2013 22:35:51</publishTime>
@@ -122,7 +122,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/09/2014 12:24:58</publishTime>
     </File>
     <File Include="bin/ru/DisplayMonkey.Language.resources.dll">
-      <publishTime>11/12/2014 16:57:07</publishTime>
+      <publishTime>11/13/2014 08:04:43</publishTime>
     </File>
     <File Include="bin/ru/Microsoft.Data.Edm.resources.dll">
       <publishTime>11/27/2013 22:35:56</publishTime>
@@ -134,7 +134,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/27/2013 22:35:55</publishTime>
     </File>
     <File Include="bin/sv/DisplayMonkey.Language.resources.dll">
-      <publishTime>11/12/2014 16:57:07</publishTime>
+      <publishTime>11/13/2014 08:04:43</publishTime>
     </File>
     <File Include="bin/sv/Language.resources.dll">
       <publishTime>03/14/2014 17:05:26</publishTime>
@@ -536,10 +536,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/16/2014 11:03:36</publishTime>
     </File>
     <File Include="packages.config">
-      <publishTime>10/13/2014 09:14:31</publishTime>
+      <publishTime>11/13/2014 07:54:19</publishTime>
     </File>
     <File Include="PrecompiledApp.config">
-      <publishTime>11/12/2014 16:57:19</publishTime>
+      <publishTime>11/13/2014 08:04:56</publishTime>
     </File>
     <File Include="Scripts/canvas-preview.js">
       <publishTime>02/04/2014 09:48:59</publishTime>
@@ -782,13 +782,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Media/Index.cshtml">
-      <publishTime>05/30/2014 15:15:11</publishTime>
+      <publishTime>11/13/2014 08:02:23</publishTime>
     </File>
     <File Include="Views/Media/Upload.cshtml">
       <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Media/_Details.cshtml">
-      <publishTime>05/30/2014 15:09:29</publishTime>
+      <publishTime>11/13/2014 08:02:23</publishTime>
     </File>
     <File Include="Views/Memo/Create.cshtml">
       <publishTime>05/30/2014 15:09:29</publishTime>
@@ -824,7 +824,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/30/2014 15:15:33</publishTime>
     </File>
     <File Include="Views/Panel/SortFrames.cshtml">
-      <publishTime>11/12/2014 16:51:36</publishTime>
+      <publishTime>11/13/2014 08:02:23</publishTime>
     </File>
     <File Include="Views/Panel/_Details.cshtml">
       <publishTime>10/17/2014 10:21:26</publishTime>
@@ -845,7 +845,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Picture/_Details.cshtml">
-      <publishTime>11/12/2014 13:29:10</publishTime>
+      <publishTime>11/13/2014 08:02:23</publishTime>
     </File>
     <File Include="Views/Picture/_Edit.cshtml">
       <publishTime>05/30/2014 15:09:29</publishTime>
@@ -863,7 +863,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Views/Report/_Details.cshtml">
-      <publishTime>11/12/2014 13:29:10</publishTime>
+      <publishTime>11/13/2014 08:02:23</publishTime>
     </File>
     <File Include="Views/ReportServer/Create.cshtml">
       <publishTime>05/30/2014 15:09:29</publishTime>
@@ -896,7 +896,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/12/2014 10:25:47</publishTime>
     </File>
     <File Include="Views/Shared/_frameList.cshtml">
-      <publishTime>11/12/2014 14:23:03</publishTime>
+      <publishTime>11/13/2014 08:01:12</publishTime>
     </File>
     <File Include="Views/Shared/_frameLocations.cshtml">
       <publishTime>11/12/2014 13:29:10</publishTime>
@@ -980,7 +980,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>11/12/2014 16:57:18</publishTime>
+      <publishTime>11/13/2014 08:04:54</publishTime>
     </File>
   </ItemGroup>
 </Project>

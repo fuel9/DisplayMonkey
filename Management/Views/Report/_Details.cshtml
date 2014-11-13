@@ -54,7 +54,7 @@
 
         <td>
             <div id="picture">
-                 <img src="@Url.Action("Thumb", "Report", new { id = Model.FrameId, width = 200, height = 200, mode = RenderModes.RenderMode_Fit })" alt="" />
+                 <img src="@Url.Action("Thumb", "Report", new { id = Model.FrameId, width = 200, height = 200, mode = (int)RenderModes.RenderMode_Fit })" alt="" />
             </div>
         </td>
 
