@@ -49,7 +49,7 @@
         <td class="nw">
             @if (item.Type == ContentTypes.ContentType_Picture)
             {
-                <img src="@Url.Action("Thumb", "Media", new { id = item.ContentId, width = 50, height = 50, mode = RenderModes.RenderMode_Stretch })" alt="" />
+                <img src="@Url.Action("Thumb", "Media", new { id = item.ContentId, width = 50, height = 50, mode = (int)RenderModes.RenderMode_Stretch })" alt="" />
             }
             else if (item.Type == ContentTypes.ContentType_Video)
             {

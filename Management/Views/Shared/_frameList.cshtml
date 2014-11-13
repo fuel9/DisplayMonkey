@@ -62,12 +62,12 @@
             }
             else if (item.Picture != null)
             {
-                <img class="thumb1" src="@Url.Action("Thumb", "Media", new { id = item.Picture.ContentId, width = 50, height = 50, mode = RenderModes.RenderMode_Stretch })" alt="" />
+                <img class="thumb1" src="@Url.Action("Thumb", "Media", new { id = item.Picture.ContentId, width = 50, height = 50, mode = (int)RenderModes.RenderMode_Stretch })" alt="" />
                 <span>@Html.DisplayFor(m => item.Picture.Content.Name)</span>
             }
             else if (item.Report != null)
             {
-                <img class="thumb1" src="@Url.Action("Thumb", "Report", new { id = item.FrameId, width = 50, height = 50, mode = RenderModes.RenderMode_Stretch })" alt="" />
+                <img class="thumb1" src="@Url.Action("Thumb", "Report", new { id = item.FrameId, width = 50, height = 50, mode = (int)RenderModes.RenderMode_Stretch })" alt="" />
                 <span>@Html.DisplayFor(m => item.Report.Name)</span>
             }
             else if (item.Video != null)    

@@ -70,7 +70,7 @@
         else if (item.Picture != null)
         {
             <div class="d1">
-                <div><img src="@Url.Action("Thumb", "Media", new { id = item.Picture.ContentId, width = 50, height = 50, mode = RenderModes.RenderMode_Stretch })" alt="" /></div>
+                <div><img src="@Url.Action("Thumb", "Media", new { id = item.Picture.ContentId, width = 50, height = 50, mode = (int)RenderModes.RenderMode_Stretch })" alt="" /></div>
                 <div>@(string.Format("{0}, {1} {2}", item.FrameType, item.Duration, Resources.Sec))</div>
             </div>
             <div>
@@ -80,7 +80,7 @@
         else if (item.Report != null)
         {
             <div class="d1">
-                <div><img src="@Url.Action("Thumb", "Report", new { id = item.FrameId, width = 50, height = 50, mode = RenderModes.RenderMode_Stretch })" alt="" /></div>
+                <div><img src="@Url.Action("Thumb", "Report", new { id = item.FrameId, width = 50, height = 50, mode = (int)RenderModes.RenderMode_Stretch })" alt="" /></div>
                 <div>@(string.Format("{0}, {1} {2}", item.FrameType, item.Duration, Resources.Sec))</div>
             </div>
             <div>

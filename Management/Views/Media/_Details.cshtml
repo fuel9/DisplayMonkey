@@ -37,7 +37,7 @@
         <div id="picture">
             @if (Model.Type == ContentTypes.ContentType_Picture)
             {
-                <img src="@Url.Action("Thumb", "Media", new { id = Model.ContentId, width = 200, height = 200, mode = RenderModes.RenderMode_Fit })" alt="" />
+                <img src="@Url.Action("Thumb", "Media", new { id = Model.ContentId, width = 200, height = 200, mode = (int)RenderModes.RenderMode_Fit })" alt="" />
             }
             else if (Model.Type == ContentTypes.ContentType_Video)
             {
