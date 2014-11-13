@@ -44,6 +44,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Exchange.WebServices">
+      <HintPath>..\packages\EWS-Api-2.1.1.0.0\lib\net35\Microsoft.Exchange.WebServices.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Exchange.WebServices.Auth">
+      <HintPath>..\packages\EWS-Api-2.1.1.0.0\lib\net35\Microsoft.Exchange.WebServices.Auth.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Core" />
@@ -177,6 +183,7 @@
     </Compile>
     <Compile Include="Canvas.cs" />
     <Compile Include="Clock.cs" />
+    <Compile Include="Outlook.cs" />
     <Compile Include="YouTube.cs" />
     <Compile Include="Html.cs" />
     <Compile Include="getDisplayHash.aspx.cs">

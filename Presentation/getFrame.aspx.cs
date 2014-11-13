@@ -49,9 +49,13 @@ namespace DisplayMonkey
                             html = new Memo(frameId, panelId).Payload;
 							break;
 
-						case "PICTURE":
+                        case "OUTLOOK":
+                            html = new Outlook(frameId, panelId).Payload;
+                            break;
+
+                        case "PICTURE":
                             html = new Picture(frameId, panelId).Payload;
-							break;
+                            break;
 
                         case "REPORT":
                             html = new Report(frameId, panelId).Payload;
