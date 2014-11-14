@@ -159,9 +159,9 @@ namespace DisplayMonkey.Controllers
             {
                 string thumbKey = string.Format("thumb_report_{0}_{1}x{2}_{3}", id, width, height, mode);
 
-                if (width <= 120 && height <= 120 && Session[thumbKey] != null)
+                if (width <= 120 && height <= 120 && HttpRuntime.Cache[thumbKey] != null)
                 {
-                    byte[] src = (byte[])Session[thumbKey];
+                    byte[] src = (byte[])HttpRuntime.Cache[thumbKey];
                     return new FileStreamResult(new MemoryStream(src), "image/png");
                 }
 
@@ -211,7 +211,13 @@ namespace DisplayMonkey.Controllers
                             MediaController.WriteImage(src, trg, width, height, mode);
                             if (width <= 120 && height <= 120)
                             {
-                                Session[thumbKey] = trg.GetBuffer();
+                                HttpRuntime.Cache.Insert(
+                                    thumbKey, 
+                                    trg.GetBuffer(), 
+                                    null,
+                                    System.Web.Caching.Cache.NoAbsoluteExpiration,
+                                    TimeSpan.FromMinutes(10)
+                                    );
                             }
                             return new FileStreamResult(trg, "image/png");
                         }
