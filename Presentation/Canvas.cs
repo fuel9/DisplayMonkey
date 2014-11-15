@@ -26,7 +26,7 @@ namespace DisplayMonkey
 				}
 			}
 
-            if (this.DisplayId > 0)
+            if (this.DisplayId != 0)
                 this.Display = new Display(this.DisplayId);
 		}
 
