@@ -7,6 +7,7 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Net;
 using Microsoft.Exchange.WebServices.Data;
+using System.Web.Script.Serialization;
 
 namespace DisplayMonkey
 {
@@ -37,11 +38,6 @@ namespace DisplayMonkey
             Mailbox = "us_conf_uk@permobil.com";
 		}
 
-        private struct CalendarEntry 
-        {
-            public string Name;
-        }
-        
         public override string Payload
         {
             get
@@ -79,7 +75,8 @@ namespace DisplayMonkey
                     }
                     
                     // get availability
-                    TimeZoneInfo timeZone;
+                    TimeZoneInfo timeZone = TimeZoneInfo.Local;
+                    DateTime localTime = DateTime.Now;
                     TimeSpan startTime = new TimeSpan(0,0,0), endTime = new TimeSpan(23,59,59);
                     GetUserAvailabilityResults uars = service.GetUserAvailability(
                         new AttendeeInfo[] { new AttendeeInfo(this.Mailbox, MeetingAttendeeType.Required, true) }, 
@@ -94,7 +91,10 @@ namespace DisplayMonkey
                         timeZone = u.WorkingHours.TimeZone;
                     }
 
-                    // mailbox calendar items
+                    // mailbox calendar events
+                    FindItemsResults<Item> findItems = null;
+                    List<EventEntry> events = new List<EventEntry>();
+
                     // prep filter
                     FolderId folderId = new FolderId(WellKnownFolderName.Calendar, new Mailbox(this.Mailbox));
                     SearchFilter.SearchFilterCollection searchFilterCollection =
@@ -104,28 +104,85 @@ namespace DisplayMonkey
                         };
                     searchFilterCollection.Add(new SearchFilter.Exists(AppointmentSchema.Subject));
                     searchFilterCollection.Add(new SearchFilter.IsGreaterThanOrEqualTo(
-                        AppointmentSchema.DateTimeCreated, DateTime.Now
+                        AppointmentSchema.Start, DateTime.Now
                         ));
-                    searchFilterCollection.Add(new SearchFilter.IsGreaterThanOrEqualTo(
-                        AppointmentSchema.DateTimeCreated, DateTime.Now.AddHours(this.HourWindow)
+                    searchFilterCollection.Add(new SearchFilter.IsLessThanOrEqualTo(
+                        AppointmentSchema.Start, DateTime.Now.AddHours(this.HourWindow)
                         ));
+                    ItemView itemView = new ItemView(100)
+                    {
+                        PropertySet = new PropertySet(BasePropertySet.FirstClassProperties),
+                    };
 
+                    // get all events
+                    do
+                    {
+                        findItems = service.FindItems(folderId, searchFilterCollection, itemView);
+                        foreach (Item item in findItems)
+                        {
+                            if (item is Appointment)
+                            {
+                                Appointment appointment = item as Appointment;
+                                events.Add(new EventEntry
+                                {
+                                    Subject = item.Subject,
+                                    Starts = appointment.Start,
+                                    Ends = appointment.End,
+                                    Duration = appointment.Duration,
+                                });
+                            }
+                        }
+                    } 
+                    while (findItems.MoreAvailable);
+                    events.Sort();
 
-                    
+                    JavaScriptSerializer oSerializer = new JavaScriptSerializer();
+                    oSerializer.RegisterConverters(new [] { new EventEntryConverter() });
+                    string json = oSerializer.Serialize(new
+                    {
+                        displayName = displayName,
+                        timeZone = new
+                        {
+                            id = timeZone.Id,
+                            daylightName = timeZone.DaylightName,
+                            utcOffsetHours = timeZone.BaseUtcOffset.TotalHours,
+                        },
+                        currentTime = new
+                        {
+                            year = localTime.Year,
+                            month = localTime.Month,
+                            day = localTime.Day,
+                            weekDay = localTime.DayOfWeek,
+                            hour = localTime.Hour,
+                            minute = localTime.Minute,
+                            second = localTime.Second,
+                        },
+                        startTime = new
+                        {
+                            hours = startTime.Hours,
+                            minutes = startTime.Minutes,
+                        },
+                        endTime = new
+                        {
+                            hours = endTime.Hours,
+                            minutes = endTime.Minutes,
+                        },
+                        status = events.Count > 0 && events[0].Starts <= localTime && localTime < events[0].Ends ? "busy" : "available",
+                        events = events,
+                    });
                     
                     // load template
                     string template = File.ReadAllText(_templatePath);
 
                     // fill template
-                    if (FrameId > 0)
-                    {
+                    //if (FrameId > 0)
+                    //{
                         HttpServerUtility util = HttpContext.Current.Server;
                         html = string.Format(
                             template,
-                            util.HtmlEncode(""),
-                            util.HtmlEncode("")
+                            json
                             );
-                    }
+                    //}
                 }
 
                 //catch (ServiceResponseException ex)
@@ -137,6 +194,79 @@ namespace DisplayMonkey
                 return html;
             }
         }
+
+        #region -------- EventEntry --------
+
+        private class EventEntry : IComparable<EventEntry>
+        {
+            public string Subject { get; set; }
+            public DateTime Starts { get; set; }
+            public DateTime Ends { get; set; }
+            public TimeSpan Duration { get; set; }
+
+            public int CompareTo(EventEntry rhs)
+            {
+                int dateCheck = this.Starts.CompareTo(rhs.Starts);
+                if (dateCheck == 0)
+                    return this.Subject.CompareTo(rhs.Subject);
+                else
+                    return dateCheck;
+            }
+        }
+
+        private class EventEntryConverter : JavaScriptConverter
+        {
+            public override IEnumerable<Type> SupportedTypes
+            {
+                get
+                {
+                    return new[] { typeof(EventEntry) };
+                }
+            }
+
+            public override IDictionary<string, object> Serialize(object obj, JavaScriptSerializer serializer)
+            {
+                IDictionary<string, object> serialized = new Dictionary<string, object>();
+                EventEntry evt = obj as EventEntry;
+                if (evt != null)
+                {
+                    serialized["subject"] = evt.Subject;
+                    serialized["starts"] = new
+                    {
+                        year = evt.Starts.Year,
+                        month = evt.Starts.Month,
+                        day = evt.Starts.Day,
+                        hour = evt.Starts.Hour,
+                        minute = evt.Starts.Minute,
+                    };
+                    serialized["ends"] = new
+                    {
+                        year = evt.Ends.Year,
+                        month = evt.Ends.Month,
+                        day = evt.Ends.Day,
+                        hour = evt.Ends.Hour,
+                        minute = evt.Ends.Minute,
+                    };
+                    serialized["duration"] = new
+                    {
+                        days = evt.Duration.Days,
+                        hours = evt.Duration.Hours,
+                        minutes = evt.Duration.Minutes,
+                        //totalMinutes = evt.Duration.TotalMinutes
+                    };
+                }
+                return serialized;
+            }
+
+            public override object Deserialize(IDictionary<string, object> dictionary, Type type, JavaScriptSerializer serializer)
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        #endregion
+
+        #region -------- EWS Callbacks --------
 
         protected static bool RedirectionUrlValidationCallback(string redirectionUrl)
         {
@@ -202,17 +332,17 @@ namespace DisplayMonkey
                 // for default Exchange server installations, so return true.
                 return true;
             }
-            else
-            {
-                // In all other cases, return false.
-                return false;
-            }
+
+            // In all other cases, return false.
+            return false;
         }
+
+        #endregion
 
         public string Account = "";
         public string Password = "";
         public string Mailbox = "";
-        public int HourWindow = 24;
+        public int HourWindow = 48;
         public ExchangeVersion Version = ExchangeVersion.Exchange2010_SP2;
     }
 }

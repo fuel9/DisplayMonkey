@@ -67,6 +67,7 @@
     <Reference Include="System.Web.ApplicationServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="files\frames\outlook.htm" />
     <Content Include="files\frames\youtube.htm" />
     <Content Include="files\frames\html.htm" />
     <Content Include="getDisplayHash.aspx" />

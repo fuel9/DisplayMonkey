@@ -26,7 +26,8 @@ namespace DisplayMonkey
 				}
 			}
 
-            this.Display = new Display(this.DisplayId);
+            if (this.DisplayId > 0)
+                this.Display = new Display(this.DisplayId);
 		}
 
 		public static Canvas InitFromDisplay(int displayId)
