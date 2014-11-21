@@ -2,9 +2,9 @@
 // 14-10-25 [LTL] - use strict, code improvements
 
 var Clock = Class.create({
-    initialize: function (id) {
+    initialize: function (div) {
         "use strict";
-        this.div = $(id);
+        this.div = div;
         this.showDate = this.div.readAttribute("data-show-date") === 'True';
         this.showTime = this.div.readAttribute("data-show-time") === 'True';
         this.faceType = this.div.readAttribute("data-face-type");
@@ -21,6 +21,9 @@ var Clock = Class.create({
                 break;
         }
 
+        if (!this.div)
+            return;
+
         this._callBack();
         this.timer = setInterval(this._callBack.bind(this), 1000);
     }
@@ -28,6 +31,7 @@ var Clock = Class.create({
 	, stop: function() {
 	    "use strict";
 	    clearInterval(this.timer);
+	    this.timer = null;
 	}
 
     , _initAnalog: function () {
@@ -48,9 +52,9 @@ var Clock = Class.create({
 
     , _callBack: function () {
         "use strict";
-        if (!this.div) {
-            this.stop(); return;
-        }
+        if (!this.timer)
+            return;
+
         var time = moment();
         if (_canvas.offsetMilliseconds > 0)
             time.add('ms', _canvas.offsetMilliseconds);

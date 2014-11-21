@@ -221,6 +221,7 @@ namespace DisplayMonkey
 			"js/scroller.js",
 			"js/clock.js",
             "js/youtube.js",
+            "js/outlook.js",
             "scripts/jquery-2.0.3.min.js",
             //"js/mediaelement.min.js",
             //"js/jquery.tubular.1.0.js",

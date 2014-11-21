@@ -56,17 +56,35 @@ namespace DisplayMonkey
 					// fill template
 					if (FrameId > 0)
 					{
-						// get repsonse from yahoo
-                        // TODO: switch to YQL: http://query.yahooapis.com/v1/public/yql?q=select+*+from+weather.forecast+where+woeid%3D2502265+and+u%3D%22c%22
-						string response = "", url = string.Format(
-							@"http://weather.yahooapis.com/forecastrss?u={0}&w={1}",
-							TemperatureUnit,
-							Woeid
-							);
-						using (WebClient client = new WebClient())
-						{
-							response = Encoding.ASCII.GetString(client.DownloadData(url));
-						}
+                        string response = "", key = string.Format("weather_{0}_{1}_{2}", FrameId, TemperatureUnit, Woeid);
+
+                        if (HttpRuntime.Cache[key] != null)
+                        {
+                            response = HttpRuntime.Cache[key] as string;
+                        }
+                        
+                        else
+                        {
+                            // get repsonse from yahoo
+                            // TODO: switch to YQL: http://query.yahooapis.com/v1/public/yql?q=select+*+from+weather.forecast+where+woeid%3D2502265+and+u%3D%22c%22
+						    string url = string.Format(
+							    @"http://weather.yahooapis.com/forecastrss?u={0}&w={1}",
+							    TemperatureUnit,
+							    Woeid
+							    );
+						    using (WebClient client = new WebClient())
+						    {
+							    response = Encoding.ASCII.GetString(client.DownloadData(url));
+						    }
+
+                            HttpRuntime.Cache.Insert(
+                                key,
+                                response,
+                                null,
+                                DateTime.UtcNow.AddMinutes(1),
+                                System.Web.Caching.Cache.NoSlidingExpiration
+                                );
+                        }
 
 						//Regex rex1 = new Regex(@"(?<=\<!\[CDATA\[)\s*(?:.(?<!\]\]>)\s*)*(?=\]\]>)");
 
@@ -93,13 +111,14 @@ namespace DisplayMonkey
 							}
 						}
 
+
 						// populate template
 						if (map.Count > 0)
 						{
 							html = template;
-							foreach (string key in map.Keys)
+							foreach (string k in map.Keys)
 							{
-								html = html.Replace(string.Format("{{{0}}}", key), map[key]);
+								html = html.Replace(string.Format("{{{0}}}", k), map[k]);
 							}
 						}
 
@@ -108,12 +127,13 @@ namespace DisplayMonkey
 							// something went wrong...
 							XmlDocument doc = new XmlDocument();
 							doc.LoadXml(response);
-							XmlNode nodeDescription = doc.SelectSingleNode("//channel/item/description");
+                            HttpRuntime.Cache[key] = null;
+                            XmlNode nodeDescription = doc.SelectSingleNode("//channel/item/description");
 							if (nodeDescription != null)
 							{
 								html = nodeDescription.InnerText;
 							}
-						}
+                        }
 					}		// FrameId > 0
 				}
 

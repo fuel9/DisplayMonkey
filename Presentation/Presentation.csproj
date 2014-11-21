@@ -67,6 +67,7 @@
     <Reference Include="System.Web.ApplicationServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="getOutlook.aspx" />
     <Content Include="files\frames\outlook.htm" />
     <Content Include="files\frames\youtube.htm" />
     <Content Include="files\frames\html.htm" />
@@ -137,6 +138,7 @@
     <Content Include="getFrame.aspx" />
     <Content Include="getNextFrame.aspx" />
     <Content Include="js\clock.js" />
+    <Content Include="js\outlook.js" />
     <Content Include="js\mediaelement.min.js" />
     <Content Include="js\moment.min.js" />
     <Content Include="js\canvas.js" />
@@ -184,6 +186,13 @@
     </Compile>
     <Compile Include="Canvas.cs" />
     <Compile Include="Clock.cs" />
+    <Compile Include="getOutlook.aspx.cs">
+      <DependentUpon>getOutlook.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="getOutlook.aspx.designer.cs">
+      <DependentUpon>getOutlook.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Outlook.cs" />
     <Compile Include="YouTube.cs" />
     <Compile Include="Html.cs" />

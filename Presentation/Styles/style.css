@@ -261,3 +261,86 @@
         border:none;
         overflow:hidden;
     }
+
+	/*******************************************************************************/
+	
+    div#outlook {
+        font-family: lucida console;
+        text-align: left;
+        /*display: none;*/
+    }
+
+        div#outlook #free {
+            background-color: green;
+            color: white;
+            text-shadow: -1px -2px 0px #4d6d4d;
+            border-left: 1px solid #80B280;
+            border-top: 1px solid #80B280;
+            border-right: 1px solid #003300;
+            border-bottom:  1px solid #003300;
+        }
+
+        div#outlook #busy {
+            background-color: red;
+            color: white;
+            text-shadow: -1px -1px 0px #8d4d4d;
+            border-left: 1px solid #FF8080;
+            border-top: 1px solid #FF8080;
+            border-right: 1px solid #B20000;
+            border-bottom:  1px solid #B20000;
+        }
+
+            div#outlook #free div, div#outlook #busy div {
+                padding-left: 10px;
+                padding-right: 10px;
+                padding-top: 5px;
+                padding-bottom: 3px;
+            }
+
+            div#outlook .mailbox {
+                font-size: 2em;
+            }
+
+        div#outlook #plan table {
+            width: 100%;
+            border: 0;
+            border-spacing: 0;
+        }
+
+            div#outlook #plan tr {
+                background-color: #EEE;
+            }
+
+                div#outlook #plan th {
+                    background-color: grey;
+                    color: white;
+                    text-shadow: -1px -1px 0px #4d4d4d;
+                    padding: 5px;
+                    border-top: 1px solid #B2B2B2;
+                    border-bottom:  1px solid #333333;
+                    text-align: left;
+                }
+
+                div#outlook #plan th.col1, 
+                div#outlook #plan th.col2,
+                div#outlook #plan th.col3,
+                div#outlook #plan th.col4 {
+                }
+
+                div#outlook #plan td {
+                    background-color: #CFCFCF;
+                    color: #444;
+                    text-shadow: -0.5px 1px 0px #fff;
+                    padding: 5px;
+                    border-top: 1px solid #E2E2E2;
+                    border-bottom:  1px solid #7C7C7C;
+                }
+
+                div#outlook #plan td.col1, 
+                div#outlook #plan td.col2,
+                div#outlook #plan td.col3,
+                div#outlook #plan td.col4 {
+                }
+
+	/*******************************************************************************/
+	

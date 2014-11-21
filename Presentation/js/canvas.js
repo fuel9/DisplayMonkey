@@ -159,13 +159,6 @@ Ajax.PanelUpdaterBase = Class.create(Ajax.Base, {
 		*/
 
 		this.panelId = (this.options.panelId || 0);
-		var params = document.location.href.toQueryParams();
-		this.displayName = params['dn'];
-		if (this.displayName == undefined) this.displayName = null;
-		this.featureId = params['feature'];
-		if (this.featureId == undefined || this.featureId == "") this.featureId = 0;
-
-		//this.onComplete = this.options.onComplete;
 		this.frequency = (this.options.frequency || 1);
 		this.updater = {};
 		this.container = this.options.container; // "div" + this.panelId;
@@ -181,7 +174,8 @@ Ajax.PanelUpdaterBase = Class.create(Ajax.Base, {
 		this.fadeLength = (this.options.fadeLength || 0);
 		if (this.fadeLength < 0) this.fadeLength = 0;
 
-		this.ytPlayer = null;
+		//this.ytPlayer = null;
+		this.object = null;
 
 		this.options.onComplete = this._updateEnd.bind(this);
 		this.options.onException = this._dispatchException.bind(this);
@@ -217,8 +211,7 @@ Ajax.PanelUpdaterBase = Class.create(Ajax.Base, {
 	    var p = $H({
 	        panel: this.panelId,
 	        display: _canvas.displayId,
-	        frame: this.currentId,
-	        feature: this.featureId
+	        frame: this.currentId
 	    });
 		new Ajax.Request("getNextFrame.aspx", {
 			method: 'get'
@@ -364,44 +357,57 @@ Ajax.PanelUpdaterBase = Class.create(Ajax.Base, {
             // pause others
             if (this instanceof Ajax.FullScreenPanelUpdater) {
                 _canvas.panels.forEach(function (p) {
-                    if (p.ytPlayer) p.ytPlayer.pause();
+                    if (p.object && p.object.pause) p.object.pause();
+                    /*if (p.ytPlayer) p.ytPlayer.pause();
                     if (p.video) p.video.pause();
-                    if (p.scroller) p.scroller.pause();
+                    if (p.scroller) p.scroller.pause();*/
                 });
             }
 
+            var div = null;
+
             // start scroller
-	        var tc = $(this.container).down('div[id=memo]');
-	        if (tc) {
-	            this.scroller = new TextScroller(tc.id);
-	        }
+	        if (div = $(this.container).down('div#memo')) {
+	            //this.scroller = new TextScroller(div);
+	            this.object = new TextScroller(div);
+            }
 
 	        // start clock
-	        var cc = $(this.container).down('div[id=clock]');
-	        if (cc) {
-	            this.clock = new Clock(cc.id);
-	        }
+	        else if (div = $(this.container).down('div#clock')) {
+	            //this.clock = new Clock(div);
+	            this.object = new Clock(div);
+            }
 
 	        // start video
-	        var v = $(this.container).down('video');
-	        if (v && _canvas.supports_video) {
-	            this.video = v;
+	        else if ((div = $(this.container).down('video')) && _canvas.supports_video) {
+	            //this.video = div;
+	            this.object = div;
 	            var a;
-	            if (a = v.readAttribute('loop')) v.loop = a;
-	            if (a = v.readAttribute('muted')) v.muted = a;
+	            if (a = div.readAttribute('loop')) div.loop = a;
+	            if (a = div.readAttribute('muted')) div.muted = a;
 	            if (this instanceof Ajax.FullScreenPanelUpdater || !_canvas.fullScreenActive) {
-	                v.play();
+	                div.play();
 	            }
-	            var vc = v.up('div[id=videoContainer]');
+	            var vc = div.up('div#videoContainer');
 	            if (vc) {
 	                vc.style.backgroundColor = _canvas.backColor;
 	            }
             }
 
-	        // start youtube
-	        var yt = $(this.container).down('div[id^=ytplayer]');
-	        if (yt) {
-	            this.ytPlayer = new YtLib.YtPlayer({ div: yt });
+            // start youtube
+	        else if (div = $(this.container).down('div[id^=ytplayer]')) {
+	            //this.ytPlayer = new YtLib.YtPlayer({ div: div });
+	            this.object = new YtLib.YtPlayer({ div: div });
+            }
+
+            // start outlook
+	        else if (div = $(this.container).down('div#outlook')) {
+	            //this.outlook = new Outlook({
+	            this.object = new Outlook({
+	                div: div,
+	                frameId: this.currentId,
+	                panelId: this.panelId
+	            });
 	        }
 
             // immune to full frame
@@ -417,7 +423,7 @@ Ajax.PanelUpdaterBase = Class.create(Ajax.Base, {
 	    "use strict";
 	    try {
 	        // kill scroller if any
-	        if (this.scroller) {
+	        /*if (this.scroller) {
 	            this.scroller.stop();
             }
 
@@ -428,7 +434,7 @@ Ajax.PanelUpdaterBase = Class.create(Ajax.Base, {
 
 	        // kill video
 	        if (this.video) {
-                this.video.pause();
+                this.video.stop();
 	        }
 
 	        // kill youtube
@@ -436,12 +442,22 @@ Ajax.PanelUpdaterBase = Class.create(Ajax.Base, {
 	            this.ytPlayer.stop();
 	        }
 
+	        // kill outlook
+	        if (this.outlook) {
+	            this.outlook.stop();
+	        }*/
+
+	        if (this.object && this.object.stop) {
+	            this.object.stop()
+	        }
+
 	        // resume others
 	        if (this instanceof Ajax.FullScreenPanelUpdater) {
 	            _canvas.panels.forEach(function (p) {
-	                if (p.ytPlayer) p.ytPlayer.play();
+	                if (p.object && p.object.play) p.object.play();
+	                /*if (p.ytPlayer) p.ytPlayer.play();
 	                if (p.video) p.video.play();
-	                if (p.scroller) p.scroller.resume();
+	                if (p.scroller) p.scroller.resume();*/
 	            });
 	        }
 
@@ -450,10 +466,11 @@ Ajax.PanelUpdaterBase = Class.create(Ajax.Base, {
 	        new ErrorReport({ exception: e, source: "_uninitFrame" }); // <-- shouldn't get here
 	    }
 	    finally {
-	        this.scroller = null;
+	        /*this.scroller = null;
 	        this.clock = null;
 	        this.video = null;
-	        this.ytPlayer = null;
+	        this.ytPlayer = null;*/
+	        this.object = null;
         }
 	},
 });
@@ -639,6 +656,14 @@ function ticker() {
     }
     _canvas.checkDisplayHash();
 }
+
+(function () {
+    "use strict";
+    if (!document.createElement('video').stop)
+        Element.addMethods('video', {
+            stop: function (e) { e.pause(); }
+        });
+})();
 
 document.observe("dom:loaded", function () {
     "use strict";
