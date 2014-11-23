@@ -129,7 +129,7 @@ namespace DisplayMonkey
 
                     string 
                         strCurrentEvent = "",
-                        strCurrentStatus = string.Format("Available in the next {0} hrs", outlook.HourWindow)  // TODO: translate
+                        strCurrentStatus = string.Format("Available for the next {0} hrs", outlook.HourWindow)  // TODO: translate
                         ;
                     
                     if (currentEvent != null)
@@ -141,7 +141,7 @@ namespace DisplayMonkey
                             );
                         TimeSpan gap = currentEvent.Ends.Subtract(localTime);
                         if (gap.Hours > 0)
-                            strCurrentStatus = string.Format("{0} {1} hrs {2} min", "Ends in", gap.Hours, gap.Minutes);     // TODO: translate
+                            strCurrentStatus = string.Format("{0} {1} hrs {2} min", "Ends in", (int)gap.TotalHours, gap.Minutes);     // TODO: translate
                         else
                             strCurrentStatus = string.Format("{0} {1} min", "Ends in", gap.Minutes);                        // TODO: translate
                     }
@@ -150,9 +150,9 @@ namespace DisplayMonkey
                     {
                         TimeSpan gap = firstEvent.Starts.Subtract(localTime);
                         if (gap.Hours > 0)
-                            strCurrentStatus = string.Format("{0} {1} hrs {2} min", "Available for next", gap.Hours, gap.Minutes);     // TODO: translate
+                            strCurrentStatus = string.Format("{0} {1} hrs {2} min", "Available for", (int)gap.TotalHours, gap.Minutes);     // TODO: translate
                         else
-                            strCurrentStatus = string.Format("{0} {1} min", "Available for next", gap.Minutes);             // TODO: translate
+                            strCurrentStatus = string.Format("{0} {1} min", "Available for", gap.Minutes);             // TODO: translate
                     }
                     
                     JavaScriptSerializer jss = new JavaScriptSerializer();

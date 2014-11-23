@@ -54,87 +54,84 @@ namespace DisplayMonkey
 					string template = File.ReadAllText(_templatePath);
 
 					// fill template
-					if (FrameId > 0)
-					{
-                        string response = "", key = string.Format("weather_{0}_{1}_{2}", FrameId, TemperatureUnit, Woeid);
+                    string response = "", key = string.Format("weather_{0}_{1}", TemperatureUnit, Woeid);
 
-                        if (HttpRuntime.Cache[key] != null)
-                        {
-                            response = HttpRuntime.Cache[key] as string;
-                        }
+                    if (HttpRuntime.Cache[key] != null)
+                    {
+                        response = HttpRuntime.Cache[key] as string;
+                    }
                         
-                        else
-                        {
-                            // get repsonse from yahoo
-                            // TODO: switch to YQL: http://query.yahooapis.com/v1/public/yql?q=select+*+from+weather.forecast+where+woeid%3D2502265+and+u%3D%22c%22
-						    string url = string.Format(
-							    @"http://weather.yahooapis.com/forecastrss?u={0}&w={1}",
-							    TemperatureUnit,
-							    Woeid
-							    );
-						    using (WebClient client = new WebClient())
-						    {
-							    response = Encoding.ASCII.GetString(client.DownloadData(url));
-						    }
-
-                            HttpRuntime.Cache.Insert(
-                                key,
-                                response,
-                                null,
-                                DateTime.UtcNow.AddMinutes(1),
-                                System.Web.Caching.Cache.NoSlidingExpiration
-                                );
-                        }
-
-						//Regex rex1 = new Regex(@"(?<=\<!\[CDATA\[)\s*(?:.(?<!\]\]>)\s*)*(?=\]\]>)");
-
-						// get data strips
-						int j=0;
-						Dictionary<string, string> map = new Dictionary<string, string>();
-						MatchCollection strips = new Regex(@"(?<=<yweather:).+(?=/>)").Matches(response);
-						foreach (Match strip in strips)
+                    else
+                    {
+                        // get repsonse from yahoo
+                        // TODO: switch to YQL: http://query.yahooapis.com/v1/public/yql?q=select+*+from+weather.forecast+where+woeid%3D2502265+and+u%3D%22c%22
+						string url = string.Format(
+							@"http://weather.yahooapis.com/forecastrss?u={0}&w={1}",
+							TemperatureUnit,
+							Woeid
+							);
+						using (WebClient client = new WebClient())
 						{
-							int i=0;
-							string strip_name = "";
-							MatchCollection fields = new Regex("(^\\w+(?=\\s))|(\\w+=\"[^\"]*\")").Matches(strip.Value);
-							foreach (Match field in fields)
-							{
-								if (0 == i++)
-									strip_name = field.Value;
-								else
-								{
-									string[] pair = field.Value.Split(new char[] {'='});
-									if (strip_name == "forecast")
-										strip_name += (++j).ToString();
-									map.Add(string.Format("{0}_{1}", strip_name, pair[0]), pair[1].Replace("\"", ""));
-								}
-							}
+							response = Encoding.ASCII.GetString(client.DownloadData(url));
 						}
 
+                        HttpRuntime.Cache.Insert(
+                            key,
+                            response,
+                            null,
+                            DateTime.UtcNow.AddMinutes(1),
+                            System.Web.Caching.Cache.NoSlidingExpiration
+                            );
+                    }
 
-						// populate template
-						if (map.Count > 0)
+					//Regex rex1 = new Regex(@"(?<=\<!\[CDATA\[)\s*(?:.(?<!\]\]>)\s*)*(?=\]\]>)");
+
+					// get data strips
+					int j=0;
+					Dictionary<string, string> map = new Dictionary<string, string>();
+					MatchCollection strips = new Regex(@"(?<=<yweather:).+(?=/>)").Matches(response);
+					foreach (Match strip in strips)
+					{
+						int i=0;
+						string strip_name = "";
+						MatchCollection fields = new Regex("(^\\w+(?=\\s))|(\\w+=\"[^\"]*\")").Matches(strip.Value);
+						foreach (Match field in fields)
 						{
-							html = template;
-							foreach (string k in map.Keys)
+							if (0 == i++)
+								strip_name = field.Value;
+							else
 							{
-								html = html.Replace(string.Format("{{{0}}}", k), map[k]);
+								string[] pair = field.Value.Split(new char[] {'='});
+								if (strip_name == "forecast")
+									strip_name += (++j).ToString();
+								map.Add(string.Format("{0}_{1}", strip_name, pair[0]), pair[1].Replace("\"", ""));
 							}
 						}
+					}
 
-						else
+
+					// populate template
+					if (map.Count > 0)
+					{
+						html = template;
+						foreach (string k in map.Keys)
 						{
-							// something went wrong...
-							XmlDocument doc = new XmlDocument();
-							doc.LoadXml(response);
-                            HttpRuntime.Cache[key] = null;
-                            XmlNode nodeDescription = doc.SelectSingleNode("//channel/item/description");
-							if (nodeDescription != null)
-							{
-								html = nodeDescription.InnerText;
-							}
-                        }
-					}		// FrameId > 0
+							html = html.Replace(string.Format("{{{0}}}", k), map[k]);
+						}
+					}
+
+					else
+					{
+						// something went wrong...
+						XmlDocument doc = new XmlDocument();
+						doc.LoadXml(response);
+                        HttpRuntime.Cache[key] = null;
+                        XmlNode nodeDescription = doc.SelectSingleNode("//channel/item/description");
+						if (nodeDescription != null)
+						{
+							html = nodeDescription.InnerText;
+						}
+                    }
 				}
 
 				catch (Exception ex)
@@ -152,7 +149,7 @@ namespace DisplayMonkey
 			...
 			</style>
 		 * */
-		public int Woeid;
-		public string TemperatureUnit;
+        public int Woeid = 56199578;            // Old Sacramento
+		public string TemperatureUnit = "f";
 	}
 }

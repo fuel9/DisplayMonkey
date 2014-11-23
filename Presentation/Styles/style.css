@@ -1,6 +1,4 @@
 ﻿@charset "UTF-8";
-/* CSS Document */
-/* CSS Document */
 
 	A:link {text-decoration:none; color:#d23006;}
 	A:visited {text-decoration:none; color:#d23006;}
@@ -20,10 +18,8 @@
 	body {
 		margin:0px;
 		padding:0px;
-		/*background-color:black;*/
 		font-family:Futura, Verdana, Arial, Helvetica, sans-serif;
 		font-size:10px;
-		/*line-height:8px;*/
 		text-align:center;
 		color:white;
 	}
@@ -107,9 +103,6 @@
 		position:relative;
 		margin-left:auto;
 		margin-right:auto;
-		/*width:768px;*/
-		/*height:1357px;*/
-		/*background-image:url('../getImage.ashx?content=7');*/
 		background-color:black;
 		background-repeat:no-repeat;
 		/*border:1px solid cyan;*/
@@ -134,35 +127,6 @@
 		font-size:40px;
 		line-height:40px;
 		text-transform:uppercase;
-	}
-	
-	/*******************************************************************************/
-	
-	#food {
-		position:relative;
-		/*border:1px solid red;*/
-		
-		width:100%;
-		height:100%;
-		background-image:url(../files/menu.jpg);
-		background-repeat:no-repeat;
-		text-align:left;
-		color:white;
-		font-size:20px;
-	}
-	
-	#food table {
-		position:relative;
-		width:100%;
-		top:10px;
-		left:90px;
-		width:240px;
-	}
-	
-	#food td {
-		height:77px;
-		line-height:20px;
-		/*border:1px solid yellow;*/
 	}
 	
 	/*******************************************************************************/
@@ -225,7 +189,6 @@
 		height:100%;
 		margin:0px auto;
 		text-align:left;
-		/*text-transform:uppercase;*/
 		font-size:14px;
 		color:#525;
 		background-image:url(../files/weather.png);
@@ -239,22 +202,7 @@
 	}
 	
 	/*******************************************************************************/
-	
-	textarea.debug {
-		position:fixed;
-		width:400px;
-		height:200px;
-		z-index:20000;
-		background-color:white;
-		color:black;
-		overflow:hidden;
-		top:500px;
-		left:20px;
-		text-align:left;
-	}
-
-	/*******************************************************************************/
-	
+		
     iframe.html {
         width:100%;
         height:100%;
@@ -267,30 +215,25 @@
     div#outlook {
         font-family: lucida console;
         text-align: left;
-        /*display: none;*/
     }
 
-        div#outlook #free {
+        div#outlook>#free {
             background-color: green;
             color: white;
             text-shadow: -1px -2px 0px #4d6d4d;
-            border-left: 1px solid #80B280;
             border-top: 1px solid #80B280;
-            border-right: 1px solid #003300;
             border-bottom:  1px solid #003300;
         }
 
-        div#outlook #busy {
+        div#outlook>#busy {
             background-color: red;
             color: white;
             text-shadow: -1px -1px 0px #8d4d4d;
-            border-left: 1px solid #FF8080;
             border-top: 1px solid #FF8080;
-            border-right: 1px solid #B20000;
             border-bottom:  1px solid #B20000;
         }
 
-            div#outlook #free div, div#outlook #busy div {
+            div#outlook>#free div, div#outlook>#busy div {
                 padding-left: 10px;
                 padding-right: 10px;
                 padding-top: 5px;
@@ -301,17 +244,17 @@
                 font-size: 2em;
             }
 
-        div#outlook #plan table {
+        div#outlook>#plan table {
             width: 100%;
             border: 0;
             border-spacing: 0;
         }
 
-            div#outlook #plan tr {
+            div#outlook>#plan tr {
                 background-color: #EEE;
             }
 
-                div#outlook #plan th {
+                div#outlook>#plan th {
                     background-color: grey;
                     color: white;
                     text-shadow: -1px -1px 0px #4d4d4d;
@@ -321,13 +264,13 @@
                     text-align: left;
                 }
 
-                div#outlook #plan th.col1, 
-                div#outlook #plan th.col2,
-                div#outlook #plan th.col3,
-                div#outlook #plan th.col4 {
+                div#outlook>#plan th.col1, 
+                div#outlook>#plan th.col2,
+                div#outlook>#plan th.col3,
+                div#outlook>#plan th.col4 {
                 }
 
-                div#outlook #plan td {
+                div#outlook>#plan td {
                     background-color: #CFCFCF;
                     color: #444;
                     text-shadow: -0.5px 1px 0px #fff;
@@ -336,10 +279,10 @@
                     border-bottom:  1px solid #7C7C7C;
                 }
 
-                div#outlook #plan td.col1, 
-                div#outlook #plan td.col2,
-                div#outlook #plan td.col3,
-                div#outlook #plan td.col4 {
+                div#outlook>#plan td.col1, 
+                div#outlook>#plan td.col2,
+                div#outlook>#plan td.col3,
+                div#outlook>#plan td.col4 {
                 }
 
 	/*******************************************************************************/
