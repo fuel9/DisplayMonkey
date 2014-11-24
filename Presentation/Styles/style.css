@@ -215,6 +215,8 @@
     div#outlook {
         font-family: lucida console;
         text-align: left;
+        overflow: hidden;
+        padding: 0px;
     }
 
         div#outlook>#free {

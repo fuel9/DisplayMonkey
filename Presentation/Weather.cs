@@ -43,6 +43,21 @@ namespace DisplayMonkey
 			}
 		}
 
+        private string GetYahooWeather(string temperatureUnit, int woeid)
+        {
+            // get repsonse from yahoo
+            // TODO: switch to YQL: http://query.yahooapis.com/v1/public/yql?q=select+*+from+weather.forecast+where+woeid%3D2502265+and+u%3D%22c%22
+            string url = string.Format(
+                @"http://weather.yahooapis.com/forecastrss?u={0}&w={1}",
+                TemperatureUnit,
+                Woeid
+                );
+            using (WebClient client = new WebClient())
+            {
+                return Encoding.ASCII.GetString(client.DownloadData(url));
+            }
+        }
+        
         public override string Payload
 		{
 			get
@@ -55,36 +70,13 @@ namespace DisplayMonkey
 
 					// fill template
                     string response = "", key = string.Format("weather_{0}_{1}", TemperatureUnit, Woeid);
+                    response = HttpRuntime.Cache.GetOrAddAbsolute(
+                        key,
+                        () => { return GetYahooWeather(TemperatureUnit, Woeid); },
+                        DateTime.UtcNow.AddMinutes(1)
+                        );
 
-                    if (HttpRuntime.Cache[key] != null)
-                    {
-                        response = HttpRuntime.Cache[key] as string;
-                    }
-                        
-                    else
-                    {
-                        // get repsonse from yahoo
-                        // TODO: switch to YQL: http://query.yahooapis.com/v1/public/yql?q=select+*+from+weather.forecast+where+woeid%3D2502265+and+u%3D%22c%22
-						string url = string.Format(
-							@"http://weather.yahooapis.com/forecastrss?u={0}&w={1}",
-							TemperatureUnit,
-							Woeid
-							);
-						using (WebClient client = new WebClient())
-						{
-							response = Encoding.ASCII.GetString(client.DownloadData(url));
-						}
-
-                        HttpRuntime.Cache.Insert(
-                            key,
-                            response,
-                            null,
-                            DateTime.UtcNow.AddMinutes(1),
-                            System.Web.Caching.Cache.NoSlidingExpiration
-                            );
-                    }
-
-					//Regex rex1 = new Regex(@"(?<=\<!\[CDATA\[)\s*(?:.(?<!\]\]>)\s*)*(?=\]\]>)");
+                    //Regex rex1 = new Regex(@"(?<=\<!\[CDATA\[)\s*(?:.(?<!\]\]>)\s*)*(?=\]\]>)");
 
 					// get data strips
 					int j=0;

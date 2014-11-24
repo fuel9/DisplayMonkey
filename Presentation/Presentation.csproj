@@ -184,6 +184,7 @@
     <Compile Include="..\Management\RsaUtil.cs">
       <Link>RsaUtil.cs</Link>
     </Compile>
+    <Compile Include="CacheExtensions.cs" />
     <Compile Include="Canvas.cs" />
     <Compile Include="Clock.cs" />
     <Compile Include="getOutlook.aspx.cs">

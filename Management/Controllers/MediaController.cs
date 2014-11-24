@@ -240,7 +240,6 @@ namespace DisplayMonkey.Controllers
 
         //
         // GET: /Media/Thumb/5
-
         [Authorize]
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult Thumb(int id, int width = 0, int height = 0, RenderModes mode = RenderModes.RenderMode_Fit, int trace = 0)
@@ -249,36 +248,32 @@ namespace DisplayMonkey.Controllers
 
             try
             {
-                string thumbKey = string.Format("thumb_image_{0}_{1}x{2}_{3}", id, width, height, mode);
-
-                if (width <= 120 && height <= 120 && HttpRuntime.Cache[thumbKey] != null)
+                if (width <= 120 && height <= 120)
                 {
-                    byte[] src = (byte[])HttpRuntime.Cache[thumbKey];
-                    return new FileStreamResult(new MemoryStream(src), "image/png");
+                    byte[] cache = HttpRuntime.Cache.GetOrAddAbsolute(
+                        string.Format("thumb_image_{0}_{1}x{2}_{3}", id, width, height, mode),
+                        () => {
+                            byte [] img = db.Contents.Find(id).Data;
+                            using (MemoryStream src = new MemoryStream(img))
+                            using (MemoryStream trg = new MemoryStream())
+                            {
+                                MediaController.WriteImage(src, trg, width, height, mode);
+                                return trg.GetBuffer();
+                            }
+                        },
+                        DateTime.UtcNow.AddHours(1)
+                        );
+                    return new FileStreamResult(new MemoryStream(cache), "image/png");
                 }
 
                 else
                 {
-                    byte[] img = db.Contents.Find(id).Data;
-
-                    if (img != null)
+                    byte [] img = db.Contents.Find(id).Data;
+                    using (MemoryStream src = new MemoryStream(img))
                     {
-                        using (MemoryStream src = new MemoryStream(img))
-                        {
-                            MemoryStream trg = new MemoryStream();
-                            MediaController.WriteImage(src, trg, width, height, mode);
-                            if (width <= 120 && height <= 120)
-                            {
-                                HttpRuntime.Cache.Insert(
-                                    thumbKey, 
-                                    trg.GetBuffer(), 
-                                    null, 
-                                    DateTime.UtcNow.AddHours(1), 
-                                    System.Web.Caching.Cache.NoSlidingExpiration
-                                    );
-                            }
-                            return new FileStreamResult(trg, "image/png");
-                        }
+                        MemoryStream trg = new MemoryStream();
+                        MediaController.WriteImage(src, trg, width, height, mode);
+                        return new FileStreamResult(trg, "image/png");
                     }
                 }
             }

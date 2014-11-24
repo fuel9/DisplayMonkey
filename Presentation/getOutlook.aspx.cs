@@ -12,6 +12,8 @@ namespace DisplayMonkey
 {
     public partial class getOutlook : System.Web.UI.Page
     {
+        private static object _lock = new object();
+        
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -36,9 +38,24 @@ namespace DisplayMonkey
                             outlook.Account, 
                             RsaUtil.Decrypt(outlook.Password)
                             ),
-                        Url = new Uri("https://outlook.office365.com/EWS/Exchange.asmx"),
                     };
-                    //AutodiscoverUrl(service, outlook.Account);    // TODO: activate before release
+
+                    //outlook.URL = "https://outlook.office365.com/EWS/Exchange.asmx";
+                    if (!string.IsNullOrWhiteSpace(outlook.URL))
+                    {
+                        service.Url = new Uri(outlook.URL);
+                    }
+                    else
+                    {
+                        service.Url = HttpRuntime.Cache.GetOrAddSliding(
+                            string.Format("outlook_{0}", outlook.Account),
+                            () => { 
+                                service.AutodiscoverUrl(outlook.Account, RedirectionUrlValidationCallback); 
+                                return service.Url; 
+                            }, 
+                            TimeSpan.FromHours(1)
+                            );
+                    }
 
                     // get display name
                     string displayName = outlook.Mailbox;
@@ -301,30 +318,6 @@ namespace DisplayMonkey
         #endregion
 
         #region -------- EWS Callbacks --------
-
-        private static void AutodiscoverUrl(ExchangeService service, string account)
-        {
-            string key = string.Format("outlook_{0}", account);
-
-            if (HttpRuntime.Cache[key] != null)
-            {
-                string url = HttpRuntime.Cache[key] as string;
-                service.Url = new Uri(url);
-            }
-
-            else
-            {
-                service.AutodiscoverUrl(account, RedirectionUrlValidationCallback);
-
-                HttpRuntime.Cache.Insert(
-                    key,
-                    service.Url.OriginalString,
-                    null,
-                    System.Web.Caching.Cache.NoAbsoluteExpiration,
-                    new TimeSpan(1, 0, 0)
-                    );
-            }
-        }
 
         private static bool RedirectionUrlValidationCallback(string redirectionUrl)
         {

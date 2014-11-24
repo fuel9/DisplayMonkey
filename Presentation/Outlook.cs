@@ -37,6 +37,7 @@ namespace DisplayMonkey
                     Name = DataAccess.StringOrBlank(dr["Name"]);
                     if (Name == "")
                         Name = Mailbox;
+                    URL = DataAccess.StringOrBlank(dr["Url"]);
 				}
 			}
 		}

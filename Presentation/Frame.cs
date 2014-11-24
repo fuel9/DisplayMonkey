@@ -11,7 +11,6 @@ namespace DisplayMonkey
 	{
 		public int FrameId = 0;
 		public int PanelId = 0;
-		//public int DisplayId = 0;
 		public int Duration = 0;
 		public string FrameType = null;
 		public string URL = null;

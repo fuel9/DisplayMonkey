@@ -163,6 +163,9 @@
     <Compile Include="..\ILanguageInfo.cs">
       <Link>ILanguageInfo.cs</Link>
     </Compile>
+    <Compile Include="..\Presentation\CacheExtensions.cs">
+      <Link>CacheExtensions.cs</Link>
+    </Compile>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />

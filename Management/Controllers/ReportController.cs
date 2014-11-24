@@ -157,70 +157,32 @@ namespace DisplayMonkey.Controllers
 
             try
             {
-                string thumbKey = string.Format("thumb_report_{0}_{1}x{2}_{3}", id, width, height, mode);
-
-                if (width <= 120 && height <= 120 && HttpRuntime.Cache[thumbKey] != null)
+                if (width <= 120 && height <= 120)
                 {
-                    byte[] src = (byte[])HttpRuntime.Cache[thumbKey];
-                    return new FileStreamResult(new MemoryStream(src), "image/png");
+                    byte[] cache = HttpRuntime.Cache.GetOrAddSliding(
+                        string.Format("thumb_image_{0}_{1}x{2}_{3}", id, width, height, mode),
+                        () => {
+                            byte[] img = GetReportBytes(id);
+                            using (MemoryStream src = new MemoryStream(img))
+                            using (MemoryStream trg = new MemoryStream())
+                            {
+                                MediaController.WriteImage(src, trg, width, height, mode);
+                                return trg.GetBuffer();
+                            }
+                        },
+                        TimeSpan.FromMinutes(10)
+                        );
+                    return new FileStreamResult(new MemoryStream(cache), "image/png");
                 }
 
                 else
                 {
-                    Report report = db.Reports
-                        .Include(r => r.ReportServer)
-                        .FirstOrDefault(r => r.FrameId == id)
-                        ;
-
-                    if (report.Path != null && report.ReportServer != null)
+                    byte[] img = GetReportBytes(id);
+                    using (MemoryStream src = new MemoryStream(img))
                     {
-                        string baseUrl = (report.ReportServer.BaseUrl ?? "").Trim()
-                            , url = (report.Path ?? "").Trim();
-
-                        if (baseUrl.EndsWith("/"))
-                            baseUrl = baseUrl.Substring(0, baseUrl.Length - 1);
-
-                        if (!url.StartsWith("/"))
-                            url = "/" + url;
-
-                        url = string.Format(
-                            "{0}?{1}&rs:format=IMAGE",
-                            baseUrl,
-                            HttpUtility.UrlEncode(url)
-                            );
-
-                        message = url + "<br>";
-
-                        WebClient client = new WebClient();
-                        string user = report.ReportServer.User ?? ""
-                            , domain = report.ReportServer.Domain ?? "";
-                        if (!string.IsNullOrWhiteSpace(user))
-                        {
-                            client.Credentials = new NetworkCredential(
-                                user.Trim(),
-                                RsaUtil.Decrypt(report.ReportServer.Password),
-                                domain.Trim()
-                                );
-                        }
-
-                        byte[] img = client.DownloadData(url);
-
-                        using (MemoryStream src = new MemoryStream(img))
-                        {
-                            MemoryStream trg = new MemoryStream();
-                            MediaController.WriteImage(src, trg, width, height, mode);
-                            if (width <= 120 && height <= 120)
-                            {
-                                HttpRuntime.Cache.Insert(
-                                    thumbKey, 
-                                    trg.GetBuffer(), 
-                                    null,
-                                    System.Web.Caching.Cache.NoAbsoluteExpiration,
-                                    TimeSpan.FromMinutes(10)
-                                    );
-                            }
-                            return new FileStreamResult(trg, "image/png");
-                        }
+                        MemoryStream trg = new MemoryStream();
+                        MediaController.WriteImage(src, trg, width, height, mode);
+                        return new FileStreamResult(trg, "image/png");
                     }
                 }
             }
@@ -234,6 +196,43 @@ namespace DisplayMonkey.Controllers
                 return RedirectToAction("BadImg", "Media");
             else
                 return Content(message);
+        }
+
+        private byte[] GetReportBytes(int id)
+        {
+            Report report = db.Reports
+                .Include(r => r.ReportServer)
+                .FirstOrDefault(r => r.FrameId == id)
+                ;
+
+            string baseUrl = (report.ReportServer.BaseUrl ?? "").Trim()
+                , url = (report.Path ?? "").Trim();
+
+            if (baseUrl.EndsWith("/"))
+                baseUrl = baseUrl.Substring(0, baseUrl.Length - 1);
+
+            if (!url.StartsWith("/"))
+                url = "/" + url;
+
+            url = string.Format(
+                "{0}?{1}&rs:format=IMAGE",
+                baseUrl,
+                HttpUtility.UrlEncode(url)
+                );
+
+            WebClient client = new WebClient();
+            string user = report.ReportServer.User ?? ""
+                , domain = report.ReportServer.Domain ?? "";
+            if (!string.IsNullOrWhiteSpace(user))
+            {
+                client.Credentials = new NetworkCredential(
+                    user.Trim(),
+                    RsaUtil.Decrypt(report.ReportServer.Password),
+                    domain.Trim()
+                    );
+            }
+
+            return client.DownloadData(url);
         }
 
         private void FillServersSelectList(object selected = null)
