@@ -82,6 +82,7 @@ namespace DisplayMonkey
 
             catch (Exception)
             {
+                // TODO
                 //string xx = ex.ToString();
             }
 

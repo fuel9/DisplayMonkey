@@ -1881,6 +1881,15 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ends in.
+        /// </summary>
+        public static string OutlookEndsIn {
+            get {
+                return ResourceManager.GetString("OutlookEndsIn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Panel.
         /// </summary>
         public static string Panel {

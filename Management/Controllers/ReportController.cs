@@ -160,7 +160,7 @@ namespace DisplayMonkey.Controllers
                 if (width <= 120 && height <= 120)
                 {
                     byte[] cache = HttpRuntime.Cache.GetOrAddSliding(
-                        string.Format("thumb_image_{0}_{1}x{2}_{3}", id, width, height, mode),
+                        string.Format("thumb_report_{0}_{1}x{2}_{3}", id, width, height, (int)mode),
                         () => {
                             byte[] img = GetReportBytes(id);
                             using (MemoryStream src = new MemoryStream(img))

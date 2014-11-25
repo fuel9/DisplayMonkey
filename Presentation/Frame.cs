@@ -45,29 +45,29 @@ namespace DisplayMonkey
 
         public static Frame GetNextFrame(int panelId, int displayId, int frameId)
 		{
-			SqlCommand cmd = Frame.NextFrameCommand;
-			cmd.Parameters["@panelId"].Value = panelId;
-            cmd.Parameters["@displayId"].Value = displayId;
-            cmd.Parameters["@lastFrameId"].Value = frameId;
-            //cmd.Parameters["@featureID"].Value = featureId;
+            lock (_lock)
+            {
+                SqlCommand cmd = Frame.NextFrameCommand;
+                cmd.Parameters["@panelId"].Value = panelId;
+                cmd.Parameters["@displayId"].Value = displayId;
+                cmd.Parameters["@lastFrameId"].Value = frameId;
 
-			Frame nci = new Frame()
-			{
-				PanelId = panelId
-			};
-			
-			DataAccess.ExecuteNonQuery(cmd);
+                DataAccess.ExecuteNonQuery(cmd);
 
-			if (cmd.Parameters["@nextFrameId"].Value != DBNull.Value)
-				nci.FrameId = (int)cmd.Parameters["@nextFrameId"].Value;
-			if (cmd.Parameters["@duration"].Value != DBNull.Value)
-				nci.Duration = (int)cmd.Parameters["@duration"].Value;
-			if (cmd.Parameters["@frameType"].Value != DBNull.Value)
-				nci.FrameType = (string)cmd.Parameters["@frameType"].Value;
-			//if (cmd.Parameters["@nextEID"].Value != DBNull.Value)
-			//    nci.URL = (string)cmd.Parameters["@nextEID"].Value;
+                Frame nci = new Frame()
+                {
+                    PanelId = panelId
+                };
 
-			return nci;
+                if (cmd.Parameters["@nextFrameId"].Value != DBNull.Value)
+                    nci.FrameId = (int)cmd.Parameters["@nextFrameId"].Value;
+                if (cmd.Parameters["@duration"].Value != DBNull.Value)
+                    nci.Duration = (int)cmd.Parameters["@duration"].Value;
+                if (cmd.Parameters["@frameType"].Value != DBNull.Value)
+                    nci.FrameType = (string)cmd.Parameters["@frameType"].Value;
+
+                return nci;
+            }
 		}
 
 		public virtual string Payload { get { return ""; } }
@@ -91,11 +91,9 @@ namespace DisplayMonkey
                     _sp_GetNextFrame.Parameters.Add("@panelId", SqlDbType.Int);
                     _sp_GetNextFrame.Parameters.Add("@displayId", SqlDbType.Int);
                     _sp_GetNextFrame.Parameters.Add("@lastFrameId", SqlDbType.Int);
-					//_sp_GetNextFrame.Parameters.Add("@featureId", SqlDbType.Int);
 					_sp_GetNextFrame.Parameters.Add("@nextFrameId", SqlDbType.Int).Direction = ParameterDirection.Output;
 					_sp_GetNextFrame.Parameters.Add("@duration", SqlDbType.Int).Direction = ParameterDirection.Output;
 					_sp_GetNextFrame.Parameters.Add("@frameType", SqlDbType.VarChar, 20).Direction = ParameterDirection.Output;
-					//_sp_GetNextFrame.Parameters.Add("@url", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
 				}
 				_sp_GetNextFrame.Connection = DataAccess.Connection;
 				return _sp_GetNextFrame;
@@ -103,6 +101,7 @@ namespace DisplayMonkey
 		}
 
 		private static SqlCommand _sp_GetNextFrame = null;
+        private static object _lock = new object();
 
 		#endregion
 	}

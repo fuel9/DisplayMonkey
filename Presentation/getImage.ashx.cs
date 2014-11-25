@@ -81,12 +81,6 @@ namespace DisplayMonkey
 			}
 		}
 
-		public bool IsReusable
-		{
-			get
-			{
-				return false;
-			}
-		}
+		public bool IsReusable { get { return false; } }
 	}
 }

@@ -13,7 +13,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>DisplayMonkey</RootNamespace>
     <AssemblyName>DisplayMonkey.Presentation</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <UpgradeBackupLocation>
@@ -24,6 +24,7 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -33,6 +34,7 @@
     <DefineConstants>TRACE;DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -41,6 +43,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
@@ -52,10 +55,8 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Web.Extensions" />
-    <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
@@ -65,13 +66,14 @@
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="getOutlook.aspx" />
+    <Content Include="getOutlook.ashx" />
     <Content Include="files\frames\outlook.htm" />
     <Content Include="files\frames\youtube.htm" />
     <Content Include="files\frames\html.htm" />
-    <Content Include="getDisplayHash.aspx" />
+    <Content Include="getDisplayHash.ashx" />
     <Content Include="favicon.ico" />
     <Content Include="files\404.png" />
     <Content Include="files\clockface.png" />
@@ -131,12 +133,12 @@
     <Content Include="files\weather\7.gif" />
     <Content Include="files\weather\8.gif" />
     <Content Include="files\weather\9.gif" />
-    <Content Include="getIdleInterval.aspx" />
+    <Content Include="getIdleInterval.ashx" />
     <Content Include="files\frames\clock.htm" />
     <Content Include="files\frames\picture.htm" />
     <Content Include="files\frames\weather.htm" />
-    <Content Include="getFrame.aspx" />
-    <Content Include="getNextFrame.aspx" />
+    <Content Include="getFrame.ashx" />
+    <Content Include="getNextFrame.ashx" />
     <Content Include="js\clock.js" />
     <Content Include="js\outlook.js" />
     <Content Include="js\mediaelement.min.js" />
@@ -187,22 +189,14 @@
     <Compile Include="CacheExtensions.cs" />
     <Compile Include="Canvas.cs" />
     <Compile Include="Clock.cs" />
-    <Compile Include="getOutlook.aspx.cs">
-      <DependentUpon>getOutlook.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="getOutlook.aspx.designer.cs">
-      <DependentUpon>getOutlook.aspx</DependentUpon>
+    <Compile Include="getOutlook.ashx.cs">
+      <DependentUpon>getOutlook.ashx</DependentUpon>
     </Compile>
     <Compile Include="Outlook.cs" />
     <Compile Include="YouTube.cs" />
     <Compile Include="Html.cs" />
-    <Compile Include="getDisplayHash.aspx.cs">
-      <DependentUpon>getDisplayHash.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="getDisplayHash.aspx.designer.cs">
-      <DependentUpon>getDisplayHash.aspx</DependentUpon>
+    <Compile Include="getDisplayHash.ashx.cs">
+      <DependentUpon>getDisplayHash.ashx</DependentUpon>
     </Compile>
     <Compile Include="getHtml.ashx.cs">
       <DependentUpon>getHtml.ashx</DependentUpon>
@@ -213,33 +207,21 @@
     <Compile Include="MimeTypeParser.cs" />
     <Compile Include="ServerGeoData.cs" />
     <Compile Include="Video.cs" />
-    <Compile Include="getIdleInterval.aspx.cs">
-      <DependentUpon>getIdleInterval.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="getIdleInterval.aspx.designer.cs">
-      <DependentUpon>getIdleInterval.aspx</DependentUpon>
+    <Compile Include="getIdleInterval.ashx.cs">
+      <DependentUpon>getIdleInterval.ashx</DependentUpon>
     </Compile>
     <Compile Include="DataAccess.cs" />
     <Compile Include="Display.cs" />
     <Compile Include="Frame.cs" />
     <Compile Include="FullScreenPanel.cs" />
-    <Compile Include="getFrame.aspx.cs">
-      <DependentUpon>getFrame.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="getFrame.aspx.designer.cs">
-      <DependentUpon>getFrame.aspx</DependentUpon>
+    <Compile Include="getFrame.ashx.cs">
+      <DependentUpon>getFrame.ashx</DependentUpon>
     </Compile>
     <Compile Include="getImage.ashx.cs">
       <DependentUpon>getImage.ashx</DependentUpon>
     </Compile>
-    <Compile Include="getNextFrame.aspx.cs">
-      <DependentUpon>getNextFrame.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="getNextFrame.aspx.designer.cs">
-      <DependentUpon>getNextFrame.aspx</DependentUpon>
+    <Compile Include="getNextFrame.ashx.cs">
+      <DependentUpon>getNextFrame.ashx</DependentUpon>
     </Compile>
     <Compile Include="Memo.cs" />
     <Compile Include="Location.cs" />
@@ -291,6 +273,12 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Language\Language.csproj">
+      <Project>{b7bff176-78f2-4e35-b478-5be14c561551}</Project>
+      <Name>Language</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

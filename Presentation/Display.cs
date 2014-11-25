@@ -55,20 +55,23 @@ namespace DisplayMonkey
 		{
 			get
 			{
-				List<Display> list = new List<Display>();
-				string sql = "SELECT * FROM Display ORDER BY 1";
-				using (DataSet ds = DataAccess.RunSql(sql))
-				{
-					list.Capacity = ds.Tables[0].Rows.Count;
+                lock (_lock)
+                {
+                    List<Display> list = new List<Display>();
+                    string sql = "SELECT * FROM Display ORDER BY 1";
+                    using (DataSet ds = DataAccess.RunSql(sql))
+                    {
+                        list.Capacity = ds.Tables[0].Rows.Count;
 
-					// list registered displays
-					foreach (DataRow r in ds.Tables[0].Rows)
-					{
-						Display display = new Display(DataAccess.IntOrZero(r["DisplayId"]));
-						list.Add(display);
-					}
-				}
-				return list;
+                        // list registered displays
+                        foreach (DataRow r in ds.Tables[0].Rows)
+                        {
+                            Display display = new Display(DataAccess.IntOrZero(r["DisplayId"]));
+                            list.Add(display);
+                        }
+                    }
+                    return list;
+                }
 			}
 		}
 
@@ -95,35 +98,42 @@ namespace DisplayMonkey
 
         public static int GetHash(int displayId)
         {
-            if (_fn_GetDisplayHash == null)
+            lock (_lock)
             {
-                _fn_GetDisplayHash = new SqlCommand("select dbo.fn_GetDisplayHash(@displayId);");
-                _fn_GetDisplayHash.CommandType = CommandType.Text;
-                _fn_GetDisplayHash.Parameters.Add("@displayId", SqlDbType.Int);
-            }
-            _fn_GetDisplayHash.Connection = DataAccess.Connection;
-            _fn_GetDisplayHash.Parameters["@displayId"].Value = displayId;
+                if (_fn_GetDisplayHash == null)
+                {
+                    _fn_GetDisplayHash = new SqlCommand("select dbo.fn_GetDisplayHash(@displayId);");
+                    _fn_GetDisplayHash.CommandType = CommandType.Text;
+                    _fn_GetDisplayHash.Parameters.Add("@displayId", SqlDbType.Int);
+                }
+                _fn_GetDisplayHash.Connection = DataAccess.Connection;
+                _fn_GetDisplayHash.Parameters["@displayId"].Value = displayId;
 
-            using (DataSet ds = DataAccess.RunSql(_fn_GetDisplayHash))
-            {
-                return DataAccess.IntOrZero(ds.Tables[0].Rows[0][0]);
+                using (DataSet ds = DataAccess.RunSql(_fn_GetDisplayHash))
+                {
+                    return DataAccess.IntOrZero(ds.Tables[0].Rows[0][0]);
+                }
             }
         }
 
         public static int GetIdleInterval(int displayId)
         {
-            if (_sp_GetIdleInterval == null)
+            lock (_lock)
             {
-                _sp_GetIdleInterval = new SqlCommand("sp_GetIdleInterval");
-                _sp_GetIdleInterval.CommandType = CommandType.StoredProcedure;
-                _sp_GetIdleInterval.Parameters.Add("@displayId", SqlDbType.Int);
-                _sp_GetIdleInterval.Parameters.Add("@idleInterval", SqlDbType.Int).Direction = ParameterDirection.Output;
-            }
-            _sp_GetIdleInterval.Connection = DataAccess.Connection;
-            _sp_GetIdleInterval.Parameters["@displayId"].Value = displayId;
+                if (_sp_GetIdleInterval == null)
+                {
+                    _sp_GetIdleInterval = new SqlCommand("sp_GetIdleInterval");
+                    _sp_GetIdleInterval.CommandType = CommandType.StoredProcedure;
+                    _sp_GetIdleInterval.Parameters.Add("@displayId", SqlDbType.Int);
+                    _sp_GetIdleInterval.Parameters.Add("@idleInterval", SqlDbType.Int).Direction = ParameterDirection.Output;
+                }
 
-            DataAccess.ExecuteNonQuery(_sp_GetIdleInterval);
-            return DataAccess.IntOrZero(_sp_GetIdleInterval.Parameters["@idleInterval"].Value);
+                _sp_GetIdleInterval.Connection = DataAccess.Connection;
+                _sp_GetIdleInterval.Parameters["@displayId"].Value = displayId;
+
+                DataAccess.ExecuteNonQuery(_sp_GetIdleInterval);
+                return DataAccess.IntOrZero(_sp_GetIdleInterval.Parameters["@idleInterval"].Value);
+            }
         }
 
         public string Name = "";
@@ -137,6 +147,7 @@ namespace DisplayMonkey
 
         private static SqlCommand _sp_GetIdleInterval = null;
         private static SqlCommand _fn_GetDisplayHash = null;
+        private static object _lock = new object();
 
         #endregion
     }

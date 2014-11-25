@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace DisplayMonkey
 {
-    public class CultureInfo
+    /*public class CultureInfo
     {
         public string Code { get; set; }
         public string Name { get; set; }
         public string NameEng { get; set; }
-    }
+    }*/
 
     interface ILanguageSupport
     {

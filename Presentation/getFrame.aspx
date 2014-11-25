@@ -1,1 +1,0 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="getFrame.aspx.cs" Inherits="DisplayMonkey.getFrame" %>

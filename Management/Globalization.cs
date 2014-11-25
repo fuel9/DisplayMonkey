@@ -201,7 +201,7 @@ namespace DisplayMonkey
         }
         public static string GetNeutralCulture(string name)
         {
-            if (name.Length < 2)
+            if (name.Length <= 2)
                 return name;
             return name.Substring(0, 2); // Read first two chars only. E.g. "en", "es"
         }

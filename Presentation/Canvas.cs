@@ -96,7 +96,7 @@ namespace DisplayMonkey
 
 		public int BackgroundImage = 0;
 		public string BackgroundColor = "";
-		public bool IsAppleMobileSupported = true;
+		public bool IsAppleMobileSupported = true;  // TODO
 		public int CanvasId = 0;
 		public int Height = 0;
 		public int Width = 0;
@@ -110,12 +110,6 @@ namespace DisplayMonkey
 		{
 			get
 			{
-                //foreach (Panel panel in Panels)
-                //{
-                //    if (panel.GetType() == typeof(FullScreenPanel))
-                //        return (panel as FullScreenPanel).IdleInterval;
-                //}
-                //return 0;
                 return Display.GetIdleInterval(DisplayId);
 			}
 		}
@@ -129,15 +123,14 @@ namespace DisplayMonkey
 				Location location = new Location(DisplayId);
 				
 				// add meta
-				if (IsAppleMobileSupported)
+                head.AppendFormat(CultureInfo.InvariantCulture, "<meta name=\"server-latitude\" content=\"{0}\" />\r\n", ServerGeoData.Latitude);
+                head.AppendFormat(CultureInfo.InvariantCulture, "<meta name=\"server-longitude\" content=\"{0}\" />\r\n", ServerGeoData.Longitude);
+                head.AppendFormat(CultureInfo.InvariantCulture, "<meta name=\"server-offset-gmt\" content=\"{0}\" />\r\n", ServerGeoData.OffsetGMT);
+                head.AppendFormat(CultureInfo.InvariantCulture, "<meta name=\"server-external-ip\" content=\"{0}\" />\r\n", ServerGeoData.ServerExternalIPAddress.ToString());
+                if (IsAppleMobileSupported)
 				{
 					head.Append("<meta name=\"apple-mobile-web-app-capable\" content=\"yes\" />\r\n");
                     head.Append("<meta name=\"apple-mobile-web-app-status-bar-style\" content=\"black\" />\r\n");
-
-                    head.AppendFormat(CultureInfo.InvariantCulture, "<meta name=\"server-latitude\" content=\"{0}\" />\r\n", ServerGeoData.Latitude);
-                    head.AppendFormat(CultureInfo.InvariantCulture, "<meta name=\"server-longitude\" content=\"{0}\" />\r\n", ServerGeoData.Longitude);
-                    head.AppendFormat(CultureInfo.InvariantCulture, "<meta name=\"server-offset-gmt\" content=\"{0}\" />\r\n", ServerGeoData.OffsetGMT);
-                    head.AppendFormat(CultureInfo.InvariantCulture, "<meta name=\"server-external-ip\" content=\"{0}\" />\r\n", ServerGeoData.ServerExternalIPAddress.ToString());
                 }
 
 				// scripts
@@ -166,12 +159,9 @@ namespace DisplayMonkey
                 head.Append("});\r\n--></script>\r\n");
 				
 				// add styles
-				head.Append("<link rel=\"stylesheet\" href=\"styles/style.css\" type=\"text/css\" />\r\n<style>\r\n");
-				/*head.AppendFormat(
-					"body {{background:gray;{0}}}\r\n",
-					BackgroundImage == "" ? "" : string.Format("background-image:url({0});background-repeat:no-repeat;", BackgroundImage)
-					);*/
-				foreach (Panel p in Panels)
+                head.Append("<link rel=\"stylesheet\" href=\"styles/style.css\" type=\"text/css\" />\r\n");
+                head.Append("<style type=\"text/css\">\r\n");
+                foreach (Panel p in Panels)
 				{
 					head.Append(p.Style);
 				}
@@ -186,12 +176,6 @@ namespace DisplayMonkey
 			get
 			{
 				StringBuilder body = new StringBuilder();
-
-                //body.AppendFormat(CultureInfo.InvariantCulture,
-                //    "<div id=\"error\" style=\"width:{0}px;height:{1}px;\"></div>\r\n",
-                //    Width,
-                //    Height
-                //    );
                 body.AppendFormat(CultureInfo.InvariantCulture,
                     "<div id=\"segments\" style=\"width:{0}px;height:{1}px;\">\r\n",
                     Width,

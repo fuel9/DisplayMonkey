@@ -23,7 +23,7 @@ var Outlook = Class.create(PeriodicalExecuter, {
         if (this.exiting)
             return;
 
-        new Ajax.Request("getOutlook.aspx", {
+        new Ajax.Request("getOutlook.ashx", {
             method: 'get'
             , parameters: $H({ frame: this.frameId, panel: this.panelId, display: _canvas.displayId })
             , evalJSON: false

@@ -1117,4 +1117,7 @@
   <data name="Dashboard_NumberOfPendingFrames" xml:space="preserve">
     <value>Number of Pending Frames</value>
   </data>
+  <data name="OutlookEndsIn" xml:space="preserve">
+    <value>Ends in</value>
+  </data>
 </root>

@@ -1,1 +1,0 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="getOutlook.aspx.cs" Inherits="DisplayMonkey.getOutlook" %>

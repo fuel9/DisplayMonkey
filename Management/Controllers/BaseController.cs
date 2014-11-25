@@ -41,13 +41,14 @@ namespace DisplayMonkey.Controllers
             }
 
             // set current thread culture if any
-            CultureHelper.SetCurrentCulture(culture);
-            CultureHelper.SetCurrentUICulture(uiCulture);
+            CultureHelper.SetCurrentCulture(culture);       // locale
+            CultureHelper.SetCurrentUICulture(uiCulture);   // resource manager
 
             // execute controller
             return base.BeginExecuteCore(callback, state);
         }
 
+        // NOT USED CURRENTLY
         public ActionResult SetCulture(string culture)
         {
             // Validate input

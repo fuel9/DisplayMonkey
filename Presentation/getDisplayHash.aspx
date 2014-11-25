@@ -1,1 +1,0 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="getDisplayHash.aspx.cs" Inherits="DisplayMonkey.getDisplayHash" %>

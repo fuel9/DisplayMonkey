@@ -109,7 +109,7 @@ var Canvas = Class.create({
 
     checkDisplayHash: function () {
         "use strict";
-        new Ajax.Request("getDisplayHash.aspx", {
+        new Ajax.Request("getDisplayHash.ashx", {
             method: 'get'
             , parameters: $H({display: this.displayId})
             , canvas: this
@@ -213,7 +213,7 @@ Ajax.PanelUpdaterBase = Class.create(Ajax.Base, {
 	        display: _canvas.displayId,
 	        frame: this.currentId
 	    });
-		new Ajax.Request("getNextFrame.aspx", {
+		new Ajax.Request("getNextFrame.ashx", {
 			method: 'get'
 		    , parameters: p
 		    , panelUpdater: this
@@ -240,7 +240,7 @@ Ajax.PanelUpdaterBase = Class.create(Ajax.Base, {
 					    return p._updateEnd();
 
 				    p.currentType = json["FrameType"];
-				    p.url = "getFrame.aspx?" + $H({
+				    p.url = "getFrame.ashx?" + $H({
 					    "frame": p.currentId,
 					    "panel": p.panelId,
 					    "type": p.currentType,
@@ -267,7 +267,7 @@ Ajax.PanelUpdaterBase = Class.create(Ajax.Base, {
 			    break;
 			    }*/
 		        //_updateBegin();
-		        new ErrorReport({ exception: resp, source: "_onGetNextFrame::onFailure" });
+		        new ErrorReport({ exception: resp.toString(), source: "_onGetNextFrame::onFailure", data: resp });
 		        var p = resp.request.options.panelUpdater;
 		        p._updateEnd();
 		    }
@@ -597,7 +597,7 @@ function initFullScreenPanel (panelId) {
 
 			// obtain idle interval
 			var p = $H({ display: _canvas.displayId });
-			new Ajax.Request("getIdleInterval.aspx", {
+			new Ajax.Request("getIdleInterval.ashx", {
 				method: 'get'
 				, parameters: p
 				, panelUpdater: this

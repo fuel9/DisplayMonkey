@@ -32,7 +32,6 @@ namespace DisplayMonkey
 				{
 					// back to display selection
 					this.lContent.Text = Server.HtmlEncode(ex.ToString()).Replace("\n", "<br />");
-					//HttpContext.Current.Response.Redirect("default.aspx");
 				}
 			}
 		}

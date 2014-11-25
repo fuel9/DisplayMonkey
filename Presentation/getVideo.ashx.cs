@@ -86,6 +86,7 @@ namespace DisplayMonkey
 			}
 
 			Response.BinaryWrite(data);
+            Response.Flush();
 		}
 
 		public bool IsReusable

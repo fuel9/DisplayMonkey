@@ -1,1 +1,0 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="getIdleInterval.aspx.cs" Inherits="DisplayMonkey.getIdleInterval" %>
