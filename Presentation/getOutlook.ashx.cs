@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Script.Serialization;
 using Microsoft.Exchange.WebServices.Data;
 using System.Net;
+using DisplayMonkey.Language;
 
 namespace DisplayMonkey
 {
@@ -22,21 +23,30 @@ namespace DisplayMonkey
             int frameId = DataAccess.IntOrZero(Request.QueryString["frame"]);
             int panelId = DataAccess.IntOrZero(Request.QueryString["panel"]);
             int displayId = DataAccess.IntOrZero(Request.QueryString["display"]);
+            string culture = DataAccess.StringOrBlank(Request.QueryString["culture"]);
 
 			string json = "";
 				
 			try
 			{
                 Outlook outlook = new Outlook(frameId, panelId);
+
+                // set culture
+                if (!string.IsNullOrWhiteSpace(culture))
+                {
+                    System.Globalization.CultureInfo cultureInfo = new System.Globalization.CultureInfo(culture);
+                    System.Threading.Thread.CurrentThread.CurrentCulture = cultureInfo;
+                    System.Threading.Thread.CurrentThread.CurrentUICulture = cultureInfo;
+                }
                     
                 // EWS connection point
                 ServicePointManager.ServerCertificateValidationCallback =
                     CertificateValidationCallBack
                     ;
-                ExchangeService service = new ExchangeService(outlook.Revision)
+                ExchangeService service = new ExchangeService(outlook.EwsVersion)
                 {
                     Credentials = new WebCredentials(
-                        outlook.Account, 
+                        outlook.Account,
                         RsaUtil.Decrypt(outlook.Password)
                         ),
                 };
@@ -53,28 +63,34 @@ namespace DisplayMonkey
                         () => { 
                             service.AutodiscoverUrl(outlook.Account, RedirectionUrlValidationCallback); 
                             return service.Url; 
-                        }, 
+                        },
                         TimeSpan.FromHours(1)
                         );
                 }
 
                 // get display name
-                string displayName = outlook.Mailbox;
-                var n = service.ResolveName(displayName);
-                if (n.Count > 0)
+                string displayName = outlook.Name;
+                if (string.IsNullOrWhiteSpace(displayName))
                 {
-                    if (n[0].Contact != null)
+                    var match = service.ResolveName(outlook.Mailbox);
+                    if (match.Count > 0)
                     {
-                        displayName =
-                                n[0].Contact.CompleteName.FullName
-                            ?? n[0].Contact.DisplayName
-                            ?? displayName
-                            ;
+                        if (match[0].Contact != null)
+                        {
+                            displayName = 
+                                    match[0].Contact.CompleteName.FullName
+                                ??  match[0].Contact.DisplayName
+                                ??  displayName
+                                ;
+                        }
+                        
+                        else if (match[0].Mailbox != null)
+                        {
+                            displayName = match[0].Mailbox.Name ?? displayName;
+                        }
                     }
-                    else if (n[0].Mailbox != null)
-                    {
-                        displayName = n[0].Mailbox.Name;
-                    }
+                    //else
+                    //    throw new ApplicationException(string.Format("Mailbox {0} not found", mailbox));
                 }
 
                 // get availability
@@ -97,47 +113,47 @@ namespace DisplayMonkey
                 List<EventEntry> events = new List<EventEntry>();
 
                 // prep filter
-                DateTime 
-                    localTime = DateTime.Now, 
-                    windowBeg = localTime.AddDays(-10),
-                    windowEnd = localTime.AddHours(outlook.HourWindow);
-                FolderId folderId = new FolderId(WellKnownFolderName.Calendar, new Mailbox(outlook.Mailbox));
-                CalendarFolder calendar = CalendarFolder.Bind(service, folderId, new PropertySet());
-                CalendarView cView = new CalendarView(windowBeg, windowEnd)
+                DateTime localTime = DateTime.Now;
+                if (outlook.ShowEvents > 0)
                 {
-                    PropertySet = new PropertySet(
-                        AppointmentSchema.Subject,
-                        AppointmentSchema.DateTimeCreated,
-                        AppointmentSchema.Start,
-                        AppointmentSchema.End,
-                        AppointmentSchema.Duration
-                        )
-                };
-
-                var appointments = calendar
-                    .FindAppointments(cView)
-                    .Where(i => localTime < i.End)
-                    .OrderBy(i => i.Start)
-                    .ThenBy(i => i.DateTimeCreated)
-                    .ThenBy(i => i.Subject)
-                    .Take(outlook.MaxItems)
-                    ;
-                foreach (Appointment a in appointments)
-                {
-                    events.Add(new EventEntry
+                    DateTime
+                        windowBeg = localTime,
+                        windowEnd = DateTime.Today.AddDays(1).AddMilliseconds(-1)
+                        ;
+                    FolderId folderId = new FolderId(WellKnownFolderName.Calendar, new Mailbox(outlook.Mailbox));
+                    CalendarFolder calendar = CalendarFolder.Bind(service, folderId, new PropertySet());
+                    CalendarView cView = new CalendarView(windowBeg, windowEnd)
                     {
-                        Subject = a.Subject,
-                        CreatedOn = a.DateTimeCreated,
-                        Starts = a.Start,
-                        Ends = a.End,
-                        Duration = a.Duration,
-                    });
+                        PropertySet = new PropertySet(
+                            AppointmentSchema.Subject,
+                            AppointmentSchema.DateTimeCreated,
+                            AppointmentSchema.Start,
+                            AppointmentSchema.End,
+                            AppointmentSchema.Duration
+                            )
+                    };
+
+                    events = calendar
+                        .FindAppointments(cView)
+                        .OrderBy(i => i.Start)
+                        .ThenBy(i => i.DateTimeCreated)
+                        .ThenBy(i => i.Subject)
+                        .Take(outlook.ShowEvents)
+                        .Select(a => new EventEntry {
+                            Subject = a.Subject,
+                            CreatedOn = a.DateTimeCreated,
+                            Starts = a.Start,
+                            Ends = a.End,
+                            Duration = a.Duration,
+                        })
+                        .ToList()
+                        ;
+                    //events.Sort();
                 }
 
-                //events.Sort();
-
-                EventEntry currentEvent = null, firstEvent = events
-                    .FirstOrDefault()
+                EventEntry 
+                    currentEvent = null, 
+                    firstEvent = events.FirstOrDefault()
                     ;
 
                 if (firstEvent != null && firstEvent.Starts <= localTime)
@@ -147,30 +163,34 @@ namespace DisplayMonkey
 
                 string 
                     strCurrentEvent = "",
-                    strCurrentStatus = string.Format("Available for the next {0} hrs", outlook.HourWindow)  // TODO: translate
+                    strCurrentStatus = string.Format(
+                        Resources.Outlook_AvailableUntil,
+                        new DateTime(endTime.Ticks).ToShortTimeString()
+                        )
                     ;
                     
                 if (currentEvent != null)
                 {
+                    DateTime tomorrow = DateTime.Today.AddDays(1);
                     strCurrentEvent = string.Format("{0}, {1} - {2}", 
-                        currentEvent.Subject, 
-                        currentEvent.Starts.ToShortTimeString(),            // TODO: locale
-                        currentEvent.Ends.ToShortTimeString()               // TODO: locale
+                        currentEvent.Subject,
+                        (currentEvent.Starts >= tomorrow ? currentEvent.Starts.ToShortDateString() + " " : "") + currentEvent.Starts.ToShortTimeString(),
+                        (currentEvent.Ends >= tomorrow ? currentEvent.Ends.ToShortDateString() + " " : "") + currentEvent.Ends.ToShortTimeString()
                         );
                     TimeSpan gap = currentEvent.Ends.Subtract(localTime);
                     if (gap.Hours > 0)
-                        strCurrentStatus = string.Format("{0} {1} hrs {2} min", "Ends in", (int)gap.TotalHours, gap.Minutes);     // TODO: translate
+                        strCurrentStatus = string.Format(Resources.Outlook_EndsInHrsMin, (int)gap.TotalHours, gap.Minutes);
                     else
-                        strCurrentStatus = string.Format("{0} {1} min", "Ends in", gap.Minutes);                        // TODO: translate
+                        strCurrentStatus = string.Format(Resources.Outlook_EndsInMin, gap.Minutes);
                 }
 
                 else if (firstEvent != null)
                 {
                     TimeSpan gap = firstEvent.Starts.Subtract(localTime);
                     if (gap.Hours > 0)
-                        strCurrentStatus = string.Format("{0} {1} hrs {2} min", "Available for", (int)gap.TotalHours, gap.Minutes);     // TODO: translate
+                        strCurrentStatus = string.Format(Resources.Outlook_AvailableForHrsMin, (int)gap.TotalHours, gap.Minutes);
                     else
-                        strCurrentStatus = string.Format("{0} {1} min", "Available for", gap.Minutes);             // TODO: translate
+                        strCurrentStatus = string.Format(Resources.Outlook_AvailableForMin, gap.Minutes);
                 }
                     
                 JavaScriptSerializer jss = new JavaScriptSerializer();
@@ -193,7 +213,7 @@ namespace DisplayMonkey
                             utcOffsetHours = timeZone.BaseUtcOffset.TotalHours,
                         },
                     },
-                    mailbox = outlook.Name == "" ? displayName : outlook.Name,
+                    mailbox = displayName,
                     startTime = new
                     {
                         hour = startTime.Hours,
@@ -206,11 +226,13 @@ namespace DisplayMonkey
                     },
                     currentEvent = strCurrentEvent,
                     currentStatus = strCurrentStatus,
+                    mode = outlook.Mode,
                     events = new
                     {
+                        showEvents = outlook.ShowEvents,
                         head = EventEntryConverter.Head(),
                         items = events,
-                        noEvents = events.Count == 0 ? EventEntryConverter.NoEventsMessage(outlook.HourWindow) : "",
+                        noEvents = events.Count == 0 ? Resources.Outlook_NoEventsToday : "",
                     },
                 });
 			}
@@ -227,6 +249,7 @@ namespace DisplayMonkey
                         FrameId = frameId,
                         PanelId = panelId,
                         DisplayId = displayId,
+                        Culture = culture
                     },
                 });
 			}
@@ -280,16 +303,11 @@ namespace DisplayMonkey
             {
                 return new[] 
                 {
-                    new {cls = "col1", name = "Event"},     // TODO: translate
-                    new {cls = "col2", name = "Starts"},    // TODO: translate
-                    new {cls = "col3", name = "Ends"},      // TODO: translate
-                    new {cls = "col4", name = "Duration"}   // TODO: translate
+                    new {cls = "col1", name = Resources.Outlook_Event},
+                    new {cls = "col2", name = Resources.Outlook_Starts},
+                    new {cls = "col3", name = Resources.Outlook_Ends},
+                    new {cls = "col4", name = Resources.Outlook_Duration}
                 };
-            }
-
-            public static string NoEventsMessage(int hourWindow)
-            {
-                return string.Format("No events in the next {0} hrs", hourWindow);   // TODO: translate
             }
 
             public override IDictionary<string, object> Serialize(object obj, JavaScriptSerializer serializer)
@@ -300,9 +318,12 @@ namespace DisplayMonkey
                 {
                     DateTime tomorrow = DateTime.Today.AddDays(1);
                     serialized["col1"] = evt.Subject;
-                    serialized["col2"] = (evt.Starts >= tomorrow ? evt.Starts.ToShortDateString() + " " : "") + evt.Starts.ToShortTimeString();    // TODO: locale
-                    serialized["col3"] = (evt.Ends >= tomorrow ? evt.Ends.ToShortDateString() + " " : "") + evt.Ends.ToShortTimeString();      // TODO: locale
-                    serialized["col4"] = string.Format("{0} hrs {1} min", (int)evt.Duration.TotalHours, evt.Duration.Minutes);  // TODO: translate
+                    serialized["col2"] = (evt.Starts >= tomorrow ? evt.Starts.ToShortDateString() + " " : "") + evt.Starts.ToShortTimeString();
+                    serialized["col3"] = (evt.Ends >= tomorrow ? evt.Ends.ToShortDateString() + " " : "") + evt.Ends.ToShortTimeString();
+                    if ((int)evt.Duration.TotalHours > 0)
+                        serialized["col4"] = string.Format(Resources.Outlook_HrsMin, (int)evt.Duration.TotalHours, evt.Duration.Minutes);
+                    else
+                        serialized["col4"] = string.Format(Resources.Outlook_Min, evt.Duration.Minutes);
                 }
                 return serialized;
             }

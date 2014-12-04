@@ -40,27 +40,19 @@
         </div>
 
         <div class="editor-label">
+            @Html.LabelFor(model => model.Culture)
+        </div>
+        <div class="editor-field select">
+            @Html.DropDownListFor(m => m.Culture, ViewBag.Cultures as SelectList, Resources.FromAreaOrServerDefault)
+            @Html.ValidationMessageFor(model => model.Culture)
+        </div>
+
+        <div class="editor-label">
             @Html.LabelFor(model => model.TemperatureUnit)
         </div>
         <div class="editor-field select">
-            @Html.DropDownList("TemperatureUnit", Resources.FromArea)
+            @Html.DropDownListFor(m => m.TemperatureUnit, ViewBag.TemperatureUnit as SelectList, Resources.FromArea)
             @Html.ValidationMessageFor(model => model.TemperatureUnit)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Latitude)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Latitude)
-            @Html.ValidationMessageFor(model => model.Latitude)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Longitude)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Longitude)
-            @Html.ValidationMessageFor(model => model.Longitude)
         </div>
 
         <div class="editor-label">
@@ -77,6 +69,22 @@
         <div class="editor-field">
             @Html.EditorFor(model => model.TimeFormat)
             @Html.ValidationMessageFor(model => model.TimeFormat)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Latitude)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Latitude)
+            @Html.ValidationMessageFor(model => model.Latitude)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Longitude)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Longitude)
+            @Html.ValidationMessageFor(model => model.Longitude)
         </div>
 
         <div class="editor-label">

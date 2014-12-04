@@ -20,15 +20,15 @@ namespace DisplayMonkey.Models
 {
     public partial class TopContent
     {
-            [
-                Display(ResourceType = typeof(Resources), Name = "Count"),
-            ]
-            public int Count { get; set; }
+        [
+            Display(ResourceType = typeof(Resources), Name = "Count"),
+        ]
+        public int Count { get; set; }
 
-            [
-                Display(ResourceType = typeof(Resources), Name = "Name"),
-            ]
-            public string Name { get; set; }
+        [
+            Display(ResourceType = typeof(Resources), Name = "Name"),
+        ]
+        public string Name { get; set; }
     }
 
     [
@@ -114,6 +114,11 @@ namespace DisplayMonkey.Models
             public Nullable<int> OffsetGMT { get; set; }
 
             [
+                Display(ResourceType = typeof(Resources), Name = "Cultre"), // important spelling!!!
+            ]
+            public string Culture { get; set; }
+
+            [
                 Display(ResourceType = typeof(Resources), Name = "Level"),
             ]
             public virtual Level Level { get; set; }
@@ -142,6 +147,91 @@ namespace DisplayMonkey.Models
         public IEnumerable<Location> SelfAndChildren
         {
             get { return this.SelfAndChildren(l => l.Sublocations); }
+        }
+
+        public string TempUnitTranslated
+        {
+            get 
+            {
+                if (this.TemperatureUnit == null)
+                    return null;
+                else
+                    return Resources.ResourceManager.GetString(this.TemperatureUnit); 
+            }
+        }
+
+        public string TempUnitOrDefault
+        {
+            get
+            {
+                return this.TempUnitTranslated ?? Resources.FromArea;
+            }
+        }
+
+        public string DateFmtOrDefault
+        {
+            get { return this.DateFormat ?? Resources.FromArea; }
+        }
+
+        public string TimeFmtOrDefault
+        {
+            get { return this.TimeFormat ?? Resources.FromArea; }
+        }
+
+        public string LatitudeOrDefault
+        {
+            get
+            {
+                if (this.Latitude.HasValue)
+                    return this.Latitude.ToString();
+                else
+                    return Resources.FromArea;
+            }
+        }
+
+        public string LongitudeOrDefault
+        {
+            get
+            {
+                if (this.Longitude.HasValue)
+                    return this.Longitude.ToString();
+                else
+                    return Resources.FromArea;
+            }
+        }
+
+        public string WoeidOrDefault
+        {
+            get
+            {
+                if (this.Woeid.HasValue)
+                    return this.Woeid.ToString();
+                else
+                    return Resources.FromArea;
+            }
+        }
+
+        public string OffsetGmtOrDefault
+        {
+            get
+            {
+                if (this.OffsetGMT.HasValue)
+                    return this.OffsetGMT.ToString();
+                else
+                    return Resources.FromArea;
+            }
+        }
+
+        public string CultureOrDefault
+        {
+            get
+            {
+                return Info.SupportedCultures
+                    .Where(c => c.Name == this.Culture)
+                    .Select(c => c.DisplayName)
+                    .FirstOrDefault() ?? Resources.FromAreaOrServerDefault
+                    ;
+            }
         }
     }
 
@@ -448,6 +538,11 @@ namespace DisplayMonkey.Models
             public virtual Html Html { get; set; }
 
             [
+               Display(ResourceType = typeof(Resources), Name = "Outlook"),
+            ]
+            public virtual Outlook Outlook { get; set; }
+
+            [
                Display(ResourceType = typeof(Resources), Name = "Locations"), 
             ]
             public virtual ICollection<Location> Locations { get; set; }
@@ -459,6 +554,7 @@ namespace DisplayMonkey.Models
             Html,
             Memo,
             //News,
+            Outlook,
             Picture,
             Report,
             Video,
@@ -484,6 +580,7 @@ namespace DisplayMonkey.Models
                 if (this.Html != null) return FrameTypes.Html;
                 if (this.Memo != null) return FrameTypes.Memo;
                 //if (this.News != null) return FrameTypes.News;
+                if (this.Outlook != null) return FrameTypes.Outlook;
                 if (this.Picture != null) return FrameTypes.Picture;
                 if (this.Report != null) return FrameTypes.Report;
                 if (this.Video != null) return FrameTypes.Video;
@@ -509,6 +606,8 @@ namespace DisplayMonkey.Models
                     return (frame => frame.Memo != null);
                 //case FrameTypes.News:
                 //    return (frame => frame.News != null);
+                case FrameTypes.Outlook:
+                    return (frame => frame.Outlook != null);
                 case FrameTypes.Picture:
                     return (frame => frame.Picture != null);
                 case FrameTypes.Report:
@@ -746,25 +845,33 @@ namespace DisplayMonkey.Models
         [
             Display(ResourceType = typeof(Resources), Name = "Password"),
             DataType(DataType.Password),
+            NotMapped,
         ]
         public string PasswordUnmasked
         {
             get
             {
-                if (this.Password == null) 
-                    return null;
-                else
-                    return RsaUtil.Decrypt(this.Password);
+                //if (this.Password == null)
+                //    return null;
+                //else
+                //    return RsaUtil.Decrypt(this.Password);
+                return _pwdMask;
             }
-            
+
             set
             {
+                _passwordSet = true;
                 if (value == null)
                     this.Password = null;
-                else
+                else if (value != _pwdMask)
                     this.Password = RsaUtil.Encrypt(value);
+                else
+                    _passwordSet = false;
             }
         }
+
+        private const string _pwdMask = "****************";
+        public bool _passwordSet = false;
     }
 
     [
@@ -1041,6 +1148,111 @@ namespace DisplayMonkey.Models
         }
     }
 
+
+    [
+        MetadataType(typeof(Outlook.Annotations))
+    ]
+    public partial class Outlook
+    {
+        public Outlook()
+        {
+            Mode = OutlookModes.OutlookMode_Today;
+            EwsVersion = OutlookEwsVersions.OutlookEwsVersion_Exchange2007_SP1;
+            ShowEvents = 0;
+        }
+        
+        internal class Annotations
+        {
+            [
+                Display(ResourceType = typeof(Resources), Name = "ID"),
+            ]
+            public int FrameId { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "View"),
+                Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "ViewRequired"),
+            ]
+            public OutlookModes Mode { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "Name"),
+                //Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "NameRequired"),
+                StringLength(100, ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "MaxLengthExceeded"),
+            ]
+            public string Name { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "Account"),
+                Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "AccountRequired"),
+                StringLength(100, ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "MaxLengthExceeded"),
+            ]
+            public string Account { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "Password"),
+            ]
+            public byte[] Password { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "Mailbox"),
+                StringLength(100, ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "MaxLengthExceeded"),
+            ]
+            public string Mailbox { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "EwsVersion"),
+                Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "EwsVersionRequired"),
+            ]
+            public OutlookEwsVersions EwsVersion { get; set; }
+            //public string Url { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "ShowEvents"),
+                Range(0, Int32.MaxValue,
+                    ErrorMessageResourceType = typeof(Resources),
+                    ErrorMessageResourceName = "PositiveIntegerRequired"),
+                Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "ShowEventsRequired"),
+            ]
+            public int ShowEvents { get; set; }
+        }
+
+        [
+            NotMapped,
+        ]
+        public string NameOrMailboxOrAccount { get { return this.Name ?? this.Mailbox ?? this.Account; } }
+        
+        [
+            Display(ResourceType = typeof(Resources), Name = "Password"),
+            DataType(DataType.Password),
+            NotMapped,
+        ]
+        public string PasswordUnmasked
+        {
+            get
+            {
+                //if (this.Password == null)
+                //    return null;
+                //else
+                //    return RsaUtil.Decrypt(this.Password);
+                return _pwdMask;
+            }
+
+            set
+            {
+                _passwordSet = true;
+                if (value == null)
+                    this.Password = null;
+                else if (value != _pwdMask)
+                    this.Password = RsaUtil.Encrypt(value);
+                else
+                    _passwordSet = false;
+            }
+        }
+
+        private const string _pwdMask = "****************";
+        public bool _passwordSet = false;
+    }
+
     [
         MetadataType(typeof(Display.Annotations))
     ]
@@ -1221,9 +1433,36 @@ namespace DisplayMonkey.Models
 
 
 
-    /*public partial class DisplayMonkeyEntities
+    public partial class DisplayMonkeyEntities : DbContext
     {
-        static void ObjectContext_SavingChanges(object sender, EventArgs args)
+        public override int SaveChanges()
+        {
+            try
+            {
+                return base.SaveChanges();
+            }
+
+            catch (System.Data.Entity.Validation.DbEntityValidationException ex)
+            {
+                // Retrieve the error messages as a list of strings.
+                var errorMessages = ex.EntityValidationErrors
+                    .SelectMany(x => x.ValidationErrors)
+                    .Select(x => x.ErrorMessage)
+                    ;
+
+                // Join the list to a single string.
+                var fullErrorMessage = string.Join("; ", errorMessages);
+
+                // Combine the original exception message with the new one.
+                //var exceptionMessage = string.Concat(ex.Message, " The validation errors are: ", fullErrorMessage);
+
+                // Throw a new DbEntityValidationException with the improved exception message.
+                //throw new System.Data.Entity.Validation.DbEntityValidationException(exceptionMessage, ex.EntityValidationErrors);
+                throw new System.Data.Entity.Validation.DbEntityValidationException(fullErrorMessage, ex.EntityValidationErrors);
+            }
+        }
+
+        /*static void ObjectContext_SavingChanges(object sender, EventArgs args)
         {
             ObjectContext context = sender as ObjectContext;
             if (context != null)
@@ -1250,12 +1489,12 @@ namespace DisplayMonkey.Models
                     }
                 }
             }
-        }
+        }*/
     }
 
-    public class NeverUpdateAttribute : System.Attribute
-    {
-    }*/
+    //public class NeverUpdateAttribute : System.Attribute
+    //{
+    //}
 
     #endregion
 }

@@ -59,8 +59,7 @@ namespace DisplayMonkey
 							panel = new Panel(PanelId);
 
 						// put all together
-						html = string.Format(
-							template,
+						html = string.Format(template,
                             FrameId,
                             YoutubeId,
 							AutoLoop ? 1 : 0,

@@ -67,6 +67,16 @@
                 @item.News.Source
             </div>
         }
+        else if (item.Outlook != null)
+        {
+            <div class="d1">
+                <div><img src="~/images/calendar.png" alt="" /></div>
+                <div>@(string.Format("{0}, {1} {2}", item.FrameType, item.Duration, Resources.Sec))</div>
+            </div>
+            <div>
+                @item.Outlook.NameOrMailboxOrAccount
+            </div>
+        }
         else if (item.Picture != null)
         {
             <div class="d1">

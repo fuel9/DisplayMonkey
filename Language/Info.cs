@@ -1,19 +1,54 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Resources;
 
 namespace DisplayMonkey.Language
 {
-    public class Info : ILanguageSupport
+    public static class Info
     {
-        public string [] SupportedCultures()
+        private static CultureInfo[] _cultures = null;
+        private static CultureInfo[] _supportedCultures = null;
+        private static object _lock = new object();
+        public static CultureInfo[] SupportedCultures 
         {
-            // list resources supported by this DLL
-            return new string[] {
-                "en"
-            };
+            get 
+            {
+                lock (_lock)
+                {
+                    if (_supportedCultures == null)
+                    {
+                        ResourceManager rm = new ResourceManager(typeof(Resources));
+                        _supportedCultures = Info.AllCultures
+                            .Where(c => rm.GetResourceSet(c, true, false) != null)
+                            .OrderBy(c => c.Name)
+                            .ToArray()
+                            ;
+                    }
+
+                    return _supportedCultures;
+                }
+            } 
+        }
+        public static CultureInfo[] AllCultures
+        {
+            get
+            {
+                lock (_lock)
+                {
+                    if (_cultures == null)
+                    {
+                        _cultures = CultureInfo.GetCultures(CultureTypes.AllCultures)
+                            .Where(c => c.Name != "")
+                            .OrderBy(c => c.Name)
+                            .ToArray()
+                            ;
+                    }
+
+                    return _cultures;
+                }
+            }
         }
     }
 }

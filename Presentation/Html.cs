@@ -40,8 +40,8 @@ namespace DisplayMonkey
 					if (FrameId > 0)
 					{
 						HttpServerUtility util = HttpContext.Current.Server;
-						html = string.Format(
-							template,
+						html = string.Format(template,
+                            FrameId,
 							GetUrl(),
                             ""
 							);

@@ -81,11 +81,11 @@ namespace DisplayMonkey
 							options.Append(" loop=\"true\"");
 
 						// put all together
-						html = string.Format(
-							template,
-							sources.ToString(),
+						html = string.Format(template,
+                            FrameId,
 							style,
-							options.ToString()
+							options.ToString(),
+							sources.ToString()
 							);
 					}
 				}

@@ -47,6 +47,8 @@
         <AssociationConnector Association="DisplayMonkey.Model.FK_Html_Frame" />
         <EntityTypeShape EntityType="DisplayMonkey.Model.Youtube" Width="1.5" PointX="13.5" PointY="19.5" />
         <AssociationConnector Association="DisplayMonkey.Model.FK_Youtube_Frame" />
+        <EntityTypeShape EntityType="DisplayMonkey.Model.Outlook" Width="1.5" PointX="13.5" PointY="22.5" />
+        <AssociationConnector Association="DisplayMonkey.Model.FK_Outlook_Frame" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

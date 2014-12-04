@@ -1120,4 +1120,121 @@
   <data name="OutlookEndsIn" xml:space="preserve">
     <value>Ends in</value>
   </data>
+  <data name="Outlook_AvailableUntil" xml:space="preserve">
+    <value>Available until {0}</value>
+  </data>
+  <data name="Outlook_AvailableForHrsMin" xml:space="preserve">
+    <value>Available for {0} hrs {1} min</value>
+  </data>
+  <data name="Outlook_AvailableForMin" xml:space="preserve">
+    <value>Available for {0} min</value>
+  </data>
+  <data name="Outlook_Duration" xml:space="preserve">
+    <value>Duration</value>
+  </data>
+  <data name="Outlook_Ends" xml:space="preserve">
+    <value>Ends</value>
+  </data>
+  <data name="Outlook_EndsInHrsMin" xml:space="preserve">
+    <value>Ends in {0} hrs {1} min</value>
+  </data>
+  <data name="Outlook_EndsInMin" xml:space="preserve">
+    <value>Ends in {0} min</value>
+  </data>
+  <data name="Outlook_Event" xml:space="preserve">
+    <value>Event</value>
+  </data>
+  <data name="Outlook_HrsMin" xml:space="preserve">
+    <value>{0} hrs {1} min</value>
+  </data>
+  <data name="Outlook_NoEventsToday" xml:space="preserve">
+    <value>No events today</value>
+  </data>
+  <data name="Outlook_Starts" xml:space="preserve">
+    <value>Starts</value>
+  </data>
+  <data name="Outlook" xml:space="preserve">
+    <value>Outlook</value>
+  </data>
+  <data name="Account" xml:space="preserve">
+    <value>Account</value>
+  </data>
+  <data name="AccountRequired" xml:space="preserve">
+    <value>Account is required</value>
+  </data>
+  <data name="EwsVersion" xml:space="preserve">
+    <value>EWS version</value>
+  </data>
+  <data name="EwsVersionRequired" xml:space="preserve">
+    <value>EWS version is required</value>
+  </data>
+  <data name="Mailbox" xml:space="preserve">
+    <value>Mailbox</value>
+  </data>
+  <data name="View" xml:space="preserve">
+    <value>View</value>
+  </data>
+  <data name="ViewRequired" xml:space="preserve">
+    <value>View is required</value>
+  </data>
+  <data name="ShowEvents" xml:space="preserve">
+    <value>Show events</value>
+  </data>
+  <data name="ShowEventsRequired" xml:space="preserve">
+    <value>Show events is required</value>
+  </data>
+  <data name="DeleteOutlookFrame" xml:space="preserve">
+    <value>Delete Outlook frame</value>
+  </data>
+  <data name="OutlookEwsVersion_Exchange2007_SP1" xml:space="preserve">
+    <value>Exchange 2007 SP1</value>
+  </data>
+  <data name="OutlookEwsVersion_Exchange2010" xml:space="preserve">
+    <value>Exchange 2010</value>
+  </data>
+  <data name="OutlookEwsVersion_Exchange2010_SP1" xml:space="preserve">
+    <value>Exchange 2010 SP1</value>
+  </data>
+  <data name="OutlookEwsVersion_Exchange2010_SP2" xml:space="preserve">
+    <value>Exchange 2010 SP2</value>
+  </data>
+  <data name="OutlookEwsVersion_Exchange2013" xml:space="preserve">
+    <value>Exchange 2013</value>
+  </data>
+  <data name="OutlookEwsVersion_Exchange2013_SP1" xml:space="preserve">
+    <value>Exchange 2013 SP1</value>
+  </data>
+  <data name="OutlookFrameDetails" xml:space="preserve">
+    <value>Outlook frame details</value>
+  </data>
+  <data name="OutlookMode_Today" xml:space="preserve">
+    <value>Today</value>
+  </data>
+  <data name="CreateOutlookFrame" xml:space="preserve">
+    <value>Create Outlook frame</value>
+  </data>
+  <data name="Cultre" xml:space="preserve">
+    <value>Culture</value>
+  </data>
+  <data name="EditOutlookFrame" xml:space="preserve">
+    <value>Edit Outlook frame</value>
+  </data>
+  <data name="C" xml:space="preserve">
+    <value>°C</value>
+  </data>
+  <data name="F" xml:space="preserve">
+    <value>°F</value>
+  </data>
+  <data name="FromAreaOrServerDefault" xml:space="preserve">
+    <value>- From Area or Server Default -</value>
+  </data>
+  <data name="Hello" xml:space="preserve">
+    <value>Hello</value>
+  </data>
+  <data name="Help" xml:space="preserve">
+    <value>Help</value>
+  </data>
+  <data name="Outlook_Min" xml:space="preserve">
+    <value>{0} min</value>
+  </data>
 </root>

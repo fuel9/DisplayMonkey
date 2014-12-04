@@ -35,10 +35,19 @@
 
     <div class="divRow">
     <div class="display-label">
+         @Html.DisplayNameFor(model => model.Culture)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.CultureOrDefault)
+    </div>
+    </div>
+
+    <div class="divRow">
+    <div class="display-label">
          @Html.DisplayNameFor(model => model.TemperatureUnit)
     </div>
     <div class="display-field">
-        @Html.DisplayFor(model => model.TemperatureUnit)
+        @Html.DisplayFor(model => model.TempUnitOrDefault)
     </div>
     </div>
 
@@ -47,7 +56,7 @@
          @Html.DisplayNameFor(model => model.Latitude)
     </div>
     <div class="display-field">
-        @Html.DisplayFor(model => model.Latitude)
+        @Html.DisplayFor(model => model.LatitudeOrDefault)
     </div>
     </div>
 
@@ -56,7 +65,7 @@
          @Html.DisplayNameFor(model => model.Longitude)
     </div>
     <div class="display-field">
-        @Html.DisplayFor(model => model.Longitude)
+        @Html.DisplayFor(model => model.LongitudeOrDefault)
     </div>
     </div>
 
@@ -65,7 +74,7 @@
          @Html.DisplayNameFor(model => model.DateFormat)
     </div>
     <div class="display-field">
-        @Html.DisplayFor(model => model.DateFormat)
+        @Html.DisplayFor(model => model.DateFmtOrDefault)
     </div>
     </div>
 
@@ -74,7 +83,7 @@
          @Html.DisplayNameFor(model => model.TimeFormat)
     </div>
     <div class="display-field">
-        @Html.DisplayFor(model => model.TimeFormat)
+        @Html.DisplayFor(model => model.TimeFmtOrDefault)
     </div>
     </div>
 
@@ -83,7 +92,7 @@
          @Html.DisplayNameFor(model => model.OffsetGMT)
     </div>
     <div class="display-field">
-        @Html.DisplayFor(model => model.OffsetGMT)
+        @Html.DisplayFor(model => model.OffsetGmtOrDefault)
     </div>
     </div>
     </div>

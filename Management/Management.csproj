@@ -160,9 +160,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\ILanguageInfo.cs">
-      <Link>ILanguageInfo.cs</Link>
-    </Compile>
     <Compile Include="..\Presentation\CacheExtensions.cs">
       <Link>CacheExtensions.cs</Link>
     </Compile>
@@ -183,6 +180,7 @@
     <Compile Include="Controllers\LevelController.cs" />
     <Compile Include="Controllers\LocationController.cs" />
     <Compile Include="Controllers\MemoController.cs" />
+    <Compile Include="Controllers\OutlookController.cs" />
     <Compile Include="Controllers\PanelController.cs" />
     <Compile Include="Controllers\Navigation.cs" />
     <Compile Include="Controllers\PictureController.cs" />
@@ -250,6 +248,15 @@
       <DependentUpon>DMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\News.cs">
+      <DependentUpon>DMModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Outlook.cs">
+      <DependentUpon>DMModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\OutlookEwsVersions.cs">
+      <DependentUpon>DMModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\OutlookModes.cs">
       <DependentUpon>DMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Panel.cs">
@@ -374,6 +381,7 @@
     <Content Include="Content\themes\base\minified\jquery.ui.tooltip.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="Images\Calendar.png" />
     <Content Include="Images\clock.png" />
     <Content Include="Images\dropdown.png" />
     <Content Include="Images\film.png" />
@@ -578,6 +586,12 @@
     <Content Include="Views\YouTube\_Edit.cshtml" />
     <Content Include="Views\Display\_Edit.cshtml" />
     <Content Include="Views\Shared\_frameDetails.cshtml" />
+    <Content Include="Views\Outlook\Create.cshtml" />
+    <Content Include="Views\Outlook\Delete.cshtml" />
+    <Content Include="Views\Outlook\Details.cshtml" />
+    <Content Include="Views\Outlook\Edit.cshtml" />
+    <Content Include="Views\Outlook\_Details.cshtml" />
+    <Content Include="Views\Outlook\_Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

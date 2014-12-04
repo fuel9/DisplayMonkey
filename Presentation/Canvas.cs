@@ -146,7 +146,8 @@ namespace DisplayMonkey
 				head.AppendFormat(CultureInfo.InvariantCulture, "timeFormat:'{0}',\r\n", location.TimeFormat);
 				head.AppendFormat(CultureInfo.InvariantCulture, "latitude:{0},\r\n", location.Latitude);
 				head.AppendFormat(CultureInfo.InvariantCulture, "longitude:{0},\r\n", location.Longitude);
-				head.AppendFormat(CultureInfo.InvariantCulture, "woeid:{0},\r\n", location.Woeid);
+                head.AppendFormat(CultureInfo.InvariantCulture, "woeid:{0},\r\n", location.Woeid);
+                head.AppendFormat(CultureInfo.InvariantCulture, "culture:'{0}',\r\n", location.Culture);
                 head.AppendFormat(CultureInfo.InvariantCulture, "localTime:'{0}',\r\n", location.LocalTime);
                 head.AppendFormat(CultureInfo.InvariantCulture, "initialIdleInterval:{0},\r\n", this.InitialMaxIdleInterval);
 				head.AppendFormat(CultureInfo.InvariantCulture, "width:{0},\r\n", this.Width);

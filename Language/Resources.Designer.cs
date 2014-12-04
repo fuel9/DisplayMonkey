@@ -70,6 +70,24 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Account.
+        /// </summary>
+        public static string Account {
+            get {
+                return ResourceManager.GetString("Account", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Account is required.
+        /// </summary>
+        public static string AccountRequired {
+            get {
+                return ResourceManager.GetString("AccountRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add.
         /// </summary>
         public static string Add {
@@ -372,6 +390,15 @@ namespace DisplayMonkey.Language {
         public static string Bytes {
             get {
                 return ResourceManager.GetString("Bytes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to °C.
+        /// </summary>
+        public static string C {
+            get {
+                return ResourceManager.GetString("C", resourceCulture);
             }
         }
         
@@ -709,6 +736,24 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Create Outlook frame.
+        /// </summary>
+        public static string CreateOutlookFrame {
+            get {
+                return ResourceManager.GetString("CreateOutlookFrame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Culture.
+        /// </summary>
+        public static string Cultre {
+            get {
+                return ResourceManager.GetString("Cultre", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Currently Displayed.
         /// </summary>
         public static string CurrentlyDisplayed {
@@ -912,6 +957,15 @@ namespace DisplayMonkey.Language {
         public static string DeleteOrganizationLocation {
             get {
                 return ResourceManager.GetString("DeleteOrganizationLocation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete Outlook frame.
+        /// </summary>
+        public static string DeleteOutlookFrame {
+            get {
+                return ResourceManager.GetString("DeleteOutlookFrame", resourceCulture);
             }
         }
         
@@ -1178,6 +1232,15 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Edit Outlook frame.
+        /// </summary>
+        public static string EditOutlookFrame {
+            get {
+                return ResourceManager.GetString("EditOutlookFrame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Edit panel.
         /// </summary>
         public static string EditPanel {
@@ -1295,6 +1358,33 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to EWS version.
+        /// </summary>
+        public static string EwsVersion {
+            get {
+                return ResourceManager.GetString("EwsVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to EWS version is required.
+        /// </summary>
+        public static string EwsVersionRequired {
+            get {
+                return ResourceManager.GetString("EwsVersionRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to °F.
+        /// </summary>
+        public static string F {
+            get {
+                return ResourceManager.GetString("F", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to File format.
         /// </summary>
         public static string FileFormat {
@@ -1358,6 +1448,15 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to - From Area or Server Default -.
+        /// </summary>
+        public static string FromAreaOrServerDefault {
+            get {
+                return ResourceManager.GetString("FromAreaOrServerDefault", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Full screen.
         /// </summary>
         public static string FullScreen {
@@ -1390,6 +1489,24 @@ namespace DisplayMonkey.Language {
         public static string Height {
             get {
                 return ResourceManager.GetString("Height", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hello.
+        /// </summary>
+        public static string Hello {
+            get {
+                return ResourceManager.GetString("Hello", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Help.
+        /// </summary>
+        public static string Help {
+            get {
+                return ResourceManager.GetString("Help", resourceCulture);
             }
         }
         
@@ -1615,6 +1732,15 @@ namespace DisplayMonkey.Language {
         public static string Longitude {
             get {
                 return ResourceManager.GetString("Longitude", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mailbox.
+        /// </summary>
+        public static string Mailbox {
+            get {
+                return ResourceManager.GetString("Mailbox", resourceCulture);
             }
         }
         
@@ -1881,11 +2007,200 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Outlook.
+        /// </summary>
+        public static string Outlook {
+            get {
+                return ResourceManager.GetString("Outlook", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Available for {0} hrs {1} min.
+        /// </summary>
+        public static string Outlook_AvailableForHrsMin {
+            get {
+                return ResourceManager.GetString("Outlook_AvailableForHrsMin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Available for {0} min.
+        /// </summary>
+        public static string Outlook_AvailableForMin {
+            get {
+                return ResourceManager.GetString("Outlook_AvailableForMin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Available until {0}.
+        /// </summary>
+        public static string Outlook_AvailableUntil {
+            get {
+                return ResourceManager.GetString("Outlook_AvailableUntil", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Duration.
+        /// </summary>
+        public static string Outlook_Duration {
+            get {
+                return ResourceManager.GetString("Outlook_Duration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ends.
+        /// </summary>
+        public static string Outlook_Ends {
+            get {
+                return ResourceManager.GetString("Outlook_Ends", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ends in {0} hrs {1} min.
+        /// </summary>
+        public static string Outlook_EndsInHrsMin {
+            get {
+                return ResourceManager.GetString("Outlook_EndsInHrsMin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ends in {0} min.
+        /// </summary>
+        public static string Outlook_EndsInMin {
+            get {
+                return ResourceManager.GetString("Outlook_EndsInMin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Event.
+        /// </summary>
+        public static string Outlook_Event {
+            get {
+                return ResourceManager.GetString("Outlook_Event", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} hrs {1} min.
+        /// </summary>
+        public static string Outlook_HrsMin {
+            get {
+                return ResourceManager.GetString("Outlook_HrsMin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} min.
+        /// </summary>
+        public static string Outlook_Min {
+            get {
+                return ResourceManager.GetString("Outlook_Min", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No events today.
+        /// </summary>
+        public static string Outlook_NoEventsToday {
+            get {
+                return ResourceManager.GetString("Outlook_NoEventsToday", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Starts.
+        /// </summary>
+        public static string Outlook_Starts {
+            get {
+                return ResourceManager.GetString("Outlook_Starts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ends in.
         /// </summary>
         public static string OutlookEndsIn {
             get {
                 return ResourceManager.GetString("OutlookEndsIn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Exchange 2007 SP1.
+        /// </summary>
+        public static string OutlookEwsVersion_Exchange2007_SP1 {
+            get {
+                return ResourceManager.GetString("OutlookEwsVersion_Exchange2007_SP1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Exchange 2010.
+        /// </summary>
+        public static string OutlookEwsVersion_Exchange2010 {
+            get {
+                return ResourceManager.GetString("OutlookEwsVersion_Exchange2010", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Exchange 2010 SP1.
+        /// </summary>
+        public static string OutlookEwsVersion_Exchange2010_SP1 {
+            get {
+                return ResourceManager.GetString("OutlookEwsVersion_Exchange2010_SP1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Exchange 2010 SP2.
+        /// </summary>
+        public static string OutlookEwsVersion_Exchange2010_SP2 {
+            get {
+                return ResourceManager.GetString("OutlookEwsVersion_Exchange2010_SP2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Exchange 2013.
+        /// </summary>
+        public static string OutlookEwsVersion_Exchange2013 {
+            get {
+                return ResourceManager.GetString("OutlookEwsVersion_Exchange2013", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Exchange 2013 SP1.
+        /// </summary>
+        public static string OutlookEwsVersion_Exchange2013_SP1 {
+            get {
+                return ResourceManager.GetString("OutlookEwsVersion_Exchange2013_SP1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Outlook frame details.
+        /// </summary>
+        public static string OutlookFrameDetails {
+            get {
+                return ResourceManager.GetString("OutlookFrameDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Today.
+        /// </summary>
+        public static string OutlookMode_Today {
+            get {
+                return ResourceManager.GetString("OutlookMode_Today", resourceCulture);
             }
         }
         
@@ -2340,6 +2655,24 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Show events.
+        /// </summary>
+        public static string ShowEvents {
+            get {
+                return ResourceManager.GetString("ShowEvents", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show events is required.
+        /// </summary>
+        public static string ShowEventsRequired {
+            get {
+                return ResourceManager.GetString("ShowEventsRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Show time.
         /// </summary>
         public static string ShowTime {
@@ -2665,6 +2998,15 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to View.
+        /// </summary>
+        public static string View {
+            get {
+                return ResourceManager.GetString("View", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to View application settings.
         /// </summary>
         public static string ViewApplicationSettings {
@@ -2724,6 +3066,15 @@ namespace DisplayMonkey.Language {
         public static string ViewPanels {
             get {
                 return ResourceManager.GetString("ViewPanels", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View is required.
+        /// </summary>
+        public static string ViewRequired {
+            get {
+                return ResourceManager.GetString("ViewRequired", resourceCulture);
             }
         }
         

@@ -1,0 +1,30 @@
+﻿@using DisplayMonkey.Language
+
+@model DisplayMonkey.Models.Outlook
+
+@{
+    ViewBag.Title = Resources.EditOutlookFrame;
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>@Resources.Outlook</legend>
+
+        @Html.Partial("_frameData", Model.Frame)
+
+        @Html.Partial("_Edit")
+
+        <p>
+            <input type="submit" value="@Resources.Save" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink(Resources.ViewFrames, "Index", "Frame")
+</div>

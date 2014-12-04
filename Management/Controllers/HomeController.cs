@@ -36,6 +36,9 @@ namespace DisplayMonkey.Controllers
             ViewBag.Count_Memos = db.Memos.Count();
             ViewBag.Count_Memos_7 = db.Memos.Count(t => t.Frame.DateCreated >= sevenDaysAgo);
 
+            ViewBag.Count_Outlook = db.Outlook.Count();
+            ViewBag.Count_Outlook_7 = db.Outlook.Count(t => t.Frame.DateCreated >= sevenDaysAgo);
+
             ViewBag.Count_Pictures = db.Pictures.Count();
             ViewBag.Count_Pictures_7 = db.Pictures.Count(t => t.Frame.DateCreated >= sevenDaysAgo);
 
@@ -60,6 +63,7 @@ namespace DisplayMonkey.Controllers
                         f.Html != null ? f.Html.Name :
                         f.Memo != null ? f.Memo.Subject :
                         f.News != null ? DisplayMonkey.Language.Resources.News :
+                        f.Outlook != null ? f.Outlook.Name :
                         f.Picture != null ? f.Picture.Content.Name :
                         f.Report != null ? f.Report.Name :
                         f.Video != null ? f.Video.Contents.FirstOrDefault().Name :

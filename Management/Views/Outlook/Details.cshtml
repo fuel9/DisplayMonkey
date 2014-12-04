@@ -1,0 +1,18 @@
+﻿@using DisplayMonkey.Language
+
+@model DisplayMonkey.Models.Outlook
+
+@{
+    ViewBag.Title = Resources.OutlookFrameDetails;
+}
+
+<h2>@ViewBag.Title</h2>
+
+@Html.Partial("_Details")
+
+<p>
+    @Html.ActionLink(Resources.Edit, "Edit", "Frame", new { id=Model.FrameId }, null) |
+    @Html.ActionLink(Resources.ViewFrames, "Index", "Frame")
+</p>
+
+@Html.Partial("_frameLocations", Model.Frame)

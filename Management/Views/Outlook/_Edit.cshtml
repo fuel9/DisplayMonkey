@@ -1,0 +1,64 @@
+﻿@using DisplayMonkey.Language
+
+@model DisplayMonkey.Models.Outlook
+
+@{
+    SelectList modes = ViewBag.Modes as SelectList;
+    SelectList ewsVersions = ViewBag.EwsVersions as SelectList;
+}
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Name)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Account)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Account)
+            @Html.ValidationMessageFor(model => model.Account)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.PasswordUnmasked)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.PasswordUnmasked)
+            @Html.ValidationMessageFor(model => model.PasswordUnmasked)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Mailbox)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Mailbox)
+            @Html.ValidationMessageFor(model => model.Mailbox)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.EwsVersion)
+        </div>
+        <div class="editor-field select">
+            @Html.DropDownListFor(model => model.EwsVersion, ewsVersions)
+            @Html.ValidationMessageFor(model => model.EwsVersion)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Mode)
+        </div>
+        <div class="editor-field select">
+            @Html.DropDownListFor(model => model.Mode, modes)
+            @Html.ValidationMessageFor(model => model.Mode)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ShowEvents)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ShowEvents, new { htmlAttributes = new { @class = "duration" } })
+            @Html.ValidationMessageFor(model => model.ShowEvents)
+        </div>

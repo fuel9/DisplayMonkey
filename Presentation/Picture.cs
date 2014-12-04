@@ -84,7 +84,8 @@ namespace DisplayMonkey
 							}
 						}
 
-						html = string.Format(template, 
+						html = string.Format(template,
+                            FrameId,
 							GetUrl(),
 							style,
 							Name

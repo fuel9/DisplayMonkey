@@ -101,6 +101,7 @@ namespace DisplayMonkey.Controllers
             FillLevelsSelectList();
             FillTemperatureUnitSelectList();
             FillAreaSelectList(0);
+            FillCulturesSelectList();
 
             return View();
         }
@@ -128,6 +129,8 @@ namespace DisplayMonkey.Controllers
             FillLevelsSelectList(location.LevelId);
             FillTemperatureUnitSelectList(location.TemperatureUnit);
             FillAreaSelectList(location.LocationId, location.AreaId);
+            FillCulturesSelectList(location.Culture);
+
             return View(location);
         }
 
@@ -141,9 +144,10 @@ namespace DisplayMonkey.Controllers
             {
                 return View("Missing", new MissingItem(id));
             }
-            FillLevelsSelectList(location.LevelId);
+            //FillLevelsSelectList(location.LevelId);
             FillTemperatureUnitSelectList(location.TemperatureUnit);
-            FillAreaSelectList(location.LocationId, location.AreaId);
+            //FillAreaSelectList(location.LocationId, location.AreaId);
+            FillCulturesSelectList(location.Culture);
 
             return View(location);
         }
@@ -169,9 +173,11 @@ namespace DisplayMonkey.Controllers
 
                 return Navigation.Restore() ?? RedirectToAction("Index");
             }
-            FillLevelsSelectList(location.LevelId);
+            //FillLevelsSelectList(location.LevelId);
             FillTemperatureUnitSelectList(location.TemperatureUnit);
-            FillAreaSelectList(location.LocationId, location.AreaId);
+            //FillAreaSelectList(location.LocationId, location.AreaId);
+            FillCulturesSelectList(location.Culture);
+
             return View(location);
         }
 
@@ -225,13 +231,22 @@ namespace DisplayMonkey.Controllers
             ViewBag.TemperatureUnit = new SelectList(
                 new []
                 {
-                    new {TemperatureUnit = "C"},
-                    new {TemperatureUnit = "F"},
+                    new {Unit = "C", Name = Resources.C},
+                    new {Unit = "F", Name = Resources.F},
                 },
-                "TemperatureUnit", 
-                "TemperatureUnit", 
+                "Unit", 
+                "Name", 
                 selected
             );
+        }
+
+        private void FillCulturesSelectList(object selected = null)
+        {
+            var query = Info.AllCultures
+                .Select(c => new {Code = c.Name, Name = c.DisplayName})
+                .OrderBy(c => c.Name)
+                ;
+            ViewBag.Cultures = new SelectList(query, "Code", "Name", selected);
         }
 
         private int? GetWoeid(double? latitude, double? longitude)

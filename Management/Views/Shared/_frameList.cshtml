@@ -60,6 +60,11 @@
                 <text>Subject: <span>@Html.DisplayFor(m => item.Memo.Subject)</span></text>
                 <p>Body: <span>@Html.DisplayFor(m => item.Memo.ShortBody)</span></p>
             }
+            else if (item.Outlook != null)
+            {
+                <img class="thumb1" src="~/images/calendar.png" alt="" />
+                <span>@Html.DisplayFor(m => item.Outlook.NameOrMailboxOrAccount)</span>
+            }
             else if (item.Picture != null)
             {
                 <img class="thumb1" src="@Url.Action("Thumb", "Media", new { id = item.Picture.ContentId, width = 50, height = 50, mode = (int)RenderModes.RenderMode_Stretch })" alt="" />

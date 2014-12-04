@@ -55,6 +55,7 @@ namespace DisplayMonkey
 
             int? woeid = r["Woeid"] as Nullable<int>;
             if (woeid != null) Woeid = woeid.Value;
+            Culture = DataAccess.StringOrBlank(r["Culture"]);
         }
 
 		public static List<Location> List(int levelId = 0)
@@ -95,6 +96,7 @@ namespace DisplayMonkey
         public int OffsetGMT = ServerGeoData.OffsetGMT;
         public decimal Latitude = ServerGeoData.Latitude;
         public decimal Longitude = ServerGeoData.Longitude;
+        public string Culture = "";
 
         public DateTime LocalTime
         {

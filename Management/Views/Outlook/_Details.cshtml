@@ -1,0 +1,69 @@
+﻿@using DisplayMonkey
+@using DisplayMonkey.Models
+@using DisplayMonkey.Language
+
+@model DisplayMonkey.Models.Outlook
+
+<fieldset>
+    <legend>@Resources.Outlook</legend>
+
+    <div class="divTable">
+
+    @Html.Partial("_frameDetails", Model.Frame)
+
+    <div class="divRow">
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Name)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Name)
+    </div>
+    </div>
+
+    <div class="divRow">
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Mode)
+    </div>
+    <div class="display-field">
+        @Model.Mode.Translate()
+    </div>
+    </div>
+
+    <div class="divRow">
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Account)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Account)
+    </div>
+    </div>
+
+    <div class="divRow">
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Mailbox)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Mailbox)
+    </div>
+    </div>
+
+    <div class="divRow">
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.EwsVersion)
+    </div>
+    <div class="display-field">
+        @Model.EwsVersion.Translate()
+    </div>
+    </div>
+
+    <div class="divRow">
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.ShowEvents)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ShowEvents)
+    </div>
+    </div>
+    </div>
+</fieldset>
+

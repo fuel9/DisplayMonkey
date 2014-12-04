@@ -61,6 +61,7 @@ var Canvas = Class.create({
 		this.latitude = (options.latitude || 0);
 		this.longitude = (options.longitude || 0);
 		this.woeid = (options.woeid || 0);
+		this.culture = (options.culture || "");
 		this.temperatureUnit = (options.temperatureUnit || 'c');
 		this.showErrors = (options.showErrors || false);
 

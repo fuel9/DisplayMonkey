@@ -10,7 +10,7 @@
     string help = Url.Content("~/help" + path);
 }
 <!DOCTYPE html>
-<html lang="en">
+<html>
     <head>
         <meta charset="utf-8" />
         <title>@ViewBag.Title - Display Monkey</title>
@@ -34,14 +34,14 @@
                 </div>
                 <div class="float-right">
                     <section id="login">
-                       Hello, <span class="username">@User.Identity.Name</span>!
+                       @Resources.Hello, <span class="username">@User.Identity.Name</span>!
                     </section>
                     <nav>
                         <ul class="menu">
                             <li>@Html.ActionLink(Resources.Home, "Index", "Home")</li>
                             <li>@Html.ActionLink(Resources.CurrentlyDisplayed, "Index", "Display")</li>
                             <li>@Html.ActionLink(Resources.ChangeDisplayed, "Index", "Frame")</li>
-                            <li><a href="#">Media</a>
+                            <li><a href="#">@Resources.Media</a>
                                 <ul>
                                     <li>@Html.ActionLink(Resources.ViewUploadedMedia, "Index", "Media")</li>
                                     <li>@Html.ActionLink(Resources.UploadMedia, "Upload", "Media")</li>
@@ -65,8 +65,8 @@
                                     </li>
                                 </ul>
                             </li>
-                            <li><a href="@help" onclick="window.open('@help','Help','width=640,height=480,resizable=1,scrollbars=1'); return false;" target="_blank">Help</a></li>
-                            <li><a href="http://www.fuel9.com/home/about-us/">About</a></li>
+                            <li><a href="@help" onclick="window.open('@help','Help','width=640,height=480,resizable=1,scrollbars=1'); return false;" target="_blank">@Resources.Help</a></li>
+                            <li><a href="http://www.fuel9.com/home/about-us/">@Resources.About</a></li>
                         </ul>
                     </nav>
                 </div>

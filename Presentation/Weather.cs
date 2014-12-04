@@ -101,12 +101,13 @@ namespace DisplayMonkey
 						}
 					}
 
-
 					// populate template
 					if (map.Count > 0)
 					{
-						html = template;
-						foreach (string k in map.Keys)
+                        html = template.Replace( "{{frame_id}}",
+                            FrameId.ToString()
+                            );
+                        foreach (string k in map.Keys)
 						{
 							html = html.Replace(string.Format("{{{0}}}", k), map[k]);
 						}

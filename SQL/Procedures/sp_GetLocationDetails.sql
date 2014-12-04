@@ -3,6 +3,7 @@ GO
 /*******************************************************************
   2013-11-09 [DPA] - DisplayMonkey object
   2014-10-04 [LTL] - added woeid
+  2014-11-28 [LTL] - added culture
 *******************************************************************/
 alter procedure dbo.sp_GetLocationDetails
 	@displayId int
@@ -21,6 +22,8 @@ as begin
 	,	@dateFmt varchar(20)
 	,	@timeFmt varchar(10)
 	,	@name nvarchar(100)
+	,	@offset int
+	,	@culture varchar(10)
 	;
 	
 	select top 1 @locId = LocationId from Display where DisplayId=@displayId;
@@ -37,6 +40,8 @@ as begin
 		,	@dateFmt = isnull(@dateFmt, DateFormat)
 		,	@timeFmt = isnull(@timeFmt, TimeFormat)
 		,	@name = case when @displayLoc = @locId then Name else @name end
+		,	@offset = isnull(@offset, OffsetGMT)
+		,	@culture = isnull(@culture, Culture)
 		from Location where LocationId=@locId
 		;
 		if (@@rowcount=0) break;
@@ -53,7 +58,8 @@ as begin
 	,	TemperatureUnit = isnull(@unit,'C')
 	,	DateFormat = isnull(@dateFmt,'LL')
 	,	TimeFormat = isnull(@timeFmt,'LT')
-	,	OffsetGMT
+	,	OffsetGMT = @offset
+	,	Culture = @culture
 	from Location where LocationId=@displayLoc
 	;
 

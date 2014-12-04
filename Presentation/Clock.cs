@@ -52,7 +52,14 @@ namespace DisplayMonkey
 					// fill template
 					if (FrameId > 0)
 					{
-						html = string.Format(template, ShowDate, ShowTime, Type, Height, Width);
+                        html = string.Format(template, 
+                            FrameId, 
+                            ShowDate, 
+                            ShowTime, 
+                            Type, 
+                            Height, 
+                            Width
+                            );
 					}
 				}
 

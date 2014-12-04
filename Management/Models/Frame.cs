@@ -38,5 +38,6 @@ namespace DisplayMonkey.Models
         public virtual ICollection<Location> Locations { get; set; }
         public virtual Html Html { get; set; }
         public virtual Youtube Youtube { get; set; }
+        public virtual Outlook Outlook { get; set; }
     }
 }

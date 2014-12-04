@@ -44,5 +44,6 @@ namespace DisplayMonkey.Models
         public DbSet<Setting> Settings { get; set; }
         public DbSet<Html> Html { get; set; }
         public DbSet<Youtube> Youtube { get; set; }
+        public DbSet<Outlook> Outlook { get; set; }
     }
 }

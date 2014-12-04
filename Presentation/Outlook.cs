@@ -25,19 +25,18 @@ namespace DisplayMonkey
 				{
 					DataRow dr = ds.Tables[0].Rows[0];
 					FrameId = DataAccess.IntOrZero(dr["FrameId"]);
-                    Account = DataAccess.StringOrBlank(dr["Account"]);
+                    Account = DataAccess.StringOrBlank(dr["Account"]).Trim();
                     Password = (byte[])dr["Password"];
                     Mode = DataAccess.IntOrZero(dr["Mode"]);
-                    Revision = (ExchangeVersion)DataAccess.IntOrZero(dr["Revision"]);
-                    HourWindow = DataAccess.IntOrZero(dr["HourWindow"]);
-                    MaxItems = 10;  // TODO
-                    Mailbox = DataAccess.StringOrBlank(dr["Mailbox"]);
-                    if (Mailbox == "")
+                    EwsVersion = (ExchangeVersion)DataAccess.IntOrZero(dr["EwsVersion"]);
+                    ShowEvents = DataAccess.IntOrZero(dr["ShowEvents"]);
+                    if (ShowEvents < 0)
+                        ShowEvents = 0;
+                    Mailbox = DataAccess.StringOrBlank(dr["Mailbox"]).Trim();
+                    if (string.IsNullOrWhiteSpace(Mailbox))
                         Mailbox = Account;
-                    Name = DataAccess.StringOrBlank(dr["Name"]);
-                    if (Name == "")
-                        Name = Mailbox;
-                    URL = DataAccess.StringOrBlank(dr["Url"]);
+                    Name = DataAccess.StringOrBlank(dr["Name"]).Trim();
+                    URL = DataAccess.StringOrBlank(dr["Url"]).Trim();
 				}
 			}
 		}
@@ -53,8 +52,8 @@ namespace DisplayMonkey
                     string template = File.ReadAllText(_templatePath);
 
                     //HttpServerUtility util = HttpContext.Current.Server;
-                    html = string.Format(
-                        template
+                    html = string.Format(template,
+                        FrameId
                         );
                 }
 
@@ -73,8 +72,7 @@ namespace DisplayMonkey
         public string Account = null;
         public byte[] Password = null;
         public string Mailbox = null;
-        public int HourWindow = 24;
-        public int MaxItems = 10;
-        public ExchangeVersion Revision = ExchangeVersion.Exchange2007_SP1;
+        public int ShowEvents = 10;
+        public ExchangeVersion EwsVersion = ExchangeVersion.Exchange2007_SP1;
     }
 }

@@ -42,8 +42,8 @@ namespace DisplayMonkey
 					if (FrameId > 0)
 					{
 						HttpServerUtility util = HttpContext.Current.Server;
-						html = string.Format(
-							template,
+						html = string.Format(template,
+                            FrameId,
 							util.HtmlEncode(Subject),
 							util.HtmlEncode(Body).Replace("\r\n", "<br>").Replace("\r", "\n").Replace("\n", "<br>")
 							);

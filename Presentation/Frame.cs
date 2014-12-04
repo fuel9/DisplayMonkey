@@ -45,19 +45,22 @@ namespace DisplayMonkey
 
         public static Frame GetNextFrame(int panelId, int displayId, int frameId)
 		{
-            lock (_lock)
+            Frame nci = new Frame()
             {
-                SqlCommand cmd = Frame.NextFrameCommand;
-                cmd.Parameters["@panelId"].Value = panelId;
-                cmd.Parameters["@displayId"].Value = displayId;
-                cmd.Parameters["@lastFrameId"].Value = frameId;
+                PanelId = panelId
+            };
+
+            using (SqlCommand cmd = new SqlCommand("sp_GetNextFrame"))
+            {
+				cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add("@panelId", SqlDbType.Int).Value = panelId;
+                cmd.Parameters.Add("@displayId", SqlDbType.Int).Value = displayId;
+                cmd.Parameters.Add("@lastFrameId", SqlDbType.Int).Value = frameId;
+				cmd.Parameters.Add("@nextFrameId", SqlDbType.Int).Direction = ParameterDirection.Output;
+				cmd.Parameters.Add("@duration", SqlDbType.Int).Direction = ParameterDirection.Output;
+				cmd.Parameters.Add("@frameType", SqlDbType.VarChar, 20).Direction = ParameterDirection.Output;
 
                 DataAccess.ExecuteNonQuery(cmd);
-
-                Frame nci = new Frame()
-                {
-                    PanelId = panelId
-                };
 
                 if (cmd.Parameters["@nextFrameId"].Value != DBNull.Value)
                     nci.FrameId = (int)cmd.Parameters["@nextFrameId"].Value;
@@ -65,9 +68,9 @@ namespace DisplayMonkey
                     nci.Duration = (int)cmd.Parameters["@duration"].Value;
                 if (cmd.Parameters["@frameType"].Value != DBNull.Value)
                     nci.FrameType = (string)cmd.Parameters["@frameType"].Value;
-
-                return nci;
             }
+
+            return nci;
 		}
 
 		public virtual string Payload { get { return ""; } }
@@ -79,29 +82,6 @@ namespace DisplayMonkey
 		#endregion
 
 		#region Private Members
-
-		private static SqlCommand NextFrameCommand
-		{
-			get
-			{
-				if (_sp_GetNextFrame == null)
-				{
-					_sp_GetNextFrame = new SqlCommand("sp_GetNextFrame");
-					_sp_GetNextFrame.CommandType = CommandType.StoredProcedure;
-                    _sp_GetNextFrame.Parameters.Add("@panelId", SqlDbType.Int);
-                    _sp_GetNextFrame.Parameters.Add("@displayId", SqlDbType.Int);
-                    _sp_GetNextFrame.Parameters.Add("@lastFrameId", SqlDbType.Int);
-					_sp_GetNextFrame.Parameters.Add("@nextFrameId", SqlDbType.Int).Direction = ParameterDirection.Output;
-					_sp_GetNextFrame.Parameters.Add("@duration", SqlDbType.Int).Direction = ParameterDirection.Output;
-					_sp_GetNextFrame.Parameters.Add("@frameType", SqlDbType.VarChar, 20).Direction = ParameterDirection.Output;
-				}
-				_sp_GetNextFrame.Connection = DataAccess.Connection;
-				return _sp_GetNextFrame;
-			}
-		}
-
-		private static SqlCommand _sp_GetNextFrame = null;
-        private static object _lock = new object();
 
 		#endregion
 	}

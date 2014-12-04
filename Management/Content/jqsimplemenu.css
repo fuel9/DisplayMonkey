@@ -114,7 +114,7 @@ li.right-menu > a
 }
 .menu-item-selected > a
 {
-    background-color: #fff;
+    background-color: #ffffe3;
     /*-moz-opacity: .50;
     filter: alpha(opacity=50);
     opacity: .50; */
