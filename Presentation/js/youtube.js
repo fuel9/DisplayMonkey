@@ -73,23 +73,23 @@ YtLib.YtPlayer = Class.create({
 
     stop: function () {
         "use strict";
-        if (this.player &&
-            this.player.getPlayerState() > 0)
-            this.player.stopVideo();
+        try {
+            if (this.player) this.player.stopVideo(); 
+        } catch (e) { }
     },
 
     pause: function () {
         "use strict";
-        if (this.player &&
-            this.player.pauseVideo != undefined)
-            this.player.pauseVideo();
+        try {
+            if (this.player) this.player.pauseVideo();
+        } catch (e) { }
     },
 
     play: function () {
         "use strict";
-        if (this.player &&
-            this.player.playVideo != undefined)
-            this.player.playVideo();
+        try {
+            if (this.player) this.player.playVideo();
+        } catch (e) { }
     },
 
     show: function () {
