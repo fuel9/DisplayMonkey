@@ -42,50 +42,53 @@ namespace DisplayMonkey
                 }
                 
                 Frame nci = Frame.GetNextFrame(panelId, displayId, frameId);
-                switch (nci.FrameType)
+                if (nci.FrameId > 0)
                 {
-                    case "CLOCK":
-                        nci.Html = new Clock(nci.FrameId, panelId, displayId).Payload;
-                        break;
+                    switch (nci.FrameType)
+                    {
+                        case "CLOCK":
+                            nci.Html = new Clock(nci.FrameId, panelId, displayId).Payload;
+                            break;
 
-                    case "HTML":
-                        nci.Html = new Html(nci.FrameId, panelId).Payload;
-                        break;
+                        case "HTML":
+                            nci.Html = new Html(nci.FrameId, panelId).Payload;
+                            break;
 
-                    case "MEMO":
-                        nci.Html = new Memo(nci.FrameId, panelId).Payload;
-                        break;
+                        case "MEMO":
+                            nci.Html = new Memo(nci.FrameId, panelId).Payload;
+                            break;
 
-                    case "OUTLOOK":
-                        nci.Html = new Outlook(nci.FrameId, panelId).Payload;
-                        break;
+                        case "OUTLOOK":
+                            nci.Html = new Outlook(nci.FrameId, panelId).Payload;
+                            break;
 
-                    case "PICTURE":
-                        nci.Html = new Picture(nci.FrameId, panelId).Payload;
-                        break;
+                        case "PICTURE":
+                            nci.Html = new Picture(nci.FrameId, panelId).Payload;
+                            break;
 
-                    case "REPORT":
-                        nci.Html = new Report(nci.FrameId, panelId).Payload;
-                        break;
+                        case "REPORT":
+                            nci.Html = new Report(nci.FrameId, panelId).Payload;
+                            break;
 
-                    case "VIDEO":
-                        nci.Html = new Video(nci.FrameId, panelId).Payload;
-                        break;
+                        case "VIDEO":
+                            nci.Html = new Video(nci.FrameId, panelId).Payload;
+                            break;
 
-                    case "WEATHER":
-                        int woeid = DataAccess.IntOrZero(Request.QueryString["woeid"]);
-                        string tempUnit = Request.QueryString["tempU"];
-                        nci.Html = new Weather(nci.FrameId, panelId, displayId, woeid, tempUnit).Payload;
-                        break;
+                        case "WEATHER":
+                            int woeid = DataAccess.IntOrZero(Request.QueryString["woeid"]);
+                            string tempUnit = Request.QueryString["tempU"];
+                            nci.Html = new Weather(nci.FrameId, panelId, displayId, woeid, tempUnit).Payload;
+                            break;
 
-                    case "YOUTUBE":
-                        nci.Html = new YouTube(nci.FrameId, panelId).Payload;
-                        break;
+                        case "YOUTUBE":
+                            nci.Html = new YouTube(nci.FrameId, panelId).Payload;
+                            break;
 
-                    case "NEWS":
-                    default:
-                        nci.Html = string.Format(Resources.ErrorContentTypeNotImplemented, nci.FrameType);
-                        break;
+                        case "NEWS":
+                        default:
+                            nci.Html = string.Format(Resources.ErrorContentTypeNotImplemented, nci.FrameType);
+                            break;
+                    }
                 }
 
 				JavaScriptSerializer oSerializer = new JavaScriptSerializer();
