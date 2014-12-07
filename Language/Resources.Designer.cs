@@ -1322,6 +1322,15 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Content type {0} not implemented.
+        /// </summary>
+        public static string ErrorContentTypeNotImplemented {
+            get {
+                return ResourceManager.GetString("ErrorContentTypeNotImplemented", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Details.
         /// </summary>
         public static string ErrorDetails {
@@ -1336,6 +1345,15 @@ namespace DisplayMonkey.Language {
         public static string ErrorMessage {
             get {
                 return ResourceManager.GetString("ErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No data has been retrieved. Please specify GEO and temperature settings in display location..
+        /// </summary>
+        public static string ErrorNoWeatherDataWasRetrieved {
+            get {
+                return ResourceManager.GetString("ErrorNoWeatherDataWasRetrieved", resourceCulture);
             }
         }
         

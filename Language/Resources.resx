@@ -1237,4 +1237,10 @@
   <data name="OutlookUrl" xml:space="preserve">
     <value>EWS Url (optional)</value>
   </data>
+  <data name="ErrorContentTypeNotImplemented" xml:space="preserve">
+    <value>Content type {0} not implemented</value>
+  </data>
+  <data name="ErrorNoWeatherDataWasRetrieved" xml:space="preserve">
+    <value>No data has been retrieved. Please specify GEO and temperature settings in display location.</value>
+  </data>
 </root>

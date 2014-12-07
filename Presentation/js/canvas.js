@@ -163,8 +163,10 @@ Ajax.PanelUpdaterBase = Class.create(Ajax.Base, {
 		this.frequency = (this.options.frequency || 1);
 		this.updater = {};
 		this.container = this.options.container; // "div" + this.panelId;
-		this.h_container = "h_" + this.container;
-		this.url = "";
+		//this.h_container = "h_" + this.container;
+		//this.url = "";
+		this.html = "";
+		this.object = null;
 
 		this.currentId = 0;
 		this.previousType = this.currentType = "";
@@ -174,9 +176,6 @@ Ajax.PanelUpdaterBase = Class.create(Ajax.Base, {
 		this.onBeforeIdle = (this.options.onBeforeIdle || Prototype.emptyFunction);
 		this.fadeLength = (this.options.fadeLength || 0);
 		if (this.fadeLength < 0) this.fadeLength = 0;
-
-		//this.ytPlayer = null;
-		this.object = null;
 
 		this.options.onComplete = this._updateEnd.bind(this);
 		this.options.onException = this._dispatchException.bind(this);
@@ -210,9 +209,12 @@ Ajax.PanelUpdaterBase = Class.create(Ajax.Base, {
 	    "use strict";
 	    // get next frame
 	    var p = $H({
-	        panel: this.panelId,
-	        display: _canvas.displayId,
-	        frame: this.currentId
+	        "frame":    this.currentId,
+	        "panel":    this.panelId,
+	        "display":  _canvas.displayId,
+	        "culture":  _canvas.culture,
+	        "woeid":    _canvas.woeid,
+		    "tempU":    _canvas.temperatureUnit,
 	    });
 		new Ajax.Request("getNextFrame.ashx", {
 			method: 'get'
@@ -241,14 +243,15 @@ Ajax.PanelUpdaterBase = Class.create(Ajax.Base, {
 					    return p._updateEnd();
 
 				    p.currentType = json["FrameType"];
-				    p.url = "getFrame.ashx?" + $H({
+				    p.html = json["Html"];
+				    /*p.url = "getFrame.ashx?" + $H({
 					    "frame": p.currentId,
 					    "panel": p.panelId,
 					    "type": p.currentType,
 					    "display": _canvas.displayId,
 		                "woeid": _canvas.woeid,
 				        "temperatureUnit": _canvas.temperatureUnit
-                    }).toQueryString();
+                    }).toQueryString();*/
 				    //console.log(p.url);
 
 				    p._updateBegin();
@@ -281,7 +284,8 @@ Ajax.PanelUpdaterBase = Class.create(Ajax.Base, {
 		catch (e) {
 		    new ErrorReport({ exception: e, source: "_updateBegin::onBeforeUpdate" });
 		}
-	    this.updater = new Ajax.Updater(this.h_container, this._hashUrl(this.url), this.options);
+	    //this.updater = new Ajax.Updater(this.h_container, this._hashUrl(this.url), this.options);
+	    this._updateEnd();
 	},
 
     // Ajax.Updater callback
@@ -295,10 +299,11 @@ Ajax.PanelUpdaterBase = Class.create(Ajax.Base, {
 	    "use strict";
 	    var needRedraw = (
 			this.previousType != this.currentType ||
-			$(this.container).innerHTML != $(this.h_container).innerHTML
+			$(this.container).innerHTML != this.html //$(this.h_container).innerHTML
 		);
 
-		if (!needRedraw) {
+	    if (!needRedraw) {
+	        //$(this.h_container).update("");
 			this.expire = this._onFrameExpire.bind(this).delay(this.frequency);
 			return;
 		}
@@ -325,9 +330,10 @@ Ajax.PanelUpdaterBase = Class.create(Ajax.Base, {
 
 		// substitute html
 		this.previousType = this.currentType;
-		var html = $(this.h_container).innerHTML;
+		/*var html = $(this.h_container).innerHTML;
 		$(this.h_container).update("");
-		$(this.container).update(html);
+		$(this.container).update(html);*/
+		$(this.container).update(this.html);
 
 		// 1. call after update
 		try { this.onAfterUpdate(this.previousType); }

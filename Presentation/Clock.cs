@@ -43,7 +43,7 @@ namespace DisplayMonkey
 		{
 			get
 			{
-				string html = "No data has been retrieved. Please specify WOEID and temperature unit in display location.";
+				string html = "";
 				try
 				{
 					// load template

@@ -14,6 +14,7 @@ namespace DisplayMonkey
 		public int Duration = 0;
 		public string FrameType = null;
 		public string URL = null;
+        public string Html = "";
 
 		public static string GetFrameType(int frameId)
 		{

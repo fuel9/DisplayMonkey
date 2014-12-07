@@ -9,6 +9,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Net;
 using System.Xml;
+using DisplayMonkey.Language;
 
 
 namespace DisplayMonkey
@@ -62,7 +63,7 @@ namespace DisplayMonkey
 		{
 			get
 			{
-				string html = "No data has been retrieved. Please specify GEO and temperature settings in display location.";
+				string html = Resources.ErrorNoWeatherDataWasRetrieved;
 				try
 				{
 					// load template

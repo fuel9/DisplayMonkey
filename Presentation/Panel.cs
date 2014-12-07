@@ -119,22 +119,18 @@ namespace DisplayMonkey
 		public int Height = 0;
 		public string Name = "";
 
-		public string BorderColor = "";
-
 		public virtual string Style 
 		{ 
 			get 
 			{ 
 				return string.Format(
-					"#div{0} {{position:absolute;overflow:hidden;margin:auto;top:{1}px;left:{2}px;width:{3}px;height:{4}px;{5}}}\r\n",
-					new object[] {
-						PanelId, 
-						Top, 
-						Left, 
-						Width, 
-						Height,
-						BorderColor == "" ? "" : string.Format("border:1px solid {0};", BorderColor), 
-					}); 
+					"#div{0} {{position:absolute;overflow:hidden;margin:auto;top:{1}px;left:{2}px;width:{3}px;height:{4}px;}}\r\n",
+					PanelId, 
+					Top, 
+					Left, 
+					Width, 
+					Height
+    				);
 			} 
 		}
 
@@ -143,10 +139,12 @@ namespace DisplayMonkey
 			get
 			{
 				return string.Format(
-					"<div id=\"div{0}\" data-panel-id=\"{0}\"></div><div id=\"h_div{0}\" style=\"display:none\"></div>\r\n", 
-					PanelId
+                    //"<div id=\"div{0}\" data-panel-id=\"{0}\"></div><div id=\"h_div{0}\" style=\"display:none\"></div>\r\n",
+                    "<div id=\"div{0}\" data-panel-id=\"{0}\"></div>\r\n",
+                    PanelId
 					);
 			}
 		}
 	}
 }
+
