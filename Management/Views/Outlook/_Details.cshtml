@@ -22,15 +22,6 @@
 
     <div class="divRow">
     <div class="display-label">
-         @Html.DisplayNameFor(model => model.Mode)
-    </div>
-    <div class="display-field">
-        @Model.Mode.Translate()
-    </div>
-    </div>
-
-    <div class="divRow">
-    <div class="display-label">
          @Html.DisplayNameFor(model => model.Account)
     </div>
     <div class="display-field">
@@ -49,10 +40,10 @@
 
     <div class="divRow">
     <div class="display-label">
-         @Html.DisplayNameFor(model => model.EwsVersion)
+         @Html.DisplayNameFor(model => model.Url)
     </div>
     <div class="display-field">
-        @Model.EwsVersion.Translate()
+        @Html.DisplayFor(model => model.Url)
     </div>
     </div>
 

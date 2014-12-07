@@ -103,7 +103,7 @@ namespace DisplayMonkey
 			}
 		}
 
-		public static void WriteImage(Stream inStream, Stream outStream, int panelWidth, int panelHeight, PictureMode mode)
+		public static void WriteImage(Stream inStream, Stream outStream, int boundWidth, int boundHeight, PictureMode mode)
 		{
 			Bitmap bmpSrc = null, bmpTrg = null;
 
@@ -116,42 +116,43 @@ namespace DisplayMonkey
 				bmpSrc.SelectActiveFrame(fd, 0);
 
 				// crop/fit/stretch
-				int imageHeight = bmpSrc.Height, imageWidth = bmpSrc.Width;
+                int imageHeight = bmpSrc.Height, imageWidth = bmpSrc.Width, targetWidth, targetHeight;
 
-				if (panelWidth < 0) panelWidth = imageWidth;
-				if (panelHeight < 0) panelHeight = imageHeight;
+				if (boundWidth < 0) boundWidth = imageWidth;
+				if (boundHeight < 0) boundHeight = imageHeight;
 
-				if (panelWidth != imageWidth || panelHeight != imageHeight)
+				if (boundWidth != imageWidth || boundHeight != imageHeight)
 				{
 					switch (mode)
 					{
 						case PictureMode.STRETCH:
-							bmpTrg = new Bitmap(bmpSrc, new Size(panelWidth, panelHeight));
+							bmpTrg = new Bitmap(bmpSrc, new Size(boundWidth, boundHeight));
 							break;
 
 						case PictureMode.FIT:
-							int targetWidth = imageWidth, targetHeight = imageHeight;
+							targetWidth = imageWidth;
+                            targetHeight = imageHeight;
 							float scale = 1F;
 							// a. panel is greater than image: grow
-							if (panelHeight > imageHeight && panelWidth > imageWidth)
+							if (boundHeight > imageHeight && boundWidth > imageWidth)
 							{
-								scale = Math.Min((float)panelWidth / imageWidth, (float)panelHeight / imageHeight);
-								targetHeight = Math.Min((int)((float)imageHeight * scale), panelHeight);
-								targetWidth = Math.Min((int)((float)imageWidth * scale), panelWidth);
+								scale = Math.Min((float)boundWidth / imageWidth, (float)boundHeight / imageHeight);
+								targetHeight = Math.Min((int)((float)imageHeight * scale), boundHeight);
+								targetWidth = Math.Min((int)((float)imageWidth * scale), boundWidth);
 							}
 							// b. image is greater than panel: shrink
 							else
 							{
-								scale = Math.Max((float)imageWidth / panelWidth, (float)imageHeight / panelHeight);
-								targetWidth = Math.Min((int)((float)imageWidth / scale), panelWidth);
-								targetHeight = Math.Min((int)((float)imageHeight / scale), panelHeight);
+								scale = Math.Max((float)imageWidth / boundWidth, (float)imageHeight / boundHeight);
+								targetWidth = Math.Min((int)((float)imageWidth / scale), boundWidth);
+								targetHeight = Math.Min((int)((float)imageHeight / scale), boundHeight);
 							}
 							bmpTrg = new Bitmap(bmpSrc, new Size(targetWidth, targetHeight));
 							break;
 
 						case PictureMode.CROP:
-							targetWidth = Math.Min(panelWidth, imageWidth);
-							targetHeight = Math.Min(panelHeight, imageHeight);
+							targetWidth = Math.Min(boundWidth, imageWidth);
+							targetHeight = Math.Min(boundHeight, imageHeight);
 							bmpTrg = bmpSrc.Clone(
 								new Rectangle(0, 0, targetWidth, targetHeight),
 								bmpSrc.PixelFormat

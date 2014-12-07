@@ -1159,6 +1159,7 @@ namespace DisplayMonkey.Models
             Mode = OutlookModes.OutlookMode_Today;
             EwsVersion = OutlookEwsVersions.OutlookEwsVersion_Exchange2007_SP1;
             ShowEvents = 0;
+            Url = "https://outlook.office365.com/EWS/Exchange.asmx";
         }
         
         internal class Annotations
@@ -1204,7 +1205,12 @@ namespace DisplayMonkey.Models
                 Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "EwsVersionRequired"),
             ]
             public OutlookEwsVersions EwsVersion { get; set; }
-            //public string Url { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "OutlookUrl"),
+                StringLength(250, ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "MaxLengthExceeded"),
+            ]
+            public string Url { get; set; }
 
             [
                 Display(ResourceType = typeof(Resources), Name = "ShowEvents"),

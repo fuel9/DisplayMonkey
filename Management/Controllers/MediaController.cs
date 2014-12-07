@@ -250,19 +250,20 @@ namespace DisplayMonkey.Controllers
             {
                 if (width <= 120 && height <= 120)
                 {
-                    byte[] cache = HttpRuntime.Cache.GetOrAddAbsolute(
+                    byte[] cache = HttpRuntime.Cache.GetOrAddSliding(
                         string.Format("thumb_image_{0}_{1}x{2}_{3}", id, width, height, (int)mode),
                         () => {
                             byte [] img = db.Contents.Find(id).Data;
-                            using (MemoryStream src = new MemoryStream(img))
                             using (MemoryStream trg = new MemoryStream())
+                            using (MemoryStream src = new MemoryStream(img))
                             {
                                 MediaController.WriteImage(src, trg, width, height, mode);
                                 return trg.GetBuffer();
                             }
                         },
-                        DateTime.UtcNow.AddHours(1)
+                        TimeSpan.FromHours(1)
                         );
+
                     return new FileStreamResult(new MemoryStream(cache), "image/png");
                 }
 
@@ -304,7 +305,7 @@ namespace DisplayMonkey.Controllers
                 bmpSrc.SelectActiveFrame(fd, 0);
 
                 // crop/fit/stretch
-                int imageHeight = bmpSrc.Height, imageWidth = bmpSrc.Width;
+                int imageHeight = bmpSrc.Height, imageWidth = bmpSrc.Width, targetWidth, targetHeight;
 
                 if (panelWidth <= 0) panelWidth = imageWidth;
                 if (panelHeight <= 0) panelHeight = imageHeight;
@@ -321,7 +322,8 @@ namespace DisplayMonkey.Controllers
                             break;
 
                         case RenderModes.RenderMode_Fit:
-                            int targetWidth = imageWidth, targetHeight = imageHeight;
+                            targetWidth = imageWidth;
+                            targetHeight = imageHeight;
                             float scale = 1F;
                             // a. panel is greater than image: grow
                             if (panelHeight > imageHeight && panelWidth > imageWidth)

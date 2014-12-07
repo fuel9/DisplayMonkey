@@ -163,8 +163,8 @@ namespace DisplayMonkey.Controllers
                         string.Format("thumb_report_{0}_{1}x{2}_{3}", id, width, height, (int)mode),
                         () => {
                             byte[] img = GetReportBytes(id);
-                            using (MemoryStream src = new MemoryStream(img))
                             using (MemoryStream trg = new MemoryStream())
+                            using (MemoryStream src = new MemoryStream(img))
                             {
                                 MediaController.WriteImage(src, trg, width, height, mode);
                                 return trg.GetBuffer();
@@ -172,6 +172,7 @@ namespace DisplayMonkey.Controllers
                         },
                         TimeSpan.FromMinutes(10)
                         );
+
                     return new FileStreamResult(new MemoryStream(cache), "image/png");
                 }
 

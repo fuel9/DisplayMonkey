@@ -59,63 +59,83 @@ namespace DisplayMonkey
 			}
 		}
 
-		public static bool Boolean(object o)
-		{
-			bool ret = false;
-			try
-			{
-				if (o != DBNull.Value)
-					ret = Convert.ToBoolean(o);
-			}
-			catch (FormatException)
-			{
-			}
-			return ret;
-		}
+        public static bool BooleanOrDefault(object o, bool _default)
+        {
+            bool ret = _default;
+            try
+            {
+                if (o != DBNull.Value)
+                    ret = Convert.ToBoolean(o);
+            }
+            catch (FormatException)
+            {
+            }
+            return ret;
+        }
 
-		public static int IntOrZero(object o)
-		{
-			int ret = 0;
-			try
-			{
-				if (o != DBNull.Value)
-					ret = Convert.ToInt32(o);
-			}
-			catch (FormatException)
-			{
-			}
-			return ret;
-		}
+        public static bool Boolean(object o)
+        {
+            return BooleanOrDefault(o, false);
+        }
 
-		public static double DoubleOrZero(object o)
-		{
-			double ret = 0;
-			try
-			{
-				if (o != DBNull.Value)
-					ret = Convert.ToDouble(o, CultureInfo.InvariantCulture);
-			}
-			catch (FormatException)
-			{
-			}
-			return ret;
-		}
+        public static int IntOrDefault(object o, int _default)
+        {
+            int ret = _default;
+            try
+            {
+                if (o != DBNull.Value)
+                    ret = Convert.ToInt32(o);
+            }
+            catch (FormatException)
+            {
+            }
+            return ret;
+        }
 
-		public static string StringOrBlank(object o)
-		{
-			string ret = "";
-			try
-			{
-				if (o != DBNull.Value)
-					ret = Convert.ToString(o);
-			}
-			catch (FormatException)
-			{
-			}
-			return ret;
-		}
+        public static int IntOrZero(object o)
+        {
+            return IntOrDefault(o, 0);
+        }
 
-		public static SqlConnection Connection
+        public static double DoubleOrDefault(object o, double _default)
+        {
+            double ret = _default;
+            try
+            {
+                if (o != DBNull.Value)
+                    ret = Convert.ToDouble(o, CultureInfo.InvariantCulture);
+            }
+            catch (FormatException)
+            {
+            }
+            return ret;
+        }
+
+        public static double DoubleOrZero(object o)
+        {
+            return DoubleOrDefault(o, 0);
+        }
+
+        public static string StringOrDefault(object o, string _default)
+        {
+            string ret = _default;
+            try
+            {
+                if (o != DBNull.Value)
+                    ret = Convert.ToString(o);
+            }
+            catch (FormatException)
+            {
+            }
+            return ret;
+        }
+
+        public static string StringOrBlank(object o)
+        {
+            return StringOrDefault(o, "");
+        }
+
+        public static SqlConnection Connection
 		{
 			get
 			{

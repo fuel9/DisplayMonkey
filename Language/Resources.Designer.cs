@@ -2124,15 +2124,6 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Ends in.
-        /// </summary>
-        public static string OutlookEndsIn {
-            get {
-                return ResourceManager.GetString("OutlookEndsIn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Exchange 2007 SP1.
         /// </summary>
         public static string OutlookEwsVersion_Exchange2007_SP1 {
@@ -2201,6 +2192,15 @@ namespace DisplayMonkey.Language {
         public static string OutlookMode_Today {
             get {
                 return ResourceManager.GetString("OutlookMode_Today", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to EWS Url (optional).
+        /// </summary>
+        public static string OutlookUrl {
+            get {
+                return ResourceManager.GetString("OutlookUrl", resourceCulture);
             }
         }
         

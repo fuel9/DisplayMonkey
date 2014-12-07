@@ -59,7 +59,7 @@ namespace DisplayMonkey.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "FrameId,Mode,Name,Account,PasswordUnmasked,Mailbox,EwsVersion,ShowEvents")] Outlook outlook, Frame frame)
+        public ActionResult Create([Bind(Include = "FrameId,Mode,Name,Account,PasswordUnmasked,Mailbox,EwsVersion,Url,ShowEvents")] Outlook outlook, Frame frame)
         {
             if (ModelState.IsValid)
             {
@@ -106,7 +106,7 @@ namespace DisplayMonkey.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "FrameId,Mode,Name,Account,PasswordUnmasked,Mailbox,EwsVersion,ShowEvents")] Outlook outlook, Frame frame)
+        public ActionResult Edit([Bind(Include = "FrameId,Mode,Name,Account,PasswordUnmasked,Mailbox,EwsVersion,Url,ShowEvents")] Outlook outlook, Frame frame)
         {
             if (ModelState.IsValid)
             {

@@ -1117,9 +1117,6 @@
   <data name="Dashboard_NumberOfPendingFrames" xml:space="preserve">
     <value>Number of Pending Frames</value>
   </data>
-  <data name="OutlookEndsIn" xml:space="preserve">
-    <value>Ends in</value>
-  </data>
   <data name="Outlook_AvailableUntil" xml:space="preserve">
     <value>Available until {0}</value>
   </data>
@@ -1236,5 +1233,8 @@
   </data>
   <data name="Outlook_Min" xml:space="preserve">
     <value>{0} min</value>
+  </data>
+  <data name="OutlookUrl" xml:space="preserve">
+    <value>EWS Url (optional)</value>
   </data>
 </root>
