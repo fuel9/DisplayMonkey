@@ -1243,4 +1243,31 @@
   <data name="ErrorNoWeatherDataWasRetrieved" xml:space="preserve">
     <value>No data has been retrieved. Please specify GEO and temperature settings in display location.</value>
   </data>
+  <data name="MailboxRequired" xml:space="preserve">
+    <value>Mailbox is required</value>
+  </data>
+  <data name="EmailInvalid" xml:space="preserve">
+    <value>Must be a valid e-mail address</value>
+  </data>
+  <data name="ExchangeAccount" xml:space="preserve">
+    <value>Exchange account</value>
+  </data>
+  <data name="ExchangeAccountRequired" xml:space="preserve">
+    <value>Exchange account is required</value>
+  </data>
+  <data name="CreateNewExchangeAccount" xml:space="preserve">
+    <value>Create new Microsoft Exchange account</value>
+  </data>
+  <data name="DeleteExchangeAccount" xml:space="preserve">
+    <value>Delete Microsoft Exchange account</value>
+  </data>
+  <data name="DeletingExchangeAccountWillCauseDeletionOfAllRelatedContentAreYouSureYouWantToContinue" xml:space="preserve">
+    <value>Deleting Microsoft Exchange account will cause deletion of all related content. Are you sure you want to continue?</value>
+  </data>
+  <data name="EditExchangeAccount" xml:space="preserve">
+    <value>Edit Microsoft Exchange account</value>
+  </data>
+  <data name="ExchangeAccounts" xml:space="preserve">
+    <value>Microsoft Exchange accounts</value>
+  </data>
 </root>

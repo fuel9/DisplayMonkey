@@ -123,51 +123,51 @@ namespace DisplayMonkey
 				Location location = new Location(DisplayId);
 				
 				// add meta
-                head.AppendFormat(CultureInfo.InvariantCulture, "<meta name=\"server-latitude\" content=\"{0}\" />\r\n", ServerGeoData.Latitude);
-                head.AppendFormat(CultureInfo.InvariantCulture, "<meta name=\"server-longitude\" content=\"{0}\" />\r\n", ServerGeoData.Longitude);
-                head.AppendFormat(CultureInfo.InvariantCulture, "<meta name=\"server-offset-gmt\" content=\"{0}\" />\r\n", ServerGeoData.OffsetGMT);
-                head.AppendFormat(CultureInfo.InvariantCulture, "<meta name=\"server-external-ip\" content=\"{0}\" />\r\n", ServerGeoData.ServerExternalIPAddress.ToString());
+                head.AppendFormat(CultureInfo.InvariantCulture, "<meta name=\"server-latitude\" content=\"{0}\" />\n", ServerGeoData.Latitude);
+                head.AppendFormat(CultureInfo.InvariantCulture, "<meta name=\"server-longitude\" content=\"{0}\" />\n", ServerGeoData.Longitude);
+                head.AppendFormat(CultureInfo.InvariantCulture, "<meta name=\"server-offset-gmt\" content=\"{0}\" />\n", ServerGeoData.OffsetGMT);
+                head.AppendFormat(CultureInfo.InvariantCulture, "<meta name=\"server-external-ip\" content=\"{0}\" />\n", ServerGeoData.ServerExternalIPAddress.ToString());
                 if (IsAppleMobileSupported)
 				{
-					head.Append("<meta name=\"apple-mobile-web-app-capable\" content=\"yes\" />\r\n");
-                    head.Append("<meta name=\"apple-mobile-web-app-status-bar-style\" content=\"black\" />\r\n");
+					head.Append("<meta name=\"apple-mobile-web-app-capable\" content=\"yes\" />\n");
+                    head.Append("<meta name=\"apple-mobile-web-app-status-bar-style\" content=\"black\" />\n");
                 }
+
+                // add styles
+                head.Append("<link rel=\"stylesheet\" href=\"styles/style.css\" type=\"text/css\" />\n");
+                head.Append("<style type=\"text/css\">\n");
+                foreach (Panel p in Panels)
+                {
+                    head.Append(p.Style);
+                }
+                head.Append("</style>\n");
 
 				// scripts
 				foreach (string js in _js_libs)
 				{
-					head.AppendFormat("<script src=\"{0}\" type=\"text/javascript\" charset=\"utf-8\"></script>\r\n", js);
+					head.AppendFormat("<script src=\"{0}\" type=\"text/javascript\" charset=\"utf-8\"></script>\n", js);
 				}
-				head.Append("<script type=\"text/javascript\" charset=\"utf-8\"><!--\r\n_canvas=new Canvas({\r\n");
-                head.AppendFormat(CultureInfo.InvariantCulture, "displayId:{0},\r\n", DisplayId);
-                head.AppendFormat(CultureInfo.InvariantCulture, "hash:{0},\r\n", Display.GetHash(DisplayId));
-                head.AppendFormat(CultureInfo.InvariantCulture, "temperatureUnit:'{0}',\r\n", location.TemperatureUnit);
-				head.AppendFormat(CultureInfo.InvariantCulture, "dateFormat:'{0}',\r\n", location.DateFormat);
-				head.AppendFormat(CultureInfo.InvariantCulture, "timeFormat:'{0}',\r\n", location.TimeFormat);
-				head.AppendFormat(CultureInfo.InvariantCulture, "latitude:{0},\r\n", location.Latitude);
-				head.AppendFormat(CultureInfo.InvariantCulture, "longitude:{0},\r\n", location.Longitude);
-                head.AppendFormat(CultureInfo.InvariantCulture, "woeid:{0},\r\n", location.Woeid);
-                head.AppendFormat(CultureInfo.InvariantCulture, "culture:'{0}',\r\n", location.Culture);
-                head.AppendFormat(CultureInfo.InvariantCulture, "localTime:'{0}',\r\n", location.LocalTime);
-                head.AppendFormat(CultureInfo.InvariantCulture, "initialIdleInterval:{0},\r\n", this.InitialMaxIdleInterval);
-				head.AppendFormat(CultureInfo.InvariantCulture, "width:{0},\r\n", this.Width);
-                head.AppendFormat(CultureInfo.InvariantCulture, "height:{0},\r\n", this.Height);
+				head.Append("<script type=\"text/javascript\" charset=\"utf-8\"><!--\r\n_canvas=new Canvas({\n");
+                head.AppendFormat(CultureInfo.InvariantCulture, "displayId:{0},\n", DisplayId);
+                head.AppendFormat(CultureInfo.InvariantCulture, "hash:{0},\n", Display.GetHash(DisplayId));
+                head.AppendFormat(CultureInfo.InvariantCulture, "temperatureUnit:'{0}',\n", location.TemperatureUnit);
+				head.AppendFormat(CultureInfo.InvariantCulture, "dateFormat:'{0}',\n", location.DateFormat);
+				head.AppendFormat(CultureInfo.InvariantCulture, "timeFormat:'{0}',\n", location.TimeFormat);
+				head.AppendFormat(CultureInfo.InvariantCulture, "latitude:{0},\n", location.Latitude);
+				head.AppendFormat(CultureInfo.InvariantCulture, "longitude:{0},\n", location.Longitude);
+                head.AppendFormat(CultureInfo.InvariantCulture, "woeid:{0},\n", location.Woeid);
+                head.AppendFormat(CultureInfo.InvariantCulture, "culture:'{0}',\n", location.Culture);
+                head.AppendFormat(CultureInfo.InvariantCulture, "localTime:'{0}',\n", location.LocalTime);
+                head.AppendFormat(CultureInfo.InvariantCulture, "initialIdleInterval:{0},\n", this.InitialMaxIdleInterval);
+				head.AppendFormat(CultureInfo.InvariantCulture, "width:{0},\n", this.Width);
+                head.AppendFormat(CultureInfo.InvariantCulture, "height:{0},\n", this.Height);
                 if (this.BackgroundImage > 0) 
-					head.AppendFormat(CultureInfo.InvariantCulture, "backImage:{0},\r\n", this.BackgroundImage);
+					head.AppendFormat(CultureInfo.InvariantCulture, "backImage:{0},\n", this.BackgroundImage);
 				if (this.BackgroundColor != "") 
-					head.AppendFormat(CultureInfo.InvariantCulture, "backColor:'{0}',\r\n", this.BackgroundColor);
-                head.AppendFormat(CultureInfo.InvariantCulture, "showErrors:{0},\r\n", this.Display.ShowErrors ? "true" : "false");
-                head.Append("});\r\n--></script>\r\n");
+					head.AppendFormat(CultureInfo.InvariantCulture, "backColor:'{0}',\n", this.BackgroundColor);
+                head.AppendFormat(CultureInfo.InvariantCulture, "showErrors:{0},\n", this.Display.ShowErrors ? "true" : "false");
+                head.Append("});\n--></script>\n<style></style>\n");
 				
-				// add styles
-                head.Append("<link rel=\"stylesheet\" href=\"styles/style.css\" type=\"text/css\" />\r\n");
-                head.Append("<style type=\"text/css\">\r\n");
-                foreach (Panel p in Panels)
-				{
-					head.Append(p.Style);
-				}
-				head.Append("</style>\r\n");
-
 				return head.ToString();
 			} 
 		}
@@ -178,7 +178,7 @@ namespace DisplayMonkey
 			{
 				StringBuilder body = new StringBuilder();
                 body.AppendFormat(CultureInfo.InvariantCulture,
-                    "<div id=\"segments\" style=\"width:{0}px;height:{1}px;\">\r\n",
+                    "<div id=\"segments\" style=\"width:{0}px;height:{1}px;\">\n",
                     Width,
                     Height
                     );

@@ -1,0 +1,45 @@
+﻿@using DisplayMonkey.Language
+
+@model IEnumerable<DisplayMonkey.Models.ExchangeAccount>
+
+@{
+    ViewBag.Title = Resources.ExchangeAccounts;
+}
+
+<h2>@ViewBag.Title</h2>
+
+<p>
+    @Html.ActionLink(Resources.CreateNewExchangeAccount, "Create")
+</p>
+<table class="grid">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Account)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Url)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.ActionLink(item.Name, "Edit", new { id=item.AccountId })
+        </td>
+        <td>
+            @Html.DisplayFor(i => item.Account)
+        </td>
+        <td>
+            @Html.DisplayFor(i => item.Url)
+        </td>
+        <td>
+            @Html.ActionLink(Resources.Delete, "Delete", new { id=item.AccountId })
+        </td>
+    </tr>
+}
+
+</table>

@@ -170,6 +170,7 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CanvasController.cs" />
     <Compile Include="Controllers\ClockController.cs" />
+    <Compile Include="Controllers\ExchangeAccountController.cs" />
     <Compile Include="Controllers\DisplayController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HelpController.cs" />
@@ -228,6 +229,9 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>DMModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ExchangeAccount.cs">
+      <DependentUpon>DMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Frame.cs">
       <DependentUpon>DMModel.tt</DependentUpon>
@@ -592,6 +596,11 @@
     <Content Include="Views\Outlook\Edit.cshtml" />
     <Content Include="Views\Outlook\_Details.cshtml" />
     <Content Include="Views\Outlook\_Edit.cshtml" />
+    <Content Include="Views\ExchangeAccount\Create.cshtml" />
+    <Content Include="Views\ExchangeAccount\Delete.cshtml" />
+    <Content Include="Views\ExchangeAccount\Edit.cshtml" />
+    <Content Include="Views\ExchangeAccount\Index.cshtml" />
+    <Content Include="Views\ExchangeAccount\_Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -3,6 +3,7 @@
 // 14-10-11 [LTL] - error reporting
 // 14-10-16 [LTL] - YouTube support
 // 14-10-25 [LTL] - use strict, code improvements
+// 15-01-30 [LTL] - minor code improvements
 
 var $j = jQuery.noConflict();
 
@@ -163,8 +164,6 @@ Ajax.PanelUpdaterBase = Class.create(Ajax.Base, {
 		this.frequency = (this.options.frequency || 1);
 		this.updater = {};
 		this.container = this.options.container; // "div" + this.panelId;
-		//this.h_container = "h_" + this.container;
-		//this.url = "";
 		this.html = "";
 		this.object = null;
 
@@ -244,15 +243,6 @@ Ajax.PanelUpdaterBase = Class.create(Ajax.Base, {
 
 				    p.currentType = json["FrameType"];
 				    p.html = json["Html"];
-				    /*p.url = "getFrame.ashx?" + $H({
-					    "frame": p.currentId,
-					    "panel": p.panelId,
-					    "type": p.currentType,
-					    "display": _canvas.displayId,
-		                "woeid": _canvas.woeid,
-				        "temperatureUnit": _canvas.temperatureUnit
-                    }).toQueryString();*/
-				    //console.log(p.url);
 
 				    p._updateBegin();
 			    }
@@ -299,18 +289,19 @@ Ajax.PanelUpdaterBase = Class.create(Ajax.Base, {
 	    "use strict";
 	    var needRedraw = (
 			this.previousType != this.currentType ||
-			$(this.container).innerHTML != this.html //$(this.h_container).innerHTML
+			$(this.container).innerHTML != this.html
 		);
 
 	    if (!needRedraw) {
-	        //$(this.h_container).update("");
 			this.expire = this._onFrameExpire.bind(this).delay(this.frequency);
 			return;
 		}
 
 		// fade out first
 		if (this.fadeLength > 0) {
-			try { this.onFade(false, this.previousType, this.fadeLength); }
+		    try {
+		        this.onFade(false, this.previousType, this.fadeLength);
+		    }
 			catch (e) {
 			    new ErrorReport({ exception: e, source: "_updateEnd::onFade" });
             }
@@ -330,9 +321,6 @@ Ajax.PanelUpdaterBase = Class.create(Ajax.Base, {
 
 		// substitute html
 		this.previousType = this.currentType;
-		/*var html = $(this.h_container).innerHTML;
-		$(this.h_container).update("");
-		$(this.container).update(html);*/
 		$(this.container).update(this.html);
 
 		// 1. call after update
@@ -343,7 +331,9 @@ Ajax.PanelUpdaterBase = Class.create(Ajax.Base, {
 
 		// 2. fade in last
 		if (this.fadeLength > 0) {
-			try { this.onFade(true, this.currentType, this.fadeLength); }
+		    try {
+		        this.onFade(true, this.currentType, this.fadeLength);
+		    }
 			catch (e) {
 			    new ErrorReport({ exception: e, source: "_beginNewFrame::onFade" });
             }
@@ -365,29 +355,23 @@ Ajax.PanelUpdaterBase = Class.create(Ajax.Base, {
             if (this instanceof Ajax.FullScreenPanelUpdater) {
                 _canvas.panels.forEach(function (p) {
                     if (p.object && p.object.pause) p.object.pause();
-                    /*if (p.ytPlayer) p.ytPlayer.pause();
-                    if (p.video) p.video.pause();
-                    if (p.scroller) p.scroller.pause();*/
                 });
             }
 
             var div = null;
 
             // start scroller
-	        if (div = $(this.container).down('div#memo')) {
-	            //this.scroller = new TextScroller(div);
+	        if (div = $(this.container).down('div.memo')) {
 	            this.object = new TextScroller(div);
             }
 
 	        // start clock
-	        else if (div = $(this.container).down('div#clock')) {
-	            //this.clock = new Clock(div);
+	        else if (div = $(this.container).down('div.clock')) {
 	            this.object = new Clock(div);
             }
 
 	        // start video
 	        else if ((div = $(this.container).down('video')) && _canvas.supports_video) {
-	            //this.video = div;
 	            this.object = div;
 	            var a;
 	            if (a = div.readAttribute('loop')) div.loop = a;
@@ -395,7 +379,7 @@ Ajax.PanelUpdaterBase = Class.create(Ajax.Base, {
 	            if (this instanceof Ajax.FullScreenPanelUpdater || !_canvas.fullScreenActive) {
 	                div.play();
 	            }
-	            var vc = div.up('div#videoContainer');
+	            var vc = div.up('div.videoContainer');
 	            if (vc) {
 	                vc.style.backgroundColor = _canvas.backColor;
 	            }
@@ -403,13 +387,11 @@ Ajax.PanelUpdaterBase = Class.create(Ajax.Base, {
 
             // start youtube
 	        else if (div = $(this.container).down('div[id^=ytplayer]')) {
-	            //this.ytPlayer = new YtLib.YtPlayer({ div: div });
 	            this.object = new YtLib.YtPlayer({ div: div });
             }
 
             // start outlook
-	        else if (div = $(this.container).down('div#outlook')) {
-	            //this.outlook = new Outlook({
+	        else if (div = $(this.container).down('div.outlook')) {
 	            this.object = new Outlook({
 	                div: div,
 	                frameId: this.currentId,
@@ -429,31 +411,6 @@ Ajax.PanelUpdaterBase = Class.create(Ajax.Base, {
 	_uninitFrame: function (currentType) {
 	    "use strict";
 	    try {
-	        // kill scroller if any
-	        /*if (this.scroller) {
-	            this.scroller.stop();
-            }
-
-	        // kill clock
-	        if (this.clock) {
-	            this.clock.stop();
-            }
-
-	        // kill video
-	        if (this.video) {
-                this.video.stop();
-	        }
-
-	        // kill youtube
-	        if (this.ytPlayer) {
-	            this.ytPlayer.stop();
-	        }
-
-	        // kill outlook
-	        if (this.outlook) {
-	            this.outlook.stop();
-	        }*/
-
 	        if (this.object && this.object.stop) {
 	            this.object.stop()
 	        }
@@ -462,21 +419,13 @@ Ajax.PanelUpdaterBase = Class.create(Ajax.Base, {
 	        if (this instanceof Ajax.FullScreenPanelUpdater) {
 	            _canvas.panels.forEach(function (p) {
 	                if (p.object && p.object.play) p.object.play();
-	                /*if (p.ytPlayer) p.ytPlayer.play();
-	                if (p.video) p.video.play();
-	                if (p.scroller) p.scroller.resume();*/
 	            });
 	        }
-
         }
 	    catch (e) {
 	        new ErrorReport({ exception: e, source: "_uninitFrame" }); // <-- shouldn't get here
 	    }
 	    finally {
-	        /*this.scroller = null;
-	        this.clock = null;
-	        this.video = null;
-	        this.ytPlayer = null;*/
 	        this.object = null;
         }
 	},
@@ -559,7 +508,7 @@ function initPanel (panelId, container) {
 		, panelId: panelId
 		, container: container
 		, evalScripts: false
-		, fadeLength: 0.2 // sec (default)
+		, fadeLength: 0 //.2 // sec (default)
 
 		, onBeforeUpdate: function (currentType) {
 		    this._uninitFrame(currentType);
@@ -570,10 +519,10 @@ function initPanel (panelId, container) {
 		}
 
 		, onFade: function (appear, contentType, fadeLength) {
-			if (appear)
-				$(this.container).appear({ duration: fadeLength });
-			else
-				$(this.container).fade({ duration: fadeLength });
+		    if (appear)
+		        $(this.container).appear({ duration: fadeLength });
+		    else
+		        $(this.container).fade({ duration: fadeLength });
 		}
 
 		, onException: function (request, ex) {
@@ -639,10 +588,10 @@ function initFullScreenPanel (panelId) {
 		}
 
 		, onFade: function (appear, contentType, fadeLength) {
-			if (appear)
-				$(this.container).appear({ duration: fadeLength });
-			else
-				$(this.container).fade({ duration: fadeLength });
+		    if (appear)
+		        $(this.container).appear({ duration: fadeLength });
+		    else
+		        $(this.container).fade({ duration: fadeLength });
 		}
 
 		, onException: function (request, ex) {

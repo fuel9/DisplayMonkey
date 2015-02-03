@@ -14,6 +14,7 @@ using System.Data.Objects;
 using System.Reflection;
 
 using DisplayMonkey.Language;
+using System.Text.RegularExpressions;
 
 
 namespace DisplayMonkey.Models
@@ -1148,6 +1149,89 @@ namespace DisplayMonkey.Models
         }
     }
 
+    [
+        MetadataType(typeof(ExchangeAccount.Annotations))
+    ]
+    public partial class ExchangeAccount
+    {
+        public void init()
+        {
+            this.EwsVersion = OutlookEwsVersions.OutlookEwsVersion_Exchange2007_SP1;
+            this.Url = "https://outlook.office365.com/EWS/Exchange.asmx";
+        }
+
+        internal class Annotations
+        {
+            [
+                Display(ResourceType = typeof(Resources), Name = "ID"),
+            ]
+            public int AccountId { get; set; }
+            
+            [
+                Display(ResourceType = typeof(Resources), Name = "Name"),
+                Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "NameRequired"),
+                StringLength(100, ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "MaxLengthExceeded"),
+            ]
+            public string Name { get; set; }
+            
+            [
+                Display(ResourceType = typeof(Resources), Name = "Account"),
+                Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "AccountRequired"),
+                RegularExpression(_emailMsk,
+                    ErrorMessageResourceType = typeof(Resources),
+                    ErrorMessageResourceName = "EmailInvalid"),
+                StringLength(100, ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "MaxLengthExceeded"),
+            ]
+            public string Account { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "Password"),
+            ]
+            public byte[] Password { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "EwsVersion"),
+                Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "EwsVersionRequired"),
+            ]
+            public OutlookEwsVersions EwsVersion { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "OutlookUrl"),
+                StringLength(250, ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "MaxLengthExceeded"),
+            ]
+            public string Url { get; set; }
+        }
+
+        [
+            Display(ResourceType = typeof(Resources), Name = "Password"),
+            DataType(DataType.Password),
+            NotMapped,
+        ]
+        public string PasswordUnmasked
+        {
+            get
+            {
+                return _pwdMask;
+            }
+
+            set
+            {
+                _passwordSet = true;
+                if (value == null)
+                    this.Password = null;
+                else if (value != _pwdMask)
+                    this.Password = RsaUtil.Encrypt(value);
+                else
+                    _passwordSet = false;
+            }
+        }
+
+        private const string _pwdMask = "****************";
+        public bool _passwordSet = false;
+        public const string _emailMsk =
+            //@"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+(?:[A-Z]{2}|com|org|net|edu|gov|mil|biz|info|mobi|name|aero|asia|jobs|museum)\b");
+            @"\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*";
+    }
 
     [
         MetadataType(typeof(Outlook.Annotations))
@@ -1156,10 +1240,8 @@ namespace DisplayMonkey.Models
     {
         public Outlook()
         {
-            Mode = OutlookModes.OutlookMode_Today;
-            EwsVersion = OutlookEwsVersions.OutlookEwsVersion_Exchange2007_SP1;
-            ShowEvents = 0;
-            Url = "https://outlook.office365.com/EWS/Exchange.asmx";
+            this.Mode = OutlookModes.OutlookMode_Today;
+            this.ShowEvents = 0;
         }
         
         internal class Annotations
@@ -1183,34 +1265,20 @@ namespace DisplayMonkey.Models
             public string Name { get; set; }
 
             [
-                Display(ResourceType = typeof(Resources), Name = "Account"),
-                Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "AccountRequired"),
-                StringLength(100, ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "MaxLengthExceeded"),
+                Display(ResourceType = typeof(Resources), Name = "ExchangeAccount"),
+                Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "ExchangeAccountRequired"),
             ]
-            public string Account { get; set; }
-
-            [
-                Display(ResourceType = typeof(Resources), Name = "Password"),
-            ]
-            public byte[] Password { get; set; }
+            public int AccountId { get; set; }
 
             [
                 Display(ResourceType = typeof(Resources), Name = "Mailbox"),
+                Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "MailboxRequired"),
+                RegularExpression(ExchangeAccount._emailMsk, 
+                    ErrorMessageResourceType = typeof(Resources), 
+                    ErrorMessageResourceName = "EmailInvalid"),
                 StringLength(100, ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "MaxLengthExceeded"),
             ]
             public string Mailbox { get; set; }
-
-            [
-                Display(ResourceType = typeof(Resources), Name = "EwsVersion"),
-                Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "EwsVersionRequired"),
-            ]
-            public OutlookEwsVersions EwsVersion { get; set; }
-
-            [
-                Display(ResourceType = typeof(Resources), Name = "OutlookUrl"),
-                StringLength(250, ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "MaxLengthExceeded"),
-            ]
-            public string Url { get; set; }
 
             [
                 Display(ResourceType = typeof(Resources), Name = "ShowEvents"),
@@ -1220,43 +1288,17 @@ namespace DisplayMonkey.Models
                 Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "ShowEventsRequired"),
             ]
             public int ShowEvents { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "ExchangeAccount"),
+            ]
+            public virtual ExchangeAccount ExchangeAccount { get; set; }
         }
 
         [
             NotMapped,
         ]
-        public string NameOrMailboxOrAccount { get { return this.Name ?? this.Mailbox ?? this.Account; } }
-        
-        [
-            Display(ResourceType = typeof(Resources), Name = "Password"),
-            DataType(DataType.Password),
-            NotMapped,
-        ]
-        public string PasswordUnmasked
-        {
-            get
-            {
-                //if (this.Password == null)
-                //    return null;
-                //else
-                //    return RsaUtil.Decrypt(this.Password);
-                return _pwdMask;
-            }
-
-            set
-            {
-                _passwordSet = true;
-                if (value == null)
-                    this.Password = null;
-                else if (value != _pwdMask)
-                    this.Password = RsaUtil.Encrypt(value);
-                else
-                    _passwordSet = false;
-            }
-        }
-
-        private const string _pwdMask = "****************";
-        public bool _passwordSet = false;
+        public string NameOrMailboxOrAccount { get { return this.Name ?? this.Mailbox ?? this.ExchangeAccount.Name; } }
     }
 
     [

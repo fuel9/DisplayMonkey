@@ -4,7 +4,7 @@
 
 @{
     SelectList modes = ViewBag.Modes as SelectList;
-    SelectList ewsVersions = ViewBag.EwsVersions as SelectList;
+    SelectList accounts = ViewBag.Accounts as SelectList;
 }
 
         <div class="editor-label">
@@ -16,22 +16,6 @@
         </div>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.Account)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Account)
-            @Html.ValidationMessageFor(model => model.Account)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.PasswordUnmasked)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.PasswordUnmasked)
-            @Html.ValidationMessageFor(model => model.PasswordUnmasked)
-        </div>
-
-        <div class="editor-label">
             @Html.LabelFor(model => model.Mailbox)
         </div>
         <div class="editor-field">
@@ -40,11 +24,11 @@
         </div>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.Url)
+            @Html.LabelFor(model => model.AccountId)
         </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Url)
-            @Html.ValidationMessageFor(model => model.Url)
+        <div class="editor-field select">
+            @Html.DropDownListFor(model => model.AccountId, accounts)
+            @Html.ValidationMessageFor(model => model.AccountId)
         </div>
 
         <div class="editor-label">

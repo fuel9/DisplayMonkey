@@ -114,7 +114,7 @@
 	
 	/*******************************************************************************/
 	
-	#memo {
+	.memo {
 		position:absolute;
 		left:0;
 		top:0;
@@ -134,7 +134,7 @@
 	
 	/*******************************************************************************/
 	
-	#clock {
+	.clock {
 		font-size:14px;
 		text-align:right;
 		vertical-align:middle;
@@ -215,14 +215,14 @@
 
 	/*******************************************************************************/
 
-    div#ytcontainer {
+    div.ytcontainer {
         overflow:hidden; 
         z-index:1; 
         width:100%; 
         height:100%;
     }
 	
-    div#ytshield {
+    div.ytshield {
         z-index:2; 
         position:absolute; 
         left:0; 
@@ -233,14 +233,14 @@
 
 	/*******************************************************************************/
 	
-    div#outlook {
+    div.outlook {
         font-family: lucida console;
         text-align: left;
         overflow: hidden;
         padding: 0px;
     }
 
-        div#outlook>#free {
+        div.outlook>.free {
             background-color: green;
             color: white;
             text-shadow: -1px -2px 0px #4d6d4d;
@@ -248,7 +248,7 @@
             border-bottom:  1px solid #003300;
         }
 
-        div#outlook>#busy {
+        div.outlook>.busy {
             background-color: red;
             color: white;
             text-shadow: -1px -1px 0px #8d4d4d;
@@ -256,28 +256,28 @@
             border-bottom:  1px solid #B20000;
         }
 
-            div#outlook>#free div, div#outlook>#busy div {
+            div.outlook>.free div, div.outlook>.busy div {
                 padding-left: 10px;
                 padding-right: 10px;
                 padding-top: 5px;
                 padding-bottom: 3px;
             }
 
-            div#outlook .mailbox {
+            div.outlook .mailbox {
                 font-size: 2em;
             }
 
-        div#outlook>#plan table {
+        div.outlook>.plan table {
             width: 100%;
             border: 0;
             border-spacing: 0;
         }
 
-            div#outlook>#plan tr {
+            div.outlook>.plan tr {
                 background-color: #EEE;
             }
 
-                div#outlook>#plan th {
+                div.outlook>.plan th {
                     background-color: grey;
                     color: white;
                     text-shadow: -1px -1px 0px #4d4d4d;
@@ -287,13 +287,13 @@
                     text-align: left;
                 }
 
-                div#outlook>#plan th.col1, 
-                div#outlook>#plan th.col2,
-                div#outlook>#plan th.col3,
-                div#outlook>#plan th.col4 {
+                div.outlook>.plan th.col1, 
+                div.outlook>.plan th.col2,
+                div.outlook>.plan th.col3,
+                div.outlook>.plan th.col4 {
                 }
 
-                div#outlook>#plan td {
+                div.outlook>.plan td {
                     background-color: #CFCFCF;
                     color: #444;
                     text-shadow: -0.5px 1px 0px #fff;
@@ -302,10 +302,10 @@
                     border-bottom:  1px solid #7C7C7C;
                 }
 
-                div#outlook>#plan td.col1, 
-                div#outlook>#plan td.col2,
-                div#outlook>#plan td.col3,
-                div#outlook>#plan td.col4 {
+                div.outlook>.plan td.col1, 
+                div.outlook>.plan td.col2,
+                div.outlook>.plan td.col3,
+                div.outlook>.plan td.col4 {
                 }
 
 	/*******************************************************************************/

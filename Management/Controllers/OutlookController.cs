@@ -15,7 +15,7 @@ namespace DisplayMonkey.Controllers
     {
         private DisplayMonkeyEntities db = new DisplayMonkeyEntities();
 
-        private static Regex _emailRgx = new Regex(@"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+(?:[A-Z]{2}|com|org|net|edu|gov|mil|biz|info|mobi|name|aero|asia|jobs|museum)\b");
+        private static Regex _emailRgx = new Regex(Models.ExchangeAccount._emailMsk);
 
         // GET: /Outlook/Details/5
         public ActionResult Details(int id = 0)
@@ -24,7 +24,7 @@ namespace DisplayMonkey.Controllers
             //{
             //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             //}
-            Outlook outlook = db.Outlook.Find(id);
+            Outlook outlook = db.Outlooks.Find(id);
             if (outlook == null)
             {
                 //return HttpNotFound();
@@ -49,7 +49,7 @@ namespace DisplayMonkey.Controllers
             };
 
             FillModesSelectList();
-            FillVersionsSelectList();
+            FillAccountsSelectList();
 
             return View(outlook);
         }
@@ -59,27 +59,25 @@ namespace DisplayMonkey.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "FrameId,Mode,Name,Account,PasswordUnmasked,Mailbox,EwsVersion,Url,ShowEvents")] Outlook outlook, Frame frame)
+        public ActionResult Create([Bind(Include = "FrameId,Mode,Name,AccountId,Mailbox,ShowEvents")] Outlook outlook, Frame frame)
         {
+            if (!string.IsNullOrWhiteSpace(outlook.Mailbox))
+            {
+                Match lnk = _emailRgx.Match(outlook.Mailbox);
+                outlook.Mailbox = lnk.Success ? lnk.Value : "";
+            }
+
             if (ModelState.IsValid)
             {
-                Match lnk = _emailRgx.Match(outlook.Account);
-                if (lnk.Success) outlook.Account = lnk.Value;
-                if (!string.IsNullOrWhiteSpace(outlook.Mailbox))
-                {
-                    lnk = _emailRgx.Match(outlook.Mailbox);
-                    if (lnk.Success) outlook.Mailbox = lnk.Value;
-                }
-
                 outlook.Frame = frame;
-                db.Outlook.Add(outlook);
+                db.Outlooks.Add(outlook);
                 db.SaveChanges();
 
                 return Navigation.Restore() ?? RedirectToAction("Index");
             }
 
-            FillModesSelectList();
-            FillVersionsSelectList();
+            FillModesSelectList(outlook.Mode);
+            FillAccountsSelectList(outlook.AccountId);
 
             outlook.Frame = frame;
             
@@ -89,14 +87,14 @@ namespace DisplayMonkey.Controllers
         // GET: /Outlook/Edit/5
         public ActionResult Edit(int id = 0)
         {
-            Outlook outlook = db.Outlook.Find(id);
+            Outlook outlook = db.Outlooks.Find(id);
             if (outlook == null)
             {
                 return View("Missing", new MissingItem(id));
             }
-            
-            FillModesSelectList();
-            FillVersionsSelectList();
+
+            FillModesSelectList(outlook.Mode);
+            FillAccountsSelectList(outlook.AccountId);
 
             return View(outlook);
         }
@@ -106,29 +104,25 @@ namespace DisplayMonkey.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "FrameId,Mode,Name,Account,PasswordUnmasked,Mailbox,EwsVersion,Url,ShowEvents")] Outlook outlook, Frame frame)
+        public ActionResult Edit([Bind(Include = "FrameId,Mode,Name,AccountId,Mailbox,ShowEvents")] Outlook outlook, Frame frame)
         {
+            if (!string.IsNullOrWhiteSpace(outlook.Mailbox))
+            {
+                Match lnk = _emailRgx.Match(outlook.Mailbox);
+                outlook.Mailbox = lnk.Success ? lnk.Value : null;
+            }
+
             if (ModelState.IsValid)
             {
-                Match lnk = _emailRgx.Match(outlook.Account);
-                if (lnk.Success) outlook.Account = lnk.Value;
-                if (!string.IsNullOrWhiteSpace(outlook.Mailbox))
-                {
-                    lnk = _emailRgx.Match(outlook.Mailbox);
-                    if (lnk.Success) outlook.Mailbox = lnk.Value;
-                }
-
                 db.Entry(frame).State = EntityState.Modified;
                 db.Entry(outlook).State = EntityState.Modified;
-                db.Entry(outlook).Property(l => l.Url).IsModified = false;
-                db.Entry(outlook).Property(l => l.Password).IsModified = outlook._passwordSet;
                 db.SaveChanges();
 
                 return Navigation.Restore() ?? RedirectToAction("Index");
             }
 
-            FillModesSelectList();
-            FillVersionsSelectList();
+            FillModesSelectList(outlook.Mode);
+            FillAccountsSelectList(outlook.AccountId);
 
             outlook.Frame = frame;
             
@@ -138,7 +132,7 @@ namespace DisplayMonkey.Controllers
         // GET: /Outlook/Delete/5
         public ActionResult Delete(int id = 0)
         {
-            Outlook outlook = db.Outlook.Find(id);
+            Outlook outlook = db.Outlooks.Find(id);
             if (outlook == null)
             {
                 return View("Missing", new MissingItem(id));
@@ -163,9 +157,9 @@ namespace DisplayMonkey.Controllers
             ViewBag.Modes = selected.TranslatedSelectList();
         }
 
-        private void FillVersionsSelectList(OutlookEwsVersions? selected = null)
+        private void FillAccountsSelectList(object selected = null)
         {
-            ViewBag.EwsVersions = selected.TranslatedSelectList();
+            ViewBag.Accounts = new SelectList(db.ExchangeAccounts, "AccountId", "Name", selected);
         }
 
         protected override void Dispose(bool disposing)

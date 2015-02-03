@@ -48,7 +48,7 @@ namespace DisplayMonkey
 				StringBuilder style = new StringBuilder();
 
 				style.AppendFormat(
-                    "#full {{overflow:hidden;width:{0}px;height:{1}px;}}\r\n",
+                    "#full {{overflow:hidden;width:{0}px;height:{1}px;}}\n",
 					Width,
 					Height
 					);
@@ -62,8 +62,8 @@ namespace DisplayMonkey
 			get
 			{
 				return string.Format(
-                    //"<div id=\"screen\"><div id=\"full\" data-panel-id=\"{0}\"></div><div id=\"h_full\" style=\"display:none\"></div></div>\r\n",
-                    "<div id=\"screen\"><div id=\"full\" data-panel-id=\"{0}\"></div></div>\r\n",
+                    //"<div id=\"screen\"><div id=\"full\" data-panel-id=\"{0}\"></div><div id=\"h_full\" style=\"display:none\"></div></div>\n",
+                    "<div id=\"screen\"><div id=\"full\" data-panel-id=\"{0}\"></div></div>\n",
                     PanelId
 					);
 			}

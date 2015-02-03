@@ -1,0 +1,64 @@
+﻿@using DisplayMonkey.Language
+
+@model DisplayMonkey.Models.ExchangeAccount
+
+@{
+    ViewBag.Title = Resources.DeleteExchangeAccount;
+}
+
+<h2>@ViewBag.Title</h2>
+
+<h3>@Resources.DeletingExchangeAccountWillCauseDeletionOfAllRelatedContentAreYouSureYouWantToContinue</h3>
+
+@Html.HiddenFor(model => model.AccountId)
+    
+<fieldset>
+    <legend>@Resources.ExchangeAccount</legend>
+
+    <div class="divTable">
+
+    <div class="divRow">
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Name)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Name)
+    </div>
+    </div>
+
+    <div class="divRow">
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Account)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Account)
+    </div>
+    </div>
+
+    <div class="divRow">
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Url)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Url)
+    </div>
+    </div>
+
+    <div class="divRow">
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.EwsVersion)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.EwsVersion)
+    </div>
+    </div>
+    </div>
+</fieldset>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    <p>
+        <input type="submit" value="@Resources.Delete" /> |
+        @Html.ActionLink(Resources.ExchangeAccounts, "Index")
+    </p>
+}

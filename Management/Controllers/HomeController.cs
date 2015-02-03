@@ -36,8 +36,8 @@ namespace DisplayMonkey.Controllers
             ViewBag.Count_Memos = db.Memos.Count();
             ViewBag.Count_Memos_7 = db.Memos.Count(t => t.Frame.DateCreated >= sevenDaysAgo);
 
-            ViewBag.Count_Outlook = db.Outlook.Count();
-            ViewBag.Count_Outlook_7 = db.Outlook.Count(t => t.Frame.DateCreated >= sevenDaysAgo);
+            ViewBag.Count_Outlook = db.Outlooks.Count();
+            ViewBag.Count_Outlook_7 = db.Outlooks.Count(t => t.Frame.DateCreated >= sevenDaysAgo);
 
             ViewBag.Count_Pictures = db.Pictures.Count();
             ViewBag.Count_Pictures_7 = db.Pictures.Count(t => t.Frame.DateCreated >= sevenDaysAgo);

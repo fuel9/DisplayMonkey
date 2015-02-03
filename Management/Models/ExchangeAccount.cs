@@ -12,16 +12,20 @@ namespace DisplayMonkey.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Outlook
+    public partial class ExchangeAccount
     {
-        public int FrameId { get; set; }
-        public OutlookModes Mode { get; set; }
-        public string Name { get; set; }
-        public string Mailbox { get; set; }
-        public int ShowEvents { get; set; }
-        public int AccountId { get; set; }
+        public ExchangeAccount()
+        {
+            this.Outlooks = new HashSet<Outlook>();
+        }
     
-        public virtual ExchangeAccount ExchangeAccount { get; set; }
-        public virtual Frame Frame { get; set; }
+        public int AccountId { get; set; }
+        public string Name { get; set; }
+        public string Account { get; set; }
+        public byte[] Password { get; set; }
+        public OutlookEwsVersions EwsVersion { get; set; }
+        public string Url { get; set; }
+    
+        public virtual ICollection<Outlook> Outlooks { get; set; }
     }
 }

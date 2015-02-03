@@ -11,7 +11,7 @@ var Outlook = Class.create(PeriodicalExecuter, {
         if (!this.div || !this.panelId || !this.frameId)
             return;
         this.div.hide();
-        $super(this._callback, 60);
+        //$super(this._callback, 60);
         this._callback(null);
     }
 
@@ -52,9 +52,9 @@ var Outlook = Class.create(PeriodicalExecuter, {
                         throw new Error(json.Error);
 
                     var o = outlook.div,
-                        free = o.select("div#free")[0],
-                        busy = o.select("div#busy")[0],
-                        plan = o.select("div#plan")[0];
+                        free = o.select("div.free")[0],
+                        busy = o.select("div.busy")[0],
+                        plan = o.select("div.plan")[0];
                     o.select(".mailbox").each(function (e) { e.update(json.mailbox); });
                     o.select(".status").each(function (e) { e.update(json.currentStatus); });
                     if (json.currentEvent === "") {
@@ -91,6 +91,7 @@ var Outlook = Class.create(PeriodicalExecuter, {
                 }
                 finally {
                     outlook.updating = false;
+                    //console.log(resp.responseText);
                 }
             }
 

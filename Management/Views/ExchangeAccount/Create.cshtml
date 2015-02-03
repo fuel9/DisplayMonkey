@@ -1,0 +1,32 @@
+﻿@using DisplayMonkey.Language
+
+@model DisplayMonkey.Models.ExchangeAccount
+
+@{
+    ViewBag.Title = Resources.CreateNewExchangeAccount;
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>@Resources.ExchangeAccount</legend>
+
+        @Html.Partial("_Edit")
+
+        <p>
+            <input type="submit" value="@Resources.Create" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink(Resources.ExchangeAccounts, "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

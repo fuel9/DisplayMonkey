@@ -10,6 +10,7 @@
           <EntitySet Name="Clock" EntityType="DisplayMonkey.Model.Store.Clock" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Content" EntityType="DisplayMonkey.Model.Store.Content" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Display" EntityType="DisplayMonkey.Model.Store.Display" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="ExchangeAccount" EntityType="DisplayMonkey.Model.Store.ExchangeAccount" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Frame" EntityType="DisplayMonkey.Model.Store.Frame" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="FrameLocation" EntityType="DisplayMonkey.Model.Store.FrameLocation" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="FullScreen" EntityType="DisplayMonkey.Model.Store.FullScreen" store:Type="Tables" Schema="dbo" />
@@ -83,6 +84,10 @@
           <AssociationSet Name="FK_News_Frame" Association="DisplayMonkey.Model.Store.FK_News_Frame">
             <End Role="Frame" EntitySet="Frame" />
             <End Role="News" EntitySet="News" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Outlook_ExchangeAccount" Association="DisplayMonkey.Model.Store.FK_Outlook_ExchangeAccount">
+            <End Role="ExchangeAccount" EntitySet="ExchangeAccount" />
+            <End Role="Outlook" EntitySet="Outlook" />
           </AssociationSet>
           <AssociationSet Name="FK_Outlook_Frame" Association="DisplayMonkey.Model.Store.FK_Outlook_Frame">
             <End Role="Frame" EntitySet="Frame" />
@@ -172,6 +177,17 @@
           <Property Name="ShowErrors" Type="bit" Nullable="false" />
           <Property Name="Version" Type="timestamp" Nullable="false" StoreGeneratedPattern="Computed" />
         </EntityType>
+        <EntityType Name="ExchangeAccount">
+          <Key>
+            <PropertyRef Name="AccountId" />
+          </Key>
+          <Property Name="AccountId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="Account" Type="varchar" Nullable="false" MaxLength="100" />
+          <Property Name="Password" Type="varbinary" MaxLength="400" />
+          <Property Name="EwsVersion" Type="int" Nullable="false" />
+          <Property Name="Url" Type="varchar" MaxLength="250" />
+        </EntityType>
         <EntityType Name="Frame">
           <Key>
             <PropertyRef Name="FrameId" />
@@ -255,12 +271,9 @@
           <Property Name="FrameId" Type="int" Nullable="false" />
           <Property Name="Mode" Type="int" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="100" />
-          <Property Name="Account" Type="varchar" Nullable="false" MaxLength="100" />
-          <Property Name="Password" Type="varbinary" MaxLength="400" />
           <Property Name="Mailbox" Type="varchar" MaxLength="100" />
-          <Property Name="EwsVersion" Type="int" Nullable="false" />
-          <Property Name="Url" Type="varchar" MaxLength="250" />
           <Property Name="ShowEvents" Type="int" Nullable="false" />
+          <Property Name="AccountId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Panel">
           <Key>
@@ -535,6 +548,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Outlook_ExchangeAccount">
+          <End Role="ExchangeAccount" Type="DisplayMonkey.Model.Store.ExchangeAccount" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Outlook" Type="DisplayMonkey.Model.Store.Outlook" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ExchangeAccount">
+              <PropertyRef Name="AccountId" />
+            </Principal>
+            <Dependent Role="Outlook">
+              <PropertyRef Name="AccountId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Outlook_Frame">
           <End Role="Frame" Type="DisplayMonkey.Model.Store.Frame" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -801,12 +828,17 @@
             <End Role="Frame" EntitySet="Frames" />
             <End Role="Youtube" EntitySet="Youtube" />
           </AssociationSet>
-          <EntitySet Name="Outlook" EntityType="DisplayMonkey.Model.Outlook" />
+          <EntitySet Name="ExchangeAccounts" EntityType="DisplayMonkey.Model.ExchangeAccount" />
+          <EntitySet Name="Outlooks" EntityType="DisplayMonkey.Model.Outlook" />
+          <AssociationSet Name="FK_Outlook_ExchangeAccount" Association="DisplayMonkey.Model.FK_Outlook_ExchangeAccount">
+            <End Role="ExchangeAccount" EntitySet="ExchangeAccounts" />
+            <End Role="Outlook" EntitySet="Outlooks" />
+          </AssociationSet>
           <AssociationSet Name="FK_Outlook_Frame" Association="DisplayMonkey.Model.FK_Outlook_Frame">
             <End Role="Frame" EntitySet="Frames" />
-            <End Role="Outlook" EntitySet="Outlook" />
+            <End Role="Outlook" EntitySet="Outlooks" />
           </AssociationSet>
-        </EntityContainer>
+          </EntityContainer>
         <EntityType Name="Canvas">
           <Key>
             <PropertyRef Name="CanvasId" />
@@ -1361,6 +1393,29 @@
           <Member Name="YTRate_Fast" Value="3" />
           <Member Name="YTRate_VeryFast" Value="4" />
         </EnumType>
+        <EnumType Name="OutlookModes">
+          <Member Name="OutlookMode_Today" Value="0" />
+        </EnumType>
+        <EnumType Name="OutlookEwsVersions">
+        <Member Name="OutlookEwsVersion_Exchange2007_SP1" Value="0" />
+          <Member Name="OutlookEwsVersion_Exchange2010" Value="1" />
+          <Member Name="OutlookEwsVersion_Exchange2010_SP1" Value="2" />
+          <Member Name="OutlookEwsVersion_Exchange2010_SP2" Value="3" />
+          <Member Name="OutlookEwsVersion_Exchange2013" Value="4" />
+          <Member Name="OutlookEwsVersion_Exchange2013_SP1" Value="5" />
+        </EnumType>
+        <EntityType Name="ExchangeAccount">
+          <Key>
+            <PropertyRef Name="AccountId" />
+          </Key>
+          <Property Type="Int32" Name="AccountId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Account" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Type="Binary" Name="Password" MaxLength="400" FixedLength="false" />
+          <Property Type="DisplayMonkey.Model.OutlookEwsVersions" Name="EwsVersion" Nullable="false" />
+          <Property Type="String" Name="Url" MaxLength="250" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Outlooks" Relationship="DisplayMonkey.Model.FK_Outlook_ExchangeAccount" FromRole="ExchangeAccount" ToRole="Outlook" />
+        </EntityType>
         <EntityType Name="Outlook">
           <Key>
             <PropertyRef Name="FrameId" />
@@ -1368,14 +1423,26 @@
           <Property Type="Int32" Name="FrameId" Nullable="false" />
           <Property Type="DisplayMonkey.Model.OutlookModes" Name="Mode" Nullable="false" />
           <Property Type="String" Name="Name" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Account" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Type="Binary" Name="Password" MaxLength="400" FixedLength="false" />
           <Property Type="String" Name="Mailbox" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Type="DisplayMonkey.Model.OutlookEwsVersions" Name="EwsVersion" Nullable="false" />
-          <Property Type="String" Name="Url" MaxLength="250" FixedLength="false" Unicode="false" />
           <Property Type="Int32" Name="ShowEvents" Nullable="false" />
+          <Property Type="Int32" Name="AccountId" Nullable="false" />
+          <NavigationProperty Name="ExchangeAccount" Relationship="DisplayMonkey.Model.FK_Outlook_ExchangeAccount" FromRole="Outlook" ToRole="ExchangeAccount" />
           <NavigationProperty Name="Frame" Relationship="DisplayMonkey.Model.FK_Outlook_Frame" FromRole="Outlook" ToRole="Frame" />
         </EntityType>
+        <Association Name="FK_Outlook_ExchangeAccount">
+          <End Type="DisplayMonkey.Model.ExchangeAccount" Role="ExchangeAccount" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="DisplayMonkey.Model.Outlook" Role="Outlook" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ExchangeAccount">
+              <PropertyRef Name="AccountId" />
+            </Principal>
+            <Dependent Role="Outlook">
+              <PropertyRef Name="AccountId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Outlook_Frame">
           <End Type="DisplayMonkey.Model.Frame" Role="Frame" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -1390,18 +1457,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EnumType Name="OutlookModes">
-          <Member Name="OutlookMode_Today" Value="0" />
-        </EnumType>
-        <EnumType Name="OutlookEwsVersions">
-        <Member Name="OutlookEwsVersion_Exchange2007_SP1" Value="0" />
-          <Member Name="OutlookEwsVersion_Exchange2010" Value="1" />
-          <Member Name="OutlookEwsVersion_Exchange2010_SP1" Value="2" />
-          <Member Name="OutlookEwsVersion_Exchange2010_SP2" Value="3" />
-          <Member Name="OutlookEwsVersion_Exchange2013" Value="4" />
-          <Member Name="OutlookEwsVersion_Exchange2013_SP1" Value="5" />
-        </EnumType>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -1632,22 +1688,31 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Outlook">
-            <EntityTypeMapping TypeName="DisplayMonkey.Model.Outlook">
-              <MappingFragment StoreEntitySet="Outlook">
-                <ScalarProperty Name="ShowEvents" ColumnName="ShowEvents" />
+          <EntitySetMapping Name="ExchangeAccounts">
+            <EntityTypeMapping TypeName="DisplayMonkey.Model.ExchangeAccount">
+              <MappingFragment StoreEntitySet="ExchangeAccount">
                 <ScalarProperty Name="Url" ColumnName="Url" />
                 <ScalarProperty Name="EwsVersion" ColumnName="EwsVersion" />
-                <ScalarProperty Name="Mailbox" ColumnName="Mailbox" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="Account" ColumnName="Account" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="AccountId" ColumnName="AccountId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Outlooks">
+            <EntityTypeMapping TypeName="DisplayMonkey.Model.Outlook">
+              <MappingFragment StoreEntitySet="Outlook">
+                <ScalarProperty Name="AccountId" ColumnName="AccountId" />
+                <ScalarProperty Name="ShowEvents" ColumnName="ShowEvents" />
+                <ScalarProperty Name="Mailbox" ColumnName="Mailbox" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Mode" ColumnName="Mode" />
                 <ScalarProperty Name="FrameId" ColumnName="FrameId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-        </EntityContainerMapping>
+          </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>
@@ -1661,8 +1726,8 @@
     <Options>
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
-        <DesignerProperty Name="EnablePluralization" Value="False" />
-        <DesignerProperty Name="IncludeForeignKeysInModel" Value="False" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
       </DesignerInfoPropertySet>
     </Options>

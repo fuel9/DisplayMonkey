@@ -113,43 +113,41 @@ namespace DisplayMonkey
                 List<EventEntry> events = new List<EventEntry>();
 
                 // prep filter
-                DateTime localTime = DateTime.Now;
-                if (outlook.ShowEvents > 0)
+                DateTime 
+                    localTime = DateTime.Now,
+                    windowBeg = localTime,
+                    windowEnd = DateTime.Today.AddDays(1).AddMilliseconds(-1)
+                    ;
+                FolderId folderId = new FolderId(WellKnownFolderName.Calendar, new Mailbox(outlook.Mailbox));
+                CalendarFolder calendar = CalendarFolder.Bind(service, folderId, new PropertySet());
+                CalendarView cView = new CalendarView(windowBeg, windowEnd)
                 {
-                    DateTime
-                        windowBeg = localTime,
-                        windowEnd = DateTime.Today.AddDays(1).AddMilliseconds(-1)
-                        ;
-                    FolderId folderId = new FolderId(WellKnownFolderName.Calendar, new Mailbox(outlook.Mailbox));
-                    CalendarFolder calendar = CalendarFolder.Bind(service, folderId, new PropertySet());
-                    CalendarView cView = new CalendarView(windowBeg, windowEnd)
-                    {
-                        PropertySet = new PropertySet(
-                            AppointmentSchema.Subject,
-                            AppointmentSchema.DateTimeCreated,
-                            AppointmentSchema.Start,
-                            AppointmentSchema.End,
-                            AppointmentSchema.Duration
-                            )
-                    };
+                    PropertySet = new PropertySet(
+                        AppointmentSchema.Subject,
+                        AppointmentSchema.DateTimeCreated,
+                        AppointmentSchema.Start,
+                        AppointmentSchema.End,
+                        AppointmentSchema.Duration
+                        )
+                };
 
-                    events = calendar
-                        .FindAppointments(cView)
-                        .OrderBy(i => i.Start)
-                        .ThenBy(i => i.DateTimeCreated)
-                        .ThenBy(i => i.Subject)
-                        .Take(outlook.ShowEvents)
-                        .Select(a => new EventEntry {
-                            Subject = a.Subject,
-                            CreatedOn = a.DateTimeCreated,
-                            Starts = a.Start,
-                            Ends = a.End,
-                            Duration = a.Duration,
-                        })
-                        .ToList()
-                        ;
-                    //events.Sort();
-                }
+                events = calendar
+                    .FindAppointments(cView)
+                    .OrderBy(i => i.Start)
+                    .ThenBy(i => i.DateTimeCreated)
+                    .ThenBy(i => i.Subject)
+                    .Take(outlook.ShowEvents == 0 ? 1 : outlook.ShowEvents)
+                    .Select(a => new EventEntry {
+                        Subject = a.Subject,
+                        CreatedOn = a.DateTimeCreated,
+                        Starts = a.Start,
+                        Ends = a.End,
+                        Duration = a.Duration,
+                    })
+                    .ToList()
+                    ;
+                //events.Sort();
+                
 
                 EventEntry 
                     currentEvent = null, 

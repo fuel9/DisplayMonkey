@@ -619,6 +619,15 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Create new Microsoft Exchange account.
+        /// </summary>
+        public static string CreateNewExchangeAccount {
+            get {
+                return ResourceManager.GetString("CreateNewExchangeAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create new frame.
         /// </summary>
         public static string CreateNewFrame {
@@ -916,6 +925,15 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Delete Microsoft Exchange account.
+        /// </summary>
+        public static string DeleteExchangeAccount {
+            get {
+                return ResourceManager.GetString("DeleteExchangeAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Delete HTML frame.
         /// </summary>
         public static string DeleteHtmlFrame {
@@ -1029,6 +1047,16 @@ namespace DisplayMonkey.Language {
         public static string DeleteYoutubeFrame {
             get {
                 return ResourceManager.GetString("DeleteYoutubeFrame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deleting Microsoft Exchange account will cause deletion of all related content. Are you sure you want to continue?.
+        /// </summary>
+        public static string DeletingExchangeAccountWillCauseDeletionOfAllRelatedContentAreYouSureYouWantToContinue {
+            get {
+                return ResourceManager.GetString("DeletingExchangeAccountWillCauseDeletionOfAllRelatedContentAreYouSureYouWantToCon" +
+                        "tinue", resourceCulture);
             }
         }
         
@@ -1178,6 +1206,15 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Edit Microsoft Exchange account.
+        /// </summary>
+        public static string EditExchangeAccount {
+            get {
+                return ResourceManager.GetString("EditExchangeAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Edit full screen panel.
         /// </summary>
         public static string EditFullScreenPanel {
@@ -1304,6 +1341,15 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Must be a valid e-mail address.
+        /// </summary>
+        public static string EmailInvalid {
+            get {
+                return ResourceManager.GetString("EmailInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Expires on.
         /// </summary>
         public static string EndsOn {
@@ -1390,6 +1436,33 @@ namespace DisplayMonkey.Language {
         public static string EwsVersionRequired {
             get {
                 return ResourceManager.GetString("EwsVersionRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Exchange account.
+        /// </summary>
+        public static string ExchangeAccount {
+            get {
+                return ResourceManager.GetString("ExchangeAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Exchange account is required.
+        /// </summary>
+        public static string ExchangeAccountRequired {
+            get {
+                return ResourceManager.GetString("ExchangeAccountRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Microsoft Exchange accounts.
+        /// </summary>
+        public static string ExchangeAccounts {
+            get {
+                return ResourceManager.GetString("ExchangeAccounts", resourceCulture);
             }
         }
         
@@ -1759,6 +1832,15 @@ namespace DisplayMonkey.Language {
         public static string Mailbox {
             get {
                 return ResourceManager.GetString("Mailbox", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mailbox is required.
+        /// </summary>
+        public static string MailboxRequired {
+            get {
+                return ResourceManager.GetString("MailboxRequired", resourceCulture);
             }
         }
         

@@ -17,13 +17,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/09/2014 12:24:58</publishTime>
     </File>
     <File Include="bin/App_global.asax.compiled">
-      <publishTime>12/06/2014 20:44:57</publishTime>
+      <publishTime>01/31/2015 14:51:07</publishTime>
     </File>
     <File Include="bin/App_global.asax.dll">
-      <publishTime>12/06/2014 20:44:57</publishTime>
+      <publishTime>01/31/2015 14:51:06</publishTime>
     </File>
     <File Include="bin/App_global.asax.pdb">
-      <publishTime>12/06/2014 20:44:57</publishTime>
+      <publishTime>01/31/2015 14:51:06</publishTime>
     </File>
     <File Include="bin/DataAnnotationsExtensions.ClientValidation.dll">
       <publishTime>12/20/2013 17:23:38</publishTime>
@@ -32,7 +32,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/20/2013 17:23:38</publishTime>
     </File>
     <File Include="bin/de/DisplayMonkey.Language.resources.dll">
-      <publishTime>12/06/2014 20:44:11</publishTime>
+      <publishTime>01/31/2015 14:50:54</publishTime>
     </File>
     <File Include="bin/de/Microsoft.Data.Edm.resources.dll">
       <publishTime>11/27/2013 22:35:56</publishTime>
@@ -44,19 +44,19 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/27/2013 22:35:55</publishTime>
     </File>
     <File Include="bin/DisplayMonkey.Language.dll">
-      <publishTime>12/06/2014 20:44:10</publishTime>
+      <publishTime>01/31/2015 14:50:53</publishTime>
     </File>
     <File Include="bin/DisplayMonkey.Language.pdb">
-      <publishTime>12/06/2014 20:44:10</publishTime>
+      <publishTime>01/31/2015 14:50:53</publishTime>
     </File>
     <File Include="bin/DisplayMonkey.Management.dll">
-      <publishTime>12/06/2014 20:44:13</publishTime>
+      <publishTime>01/31/2015 14:50:55</publishTime>
     </File>
     <File Include="bin/DisplayMonkey.Management.pdb">
-      <publishTime>12/06/2014 20:44:13</publishTime>
+      <publishTime>01/31/2015 14:50:55</publishTime>
     </File>
     <File Include="bin/en-US/DisplayMonkey.Language.resources.dll">
-      <publishTime>12/06/2014 20:44:11</publishTime>
+      <publishTime>01/31/2015 14:50:54</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>11/27/2013 22:35:51</publishTime>
@@ -71,7 +71,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/27/2013 22:35:55</publishTime>
     </File>
     <File Include="bin/fr/DisplayMonkey.Language.resources.dll">
-      <publishTime>12/06/2014 20:44:11</publishTime>
+      <publishTime>01/31/2015 14:50:54</publishTime>
     </File>
     <File Include="bin/fr/Microsoft.Data.Edm.resources.dll">
       <publishTime>11/27/2013 22:35:56</publishTime>
@@ -83,7 +83,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/27/2013 22:35:55</publishTime>
     </File>
     <File Include="bin/it/DisplayMonkey.Language.resources.dll">
-      <publishTime>12/06/2014 20:44:11</publishTime>
+      <publishTime>01/31/2015 14:50:53</publishTime>
     </File>
     <File Include="bin/it/Microsoft.Data.Edm.resources.dll">
       <publishTime>11/27/2013 22:35:56</publishTime>
@@ -140,7 +140,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/09/2014 12:24:58</publishTime>
     </File>
     <File Include="bin/ru/DisplayMonkey.Language.resources.dll">
-      <publishTime>12/06/2014 20:44:11</publishTime>
+      <publishTime>01/31/2015 14:50:54</publishTime>
     </File>
     <File Include="bin/ru/Microsoft.Data.Edm.resources.dll">
       <publishTime>11/27/2013 22:35:56</publishTime>
@@ -152,7 +152,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/27/2013 22:35:55</publishTime>
     </File>
     <File Include="bin/sv/DisplayMonkey.Language.resources.dll">
-      <publishTime>12/06/2014 20:44:11</publishTime>
+      <publishTime>01/31/2015 14:50:54</publishTime>
     </File>
     <File Include="bin/sv/Language.resources.dll">
       <publishTime>03/14/2014 17:05:26</publishTime>
@@ -245,7 +245,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/27/2013 22:35:55</publishTime>
     </File>
     <File Include="bin/zh/DisplayMonkey.Language.resources.dll">
-      <publishTime>12/06/2014 20:44:11</publishTime>
+      <publishTime>01/31/2015 14:50:54</publishTime>
     </File>
     <File Include="Content/images/buttons.gif">
       <publishTime>10/10/2014 16:57:51</publishTime>
@@ -557,13 +557,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/12/2014 13:57:09</publishTime>
     </File>
     <File Include="Models/DMModel.edmx.diagram">
-      <publishTime>12/03/2014 23:07:45</publishTime>
+      <publishTime>01/31/2015 13:12:10</publishTime>
     </File>
     <File Include="packages.config">
       <publishTime>12/03/2014 23:07:45</publishTime>
     </File>
     <File Include="PrecompiledApp.config">
-      <publishTime>12/06/2014 20:44:56</publishTime>
+      <publishTime>01/31/2015 14:51:05</publishTime>
     </File>
     <File Include="Scripts/canvas-preview.js">
       <publishTime>02/04/2014 09:48:59</publishTime>
@@ -715,6 +715,21 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Views/Error/NotFound.cshtml">
       <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
+    <File Include="Views/ExchangeAccount/Create.cshtml">
+      <publishTime>01/31/2015 12:26:16</publishTime>
+    </File>
+    <File Include="Views/ExchangeAccount/Delete.cshtml">
+      <publishTime>01/31/2015 12:36:39</publishTime>
+    </File>
+    <File Include="Views/ExchangeAccount/Edit.cshtml">
+      <publishTime>01/31/2015 14:41:35</publishTime>
+    </File>
+    <File Include="Views/ExchangeAccount/Index.cshtml">
+      <publishTime>01/31/2015 12:45:31</publishTime>
+    </File>
+    <File Include="Views/ExchangeAccount/_Edit.cshtml">
+      <publishTime>01/31/2015 12:27:50</publishTime>
+    </File>
     <File Include="Views/Frame/Attach.cshtml">
       <publishTime>10/16/2014 20:23:30</publishTime>
     </File>
@@ -842,10 +857,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/03/2014 23:07:45</publishTime>
     </File>
     <File Include="Views/Outlook/_Details.cshtml">
-      <publishTime>12/06/2014 17:51:58</publishTime>
+      <publishTime>01/31/2015 14:49:22</publishTime>
     </File>
     <File Include="Views/Outlook/_Edit.cshtml">
-      <publishTime>12/06/2014 17:52:11</publishTime>
+      <publishTime>01/31/2015 14:28:13</publishTime>
     </File>
     <File Include="Views/Panel/Create.cshtml">
       <publishTime>05/30/2014 15:09:29</publishTime>
@@ -944,7 +959,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/12/2014 13:29:10</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>12/03/2014 23:07:45</publishTime>
+      <publishTime>01/31/2015 12:46:38</publishTime>
     </File>
     <File Include="Views/Video/Create.cshtml">
       <publishTime>05/30/2014 15:09:29</publishTime>
@@ -1022,7 +1037,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/30/2014 15:09:29</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>12/06/2014 20:44:21</publishTime>
+      <publishTime>01/31/2015 14:51:04</publishTime>
     </File>
   </ItemGroup>
 </Project>

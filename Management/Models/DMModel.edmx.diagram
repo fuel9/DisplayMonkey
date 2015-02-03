@@ -40,16 +40,18 @@
         <AssociationConnector Association="DisplayMonkey.Model.FrameLocation" ManuallyRouted="false" />
         <AssociationConnector Association="DisplayMonkey.Model.VideoAlternative" ManuallyRouted="false" />
         <AssociationConnector Association="DisplayMonkey.Model.FK_Location_Area" />
-        <EntityTypeShape EntityType="DisplayMonkey.Model.ReportServer" Width="1.5" PointX="15.625" PointY="13.875" />
+        <EntityTypeShape EntityType="DisplayMonkey.Model.ReportServer" Width="1.5" PointX="15.5" PointY="13.375" />
         <AssociationConnector Association="DisplayMonkey.Model.FK_Report_ReportServer" />
         <EntityTypeShape EntityType="DisplayMonkey.Model.Setting" Width="1.5" PointX="6.5" PointY="20.375" />
         <EntityTypeShape EntityType="DisplayMonkey.Model.Html" Width="1.5" PointX="13.5" PointY="17.5" />
         <AssociationConnector Association="DisplayMonkey.Model.FK_Html_Frame" />
         <EntityTypeShape EntityType="DisplayMonkey.Model.Youtube" Width="1.5" PointX="13.5" PointY="19.5" />
         <AssociationConnector Association="DisplayMonkey.Model.FK_Youtube_Frame" />
-        <EntityTypeShape EntityType="DisplayMonkey.Model.Outlook" Width="1.5" PointX="13.5" PointY="22.5" />
+        <EntityTypeShape EntityType="DisplayMonkey.Model.ExchangeAccount" Width="1.5" PointX="15.5" PointY="22.625" />
+        <EntityTypeShape EntityType="DisplayMonkey.Model.Outlook" Width="1.5" PointX="13.5" PointY="22.625" />
+        <AssociationConnector Association="DisplayMonkey.Model.FK_Outlook_ExchangeAccount" />
         <AssociationConnector Association="DisplayMonkey.Model.FK_Outlook_Frame" />
-      </Diagram>
+        </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>

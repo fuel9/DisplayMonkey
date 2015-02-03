@@ -17,7 +17,7 @@ namespace DisplayMonkey
 		{
 			PanelId = panelId;
 			_templatePath = HttpContext.Current.Server.MapPath("~/files/frames/outlook.htm");
-			string sql = string.Format("SELECT TOP 1 * FROM Outlook WHERE FrameId={0}", frameId);
+			string sql = string.Format("SELECT TOP 1 o.*, Account, Password, Url, EwsVersion FROM Outlook o inner join ExchangeAccount x on x.AccountId=o.AccountId WHERE o.FrameId={0}", frameId);
 
 			using (DataSet ds = DataAccess.RunSql(sql))
 			{
