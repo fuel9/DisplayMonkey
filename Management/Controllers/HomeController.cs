@@ -22,7 +22,7 @@ namespace DisplayMonkey.Controllers
             );
             ViewBag.Count_Expired_Frames = db.Frames.Count(t => t.EndsOn <= DateTime.Now);
             ViewBag.Count_Pending_Frames = db.Frames.Count(t => DateTime.Now < t.BeginsOn);
-            ViewBag.Duration_Hours = db.Frames.Sum(t => Math.Round((double)t.Duration / 3600.0, 2));
+            ViewBag.Duration_Hours = string.Format("{0:N2}", db.Frames.Sum(t => Math.Round((double)t.Duration / 3600.0, 2)));
 
             ViewBag.Count_Levels = db.Levels.Count();
             ViewBag.Count_Locations = db.Locations.Count();
@@ -68,6 +68,7 @@ namespace DisplayMonkey.Controllers
                         f.Report != null ? f.Report.Name :
                         f.Video != null ? f.Video.Contents.FirstOrDefault().Name :
                         f.Weather != null ? DisplayMonkey.Language.Resources.Weather :
+                        f.Youtube != null ? f.Youtube.Name :
                         DisplayMonkey.Language.Resources.Unknown
                 })
                 .GroupBy(f => f.Name)
