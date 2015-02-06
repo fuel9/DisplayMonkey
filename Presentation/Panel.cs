@@ -124,7 +124,7 @@ namespace DisplayMonkey
 			get 
 			{ 
 				return string.Format(
-					"#div{0} {{position:absolute;overflow:hidden;margin:auto;top:{1}px;left:{2}px;width:{3}px;height:{4}px;}}\n",
+					"#div{0}, #x_div{0} {{position:absolute;overflow:hidden;margin:auto;top:{1}px;left:{2}px;width:{3}px;height:{4}px;}}\n",
 					PanelId, 
 					Top, 
 					Left, 
@@ -139,7 +139,6 @@ namespace DisplayMonkey
 			get
 			{
 				return string.Format(
-                    //"<div id=\"div{0}\" data-panel-id=\"{0}\"></div><div id=\"h_div{0}\" style=\"display:none\"></div>\n",
                     "<div id=\"div{0}\" data-panel-id=\"{0}\"></div>\n",
                     PanelId
 					);

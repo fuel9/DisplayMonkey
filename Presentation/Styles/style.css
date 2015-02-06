@@ -58,10 +58,10 @@
 		width:100px;
 		height:100px;
 		z-index:10000;
-		display:none;
+		/*display:none;*/
 	}
 
-	#full {
+	#full, #x_full {
 		position:relative;
 		margin-left:auto;
 		margin-right:auto;
@@ -73,30 +73,29 @@
 		/*border:1px solid yellow;*/
 	}
 
-	#full * {
+	#full *, #x_full * {
 		vertical-align:middle;
 	}
 	
 	/*\*//*/
 	
-    #full {
+    #full, #x_full {
 		display:block;
 	}
-	#full span {
+	#full span, #x_full span {
 		display:inline-block;
 		height:100%;
 		width:1px;
 	}
 	/**/
 	
-	#full>span {
+	#full>span, #x_full>span {
 		display:inline-block;
 		height:100%;
 		/*border:1px solid cyan;*/
 	}
 
-	#full>img 
-	{
+	#full>img, #x_full>img {
 		margin:auto;
 		vertical-align:middle;
 	}
