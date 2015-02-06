@@ -69,6 +69,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="files\world.gif" />
     <Content Include="getOutlook.ashx" />
     <Content Include="files\frames\outlook.htm" />
     <Content Include="files\frames\youtube.htm" />
@@ -140,11 +141,13 @@
     <Content Include="getFrame.ashx" />
     <Content Include="getNextFrame.ashx" />
     <Content Include="js\clock.js" />
+    <Content Include="js\iframe.js" />
     <Content Include="js\outlook.js" />
     <Content Include="js\mediaelement.min.js" />
     <Content Include="js\moment.min.js" />
     <Content Include="js\canvas.js" />
     <Content Include="getCanvas.aspx" />
+    <Content Include="js\picture.js" />
     <Content Include="js\pt\ajaxpanel.js" />
     <Content Include="js\pt\builder.js" />
     <Content Include="js\pt\captcha.js" />
@@ -157,6 +160,7 @@
     <Content Include="js\pt\scriptaculous.js" />
     <Content Include="js\pt\slider.js" />
     <Content Include="js\scroller.js" />
+    <Content Include="js\video.js" />
     <Content Include="js\youtube.js" />
     <Content Include="packages.config" />
     <Content Include="files\fonts\futura.eot" />

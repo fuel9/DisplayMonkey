@@ -141,8 +141,10 @@ var Canvas = Class.create({
                     if (c.displayId != _displayId)
                         return;
                     var _hash = json["Hash"];
-                    if (c.hash != _hash)
+                    if (c.hash != _hash) {
+                        console.log("reload triggered in checkDisplayHash");
                         document.location.reload(true);
+                    }
                 }
                 catch (e) {
                     new ErrorReport({ exception: e, data: resp.responseText, source: "checkDisplayHash::onSuccess" });
@@ -174,7 +176,7 @@ Ajax.PanelUpdaterBase = Class.create(Ajax.Base, {
 
 		this.panelId = (this.options.panelId || 0);
 		this.frequency = (this.options.frequency || 1);
-		this.container = this.options.container; // "div" + this.panelId;
+		this.containerId = this.options.container; // "div" + this.panelId;
 		this.html = "";
 		//this.hash = "";
 		this.object = null;
@@ -253,8 +255,7 @@ Ajax.PanelUpdaterBase = Class.create(Ajax.Base, {
 			    }*/
 		        //_updateBegin();
 		        new ErrorReport({ exception: resp.toString(), source: "onGetNextFrame::onFailure", data: resp });
-		        var p = resp.request.options.panelUpdater;
-		        p.onUpdateEnd();
+		        resp.request.options.panelUpdater.onUpdateEnd();
 		    }
 		});
 	},               // <-- get HTML via Ajax, then calls onUpdateEnd
@@ -274,7 +275,7 @@ Ajax.PanelUpdaterBase = Class.create(Ajax.Base, {
 	    "use strict";
 	    try {
 	        if (this.object && this.object.stop) {
-	            this.object.stop()
+	            this.object.stop();
 	        }
 
 	        // resume others
@@ -292,8 +293,9 @@ Ajax.PanelUpdaterBase = Class.create(Ajax.Base, {
 	    }
 	},                 // <-- stops and destroys current object; for full panel resumes objects in other panels
 
-	_initFrame: function () {
+	_initFrame: function (panel) {
 	    "use strict";
+	    var obj = null;
         try {
             // pause others
             if (this instanceof Ajax.FullScreenPanelUpdater) {
@@ -305,40 +307,42 @@ Ajax.PanelUpdaterBase = Class.create(Ajax.Base, {
             var div = null;
 
             // start scroller
-	        if (div = $(this.container).down('div.memo')) {
-	            this.object = new TextScroller(div);
+	        if (div = panel.down('div.memo')) {
+	            obj = new TextScroller({ div: div });
             }
 
-	        // start clock
-	        else if (div = $(this.container).down('div.clock')) {
-	            this.object = new Clock(div);
-            }
+            // start clock
+	        else if (div = panel.down('div.clock')) {
+	            obj = new Clock({ div: div });
+	        }
+
+	        // picture or report
+	        else if (div = panel.down('div.picture, div.report')) {
+	            obj = new Picture({ div: div });
+	        }
+
+	        // iframe
+	        else if (div = panel.down('iframe.html')) {
+	            obj = new Iframe({ div: div });
+	        }
 
 	        // start video
-	        else if ((div = $(this.container).down('video')) && _canvas.supports_video) {
-	            this.object = div;
-	            var a;
-	            if (a = div.readAttribute('loop')) div.loop = a;
-	            if (a = div.readAttribute('muted')) div.muted = a;
-	            if (this instanceof Ajax.FullScreenPanelUpdater || !_canvas.fullScreenActive) {
-	                div.play();
-	            }
-	            var vc = div.up('div.videoContainer');
-	            if (vc) {
-	                vc.style.backgroundColor = _canvas.backColor;
-	            }
+	        else if ((div = panel.down('video')) && _canvas.supports_video) {
+	            obj = new Video({
+	                div: div,
+	                play: (this instanceof Ajax.FullScreenPanelUpdater || !_canvas.fullScreenActive)
+	            });
             }
 
             // start youtube
-	        else if (div = $(this.container).down('div[id^=ytplayer]')) {
-	            this.object = new YtLib.YtPlayer({ div: div });
+	        else if (div = panel.down('div[id^=ytplayer]')) {
+	            obj = new YtLib.YtPlayer({ div: div });
             }
 
             // start outlook
-	        else if (div = $(this.container).down('div.outlook')) {
-	            this.object = new Outlook({
+	        else if (div = panel.down('div.outlook')) {
+	            obj = new Outlook({
 	                div: div,
-	                frameId: this.currentId,
 	                panelId: this.panelId
 	            });
 	        }
@@ -350,7 +354,10 @@ Ajax.PanelUpdaterBase = Class.create(Ajax.Base, {
 	    catch (e) {
 	        new ErrorReport({ exception: e, source: "_initFrame" }); // <-- shouldn't get here
 	    }
-	},                   // <-- for full panel pauses other panels' objects, depending on frame type creates new object and optionally plays it
+	    finally {
+	        return obj;
+	    }
+	},          // <-- for full panel pauses other panels' objects, depending on frame type creates new object and optionally plays it
 
 	/*_hashUrl: function (url) {
 	    "use strict";
@@ -373,7 +380,7 @@ Ajax.PanelUpdater = Class.create(Ajax.PanelUpdaterBase, {
 	    "use strict";
 	    if (this.freezeOnFullScreen && _canvas.fullScreenActive) {
             // TODO: recalculate expire and frequency when caught up in fullscreen
-	        this.expire = this.onFrameExpire.bind(this).delay(this.frequency);
+	        this.expire = this.onFrameExpire.bind(this).delay(1);   // wait 1 sec
 	    } else {
 	        $super();
 	    }
@@ -381,88 +388,84 @@ Ajax.PanelUpdater = Class.create(Ajax.PanelUpdaterBase, {
 
 	onUpdateEnd: function ($super) {
 	    "use strict";
-	    /*var new_hash = hashFnv32a(this.html, true);
-	    var needRedraw = (
-			this.previousType != this.currentType ||
-			//$(this.container).innerHTML != this.html ||
-            this.hash != new_hash
-		);
 
-	    if (!needRedraw) {
-			this.expire = this.onFrameExpire.bind(this).delay(this.frequency);
-			return;
-	    }
-
-        // set new hash
-	    this.hash = new_hash;*/
-
-	    // TODO: wait until object is ready
-	    if (0) {
-	        this.onUpdateEnd.bind(this).delay(0.1);
-	        return;
-	    }
-
-	    // un-init old frame
-	    this._uninitFrame();
-
-	    // create new container
-	    var oldContainer = $(this.container),
+	    // create new empty container
+	    var oldContainer = $(this.containerId),
             newContainer = oldContainer
                 .clone(false)
-                .setStyle({
-                    display: 'none'
-                })
+                .setStyle({ display: 'none' })
 	    ;
 	    oldContainer.insert({ after: newContainer });
 	    oldContainer.id = "x_" + oldContainer.id;
-
-	    var afterFadeOut = function () {
-	        oldContainer.remove();
-	    };
-
-	    // fade out old container and remove it
-	    if (this.fadeLength > 0) {
-	        oldContainer.fade({
-	            duration: this.fadeLength,
-	            afterFinish: function () {
-	                afterFadeOut();
-	            }
-	        });
-	    }
-	    else {
-	        afterFadeOut();
-	    }
-
-	    // if no frame
-	    if (!this.currentId) {
-	        this.expire = this.onFrameExpire.bind(this).delay(this.frequency);
-	        return;
-	    }
-
-	    // substitute html
-	    newContainer.update(this.html);
-
-	    // 1. call after update
-	    this._initFrame();
 
 	    var afterFadeIn = function () {
 	        newContainer.setStyle({ display: '' });
 	    };
 
-	    // 2. fade in last
-	    if (this.fadeLength > 0) {
-	        newContainer.appear({
-	            duration: this.fadeLength,
-	            afterFinish: function () {
-	                afterFadeIn();
-	            }
-	        });
-	    } else {
-	        afterFadeIn();
+	    var afterFadeOut = function () {
+	        oldContainer.remove();
+	    };
+
+	    var fadeOut = function () {
+	        if (this.fadeLength > 0) {
+	            oldContainer.fade({
+	                duration: this.fadeLength,
+	                afterFinish: function () {
+	                    afterFadeOut();
+	                }
+	            });
+	        }
+	        else {
+	            afterFadeOut();
+	        }
+	    };
+
+	    // bail if no more frames
+	    if (!this.currentId) {
+	        this._uninitFrame();
+	        fadeOut.apply(this);
+	        this.expire = this.onFrameExpire.bind(this).delay(60);  // wait 1 min
+	        return;
 	    }
 
-	    // 3. queue onFrameExpire
-	    $super();
+	    // set html
+	    newContainer.update(this.html);
+
+	    // init new frame
+	    var obj = this._initFrame(newContainer);
+
+	    // cross-fade
+	    var crossFade = function () {
+	        // 1. if previous object existed wait till new object is ready
+	        if (this.object && obj && obj.isReady && !obj.isReady()) {
+	            crossFade.bind(this).delay(0.1);
+	            return;
+	        }
+
+	        // 2. uninit old object first, then bind to new object
+	        this._uninitFrame();
+	        this.object = obj;   // <-- already inited
+
+	        // 3. fade in new container
+	        if (this.fadeLength > 0) {
+	            newContainer.appear({
+	                duration: this.fadeLength,
+	                afterFinish: function () {
+	                    afterFadeIn();
+	                }
+	            });
+	        } else {
+	            afterFadeIn();
+	        }
+
+	        // 4. fade out old container
+	        fadeOut.apply(this);
+
+	        // 5. queue next frame
+	        $super();
+	    };
+
+	    crossFade.apply(this);
 	},
 });
 
@@ -482,12 +485,12 @@ Ajax.FullScreenPanelUpdater = Class.create(Ajax.PanelUpdaterBase, {
 
 	    // create new screen
 	    var screen = $("screen"),
-            oldContainer = $(this.container),
+            oldContainer = $(this.containerId),
             newContainer = oldContainer
                 .clone(false)
-                .setStyle({ 
+                /*.setStyle({ 
                     display: 'none'
-                })
+                })*/
 	    ;
 	    oldContainer.insert({ after: newContainer });
 	    oldContainer.id = "x_" + oldContainer.id;
@@ -522,36 +525,49 @@ Ajax.FullScreenPanelUpdater = Class.create(Ajax.PanelUpdaterBase, {
 	        return;
 	    }
 
+	    // set html
+	    var screen = $("screen"),
+            container = $(this.containerId)
+	    ;
+	    container
+            .update(this.html)
+            //.setStyle({ display: '' })
+	    ;
+
 	    _canvas.fullScreenActive = true;
 
-	    // substitute html
-	    //this.previousType = this.currentType;
-	    var screen = $("screen"),
-            container = $(this.container)
-	    ;
-	    container.update(this.html).setStyle({ display: '' });
-
-	    // 1. call after update
-	    this._initFrame();
+	    // init new frame
+	    this.object = this._initFrame(container);
 
 	    var afterFadeIn = function () {
 	        screen.setStyle({ display: 'block' });
 	    };
 
-	    // 2. fade in last
-	    if (this.fadeLength > 0) {
-	        screen.appear({
-	            duration: this.fadeLength,
-	            afterFinish: function () {
-	                afterFadeIn();
-	            }
-	        });
-	    } else {
-	        afterFadeIn();
-	    }
+	    // fadeIn new frame
+	    var fadeIn = function () {
+	        // 1. wait till new object is ready
+	        if (this.object && this.object.isReady && !this.object.isReady()) {
+	            fadeIn.bind(this).delay(0.1);
+	            return;
+	        }
 
-	    // 3. queue onFrameExpire
-	    $super();
+	        // 2. fade in new container
+	        if (this.fadeLength > 0) {
+	            screen.appear({
+	                duration: this.fadeLength,
+	                afterFinish: function () {
+	                    afterFadeIn();
+	                }
+	            });
+	        } else {
+	            afterFadeIn();
+	        }
+
+	        // 3. queue next frame
+	        $super();
+	    };
+
+	    fadeIn.apply(this);
 	},
 
 	_getIdleInterval: function () {
@@ -593,7 +609,8 @@ function ticker() {
     "use strict";
     // refresh the window every midnight
     var now = new Date();
-    if (0 == now.getHours() == now.getMinutes()) {
+    if (now.getHours() === 0 && now.getMinutes() === 0) {
+        console.log("reload triggered in ticker " + now.toString());
         document.location.reload(true);
         return;
     }
@@ -628,13 +645,13 @@ function hashFnv32a(str, asString, seed) {
     return hval >>> 0;
 }
 
-(function () {
+/*(function () {
     "use strict";
     if (!document.createElement('video').stop)
         Element.addMethods('video', {
             stop: function (e) { e.pause(); }
         });
-})();
+})();*/
 
 document.observe("dom:loaded", function () {
     "use strict";

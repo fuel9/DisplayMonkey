@@ -1,25 +1,39 @@
-﻿// 14-11-18 [LTL] - outlook BEGIN
+﻿// 2014-11-18 [LTL] - outlook BEGIN
+// 2015-02-06 [LTL] - added isReady method
 
 var Outlook = Class.create(PeriodicalExecuter, {
     initialize: function ($super, options) {
         "use strict";
         this.exiting = false;
         this.updating = false;
+        this.finishedLoading = false;
         this.div = options.div;
-        this.frameId = options.frameId || 0;
+        this.frameId = options.div.dataset.frameId || 0;
         this.panelId = options.panelId || 0;
         if (!this.div || !this.panelId || !this.frameId)
             return;
-        this.div.hide();
+        //this.div.hide();
         //$super(this._callback, 60);
+
+        this.div.select("div.busy")[0].hide();
+        this.div.select("div.plan")[0].hide();
+        this.div.select("div.free")[0].hide();
+        this.div.select("div.progress")[0].show();
+        //this.div.show();
+
         this._callback(null);
-    }
+    },
 
-    , stop: function () {
+    stop: function () {
         this.exiting = true;
-    }
+    },
 
-    , _callback: function (pe) {
+    isReady: function () {
+        "use strict";
+        return !!this.finishedLoading;
+    },
+
+    _callback: function (pe) {
         "use strict";
         if (this.exiting || this.updating)
             return;
@@ -54,7 +68,9 @@ var Outlook = Class.create(PeriodicalExecuter, {
                     var o = outlook.div,
                         free = o.select("div.free")[0],
                         busy = o.select("div.busy")[0],
-                        plan = o.select("div.plan")[0];
+                        plan = o.select("div.plan")[0]
+                    ;
+                    o.select("div.progress")[0].hide();
                     o.select(".mailbox").each(function (e) { e.update(json.mailbox); });
                     o.select(".status").each(function (e) { e.update(json.currentStatus); });
                     if (json.currentEvent === "") {
@@ -83,6 +99,7 @@ var Outlook = Class.create(PeriodicalExecuter, {
                                     ));
                             });
                         }
+                        plan.show();
                     }
                     o.show();
                 }
@@ -92,14 +109,16 @@ var Outlook = Class.create(PeriodicalExecuter, {
                 finally {
                     outlook.updating = false;
                     //console.log(resp.responseText);
+                    outlook.finishedLoading = true;
                 }
             }
 
             , onFailure: function (resp) {
                 new ErrorReport({ exception: resp, source: "Outlook::callBack::onFailure" });
+                resp.request.options.outlook.finishedLoading = true;
             }
         });
-    }
+    },
 });
 
 // 14-11-18 [LTL] - outlook END

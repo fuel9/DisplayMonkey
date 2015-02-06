@@ -1,5 +1,6 @@
-﻿// 14-10-11 [LTL] - YouTube script BEGIN
-// 14-10-24 [LTL] - use strict
+﻿// 2014-10-11 [LTL] - YouTube script BEGIN
+// 2014-10-24 [LTL] - use strict
+// 2015-02-06 [LTL] - added isReady method
 
 // 1. This code initiates load of the IFrame Player API code asynchronously.
 var YtLib = {
@@ -34,6 +35,7 @@ YtLib.YtPlayer = Class.create({
         "use strict";
         YtLib.load();
         this.player = null;
+        this.finishedLoading = false;
         var div = $(options.div);
         this.id = div.id;
         this.width = div.readAttribute('data-width') || div.parentNode.clientWidth;
@@ -69,6 +71,11 @@ YtLib.YtPlayer = Class.create({
         this.volume = div.readAttribute('data-volume') || 0;
         if (this.volume > 100) this.volume = 100;
         this.show();
+    },
+
+    isReady: function () {
+        "use strict";
+        return !!this.finishedLoading;
     },
 
     stop: function () {
@@ -133,6 +140,7 @@ YtLib.YtPlayer = Class.create({
         event.target.setVolume(this.volume);
         event.target.loadVideoById(this.videoId, this.start, this.quality);
         event.target.setPlaybackRate(this.rate);
+        this.finishedLoading = true;
     },
 
     // 5. The API calls this function when the player's state changes.

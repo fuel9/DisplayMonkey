@@ -2,9 +2,9 @@
 // 14-10-25 [LTL] - use strict, code improvements
 
 var Clock = Class.create({
-    initialize: function (div) {
+    initialize: function (options) {
         "use strict";
-        this.div = div;
+        this.div = options.div;
         this.showDate = this.div.readAttribute("data-show-date") === 'True';
         this.showTime = this.div.readAttribute("data-show-time") === 'True';
         this.faceType = this.div.readAttribute("data-face-type");

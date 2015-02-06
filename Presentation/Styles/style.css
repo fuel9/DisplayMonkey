@@ -239,6 +239,11 @@
         padding: 0px;
     }
 
+        div.outlook>.progress {
+            background-color: transparent;
+    		text-align:center;
+        }
+
         div.outlook>.free {
             background-color: green;
             color: white;

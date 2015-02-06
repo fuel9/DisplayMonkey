@@ -3,16 +3,17 @@
 // 14-11-19 [LTL] - code improvements
 
 var TextScroller = Class.create(PeriodicalExecuter, {
-    initialize: function ($super, div) {
+    initialize: function ($super, options) {
         "use strict";
-        this.div = div;
+        this.div = options.div;
         this.state = 0;
         this.delay = 0;
         this.tick = 0.1; 			// seconds
         this.length = 5 / this.tick; // seconds
         this.paused = false;
-        if (this.div)
+        if (this.div) {
             $super(this._callBack, this.tick);
+        }
     }
 
     , pause: function () {
