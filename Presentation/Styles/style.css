@@ -1,4 +1,4 @@
-﻿@charset "UTF-8";
+@charset "UTF-8";
 
 	A:link {text-decoration:none; color:#d23006;}
 	A:visited {text-decoration:none; color:#d23006;}
@@ -21,7 +21,7 @@
 		font-family:Futura, Verdana, Arial, Helvetica, sans-serif;
 		font-size:10px;
 		text-align:center;
-		color:white;
+		color:#323232;
 	}
 	
 	video {
@@ -134,8 +134,8 @@
 	/*******************************************************************************/
 	
 	.clock {
-		font-size:14px;
-		text-align:right;
+		font-size:56px;
+		text-align:right; 
 		vertical-align:middle;
 		line-height: 150%;
 	}
@@ -219,6 +219,7 @@
         z-index:1; 
         width:100%; 
         height:100%;
+        background-color: #ffffff;    
     }
 	
     div.ytshield {

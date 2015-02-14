@@ -391,6 +391,7 @@
     <Content Include="Images\film.png" />
     <Content Include="Images\full.png" />
     <Content Include="Images\html.png" />
+    <Content Include="Images\image.png" />
     <Content Include="Images\logo.png" />
     <Content Include="Images\memo.png" />
     <Content Include="Images\partial.png" />

@@ -1,18 +1,38 @@
-﻿@font-face {
+@font-face {
     font-family: "Open Sans";
     src: url("http://themes.googleusercontent.com/static/fonts/opensans/v7/cJZKeOuBrn4kERxqtaUH3T8E0i7KZn-EPnyo3HZu7kw.woff");
 }
 
+/*************** jqsimplemenu.css overrides BEGIN ***************/
+
+.menu, .menu ul {
+    text-transform: uppercase;
+}
+
+    .menu  a:hover {
+	    color: #cc0000; 
+	}
+
+    .menu-item-selected > a {
+        background-color: #cecece;
+    }
+
+    .menu-item-selected > a:hover {
+        color: #cc0000 !important;
+    }
+
+/**************** jqsimplemenu.css overrides END ****************/
+
 html {
-    background-color: #376092;
+    background-color: #336699;
     margin: 0;
     padding: 0;
 	height:100%;
 }
 
 body {
-    background-color: #376092;
-    /*border-top: solid 10px #376092;*/
+    background-color: #336699;
+    /*border-top: solid 10px #336699;*/
     color: #333;
     font-size: .90em;
     /*font-family: "Segoe UI", Verdana, Helvetica, Sans-Serif;*/
@@ -26,7 +46,7 @@ body {
 }
 
 a {
-    color: #c00000;
+    color: #CC0000;
     outline: none;
     padding-left: 3px;
     padding-right: 3px;
@@ -35,17 +55,17 @@ a {
 
     a:link, a:visited,
     a:active, a:hover {
-        color: #c00000;
+        color: #CC0000;
     }
 
     a:hover {
-        /*background-color: #c00000;*/
+        /*background-color: #CC0000;*/
     }
 
 header, footer, hgroup,
 nav, section {
     display: block;
-	/*background-color: #376092;*/
+	/*background-color: #336699;*/
 }
 
 mark {
@@ -74,7 +94,7 @@ mark {
 
 h1, h2, h3,
 h4, h5, h6 {
-    color: #376092;
+    color: #336699;
     margin-bottom: 0;
     padding-bottom: 0;
 }
@@ -121,6 +141,7 @@ h5, h6 {
     background-color: #fff;
     clear: both;
     padding-bottom: 35px;
+    line-height: 2;
 
 }
 
@@ -138,7 +159,7 @@ h5, h6 {
 
 header .content-wrapper {
     padding-top: 20px; 
-	background: #376092;
+	background: #336699;
 }
 
 footer {
@@ -163,13 +184,13 @@ footer {
     font-size: 0em;
     margin: 0;
 	background: url("../Images/logo.png") no-repeat; 
-	width: 344px;
-	height: 46px;
+	width: 400px;
+	height: 61px;
 	
 }
 
 .site-title a, .site-title a:hover, .site-title a:active {
-    /*background: #376092;*/
+    /*background: #336699;*/
     color: #fff;
     outline: none;
     text-decoration: none;
@@ -249,17 +270,17 @@ ul#menu {
 
     .featured .content-wrapper {
         /*background-color: #336699;
-        background-image: -ms-linear-gradient(left, #376092 0%, #376092 100%);
-        background-image: -o-linear-gradient(left, #376092 0%, #376092 100%);
-        background-image: -webkit-gradient(linear, left top, right top, color-stop(0, #376092), color-stop(1, #376092));
-        background-image: -webkit-linear-gradient(left, #376092 0%, #376092 100%);
-        background-image: linear-gradient(left, #376092 0%, #376092 100%); */
+        background-image: -ms-linear-gradient(left, #336699 0%, #336699 100%);
+        background-image: -o-linear-gradient(left, #336699 0%, #336699 100%);
+        background-image: -webkit-gradient(linear, left top, right top, color-stop(0, #336699), color-stop(1, #336699));
+        background-image: -webkit-linear-gradient(left, #336699 0%, #336699 100%);
+        background-image: linear-gradient(left, #336699 0%, #336699 100%); */
         color: #333;
         padding: 20px 40px 30px 40px;
     }
 
         .featured hgroup.title h1, .featured hgroup.title h2 {
-            color: #376092;
+            color: #336699;
 			font-size: 1.4em;
 			border-bottom: 1px solid #e2e2e2;
 			padding-bottom: 5px;
@@ -470,7 +491,9 @@ fieldset {
 .divRow div {
     display: table-cell;
     /*width:30%;*/
-    padding:0px 20px 0px 20px;
+    padding:10px 10px 0px 10px;
+    border-bottom: 1px;
+    border-color: #336699;
 }
 
 .divRow .display-label {
@@ -481,7 +504,7 @@ label {
     display: block;
     font-size: 1.2em;
     font-weight: 600;
-	color: #376092;
+	color: #336699;
 }
 
 label.checkbox {
@@ -493,10 +516,11 @@ input, textarea {
     border-radius: 5px;
     background: #fff;
     color: #333;
-    font-size: 1.2em;
+    font-size: 1.0em;
     margin: 5px 0 6px 0;
     padding: 5px;
     width: 300px;
+    line-height: 2;
 }
 
 input.duration, input.pixels
@@ -519,10 +543,11 @@ textarea {
     textarea.htmlEdit {
         width: 100%;
         height: 600px;
+        
     }
 
     input:focus, textarea:focus {
-        border: 1px solid #376092;
+        border: 1px solid #336699;
     }
 
     input[type="checkbox"] {
@@ -534,21 +559,29 @@ textarea {
     input[type="submit"],
     input[type="button"],
     button {
-        background-color: #d3dce0;
-        border: 1px solid #787878;
+        background-color: #336699;
+        color: #fff;
+        border: 0px none;
         cursor: pointer;
         font-size: 1.0em;
         font-weight: 600;
-        padding: 4px;
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-top: 4px;
+        padding-bottom: 4px;
         /*Margin-right: 8px;*/
         width: auto;
+        text-transform: uppercase;
+        background: -webkit-linear-gradient(#9cf, #369); /* For Safari 5.1 to 6.0 */
+        background: -o-linear-gradient(#9cf, #369); /* For Opera 11.1 to 12.0 */
+        background: -moz-linear-gradient(#9cf, #369); /* For Firefox 3.6 to 15 */
+        background: linear-gradient(#9cf, #369); /* Standard syntax */
     }
 
     td input[type="submit"],
     td input[type="button"],
     td button {
         font-size: 1em;
-        padding: 4px;
         margin-right: 4px;
     }
 
@@ -561,26 +594,26 @@ textarea {
 
 .message-error {
     clear: both;
-    color: #c00000;
+    color: #CC0000;
     font-size: 1.1em;
     font-weight: bold;
     margin: 20px 0 10px 0;
 }
 
 .message-success {
-    color: #376092;
+    color: #336699;
     font-size: 1.3em;
     font-weight: bold;
     margin: 20px 0 10px 0;
 }
 
 .error {
-    color: #c00000;
+    color: #CC0000;
 }
 
 /* styles for validation helpers */
 .field-validation-error {
-    color: #c00000;
+    color: #CC0000;
     font-weight: bold;
 }
 
@@ -589,7 +622,7 @@ textarea {
 }
 
 input.input-validation-error {
-    border: 1px solid #c00000;
+    border: 1px solid #CC0000;
 }
 
 input[type="checkbox"].input-validation-error {
@@ -597,7 +630,7 @@ input[type="checkbox"].input-validation-error {
 }
 
 .validation-summary-errors {
-    color: #c00000;
+    color: #CC0000;
     font-weight: bold;
     font-size: 1.1em;
 }
@@ -625,10 +658,10 @@ table.grid {
 th {
     font-size: 1.0em;
     text-align: left;
-    /*border: 2px solid #376092;
+    /*border: 2px solid #336699;
     padding-left: 0;
-    background-color:#376092;*/
-    color: #376092;
+    background-color:#336699;*/
+    color: #336699;
     padding: 0.25em 0.25em 0.25em 0.25em;
 	vertical-align: bottom;
 }
@@ -690,12 +723,12 @@ table.grid tr:nth-child(even)   {
 }
 
 table.grid tr, tr.bottom {
-    /*border-left: 2px solid #376092;
-    border-right: 2px solid #376092;*/
+    /*border-left: 2px solid #336699;
+    border-right: 2px solid #336699;*/
 }
 
 table.grid tr:last-child {
-    /*border-bottom: 2px solid #376092;*/
+    /*border-bottom: 2px solid #336699;*/
 }
 
 tr.pager td {
@@ -719,7 +752,7 @@ tr.pager td {
     header .site-title {
         margin: 10px;
         text-align: center;
-		background-color: #376092;
+		background-color: #336699;
     }
 
     /* login */
@@ -890,13 +923,13 @@ div.select {
 
     div.select select {
         background: transparent;
-        width: 340px;
-        font-size: 1.2em;
-        padding: 3px;
+        width: 310px;
+        font-size: 1.0em;
+        padding: 0px;
         /*font-size: 16px;*/
-        line-height: 1;
+        line-height: 1.5;
         border: 0;
-        margin: 0;
+        margin: 10px;
         /*height: 34px;*/
         -webkit-appearance: none;
         -moz-appearance: none;
@@ -939,7 +972,7 @@ div.select {
             .panel-high {
                 filter: alpha(opacity=80); 
 	            opacity: 0.8;
-                background-color:#C00000;
+                background-color:#CC0000;
                 color:#fff;
                 z-index:2;
             }
@@ -995,9 +1028,9 @@ div.select {
                     text-align:center;
                 }
 
-.thumb1 {
-    width: 50px;
-    height: 50px;
+img.thumb1, a.thumb1>img {
+    width: 40px;
+    height: 40px;
 	vertical-align: top;
 }
 
@@ -1046,7 +1079,7 @@ table.dashboard
 
     table.dashboard thead 
     {
-        color: #376092;
+        color: #336699;
 		font-size: 1.4em;
 		font-weight: bold;
     }
@@ -1067,13 +1100,13 @@ table.dashboard
         }	
 	    .Alt
         {
-			background-color: #f7f7f7;
+			background-color: #fafafa;
         }		
 	    .Heading_Table1_Left
         {
             width: 30%;
 			font-size: 100%;
-			color:#376092;
+			color:#336699;
 			border-bottom: 1px solid #e2e2e2;	
 			font-weight: bold;
         }	
@@ -1082,14 +1115,14 @@ table.dashboard
             width: 50px;
 			font-size: 100%;
 			text-align:right;
-			color:#376092;
+			color:#336699;
 			border-bottom: 1px solid #e2e2e2;	
 		}	
 	    .Heading_Table2_Left
         {
             width: 135px;
 			font-size: 100%;
-			color:#376092;
+			color:#336699;
 			border-bottom: 1px solid #e2e2e2;
 			font-weight: bold;			
         }	
@@ -1098,7 +1131,7 @@ table.dashboard
             width: 135px;
 			font-size: 100%;
 			text-align:right;
-			color:#376092;
+			color:#336699;
 			border-bottom: 1px solid #e2e2e2;	
 			font-weight: bold;			
 		}			
@@ -1106,4 +1139,5 @@ table.dashboard
         {
             width: 30px;
 			height: 10px;
-        }		
+        }
+

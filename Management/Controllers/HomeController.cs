@@ -22,7 +22,14 @@ namespace DisplayMonkey.Controllers
             );
             ViewBag.Count_Expired_Frames = db.Frames.Count(t => t.EndsOn <= DateTime.Now);
             ViewBag.Count_Pending_Frames = db.Frames.Count(t => DateTime.Now < t.BeginsOn);
-            ViewBag.Duration_Hours = string.Format("{0:N2}", db.Frames.Sum(t => Math.Round((double)t.Duration / 3600.0, 2)));
+            ViewBag.Duration_Hours = string.Format("{0:N2}", db.Frames
+                .Where(f => 
+                    f.Clock == null && 
+                    f.Weather == null && 
+                    f.News == null
+                    )
+                .Sum(t => Math.Round((double)t.Duration / 3600.0, 2))
+                );
 
             ViewBag.Count_Levels = db.Levels.Count();
             ViewBag.Count_Locations = db.Locations.Count();

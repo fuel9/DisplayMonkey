@@ -1,5 +1,10 @@
-﻿/* DEFAULTS
+/* DEFAULTS
 ----------------------------------------------------------*/
+logo {
+    position: relative;
+    top: -16px;
+}
+
 
 body   
 {
@@ -80,6 +85,17 @@ first child of the left and right table columns */
 .rightColumn > h1, .rightColumn > h2, .leftColumn > h1, .leftColumn > h2
 {
     margin-top: 0px;
+}
+
+table li
+{
+    min-height: 25px;
+
+}
+
+table td
+{
+    padding: 10px;
 }
 
 
@@ -306,15 +322,25 @@ div.accountInfo
 .center_style
 {
     width: 960px;
-    height: 123px;
-    background-color: #376092;
+    height: 114px;
+    background-color: #336699;
             
 }
-  
+
+.center_style img 
+{
+    position: relative;
+    top: -10px;
+            
+}
+
+
+
+
 .left_right_style
 {
     width: auto;
-    background-color: #376092;
+    background-color: #336699;
 }
   
 .page_style
@@ -331,7 +357,7 @@ div.accountInfo
   
 a:link, a:visited, a:active, a:hover 
 {
-    color: #c00000;
+    color: #cc0000;
 }
   
 input[type="submit"], button 

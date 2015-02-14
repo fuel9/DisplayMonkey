@@ -4,6 +4,10 @@
 
 @model IEnumerable<DisplayMonkey.Models.Frame>
 
+@{
+    string icon = "";
+}
+
 <table class="grid">
     <tr>
         <th>
@@ -27,7 +31,51 @@
 @foreach (var item in Model) {
     <tr>
         <td class="nw">
-            @Html.ActionLink(item.TranslatedType, "Details", "Frame", new { id = item.FrameId }, null)
+            @if (item.Clock != null)
+            {
+                icon = "~/images/clock.png";
+            }
+            else if (item.Html != null)    
+            {
+                icon = "~/images/html.png";
+            }
+            else if (item.News != null)
+            {
+                icon = "~/images/news.png";
+            }
+            else if (item.Memo != null)
+            {
+                icon = "~/images/memo.png";
+            }
+            else if (item.Outlook != null)
+            {
+                icon = "~/images/calendar.png";
+            }
+            else if (item.Picture != null)
+            {
+                icon = "~/images/image.png";
+            }
+            else if (item.Report != null)
+            {
+                icon = "~/images/report.png";
+            }
+            else if (item.Video != null)    
+            {
+                icon = "~/images/video_thmb.png";
+            }
+            else if (item.Weather != null)
+            {
+                icon = "~/images/weather.png";
+            }
+            else if (item.Youtube != null)    
+            {
+                icon = "~/images/youtube.png";
+            }
+            else   
+            {
+                icon = "~/images/unknown.png";
+            }
+            @Html.ActionImgLink(icon, "Details", new { id = item.FrameId }, new { @class = "thumb1", title =item.TranslatedType })
         </td>
         <td class="nw">
             @Html.DisplayFor(m => item.Panel.Canvas.Name)
@@ -38,7 +86,6 @@
         <td>
             @if (item.Clock != null)
             {
-                <img class="thumb1" src="~/images/clock.png" alt="" />
                 @(string.Format("{0}{1}{2}",
                     item.Clock.Type.Translate(),
                     item.Clock.ShowDate ? ", Show date" : "",
@@ -47,7 +94,6 @@
             }
             else if (item.Html != null)    
             {
-                <img class="thumb1" src="~/images/html.png" alt="" />
                 <text>Name: <span>@Html.DisplayFor(m => item.Html.Name)</span></text>
             }
             else if (item.News != null)
@@ -56,13 +102,11 @@
             }
             else if (item.Memo != null)
             {
-                <img class="thumb1" src="~/images/memo.png" alt="" />
                 <text>Subject: <span>@Html.DisplayFor(m => item.Memo.Subject)</span></text>
                 <p>Body: <span>@Html.DisplayFor(m => item.Memo.ShortBody)</span></p>
             }
             else if (item.Outlook != null)
             {
-                <img class="thumb1" src="~/images/calendar.png" alt="" />
                 <span>@Html.DisplayFor(m => item.Outlook.NameOrMailboxOrAccount)</span>
             }
             else if (item.Picture != null)
@@ -77,12 +121,10 @@
             }
             else if (item.Video != null)    
             {
-                <img class="thumb1" src="~/images/video_thmb.png" alt="" />
                 <span>@(string.Format(Resources.VideoAlternatives, item.Video.Contents.Count()))</span>
             }
             else if (item.Weather != null)
             {
-                <img class="thumb1" src="~/images/weather.png" alt="" />
                 @item.Weather.Type.Translate()
             }
             else if (item.Youtube != null)    
@@ -92,7 +134,6 @@
             }
             else   
             {
-                <img class="thumb1" src="~/images/unknown.png" alt="" />
                 <text>@Resources.UnsupportedFrame</text>
             }
         </td>
