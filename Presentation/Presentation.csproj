@@ -69,6 +69,32 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="files\android-chrome-144x144.png" />
+    <Content Include="files\android-chrome-192x192.png" />
+    <Content Include="files\android-chrome-36x36.png" />
+    <Content Include="files\android-chrome-48x48.png" />
+    <Content Include="files\android-chrome-72x72.png" />
+    <Content Include="files\android-chrome-96x96.png" />
+    <Content Include="files\apple-touch-icon-114x114.png" />
+    <Content Include="files\apple-touch-icon-120x120.png" />
+    <Content Include="files\apple-touch-icon-144x144.png" />
+    <Content Include="files\apple-touch-icon-152x152.png" />
+    <Content Include="files\apple-touch-icon-180x180.png" />
+    <Content Include="files\apple-touch-icon-57x57.png" />
+    <Content Include="files\apple-touch-icon-60x60.png" />
+    <Content Include="files\apple-touch-icon-72x72.png" />
+    <Content Include="files\apple-touch-icon-76x76.png" />
+    <Content Include="files\apple-touch-icon-precomposed.png" />
+    <Content Include="files\apple-touch-icon.png" />
+    <Content Include="files\browserconfig.xml" />
+    <Content Include="files\favicon-16x16.png" />
+    <Content Include="files\favicon-32x32.png" />
+    <Content Include="files\favicon-96x96.png" />
+    <Content Include="files\mstile-144x144.png" />
+    <Content Include="files\mstile-150x150.png" />
+    <Content Include="files\mstile-310x150.png" />
+    <Content Include="files\mstile-310x310.png" />
+    <Content Include="files\mstile-70x70.png" />
     <Content Include="files\world.gif" />
     <Content Include="getOutlook.ashx" />
     <Content Include="files\frames\outlook.htm" />
@@ -167,6 +193,7 @@
     <Content Include="files\fonts\futura.ttc" />
     <Content Include="files\fonts\futura.ttf" />
     <Content Include="getHtml.ashx" />
+    <Content Include="files\manifest.json" />
     <None Include="Scripts\jquery-2.0.3-vsdoc.js" />
     <Content Include="Scripts\jquery-2.0.3.js" />
     <Content Include="Scripts\jquery-2.0.3.min.js" />
