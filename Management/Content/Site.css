@@ -520,7 +520,6 @@ input, textarea {
     margin: 5px 0 6px 0;
     padding: 5px;
     width: 300px;
-    line-height: 2;
 }
 
 input.duration, input.pixels
@@ -576,6 +575,7 @@ textarea {
         background: -o-linear-gradient(#9cf, #369); /* For Opera 11.1 to 12.0 */
         background: -moz-linear-gradient(#9cf, #369); /* For Firefox 3.6 to 15 */
         background: linear-gradient(#9cf, #369); /* Standard syntax */
+        line-height: 2;
     }
 
     td input[type="submit"],

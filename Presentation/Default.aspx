@@ -56,12 +56,12 @@
         <td><asp:TextBox ID="textName" runat="server" MaxLength="50" 
             ToolTip="Enter a name to call this display"></asp:TextBox></td></tr>
 		<tr><td>Canvas:</td>
-        <td><asp:RadioButtonList ID="radioCanvas" runat="server">
-		</asp:RadioButtonList></td></tr>
+        <td>
+            <asp:ListBox ID="listCanvas" runat="server" Rows="1"></asp:ListBox>
+            </td></tr>
 		<tr><td>Location:</td>
         <td>
-			<asp:RadioButtonList ID="radioLocation" runat="server">
-			</asp:RadioButtonList>
+			<asp:ListBox ID="listLocation" runat="server" Rows="1"></asp:ListBox>
 			</td></tr>
         <tr><td colspan="2" style="text-align:center"><asp:Button ID="buttonRegister" runat="server" Text="Register" 
             onclick="Register_Click" />

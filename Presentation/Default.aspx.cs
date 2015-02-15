@@ -68,31 +68,25 @@ namespace DisplayMonkey
 					labelDisplays.Text = html.ToString();
 
 					// list canvases
-					radioCanvas.AutoPostBack = false;
-					radioCanvas.RepeatColumns = 4;
-					radioCanvas.RepeatDirection = RepeatDirection.Horizontal;
-					radioCanvas.RepeatLayout = RepeatLayout.Flow;
+					listCanvas.AutoPostBack = false;
 					foreach (Canvas canvas in Canvas.List)
 					{
-						ListItem radio = new ListItem(
+						ListItem list = new ListItem(
 							canvas.Name,
 							canvas.CanvasId.ToString()
 							);
-						radioCanvas.Items.Add(radio);
+						listCanvas.Items.Add(list);
 					}
 
 					// list locations
-					radioLocation.AutoPostBack = false;
-					radioLocation.RepeatColumns = 4;
-					radioLocation.RepeatDirection = RepeatDirection.Horizontal;
-					radioLocation.RepeatLayout = RepeatLayout.Flow;
+					listLocation.AutoPostBack = false;
 					foreach (Location loc in Location.List())
 					{
-						ListItem radio = new ListItem(
+						ListItem list = new ListItem(
 							loc.Name,
 							loc.LocationId.ToString()
 							);
-						radioLocation.Items.Add(radio);
+						listLocation.Items.Add(list);
 					}
 				}
 
@@ -105,7 +99,7 @@ namespace DisplayMonkey
 
 		protected void Register_Click(object sender, EventArgs e)
 		{
-			if (textName.Text != "" && radioCanvas.SelectedIndex >= 0 && radioLocation.SelectedIndex >= 0)
+			if (textName.Text != "" && listCanvas.SelectedIndex >= 0 && listLocation.SelectedIndex >= 0)
 			{
 				try
 				{
@@ -113,8 +107,8 @@ namespace DisplayMonkey
 					{
 						Host = labelHost.Text,
 						Name = textName.Text,
-						CanvasId = DataAccess.IntOrZero(radioCanvas.SelectedValue),
-						LocationId = DataAccess.IntOrZero(radioLocation.SelectedValue),
+						CanvasId = DataAccess.IntOrZero(listCanvas.SelectedValue),
+						LocationId = DataAccess.IntOrZero(listLocation.SelectedValue),
 					};
 
 					display.Register();

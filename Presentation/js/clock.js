@@ -1,5 +1,6 @@
 ﻿// 12-08-13 [DPA] - client side scripting BEGIN
 // 14-10-25 [LTL] - use strict, code improvements
+// 15-02-15 [LTL] - SVG analog face
 
 var Clock = Class.create({
     initialize: function (options) {
@@ -10,9 +11,12 @@ var Clock = Class.create({
         this.faceType = this.div.readAttribute("data-face-type");
         this.panelWidth = this.div.readAttribute("data-panel-width");
         this.panelHeight = this.div.readAttribute("data-panel-height");
+        this.useSvg = document.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1");
+        this.finishedLoading = false;
+
         switch (this.faceType) {
             case '1':
-                this._initAnalog();
+                this.useSvg ? this._initAnalogSvg() : this._initAnalog();
                 break;
             case '2':
                 this._initDigital();
@@ -24,18 +28,27 @@ var Clock = Class.create({
         if (!this.div)
             return;
 
-        this._callBack();
         this.timer = setInterval(this._callBack.bind(this), 1000);
-    }
+        this._callBack();
+        this.finishedLoading = true;
+    },
 	
-	, stop: function() {
+	stop: function() {
 	    "use strict";
 	    clearInterval(this.timer);
 	    this.timer = null;
-	}
+	},
 
-    , _initAnalog: function () {
+	isReady: function () {
+	    "use strict";
+	    return !!this.finishedLoading;
+	},
+
+    _initAnalog: function () {
         "use strict";
+        this.div.select('svg').each(function (e) {
+            e.parentNode.removeChild(e);
+        });
         var s = this.panelWidth > this.panelHeight ? this.panelHeight : this.panelWidth;
         var face = new Element('ul', { "class": "analogFace", style: "background-size: " + s + "px " + s + "px;" })
         face.insert(this.elemSec = new Element('li', { "class": "analogSec", style: "width:" + s + "px; height:" + s + "px; background-size:" + s + "px " + s + "px;" }));
@@ -43,14 +56,24 @@ var Clock = Class.create({
         face.insert(this.elemHour = new Element('li', { "class": "analogHour", style: "width:" + s + "px; height:" + s + "px; background-size:" + s + "px " + s + "px;" }));
         this.div.style.width = this.div.style.height = s + "px";
         this.div.insert(face);
-        //alert(this.div.innerHTML);
-    }
+        //console.log(this.div.innerHTML);
+    },
 
-    , _initDigital: function () {
+    _initAnalogSvg: function () {
         "use strict";
-    }
+        var s = this.panelWidth > this.panelHeight ? this.panelHeight : this.panelWidth;
+        this.div.style.width = this.div.style.height = s + "px";
+        this.elemSec = this.div.select('#secondHand')[0];
+        this.elemMin = this.div.select('#minuteHand')[0];
+        this.elemHour = this.div.select('#hourHand')[0];
+        this.div.select('#svgAnalogFace')[0].setAttribute('visibility', 'visible');
+    },
 
-    , _callBack: function () {
+    _initDigital: function () {
+        "use strict";
+    },
+
+    _callBack: function () {
         "use strict";
         if (!this.timer)
             return;
@@ -72,17 +95,28 @@ var Clock = Class.create({
                 var sec = time.seconds();
                 var min = time.minutes();
                 var hrs = time.hours(); if (hrs > 12) hrs -= 12;
-                this._rotateHand(this.elemSec, "rotate(" + (sec * 6) + "deg)");
-                this._rotateHand(this.elemMin, "rotate(" + (min * 6) + "deg)");
-                this._rotateHand(this.elemHour, "rotate(" + (hrs * 30 + (min / 2)) + "deg)");
+                this._rotateHand(this.elemHour, hrs * 30 + (min * 0.5));
+                this._rotateHand(this.elemMin, min * 6);
+                this._rotateHand(this.elemSec, sec * 6);
                 break;
         }
-    }
+    },
 
-    , _rotateHand: function (e, r) {
+    _rotateHand: function (e, r) {
         "use strict";
-        e.setStyle({ "transform": r, "-moz-transform": r, "-webkit-transform": r, "-ms-transform": r, "-o-transform": r });
-    }
+        if (e.tagName === "g") {
+            e.setAttribute("transform", "rotate(" + r + ", 100, 100)");
+        } else {
+            r = "rotate(" + r + "deg)";
+            e.setStyle({
+                "transform": r,
+                "-moz-transform": r,
+                "-webkit-transform": r,
+                "-ms-transform": r,
+                "-o-transform": r
+            });
+        }
+    },
 });
 
 /*(function () {

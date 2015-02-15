@@ -49,22 +49,22 @@ namespace DisplayMonkey {
         protected global::System.Web.UI.WebControls.TextBox textName;
         
         /// <summary>
-        /// radioCanvas control.
+        /// listCanvas control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButtonList radioCanvas;
+        protected global::System.Web.UI.WebControls.ListBox listCanvas;
         
         /// <summary>
-        /// radioLocation control.
+        /// listLocation control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButtonList radioLocation;
+        protected global::System.Web.UI.WebControls.ListBox listLocation;
         
         /// <summary>
         /// buttonRegister control.

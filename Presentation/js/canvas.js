@@ -17,7 +17,7 @@ var ErrorReport = Class.create({
             When: moment().format(),
             Data: (options.data || "none")
         };
-        console.log("!Display Monkey error: " + JSON.stringify(this.info));
+        console.error("!Display Monkey error: " + JSON.stringify(this.info));
         this.length = options.length || 100;
         if (_canvas.showErrors) {
             this.show(this.length);
@@ -473,13 +473,14 @@ Ajax.FullScreenPanelUpdater = Class.create(Ajax.PanelUpdaterBase, {
 	initialize: function ($super, options) {
 	    "use strict";
 	    $super(options);
-		this.idleInterval = (this.options.idleInterval || 0);
+	    this.idleInterval = (this.options.idleInterval || 0);
 		this._getIdleInterval();
 		this.onFrameExpire();
 	},
 
 	onFrameExpire: function ($super) {
 	    "use strict";
+
 	    // un-init old frame
 	    this._uninitFrame();
 
@@ -488,19 +489,19 @@ Ajax.FullScreenPanelUpdater = Class.create(Ajax.PanelUpdaterBase, {
             oldContainer = $(this.containerId),
             newContainer = oldContainer
                 .clone(false)
-                /*.setStyle({ 
+	            .setStyle({ 
                     display: 'none'
-                })*/
+                })
 	    ;
 	    oldContainer.insert({ after: newContainer });
 	    oldContainer.id = "x_" + oldContainer.id;
 
-	    var afterFadeOut = function() {
+	    var afterFadeOut = function () {
 	        oldContainer.remove();
 	        screen.setStyle({ display: 'none' });
 	        _canvas.fullScreenActive = false;
 	    };
-	    
+
 	    // fade out old container and remove it
 	    if (this.fadeLength > 0) {
 	        screen.fade({
@@ -512,7 +513,7 @@ Ajax.FullScreenPanelUpdater = Class.create(Ajax.PanelUpdaterBase, {
 	    }
 	    else {
 	        afterFadeOut();
-        }
+	    }
 
         // queue next frame update
 	    this.idler = this.onGetNextFrame.bind(this).delay(this.idleInterval);
@@ -528,10 +529,8 @@ Ajax.FullScreenPanelUpdater = Class.create(Ajax.PanelUpdaterBase, {
 	    // set html
 	    var screen = $("screen"),
             container = $(this.containerId)
-	    ;
-	    container
-            .update(this.html)
-            //.setStyle({ display: '' })
+                .update(this.html)
+                .setStyle({ display: '' })
 	    ;
 
 	    _canvas.fullScreenActive = true;
@@ -587,7 +586,7 @@ Ajax.FullScreenPanelUpdater = Class.create(Ajax.PanelUpdaterBase, {
                     if (!json)
                         throw new Error("JSON expected, received ".concat(resp.responseText)); // <-- shouldn't get here
                     var p = resp.request.options.panelUpdater;
-                    p.idleInterval = json["IdleInterval"];
+                    p.idleInterval = json["IdleInterval"] || p.fadeLength;
                 }
                 catch (e) {
                     new ErrorReport({ exception: e, data: resp.responseText, source: "onAfterUpdate::onSuccess" });

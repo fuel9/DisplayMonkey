@@ -3,6 +3,19 @@
 
 @model DisplayMonkey.Models.Html
 
+@{
+    DisplayMonkey.Models.Canvas cvs = Model.Frame.Panel.Canvas;
+    string bg = string.Format("background-color:{0};", cvs.BackgroundColor);
+    if (cvs.BackgroundImage != null)
+    {
+        bg += string.Format("background-image:url('{0}');background-position:{1}px {2}px;",
+            Html.Raw(Url.Action("Thumb", "Media", new { id = cvs.BackgroundImage, width = cvs.Width, height = cvs.Height })),
+            -Model.Frame.Panel.Left,
+            -Model.Frame.Panel.Top
+            );
+    }
+}
+
 <fieldset>
     <legend>@Resources.Html</legend>
 
@@ -26,7 +39,7 @@
 
     <td>
         <div>
-            <iframe src="@Url.Action("Preview", "Html", new { id = Model.FrameId })" id="htmlPreview" sandbox="allow-scripts"></iframe>
+            <iframe style="@bg" src="@Url.Action("Preview", "Html", new { id = Model.FrameId })" id="htmlPreview" sandbox="allow-scripts"></iframe>
         </div>
     </td>
 

@@ -4,6 +4,16 @@
 
 @{
     ViewBag.Title = Resources.CreateNewHtmlFrame;
+    DisplayMonkey.Models.Canvas cvs = Model.Frame.Panel.Canvas;
+    string bg = string.Format("background-color:{0};", cvs.BackgroundColor);
+    if (cvs.BackgroundImage != null)
+    {
+        bg += string.Format("background-image:url('{0}');background-position:{1}px {2}px;",
+            Html.Raw(Url.Action("Thumb", "Media", new { id = cvs.BackgroundImage, width = cvs.Width, height = cvs.Height })),
+            -Model.Frame.Panel.Left,
+            -Model.Frame.Panel.Top
+            );
+    }
 }
 
 <h2>@ViewBag.Title</h2>
@@ -41,7 +51,7 @@
             //var x = jHtmlArea.defaultOptions;
             //x.toolbar.push(["forecolor"]);
             //$("textarea").htmlarea(x);
-            $("textarea").cleditor();
+            $("textarea").cleditor({ bodyStyle: "@bg" });
         });
     </script>
 }
