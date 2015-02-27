@@ -7,24 +7,12 @@
 <fieldset>
     <legend>@Resources.Clock</legend>
 
-    <div class="divTable">
-    <div class="divRow">
-    <div class="display-label">
-         @Resources.Canvas
-    </div>
-    <div class="display-field">
-        @Html.ActionLink(Model.Frame.Panel.Canvas.Name, "Details", "Canvas", new { id=Model.Frame.Panel.CanvasId }, null)
-    </div>
-    </div>
+        <table><tr>
+        <td>
 
-    <div class="divRow">
-    <div class="display-label">
-         @Resources.Panel
-    </div>
-    <div class="display-field">
-        @Html.ActionLink(Model.Frame.Panel.Name, "Details", "Panel", new { id=Model.Frame.PanelId }, null)
-    </div>
-    </div>
+    <div class="divTable">
+
+    @Html.Partial("_frameDetails", Model.Frame)
 
     <div class="divRow">
     <div class="display-label">
@@ -35,23 +23,72 @@
     </div>
     </div>
 
-    <div class="divRow">
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.ShowDate)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.ShowDate)
-    </div>
-    </div>
+    @if (Model.Type == ClockTypes.ClockType_Text) 
+    {
+        <div class="divRow">
+        <div class="display-label">
+             @Html.DisplayNameFor(model => model.ShowDate)
+        </div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.ShowDate)
+        </div>
+        </div>
 
-    <div class="divRow">
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.ShowTime)
+        <div class="divRow">
+        <div class="display-label">
+             @Html.DisplayNameFor(model => model.ShowTime)
+        </div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.ShowTime)
+        </div>
+        </div>
+    }
+
+    @if (!string.IsNullOrWhiteSpace(Model.Label))
+    {
+        <div class="divRow">
+        <div class="display-label">
+             @Html.DisplayNameFor(model => model.Label)
+        </div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.Label)
+        </div>
+        </div>
+    }
+
+    @if (Model.OffsetGMT != null)
+    {
+        <div class="divRow">
+        <div class="display-label">
+             @Html.DisplayNameFor(model => model.OffsetGMT)
+        </div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.OffsetGMT)
+        </div>
+        </div>
+    }
+
     </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.ShowTime)
-    </div>
-    </div>
-    </div>
+        </td>
+        <td class="preview">
+            @switch (Model.Type) 
+            {
+                case ClockTypes.ClockType_Analog:
+                    @Html.Partial("_SvgAnalog")
+                    break;
+                    
+                case ClockTypes.ClockType_Text:
+                    if (Model.ShowDate)
+                    {
+                        @String.Format("{0}", DateTime.Now.ToLongDateString())<br />
+                    }
+                    if (Model.ShowTime)
+                    {
+                        @String.Format("{0}", DateTime.Now.ToLongTimeString())
+                    }
+                    break;
+            }
+        </td>
+    </tr></table>
 </fieldset>
 

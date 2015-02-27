@@ -17,30 +17,7 @@
         <legend>@Resources.Clock</legend>
 
         @Html.Partial("_frameData", Model.Frame)
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Type)
-        </div>
-        <div class="editor-field select">
-            @Html.DropDownListFor(model => model.Type, types)
-            @Html.ValidationMessageFor(model => model.Type)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.ShowDate)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.ShowDate)
-            @Html.ValidationMessageFor(model => model.ShowDate)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.ShowTime)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.ShowTime)
-            @Html.ValidationMessageFor(model => model.ShowTime)
-        </div>
+        @Html.Partial("_Edit")
 
         <p>
             <input type="submit" value="@Resources.Save" />
@@ -54,4 +31,17 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript">
+        function setUi() {
+            var v = $('#Type').val();
+            $('div[data-option=text]').each(function (i,e) {
+                $(e).css('display', !!(v === '@((int)DisplayMonkey.Models.ClockTypes.ClockType_Text)') ? '' : 'none');
+            });
+        }
+        $(document).ready(function () {
+            $('#Type').change(function () { setUi(); });
+            setUi();
+        });
+    </script>
 }

@@ -62,8 +62,10 @@ namespace DisplayMonkey
 			get
 			{
 				return string.Format(
-                    "<div id=\"screen\"><div id=\"full\" data-panel-id=\"{0}\"></div></div>\n",
-                    PanelId
+                    "<div id=\"screen\"><div class=\"fullpanel\" id=\"full\" data-panel-id=\"{0}\" data-panel-width=\"{1}\" data-panel-height=\"{2}\"></div></div>\n",
+                    PanelId,
+                    Width,
+                    Height
 					);
 			}
 		}

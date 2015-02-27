@@ -9,6 +9,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Net;
 using System.Xml;
+using System.Web.Script.Serialization;
 
 
 namespace DisplayMonkey
@@ -18,9 +19,8 @@ namespace DisplayMonkey
 		public Clock(int frameId, int panelId, int displayId)
 		{
 			PanelId = panelId;
-			_templatePath = HttpContext.Current.Server.MapPath("~/files/frames/clock.htm");
 			string sql = string.Format(
-				"SELECT TOP 1 c.*, p.Width, p.Height FROM Clock c INNER JOIN Frame f ON f.FrameId=c.FrameId INNER JOIN Panel p ON p.PanelId=f.PanelId WHERE c.FrameId={0};",
+				"SELECT TOP 1 * FROM Clock WHERE FrameId={0};",
 				frameId
 				);
 
@@ -33,11 +33,15 @@ namespace DisplayMonkey
 					ShowDate = (bool)dr["ShowDate"];
 					ShowTime = (bool)dr["ShowTime"];
                     Type = DataAccess.IntOrZero(dr["Type"]);
-                    Width = DataAccess.IntOrZero(dr["Width"]);
-                    Height = DataAccess.IntOrZero(dr["Height"]);
-				}
+                    if (dr["OffsetGMT"] != DBNull.Value)
+                        OffsetGmt = (int?)dr["OffsetGMT"];
+                    if (dr["Label"] != DBNull.Value)
+                        Label = (string)dr["Label"];
+                }
 			}
-		}
+        
+            _templatePath = HttpContext.Current.Server.MapPath("~/files/frames/clock.htm");
+        }
 
         public override string Payload
 		{
@@ -53,12 +57,18 @@ namespace DisplayMonkey
 					if (FrameId > 0)
 					{
                         html = string.Format(template, 
-                            FrameId, 
-                            ShowDate, 
-                            ShowTime, 
-                            Type, 
-                            Height, 
-                            Width
+                            FrameId,
+                            new JavaScriptSerializer().Serialize(new
+                            {
+                                id = this.FrameId,
+                                type = this.Type,
+                                showDate = this.ShowDate,
+                                showTime = this.ShowTime,
+                                offsetGmt = this.OffsetGmt,
+                                showSeconds = this.ShowSeconds,
+                                cssClass = this.CssClass,
+                            }),
+                            this.Label
                             );
 					}
 				}
@@ -82,7 +92,10 @@ namespace DisplayMonkey
 		public bool ShowDate;
 		public bool ShowTime;
         public int Type;
-        public int Width;
-        public int Height;
+        public int? OffsetGmt;
+        public string Label;
+
+        public string CssClass;             // TODO
+        public bool ShowSeconds = true;     // TODO
 	}
 }

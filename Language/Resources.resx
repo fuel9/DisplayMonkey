@@ -1270,4 +1270,7 @@
   <data name="ExchangeAccounts" xml:space="preserve">
     <value>Microsoft Exchange accounts</value>
   </data>
+  <data name="Label" xml:space="preserve">
+    <value>Label</value>
+  </data>
 </root>

@@ -1,0 +1,86 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="HomePage.Master.cs" Inherits="DisplayMonkey.HomePage" %>
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head runat="server">
+        <meta charset="utf-8" />
+        <title>Display Monkey</title>
+        
+        <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+        <link rel="apple-touch-icon" sizes="57x57" href="~/images/apple-touch-icon-57x57.png" />
+        <link rel="apple-touch-icon" sizes="60x60" href="~/images/apple-touch-icon-60x60.png" />
+        <link rel="apple-touch-icon" sizes="72x72" href="~/images/apple-touch-icon-72x72.png" />
+        <link rel="apple-touch-icon" sizes="76x76" href="~/images/apple-touch-icon-76x76.png" />
+        <link rel="apple-touch-icon" sizes="114x114" href="~/images/apple-touch-icon-114x114.png" />
+        <link rel="apple-touch-icon" sizes="120x120" href="~/images/apple-touch-icon-120x120.png" />
+        <link rel="apple-touch-icon" sizes="144x144" href="~/images/apple-touch-icon-144x144.png" />
+        <link rel="apple-touch-icon" sizes="152x152" href="~/images/apple-touch-icon-152x152.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="~/images/apple-touch-icon-180x180.png" />
+        <link rel="icon" type="image/png" href="~/images/favicon-32x32.png" sizes="32x32" />
+        <link rel="icon" type="image/png" href="~/images/android-chrome-192x192.png" sizes="192x192" />
+        <link rel="icon" type="image/png" href="~/images/favicon-96x96.png" sizes="96x96" />
+        <link rel="icon" type="image/png" href="~/images/favicon-16x16.png" sizes="16x16" />
+        <link rel="manifest" href="~/images/manifest.json" />
+
+        <meta name="msapplication-TileColor" content="#336699" />
+        <meta name="msapplication-TileImage" content="~/images/mstile-144x144.png" />
+        <meta name="theme-color" content="#ffffff"/>
+        <meta name="viewport" content="width=device-width" />
+        
+        <link href="~/Styles/themes/base/jquery-ui.css" rel="stylesheet" />
+        <link href="~/styles/jqsimplemenu.css" rel="stylesheet" />
+        <link rel="Stylesheet" href="~/styles/site.css" />
+        <link rel="Stylesheet" href="~/files/custom.css" />
+
+        <!-- script src="~/Scripts/modernizr-2.6.2.js"></!-->
+        <script src="~/Scripts/jquery-2.0.3.js"></script>
+        <script src="~/Scripts/jqsimplemenu.js"></script>
+        <!-- script src="~/Scripts/json2.js"></!-->
+        <!-- script src="~/Scripts/jquery-ui-1.10.3.js"></!-->
+        <!-- script src="~/Scripts/jquery-ui-i18n.js"></!-->
+        <!-- script src="~/Scripts/jquery.unobtrusive-ajax.js"></!-->
+        <!-- script src="~/Scripts/jquery.validate.js"></!-->
+        <!-- script src="~/Scripts/jquery.validate.unobtrusive.js"></!-->
+
+        <asp:ContentPlaceHolder ID="head1" runat="server">
+        </asp:ContentPlaceHolder>
+    </head>
+    <body>
+        <header>
+            <div class="content-wrapper">
+                <div class="float-left">
+                    <p class="site-title">
+                        <a href="Default.aspx"><%=DisplayMonkey.Language.Resources.DisplayMonkey%></a>
+                    </p>
+                </div>
+                <div class="float-right">
+                    <section id="login">
+                       <%=DisplayMonkey.Language.Resources.Hello%>, <span class="username"><%=Context.User.Identity.Name%></span>!
+                    </section>
+                    <nav>
+                        <ul class="menu">
+                            <li><a href="default.aspx"><%=DisplayMonkey.Language.Resources.Home%></a></li>
+                            <li><a href="register.aspx">Register this display</a></li>
+                            <li><a href="#" onclick="window.open('help','Help','width=640,height=480,resizable=1,scrollbars=1'); return false;" target="_blank"><%=DisplayMonkey.Language.Resources.Help%></a></li>
+                            <li><a href="http://www.fuel9.com/home/about-us/"><%=DisplayMonkey.Language.Resources.About%></a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </header>
+        <div id="body">
+            <section class="content-wrapper main-content clear-fix">
+                <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                </asp:ContentPlaceHolder>
+            </section>
+        </div>
+        <footer>
+            <div class="content-wrapper">
+                <div class="float-left">
+                    <p>&copy; <%=DateTime.Now.Year%> - Fuel9.com</p>
+                </div>
+            </div>
+        </footer>
+    </body>
+</html>
+

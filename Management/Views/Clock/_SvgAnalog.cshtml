@@ -1,0 +1,128 @@
+﻿<!-- 
+     german-clock.svg
+
+     Copyright (c) 2012 Rüdiger Appel
+     Dual licensed under the MIT and GPL licenses.
+     
+     Date:    2012-03-14
+     Version: 1.0
+     Email:   ludi(at)me(dot)com
+     URI:     http://www.3Quarks.com/de/Bahnhofsuhr/
+-->
+
+<svg xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     xmlns:ev="http://www.w3.org/2001/xml-events"
+     version="1.1"
+     baseProfile="full"
+     width="100%"
+     height="100%"
+     viewBox="0 0 200 200">
+
+  <defs>
+
+    <script type="text/javascript">
+    <![CDATA[
+
+        window.setInterval(function () {
+            var now = new Date();
+            var hours = now.getHours();
+            var minutes = now.getMinutes();
+            var time = Math.min(60000, 1.025 * (1000 * now.getSeconds() + now.getMilliseconds()));
+            var seconds = Math.floor(time / 1000);
+            var millis = time % 1000;
+            rotate('hourHand', hours * 30 + minutes * 0.5);
+            rotate('minuteHand', minutes * 6);
+            rotate('secondHand', 6 * seconds + 3 * (1 + Math.cos(Math.PI + Math.PI * (0.001 * millis))));
+        }, 50);
+
+        function rotate(id, angle) {
+            var element = document.getElementById(id);
+            if (element) {
+                element.setAttribute('transform', 'rotate(' + angle + ', 100, 100)');
+                if (element.getAttribute('visibility') == 'hidden') {
+                    element.setAttribute('visibility', 'visible');
+                }
+            }
+        }
+
+    ]]>
+    </script>
+
+    <!-- three hour stroke (DIN 41091.1) -->
+    <symbol id="threeHourStroke">
+      <line x1="100" y1="0" x2="100" y2="30" style="stroke:#333; stroke-width:8.4; stroke-linecap:butt"/>
+    </symbol>
+
+    <!-- hour stroke (DIN 41091.1) -->
+    <symbol id="hourStroke">
+      <line x1="100" y1="0" x2="100" y2="24"  style="stroke:#333; stroke-width:8.4; stroke-linecap:butt"/>
+    </symbol>
+
+    <!-- minute stroke (DIN 41091.1) -->
+    <symbol id="minuteStroke">
+      <line x1="100" y1="0" x2="100" y2="8" style="stroke:#333; stroke-width:3.6; stroke-linecap:butt"/>
+    </symbol>
+
+    <!-- quarter strokes -->
+    <symbol id="quarterStrokes">
+      <use xlink:href="#threeHourStroke" />
+      <use xlink:href="#minuteStroke" transform="rotate( 6, 100, 100)"/>
+      <use xlink:href="#minuteStroke" transform="rotate(12, 100, 100)"/>
+      <use xlink:href="#minuteStroke" transform="rotate(18, 100, 100)"/>
+      <use xlink:href="#minuteStroke" transform="rotate(24, 100, 100)"/>
+      <use xlink:href="#hourStroke"   transform="rotate(30, 100, 100)"/>
+      <use xlink:href="#minuteStroke" transform="rotate(36, 100, 100)"/>
+      <use xlink:href="#minuteStroke" transform="rotate(42, 100, 100)"/>
+      <use xlink:href="#minuteStroke" transform="rotate(48, 100, 100)"/>
+      <use xlink:href="#minuteStroke" transform="rotate(54, 100, 100)"/>
+      <use xlink:href="#hourStroke"   transform="rotate(60, 100, 100)"/>
+      <use xlink:href="#minuteStroke" transform="rotate(66, 100, 100)"/>
+      <use xlink:href="#minuteStroke" transform="rotate(72, 100, 100)"/>
+      <use xlink:href="#minuteStroke" transform="rotate(78, 100, 100)"/>
+      <use xlink:href="#minuteStroke" transform="rotate(84, 100, 100)"/>
+    </symbol>
+
+    <!-- visible dial circle -->
+    <clipPath id="dialCircle">
+      <circle cx="100" cy="100" r="100"/>
+    </clipPath>
+
+  </defs>
+
+  <!-- link -->
+  <a xlink:href="http://www.3quarks.com">
+  <g id="link">
+    <circle cx="100" cy="100" r="100" style="fill:#ffffff; stroke:none"/>
+  </g>
+  
+  <!-- dial -->
+  <g clip-path="url(#dialCircle)">
+    <use xlink:href="#quarterStrokes"/>
+    <use xlink:href="#quarterStrokes" transform="rotate( 90, 100, 100)"/>
+    <use xlink:href="#quarterStrokes" transform="rotate(180, 100, 100)"/>
+    <use xlink:href="#quarterStrokes" transform="rotate(270, 100, 100)"/>
+  </g>
+
+  <!-- hour hand -->
+  <g id="hourHand" visibility="hidden">
+    <polygon points="94,46 100,40 106,46 106,118 94,118" style="fill:#222; stroke:none"/>
+  </g>
+
+  <!-- minute hand -->
+  <g id="minuteHand" visibility="hidden">
+    <polygon points="95.5,11.5 100,7 104.5,11.5 104.5,122 95.5,122" style="fill:#222; stroke:none"/>
+  </g>
+
+  <!-- second hand -->
+  <g id="secondHand" visibility="hidden">
+    <polygon points="98.8,11 100,9.8 101.2,11 101.6,42 98.4,42" style="fill:#ad1a14; stroke:none"/>
+    <polygon points="98.1,58 101.9,58 102.5,122 97.5,122" style="fill:#ad1a14; stroke:none"/>
+    <circle cx="100" cy="50" r="8.5" style="fill:none; stroke:#ad1a14; stroke-width:6.5"/>
+    <circle cx="100" cy="100" r="3" style="fill:#222; stroke:#ad1a14; stroke-width:2.6"/>
+  </g>
+
+  </a>
+  
+</svg>
+

@@ -298,14 +298,6 @@ namespace DisplayMonkey.Controllers
                 .Where(f => f.FrameId == id)
                 .Include(f => f.Panel)
                 .Include(f => f.Panel.Canvas)
-                .Include(f => f.News)
-                .Include(f => f.Clock)
-                .Include(f => f.Weather)
-                .Include(f => f.Memo)
-                .Include(f => f.Report)
-                .Include(f => f.Picture)
-                .Include(f => f.Video)
-                .Include(f => f.Html)
                 .FirstOrDefault()
                 ;
 

@@ -54,9 +54,9 @@ var Canvas = Class.create({
 	    "use strict";
 	    this.fullScreenActive = false;
 
-		var serverTime = moment(options.localTime);
-		this.offsetMilliseconds = moment().diff(serverTime);
-		this.displayId = options.displayId;
+	    this.locationTime = moment(options.locationTime);
+	    this.serverTime = moment(options.serverTime);
+	    this.displayId = options.displayId;
 		this.hash = options.hash;
 		this.dateFormat = (options.dateFormat || 'LL');
 		this.timeFormat = (options.timeFormat || 'LT');
@@ -313,7 +313,11 @@ Ajax.PanelUpdaterBase = Class.create(Ajax.Base, {
 
             // start clock
 	        else if (div = panel.down('div.clock')) {
-	            obj = new Clock({ div: div });
+	            obj = new Clock({
+	                div: div,
+	                width: panel.getAttribute('data-panel-width'),
+	                height: panel.getAttribute('data-panel-height')
+	            });
 	        }
 
 	        // picture or report

@@ -315,6 +315,7 @@
     <Compile Include="Views\CustomControls.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\custom.css" />
     <Content Include="Content\images\buttons.gif" />
     <Content Include="Content\images\darrow.png" />
     <Content Include="Content\images\rarrow.png" />
@@ -588,7 +589,6 @@
     <Content Include="Views\Shared\_frameLocations.cshtml" />
     <Content Include="Views\Frame\Attach.cshtml" />
     <Content Include="Views\Frame\Detach.cshtml" />
-    <Content Include="Views\Clock\_frameData.cshtml" />
     <Content Include="Views\Weather\_frameData.cshtml" />
     <Content Include="Views\Shared\_frameList.cshtml" />
     <Content Include="Views\Panel\_Details.cshtml" />
@@ -632,6 +632,8 @@
     <Content Include="Views\ExchangeAccount\Edit.cshtml" />
     <Content Include="Views\ExchangeAccount\Index.cshtml" />
     <Content Include="Views\ExchangeAccount\_Edit.cshtml" />
+    <Content Include="Views\Clock\_Edit.cshtml" />
+    <Content Include="Views\Clock\_SvgAnalog.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

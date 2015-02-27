@@ -1,4 +1,8 @@
-﻿@charset "UTF-8";
+﻿
+/* !!! Please do not change this file. It is reserved for Display Monkey development team. !!! */
+/* !!!     Use custom.css stylesheet instead to override default styles in this file.      !!! */
+
+@charset "UTF-8";
 
 	A:link {text-decoration:none; color:#d23006;}
 	A:visited {text-decoration:none; color:#d23006;}
@@ -8,8 +12,8 @@
 
 	@font-face {  
     	font-family:Futura;  
-    	src:url('../files/fonts/futura.eot') format('embedded-opentype'); /* For IE */ 
-    	src:local('futura'), url('../files/fonts/futura.ttf') format('truetype'); /* For non-IE */ 
+    	src:url('../styles/fonts/futura.eot') format('embedded-opentype'); /* For IE */ 
+    	src:local('futura'), url('../styles/fonts/futura.ttf') format('truetype'); /* For non-IE */ 
         src: url(http://themes.googleusercontent.com/static/fonts/opensans/v7/cJZKeOuBrn4kERxqtaUH3T8E0i7KZn-EPnyo3HZu7kw.woff);
 	}  
 	

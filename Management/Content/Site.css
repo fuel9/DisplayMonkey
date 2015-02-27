@@ -1,3 +1,6 @@
+/* !!! Please do not change this file. It is reserved for Display Monkey development team. !!! */
+/* !!!     Use custom.css stylesheet instead to override default styles in this file.      !!! */
+
 @font-face {
     font-family: "Open Sans";
     src: url("http://themes.googleusercontent.com/static/fonts/opensans/v7/cJZKeOuBrn4kERxqtaUH3T8E0i7KZn-EPnyo3HZu7kw.woff");
@@ -76,6 +79,7 @@ mark {
 
 .float-left {
     float: left;
+    width: 100%;
 }
 
 .float-right {

@@ -69,32 +69,34 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="files\android-chrome-144x144.png" />
-    <Content Include="files\android-chrome-192x192.png" />
-    <Content Include="files\android-chrome-36x36.png" />
-    <Content Include="files\android-chrome-48x48.png" />
-    <Content Include="files\android-chrome-72x72.png" />
-    <Content Include="files\android-chrome-96x96.png" />
-    <Content Include="files\apple-touch-icon-114x114.png" />
-    <Content Include="files\apple-touch-icon-120x120.png" />
-    <Content Include="files\apple-touch-icon-144x144.png" />
-    <Content Include="files\apple-touch-icon-152x152.png" />
-    <Content Include="files\apple-touch-icon-180x180.png" />
-    <Content Include="files\apple-touch-icon-57x57.png" />
-    <Content Include="files\apple-touch-icon-60x60.png" />
-    <Content Include="files\apple-touch-icon-72x72.png" />
-    <Content Include="files\apple-touch-icon-76x76.png" />
-    <Content Include="files\apple-touch-icon-precomposed.png" />
-    <Content Include="files\apple-touch-icon.png" />
-    <Content Include="files\browserconfig.xml" />
-    <Content Include="files\favicon-16x16.png" />
-    <Content Include="files\favicon-32x32.png" />
-    <Content Include="files\favicon-96x96.png" />
-    <Content Include="files\mstile-144x144.png" />
-    <Content Include="files\mstile-150x150.png" />
-    <Content Include="files\mstile-310x150.png" />
-    <Content Include="files\mstile-310x310.png" />
-    <Content Include="files\mstile-70x70.png" />
+    <Content Include="Register.aspx" />
+    <Content Include="Images\android-chrome-144x144.png" />
+    <Content Include="Images\android-chrome-192x192.png" />
+    <Content Include="Images\android-chrome-36x36.png" />
+    <Content Include="Images\android-chrome-48x48.png" />
+    <Content Include="Images\android-chrome-72x72.png" />
+    <Content Include="Images\android-chrome-96x96.png" />
+    <Content Include="Images\apple-touch-icon-114x114.png" />
+    <Content Include="Images\apple-touch-icon-120x120.png" />
+    <Content Include="Images\apple-touch-icon-144x144.png" />
+    <Content Include="Images\apple-touch-icon-152x152.png" />
+    <Content Include="Images\apple-touch-icon-180x180.png" />
+    <Content Include="Images\apple-touch-icon-57x57.png" />
+    <Content Include="Images\apple-touch-icon-60x60.png" />
+    <Content Include="Images\apple-touch-icon-72x72.png" />
+    <Content Include="Images\apple-touch-icon-76x76.png" />
+    <Content Include="Images\apple-touch-icon-precomposed.png" />
+    <Content Include="Images\apple-touch-icon.png" />
+    <Content Include="Images\browserconfig.xml" />
+    <Content Include="Images\dropdown.png" />
+    <Content Include="Images\favicon-16x16.png" />
+    <Content Include="Images\favicon-32x32.png" />
+    <Content Include="Images\favicon-96x96.png" />
+    <Content Include="Images\mstile-144x144.png" />
+    <Content Include="Images\mstile-150x150.png" />
+    <Content Include="Images\mstile-310x150.png" />
+    <Content Include="Images\mstile-310x310.png" />
+    <Content Include="Images\mstile-70x70.png" />
     <Content Include="files\world.gif" />
     <Content Include="getOutlook.ashx" />
     <Content Include="files\frames\outlook.htm" />
@@ -108,7 +110,6 @@
     <Content Include="files\frames\video.htm" />
     <Content Include="files\frames\report.htm" />
     <Content Include="files\hourhand.png" />
-    <Content Include="files\logo.png" />
     <Content Include="files\minhand.png" />
     <Content Include="files\sechand.png" />
     <Content Include="files\video.gif" />
@@ -166,14 +167,14 @@
     <Content Include="files\frames\weather.htm" />
     <Content Include="getFrame.ashx" />
     <Content Include="getNextFrame.ashx" />
-    <Content Include="js\clock.js" />
-    <Content Include="js\iframe.js" />
-    <Content Include="js\outlook.js" />
-    <Content Include="js\mediaelement.min.js" />
-    <Content Include="js\moment.min.js" />
-    <Content Include="js\canvas.js" />
+    <Content Include="Images\logo.png" />
+    <Content Include="files\js\clock.js" />
+    <Content Include="files\js\iframe.js" />
+    <Content Include="files\js\outlook.js" />
+    <Content Include="files\js\moment.min.js" />
+    <Content Include="files\js\canvas.js" />
     <Content Include="getCanvas.aspx" />
-    <Content Include="js\picture.js" />
+    <Content Include="files\js\picture.js" />
     <Content Include="js\pt\ajaxpanel.js" />
     <Content Include="js\pt\builder.js" />
     <Content Include="js\pt\captcha.js" />
@@ -185,18 +186,21 @@
     <Content Include="js\pt\prototype_ccs.js" />
     <Content Include="js\pt\scriptaculous.js" />
     <Content Include="js\pt\slider.js" />
-    <Content Include="js\scroller.js" />
-    <Content Include="js\video.js" />
-    <Content Include="js\youtube.js" />
+    <Content Include="files\js\scroller.js" />
+    <Content Include="files\js\video.js" />
+    <Content Include="files\js\youtube.js" />
     <Content Include="packages.config" />
-    <Content Include="files\fonts\futura.eot" />
-    <Content Include="files\fonts\futura.ttc" />
-    <Content Include="files\fonts\futura.ttf" />
+    <Content Include="Styles\fonts\futura.eot" />
+    <Content Include="Styles\fonts\futura.ttc" />
+    <Content Include="Styles\fonts\futura.ttf" />
     <Content Include="getHtml.ashx" />
-    <Content Include="files\manifest.json" />
+    <Content Include="Images\manifest.json" />
     <None Include="Scripts\jquery-2.0.3-vsdoc.js" />
+    <Content Include="Scripts\jqsimplemenu.js" />
     <Content Include="Scripts\jquery-2.0.3.js" />
     <Content Include="Scripts\jquery-2.0.3.min.js" />
+    <Content Include="Styles\custom.css" />
+    <Content Include="Styles\jqsimplemenu.css" />
     <Content Include="Styles\Site.css" />
     <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
@@ -204,6 +208,68 @@
     <Content Include="Scripts\jquery-1.4.1.js" />
     <Content Include="Scripts\jquery-1.4.1.min.js" />
     <Content Include="Styles\style.css" />
+    <Content Include="Styles\themes\base\images\animated-overlay.gif" />
+    <Content Include="Styles\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Styles\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Styles\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Styles\themes\base\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Styles\themes\base\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Styles\themes\base\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Styles\themes\base\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Styles\themes\base\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Styles\themes\base\images\ui-icons_222222_256x240.png" />
+    <Content Include="Styles\themes\base\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Styles\themes\base\images\ui-icons_454545_256x240.png" />
+    <Content Include="Styles\themes\base\images\ui-icons_888888_256x240.png" />
+    <Content Include="Styles\themes\base\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Styles\themes\base\jquery-ui.css" />
+    <Content Include="Styles\themes\base\jquery.ui.accordion.css" />
+    <Content Include="Styles\themes\base\jquery.ui.all.css" />
+    <Content Include="Styles\themes\base\jquery.ui.autocomplete.css" />
+    <Content Include="Styles\themes\base\jquery.ui.base.css" />
+    <Content Include="Styles\themes\base\jquery.ui.button.css" />
+    <Content Include="Styles\themes\base\jquery.ui.core.css" />
+    <Content Include="Styles\themes\base\jquery.ui.datepicker.css" />
+    <Content Include="Styles\themes\base\jquery.ui.dialog.css" />
+    <Content Include="Styles\themes\base\jquery.ui.menu.css" />
+    <Content Include="Styles\themes\base\jquery.ui.progressbar.css" />
+    <Content Include="Styles\themes\base\jquery.ui.resizable.css" />
+    <Content Include="Styles\themes\base\jquery.ui.selectable.css" />
+    <Content Include="Styles\themes\base\jquery.ui.slider.css" />
+    <Content Include="Styles\themes\base\jquery.ui.spinner.css" />
+    <Content Include="Styles\themes\base\jquery.ui.tabs.css" />
+    <Content Include="Styles\themes\base\jquery.ui.theme.css" />
+    <Content Include="Styles\themes\base\jquery.ui.tooltip.css" />
+    <Content Include="Styles\themes\base\minified\images\animated-overlay.gif" />
+    <Content Include="Styles\themes\base\minified\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Styles\themes\base\minified\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Styles\themes\base\minified\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Styles\themes\base\minified\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Styles\themes\base\minified\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Styles\themes\base\minified\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Styles\themes\base\minified\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Styles\themes\base\minified\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Styles\themes\base\minified\images\ui-icons_222222_256x240.png" />
+    <Content Include="Styles\themes\base\minified\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Styles\themes\base\minified\images\ui-icons_454545_256x240.png" />
+    <Content Include="Styles\themes\base\minified\images\ui-icons_888888_256x240.png" />
+    <Content Include="Styles\themes\base\minified\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Styles\themes\base\minified\jquery-ui.min.css" />
+    <Content Include="Styles\themes\base\minified\jquery.ui.accordion.min.css" />
+    <Content Include="Styles\themes\base\minified\jquery.ui.autocomplete.min.css" />
+    <Content Include="Styles\themes\base\minified\jquery.ui.button.min.css" />
+    <Content Include="Styles\themes\base\minified\jquery.ui.core.min.css" />
+    <Content Include="Styles\themes\base\minified\jquery.ui.datepicker.min.css" />
+    <Content Include="Styles\themes\base\minified\jquery.ui.dialog.min.css" />
+    <Content Include="Styles\themes\base\minified\jquery.ui.menu.min.css" />
+    <Content Include="Styles\themes\base\minified\jquery.ui.progressbar.min.css" />
+    <Content Include="Styles\themes\base\minified\jquery.ui.resizable.min.css" />
+    <Content Include="Styles\themes\base\minified\jquery.ui.selectable.min.css" />
+    <Content Include="Styles\themes\base\minified\jquery.ui.slider.min.css" />
+    <Content Include="Styles\themes\base\minified\jquery.ui.spinner.min.css" />
+    <Content Include="Styles\themes\base\minified\jquery.ui.tabs.min.css" />
+    <Content Include="Styles\themes\base\minified\jquery.ui.theme.min.css" />
+    <Content Include="Styles\themes\base\minified\jquery.ui.tooltip.min.css" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -212,6 +278,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="Scripts\jquery-2.0.3.min.map" />
+    <Content Include="HomePage.Master" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\Management\RsaUtil.cs">
@@ -220,10 +287,24 @@
     <Compile Include="CacheExtensions.cs" />
     <Compile Include="Canvas.cs" />
     <Compile Include="Clock.cs" />
+    <Compile Include="Register.aspx.cs">
+      <DependentUpon>Register.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Register.aspx.designer.cs">
+      <DependentUpon>Register.aspx</DependentUpon>
+    </Compile>
     <Compile Include="getOutlook.ashx.cs">
       <DependentUpon>getOutlook.ashx</DependentUpon>
     </Compile>
     <Compile Include="Outlook.cs" />
+    <Compile Include="HomePage.Master.cs">
+      <DependentUpon>HomePage.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="HomePage.Master.designer.cs">
+      <DependentUpon>HomePage.Master</DependentUpon>
+    </Compile>
     <Compile Include="YouTube.cs" />
     <Compile Include="Html.cs" />
     <Compile Include="getDisplayHash.ashx.cs">
@@ -324,7 +405,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>49904</DevelopmentServerPort>
+          <DevelopmentServerPort>50177</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>

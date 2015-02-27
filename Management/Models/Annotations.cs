@@ -955,6 +955,16 @@ namespace DisplayMonkey.Models
                 Display(ResourceType = typeof(Resources), Name = "Frame"),
             ]
             public virtual Frame Frame { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "OffsetGMT"),
+            ]
+            public Nullable<int> OffsetGMT { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "Label"),
+            ]
+            public string Label { get; set; }
         }
 
         public void SetDefaultDuration(int value = 3600)

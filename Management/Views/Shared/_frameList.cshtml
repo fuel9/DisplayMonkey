@@ -86,10 +86,12 @@
         <td>
             @if (item.Clock != null)
             {
-                @(string.Format("{0}{1}{2}",
+                @(string.Format("{0}{1}{2}{3}{4}",
                     item.Clock.Type.Translate(),
-                    item.Clock.ShowDate ? ", Show date" : "",
-                    item.Clock.ShowTime ? ", Show time" : ""
+                    !string.IsNullOrWhiteSpace(item.Clock.Label) ? ", " + item.Clock.Label : "",
+                    item.Clock.OffsetGMT != null ? ", " + item.Clock.OffsetGMT.ToString() : "",
+                    item.Clock.Type == ClockTypes.ClockType_Text && item.Clock.ShowDate ? ", " + Resources.ShowDate : "",
+                    item.Clock.Type == ClockTypes.ClockType_Text && item.Clock.ShowTime ? ", " + Resources.ShowTime : ""
                     ))
             }
             else if (item.Html != null)    

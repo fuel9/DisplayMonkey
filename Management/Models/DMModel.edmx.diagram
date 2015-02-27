@@ -6,7 +6,7 @@
     <edmx:Diagrams>
       <Diagram DiagramId="bc7e2af02eae42709a76a4c4f1b15942" Name="Diagram1" ZoomLevel="64">
         <EntityTypeShape EntityType="DisplayMonkey.Model.Canvas" Width="1.5" PointX="4.625" PointY="13.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="DisplayMonkey.Model.Clock" Width="1.5" PointX="13.5" PointY="7" IsExpanded="true" />
+        <EntityTypeShape EntityType="DisplayMonkey.Model.Clock" Width="1.5" PointX="13.5" PointY="6.75" IsExpanded="true" />
         <EntityTypeShape EntityType="DisplayMonkey.Model.Content" Width="1.5" PointX="4.625" PointY="17.625" IsExpanded="true" />
         <EntityTypeShape EntityType="DisplayMonkey.Model.Display" Width="1.5" PointX="1.75" PointY="14.25" IsExpanded="true" />
         <EntityTypeShape EntityType="DisplayMonkey.Model.Frame" Width="1.5" PointX="10.375" PointY="11.5" IsExpanded="true" />

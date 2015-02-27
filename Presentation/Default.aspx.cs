@@ -28,15 +28,6 @@ namespace DisplayMonkey
 					}
 				}
 
-				if (theHost != null)
-				{
-					labelHost.Text = theHost;
-				}
-				else
-				{
-					buttonRegister.Enabled = false;
-				}
-
 				try
 				{
 					// list registered displays
@@ -46,7 +37,7 @@ namespace DisplayMonkey
 					{
 						string url = string.Format("getCanvas.aspx?display={0}", display.DisplayId);
 
-						if (display.Host == theHost && display.CanvasId > 0)
+                        if (theHost != "::1" && display.Host == theHost && display.CanvasId > 0)
 						{
 							// this host is already registered -> take us to it
 							HttpContext.Current.Response.Redirect(string.Format(
@@ -66,55 +57,6 @@ namespace DisplayMonkey
 					}
 
 					labelDisplays.Text = html.ToString();
-
-					// list canvases
-					listCanvas.AutoPostBack = false;
-					foreach (Canvas canvas in Canvas.List)
-					{
-						ListItem list = new ListItem(
-							canvas.Name,
-							canvas.CanvasId.ToString()
-							);
-						listCanvas.Items.Add(list);
-					}
-
-					// list locations
-					listLocation.AutoPostBack = false;
-					foreach (Location loc in Location.List())
-					{
-						ListItem list = new ListItem(
-							loc.Name,
-							loc.LocationId.ToString()
-							);
-						listLocation.Items.Add(list);
-					}
-				}
-
-				catch (Exception ex)
-				{
-					Response.Write(ex.Message);	// TODO: error label
-				}
-			}
-		}
-
-		protected void Register_Click(object sender, EventArgs e)
-		{
-			if (textName.Text != "" && listCanvas.SelectedIndex >= 0 && listLocation.SelectedIndex >= 0)
-			{
-				try
-				{
-					Display display = new Display()
-					{
-						Host = labelHost.Text,
-						Name = textName.Text,
-						CanvasId = DataAccess.IntOrZero(listCanvas.SelectedValue),
-						LocationId = DataAccess.IntOrZero(listLocation.SelectedValue),
-					};
-
-					display.Register();
-
-					string url = string.Format("getCanvas.aspx?display={0}", display.DisplayId);
-					HttpContext.Current.Response.Redirect(url);
 				}
 
 				catch (Exception ex)

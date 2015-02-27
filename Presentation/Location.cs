@@ -98,7 +98,7 @@ namespace DisplayMonkey
         public decimal Longitude = ServerGeoData.Longitude;
         public string Culture = "";
 
-        public DateTime LocalTime
+        public DateTime LocationTime
         {
             get 
             {

@@ -57,7 +57,8 @@ namespace DisplayMonkey
             // Styles ==========================================================================================
             bundles.Add(new StyleBundle("~/Content/css").Include(
                         "~/Content/jqsimplemenu.css",                            // DPA: menu
-                        "~/Content/site.css"
+                        "~/Content/site.css",
+                        "~/Content/custom.css"
                         ));
 
             //bundles.Add(new StyleBundle("~/Content/jhtmlareacss").Include(      // DPA: jHtmlArea style bundle

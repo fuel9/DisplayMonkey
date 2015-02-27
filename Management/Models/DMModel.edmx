@@ -154,6 +154,8 @@
           <Property Name="Type" Type="int" Nullable="false" />
           <Property Name="ShowDate" Type="bit" Nullable="false" />
           <Property Name="ShowTime" Type="bit" Nullable="false" />
+          <Property Name="OffsetGMT" Type="int" />
+          <Property Name="Label" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Content">
           <Key>
@@ -864,6 +866,8 @@
           <Property Name="ShowDate" Type="Boolean" Nullable="false" />
           <Property Name="ShowTime" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Frame" Relationship="DisplayMonkey.Model.FK_Clock_Frame" FromRole="Clock" ToRole="Frame" />
+          <Property Type="String" Name="Label" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="OffsetGMT" />
         </EntityType>
         <EntityType Name="Content">
           <Key>
@@ -1479,6 +1483,8 @@
           <EntitySetMapping Name="Clocks">
             <EntityTypeMapping TypeName="DisplayMonkey.Model.Clock">
               <MappingFragment StoreEntitySet="Clock">
+                <ScalarProperty Name="OffsetGMT" ColumnName="OffsetGMT" />
+                <ScalarProperty Name="Label" ColumnName="Label" />
                 <ScalarProperty Name="FrameId" ColumnName="FrameId" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="ShowDate" ColumnName="ShowDate" />

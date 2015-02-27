@@ -135,6 +135,7 @@ namespace DisplayMonkey
 
                 // add styles
                 head.Append("<link rel=\"stylesheet\" href=\"styles/style.css\" type=\"text/css\" />\n");
+                head.Append("<link rel=\"stylesheet\" href=\"styles/custom.css\" type=\"text/css\" />\n");
                 head.Append("<style type=\"text/css\">\n");
                 foreach (Panel p in Panels)
                 {
@@ -157,7 +158,8 @@ namespace DisplayMonkey
 				head.AppendFormat(CultureInfo.InvariantCulture, "longitude:{0},\n", location.Longitude);
                 head.AppendFormat(CultureInfo.InvariantCulture, "woeid:{0},\n", location.Woeid);
                 head.AppendFormat(CultureInfo.InvariantCulture, "culture:'{0}',\n", location.Culture);
-                head.AppendFormat(CultureInfo.InvariantCulture, "localTime:'{0}',\n", location.LocalTime);
+                head.AppendFormat(CultureInfo.InvariantCulture, "locationTime:'{0}',\n", location.LocationTime);
+                head.AppendFormat(CultureInfo.InvariantCulture, "serverTime:'{0}',\n", DateTime.UtcNow);
                 head.AppendFormat(CultureInfo.InvariantCulture, "initialIdleInterval:{0},\n", this.InitialMaxIdleInterval);
 				head.AppendFormat(CultureInfo.InvariantCulture, "width:{0},\n", this.Width);
                 head.AppendFormat(CultureInfo.InvariantCulture, "height:{0},\n", this.Height);
@@ -198,24 +200,27 @@ namespace DisplayMonkey
         #region Private Members
 
 		private static string[] _js_libs = new string[] {
-			"js/pt/prototype.js", 
+			// prototype 1.7 & script-aculo-us
+            "js/pt/prototype.js", 
 			"js/pt/prototype_ccs.js", 
 			"js/pt/ajaxpanel.js", 
 			"js/pt/scriptaculous.js",
-			"js/moment.min.js",
-			"js/scroller.js",
-			"js/clock.js",
-            "js/youtube.js",
-            "js/outlook.js",
-            "js/picture.js",
-            "js/video.js",
-            "js/iframe.js",
+
+            // jquery
             "scripts/jquery-2.0.3.min.js",
-            //"js/mediaelement.min.js",
-            //"js/jquery.tubular.1.0.js",
+			
+            // frame scripts
+            "files/js/moment.min.js",
+			"files/js/scroller.js",
+			"files/js/clock.js",
+            "files/js/youtube.js",
+            "files/js/outlook.js",
+            "files/js/picture.js",
+            "files/js/video.js",
+            "files/js/iframe.js",
 
             // comes last:
-			"js/canvas.js"
+			"files/js/canvas.js"
 		};
 
 		#endregion

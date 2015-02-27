@@ -1,376 +1,1147 @@
-/* DEFAULTS
-----------------------------------------------------------*/
-logo {
-    position: relative;
-    top: -16px;
+﻿/* !!! Please do not change this file. It is reserved for Display Monkey development team. !!! */
+/* !!!     Use custom.css stylesheet instead to override default styles in this file.      !!! */
+
+@font-face {
+    font-family: "Open Sans";
+    src: url("http://themes.googleusercontent.com/static/fonts/opensans/v7/cJZKeOuBrn4kERxqtaUH3T8E0i7KZn-EPnyo3HZu7kw.woff");
 }
 
+/*************** jqsimplemenu.css overrides BEGIN ***************/
 
-body   
-{
-    /*background: #b6b7bc;*/
-    font-size: .80em;
-    font-family:  "Open Sans", Helvetica, Arial, Verdana, sans-serif;
-    margin: 0px;
-    padding: 0px;
+.menu, .menu ul {
+    text-transform: uppercase;
+}
+
+    .menu  a:hover {
+	    color: #cc0000; 
+	}
+
+    .menu-item-selected > a {
+        background-color: #cecece;
+    }
+
+    .menu-item-selected > a:hover {
+        color: #cc0000 !important;
+    }
+
+/**************** jqsimplemenu.css overrides END ****************/
+
+html {
+    background-color: #336699;
+    margin: 0;
+    padding: 0;
+	height:100%;
+}
+
+body {
+    background-color: #336699;
+    /*border-top: solid 10px #336699;*/
     color: #333;
-}
-
-a:link, a:visited
-{
-    color: #034af3;
-}
-
-a:hover
-{
-    color: #1d60ff;
-    text-decoration: none;
-}
-
-a:active
-{
-    color: #034af3;
-}
-
-p
-{
-    margin-bottom: 10px;
-    line-height: 1.6em;
-}
-
-
-/* HEADINGS   
-----------------------------------------------------------*/
-
-h1, h2, h3, h4, h5, h6
-{
-    font-size: 1.5em;
-    color: #666666;
-    font-variant: small-caps;
-    text-transform: none;
-    font-weight: 200;
-    margin-bottom: 0px;
-}
-
-h1
-{
-    font-size: 1.6em;
-    padding-bottom: 0px;
-    margin-bottom: 0px;
-}
-
-h2
-{
-    font-size: 1.5em;
-    font-weight: 600;
-}
-
-h3
-{
-    font-size: 1.2em;
-}
-
-h4
-{
-    font-size: 1.1em;
-}
-
-h5, h6
-{
-    font-size: 1em;
-}
-
-/* this rule styles <h1> and <h2> tags that are the 
-first child of the left and right table columns */
-.rightColumn > h1, .rightColumn > h2, .leftColumn > h1, .leftColumn > h2
-{
-    margin-top: 0px;
-}
-
-table li
-{
-    min-height: 25px;
+    font-size: .90em;
+    /*font-family: "Segoe UI", Verdana, Helvetica, Sans-Serif;*/
+	font-family: "Open Sans", Helvetica, Arial, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+	min-height:100%;
+	position:relative;	
+	/*padding-bottom:100px*/
 
 }
 
-table td
-{
-    padding: 10px;
+a {
+    color: #CC0000;
+    outline: none;
+    padding-left: 3px;
+    padding-right: 3px;
+    text-decoration: underline;
 }
 
+    a:link, a:visited,
+    a:active, a:hover {
+        color: #CC0000;
+    }
 
-/* PRIMARY LAYOUT ELEMENTS   
-----------------------------------------------------------*/
+    a:hover {
+        /*background-color: #CC0000;*/
+    }
 
-.page
-{
-    width: 960px;
-    background-color: #fff;
-    margin: 20px auto 0px auto;
-    border: 1px solid #496077;
+header, footer, hgroup,
+nav, section {
+    display: block;
+	/*background-color: #336699;*/
 }
 
-.header
-{
-    position: relative;
-    margin: 0px;
-    padding: 0px;
-    background: #4b6c9e;
+mark {
+    background-color: #F5F5F5; /* #a6dbed; */
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.float-left {
+    float: left;
     width: 100%;
 }
 
-.header h1
-{
-    font-weight: 700;
-    margin: 0px;
-    padding: 0px 0px 0px 20px;
-    color: #f9f9f9;
-    border: none;
-    line-height: 2em;
-    font-size: 2em;
+.float-right {
+    float: right;
 }
 
-.main
-{
-    padding: 0px 12px;
-    margin: 12px 8px 8px 8px;
-    min-height: 420px;
-}
-
-.leftCol
-{
-    padding: 6px 0px;
-    margin: 12px 8px 8px 8px;
-    width: 200px;
-    min-height: 200px;
-}
-
-.footer
-{
-    color: #4e5766;
-    padding: 8px 0px 0px 0px;
-    margin: 0px auto;
-    text-align: center;
-    line-height: normal;
-}
-
-
-/* TAB MENU   
-----------------------------------------------------------*/
-
-div.hideSkiplink
-{
-    background-color:#3a4f63;
-    width:100%;
-}
-
-div.menu
-{
-    padding: 4px 0px 4px 8px;
-}
-
-div.menu ul
-{
-    list-style: none;
-    margin: 0px;
-    padding: 0px;
-    width: auto;
-}
-
-div.menu ul li a, div.menu ul li a:visited
-{
-    background-color: #465c71;
-    border: 1px #4e667d solid;
-    color: #dde4ec;
+.clear-fix:after {
+    content: ".";
+    clear: both;
     display: block;
-    line-height: 1.35em;
-    padding: 4px 20px;
-    text-decoration: none;
-    white-space: nowrap;
+    height: 0;
+    visibility: hidden;
+	background-color: #fff;
+	padding-bottom: 10px;
 }
 
-div.menu ul li a:hover
-{
-    background-color: #bfcbd6;
-    color: #465c71;
-    text-decoration: none;
+h1, h2, h3,
+h4, h5, h6 {
+    color: #336699;
+    margin-bottom: 0;
+    padding-bottom: 0;
 }
 
-div.menu ul li a:active
-{
-    background-color: #465c71;
-    color: #cfdbe6;
-    text-decoration: none;
+h1 {
+    font-size: 1.6em;
 }
 
-/* FORM ELEMENTS   
+h2 {
+    font-size: 1.2em;
+	border-bottom: 1px solid #e2e2e2;
+	padding-bottom: 5px;
+	
+}
+
+h3 {
+    font-size: 1.0em;
+}
+
+h4 {
+    font-size: 1.1em;
+}
+
+h5, h6 {
+    font-size: 1em;
+}
+
+    h5 a:link, h5 a:visited, h5 a:active {
+        padding: 0;
+        text-decoration: none;
+    }
+
+
+/* main layout
 ----------------------------------------------------------*/
-
-fieldset
-{
-    margin: 1em 0px;
-    padding: 1em;
-    border: 1px solid #ccc;
+.content-wrapper {
+    margin: 0 auto;
+    max-width: 960px;
+	color:#333;
+	background: #fff;
 }
 
-fieldset p 
-{
-    margin: 2px 12px 10px 10px;
+#body {
+    background-color: #fff;
+    clear: both;
+    padding-bottom: 35px;
+    line-height: 2;
+
 }
 
-fieldset.login label, fieldset.register label, fieldset.changePassword label
-{
+    .main-content {
+        /*  background: url("../Images/accent.png") no-repeat;*/
+        padding-left: 10px;
+        padding-top: 30px;
+
+    }
+
+    .featured + .main-content {
+       /* background: url("../Images/heroAccent.png") no-repeat; */
+	 
+    }
+
+header .content-wrapper {
+    padding-top: 20px; 
+	background: #336699;
+}
+
+footer {
+    clear: both;
+    background-color: #e2e2e2;
+    font-size: .8em;
+    height: 100px;
+	/*position: absolute;*/
+	bottom: 0;
+	width: 100%;
+
+	
+	
+}
+
+
+/* site title
+----------------------------------------------------------*/
+.site-title {
+    color: #fff;
+    font-family: "Open Sans", Helvetica, Arial, Verdana, sans-serif;
+    font-size: 0em;
+    margin: 0;
+	background: url("../Images/logo.png") no-repeat; 
+	width: 400px;
+	height: 61px;
+	
+}
+
+.site-title a, .site-title a:hover, .site-title a:active {
+    /*background: #336699;*/
+    color: #fff;
+    outline: none;
+    text-decoration: none;
+}
+
+
+/* login
+----------------------------------------------------------*/
+#login {
     display: block;
+    font-size: .85em;
+    margin: 0 0 0px;
+    text-align: right;
+	color:#fff;
 }
 
-fieldset label.inline 
-{
+    #login a {
+        background-color: #d3dce0;
+        margin-left: 10px;
+        margin-right: 3px;
+        padding: 2px 3px;
+        text-decoration: none;
+    }
+
+    #login a.username {
+        background: none;
+        margin: 0;
+        padding: 0;
+        text-decoration: underline;
+    }
+
+    #login ul {
+        margin: 0;
+    }
+
+    #login li {
+        display: inline;
+        list-style: none;
+    }
+
+
+/* menu
+----------------------------------------------------------*/
+ul#menu {
+    font-size: 1.3em;
+    font-weight: 600;
+    margin: 0 0 5px;
+    padding: 0;
+    text-align: right;
+	color:#fff;
+}
+
+    ul#menu li {
+        display: inline;
+        list-style: none;
+        padding-left: 15px;
+		color:#fff;
+    }
+
+        ul#menu li a {
+            background: none;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        ul#menu li a:hover {
+            color: #fff;
+            text-decoration: none;
+        }
+
+/* page elements
+----------------------------------------------------------*/
+/* featured */
+.featured {
+    /*background-color: #336699;*/
+}
+
+    .featured .content-wrapper {
+        /*background-color: #336699;
+        background-image: -ms-linear-gradient(left, #336699 0%, #336699 100%);
+        background-image: -o-linear-gradient(left, #336699 0%, #336699 100%);
+        background-image: -webkit-gradient(linear, left top, right top, color-stop(0, #336699), color-stop(1, #336699));
+        background-image: -webkit-linear-gradient(left, #336699 0%, #336699 100%);
+        background-image: linear-gradient(left, #336699 0%, #336699 100%); */
+        color: #333;
+        padding: 20px 40px 30px 40px;
+    }
+
+        .featured hgroup.title h1, .featured hgroup.title h2 {
+            color: #336699;
+			font-size: 1.4em;
+			border-bottom: 1px solid #e2e2e2;
+			padding-bottom: 5px;
+        }
+
+        .featured p {
+            font-size: 1.1em;
+        }
+
+/* page titles */
+hgroup.title {
+    margin-bottom: 10px;
+}
+
+hgroup.title h1, hgroup.title h2 {
     display: inline;
 }
 
-legend 
-{
-    font-size: 1.1em;
-    font-weight: 600;
-    padding: 2px 4px 8px 4px;
-	color: #376092;
+hgroup.title h2 {
+    font-weight: normal;
+    margin-left: 3px;
 }
 
-input.textEntry 
-{
-    width: 320px;
-    border: 1px solid #ccc;
-}
-
-input.passwordEntry 
-{
-    width: 320px;
-    border: 1px solid #ccc;
-}
-
-div.accountInfo
-{
-    width: 42%;
-}
-
-/* MISC  
-----------------------------------------------------------*/
-
-.clear
-{
-    clear: both;
-}
-
-.title
-{
-    display: block;
+/* features */
+section.feature {
+    width: 300px;
     float: left;
-    text-align: left;
-    width: auto;
-}
-
-.loginDisplay
-{
-    font-size: 1.1em;
-    display: block;
-    text-align: right;
     padding: 10px;
-    color: White;
 }
 
-.loginDisplay a:link
-{
-    color: white;
+/* ordered list */
+ol.round {
+    list-style-type: none;
+    padding-left: 0;
 }
 
-.loginDisplay a:visited
-{
-    color: white;
+    ol.round li {
+        margin: 25px 0;
+        padding-left: 45px;
+    }
+
+        ol.round li.zero {
+            background: url("../Images/orderedList0.png") no-repeat;
+        }
+
+        ol.round li.one {
+            background: url("../Images/orderedList1.png") no-repeat;
+        }
+
+        ol.round li.two {
+            background: url("../Images/orderedList2.png") no-repeat;
+        }
+
+        ol.round li.three {
+            background: url("../Images/orderedList3.png") no-repeat;
+        }
+
+        ol.round li.four {
+            background: url("../Images/orderedList4.png") no-repeat;
+        }
+
+        ol.round li.five {
+            background: url("../Images/orderedList5.png") no-repeat;
+        }
+
+        ol.round li.six {
+            background: url("../Images/orderedList6.png") no-repeat;
+        }
+
+        ol.round li.seven {
+            background: url("../Images/orderedList7.png") no-repeat;
+        }
+
+        ol.round li.eight {
+            background: url("../Images/orderedList8.png") no-repeat;
+        }
+
+        ol.round li.nine {
+            background: url("../Images/orderedList9.png") no-repeat;
+        }
+
+/* content */
+article {
+    float: left;
+    width: 70%;
 }
 
-.loginDisplay a:hover
-{
-    color: white;
+aside {
+    float: right;
+    width: 25%;
 }
 
-.failureNotification
-{
+    aside ul {
+        list-style: none;
+        padding: 0;
+    }
+
+        aside ul li {
+            background: url("../Images/bullet.png") no-repeat 0 50%;
+            padding: 2px 0 2px 20px;
+        }
+
+.label {
+    font-weight: 700;
+}
+
+/* login page */
+#loginForm {
+    border-right: solid 2px #c8c8c8;
+    float: left;
+    width: 55%;
+}
+
+    #loginForm .validation-error {
+        display: block;
+        margin-left: 15px;
+    }
+
+    #loginForm .validation-summary-errors ul {
+        margin: 0;
+        padding: 0;
+    }
+
+    #loginForm .validation-summary-errors li {
+        display: inline;
+        list-style: none;
+        margin: 0;
+    }
+
+    #loginForm input {
+        width: 250px;
+    }
+
+    #loginForm input[type="checkbox"],
+    #loginForm input[type="submit"],
+    #loginForm input[type="button"],
+    #loginForm button {
+        width: auto;
+    }
+
+#socialLoginForm {
+    margin-left: 40px;
+    float: left;
+    width: 40%;
+}
+
+    #socialLoginForm h2 {
+        margin-bottom:  5px;
+    }
+
+#socialLoginList button {
+    margin-bottom: 12px;
+}
+
+#logoutForm {
+    display: inline;
+}
+
+/* contact */
+.contact h3 {
     font-size: 1.2em;
-    color: Red;
 }
 
-.bold
+.contact p {
+    margin: 5px 0 0 10px;
+}
+
+.contact iframe {
+    border: 1px solid #333;
+    margin: 5px 0 0 10px;
+}
+
+/* forms */
+fieldset {
+    border: none;
+    /*margin: 0;*/
+    padding: 0;
+	padding-top: 10px;
+    /*color: rgb(100, 100, 100);*/
+    /*border: 1px solid rgba(234, 234, 234, 0.8);*/
+    /*font-size: 10pt;*/
+}
+
+    fieldset legend {
+        display: none;
+    }
+
+    fieldset ol {
+        padding: 0;
+        list-style: none;
+    }
+
+        fieldset ol li {
+            padding-bottom: 5px;
+        }
+
+.divTable {
+    display: table;
+    /*width: 100%;*/
+    background-color: white;
+    padding:20px;
+}
+
+.divRow {
+    display: table-row;
+}
+
+.divRow div {
+    display: table-cell;
+    /*width:30%;*/
+    padding:10px 10px 0px 10px;
+    border-bottom: 1px;
+    border-color: #336699;
+}
+
+.divRow .display-label {
+    color: #888;
+}
+
+label {
+    display: block;
+    font-size: 1.2em;
+    font-weight: 600;
+	color: #336699;
+}
+
+label.checkbox {
+    display: inline;
+}
+
+input, textarea {
+    border: 1px solid #e2e2e2;
+    border-radius: 5px;
+    background: #fff;
+    color: #333;
+    font-size: 1.0em;
+    margin: 5px 0 6px 0;
+    padding: 5px;
+    width: 300px;
+}
+
+input.duration, input.pixels
 {
+    width: 100px;
+}
+
+#htmlPreview {
+    border: 1px solid grey;
+    box-shadow: 10px 10px 5px #AAA;
+    width: 600px;
+    height: 600px;
+}
+
+textarea {
+    font-family: inherit;
+    width: 500px;
+}
+
+    textarea.htmlEdit {
+        width: 100%;
+        height: 600px;
+        
+    }
+
+    input:focus, textarea:focus {
+        border: 1px solid #336699;
+    }
+
+    input[type="checkbox"] {
+        background: transparent;
+        border: inherit;
+        width: auto;
+    }
+
+    input[type="submit"],
+    input[type="button"],
+    button {
+        background-color: #336699;
+        color: #fff;
+        border: 0px none;
+        cursor: pointer;
+        font-size: 1.0em;
+        font-weight: 600;
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-top: 4px;
+        padding-bottom: 4px;
+        /*Margin-right: 8px;*/
+        width: auto;
+        text-transform: uppercase;
+        background: -webkit-linear-gradient(#9cf, #369); /* For Safari 5.1 to 6.0 */
+        background: -o-linear-gradient(#9cf, #369); /* For Opera 11.1 to 12.0 */
+        background: -moz-linear-gradient(#9cf, #369); /* For Firefox 3.6 to 15 */
+        background: linear-gradient(#9cf, #369); /* Standard syntax */
+        line-height: 2;
+    }
+
+    td input[type="submit"],
+    td input[type="button"],
+    td button {
+        font-size: 1em;
+        margin-right: 4px;
+    }
+
+/* info and errors */
+.message-info {
+    border: 1px solid;
+    clear: both;
+    padding: 10px 20px;
+}
+
+.message-error {
+    clear: both;
+    color: #CC0000;
+    font-size: 1.1em;
+    font-weight: bold;
+    margin: 20px 0 10px 0;
+}
+
+.message-success {
+    color: #336699;
+    font-size: 1.3em;
+    font-weight: bold;
+    margin: 20px 0 10px 0;
+}
+
+.error {
+    color: #CC0000;
+}
+
+/* styles for validation helpers */
+.field-validation-error {
+    color: #CC0000;
     font-weight: bold;
 }
 
-.submitButton
-{
-    text-align: right;
-    padding-right: 10px;
+.field-validation-valid {
+    display: none;
+}
+
+input.input-validation-error {
+    border: 1px solid #CC0000;
+}
+
+input[type="checkbox"].input-validation-error {
+    border: 0 none;
+}
+
+.validation-summary-errors {
+    color: #CC0000;
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+.validation-summary-valid {
+    display: none;
 }
 
 
-/************************************************** MM *******************************************************/
+/* tables
+----------------------------------------------------------*/
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    margin-top: 0.75em;
+    border: 0 none;
+	padding-bottom: 10px;
+}
+
+table.grid {
+    width: 100%;
+	border: 0 none;
+}
+
+th {
+    font-size: 1.0em;
+    text-align: left;
+    /*border: 2px solid #336699;
+    padding-left: 0;
+    background-color:#336699;*/
+    color: #336699;
+    padding: 0.25em 0.25em 0.25em 0.25em;
+	vertical-align: bottom;
+}
+
+    th a {
+        display: block;
+        position: relative;
+    }
+
+    th a:link, th a:visited, th a:active, th a:hover {
+        color: #333;
+        font-weight: 600;
+        text-decoration: none;
+        padding: 0;
+    }
+
+    th a:hover {
+        color: #000;
+    }
+
+    th.asc a, th.desc a {
+        margin-right: .75em;
+    }
+
+    th.asc a:after, th.desc a:after {
+        display: block;
+        position: absolute;
+        right: 0em;
+        top: 0;
+        font-size: 0.75em;
+    }
+
+    th.asc a:after {
+        content: '▲';
+    }
+
+    th.desc a:after {
+        content: '▼';
+    }
+
+td {
+    padding: 0.25em 0.25em 0.25em 0.25em;
+    border: 0 none;
+	/*vertical-align: top;*/
+}
+
+table.grid tr:nth-child(odd)    {
+    /*background-color:#e2e2e2; */
+	border-bottom: 1px solid #e2e2e2;
+	height: 60px;
+	vertical-align: top;	
+
+}
+table.grid tr:nth-child(even)   { 
+    /*background-color:#fff; */
+	border-bottom: 1px solid #e2e2e2;
+	height: 60px;
+	vertical-align: top;	
+}
+
+table.grid tr, tr.bottom {
+    /*border-left: 2px solid #336699;
+    border-right: 2px solid #336699;*/
+}
+
+table.grid tr:last-child {
+    /*border-bottom: 2px solid #336699;*/
+}
+
+tr.pager td {
+    padding: 0 0.25em 0 0;
+}
+
+
+/********************
+*   Mobile Styles   *
+********************/
+@media only screen and (max-width: 850px) {
+
+    /* header
+    ----------------------------------------------------------*/
+    header .float-left,
+    header .float-right {
+        float: none;
+    }
+
+    /* logo */
+    header .site-title {
+        margin: 10px;
+        text-align: center;
+		background-color: #336699;
+    }
+
+    /* login */
+    #login {
+        font-size: .85em;
+        margin: 0 0 12px;
+        text-align: center;
+    }
+
+        #login ul {
+            margin: 5px 0;
+            padding: 0;
+        }
+
+        #login li {
+            display: inline;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        #login a {
+            background: none;
+            color: #fff;
+            font-weight: 600;
+            margin: 2px;
+            padding: 0;
+        }
+
+        #login a:hover {
+            color: #333;
+        }
+
+    /* menu */
+    nav {
+        margin-bottom: 5px;
+		color:#fff;
+    }
+
+    ul#menu {
+        margin: 0;
+        padding: 0;
+        text-align: center;
+    }
+
+        ul#menu li {
+            margin: 0;
+            padding: 0;
+        }
+
+
+    /* main layout
+    ----------------------------------------------------------*/
+    .main-content,
+    .featured + .main-content {
+        background-position: 10px 0;
+    }
+
+    .content-wrapper {
+        padding-right: 10px;
+        padding-left: 10px;
+    }
+
+    .featured .content-wrapper {
+        padding: 10px;
+    }
+
+    /* page content */
+    article, aside {
+        float: none;
+        width: 100%;
+    }
+
+    /* ordered list */
+    ol.round {
+        list-style-type: none;
+        padding-left: 0;
+    }
+
+        ol.round li {
+            padding-left: 10px;
+            margin: 25px 0;
+        }
+
+            ol.round li.zero,
+            ol.round li.one,
+            ol.round li.two,
+            ol.round li.three,
+            ol.round li.four,
+            ol.round li.five,
+            ol.round li.six,
+            ol.round li.seven,
+            ol.round li.eight,
+            ol.round li.nine {
+                background: none;
+            }
+
+     /* features */
+     section.feature {
+        float: none;
+        padding: 10px;
+        width: auto;
+     }
+
+        section.feature img {
+            color: #fff;
+            content: attr(alt);
+            font-size: 1.5em;
+            font-weight: 600;
+        }
+
+    /* forms */
+    input {
+        width: 90%;
+    }
+
+    /* login page */
+    #loginForm {
+        border-right: none;
+        float: none;
+        width: auto;
+    }
+
+        #loginForm .validation-error {
+            display: block;
+            margin-left: 15px;
+        }
+
+    #socialLoginForm {
+        margin-left: 0;
+        float: none;
+        width: auto;
+    }
+
+
+    /* footer
+    ----------------------------------------------------------*/
+    footer .float-left,
+    footer .float-right {
+        float: none;
+    }
+
+    footer {
+        text-align: center;
+        height: auto;
+        padding: 10px 0;
+    }
+
+        footer p {
+            margin: 0;
+        }
+}
+
+
+/********************************************* DP **************************************************/
+
+div.select {
+    width: 310px;
+    overflow: hidden;
+    background: url("../Images/dropdown.png") no-repeat right #fff;
+    background-position-x: 287px;
+    border: 1px solid #e2e2e2;
+    border-radius: 5px;
+    margin: 5px 0 6px 0;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+}
+
+    div.select select {
+        background: transparent;
+        width: 310px;
+        font-size: 1.0em;
+        padding: 0px;
+        /*font-size: 16px;*/
+        line-height: 1.5;
+        border: 0;
+        margin: 10px;
+        /*height: 34px;*/
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        /*pointer-events: none;*/
+    }
+
+    div.select select:focus {
+        outline: none;
+    }
+
+.preview {
+    padding-left:100px;
+}
+
+    #canvas {
+        position:relative;
+        width: 300px;
+        height: 300px;
+        border: 1px solid grey;
+        text-align: center;
+        overflow: hidden;
+        padding: 0 0 0 0;
+        box-shadow: 10px 10px 5px #AAA;
+    }
+
+        #canvas div {
+            padding:0 0 0 0;
+            position: absolute;
+            border:0px;
+        }
+
+            .panel {
+                filter: alpha(opacity=50); 
+                opacity: 0.5;
+                background-color:#fff;
+                color:#000;
+                z-index:1;
+            }
+
+            .panel-high {
+                filter: alpha(opacity=80); 
+	            opacity: 0.8;
+                background-color:#CC0000;
+                color:#fff;
+                z-index:2;
+            }
+
+#picture img, #picture iframe {
+    border: 1px solid grey;
+    box-shadow: 10px 10px 5px #AAA;
+}
+
+#film { 
+    list-style-type: none; 
+    margin: 0; 
+    padding: 0 0 2.5em; 
+    float: left; 
+    margin-right: 50px;
+    margin-top: 20px; 
+}
+
+    #film li { 
+        margin: 0px 0px 0px 0px; 
+        padding: 5px 35px 5px 35px; 
+        font-size: 0.8em; 
+        width: 130px;
+        height: 90px;
+        background: url("../images/film.png") no-repeat #fff;
+        cursor: ns-resize;
+    }
+
+        #film div { 
+            overflow: hidden;
+        }
+
+        #film div:nth-child(2) { 
+            padding-top: 5px;
+        }
+
+            #film .d1 {
+                padding-top: 5px;
+            }
+
+                #film .d1 div:nth-child(1) { 
+                    float: left;
+                }
+
+                #film .d1 div:nth-child(2) { 
+                    padding-left: 5px;
+                }
+
+                #film .d1 img {
+                    width: 50px;
+                    height: 50px;
+	                vertical-align:text-bottom;
+                    text-align:center;
+                }
+
+img.thumb1, a.thumb1>img {
+    width: 40px;
+    height: 40px;
+	vertical-align: top;
+}
+
+.error-info {
+    width: 800px;
+}
+
+    .error-source {
+    }
+
+    .error-message {
+        color: red;
+    }
+
+    .error-trace {
+        overflow: scroll;
+        width: 600px;
+        height: 300px;
+    }
+
+.num {
+    text-align: right;
+}
+
+.nw {
+    white-space: nowrap;
+}
+
+
+
+/********************************* Dashboard **********************************/
 
 @font-face
 {
-    font-family: "Open Sans";
-    src: url(http://themes.googleusercontent.com/static/fonts/opensans/v7/cJZKeOuBrn4kERxqtaUH3T8E0i7KZn-EPnyo3HZu7kw.woff);
-}
- 
-.center_style
-{
-    width: 960px;
-    height: 114px;
-    background-color: #336699;
-            
+font-family: "Open Sans";
+src: url(http://themes.googleusercontent.com/static/fonts/opensans/v7/cJZKeOuBrn4kERxqtaUH3T8E0i7KZn-EPnyo3HZu7kw.woff);
 }
 
-.center_style img 
+table.dashboard
 {
-    position: relative;
-    top: -10px;
-            
+    border-spacing: 0px;
+    border-collapse: separate;
+    text-align: left;
+    border: none;
 }
 
+    table.dashboard thead 
+    {
+        color: #336699;
+		font-size: 1.4em;
+		font-weight: bold;
+    }
 
+    table.dashboard td
+    {
+        padding: 2px;
 
+    }
 
-.left_right_style
-{
-    width: auto;
-    background-color: #336699;
-}
-  
-.page_style
-{
-    margin: 0;
-    padding: 0;
-    min-height: 100%;
-    position: relative;
-    font-family: "Open Sans", Helvetica, Arial, Verdana, sans-serif;
-    src: url(http://themes.googleusercontent.com/static/fonts/opensans/v7/cJZKeOuBrn4kERxqtaUH3T8E0i7KZn-EPnyo3HZu7kw.woff);
-    font-size: 0.85em;
-    color: #333;
-}
-  
-a:link, a:visited, a:active, a:hover 
-{
-    color: #cc0000;
-}
-  
-input[type="submit"], button 
-{
-    background-color: #d3dce0;
-    border: 1px solid #787878;
-    cursor: pointer;
-    font-size: 1.0em;
-    font-weight: 600;
-    padding: 4px;
-    width: auto;
-    float:left;
-    border-radius: 5px;
-    margin-right: 4px
-}
-        
+        .Right_Align
+        {
+			text-align:right;
+        }
+		.Left_Align
+        {
+			text-align:left;
+        }	
+	    .Alt
+        {
+			background-color: #fafafa;
+        }		
+	    .Heading_Table1_Left
+        {
+            width: 30%;
+			font-size: 100%;
+			color:#336699;
+			border-bottom: 1px solid #e2e2e2;	
+			font-weight: bold;
+        }	
+	    .Heading_Table1_Right
+        {
+            width: 50px;
+			font-size: 100%;
+			text-align:right;
+			color:#336699;
+			border-bottom: 1px solid #e2e2e2;	
+		}	
+	    .Heading_Table2_Left
+        {
+            width: 135px;
+			font-size: 100%;
+			color:#336699;
+			border-bottom: 1px solid #e2e2e2;
+			font-weight: bold;			
+        }	
+	    .Heading_Table2_Right
+        {
+            width: 135px;
+			font-size: 100%;
+			text-align:right;
+			color:#336699;
+			border-bottom: 1px solid #e2e2e2;	
+			font-weight: bold;			
+		}			
+        .Space
+        {
+            width: 30px;
+			height: 10px;
+        }
+
