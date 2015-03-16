@@ -15,9 +15,21 @@ namespace DisplayMonkey
     /// <summary>
     /// Summary description for DataAccess
     /// </summary>
-    public class DataAccess
+    public static class DataAccess
     {
-		public static void ExecuteNonQuery(SqlCommand cmd)
+        public static SqlConnection Connection
+        {
+            get
+            {
+                if (_cnn == null)
+                    _cnn = new SqlConnection(ConnectionString);
+                if (_cnn.State == ConnectionState.Broken || _cnn.State == ConnectionState.Closed)
+                    _cnn.Open();
+                return _cnn;
+            }
+        }
+
+        public static void ExecuteNonQuery(SqlCommand cmd)
 		{
 			try
 			{
@@ -78,6 +90,26 @@ namespace DisplayMonkey
             return BooleanOrDefault(o, false);
         }
 
+        public static bool BooleanOrDefault(this SqlParameter param, bool _default)
+        {
+            return BooleanOrDefault(param.Value, _default);
+        }
+
+        public static bool Boolean(this SqlParameter param)
+        {
+            return Boolean(param.Value);
+        }
+
+        public static bool BooleanOrDefault(this DataRow row, string column, bool _default)
+        {
+            return BooleanOrDefault(row[column], _default);
+        }
+
+        public static bool Boolean(this DataRow row, string column)
+        {
+            return Boolean(row[column]);
+        }
+
         public static int IntOrDefault(object o, int _default)
         {
             int ret = _default;
@@ -95,6 +127,26 @@ namespace DisplayMonkey
         public static int IntOrZero(object o)
         {
             return IntOrDefault(o, 0);
+        }
+
+        public static int IntOrDefault(this SqlParameter param, int _default)
+        {
+            return IntOrDefault(param.Value, _default);
+        }
+
+        public static int IntOrZero(this SqlParameter param)
+        {
+            return IntOrZero(param.Value);
+        }
+
+        public static int IntOrDefault(this DataRow row, string column, int _default)
+        {
+            return IntOrDefault(row[column], _default);
+        }
+
+        public static int IntOrZero(this DataRow row, string column)
+        {
+            return IntOrZero(row[column]);
         }
 
         public static double DoubleOrDefault(object o, double _default)
@@ -116,6 +168,26 @@ namespace DisplayMonkey
             return DoubleOrDefault(o, 0);
         }
 
+        public static double DoubleOrDefault(this SqlParameter param, double _default)
+        {
+            return DoubleOrDefault(param.Value, _default);
+        }
+
+        public static double DoubleOrZero(this SqlParameter param)
+        {
+            return DoubleOrZero(param.Value);
+        }
+
+        public static double DoubleOrDefault(this DataRow row, string column, double _default)
+        {
+            return DoubleOrDefault(row[column], _default);
+        }
+
+        public static double DoubleOrZero(this DataRow row, string column)
+        {
+            return DoubleOrZero(row[column]);
+        }
+
         public static string StringOrDefault(object o, string _default)
         {
             string ret = _default;
@@ -135,19 +207,27 @@ namespace DisplayMonkey
             return StringOrDefault(o, "");
         }
 
-        public static SqlConnection Connection
-		{
-			get
-			{
-				if (_cnn == null)
-					_cnn = new SqlConnection(ConnectionString);
-				if (_cnn.State == ConnectionState.Broken || _cnn.State == ConnectionState.Closed)
-					_cnn.Open();
-				return _cnn;
-			}
-		}
+        public static string StringOrBlank(this SqlParameter param)
+        {
+            return StringOrBlank(param.Value);
+        }
 
-		#region Private Members //////////////////////////////////////////////
+        public static string StringOrDefault(this SqlParameter param, string _default)
+        {
+            return StringOrDefault(param.Value, _default);
+        }
+
+        public static string StringOrBlank(this DataRow row, string column)
+        {
+            return StringOrBlank(row[column]);
+        }
+
+        public static string StringOrDefault(this DataRow row, string column, string _default)
+        {
+            return StringOrDefault(row[column], _default);
+        }
+
+        #region Private Members //////////////////////////////////////////////
 
 		private static string ConnectionString
 		{

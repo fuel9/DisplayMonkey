@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.IO;
-using System.Data;
+//using System.Data;
 using System.Configuration;
 using System.Net;
-using System.Drawing;
-using System.Drawing.Imaging;
+//using System.Drawing;
+//using System.Drawing.Imaging;
 
 namespace DisplayMonkey
 {
@@ -25,33 +25,15 @@ namespace DisplayMonkey
 			{
 				int frameId = Convert.ToInt32(Request.QueryString["frame"]);
 
-				string sql = string.Format(
-					"SELECT TOP 1 p.Mode, p.Path, l.Width, l.Height, s.BaseUrl, s.[User], s.Domain, s.Password FROM Report p INNER JOIN ReportServer s on s.ServerId=p.ServerId INNER JOIN Frame f on f.FrameId=p.FrameId INNER JOIN Panel l on l.PanelId=f.PanelId WHERE p.FrameId={0}; ",
-					frameId
-					);
+                Report report = new Report(frameId);
+                Panel panel = new Panel(report.PanelId);
 
 				byte[] data = null;
-				int panelHeight = 0, panelWidth = 0;
-				PictureMode mode = PictureMode.CROP;
-                string user = null, domain = null;
-                byte [] password = null;
-                string baseUrl = "", url = "";
-
-				using (DataSet ds = DataAccess.RunSql(sql))
-				{
-					if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
-					{
-						DataRow dr = ds.Tables[0].Rows[0];
-						mode = (PictureMode)DataAccess.IntOrZero(dr["Mode"]);
-						url = DataAccess.StringOrBlank(dr["Path"]).Trim();
-						panelHeight = DataAccess.IntOrZero(dr["Height"]);
-						panelWidth = DataAccess.IntOrZero(dr["Width"]);
-                        baseUrl = DataAccess.StringOrBlank(dr["BaseUrl"]).Trim();
-                        user = DataAccess.StringOrBlank(dr["User"]);
-                        domain = DataAccess.StringOrBlank(dr["Domain"]);
-                        password = (byte[])dr["Password"];
-                    }
-				}
+				int panelHeight = panel.Height, panelWidth = panel.Width;
+				PictureMode mode = report.Mode;
+                string user = report.User, domain = report.Domain;
+                string baseUrl = report.BaseUrl, url = report.Path;
+                byte[] password = report.Password;
 
                 if (baseUrl.EndsWith("/"))
                     baseUrl = baseUrl.Substring(0, baseUrl.Length - 1);

@@ -5,68 +5,36 @@ using System.Web;
 using System.Data;
 using System.Data.SqlClient;
 using System.IO;
+using System.Runtime.Serialization;
 
 namespace DisplayMonkey
 {
-	public class Memo : Frame
+    public class Memo : Frame
 	{
-		public Memo(int frameId, int panelId)
-		{
-			PanelId = panelId;
-			_templatePath = HttpContext.Current.Server.MapPath("~/files/frames/memo.htm");
-			string sql = string.Format("SELECT TOP 1 * FROM Memo WHERE FrameId={0}", frameId);
+        public string Subject { get; private set; }
+        public string Body { get; private set; }
 
-			using (DataSet ds = DataAccess.RunSql(sql))
-			{
-				if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
-				{
-					DataRow dr = ds.Tables[0].Rows[0];
-					FrameId = DataAccess.IntOrZero(dr["FrameId"]);
-					Subject = DataAccess.StringOrBlank(dr["Subject"]);
-					Body = DataAccess.StringOrBlank(dr["Body"]);
-				}
-			}
-		}
+        public Memo(Frame frame)
+            : base(frame)
+        {
+            _init();
+        }
 
-        public override string Payload
-		{
-			get
-			{
-				string html = "";
-				try
-				{
-					// load template
-					string template = File.ReadAllText(_templatePath);
+        private void _init()
+        {
+            string sql = string.Format("SELECT TOP 1 * FROM Memo WHERE FrameId={0}", FrameId);
 
-					// fill template
-					if (FrameId > 0)
-					{
-						HttpServerUtility util = HttpContext.Current.Server;
-						html = string.Format(template,
-                            FrameId,
-							util.HtmlEncode(Subject),
-							util.HtmlEncode(Body).Replace("\r\n", "<br>").Replace("\r", "\n").Replace("\n", "<br>")
-							);
-					}
-				}
+            using (DataSet ds = DataAccess.RunSql(sql))
+            {
+                if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                {
+                    DataRow dr = ds.Tables[0].Rows[0];
+                    Subject = dr.StringOrBlank("Subject");
+                    Body = dr.StringOrBlank("Body");
+                }
+            }
 
-				catch (Exception ex)
-				{
-					html = ex.Message;
-				}
-
-				// return html
-				return html;
-			}
-		}
-
-		/*
-			<style type="text/css" scoped>
-			...
-			</style>
-		 * */
-
-		public string Subject;
-		public string Body;
+            _templatePath = HttpContext.Current.Server.MapPath("~/files/frames/memo/default.htm");
+        }
 	}
 }

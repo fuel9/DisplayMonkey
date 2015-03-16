@@ -1,5 +1,6 @@
 ﻿// 2014-11-18 [LTL] - outlook BEGIN
 // 2015-02-06 [LTL] - added isReady method
+// 2015-03-08 [LTL] - using data
 
 var Outlook = Class.create(PeriodicalExecuter, {
     initialize: function ($super, options) {
@@ -8,7 +9,7 @@ var Outlook = Class.create(PeriodicalExecuter, {
         this.updating = false;
         this.finishedLoading = false;
         this.div = options.div;
-        this.frameId = options.div.dataset.frameId || 0;
+        this.frameId = options.data.FrameId || 0;
         this.panelId = options.panelId || 0;
         if (!this.div || !this.panelId || !this.frameId)
             return;

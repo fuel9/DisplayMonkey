@@ -7,72 +7,69 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Net;
 using Microsoft.Exchange.WebServices.Data;
+using System.Web.Script.Serialization;
 
 namespace DisplayMonkey
 {
 	public class Outlook : Frame
 	{
-        public Outlook(int frameId, int panelId)
-			: base()
-		{
-			PanelId = panelId;
-			_templatePath = HttpContext.Current.Server.MapPath("~/files/frames/outlook.htm");
-			string sql = string.Format("SELECT TOP 1 o.*, Account, Password, Url, EwsVersion FROM Outlook o inner join ExchangeAccount x on x.AccountId=o.AccountId WHERE o.FrameId={0}", frameId);
+        public string Name { get; private set; }
+        
+        [ScriptIgnore]
+        public int Mode { get; private set; }
+        [ScriptIgnore]
+        public string Account { get; private set; }
+        [ScriptIgnore]
+        public byte[] Password { get; private set; }
+        [ScriptIgnore]
+        public string Mailbox { get; private set; }
+        [ScriptIgnore]
+        public int ShowEvents { get; private set; }
+        [ScriptIgnore]
+        public ExchangeVersion EwsVersion { get; private set; }
+        [ScriptIgnore]
+        public string URL { get; private set; }
 
-			using (DataSet ds = DataAccess.RunSql(sql))
-			{
-				if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
-				{
-					DataRow dr = ds.Tables[0].Rows[0];
-					FrameId = DataAccess.IntOrZero(dr["FrameId"]);
-                    Account = DataAccess.StringOrBlank(dr["Account"]).Trim();
-                    Password = (byte[])dr["Password"];
-                    Mode = DataAccess.IntOrZero(dr["Mode"]);
-                    EwsVersion = (ExchangeVersion)DataAccess.IntOrZero(dr["EwsVersion"]);
-                    ShowEvents = DataAccess.IntOrZero(dr["ShowEvents"]);
-                    if (ShowEvents < 0)
-                        ShowEvents = 0;
-                    Mailbox = DataAccess.StringOrBlank(dr["Mailbox"]).Trim();
-                    if (string.IsNullOrWhiteSpace(Mailbox))
-                        Mailbox = Account;
-                    Name = DataAccess.StringOrBlank(dr["Name"]).Trim();
-                    URL = DataAccess.StringOrBlank(dr["Url"]).Trim();
-				}
-			}
-		}
-
-        public override string Payload
+        public Outlook(int frameId, int panelId = 0)
+            : base(frameId, panelId)
         {
-            get
-            {
-                string html = "";
-                try
-                {                 
-                    // load template
-                    string template = File.ReadAllText(_templatePath);
-
-                    //HttpServerUtility util = HttpContext.Current.Server;
-                    html = string.Format(template,
-                        FrameId
-                        );
-                }
-
-                //catch (ServiceResponseException ex)
-                catch (Exception ex)
-                {
-                    html = ex.Message;
-                }
-
-                return html;
-            }
+            _init();
         }
 
-        public string Name = null;
-        public int Mode = 0;
-        public string Account = null;
-        public byte[] Password = null;
-        public string Mailbox = null;
-        public int ShowEvents = 10;
-        public ExchangeVersion EwsVersion = ExchangeVersion.Exchange2007_SP1;
+        public Outlook(Frame frame)
+            : base(frame)
+        {
+            _init();
+        }
+
+        private void _init()
+        {
+            string sql = string.Format(
+                "SELECT TOP 1 o.*, Account, Password, Url, EwsVersion FROM Outlook o inner join ExchangeAccount x on x.AccountId=o.AccountId WHERE o.FrameId={0}", 
+                FrameId
+                );
+
+            using (DataSet ds = DataAccess.RunSql(sql))
+            {
+                if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                {
+                    DataRow dr = ds.Tables[0].Rows[0];
+                    Account = dr.StringOrBlank("Account").Trim();
+                    Password = (byte[])dr["Password"];
+                    Mode = dr.IntOrZero("Mode");
+                    EwsVersion = (ExchangeVersion)dr.IntOrZero("EwsVersion");
+                    ShowEvents = dr.IntOrZero("ShowEvents");
+                    if (ShowEvents < 0)
+                        ShowEvents = 0;
+                    Mailbox = dr.StringOrBlank("Mailbox").Trim();
+                    if (string.IsNullOrWhiteSpace(Mailbox))
+                        Mailbox = Account;
+                    Name = dr.StringOrBlank("Name").Trim();
+                    URL = dr.StringOrBlank("Url").Trim();
+                }
+            }
+
+            _templatePath = HttpContext.Current.Server.MapPath("~/files/frames/outlook/default.htm");
+        }
     }
 }

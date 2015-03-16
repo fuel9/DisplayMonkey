@@ -1,10 +1,11 @@
-// 12-08-13 [DPA] - client side scripting BEGIN
-// 14-10-06 [LTL] - reload when display hash changes
-// 14-10-11 [LTL] - error reporting
-// 14-10-16 [LTL] - YouTube support
-// 14-10-25 [LTL] - use strict, code improvements
-// 15-01-30 [LTL] - minor code improvements
-// 15-02-06 [LTL] - major overhaul
+// 2012-08-13 [DPA] - client side scripting BEGIN
+// 2014-10-06 [LTL] - reload when display hash changes
+// 2014-10-11 [LTL] - error reporting
+// 2014-10-16 [LTL] - YouTube support
+// 2014-10-25 [LTL] - use strict, code improvements
+// 2015-01-30 [LTL] - minor code improvements
+// 2015-02-06 [LTL] - major overhaul
+// 2015-03-08 [LTL] - using data for frames
 
 var $j = jQuery.noConflict();
 
@@ -178,6 +179,7 @@ Ajax.PanelUpdaterBase = Class.create(Ajax.Base, {
 		this.frequency = (this.options.frequency || 1);
 		this.containerId = this.options.container; // "div" + this.panelId;
 		this.html = "";
+		this.data = {};
 		//this.hash = "";
 		this.object = null;
 
@@ -204,8 +206,6 @@ Ajax.PanelUpdaterBase = Class.create(Ajax.Base, {
 	        "panel":    this.panelId,
 	        "display":  _canvas.displayId,
 	        "culture":  _canvas.culture,
-	        "woeid":    _canvas.woeid,
-		    "tempU":    _canvas.temperatureUnit,
 	    });
 		new Ajax.Request("getNextFrame.ashx", {
 			method: 'get'
@@ -224,6 +224,7 @@ Ajax.PanelUpdaterBase = Class.create(Ajax.Base, {
 				    //console.log($H(json).inspect());
 
                     // get duration first
+				    p.data = $(json);
 				    p.frequency = json["Duration"];
 				    if (p.frequency == null || p.frequency <= 0)
 				        p.frequency = 1;
@@ -304,56 +305,104 @@ Ajax.PanelUpdaterBase = Class.create(Ajax.Base, {
                 });
             }
 
-            var div = null;
+            var div = null,
+                width = panel.getAttribute('data-panel-width'),
+                height = panel.getAttribute('data-panel-height')
+            ;
 
-            // start scroller
-	        if (div = panel.down('div.memo')) {
-	            obj = new TextScroller({ div: div });
-            }
-
-            // start clock
-	        else if (div = panel.down('div.clock')) {
+            // clock
+	        if (div = panel.down('div.clock')) {
 	            obj = new Clock({
 	                div: div,
-	                width: panel.getAttribute('data-panel-width'),
-	                height: panel.getAttribute('data-panel-height')
+	                data: this.data,
+	                panelId: this.panelId,
+	                width: width,
+	                height: height
+	            });
+	        }
+
+	        // html
+	        else if (div = panel.down('iframe.html')) {
+	            obj = new Iframe({
+	                div: div,
+	                data: this.data,
+	                panelId: this.panelId,
+	                width: width,
+	                height: height
+	            });
+	        }
+
+            // memo
+	        else if (div = panel.down('div.memo')) {
+	            obj = new Memo({
+	                div: div,
+	                data: this.data,
+	                panelId: this.panelId,
+	                width: width,
+	                height: height
+	            });
+	        }
+
+	        // outlook
+	        else if (div = panel.down('div.outlook')) {
+	            obj = new Outlook({
+	                div: div,
+	                data: this.data,
+	                panelId: this.panelId,
+	                width: width,
+	                height: height
 	            });
 	        }
 
 	        // picture or report
 	        else if (div = panel.down('div.picture, div.report')) {
-	            obj = new Picture({ div: div });
+	            obj = new Picture({
+	                div: div,
+	                data: this.data,
+	                panelId: this.panelId,
+	                width: width,
+	                height: height
+	            });
 	        }
 
-	        // iframe
-	        else if (div = panel.down('iframe.html')) {
-	            obj = new Iframe({ div: div });
-	        }
-
-	        // start video
-	        else if ((div = panel.down('video')) && _canvas.supports_video) {
+	        // video
+	        else if ((div = panel.down('div.video')) && _canvas.supports_video) {
 	            obj = new Video({
 	                div: div,
+	                data: this.data,
+	                panelId: this.panelId,
+	                width: width,
+	                height: height,
 	                play: (this instanceof Ajax.FullScreenPanelUpdater || !_canvas.fullScreenActive)
 	            });
             }
 
-            // start youtube
-	        else if (div = panel.down('div[id^=ytplayer]')) {
-	            obj = new YtLib.YtPlayer({ div: div });
-            }
-
-            // start outlook
-	        else if (div = panel.down('div.outlook')) {
-	            obj = new Outlook({
+	        // weather
+	        else if (div = panel.down('div.weather')) {
+	            obj = new Weather({
 	                div: div,
-	                panelId: this.panelId
+	                data: this.data,
+	                panelId: this.panelId,
+	                width: width,
+	                height: height
 	            });
 	        }
 
+            // youtube
+	        //else if (div = panel.down('div.ytplayer')) {
+	        else if (div = panel.down('div.youtube')) {
+	            obj = new YtLib.YtPlayer({
+	                div: div, 
+	                data: this.data,
+	                panelId: this.panelId,
+	                width: width,
+	                height: height
+	            });
+            }
+
             // immune to full frame
-	        if (this instanceof Ajax.PanelUpdater)
-	            this.freezeOnFullScreen = (this.currentType != "WEATHER");
+	        //if (this instanceof Ajax.PanelUpdater)
+	        //    this.freezeOnFullScreen = (this.currentType != "WEATHER");
         }
 	    catch (e) {
 	        new ErrorReport({ exception: e, source: "_initFrame" }); // <-- shouldn't get here

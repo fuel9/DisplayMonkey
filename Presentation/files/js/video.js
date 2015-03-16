@@ -1,29 +1,35 @@
 ﻿// 2015-02-06 [LTL] - object for reports and pictures
+// 2015-03-08 [LTL] - using data
 
 var Video = Class.create({
     initialize: function (options) {
         "use strict";
-        this.div = options.div;
         this.finishedLoading = false;
+        var div = $(options.div);
 
-        var a;
-        if (a = this.div.readAttribute('loop')) this.div.loop = a;
-        if (a = this.div.readAttribute('muted')) this.div.muted = a;
-        if (options.play) this.play();
-        var vc = this.div.up('div.videoContainer');
-        if (vc) {
-            vc.style.backgroundColor = _canvas.backColor;
-        }
+        div.style.backgroundColor = _canvas.backColor;
+        var video = this.video = div.select('video')[0];
+        video.loop = !!options.data.AutoLoop;
+        video.muted = !!options.data.PlayMuted;
+        video.update(options.data.NoVideoSupport);
+        options.data.VideoAlternatives.each(function (va) {
+            var e = new Element("source", {
+                src: "getVideo.ashx?" + $H({content: va.ContentId, frame: options.data.FrameId}).toQueryString(),
+                type: va.MimeType
+            });
+            video.insert({ top: e });
+        });
+        if (options.play) video.play();
 
-        this.div.observe('loadeddata', function () {
+        div.observe('loadeddata', function () {
             this.finishedLoading = true;
-            //console.log("video " + vc.id + " finished loading");
+            //console.log("video " + div.id + " finished loading");
         }.bind(this));
     },
 
     stop: function () {
         "use strict";
-        this.div.pause();
+        this.video.pause();
     },
 
     pause: function () {
@@ -33,7 +39,7 @@ var Video = Class.create({
 
     play: function () {
         "use strict";
-        this.div.play();
+        this.video.play();
     },
 
     isReady: function () {

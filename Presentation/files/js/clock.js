@@ -1,25 +1,22 @@
-﻿// 12-08-13 [DPA] - client side scripting BEGIN
-// 14-10-25 [LTL] - use strict, code improvements
-// 15-02-15 [LTL] - SVG analog face
+﻿// 2012-08-13 [DPA] - client side scripting BEGIN
+// 2014-10-25 [LTL] - use strict, code improvements
+// 2015-02-15 [LTL] - SVG analog face
+// 2015-03-08 [LTL] - using data
 
 var Clock = Class.create({
     initialize: function (options) {
         "use strict";
         this.div = options.div;
-        var frameData = this.div.readAttribute("data-frame");
-        if (frameData.isJSON())
-            frameData = frameData.evalJSON();
-        this.showDate = !!frameData.showDate;
-        this.showTime = !!frameData.showTime;
-        this.faceType = frameData.type || 0;
+        this.showDate = !!options.data.ShowDate;
+        this.showTime = !!options.data.ShowTime;
+        this.faceType = options.data.Type || 0;
         this.panelWidth = options.width || 0;
         this.panelHeight = options.height || 0;
         var time = moment();
-        this.offsetMilliseconds = time.diff(frameData.offsetGmt ?
-            _canvas.serverTime.add(frameData.offsetGmt, 'h') :
+        this.offsetMilliseconds = time.diff(options.data.OffsetGmt ?
+            _canvas.serverTime.add(options.data.OffsetGmt, 'h') :
             _canvas.locationTime);
-        this.showSeconds = !!frameData.showSeconds;
-        this.cssClass = frameData.cssClass;
+        this.showSeconds = !!options.data.ShowSeconds;
         this.useSvg = document.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1");
 
         switch (this.faceType) {
@@ -28,7 +25,7 @@ var Clock = Class.create({
             default: this._initText(); break;
         }
 
-        var label = this.div.select('div.clockLabel')[0];
+        var label = this.div.select('.clockLabel')[0];
         if (label.innerText === '')
             label.hide();
 

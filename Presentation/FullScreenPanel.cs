@@ -37,8 +37,8 @@ namespace DisplayMonkey
 
 		public void InitFromCanvasRow(DataRow r)
 		{
-			Width = DataAccess.IntOrZero(r["Width"]);
-			Height = DataAccess.IntOrZero(r["Height"]);
+			Width = r.IntOrZero("Width");
+			Height = r.IntOrZero("Height");
 		}
 
 		public override string Style

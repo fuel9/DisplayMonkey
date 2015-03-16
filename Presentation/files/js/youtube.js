@@ -1,6 +1,7 @@
 ﻿// 2014-10-11 [LTL] - YouTube script BEGIN
 // 2014-10-24 [LTL] - use strict
 // 2015-02-06 [LTL] - added isReady method
+// 2015-03-08 [LTL] - using data
 
 // 1. This code initiates load of the IFrame Player API code asynchronously.
 var YtLib = {
@@ -11,11 +12,11 @@ var YtLib = {
     load: function (div) {
         "use strict";
         if (!this.initialized) {
+            this.initialized = true;
             var lib = new Element('script', {
                 src: 'https:'.concat('//www.youtube.com/iframe_api')
             });
             $$('script').last().insert({ after: lib });
-            this.initialized = true;
         }
     }
 };
@@ -38,17 +39,16 @@ YtLib.YtPlayer = Class.create({
         this.finishedLoading = false;
         var div = $(options.div);
         this.id = div.id;
-        this.width = div.readAttribute('data-width') || div.parentNode.clientWidth;
-        var aspect = div.readAttribute('data-aspect')|| 0;
+        this.width = options.width || div.parentNode.clientWidth;
+        var aspect = options.data.Aspect || 0;
         switch (Number(aspect)) {
             case 1: aspect = (16 / 9); break;
             case 2: aspect = (4 / 3); break;
-            default: aspect = this.width / div.readAttribute('data-height'); break;
+            default: aspect = this.width / options.height; break;
         }
-        aspect = options.aspect || aspect || (16 / 9);
         this.height = Math.ceil(this.width / aspect);
-        this.videoId = div.readAttribute('data-content');
-        var quality = div.readAttribute('data-quality') || 0;
+        this.videoId = options.data.YoutubeId;
+        var quality = options.data.Quality || 0;
         switch (Number(quality)) {
             case 1: this.quality = "small"; break;     // 320x240
             case 2: this.quality = "medium"; break;    // 640x360 or 480x360
@@ -58,8 +58,8 @@ YtLib.YtPlayer = Class.create({
             case 6: this.quality = "highres"; break;   // above 1080
             default: this.quality = "default"; break;
         }
-        this.start = div.readAttribute('data-start') || 0;
-        var rate = div.readAttribute('data-rate') || 0;
+        this.start = options.data.Start || 0;
+        var rate = options.data.Rate || 0;
         switch (Number(rate)) {
             case 1: this.rate = 0.25; break;           // very slow
             case 2: this.rate = 0.5; break;            // slow
@@ -67,8 +67,8 @@ YtLib.YtPlayer = Class.create({
             case 4: this.rate = 2.0; break;            // very fast
             default: this.rate = 1.0; break;           // normal
         }
-        this.loop = div.readAttribute('data-loop') == '1';
-        this.volume = div.readAttribute('data-volume') || 0;
+        this.loop = !!options.data.AutoLoop;
+        this.volume = options.data.Volume || 0;
         if (this.volume > 100) this.volume = 100;
         this.show();
     },

@@ -7,30 +7,42 @@ div.fullpanel {
 div.panel {
 }
 
-div.clock {
+.clock {
 }
 
-div.weather {
+    .clock .clockLabel{
+    }
+
+.weather {
 }
 
 iframe.html {
 }
 
-div.memo {
+.memo {
+}
+	
+	.memo .subject {
+	}
+
+	.memo .body {
+	}
+
+.outlook {
 }
 
-div.outlook {
+.picture {
 }
 
-div.picture {
+.report {
 }
 
-div.report {
+.video {
 }
 
-div.videoContainer {
-}
+    video.videoPlayer {
+    }
 
-div.ytcontainer {
+.youtube {
 }
 

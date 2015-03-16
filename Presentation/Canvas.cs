@@ -59,14 +59,14 @@ namespace DisplayMonkey
 		
 		public void InitFromRow(DataRow r)
 		{
-			CanvasId = DataAccess.IntOrZero(r["CanvasId"]);
-			Height = DataAccess.IntOrZero(r["Height"]);
-			Width = DataAccess.IntOrZero(r["Width"]);
-			BackgroundColor = DataAccess.StringOrBlank(r["BackgroundColor"]);
+			CanvasId = r.IntOrZero("CanvasId");
+			Height = r.IntOrZero("Height");
+			Width = r.IntOrZero("Width");
+			BackgroundColor = r.StringOrBlank("BackgroundColor");
 			if (BackgroundColor == "")
 				BackgroundColor = "transparent";
-			BackgroundImage = DataAccess.IntOrZero(r["BackgroundImage"]);
-			Name = DataAccess.StringOrBlank(r["Name"]);
+			BackgroundImage = r.IntOrZero("BackgroundImage");
+			Name = r.StringOrBlank("Name");
 			if (Name == "")
 				Name = string.Format("Canvas {0}", CanvasId);
 		}
@@ -84,7 +84,7 @@ namespace DisplayMonkey
 					// list registered canvases
 					foreach (DataRow r in ds.Tables[0].Rows)
 					{
-						Canvas canvas = new Canvas(DataAccess.IntOrZero(r["CanvasId"]));
+						Canvas canvas = new Canvas(r.IntOrZero("CanvasId"));
 						list.Add(canvas);
 					}
 				}
@@ -211,13 +211,14 @@ namespace DisplayMonkey
 			
             // frame scripts
             "files/js/moment.min.js",
-			"files/js/scroller.js",
 			"files/js/clock.js",
-            "files/js/youtube.js",
+            "files/js/iframe.js",
+			"files/js/memo.js",
             "files/js/outlook.js",
             "files/js/picture.js",
             "files/js/video.js",
-            "files/js/iframe.js",
+            "files/js/weather.js",
+            "files/js/youtube.js",
 
             // comes last:
 			"files/js/canvas.js"

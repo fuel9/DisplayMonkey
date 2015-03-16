@@ -5,39 +5,59 @@ using System.Web;
 using System.Data;
 using System.Data.SqlClient;
 using System.IO;
+using System.Web.Script.Serialization;
 
 namespace DisplayMonkey
 {
-	public class Report : Picture
+	public class Report : Frame
 	{
-		public Report(int frameId, int panelId)
-			: base()
-		{
-			PanelId = panelId;
-			_templatePath = HttpContext.Current.Server.MapPath("~/files/frames/report.htm");
-			string sql = string.Format("SELECT TOP 1 * FROM Report WHERE FrameId={0}", frameId);
+        public string Name { get; protected set; }
+        public PictureMode Mode { get; protected set; }
 
-			using (DataSet ds = DataAccess.RunSql(sql))
-			{
-				if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
-				{
-					DataRow dr = ds.Tables[0].Rows[0];
-					FrameId = DataAccess.IntOrZero(dr["FrameId"]);
-					Path = DataAccess.StringOrBlank(dr["Path"]);
-					Mode = (PictureMode)DataAccess.IntOrZero(dr["Mode"]);
-					Name = DataAccess.StringOrBlank(dr["Name"]);
-				}
-			}
-		}
+        [ScriptIgnore]
+        public string Path { get; private set; }
+        [ScriptIgnore]
+        public string BaseUrl { get; private set; }
+        [ScriptIgnore]
+        public string User { get; private set; }
+        [ScriptIgnore]
+        public string Domain { get; private set; }
+        [ScriptIgnore]
+        public byte[] Password { get; private set; }
 
-		protected override string GetUrl()
-		{
-			return string.Format(
-				"getReport.ashx?frame={0}",
-				FrameId
-				);
-		}
+        public Report(Frame frame)
+            : base(frame)
+        {
+            _init();
+        }
 
-		public string Path = "";
+        public Report(int frameId, int panelId = 0)
+            : base(frameId, panelId)
+        {
+            _init();
+        }
+
+        private void _init()
+        {
+            string sql = string.Format("SELECT TOP 1 r.*, s.BaseUrl, s.[User], s.Domain, s.Password FROM Report r INNER JOIN ReportServer s on s.ServerId=r.ServerId WHERE FrameId={0}", FrameId);
+
+            using (DataSet ds = DataAccess.RunSql(sql))
+            {
+                if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                {
+                    DataRow dr = ds.Tables[0].Rows[0];
+                    Path = dr.StringOrBlank("Path").Trim();
+                    Mode = (PictureMode)dr.IntOrZero("Mode");
+                    Name = dr.StringOrBlank("Name");
+
+                    BaseUrl = dr.StringOrBlank("BaseUrl").Trim();
+                    User = dr.StringOrBlank("User").Trim();
+                    Domain = dr.StringOrBlank("Domain").Trim();
+                    Password = (byte[])dr["Password"];
+                }
+            }
+
+            _templatePath = HttpContext.Current.Server.MapPath("~/files/frames/report/default.htm");
+        }
 	}
 }

@@ -33,12 +33,12 @@ namespace DisplayMonkey
 
 		public void InitFromRow(DataRow r)
 		{
-			PanelId = DataAccess.IntOrZero(r["PanelId"]);
-			Top = DataAccess.IntOrZero(r["Top"]);
-			Left = DataAccess.IntOrZero(r["Left"]);
-			Width = DataAccess.IntOrZero(r["Width"]);
-			Height = DataAccess.IntOrZero(r["Height"]);
-			Name = DataAccess.StringOrBlank(r["Name"]);
+			PanelId = r.IntOrZero("PanelId");
+			Top = r.IntOrZero("Top");
+			Left = r.IntOrZero("Left");
+			Width = r.IntOrZero("Width");
+			Height = r.IntOrZero("Height");
+			Name = r.StringOrBlank("Name").Trim();
 			if (Name == "")
 				Name = string.Format("Panel {0}", PanelId);
 		}
@@ -74,13 +74,13 @@ namespace DisplayMonkey
 				list.Capacity = ds.Tables[0].Rows.Count;
 
 				DataRow fs = ds.Tables[1].Rows[0];
-				int fullScreenPanelId = DataAccess.IntOrZero(fs["PanelId"]);
+				int fullScreenPanelId = fs.IntOrZero("PanelId");
 
 				// list canvas panels
 				foreach (DataRow r in ds.Tables[0].Rows)
 				{
 					Panel panel = null;
-					int panelId = DataAccess.IntOrZero(r["PanelId"]);
+					int panelId = r.IntOrZero("PanelId");
 
 					if (panelId == fullScreenPanelId)
 						panel = new FullScreenPanel()
@@ -88,19 +88,19 @@ namespace DisplayMonkey
 							PanelId = panelId,
 							Top = 0,
 							Left = 0,
-							Height = DataAccess.IntOrZero(fs["Height"]),
-							Width = DataAccess.IntOrZero(fs["Width"]),
-							Name = DataAccess.StringOrBlank(r["Name"]),
+							Height = fs.IntOrZero("Height"),
+							Width = fs.IntOrZero("Width"),
+							Name = r.StringOrBlank("Name"),
 						};
 					else
 						panel = new Panel()
 						{
 							PanelId = panelId,
-							Top = DataAccess.IntOrZero(r["Top"]),
-							Left = DataAccess.IntOrZero(r["Left"]),
-							Height = DataAccess.IntOrZero(r["Height"]),
-							Width = DataAccess.IntOrZero(r["Width"]),
-							Name = DataAccess.StringOrBlank(r["Name"]),
+							Top = r.IntOrZero("Top"),
+							Left = r.IntOrZero("Left"),
+							Height = r.IntOrZero("Height"),
+							Width = r.IntOrZero("Width"),
+							Name = r.StringOrBlank("Name"),
 						};
 
 					if (panel.Name == "")

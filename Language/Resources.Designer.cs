@@ -385,6 +385,15 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Your browser doesn&apos;t support this frame type, please upgrade your browser..
+        /// </summary>
+        public static string BrowserNoVideoSupport {
+            get {
+                return ResourceManager.GetString("BrowserNoVideoSupport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to bytes.
         /// </summary>
         public static string Bytes {

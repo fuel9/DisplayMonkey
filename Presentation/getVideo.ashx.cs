@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.IO;
-using System.Data;
-using System.Drawing;
-using System.Drawing.Imaging;
+//using System.Drawing;
+//using System.Drawing.Imaging;
 
 namespace DisplayMonkey
 {
@@ -25,22 +24,9 @@ namespace DisplayMonkey
 			try
 			{
 				int contentId = Convert.ToInt32(Request.QueryString["content"]);
-
-				string sql = string.Format(
-					"SELECT TOP 1 Data, Name FROM Content WHERE ContentId={0}; ",
-					contentId
-					);
-
-				using (DataSet ds = DataAccess.RunSql(sql))
-				{
-					if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
-					{
-						DataRow dr = ds.Tables[0].Rows[0];
-						if (dr["Data"] != DBNull.Value)
-							data = (byte[])dr["Data"];
-						mediaName = DataAccess.StringOrBlank(dr["Name"]);
-					}
-				}
+                Content content = new Content(contentId);
+                data = content.Data;
+                mediaName = content.Name;
 			}
 
 			catch (Exception ex)

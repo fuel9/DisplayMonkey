@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.IO;
-using System.Data;
+//using System.Data;
 using System.Configuration;
 using System.Net;
 //using System.Drawing;
@@ -27,19 +27,7 @@ namespace DisplayMonkey
 			{
                 int frameId = Convert.ToInt32(Request.QueryString["frame"]);
 
-                string html = "", sql = string.Format(
-                    "SELECT TOP 1 Content FROM Html WHERE FrameId={0};",
-                    frameId
-                    );
-
-                using (DataSet ds = DataAccess.RunSql(sql))
-                {
-                    if (ds.Tables[0].Rows.Count > 0)
-                    {
-                        DataRow dr = ds.Tables[0].Rows[0];
-                        html = DataAccess.StringOrBlank(dr["Content"]);
-                    }
-                }
+                Html html = new Html(frameId);
 
                 //SecureString ssPassword = new SecureString();
                 //foreach (char c in "xxxxxx")
@@ -57,7 +45,7 @@ namespace DisplayMonkey
                 Response.Cache.SetSlidingExpiration(true);
                 Response.Cache.SetNoStore();
                 Response.ContentType = "text/html";
-                Response.Output.Write(html);
+                Response.Output.Write(html.Content);
                 Response.Output.Flush();
             }
 

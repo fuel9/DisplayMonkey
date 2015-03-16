@@ -4,7 +4,10 @@ var Iframe = Class.create({
     initialize: function (options) {
         "use strict";
         this.finishedLoading = false;
-        $(options.div).observe('load', function () {
+        var div = $(options.div);
+        div.src = "getHtml.ashx?" + $H({ frame: options.data.FrameId }).toQueryString();
+
+        div.observe('load', function () {
             this.finishedLoading = true;
             //console.log("iframe " + options.div.id + " finished loading");
         }.bind(this));

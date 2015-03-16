@@ -5,64 +5,41 @@ using System.Web;
 using System.Data;
 using System.Data.SqlClient;
 using System.IO;
+using System.Web.Script.Serialization;
 
 namespace DisplayMonkey
 {
-	public class Html : Frame
+    public class Html : Frame
 	{
-		public Html(int frameId, int panelId)
-		{
-			PanelId = panelId;
-			_templatePath = HttpContext.Current.Server.MapPath("~/files/frames/html.htm");
-			string sql = string.Format("SELECT TOP 1 * FROM Html WHERE FrameId={0}", frameId);
+        [ScriptIgnore]
+        public string Content { get; private set; }
 
-			using (DataSet ds = DataAccess.RunSql(sql))
-			{
-				if (ds.Tables[0].Rows.Count > 0)
-				{
-					DataRow dr = ds.Tables[0].Rows[0];
-					FrameId = DataAccess.IntOrZero(dr["FrameId"]);
-				}
-			}
-		}
-
-        public override string Payload
-		{
-			get
-			{
-				string html = "";
-				try
-				{
-					// load template
-					string template = File.ReadAllText(_templatePath);
-
-					// fill template
-					if (FrameId > 0)
-					{
-						HttpServerUtility util = HttpContext.Current.Server;
-						html = string.Format(template,
-                            FrameId,
-							GetUrl(),
-                            ""
-							);
-					}
-				}
-
-				catch (Exception ex)
-				{
-					html = ex.Message;
-				}
-
-				return html;
-			}
-		}
-
-        private string GetUrl()
+        public Html(int frameId, int panelId = 0)
+            : base(frameId, panelId)
         {
-            return string.Format(
-                "getHtml.ashx?frame={0}",
-                FrameId
-                );
+            _init();
+        }
+        
+        public Html(Frame frame)
+            : base(frame)
+		{
+            _init();
+        }
+
+        private void _init()
+        {
+            string sql = string.Format("SELECT TOP 1 * FROM Html WHERE FrameId={0}", FrameId);
+
+            using (DataSet ds = DataAccess.RunSql(sql))
+            {
+                if (ds.Tables[0].Rows.Count > 0)
+                {
+                    DataRow dr = ds.Tables[0].Rows[0];
+                    Content = dr.StringOrBlank("Content");
+                }
+            }
+
+            _templatePath = HttpContext.Current.Server.MapPath("~/files/frames/html/default.htm");
         }
     }
 }

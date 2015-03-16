@@ -14,94 +14,42 @@ namespace DisplayMonkey
 
 	public class Picture : Frame
 	{
-		public Picture()
-		{
-		}
+        public string Name { get; protected set; }
+        public PictureMode Mode { get; protected set; }
+        public int ContentId { get; private set; }
+        
+        public Picture(int frameId, int panelId = 0)
+            : base(frameId, panelId)
+        {
+            _init();
+        }
 
-		public Picture(int frameId, int panelId)
-		{
-			PanelId = panelId > 0 ? panelId : GetPanelId(frameId);
-			_templatePath = HttpContext.Current.Server.MapPath("~/files/frames/picture.htm");
-			string sql = string.Format(
-				"SELECT TOP 1 i.*, Name FROM Picture i INNER JOIN Content c ON c.ContentId=i.ContentId WHERE i.FrameId={0};",
-				frameId
-				);
+        public Picture(Frame frame)
+            : base(frame)
+        {
+            _init();
+        }
 
-			using (DataSet ds = DataAccess.RunSql(sql))
-			{
-				if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
-				{
-					DataRow dr = ds.Tables[0].Rows[0];
-					FrameId = DataAccess.IntOrZero(dr["FrameId"]);
-					ContentId = DataAccess.IntOrZero(dr["ContentId"]);
-					Mode = (PictureMode)DataAccess.IntOrZero(dr["Mode"]);
-					Name = DataAccess.StringOrBlank(dr["Name"]);
-				}
-			}
-		}
+        private void _init()
+        {
+            string sql = string.Format(
+                "SELECT TOP 1 i.*, Name FROM Picture i INNER JOIN Content c ON c.ContentId=i.ContentId WHERE i.FrameId={0};",
+                FrameId
+                );
 
-        public override string Payload
-		{
-			get
-			{
-				string html = "";
-				try
-				{
-					// load template
-					string template = File.ReadAllText(_templatePath);
+            using (DataSet ds = DataAccess.RunSql(sql))
+            {
+                if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                {
+                    DataRow dr = ds.Tables[0].Rows[0];
+                    ContentId = dr.IntOrZero("ContentId");
+                    Mode = (PictureMode)dr.IntOrZero("Mode");
+                    Name = dr.StringOrBlank("Name");
+                }
+            }
 
-					// fill template
-					if (FrameId > 0)
-					{
-						string style = "";
-
-						if (Mode != PictureMode.CROP)
-						{
-							Panel panel = null;
-
-							if (Panel.IsFullScreen(PanelId))
-								panel = new FullScreenPanel(PanelId);
-							else
-								panel = new Panel(PanelId);
-
-							switch (Mode)
-							{
-								case PictureMode.FIT:
-									style = string.Format(
-										"max-width:{0}px;max-height:{1}px;", 
-										panel.Width, 
-										panel.Height
-										);
-									break;
-
-								case PictureMode.STRETCH:
-									style = string.Format(
-										"width:{0}px;height:{1}px;", 
-										panel.Width, 
-										panel.Height
-										);
-									break;
-							}
-						}
-
-						html = string.Format(template,
-                            FrameId,
-							GetUrl(),
-							style,
-							Name
-							);
-					}
-				}
-
-				catch (Exception ex)
-				{
-					html = ex.Message;
-				}
-
-				// return html
-				return html;
-			}
-		}
+            _templatePath = HttpContext.Current.Server.MapPath("~/files/frames/picture/default.htm");
+        }
 
 		public static void WriteImage(Stream inStream, Stream outStream, int boundWidth, int boundHeight, PictureMode mode)
 		{
@@ -173,18 +121,5 @@ namespace DisplayMonkey
 				GC.Collect();
 			}
 		}
-	
-		protected virtual string GetUrl()
-		{
-			return string.Format(
-				"getImage.ashx?content={0}&frame={1}", 
-				ContentId, 
-				FrameId
-				);
-		}
-
-		public string Name = "";
-		public int ContentId = 0;
-		public PictureMode Mode = PictureMode.CROP;
 	}
 }

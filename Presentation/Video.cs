@@ -11,174 +11,110 @@ namespace DisplayMonkey
 {
 	public class Video : Frame
 	{
-		public Video(int frameId, int panelId)
-		{
-			PanelId = panelId;
-			_templatePath = HttpContext.Current.Server.MapPath("~/files/frames/video.htm");
-			
-			string sql = string.Format(
-				"SELECT TOP 1 * FROM Video WHERE FrameId={0};",
-				frameId
-				);
+        public bool PlayMuted { get; private set; }
+        public bool AutoLoop { get; private set; }
+        public string NoVideoSupport { get; private set; }
+        public List<VideoAlternative> VideoAlternatives { get; private set; }
 
-			using (DataSet ds = DataAccess.RunSql(sql))
-			{
-				if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
-				{
-					DataRow dr = ds.Tables[0].Rows[0];
-					FrameId = DataAccess.IntOrZero(dr["FrameId"]);
-					PlayMuted = DataAccess.Boolean(dr["PlayMuted"]);
-					AutoLoop = DataAccess.Boolean(dr["AutoLoop"]);
-				}
-			}
+        public Video(Frame frame)
+            : base(frame)
+        {
+            _init();
+        }
 
-			_list = VideoAlternative.List(frameId);
-		}
+        private void _init()
+        {
+            string sql = string.Format(
+                "SELECT TOP 1 * FROM Video WHERE FrameId={0};",
+                FrameId
+                );
 
-        public override string Payload
-		{
-			get
-			{
-				string html = "";
-				try
-				{
-					// load template
-					string template = File.ReadAllText(_templatePath);
+            using (DataSet ds = DataAccess.RunSql(sql))
+            {
+                if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                {
+                    DataRow dr = ds.Tables[0].Rows[0];
+                    PlayMuted = dr.Boolean("PlayMuted");
+                    AutoLoop = dr.Boolean("AutoLoop");
+                    VideoAlternatives = VideoAlternative.List(FrameId);
+                }
+            }
 
-					// fill template
-					if (FrameId > 0)
-					{
-						// styles
-						Panel panel = null;
-						if (Panel.IsFullScreen(PanelId))
-							panel = new FullScreenPanel(PanelId);
-						else
-							panel = new Panel(PanelId);
+            NoVideoSupport = DisplayMonkey.Language.Resources.BrowserNoVideoSupport;
 
-						string style = string.Format(
-							"width:{0}px;height:{1}px;",
-							panel.Width,
-							panel.Height
-							);
-
-						// sources
-						StringBuilder sources = new StringBuilder(_list.Count);
-						foreach (VideoAlternative va in _list)
-						{
-							sources.AppendFormat(
-								"<source src=\"getVideo.ashx?content={0}&frame={1}\" type=\"{2}\" />\r\n",
-								va.ContentId,
-								FrameId,
-								va.MimeType
-								);
-						}
-						
-						// options
-						StringBuilder options = new StringBuilder();
-						if (PlayMuted)
-							options.Append(" muted=\"true\"");
-						if (AutoLoop)
-							options.Append(" loop=\"true\"");
-
-						// put all together
-						html = string.Format(template,
-                            FrameId,
-							style,
-							options.ToString(),
-							sources.ToString()
-							);
-					}
-				}
-
-				catch (Exception ex)
-				{
-					html = ex.Message;
-				}
-
-				// return html
-				return html;
-			}
-		}
-
-		/*
-			<style type="text/css" scoped>
-			...
-			</style>
-		 * */
-
-		public bool PlayMuted = true;
-		public bool AutoLoop = true;
-
-		private List<VideoAlternative> _list = null;
-
-		private class VideoAlternative
-		{
-			public string Name = "";
-			private byte[] Chunk = null;
-			public int ContentId = 0;
-
-			public string MimeType
-			{
-				get
-				{
-					string mimeType = null;
-					try
-					{
-						if (null == (mimeType = MimeTypeParser.GetMimeTypeRaw(Chunk)))
-						{
-							if (null == (mimeType = MimeTypeParser.GetMimeTypeFromRegistry(Name)))
-							{
-								if (null == (mimeType = MimeTypeParser.GetMimeTypeFromList(Name)))
-								{
-									mimeType = "application/octet-stream";
-								}
-							}
-						}
-					}
-					catch
-					{
-						mimeType = "application/octet-stream";
-					}
-					return mimeType;
-				}
-			}
-
-			public VideoAlternative()
-			{
-			}
-
-			public static List<VideoAlternative> List(int frameId)
-			{
-				List<VideoAlternative> list = new List<VideoAlternative>();
-				string sql = string.Format(
-					"SELECT c.ContentId, Name, convert(varbinary(256),Data) Chunk FROM VideoAlternative a INNER JOIN Content c ON c.ContentId=a.ContentId WHERE a.FrameId={0};",
-					frameId
-					);
-
-				using (DataSet ds = DataAccess.RunSql(sql))
-				{
-					int count = ds.Tables[0].Rows.Count;
-					if (count > 0)
-					{
-						list.Capacity = count;
-						foreach (DataRow dr in ds.Tables[0].Rows)
-						{
-							if (dr["Chunk"] != DBNull.Value)
-							{
-								VideoAlternative va = new VideoAlternative()
-								{
-									ContentId = DataAccess.IntOrZero(dr["ContentId"]),
-									Name = DataAccess.StringOrBlank(dr["Name"]),
-									Chunk = (byte[])dr["Chunk"],
-								};
-								list.Add(va);
-							}
-						}
-					}
-				}
-
-				return list;
-			}
-		}
+            _templatePath = HttpContext.Current.Server.MapPath("~/files/frames/video/default.htm");
+        }
 	}
+
+    public class VideoAlternative
+    {
+        public string Name { get; private set; }
+        public int ContentId { get; private set; }
+        public string MimeType
+        {
+            get
+            {
+                string mimeType = null;
+                try
+                {
+                    if (null == (mimeType = MimeTypeParser.GetMimeTypeRaw(Chunk)))
+                    {
+                        if (null == (mimeType = MimeTypeParser.GetMimeTypeFromRegistry(Name)))
+                        {
+                            if (null == (mimeType = MimeTypeParser.GetMimeTypeFromList(Name)))
+                            {
+                                mimeType = "application/octet-stream";
+                            }
+                        }
+                    }
+                }
+                catch
+                {
+                    mimeType = "application/octet-stream";
+                }
+                return mimeType;
+            }
+        }
+
+        private VideoAlternative()
+        {
+        }
+
+        public static List<VideoAlternative> List(int frameId)
+        {
+            List<VideoAlternative> list = null;
+
+            string sql = string.Format(
+                "SELECT c.ContentId, Name, convert(varbinary(256),Data) Chunk FROM VideoAlternative a INNER JOIN Content c ON c.ContentId=a.ContentId WHERE a.FrameId={0};",
+                frameId
+                );
+
+            using (DataSet ds = DataAccess.RunSql(sql))
+            {
+                int count = ds.Tables[0].Rows.Count;
+                list = new List<VideoAlternative>(count);
+                if (count > 0)
+                {
+                    list.Capacity = count;
+                    foreach (DataRow dr in ds.Tables[0].Rows)
+                    {
+                        if (dr["Chunk"] != DBNull.Value)
+                        {
+                            VideoAlternative va = new VideoAlternative()
+                            {
+                                ContentId = dr.IntOrZero("ContentId"),
+                                Name = dr.StringOrBlank("Name").Trim(),
+                                Chunk = (byte[])dr["Chunk"],
+                            };
+                            list.Add(va);
+                        }
+                    }
+                }
+            }
+
+            return list;
+        }
+
+        private byte[] Chunk = null;
+    }
 }

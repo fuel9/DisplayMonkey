@@ -35,12 +35,12 @@ namespace DisplayMonkey
 
 		public void InitFromRow(DataRow r)
 		{
-            LocationId = DataAccess.IntOrZero(r["LocationId"]);
-            LevelId = DataAccess.IntOrZero(r["LevelId"]);
-			TemperatureUnit = DataAccess.StringOrBlank(r["TemperatureUnit"]).ToLower();
-			DateFormat = DataAccess.StringOrBlank(r["DateFormat"]);
-			TimeFormat = DataAccess.StringOrBlank(r["TimeFormat"]);
-            Name = DataAccess.StringOrBlank(r["Name"]);
+            LocationId = r.IntOrZero("LocationId");
+            LevelId = r.IntOrZero("LevelId");
+			TemperatureUnit = r.StringOrBlank("TemperatureUnit").ToLower();
+			DateFormat = r.StringOrBlank("DateFormat");
+			TimeFormat = r.StringOrBlank("TimeFormat");
+            Name = r.StringOrBlank("Name");
             if (Name == "")
                 Name = string.Format("Location {0}", LocationId);
 
@@ -55,7 +55,7 @@ namespace DisplayMonkey
 
             int? woeid = r["Woeid"] as Nullable<int>;
             if (woeid != null) Woeid = woeid.Value;
-            Culture = DataAccess.StringOrBlank(r["Culture"]);
+            Culture = r.StringOrBlank("Culture");
         }
 
 		public static List<Location> List(int levelId = 0)
@@ -75,7 +75,7 @@ namespace DisplayMonkey
 				{
 					Location loc = new Location();
 					loc.InitFromRow(r);
-                    string name2 = DataAccess.StringOrBlank(r["Name2"]);
+                    string name2 = r.StringOrBlank("Name2").Trim();
                     loc.Name = string.Format("{0} : {1}",
                         name2 == "" ? string.Format("Level {0}", loc.LevelId) : name2,
                         loc.Name

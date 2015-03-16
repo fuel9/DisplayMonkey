@@ -1273,4 +1273,7 @@
   <data name="Label" xml:space="preserve">
     <value>Label</value>
   </data>
+  <data name="BrowserNoVideoSupport" xml:space="preserve">
+    <value>Your browser doesn't support this frame type, please upgrade your browser.</value>
+  </data>
 </root>

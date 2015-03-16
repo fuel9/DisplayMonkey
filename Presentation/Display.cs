@@ -41,12 +41,12 @@ namespace DisplayMonkey
 
 		public void InitFromRow(DataRow r)
 		{
-			DisplayId = DataAccess.IntOrZero(r["DisplayId"]);
-			CanvasId = DataAccess.IntOrZero(r["CanvasId"]);
-			LocationId = DataAccess.IntOrZero(r["LocationId"]);
-			Host = DataAccess.StringOrBlank(r["Host"]);
-            ShowErrors = DataAccess.Boolean(r["ShowErrors"]);
-			Name = DataAccess.StringOrBlank(r["Name"]);
+			DisplayId = r.IntOrZero("DisplayId");
+			CanvasId = r.IntOrZero("CanvasId");
+			LocationId = r.IntOrZero("LocationId");
+			Host = r.StringOrBlank("Host").Trim();
+            ShowErrors = r.Boolean("ShowErrors");
+			Name = r.StringOrBlank("Name").Trim();
 			if (Name == "")
 				Name = string.Format("Display {0}", DisplayId);
 		}
@@ -64,7 +64,7 @@ namespace DisplayMonkey
                     // list registered displays
                     foreach (DataRow r in ds.Tables[0].Rows)
                     {
-                        Display display = new Display(DataAccess.IntOrZero(r["DisplayId"]));
+                        Display display = new Display(r.IntOrZero("DisplayId"));
                         list.Add(display);
                     }
                 }
@@ -86,7 +86,7 @@ namespace DisplayMonkey
 				cmd.Parameters.Add("@locationId", SqlDbType.Int).Value = LocationId;
 				cmd.Parameters.Add("@displayId", SqlDbType.Int).Direction = ParameterDirection.Output;
 				DataAccess.ExecuteNonQuery(cmd);
-				DisplayId = DataAccess.IntOrZero(cmd.Parameters["@displayId"].Value);
+				DisplayId = cmd.Parameters["@displayId"].IntOrZero();
 			}
 		}
 
@@ -113,7 +113,7 @@ namespace DisplayMonkey
                 cmd.Parameters.Add("@idleInterval", SqlDbType.Int).Direction = ParameterDirection.Output;
                 cmd.Parameters["@displayId"].Value = displayId;
                 DataAccess.ExecuteNonQuery(cmd);
-                return DataAccess.IntOrZero(cmd.Parameters["@idleInterval"].Value);
+                return cmd.Parameters["@idleInterval"].IntOrZero();
             }
         }
 

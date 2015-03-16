@@ -69,6 +69,16 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="files\frames\clock\default.htm" />
+    <Content Include="files\frames\html\default.htm" />
+    <Content Include="files\frames\memo\default.htm" />
+    <Content Include="files\frames\outlook\default.htm" />
+    <Content Include="files\frames\picture\default.htm" />
+    <Content Include="files\frames\report\default.htm" />
+    <Content Include="files\frames\video\default.htm" />
+    <Content Include="files\frames\weather\default.htm" />
+    <Content Include="files\frames\youtube\default.htm" />
+    <Content Include="files\js\weather.js" />
     <Content Include="Register.aspx" />
     <Content Include="Images\android-chrome-144x144.png" />
     <Content Include="Images\android-chrome-192x192.png" />
@@ -99,16 +109,10 @@
     <Content Include="Images\mstile-70x70.png" />
     <Content Include="files\world.gif" />
     <Content Include="getOutlook.ashx" />
-    <Content Include="files\frames\outlook.htm" />
-    <Content Include="files\frames\youtube.htm" />
-    <Content Include="files\frames\html.htm" />
     <Content Include="getDisplayHash.ashx" />
     <Content Include="favicon.ico" />
     <Content Include="files\404.png" />
     <Content Include="files\clockface.png" />
-    <Content Include="files\frames\memo.htm" />
-    <Content Include="files\frames\video.htm" />
-    <Content Include="files\frames\report.htm" />
     <Content Include="files\hourhand.png" />
     <Content Include="files\minhand.png" />
     <Content Include="files\sechand.png" />
@@ -162,10 +166,6 @@
     <Content Include="files\weather\8.gif" />
     <Content Include="files\weather\9.gif" />
     <Content Include="getIdleInterval.ashx" />
-    <Content Include="files\frames\clock.htm" />
-    <Content Include="files\frames\picture.htm" />
-    <Content Include="files\frames\weather.htm" />
-    <Content Include="getFrame.ashx" />
     <Content Include="getNextFrame.ashx" />
     <Content Include="Images\logo.png" />
     <Content Include="files\js\clock.js" />
@@ -186,7 +186,7 @@
     <Content Include="js\pt\prototype_ccs.js" />
     <Content Include="js\pt\scriptaculous.js" />
     <Content Include="js\pt\slider.js" />
-    <Content Include="files\js\scroller.js" />
+    <Content Include="files\js\memo.js" />
     <Content Include="files\js\video.js" />
     <Content Include="files\js\youtube.js" />
     <Content Include="packages.config" />
@@ -195,6 +195,7 @@
     <Content Include="Styles\fonts\futura.ttf" />
     <Content Include="getHtml.ashx" />
     <Content Include="Images\manifest.json" />
+    <Content Include="getYahooWeather.ashx" />
     <None Include="Scripts\jquery-2.0.3-vsdoc.js" />
     <Content Include="Scripts\jqsimplemenu.js" />
     <Content Include="Scripts\jquery-2.0.3.js" />
@@ -287,6 +288,10 @@
     <Compile Include="CacheExtensions.cs" />
     <Compile Include="Canvas.cs" />
     <Compile Include="Clock.cs" />
+    <Compile Include="Content.cs" />
+    <Compile Include="getYahooWeather.ashx.cs">
+      <DependentUpon>getYahooWeather.ashx</DependentUpon>
+    </Compile>
     <Compile Include="Register.aspx.cs">
       <DependentUpon>Register.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -326,9 +331,6 @@
     <Compile Include="Display.cs" />
     <Compile Include="Frame.cs" />
     <Compile Include="FullScreenPanel.cs" />
-    <Compile Include="getFrame.ashx.cs">
-      <DependentUpon>getFrame.ashx</DependentUpon>
-    </Compile>
     <Compile Include="getImage.ashx.cs">
       <DependentUpon>getImage.ashx</DependentUpon>
     </Compile>

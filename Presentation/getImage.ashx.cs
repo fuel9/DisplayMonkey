@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.IO;
-using System.Data;
+//using System.Data;
 //using System.Data.SqlClient;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -22,9 +22,6 @@ namespace DisplayMonkey
 
             try
             {
-                int contentId = DataAccess.IntOrZero(Request.QueryString["content"]);
-                int frameId = DataAccess.IntOrZero(Request.QueryString["frame"]);
-
                 // set headers, prevent client caching, return PNG
                 Response.Clear();
                 Response.Cache.SetCacheability(HttpCacheability.NoCache);
@@ -32,38 +29,34 @@ namespace DisplayMonkey
                 Response.Cache.SetNoStore();
                 Response.ContentType = "image/png";
 
-                string sql;
                 byte[] data = null, cache = null;
                 int panelHeight = -1, panelWidth = -1;
                 PictureMode mode = PictureMode.CROP;
 
+                int contentId = DataAccess.IntOrZero(Request.QueryString["content"]);
+                int frameId = DataAccess.IntOrZero(Request.QueryString["frame"]);
+
                 if (frameId > 0)
                 {
-                    sql = string.Format(
-                        "SELECT TOP 1 p.Mode, p.ContentId, l.Width, l.Height FROM Picture p INNER JOIN Frame f on f.FrameId=p.FrameId INNER JOIN Panel l on l.PanelId=f.PanelId WHERE p.FrameId={0};",
-                        frameId
-                        );
+                    Picture picture = new Picture(frameId);
 
-                    using (DataSet ds = DataAccess.RunSql(sql))
+                    if (picture.ContentId != 0)
                     {
-                        if (ds.Tables[0].Rows.Count > 0)
-                        {
-                            DataRow dr = ds.Tables[0].Rows[0];
-                            mode = (PictureMode)DataAccess.IntOrZero(dr["Mode"]);
-                            panelHeight = DataAccess.IntOrZero(dr["Height"]);
-                            panelWidth = DataAccess.IntOrZero(dr["Width"]);
-                            contentId = DataAccess.IntOrZero(dr["ContentId"]);
-                        }
+                        Panel panel = new Panel(picture.PanelId);
+                        panelHeight = panel.Height;
+                        panelWidth = panel.Width;
+                        mode = picture.Mode;
+                        contentId = picture.ContentId;
+                    }
 
-                        else
+                    else
+                    {
+                        data = File.ReadAllBytes("~/files/404.png");
+                        using (MemoryStream ms = new MemoryStream(data))
                         {
-                            data = File.ReadAllBytes("~/files/404.png");
-                            using (MemoryStream ms = new MemoryStream(data))
-                            {
-                                Picture.WriteImage(ms, Response.OutputStream, panelWidth, panelHeight, mode);
-                            }
-                            return;
+                            Picture.WriteImage(ms, Response.OutputStream, panelWidth, panelHeight, mode);
                         }
+                        return;
                     }
                 }
 
@@ -71,25 +64,14 @@ namespace DisplayMonkey
                     string.Format("image_{0}_{1}x{2}_{3}", contentId, panelWidth, panelHeight, (int)mode),
                     () =>
                     {
-                        sql = string.Format(
-                            "SELECT TOP 1 * FROM Content WHERE ContentId={0}; ",
-                            contentId
-                            );
-
-                        using (DataSet ds = DataAccess.RunSql(sql))
+                        Content content = new Content(contentId);
+                        if (content.Data != null)
                         {
-                            if (ds.Tables[0].Rows.Count > 0)
+                            using (MemoryStream trg = new MemoryStream())
+                            using (MemoryStream src = new MemoryStream(content.Data))
                             {
-                                DataRow dr = ds.Tables[0].Rows[0];
-                                if (dr["Data"] != DBNull.Value)
-                                {
-                                    using (MemoryStream trg = new MemoryStream())
-                                    using (MemoryStream src = new MemoryStream((byte[])dr["Data"]))
-                                    {
-                                        Picture.WriteImage(src, trg, panelWidth, panelHeight, mode);
-                                        return trg.GetBuffer();
-                                    }
-                                }
+                                Picture.WriteImage(src, trg, panelWidth, panelHeight, mode);
+                                return trg.GetBuffer();
                             }
                         }
 
