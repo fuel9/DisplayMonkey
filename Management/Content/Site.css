@@ -60,11 +60,7 @@ a {
     a:active, a:hover {
         color: #CC0000;
     }
-
-    a:hover {
-        /*background-color: #CC0000;*/
-    }
-
+    
 header, footer, hgroup,
 nav, section {
     display: block;
@@ -562,25 +558,27 @@ textarea {
     input[type="submit"],
     input[type="button"],
     button {
-        background-color: #336699;
-        color: #fff;
-        border: 0px none;
+        background: url("../Images/button_blue.png") repeat;
+        color: #ffffff;
+        border: 0px solid;
         cursor: pointer;
-        font-size: 1.0em;
-        font-weight: 600;
-        padding-left: 10px;
-        padding-right: 10px;
+        padding-left: 20px;
+        padding-right: 20px;
         padding-top: 4px;
         padding-bottom: 4px;
-        /*Margin-right: 8px;*/
+        min-width: 100px;
         width: auto;
-        text-transform: uppercase;
-        background: -webkit-linear-gradient(#9cf, #369); /* For Safari 5.1 to 6.0 */
-        background: -o-linear-gradient(#9cf, #369); /* For Opera 11.1 to 12.0 */
-        background: -moz-linear-gradient(#9cf, #369); /* For Firefox 3.6 to 15 */
-        background: linear-gradient(#9cf, #369); /* Standard syntax */
+        height: 40px;
+        text-transform: uppercase; 
         line-height: 2;
+        border-radius: 0px;
+        -moz-border-radius: 0px;
+        -webkit-border-radius: 0px;        
     }
+
+    input[type="submit"]:hover {
+        background: url("../Images/button_blue_red.png") repeat;
+}
 
     td input[type="submit"],
     td input[type="button"],
@@ -940,6 +938,22 @@ div.select {
         /*pointer-events: none;*/
     }
 
+/*** hide default arrow in listbox I.E. 10, 11 ***/
+    select::-ms-expand {
+        display: none;
+}
+
+/*** hide default blue color for selected item in listbox I.E. ***/
+    select:focus::-ms-value {
+        background-color: #fff; color:#000;
+}
+
+/*** hide drop down icon in i.e. 9 listbox ***/
+    div.select {
+		background: #fff\9;
+		width: 330px\9;
+}	
+
     div.select select:focus {
         outline: none;
     }
@@ -1036,6 +1050,7 @@ img.thumb1, a.thumb1>img {
     width: 40px;
     height: 40px;
 	vertical-align: top;
+	border-width: 0px\9; /* set border width in i.e. 9 */    
 }
 
 .error-info {
