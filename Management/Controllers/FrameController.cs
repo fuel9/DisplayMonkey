@@ -254,6 +254,13 @@ namespace DisplayMonkey.Controllers
         {
             if (selector.FrameType != null)
             {
+                Panel panel = db.Panels
+                    .Include(p => p.Canvas)
+                    .FirstOrDefault(p => p.PanelId == selector.PanelId)
+                    ;
+
+                selector.Panel = panel;
+
                 TempData[SelectorFrameKey] = selector;
                 return RedirectToAction("Create", selector.FrameType.ToString());
             }
