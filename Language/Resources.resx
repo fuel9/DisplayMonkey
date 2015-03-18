@@ -1273,4 +1273,8 @@
   <data name="Label" xml:space="preserve">
     <value>Label</value>
   </data>
+  <data name="HelpVersion" xml:space="preserve">
+    <value>1</value>
+    <comment>This is reserved for current Display Monkey documentation version id; maintained by Fuel9 team</comment>
+  </data>
 </root>

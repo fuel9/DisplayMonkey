@@ -2,12 +2,18 @@
 
 @{
     string appPath = Request.ApplicationPath;
-    string path = Request.Path;
+    string relPath = Request.Path;
     if (appPath != "/")
     {
-        path = path.Replace(appPath, "");
+        relPath = relPath.Replace(appPath, "");
     }
-    string help = Url.Content("~/help" + path);
+    //string help = Url.Content("~/help" + relPath);
+    string help = Url.Content(string.Format(
+        "http://www.displaymonkey.org/dm/documentation/management/{0}/{1}{2}", 
+        Resources.HelpVersion, 
+        System.Threading.Thread.CurrentThread.CurrentUICulture.ToString().Substring(0,2),
+        relPath
+        ));
 }
 <!DOCTYPE html>
 <html>
@@ -92,7 +98,7 @@
                                     </li>
                                 </ul>
                             </li>
-                            <li><a href="@help" onclick="window.open('@help','Help','width=640,height=480,resizable=1,scrollbars=1'); return false;" target="_blank">@Resources.Help</a></li>
+                            <li><a href="@help" onclick="window.open('@help','@Resources.Help','width=640,height=480,resizable=1,scrollbars=1'); return false;" target="_blank">@Resources.Help</a></li>
                             <li><a href="http://www.fuel9.com/home/about-us/">@Resources.About</a></li>
                         </ul>
                     </nav>
