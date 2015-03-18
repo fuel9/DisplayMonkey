@@ -61,7 +61,7 @@
                         <ul class="menu">
                             <li><a href="default.aspx"><%=DisplayMonkey.Language.Resources.Home%></a></li>
                             <li><a href="register.aspx">Register this display</a></li>
-                            <li><a href="#" onclick="window.open('help','Help','width=640,height=480,resizable=1,scrollbars=1'); return false;" target="_blank"><%=DisplayMonkey.Language.Resources.Help%></a></li>
+                            <li><a href="#" onclick="window.open('help','Help','width=640,height=480,resizable=1,scrollbars=1'); return false;" id="help" target="_blank" runat="server"><%=DisplayMonkey.Language.Resources.Help%></a></li>
                             <li><a href="http://www.fuel9.com/home/about-us/"><%=DisplayMonkey.Language.Resources.About%></a></li>
                         </ul>
                     </nav>
