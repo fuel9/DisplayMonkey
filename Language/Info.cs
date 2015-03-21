@@ -3,14 +3,20 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Resources;
+using System.Web;
 
 namespace DisplayMonkey.Language
 {
     public static class Info
     {
+        #region Private members
+
         private static CultureInfo[] _cultures = null;
         private static CultureInfo[] _supportedCultures = null;
         private static object _lock = new object();
+        
+        #endregion
+
         public static CultureInfo[] SupportedCultures 
         {
             get 
@@ -49,6 +55,29 @@ namespace DisplayMonkey.Language
                     return _cultures;
                 }
             }
+        }
+        public static Uri HelpUri(HttpRequest request, string site)
+        {
+            string appPath = request.ApplicationPath, relPath = request.Path;
+            if (appPath != "/")
+            {
+                relPath = relPath.Replace(appPath, "");
+            }
+            int q = relPath.IndexOfAny(new char[] {'?', '.'}); if (q >= 0) { relPath = relPath.Substring(0, q); }
+            string[] segs = relPath.Split('/'); relPath = "";
+            for (int i = 1, j = Math.Min(segs.Length, 3); i < j; i++)
+            {
+                if (segs[i] != "") { relPath += (relPath == "" ? "" : "/") + segs[i]; }
+            }
+            //string help = "~/help" + relPath;
+            string help = string.Format(
+                "http://www.displaymonkey.org/dm/documentation/{0}/{1}/{2}/{3}",
+                Resources.HelpVersion,
+                System.Threading.Thread.CurrentThread.CurrentUICulture.ToString().Substring(0, 2),
+                site,
+                relPath
+                );
+            return new Uri(help);
         }
     }
 }
