@@ -1,19 +1,7 @@
 ﻿@using DisplayMonkey.Language
 
 @{
-    string appPath = Request.ApplicationPath;
-    string relPath = Request.Path;
-    if (appPath != "/")
-    {
-        relPath = relPath.Replace(appPath, "");
-    }
-    //string help = Url.Content("~/help" + relPath);
-    string help = Url.Content(string.Format(
-        "http://www.displaymonkey.org/dm/documentation/management/{0}/{1}{2}", 
-        Resources.HelpVersion, 
-        System.Threading.Thread.CurrentThread.CurrentUICulture.ToString().Substring(0,2),
-        relPath
-        ));
+    string help = Url.Content(Info.HelpUri(HttpContext.Current.Request, "management").OriginalString);
 }
 <!DOCTYPE html>
 <html>

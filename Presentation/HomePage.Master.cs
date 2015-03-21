@@ -13,24 +13,10 @@ namespace DisplayMonkey
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            string appPath = Request.ApplicationPath;
-            string relPath = Request.Path;
-            if (appPath != "/")
-            {
-                relPath = relPath.Replace(appPath, "");
-            }
-
-            string helpUrl = string.Format(
-                "http://www.displaymonkey.org/dm/documentation/presentation/{0}/{1}{2}", 
-                Resources.HelpVersion, 
-                Thread.CurrentThread.CurrentUICulture.ToString().Substring(0,2),
-                relPath
-                );
-
-            help.HRef = helpUrl;
+            help.HRef = Info.HelpUri(Request, "presentation").OriginalString;
             help.Attributes["onclick"] = string.Format(
                 "window.open('{0}','{1}','width=640,height=480,resizable=1,scrollbars=1'); return false;",
-                helpUrl, 
+                help.HRef, 
                 Resources.Help
                 );
         }
