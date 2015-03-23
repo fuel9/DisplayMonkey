@@ -15,7 +15,7 @@ namespace DisplayMonkey
         {
             help.HRef = Info.HelpUri(Request, "presentation").OriginalString;
             help.Attributes["onclick"] = string.Format(
-                "window.open('{0}','{1}','width=640,height=480,resizable=1,scrollbars=1'); return false;",
+                "window.open('{0}','{1}','width=1280,height=900,resizable=1,scrollbars=1'); return false;",
                 help.HRef, 
                 Resources.Help
                 );
