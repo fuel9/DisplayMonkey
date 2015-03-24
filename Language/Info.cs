@@ -37,6 +37,10 @@ namespace DisplayMonkey.Language
                 }
             } 
         }
+        public static bool CultureIsSupported(string culture)
+        {
+            return SupportedCultures.FirstOrDefault(c => c.TwoLetterISOLanguageName == culture) != null;
+        }
         public static CultureInfo[] AllCultures
         {
             get
@@ -58,7 +62,11 @@ namespace DisplayMonkey.Language
         }
         public static Uri HelpUri(HttpRequest request, string site)
         {
-            string appPath = request.ApplicationPath, relPath = request.Path;
+            string 
+                appPath = request.ApplicationPath, 
+                relPath = request.Path,
+                culture = System.Threading.Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName
+                ;
             if (appPath != "/")
             {
                 relPath = relPath.Replace(appPath, "");
@@ -73,7 +81,7 @@ namespace DisplayMonkey.Language
             string help = string.Format(
                 "http://www.displaymonkey.org/dm/documentation/{0}/{1}/{2}/{3}",
                 Resources.HelpVersion,
-                System.Threading.Thread.CurrentThread.CurrentUICulture.ToString().Substring(0, 2),
+                CultureIsSupported(culture) ? culture : "en",
                 site,
                 relPath
                 );
