@@ -520,6 +520,7 @@ input, textarea {
     margin: 5px 0 6px 0;
     padding: 5px;
     width: 300px;
+    height: 30px; 
 }
 
 input.duration, input.pixels
@@ -912,20 +913,21 @@ tr.pager td {
 /********************************************* DP **************************************************/
 
 div.select {
-    width: 310px;
+    width: 400px;
     overflow: hidden;
     background: url("../Images/dropdown.png") no-repeat right #fff;
-    background-position-x: 287px;
+    background-position-x: 378px;
     border: 1px solid #e2e2e2;
     border-radius: 5px;
     margin: 5px 0 6px 0;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
+
 }
 
     div.select select {
         background: transparent;
-        width: 310px;
+        width: 400px;
         font-size: 1.0em;
         padding: 0px;
         /*font-size: 16px;*/
@@ -936,6 +938,7 @@ div.select {
         -webkit-appearance: none;
         -moz-appearance: none;
         /*pointer-events: none;*/
+  
     }
 
 /*** hide default arrow in listbox I.E. 10, 11 ***/
@@ -951,7 +954,7 @@ div.select {
 /*** hide drop down icon in i.e. 9 listbox ***/
     div.select {
 		background: #fff\9;
-		width: 330px\9;
+		width: 400px\9;
 }	
 
     div.select select:focus {
