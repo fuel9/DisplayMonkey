@@ -404,6 +404,8 @@
     <Content Include="Images\apple-touch-icon-precomposed.png" />
     <Content Include="Images\apple-touch-icon.png" />
     <Content Include="Images\browserconfig.xml" />
+    <Content Include="Images\button_blue.png" />
+    <Content Include="Images\button_blue_red.png" />
     <Content Include="Images\Calendar.png" />
     <Content Include="Images\clock.png" />
     <Content Include="Images\dropdown.png" />
