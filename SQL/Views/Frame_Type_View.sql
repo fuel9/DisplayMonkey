@@ -4,6 +4,7 @@ GO
   2013-11-14 [DPA] - DisplayMonkey object
   2014-10-09 [LTL] - added HTML
   2014-10-14 [LTL] - added YOUTUBE
+  2015-03-31 [LTL] - deprecated, will be removed in future versions
 *******************************************************************/
 ALTER view [dbo].[Frame_Type_View] as
 select

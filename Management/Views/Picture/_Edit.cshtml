@@ -6,6 +6,9 @@
     SelectList modes = ViewBag.Modes as SelectList;
 }
 
+    <fieldset>
+        <legend>@Resources.Picture</legend>
+
         <div class="editor-label">
             @Html.LabelFor(model => model.Mode)
         </div>
@@ -13,3 +16,5 @@
             @Html.DropDownListFor(model => model.Mode, modes)
             @Html.ValidationMessageFor(model => model.Mode)
         </div>
+
+    </fieldset>

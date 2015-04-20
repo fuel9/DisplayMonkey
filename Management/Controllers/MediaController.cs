@@ -29,7 +29,7 @@ namespace DisplayMonkey.Controllers
 
         public ActionResult Index(ContentTypes? mediaType = null)
         {
-            Navigation.SaveCurrent();
+            this.SaveReferrer();
 
             var list = db.Contents
                 .Select(m => new ContentWithSize
@@ -56,6 +56,8 @@ namespace DisplayMonkey.Controllers
 
         public ActionResult Details(int id = 0)
         {
+            this.SaveReferrer(true);
+            
             // TODO: video player in the view
             Content content = db.Contents.Find(id);
             if (content == null)
@@ -139,7 +141,7 @@ namespace DisplayMonkey.Controllers
             {
                 db.SaveChanges();
 
-                return Navigation.Restore() ?? RedirectToAction("Index");
+                return this.RestoreReferrer() ?? RedirectToAction("Index");
             }
 
             else if (hasFiles)
@@ -177,7 +179,7 @@ namespace DisplayMonkey.Controllers
                 db.Entry(content).Property(m => m.Name).IsModified = true;
                 db.SaveChanges();
 
-                return Navigation.Restore() ?? RedirectToAction("Index");
+                return this.RestoreReferrer() ?? RedirectToAction("Index");
             }
 
             return View(content);
@@ -207,7 +209,7 @@ namespace DisplayMonkey.Controllers
             db.Contents.Remove(content);
             db.SaveChanges();
 
-            return Navigation.Restore() ?? RedirectToAction("Index");
+            return this.RestoreReferrer(true) ?? RedirectToAction("Index");
         }
 
         //

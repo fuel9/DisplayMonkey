@@ -47,7 +47,7 @@ namespace DisplayMonkey
                 }
             }
 
-            _templatePath = HttpContext.Current.Server.MapPath("~/files/frames/youtube/default.htm");
+            //_templatePath = HttpContext.Current.Server.MapPath("~/files/frames/youtube/");
         }
     }
 }

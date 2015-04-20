@@ -110,9 +110,9 @@ namespace DisplayMonkey.Models
             public string TimeFormat { get; set; }
 
             [
-                Display(ResourceType = typeof(Resources), Name = "OffsetGMT"),
+                Display(ResourceType = typeof(Resources), Name = "TimeZone"),
             ]
-            public Nullable<int> OffsetGMT { get; set; }
+            public string TimeZone { get; set; }
 
             [
                 Display(ResourceType = typeof(Resources), Name = "Cultre"), // important spelling!!!
@@ -145,11 +145,17 @@ namespace DisplayMonkey.Models
             public virtual ICollection<Location> Sublocations { get; set; }
         }
 
+        [
+            NotMapped,
+        ]
         public IEnumerable<Location> SelfAndChildren
         {
             get { return this.SelfAndChildren(l => l.Sublocations); }
         }
 
+        [
+            NotMapped,
+        ]
         public string TempUnitTranslated
         {
             get 
@@ -161,6 +167,9 @@ namespace DisplayMonkey.Models
             }
         }
 
+        [
+            NotMapped,
+        ]
         public string TempUnitOrDefault
         {
             get
@@ -169,16 +178,25 @@ namespace DisplayMonkey.Models
             }
         }
 
+        [
+            NotMapped,
+        ]
         public string DateFmtOrDefault
         {
             get { return this.DateFormat ?? Resources.FromArea; }
         }
 
+        [
+            NotMapped,
+        ]
         public string TimeFmtOrDefault
         {
             get { return this.TimeFormat ?? Resources.FromArea; }
         }
 
+        [
+            NotMapped,
+        ]
         public string LatitudeOrDefault
         {
             get
@@ -190,6 +208,9 @@ namespace DisplayMonkey.Models
             }
         }
 
+        [
+            NotMapped,
+        ]
         public string LongitudeOrDefault
         {
             get
@@ -201,6 +222,9 @@ namespace DisplayMonkey.Models
             }
         }
 
+        [
+            NotMapped,
+        ]
         public string WoeidOrDefault
         {
             get
@@ -212,17 +236,23 @@ namespace DisplayMonkey.Models
             }
         }
 
-        public string OffsetGmtOrDefault
+        [
+            NotMapped,
+        ]
+        public string TimeZoneOrDefault
         {
             get
             {
-                if (this.OffsetGMT.HasValue)
-                    return this.OffsetGMT.ToString();
+                if (this.TimeZone != null)
+                    return this.TimeZone;
                 else
                     return Resources.FromArea;
             }
         }
 
+        [
+            NotMapped,
+        ]
         public string CultureOrDefault
         {
             get
@@ -390,6 +420,9 @@ namespace DisplayMonkey.Models
             public virtual ICollection<FullScreen> FullScreens { get; set; }
         }
 
+        [
+            NotMapped,
+        ]
         public bool IsFullscreen
         {
             get
@@ -492,6 +525,28 @@ namespace DisplayMonkey.Models
                Display(ResourceType = typeof(Resources), Name = "DateCreated"),
             ]
             public System.DateTime DateCreated { get; protected set; }
+
+            //public byte[] Version { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "Template"),
+            ]
+            public int TemplateId { get; set; }
+            
+            [
+                Display(ResourceType = typeof(Resources), Name = "CacheMode"),
+            ]
+            public CacheModes CacheMode { get; set; }
+            
+            [
+                Display(ResourceType = typeof(Resources), Name = "CacheInterval"),
+                Range(0, Int32.MaxValue,
+                    ErrorMessageResourceType = typeof(Resources),
+                    ErrorMessageResourceName = "PositiveIntegerRequired"),
+            ]
+            public int CacheInterval { get; set; }     
+       
+            /**** frames ****/
             
             [
                Display(ResourceType = typeof(Resources), Name = "Clock"), 
@@ -549,7 +604,7 @@ namespace DisplayMonkey.Models
             public virtual ICollection<Location> Locations { get; set; }
         }
   
-        public enum FrameTypes
+        /*public enum FrameTypes
         {
             Clock,
             Html,
@@ -561,7 +616,7 @@ namespace DisplayMonkey.Models
             Video,
             Weather,
             YouTube
-        }
+        }*/
 
         public enum TimingOptions : int
         {
@@ -572,12 +627,15 @@ namespace DisplayMonkey.Models
 
         [
             Display(ResourceType = typeof(Resources), Name = "FrameType"),
+            NotMapped,
         ]
         public virtual FrameTypes? FrameType
         {
             get
             {
-                if (this.Clock != null) return FrameTypes.Clock;
+                return this.Template.FrameType;
+
+                /*if (this.Clock != null) return FrameTypes.Clock;
                 if (this.Html != null) return FrameTypes.Html;
                 if (this.Memo != null) return FrameTypes.Memo;
                 //if (this.News != null) return FrameTypes.News;
@@ -587,17 +645,31 @@ namespace DisplayMonkey.Models
                 if (this.Video != null) return FrameTypes.Video;
                 if (this.Weather != null) return FrameTypes.Weather;
                 if (this.Youtube != null) return FrameTypes.YouTube;
-                return null;
+                return null;*/
             }
 
             set { }
         }
 
-        public string TranslatedType { get { return ((FrameTypes)this.FrameType).Translate(); } }
+        [
+            NotMapped,
+        ]
+        public string TranslatedType 
+        { 
+            get 
+            { 
+                return ((FrameTypes)this.FrameType).Translate(); 
+            } 
+        }
 
         public static Expression<Func<Frame, bool>> FilterByFrameType(FrameTypes? frameType)
         {
-            switch (frameType)
+            if (frameType == null)
+                return (f => true);
+            else
+                return (f => f.Template.FrameType == frameType.Value);
+            
+            /*switch (frameType)
             {
                 case FrameTypes.Clock:
                     return (frame => frame.Clock != null);
@@ -621,12 +693,61 @@ namespace DisplayMonkey.Models
                     return (frame => frame.Youtube != null);
                 default:
                     return (frame => true);
-            }
+            }*/
         }
 
+        [
+            NotMapped,
+        ]
         public bool ShowDuration
         {
-            get { return this.Clock == null && this.Weather == null; }
+            get { return /*this.Clock == null && this.Weather == null*/ true; }
+        }
+
+        [
+            NotMapped,
+        ]
+        public string Icon
+        {
+            get { return Frame.IconFromFrameType(this.FrameType); }
+        }
+
+        public static string IconFromFrameType(FrameTypes? _frameType)
+        {
+            if (_frameType.HasValue) switch (_frameType.Value)
+            {
+                case FrameTypes.Clock:
+                    return "~/images/clock.png";
+
+                case FrameTypes.Html:    
+                    return "~/images/html.png";
+
+                //case FrameTypes.News:
+                //    return "~/images/news.png";
+
+                case FrameTypes.Memo:
+                    return "~/images/memo.png";
+
+                case FrameTypes.Outlook:
+                    return "~/images/calendar.png";
+
+                case FrameTypes.Picture:
+                    return "~/images/image.png";
+
+                case FrameTypes.Report:
+                    return "~/images/ssrs.png";
+
+                case FrameTypes.Video:    
+                    return "~/images/video_thmb.png";
+
+                case FrameTypes.Weather:
+                    return "~/images/weather.png";
+
+                case FrameTypes.YouTube:   
+                    return "~/images/youtube.png";
+            }
+
+            return "~/images/unknown.png";
         }
     }
 
@@ -683,12 +804,20 @@ namespace DisplayMonkey.Models
 
         [
             Display(ResourceType = typeof(Resources), Name = "ShortBody"),
+            NotMapped,
         ]
         public string ShortBody 
         {
             get
             {
                 return this.Body.Length > 100 ? this.Body.Substring(0, 100) + "..." : this.Body;
+            }
+        }
+
+        public void init()
+        {
+            if (Frame != null)
+            {
             }
         }
     }
@@ -722,6 +851,13 @@ namespace DisplayMonkey.Models
                 Display(ResourceType = typeof(Resources), Name = "Frame"),
             ]
             public virtual Frame Frame { get; set; }
+        }
+
+        public void init()
+        {
+            if (Frame != null)
+            {
+            }
         }
     }
 
@@ -921,6 +1057,15 @@ namespace DisplayMonkey.Models
             ]
             public virtual ReportServer ReportServer { get; set; }
         }
+
+        public void init()
+        {
+            if (Frame != null)
+            {
+                Frame.CacheMode = CacheModes.CacheMode_Sliding;
+                Frame.CacheInterval = 5;
+            }
+        }
     }
 
     [
@@ -957,9 +1102,9 @@ namespace DisplayMonkey.Models
             public virtual Frame Frame { get; set; }
 
             [
-                Display(ResourceType = typeof(Resources), Name = "OffsetGMT"),
+                Display(ResourceType = typeof(Resources), Name = "TimeZone"),
             ]
-            public Nullable<int> OffsetGMT { get; set; }
+            public string TimeZone { get; set; }
 
             [
                 Display(ResourceType = typeof(Resources), Name = "Label"),
@@ -967,10 +1112,12 @@ namespace DisplayMonkey.Models
             public string Label { get; set; }
         }
 
-        public void SetDefaultDuration(int value = 3600)
+        public void init()
         {
             if (Frame != null)
-                Frame.Duration = value;
+            {
+                Frame.Duration = 600;
+            }
         }
     }
 
@@ -998,10 +1145,14 @@ namespace DisplayMonkey.Models
             public virtual Frame Frame { get; set; }
         }
 
-        public void SetDefaultDuration(int value = 600)
+        public void init()
         {
             if (Frame != null)
-                Frame.Duration = value;
+            {
+                Frame.Duration = 600;
+                Frame.CacheMode = CacheModes.CacheMode_Sliding;
+                Frame.CacheInterval = 5;
+            }
         }
     }
 
@@ -1041,6 +1192,15 @@ namespace DisplayMonkey.Models
         public static string[] SupportedFormats = new string[] {
             "BMP", "GIF", "JPG", "JPEG", "PNG", "TIF", "TIFF"
         };
+
+        public void init()
+        {
+            if (Frame != null)
+            {
+                Frame.CacheMode = CacheModes.CacheMode_Sliding;
+                Frame.CacheInterval = 60;
+            }
+        }
     }
 
     [
@@ -1079,6 +1239,18 @@ namespace DisplayMonkey.Models
         public static string[] SupportedFormats = new string[] {
             "AVI", "MP4", "MPG", "MPEG", "OGG", "WEBM"
         };
+
+        public void init()
+        {
+            if (Frame != null)
+            {
+                Frame.CacheMode = CacheModes.CacheMode_Sliding;
+                Frame.CacheInterval = 60;
+            }
+
+            PlayMuted = true;
+            AutoLoop = true;
+        }
     }
 
     [
@@ -1086,15 +1258,6 @@ namespace DisplayMonkey.Models
     ]
     public partial class Youtube
     {
-        public Youtube()
-        {
-            Aspect = YTAspect.YTAspect_Auto;
-            Quality = YTQuality.YTQuality_Default;
-            Rate = YTRate.YTRate_Normal;
-            Start = 0;
-            Volume = 0;
-        }
-
         internal class Annotations
         {
             [
@@ -1156,6 +1319,19 @@ namespace DisplayMonkey.Models
                 //Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "AspectRequired"),
             ]
             public YTRate Rate { get; set; }
+        }
+
+        public void init()
+        {
+            if (Frame != null)
+            {
+            }
+
+            Aspect = YTAspect.YTAspect_Auto;
+            Quality = YTQuality.YTQuality_Default;
+            Rate = YTRate.YTRate_Normal;
+            Start = 0;
+            Volume = 0;
         }
     }
 
@@ -1238,9 +1414,7 @@ namespace DisplayMonkey.Models
 
         private const string _pwdMask = "****************";
         public bool _passwordSet = false;
-        public const string _emailMsk =
-            //@"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+(?:[A-Z]{2}|com|org|net|edu|gov|mil|biz|info|mobi|name|aero|asia|jobs|museum)\b");
-            @"\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*";
+        public const string _emailMsk = @"\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*";
     }
 
     [
@@ -1309,6 +1483,15 @@ namespace DisplayMonkey.Models
             NotMapped,
         ]
         public string NameOrMailboxOrAccount { get { return this.Name ?? this.Mailbox ?? this.ExchangeAccount.Name; } }
+
+        public void init()
+        {
+            if (Frame != null)
+            {
+                Frame.CacheMode = CacheModes.CacheMode_Sliding;
+                Frame.CacheInterval = 1;
+            }
+        }
     }
 
     [
@@ -1360,6 +1543,42 @@ namespace DisplayMonkey.Models
             ]
             public virtual Location Location { get; set; }
 
+        }
+    }
+
+    [
+        MetadataType(typeof(Template.Annotations))
+    ]
+    public partial class Template
+    {
+        internal class Annotations
+        {
+            public int TemplateId { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "Name"),
+                Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "NameRequired"),
+                StringLength(100, ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "MaxLengthExceeded"),
+            ]
+            public string Name { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "Content"),
+                Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "ContentRequired"),
+            ]
+            public string Html { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "FrameType"),
+            ]
+            public FrameTypes FrameType { get; set; }
+            
+            //public byte[] Version { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "Frames"),
+            ]
+            public virtual ICollection<Frame> Frames { get; set; }
         }
     }
 

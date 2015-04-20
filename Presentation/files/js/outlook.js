@@ -45,7 +45,7 @@ var Outlook = Class.create(PeriodicalExecuter, {
             , parameters: $H({
                 frame: this.frameId,
                 panel: this.panelId,
-                display: _canvas.display,
+                display: _canvas.displayId,
                 culture: _canvas.culture
             })
             , evalJSON: false
@@ -64,7 +64,7 @@ var Outlook = Class.create(PeriodicalExecuter, {
                         throw new Error("JSON expected"); // <-- shouldn't get here
 
                     if (json.Error)
-                        throw new Error(json.Error);
+                        throw new Error("Server error");
 
                     var o = outlook.div,
                         free = o.select("div.free")[0],

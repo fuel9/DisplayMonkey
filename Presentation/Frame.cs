@@ -8,6 +8,7 @@ using DisplayMonkey.Language;
 using System.IO;
 using System.Web.Script.Serialization;
 using System.Runtime.Serialization;
+using DisplayMonkey.Models;
 
 namespace DisplayMonkey
 {
@@ -17,9 +18,23 @@ namespace DisplayMonkey
         public int PanelId { get; protected set; }
         public int Duration { get; protected set; }
         public int Sort { get; protected set; }
-        public string FrameType { get; protected set; }
-        public string Template { get; private set; }
-        public virtual string Html 
+        public DateTime? BeginsOn { get; private set; }
+        public DateTime? EndsOn { get; private set; }
+        public DateTime? DateCreated { get; private set; }
+        public FrameTypes FrameType { get; protected set; }
+        public string TemplateName { get; private set; }
+
+        [ScriptIgnore]
+        public CacheModes CacheMode { get; private set; }
+
+        [ScriptIgnore]
+        public int CacheInterval { get; private set; }
+
+        [ScriptIgnore]
+        public Int64 Version { get; private set; }
+
+        public string Html { get; private set; }
+        /*public virtual string Html 
         { 
             get 
             {
@@ -33,13 +48,17 @@ namespace DisplayMonkey
                     try
                     {
                         // load template
-                        string template = File.ReadAllText(string.Format("{0}{1}.html", _templatePath, Template));
+                        string template = string.Format("{0}{1}", _templatePath, Template);
+                        if (!template.EndsWith(".htm"))
+                            template += ".htm";
+
+                        html = File.ReadAllText(template);
 
                         // fill template
-                        if (FrameId > 0)
-                        {
-                            html = string.Format(template, FrameId);
-                        }
+                        //if (FrameId > 0)
+                        //{
+                        //    html = string.Format(template, FrameId);
+                        //}
                     }
 
                     catch (Exception ex)
@@ -51,76 +70,73 @@ namespace DisplayMonkey
                     return html;
                 }
             } 
-        }
-
-        protected Frame(Frame rhs)
-        {
-            this.DisplayId = rhs.DisplayId;
-            this.Duration = rhs.Duration;
-            this.FrameId = rhs.FrameId;
-            this.FrameType = rhs.FrameType;
-            this.PanelId = rhs.PanelId;
-            this.Sort = rhs.Sort;
-            this.Template = rhs.Template;
-        }
-
-        protected Frame(int frameId, int panelId = 0)
-        {
-            this.FrameId = frameId;
-            this.PanelId = panelId != 0 ? panelId : PanelIdFromFrameId(frameId);
-        }
+        }*/
 
         private Frame()
         {
         }
 
+        protected Frame(int frameId)
+        {
+            this.FrameId = frameId;
+            _init();
+        }
+
+        protected Frame(Frame rhs)
+        {
+            this.DisplayId = rhs.DisplayId;
+            this.FrameType = rhs.FrameType;
+
+            this.FrameId = rhs.FrameId;
+            this.PanelId = rhs.PanelId;
+            this.Duration = rhs.Duration;
+            this.Sort = rhs.Sort;
+            this.BeginsOn = rhs.BeginsOn;
+            this.EndsOn = rhs.EndsOn;
+            this.DateCreated = rhs.DateCreated;
+            this.TemplateName = rhs.TemplateName;
+            this.Html = rhs.Html;
+            this.FrameType = rhs.FrameType;
+            this.CacheMode = rhs.CacheMode;
+            this.CacheInterval = rhs.CacheInterval;
+            this.Version = rhs.Version;
+        }
+
+        private void _initfromRow(DataRow dr)
+        {
+            FrameId = dr.IntOrZero("FrameId");
+            PanelId = dr.IntOrZero("PanelId");
+            Duration = dr.IntOrDefault("Duration", 60);
+            Sort = dr.IntOrZero("Sort");
+            BeginsOn = dr["BeginsOn"] == DBNull.Value ? null : (DateTime?)dr["BeginsOn"];
+            EndsOn = dr["EndsOn"] == DBNull.Value ? null : (DateTime?)dr["EndsOn"];
+            DateCreated = dr["DateCreated"] == DBNull.Value ? null : (DateTime?)dr["DateCreated"];
+            TemplateName = dr.StringOrDefault("TemplateName", "default");
+            Html = dr.StringOrBlank("Html");
+            FrameType = (FrameTypes)dr.IntOrZero("FrameType");
+            CacheMode = (CacheModes)dr.IntOrZero("CacheMode");
+            CacheInterval = 
+                (CacheMode == CacheModes.CacheMode_None) ? 0 : dr.IntOrZero("CacheInterval");
+            CacheInterval = CacheInterval < 0 ? 0 : CacheInterval;
+            Version = BitConverter.ToInt64((byte[])dr["Version"], 0);       // is never a null
+        }
+
         private void _init()
         {
-            string sql = string.Format("SELECT TOP 1 * FROM Frame WHERE FrameId={0}", FrameId);
+            string sql = string.Format(
+                "SELECT TOP 1 f.*, t.FrameType, t.Html, t.Name TemplateName FROM Frame f inner join Template t on t.TemplateId=f.TemplateId WHERE FrameId={0}", 
+                FrameId
+                );
 
             using (DataSet ds = DataAccess.RunSql(sql))
             {
                 if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 {
                     DataRow dr = ds.Tables[0].Rows[0];
-                    PanelId = dr.IntOrZero("PanelId");
-                    Duration = dr.IntOrZero("Duration");
-                    Sort = dr.IntOrZero("Sort");
-                    //BeginsOn = dr.IntOrZero("BeginsOn");
-                    //EndsOn = dr.IntOrZero("EndsOn");
-                    //DateCreated = dr.IntOrZero("DateCreated");
-                    Template = "default";
+                    _initfromRow(dr);
                 }
             }
         }
-
-        /*public static string FrameTypeFromFrameId(int frameId)
-        {
-            string type = "";
-            string sql = string.Format("SELECT top 1 FrameType from Frame_Type_View WHERE FrameId={0}", frameId);
-            using (DataSet ds = DataAccess.RunSql(sql))
-            {
-                if (ds.Tables[0].Rows.Count > 0)
-                {
-                    type = DataAccess.StringOrBlank(ds.Tables[0].Rows[0][0]);
-                }
-            }
-            return type;
-        }*/
-
-		public static int PanelIdFromFrameId(int frameId)
-		{
-            int panelId = 0;
-			string sql = string.Format("SELECT top 1 PanelId from Frame WHERE FrameId={0}", frameId);
-			using (DataSet ds = DataAccess.RunSql(sql))
-			{
-				if (ds.Tables[0].Rows.Count > 0)
-				{
-					panelId = DataAccess.IntOrZero(ds.Tables[0].Rows[0][0]);
-				}
-			}
-			return panelId;
-		}
 
         public static Frame GetNextFrame(int panelId, int displayId, int previousFrameId)
 		{
@@ -136,58 +152,58 @@ namespace DisplayMonkey
                 cmd.Parameters.Add("@panelId", SqlDbType.Int).Value = panelId;
                 cmd.Parameters.Add("@displayId", SqlDbType.Int).Value = displayId;
                 cmd.Parameters.Add("@lastFrameId", SqlDbType.Int).Value = previousFrameId;
-				cmd.Parameters.Add("@nextFrameId", SqlDbType.Int).Direction = ParameterDirection.Output;
-				cmd.Parameters.Add("@duration", SqlDbType.Int).Direction = ParameterDirection.Output;
-				cmd.Parameters.Add("@frameType", SqlDbType.VarChar, 20).Direction = ParameterDirection.Output;
 
-                DataAccess.ExecuteNonQuery(cmd);
-
-                nci.FrameId = cmd.Parameters["@nextFrameId"].IntOrZero();
-                nci.Duration = cmd.Parameters["@duration"].IntOrZero();
-                nci.FrameType = cmd.Parameters["@frameType"].StringOrBlank().ToUpper();
+                using (DataSet ds = DataAccess.RunSql(cmd))
+                {
+                    if (ds.Tables[0].Rows.Count > 0)
+                    {
+                        DataRow r = ds.Tables[0].Rows[0];
+                        nci._initfromRow(r);
+                    }
+                }
             }
 
             if (nci.FrameId > 0)
             {
                 switch (nci.FrameType)
                 {
-                    case "CLOCK":
+                    case FrameTypes.Clock:
                         nci = new Clock(nci);
                         break;
 
-                    case "HTML":
+                    case FrameTypes.Html:
                         nci = new Html(nci);
                         break;
 
-                    case "MEMO":
+                    case FrameTypes.Memo:
                         nci = new Memo(nci);
                         break;
 
-                    case "OUTLOOK":
+                    //case FrameTypes.News:
+                    case FrameTypes.Outlook:
                         nci = new Outlook(nci);
                         break;
 
-                    case "PICTURE":
+                    case FrameTypes.Picture:
                         nci = new Picture(nci);
                         break;
 
-                    case "REPORT":
+                    case FrameTypes.Report:
                         nci = new Report(nci);
                         break;
 
-                    case "VIDEO":
+                    case FrameTypes.Video:
                         nci = new Video(nci);
                         break;
 
-                    case "WEATHER":
+                    case FrameTypes.Weather:
                         nci = new Weather(nci);
                         break;
 
-                    case "YOUTUBE":
+                    case FrameTypes.YouTube:
                         nci = new YouTube(nci);
                         break;
 
-                    case "NEWS":
                     default:
                         break;
                 }
@@ -199,7 +215,7 @@ namespace DisplayMonkey
 		#region Protected Members
 
         protected int DisplayId = 0;
-        protected string _templatePath = null;
+        //protected string _templatePath = null;
 
 		#endregion
 	}

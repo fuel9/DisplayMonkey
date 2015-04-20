@@ -31,51 +31,7 @@
 @foreach (var item in Model) {
     <tr>
         <td class="nw">
-            @if (item.Clock != null)
-            {
-                icon = "~/images/clock.png";
-            }
-            else if (item.Html != null)    
-            {
-                icon = "~/images/html.png";
-            }
-            else if (item.News != null)
-            {
-                icon = "~/images/news.png";
-            }
-            else if (item.Memo != null)
-            {
-                icon = "~/images/memo.png";
-            }
-            else if (item.Outlook != null)
-            {
-                icon = "~/images/calendar.png";
-            }
-            else if (item.Picture != null)
-            {
-                icon = "~/images/image.png";
-            }
-            else if (item.Report != null)
-            {
-                icon = "~/images/ssrs.png";
-            }
-            else if (item.Video != null)    
-            {
-                icon = "~/images/video_thmb.png";
-            }
-            else if (item.Weather != null)
-            {
-                icon = "~/images/weather.png";
-            }
-            else if (item.Youtube != null)    
-            {
-                icon = "~/images/youtube.png";
-            }
-            else   
-            {
-                icon = "~/images/unknown.png";
-            }
-            @Html.ActionImgLink(icon, "Details", new { id = item.FrameId }, new { @class = "thumb1", title =item.TranslatedType })
+            @Html.ActionImgLink(item.Icon, "Details", new { id = item.FrameId }, new { @class = "thumb1", title =item.TranslatedType })
         </td>
         <td class="nw">
             @Html.DisplayFor(m => item.Panel.Canvas.Name)
@@ -89,7 +45,7 @@
                 @(string.Format("{0}{1}{2}{3}{4}",
                     item.Clock.Type.Translate(),
                     !string.IsNullOrWhiteSpace(item.Clock.Label) ? ", " + item.Clock.Label : "",
-                    item.Clock.OffsetGMT != null ? ", " + item.Clock.OffsetGMT.ToString() : "",
+                    item.Clock.TimeZone != null ? ", " + item.Clock.TimeZone : "",
                     item.Clock.Type == ClockTypes.ClockType_Text && item.Clock.ShowDate ? ", " + Resources.ShowDate : "",
                     item.Clock.Type == ClockTypes.ClockType_Text && item.Clock.ShowTime ? ", " + Resources.ShowTime : ""
                     ))

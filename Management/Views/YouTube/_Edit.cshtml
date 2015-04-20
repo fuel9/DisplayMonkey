@@ -8,6 +8,9 @@
     SelectList rates = ViewBag.Rates as SelectList;
 }
 
+    <fieldset>
+        <legend>@Resources.YouTube</legend>
+
         <div class="editor-label">
             @Html.LabelFor(model => model.Name)
         </div>
@@ -72,3 +75,5 @@
             @Html.EditorFor(model => model.Start, new { htmlAttributes = new { @class = "duration" } })
             @Html.ValidationMessageFor(model => model.Start) @Resources.Sec
         </div>
+
+    </fieldset>

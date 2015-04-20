@@ -15,12 +15,13 @@
     @Html.Hidden("maxImageSize", (object)ViewBag.MaxImageSize)
     @Html.Hidden("imageExt", (object)supportedImages)
 
-    <fieldset>
-        <legend>@Resources.Picture</legend>
-
-        @Html.Partial("_frameData", Model.Frame)
-        @Html.Partial("_Edit", Model)
+    @Html.Partial("_frameData", Model.Frame)
+    @Html.Partial("_frameCacheData", Model.Frame)
+    @Html.Partial("_Edit", Model)
         
+    <fieldset>
+        <legend>@Resources.UploadNewPicture</legend>
+
         <div class="editor-label">
             @Html.LabelFor(model => model.Content.Data)
         </div>
@@ -30,10 +31,11 @@
             <p>@string.Format(Resources.SupportedImageFormatsIncludeAllOtherContentWillBeIgnored, supportedImages)</p>
         </div>
 
-        <p>
-            <input type="submit" value="@Resources.Create" />
-        </p>
     </fieldset>
+
+    <p>
+        <input type="submit" value="@Resources.Create" />
+    </p>
 }
 
 <div>

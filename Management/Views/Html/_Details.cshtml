@@ -16,33 +16,36 @@
     }
 }
 
-<fieldset>
-    <legend>@Resources.Html</legend>
-
     <table class="divTable"><tr>
         <td>
-    <div class="divTable">
 
-    @Html.Partial("_frameDetails", Model.Frame)
+            @Html.Partial("_frameDetails", Model.Frame)
 
-    <div class="divRow">
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Name)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Name)
-    </div>
-    </div>
+            <fieldset>
+                <legend>@Resources.Html</legend>
 
-    </div>
-    </td>
+                <div class="divTable">
 
-    <td>
-        <div>
-            <iframe style="@bg" src="@Url.Action("Preview", "Html", new { id = Model.FrameId })" id="htmlPreview" sandbox="allow-scripts"></iframe>
-        </div>
-    </td>
+                <div class="divRow">
+                <div class="display-label">
+                     @Html.DisplayNameFor(model => model.Name)
+                </div>
+                <div class="display-field">
+                    @Html.DisplayFor(model => model.Name)
+                </div>
+                </div>
+
+                </div>
+            
+            </fieldset>
+        
+        </td>
+
+        <td>
+            <div>
+                <iframe style="@bg" src="@Url.Action("Preview", "Html", new { id = Model.FrameId })" id="htmlPreview" sandbox="allow-scripts"></iframe>
+            </div>
+        </td>
 
     </tr></table>
-</fieldset>
 

@@ -25,6 +25,7 @@
           <EntitySet Name="Report" EntityType="DisplayMonkey.Model.Store.Report" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="ReportServer" EntityType="DisplayMonkey.Model.Store.ReportServer" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Settings" EntityType="DisplayMonkey.Model.Store.Settings" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Template" EntityType="DisplayMonkey.Model.Store.Template" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Video" EntityType="DisplayMonkey.Model.Store.Video" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="VideoAlternative" EntityType="DisplayMonkey.Model.Store.VideoAlternative" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Weather" EntityType="DisplayMonkey.Model.Store.Weather" store:Type="Tables" Schema="dbo" />
@@ -47,6 +48,10 @@
           </AssociationSet>
           <AssociationSet Name="FK_Frame_Panel" Association="DisplayMonkey.Model.Store.FK_Frame_Panel">
             <End Role="Panel" EntitySet="Panel" />
+            <End Role="Frame" EntitySet="Frame" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Frame_Template" Association="DisplayMonkey.Model.Store.FK_Frame_Template">
+            <End Role="Template" EntitySet="Template" />
             <End Role="Frame" EntitySet="Frame" />
           </AssociationSet>
           <AssociationSet Name="FK_FrameLlocation_Location" Association="DisplayMonkey.Model.Store.FK_FrameLlocation_Location">
@@ -154,8 +159,8 @@
           <Property Name="Type" Type="int" Nullable="false" />
           <Property Name="ShowDate" Type="bit" Nullable="false" />
           <Property Name="ShowTime" Type="bit" Nullable="false" />
-          <Property Name="OffsetGMT" Type="int" />
           <Property Name="Label" Type="varchar" MaxLength="50" />
+          <Property Name="TimeZone" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Content">
           <Key>
@@ -201,6 +206,10 @@
           <Property Name="EndsOn" Type="datetime" />
           <Property Name="Sort" Type="int" />
           <Property Name="DateCreated" Type="datetime" Nullable="false" StoreGeneratedPattern="Computed" />
+          <Property Name="Version" Type="timestamp" Nullable="false" StoreGeneratedPattern="Computed" />
+          <Property Name="TemplateId" Type="int" Nullable="false" />
+          <Property Name="CacheMode" Type="int" Nullable="false" />
+          <Property Name="CacheInterval" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="FrameLocation">
           <Key>
@@ -246,10 +255,10 @@
           <Property Name="Longitude" Type="float" />
           <Property Name="DateFormat" Type="varchar" MaxLength="20" />
           <Property Name="TimeFormat" Type="varchar" MaxLength="10" />
-          <Property Name="OffsetGMT" Type="int" />
           <Property Name="Woeid" Type="int" />
           <Property Name="Version" Type="timestamp" Nullable="false" StoreGeneratedPattern="Computed" />
           <Property Name="Culture" Type="varchar" MaxLength="10" />
+          <Property Name="TimeZone" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Memo">
           <Key>
@@ -326,6 +335,16 @@
           <Property Name="Key" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Value" Type="varbinary(max)" />
           <Property Name="Type" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Template">
+          <Key>
+            <PropertyRef Name="TemplateId" />
+          </Key>
+          <Property Name="TemplateId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="Html" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="FrameType" Type="int" Nullable="false" />
+          <Property Name="Version" Type="timestamp" Nullable="false" StoreGeneratedPattern="Computed" />
         </EntityType>
         <EntityType Name="Video">
           <Key>
@@ -425,6 +444,20 @@
             </Principal>
             <Dependent Role="Frame">
               <PropertyRef Name="PanelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Frame_Template">
+          <End Role="Template" Type="DisplayMonkey.Model.Store.Template" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Frame" Type="DisplayMonkey.Model.Store.Frame" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Template">
+              <PropertyRef Name="TemplateId" />
+            </Principal>
+            <Dependent Role="Frame">
+              <PropertyRef Name="TemplateId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -840,6 +873,11 @@
             <End Role="Frame" EntitySet="Frames" />
             <End Role="Outlook" EntitySet="Outlooks" />
           </AssociationSet>
+          <EntitySet Name="Templates" EntityType="DisplayMonkey.Model.Template" />
+          <AssociationSet Name="FK_Frame_Template" Association="DisplayMonkey.Model.FK_Frame_Template">
+            <End Role="Template" EntitySet="Templates" />
+            <End Role="Frame" EntitySet="Frames" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Canvas">
           <Key>
@@ -867,7 +905,7 @@
           <Property Name="ShowTime" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Frame" Relationship="DisplayMonkey.Model.FK_Clock_Frame" FromRole="Clock" ToRole="Frame" />
           <Property Type="String" Name="Label" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Type="Int32" Name="OffsetGMT" />
+          <Property Type="String" Name="TimeZone" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Content">
           <Key>
@@ -919,6 +957,11 @@
           <NavigationProperty Name="Html" Relationship="DisplayMonkey.Model.FK_Html_Frame" FromRole="Frame" ToRole="Html" />
           <NavigationProperty Name="Youtube" Relationship="DisplayMonkey.Model.FK_Youtube_Frame" FromRole="Frame" ToRole="Youtube" />
           <NavigationProperty Name="Outlook" Relationship="DisplayMonkey.Model.FK_Outlook_Frame" FromRole="Frame" ToRole="Outlook" />
+          <Property Type="Binary" Name="Version" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" a:SetterAccess="Protected" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
+          <Property Type="Int32" Name="TemplateId" Nullable="false" />
+          <Property Type="DisplayMonkey.Model.CacheModes" Name="CacheMode" Nullable="false" />
+          <Property Type="Int32" Name="CacheInterval" Nullable="false" />
+          <NavigationProperty Name="Template" Relationship="DisplayMonkey.Model.FK_Frame_Template" FromRole="Frame" ToRole="Template" />
         </EntityType>
         <EntityType Name="FullScreen">
           <Key>
@@ -956,10 +999,10 @@
           <NavigationProperty Name="Frames" Relationship="DisplayMonkey.Model.FrameLocation" FromRole="Location" ToRole="Frame" />
           <NavigationProperty Name="Sublocations" Relationship="DisplayMonkey.Model.FK_Location_Area" FromRole="Location" ToRole="Sublocations" />
           <NavigationProperty Name="Area" Relationship="DisplayMonkey.Model.FK_Location_Area" FromRole="Sublocations" ToRole="Location" />
-          <Property Type="Int32" Name="OffsetGMT" />
           <Property Type="Int32" Name="Woeid" />
           <Property Type="Binary" Name="Version" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
           <Property Type="String" Name="Culture" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="TimeZone" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Memo">
           <Key>
@@ -1461,6 +1504,34 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Template">
+          <Key>
+            <PropertyRef Name="TemplateId" />
+          </Key>
+          <Property Type="Int32" Name="TemplateId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Html" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="DisplayMonkey.Model.FrameTypes" Name="FrameType" Nullable="false" />
+          <Property Type="Binary" Name="Version" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <NavigationProperty Name="Frames" Relationship="DisplayMonkey.Model.FK_Frame_Template" FromRole="Template" ToRole="Frame" />
+        </EntityType>
+        <Association Name="FK_Frame_Template">
+          <End Type="DisplayMonkey.Model.Template" Role="Template" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="DisplayMonkey.Model.Frame" Role="Frame" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Template">
+              <PropertyRef Name="TemplateId" />
+            </Principal>
+            <Dependent Role="Frame">
+              <PropertyRef Name="TemplateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EnumType Name="FrameTypes" a:ExternalTypeName="FrameTypes" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
+        <EnumType Name="CacheModes" a:ExternalTypeName="CacheModes" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration">
+          </EnumType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1483,7 +1554,7 @@
           <EntitySetMapping Name="Clocks">
             <EntityTypeMapping TypeName="DisplayMonkey.Model.Clock">
               <MappingFragment StoreEntitySet="Clock">
-                <ScalarProperty Name="OffsetGMT" ColumnName="OffsetGMT" />
+                <ScalarProperty Name="TimeZone" ColumnName="TimeZone" />
                 <ScalarProperty Name="Label" ColumnName="Label" />
                 <ScalarProperty Name="FrameId" ColumnName="FrameId" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
@@ -1519,6 +1590,10 @@
           <EntitySetMapping Name="Frames">
             <EntityTypeMapping TypeName="DisplayMonkey.Model.Frame">
               <MappingFragment StoreEntitySet="Frame">
+                <ScalarProperty Name="CacheInterval" ColumnName="CacheInterval" />
+                <ScalarProperty Name="CacheMode" ColumnName="CacheMode" />
+                <ScalarProperty Name="TemplateId" ColumnName="TemplateId" />
+                <ScalarProperty Name="Version" ColumnName="Version" />
                 <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
                 <ScalarProperty Name="Sort" ColumnName="Sort" />
                 <ScalarProperty Name="EndsOn" ColumnName="EndsOn" />
@@ -1549,10 +1624,10 @@
           <EntitySetMapping Name="Locations">
             <EntityTypeMapping TypeName="DisplayMonkey.Model.Location">
               <MappingFragment StoreEntitySet="Location">
+                <ScalarProperty Name="TimeZone" ColumnName="TimeZone" />
                 <ScalarProperty Name="Culture" ColumnName="Culture" />
                 <ScalarProperty Name="Version" ColumnName="Version" />
                 <ScalarProperty Name="Woeid" ColumnName="Woeid" />
-                <ScalarProperty Name="OffsetGMT" ColumnName="OffsetGMT" />
                 <ScalarProperty Name="LocationId" ColumnName="LocationId" />
                 <ScalarProperty Name="LevelId" ColumnName="LevelId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -1715,6 +1790,17 @@
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Mode" ColumnName="Mode" />
                 <ScalarProperty Name="FrameId" ColumnName="FrameId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Templates">
+            <EntityTypeMapping TypeName="DisplayMonkey.Model.Template">
+              <MappingFragment StoreEntitySet="Template">
+                <ScalarProperty Name="Version" ColumnName="Version" />
+                <ScalarProperty Name="FrameType" ColumnName="FrameType" />
+                <ScalarProperty Name="Html" ColumnName="Html" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="TemplateId" ColumnName="TemplateId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

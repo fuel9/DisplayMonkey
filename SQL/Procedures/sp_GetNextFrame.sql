@@ -4,23 +4,18 @@ GO
   2013-11-07 [DPA] - DisplayMonkey object
   2014-02-19 [LTL] - using Sort
   2014-11-07 [LTL] - improvements, blank cycle
+  2015-03-30 [LTL] - return entire frame + template
 *******************************************************************/
 alter procedure dbo.sp_GetNextFrame
 	@panelId int
 ,	@displayId int
 ,	@lastFrameId int
-,	@nextFrameId int OUT
-,	@duration int OUT
-,	@frameType varchar(20) OUT
 as begin
 
 	set nocount on;
 	declare @now as datetime, @lid int; 
 	select 
 		@now = getdate()
-	,	@nextFrameId = null
-	,	@duration = null
-	,	@frameType = null
 	;
 	
 	declare @l table (LocationId int not null, FrameId int not null);
@@ -46,12 +41,22 @@ as begin
 		select 2 S, FrameId, isnull(Sort,FrameId) Sort from Frame where PanelId = @panelId 
 	)
 	select top 1 
-		@nextFrameId = f.FrameId
-	,	@duration = d.Duration
-	,	@frameType = t.FrameType
+		t.FrameType
+	,	t.Name TemplateName
+	,	t.Html
+	,	d.FrameId
+	,	d.PanelId
+	,	d.Duration
+	,	d.BeginsOn
+	,	d.EndsOn
+	,	d.Sort
+	,	d.DateCreated
+	,	d.CacheMode
+	,	d.CacheInterval
+	,	d.[Version]
 	from _next f 
-	inner join Frame_Type_View t on t.FrameId=f.FrameId
 	inner join Frame d on d.FrameId=f.FrameId
+	inner join Template t on t.TemplateId=d.TemplateId
 	where
 		(d.BeginsOn is null or d.BeginsOn <= @now) 
 		and (d.EndsOn is null or @now <= d.EndsOn)
@@ -60,10 +65,6 @@ as begin
 				or  exists(select 1 from @l where FrameId=f.FrameId)
 			)
 	order by f.S, f.Sort
-	;
-	
-	-- no frame, set blank cycle duration
-	if (@duration is null) set @duration = 60
 	;
 
 end

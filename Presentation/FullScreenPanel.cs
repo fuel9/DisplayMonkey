@@ -30,12 +30,12 @@ namespace DisplayMonkey
 				if (ds.Tables[0].Rows.Count > 0)
 				{
 					DataRow r = ds.Tables[0].Rows[0];
-                    InitFromCanvasRow(r);
+                    _initFromRow(r);
 				}
 			}
 		}
 
-		public void InitFromCanvasRow(DataRow r)
+		private void _initFromRow(DataRow r)
 		{
 			Width = r.IntOrZero("Width");
 			Height = r.IntOrZero("Height");

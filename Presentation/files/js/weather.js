@@ -111,6 +111,9 @@ var Weather = Class.create(PeriodicalExecuter, {
         new Ajax.Request("getYahooWeather.ashx", {
             method: 'get',
             parameters: $H({
+                frame: this.frameId,
+                panel: this.panelId,
+                display: _canvas.displayId,
                 woeid: this.woeid,
                 tempU: this.tempU
             }),

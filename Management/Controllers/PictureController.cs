@@ -20,7 +20,7 @@ namespace DisplayMonkey.Controllers
 
         public ActionResult Details(int id = 0)
         {
-            Navigation.SaveCurrent();
+            this.SaveReferrer(true);
 
             Picture picture = db.Pictures.Find(id);
             if (picture == null)
@@ -47,6 +47,10 @@ namespace DisplayMonkey.Controllers
                 Frame = frame,
             };
 
+            picture.init();
+
+            this.FillTemplatesSelectList(db, FrameTypes.Picture);
+            this.FillCacheModeSelectList();
             FillPicturesSelectList();
             FillModesSelectList();
 
@@ -70,7 +74,7 @@ namespace DisplayMonkey.Controllers
                     db.Pictures.Add(picture);
                     db.SaveChanges();
 
-                    return Navigation.Restore() ?? RedirectToAction("Index", "Frame");
+                    return this.RestoreReferrer() ?? RedirectToAction("Index", "Frame");
                 }
                 else
                 {
@@ -79,6 +83,8 @@ namespace DisplayMonkey.Controllers
                 }
             }
 
+            this.FillTemplatesSelectList(db, FrameTypes.Picture, picture.Frame.TemplateId);
+            this.FillCacheModeSelectList(picture.Frame.CacheMode);
             FillPicturesSelectList();
             FillModesSelectList();
 
@@ -97,6 +103,8 @@ namespace DisplayMonkey.Controllers
                 return RedirectToAction("Create", "Frame");
             }
 
+            this.FillTemplatesSelectList(db, FrameTypes.Picture, picture.Frame.TemplateId);
+            this.FillCacheModeSelectList(picture.Frame.CacheMode);
             FillPicturesSelectList();
             FillModesSelectList();
             ViewBag.MaxImageSize = db.Settings.FirstOrDefault(s => s.Key == DisplayMonkey.Models.Setting.Key_MaxImageSize).IntValuePositive;
@@ -138,10 +146,12 @@ namespace DisplayMonkey.Controllers
                     db.Pictures.Add(picture);
                     db.SaveChanges();
 
-                    return Navigation.Restore() ?? RedirectToAction("Index", "Frame");
+                    return this.RestoreReferrer() ?? RedirectToAction("Index", "Frame");
                 }
             }
 
+            this.FillTemplatesSelectList(db, FrameTypes.Picture, picture.Frame.TemplateId);
+            this.FillCacheModeSelectList(picture.Frame.CacheMode);
             FillPicturesSelectList();
             FillModesSelectList();
             ViewBag.MaxImageSize = db.Settings.FirstOrDefault(s => s.Key == DisplayMonkey.Models.Setting.Key_MaxImageSize).IntValuePositive;
@@ -160,6 +170,8 @@ namespace DisplayMonkey.Controllers
                 return View("Missing", new MissingItem(id));
             }
 
+            this.FillTemplatesSelectList(db, FrameTypes.Picture, picture.Frame.TemplateId);
+            this.FillCacheModeSelectList(picture.Frame.CacheMode);
             FillPicturesSelectList(picture.ContentId);
             FillModesSelectList(picture.Mode);
 
@@ -179,9 +191,11 @@ namespace DisplayMonkey.Controllers
                 db.Entry(picture).State = EntityState.Modified;
                 db.SaveChanges();
 
-                return Navigation.Restore() ?? RedirectToAction("Index");
+                return this.RestoreReferrer() ?? RedirectToAction("Index", "Frame");
             }
 
+            this.FillTemplatesSelectList(db, FrameTypes.Picture, picture.Frame.TemplateId);
+            this.FillCacheModeSelectList(picture.Frame.CacheMode);
             FillPicturesSelectList(picture.ContentId);
             FillModesSelectList(picture.Mode);
 
@@ -214,7 +228,7 @@ namespace DisplayMonkey.Controllers
             db.Frames.Remove(frame);
             db.SaveChanges();
 
-            return Navigation.Restore() ?? RedirectToAction("Index", "Frame");
+            return this.RestoreReferrer(true) ?? RedirectToAction("Index", "Frame");
         }
 
         private void FillPicturesSelectList(object selected = null)

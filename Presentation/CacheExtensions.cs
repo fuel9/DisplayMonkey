@@ -12,6 +12,11 @@ namespace DisplayMonkey
 
         public static T GetOrAddAbsolute<T>(this Cache cache, string key, Func<T> action, DateTime when)
         {
+            if (when <= DateTime.Now)
+            {
+                return action();
+            }
+
             T result;
             var data = cache[key]; // Can't cast using as operator as T may be a value type
 
@@ -42,6 +47,11 @@ namespace DisplayMonkey
 
         public static T GetOrAddSliding<T>(this Cache cache, string key, Func<T> action, TimeSpan after)
         {
+            if (after.TotalSeconds <= 0)
+            {
+                return action();
+            }
+
             T result;
             var data = cache[key]; // Can't cast using as operator as T may be a value type
 

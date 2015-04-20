@@ -26,7 +26,7 @@ namespace DisplayMonkey.Controllers
 
         public ActionResult Index(int levelId = 0, int areaId = 0, string name = null)
         {
-            Navigation.SaveCurrent();
+            this.SaveReferrer();
             
             IQueryable<Location> list = db.Locations;
 
@@ -64,7 +64,7 @@ namespace DisplayMonkey.Controllers
 
         public ActionResult Details(int id = 0)
         {
-            Navigation.SaveCurrent();
+            this.SaveReferrer(true);
 
             Location location = db.Locations.Find(id);
             if (location == null)
@@ -102,6 +102,7 @@ namespace DisplayMonkey.Controllers
             FillTemperatureUnitSelectList();
             FillAreaSelectList(0);
             FillCulturesSelectList();
+            this.FillSystemTimeZoneSelectList();
 
             return View();
         }
@@ -116,20 +117,21 @@ namespace DisplayMonkey.Controllers
             if (ModelState.IsValid)
             {
                 // compute Woeid & GMT offset
-                location.Woeid = GetWoeid(location.Latitude, location.Longitude);
-                if (location.OffsetGMT == null)
-                    location.OffsetGMT = GetTimeOffset(location.Latitude, location.Longitude);
+                location.Woeid = GetDefaultWoeid(location.Latitude, location.Longitude);
+                if (location.TimeZone == null)
+                    location.TimeZone = TimeZoneInfo.Local.Id; // GetDefaultTimeZone(location.Latitude, location.Longitude);
                 
                 db.Locations.Add(location);
                 db.SaveChanges();
 
-                return Navigation.Restore() ?? RedirectToAction("Index");
+                return this.RestoreReferrer() ?? RedirectToAction("Index");
             }
 
             FillLevelsSelectList(location.LevelId);
             FillTemperatureUnitSelectList(location.TemperatureUnit);
             FillAreaSelectList(location.LocationId, location.AreaId);
             FillCulturesSelectList(location.Culture);
+            this.FillSystemTimeZoneSelectList(location.TimeZone);
 
             return View(location);
         }
@@ -148,6 +150,7 @@ namespace DisplayMonkey.Controllers
             FillTemperatureUnitSelectList(location.TemperatureUnit);
             //FillAreaSelectList(location.LocationId, location.AreaId);
             FillCulturesSelectList(location.Culture);
+            this.FillSystemTimeZoneSelectList(location.TimeZone);
 
             return View(location);
         }
@@ -162,21 +165,22 @@ namespace DisplayMonkey.Controllers
             if (ModelState.IsValid)
             {
                 // compute Woeid & GMT offset
-                location.Woeid = GetWoeid(location.Latitude, location.Longitude);
-                if (location.OffsetGMT == null)
-                    location.OffsetGMT = GetTimeOffset(location.Latitude, location.Longitude);
+                location.Woeid = GetDefaultWoeid(location.Latitude, location.Longitude);
+                if (location.TimeZone == null)
+                    location.TimeZone = TimeZoneInfo.Local.Id; // GetDefaultTimeZone(location.Latitude, location.Longitude);
 
                 db.Entry(location).State = EntityState.Modified;
                 db.Entry(location).Property(l => l.LevelId).IsModified = false;
                 db.Entry(location).Property(l => l.AreaId).IsModified = false;
                 db.SaveChanges();
 
-                return Navigation.Restore() ?? RedirectToAction("Index");
+                return this.RestoreReferrer() ?? RedirectToAction("Index");
             }
             //FillLevelsSelectList(location.LevelId);
             FillTemperatureUnitSelectList(location.TemperatureUnit);
             //FillAreaSelectList(location.LocationId, location.AreaId);
             FillCulturesSelectList(location.Culture);
+            this.FillSystemTimeZoneSelectList(location.TimeZone);
 
             return View(location);
         }
@@ -206,7 +210,7 @@ namespace DisplayMonkey.Controllers
             db.Locations.Remove(location);
             db.SaveChanges();
 
-            return Navigation.Restore() ?? RedirectToAction("Index");
+            return this.RestoreReferrer(true) ?? RedirectToAction("Index");
         }
 
         private void FillLevelsSelectList(object selected = null)
@@ -249,10 +253,9 @@ namespace DisplayMonkey.Controllers
             ViewBag.Cultures = new SelectList(query, "Code", "Name", selected);
         }
 
-        private int? GetWoeid(double? latitude, double? longitude)
+        private int? GetDefaultWoeid(double? latitude, double? longitude)
         {
             // translate LAT/LNG to WOEID
-            // get local time
             string url, xml = "";
 
             if ((latitude ?? 0) == 0 || (longitude ?? 0) == 0)
@@ -289,11 +292,11 @@ namespace DisplayMonkey.Controllers
             return null;
         }
 
-        private int? GetTimeOffset(double? latitude, double? longitude)
+        private string GetDefaultTimeZone(double? latitude, double? longitude)
         {
-            // translate LAT/LNG to WOEID
-            // get local time
+            // translate LAT/LNG to time zone
             string url, xml = "";
+            int offsetGmt = 0;
 
             if ((latitude ?? 0) == 0 || (longitude ?? 0) == 0)
                 return null;
@@ -320,13 +323,13 @@ namespace DisplayMonkey.Controllers
 
             XmlDocument doc = new XmlDocument();
             doc.LoadXml(xml);
-            XmlNode nWoeid = doc.SelectSingleNode("//raw_offset");
-            if (nWoeid != null)
+            XmlNode nOffset = doc.SelectSingleNode("//raw_offset"); // seconds
+            if (nOffset != null)
             {
-                return (int)Convert.ToDouble(nWoeid.InnerText) / 3600;
+                offsetGmt = (int)Convert.ToDouble(nOffset.InnerText) / 60;
             }
 
-            return null;
+            return null;    // TODO: lookup appropriate time zone id based on GMT offset
         }
 
         protected override void Dispose(bool disposing)

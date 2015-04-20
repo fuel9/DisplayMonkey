@@ -167,6 +167,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="CacheModes.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CanvasController.cs" />
     <Compile Include="Controllers\ClockController.cs" />
@@ -188,9 +189,11 @@
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\ReportServerController.cs" />
     <Compile Include="Controllers\SettingController.cs" />
+    <Compile Include="Controllers\TemplateController.cs" />
     <Compile Include="Controllers\VideoController.cs" />
     <Compile Include="Controllers\WeatherController.cs" />
     <Compile Include="Controllers\YouTubeController.cs" />
+    <Compile Include="FrameTypes.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -282,6 +285,9 @@
       <DependentUpon>DMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SettingTypes.cs">
+      <DependentUpon>DMModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Template.cs">
       <DependentUpon>DMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Video.cs">
@@ -404,6 +410,8 @@
     <Content Include="Images\apple-touch-icon-precomposed.png" />
     <Content Include="Images\apple-touch-icon.png" />
     <Content Include="Images\browserconfig.xml" />
+    <Content Include="Images\button_blue.png" />
+    <Content Include="Images\button_blue_red.png" />
     <Content Include="Images\Calendar.png" />
     <Content Include="Images\clock.png" />
     <Content Include="Images\dropdown.png" />
@@ -454,6 +462,63 @@
     <Content Include="Scripts\canvas-preview.js" />
     <Content Include="Scripts\jqsimplemenu.js" />
     <Content Include="Images\manifest.json" />
+    <None Include="CodeTemplates\MvcView\Create.cs.t4">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Create.cs.cshtml</LastGenOutput>
+    </None>
+    <None Include="CodeTemplates\MvcView\Delete.cs.t4">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Delete.cs.cshtml</LastGenOutput>
+    </None>
+    <None Include="CodeTemplates\MvcView\Details.cs.t4">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Details.cs.cshtml</LastGenOutput>
+    </None>
+    <None Include="CodeTemplates\MvcView\Edit.cs.cshtml">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Edit.cs.t4</DependentUpon>
+    </None>
+    <None Include="CodeTemplates\MvcView\Edit.cs.t4">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Edit.cs.cshtml</LastGenOutput>
+    </None>
+    <None Include="CodeTemplates\MvcView\Empty.cs.t4">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Empty.cs.cshtml</LastGenOutput>
+    </None>
+    <None Include="CodeTemplates\MvcView\Imports.include.t4" />
+    <None Include="CodeTemplates\MvcView\List.cs.t4">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>List.cs.cshtml</LastGenOutput>
+    </None>
+    <None Include="CodeTemplates\MvcView\ModelMetadataFunctions.cs.include.t4" />
+    <None Include="CodeTemplates\MvcControllerWithContext\Controller.cs.t4" />
+    <None Include="CodeTemplates\MvcView\List.cs.cshtml">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>List.cs.t4</DependentUpon>
+    </None>
+    <None Include="CodeTemplates\MvcView\Empty.cs.cshtml">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Empty.cs.t4</DependentUpon>
+    </None>
+    <None Include="CodeTemplates\MvcView\Details.cs.cshtml">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Details.cs.t4</DependentUpon>
+    </None>
+    <None Include="CodeTemplates\MvcView\Delete.cs.cshtml">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Delete.cs.t4</DependentUpon>
+    </None>
+    <None Include="CodeTemplates\MvcView\Create.cs.cshtml">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Create.cs.t4</DependentUpon>
+    </None>
     <None Include="Properties\PublishProfiles\Debug.pubxml" />
     <None Include="Scripts\jquery-2.0.3.intellisense.js" />
     <Content Include="Scripts\jquery-2.0.3.js" />
@@ -589,7 +654,6 @@
     <Content Include="Views\Shared\_frameLocations.cshtml" />
     <Content Include="Views\Frame\Attach.cshtml" />
     <Content Include="Views\Frame\Detach.cshtml" />
-    <Content Include="Views\Weather\_frameData.cshtml" />
     <Content Include="Views\Shared\_frameList.cshtml" />
     <Content Include="Views\Panel\_Details.cshtml" />
     <Content Include="Views\Canvas\_Details.cshtml" />
@@ -634,6 +698,15 @@
     <Content Include="Views\ExchangeAccount\_Edit.cshtml" />
     <Content Include="Views\Clock\_Edit.cshtml" />
     <Content Include="Views\Clock\_SvgAnalog.cshtml" />
+    <Content Include="Views\Shared\_frameCacheData.cshtml" />
+    <Content Include="Views\Shared\_frameCacheDetails.cshtml" />
+    <Content Include="Views\Memo\_Edit.cshtml" />
+    <Content Include="Views\Report\_Edit.cshtml" />
+    <Content Include="Views\Weather\_Edit.cshtml" />
+    <Content Include="Views\Template\Delete.cshtml" />
+    <Content Include="Views\Template\Index.cshtml" />
+    <Content Include="Views\Template\Create.cshtml" />
+    <Content Include="Views\Template\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

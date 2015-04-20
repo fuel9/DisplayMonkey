@@ -18,9 +18,8 @@ namespace DisplayMonkey.Models
         public ClockTypes Type { get; set; }
         public bool ShowDate { get; set; }
         public bool ShowTime { get; set; }
-        public Nullable<int> GmtOffset { get; set; }
         public string Label { get; set; }
-        public Nullable<int> OffsetGMT { get; set; }
+        public string TimeZone { get; set; }
     
         public virtual Frame Frame { get; set; }
     }

@@ -40,8 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Resources.aa.Designer.cs">
-      <DependentUpon>Resources.aa.resx</DependentUpon>
+    <Compile Include="Resources.zz.Designer.cs">
+      <DependentUpon>Resources.zz.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
@@ -54,9 +54,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources.aa.resx">
+    <EmbeddedResource Include="Resources.zz.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.aa.Designer.cs</LastGenOutput>
+      <LastGenOutput>Resources.zz.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

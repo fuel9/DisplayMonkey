@@ -3,9 +3,11 @@
 @model DisplayMonkey.Models.Outlook
 
 @{
-    SelectList modes = ViewBag.Modes as SelectList;
     SelectList accounts = ViewBag.Accounts as SelectList;
 }
+
+    <fieldset>
+        <legend>@Resources.Outlook</legend>
 
         <div class="editor-label">
             @Html.LabelFor(model => model.Name)
@@ -38,3 +40,5 @@
             @Html.EditorFor(model => model.ShowEvents, new { htmlAttributes = new { @class = "duration" } })
             @Html.ValidationMessageFor(model => model.ShowEvents)
         </div>
+
+    </fieldset>

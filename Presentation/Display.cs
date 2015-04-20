@@ -21,7 +21,7 @@ namespace DisplayMonkey
 				if (ds.Tables.Count > 0)
 				{
 					DataRow r = ds.Tables[0].Rows[0];
-					InitFromRow(r);
+                    _initFromRow(r);
 				}
 			}
 		}
@@ -34,12 +34,12 @@ namespace DisplayMonkey
 				if (ds.Tables.Count > 0)
 				{
 					DataRow r = ds.Tables[0].Rows[0];
-					InitFromRow(r);
+                    _initFromRow(r);
 				}
 			}
 		}
 
-		public void InitFromRow(DataRow r)
+		private void _initFromRow(DataRow r)
 		{
 			DisplayId = r.IntOrZero("DisplayId");
 			CanvasId = r.IntOrZero("CanvasId");

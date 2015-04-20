@@ -9,6 +9,9 @@
     @Html.Hidden("maxVideoSize", (object)ViewBag.MaxVideoSize)
     @Html.Hidden("videoExt", (object)supportedVideos)
 
+    <fieldset>
+        <legend>@Resources.Upload</legend>
+
         <div class="editor-label">
             @Html.LabelFor(model => model.Contents.FirstOrDefault().Data)
         </div>
@@ -18,3 +21,5 @@
             <p>@string.Format(Resources.SupportedImageFormatsIncludeAllOtherContentWillBeIgnored, supportedVideos)</p>
             <p>@Resources.NoteForVarietyOfBrowsersVideoFramesCanBeLinkedToMultipleAlternativeMediaStreamsToSelectMultipleFilesPushAndHoldShiftOrCtrl</p>
         </div>
+
+    </fieldset>

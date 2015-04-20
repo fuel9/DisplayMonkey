@@ -48,6 +48,14 @@
         </div>
 
         <div class="editor-label">
+            @Html.LabelFor(model => model.TimeZone)
+        </div>
+        <div class="editor-field select">
+            @Html.DropDownListFor(m => m.TimeZone, ViewBag.TimeZones as SelectList, Resources.FromAreaOrServerDefault)
+            @Html.ValidationMessageFor(model => model.TimeZone)
+        </div>
+
+        <div class="editor-label">
             @Html.LabelFor(model => model.TemperatureUnit)
         </div>
         <div class="editor-field select">
@@ -85,14 +93,6 @@
         <div class="editor-field">
             @Html.EditorFor(model => model.Longitude)
             @Html.ValidationMessageFor(model => model.Longitude)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.OffsetGMT)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.OffsetGMT)
-            @Html.ValidationMessageFor(model => model.OffsetGMT)
         </div>
 
         <p>

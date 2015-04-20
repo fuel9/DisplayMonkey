@@ -1,0 +1,20 @@
+﻿@using DisplayMonkey.Language
+
+@model DisplayMonkey.Models.Weather
+
+@{
+    SelectList types = ViewBag.Types as SelectList;
+}
+
+    <fieldset>
+        <legend>@Resources.Weather</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Type)
+        </div>
+        <div class="editor-field select">
+            @Html.DropDownListFor(model => model.Type, types)
+            @Html.ValidationMessageFor(model => model.Type)
+        </div>
+
+    </fieldset>

@@ -1,0 +1,21 @@
+﻿@using DisplayMonkey.Models
+@using DisplayMonkey.Language
+
+@model DisplayMonkey.Models.Frame
+
+    @if (Model.CacheMode != CacheModes.CacheMode_None) 
+    {
+        <fieldset>
+            <legend>@Resources.CachingOptions</legend>
+
+            <div class="divRow">
+            <div class="display-label">
+                 @Html.DisplayNameFor(model => model.CacheMode)
+            </div>
+            <div class="display-field">
+                @Model.CacheMode.Translate() @(", ") @Html.DisplayFor(model => model.CacheInterval) @Resources.Min
+            </div>
+            </div>
+    
+        </fieldset>
+    }

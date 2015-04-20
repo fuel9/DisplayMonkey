@@ -4,33 +4,38 @@
 
 @model DisplayMonkey.Models.Picture
 
-<fieldset>
-    <legend>@Resources.Picture</legend>
-
     <table class="divTable"><tr>
         <td>
-    <div class="divTable">
+        
+            @Html.Partial("_frameDetails", Model.Frame)
+            @Html.Partial("_frameCacheDetails", Model.Frame)
 
-    @Html.Partial("_frameDetails", Model.Frame)
+            <fieldset>
+                <legend>@Resources.Picture</legend>
 
-    <div class="divRow">
-    <div class="display-label">
-         @Resources.Content
-    </div>
-    <div class="display-field">
-        @Html.ActionLink(Model.Content.Name, "Details", "Media", new { id=Model.ContentId }, null)
-    </div>
-    </div>
+                <div class="divTable">
 
-    <div class="divRow">
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Mode)
-    </div>
-    <div class="display-field">
-        @Model.Mode.Translate()
-    </div>
-    </div>
-    </div>
+                <div class="divRow">
+                <div class="display-label">
+                     @Resources.Content
+                </div>
+                <div class="display-field">
+                    @Html.ActionLink(Model.Content.Name, "Details", "Media", new { id=Model.ContentId }, null)
+                </div>
+                </div>
+
+                <div class="divRow">
+                <div class="display-label">
+                     @Html.DisplayNameFor(model => model.Mode)
+                </div>
+                <div class="display-field">
+                    @Model.Mode.Translate()
+                </div>
+                </div>
+
+                </div>
+
+            </fieldset>
 
         </td>
 
@@ -41,5 +46,3 @@
         </td>
 
     </tr></table>
-</fieldset>
-

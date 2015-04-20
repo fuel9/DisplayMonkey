@@ -6,34 +6,39 @@
     DisplayMonkey.Models.Content alt1 = Model.Contents.FirstOrDefault();
 }
 
-<fieldset>
-    <legend>@Resources.Video</legend>
-
     <table class="divTable"><tr>
         <td>
-    <div class="divTable">
+            
+            @Html.Partial("_frameDetails", Model.Frame)
+            @Html.Partial("_frameCacheDetails", Model.Frame)
 
-    @Html.Partial("_frameDetails", Model.Frame)
+            <fieldset>
+                <legend>@Resources.Video</legend>
 
-    <div class="divRow">
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.PlayMuted)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.PlayMuted)
-    </div>
-    </div>
+                <div class="divTable">
 
-    <div class="divRow">
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.AutoLoop)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.AutoLoop)
-    </div>
-    </div>
-    </div>
+                <div class="divRow">
+                <div class="display-label">
+                     @Html.DisplayNameFor(model => model.PlayMuted)
+                </div>
+                <div class="display-field">
+                    @Html.DisplayFor(model => model.PlayMuted)
+                </div>
+                </div>
 
+                <div class="divRow">
+                <div class="display-label">
+                     @Html.DisplayNameFor(model => model.AutoLoop)
+                </div>
+                <div class="display-field">
+                    @Html.DisplayFor(model => model.AutoLoop)
+                </div>
+                </div>
+                
+                </div>
+
+            </fieldset>
+        
         </td>
 
         <td>
@@ -49,5 +54,4 @@
         </td>
 
     </tr></table>
-</fieldset>
 

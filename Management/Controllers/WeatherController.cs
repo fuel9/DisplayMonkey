@@ -23,7 +23,7 @@ namespace DisplayMonkey.Controllers
 
         public ActionResult Details(int id = 0)
         {
-            Navigation.SaveCurrent();
+            this.SaveReferrer(true);
 
             Weather weather = db.Weathers.Find(id);
             if (weather == null)
@@ -50,8 +50,10 @@ namespace DisplayMonkey.Controllers
                 Frame = frame,
             };
 
-            weather.SetDefaultDuration();
+            weather.init();
 
+            this.FillTemplatesSelectList(db, FrameTypes.Weather);
+            this.FillCacheModeSelectList();
             FillWeatherTypeSelectList();
 
             return View(weather);
@@ -70,9 +72,11 @@ namespace DisplayMonkey.Controllers
                 db.Weathers.Add(weather);
                 db.SaveChanges();
 
-                return Navigation.Restore() ?? RedirectToAction("Index");
+                return this.RestoreReferrer() ?? RedirectToAction("Index", "Frame");
             }
 
+            this.FillTemplatesSelectList(db, FrameTypes.Weather, weather.Frame.TemplateId);
+            this.FillCacheModeSelectList(weather.Frame.CacheMode);
             FillWeatherTypeSelectList();
 
             weather.Frame = frame;
@@ -91,6 +95,8 @@ namespace DisplayMonkey.Controllers
                 return View("Missing", new MissingItem(id));
             }
 
+            this.FillTemplatesSelectList(db, FrameTypes.Weather, weather.Frame.TemplateId);
+            this.FillCacheModeSelectList(weather.Frame.CacheMode);
             FillWeatherTypeSelectList();
             
             return View(weather);
@@ -109,9 +115,11 @@ namespace DisplayMonkey.Controllers
                 db.Entry(weather).State = EntityState.Modified;
                 db.SaveChanges();
 
-                return Navigation.Restore() ?? RedirectToAction("Index");
+                return this.RestoreReferrer() ?? RedirectToAction("Index", "Frame");
             }
 
+            this.FillTemplatesSelectList(db, FrameTypes.Weather, weather.Frame.TemplateId);
+            this.FillCacheModeSelectList(weather.Frame.CacheMode);
             FillWeatherTypeSelectList();
 
             weather.Frame = frame;
@@ -143,7 +151,7 @@ namespace DisplayMonkey.Controllers
             db.Frames.Remove(frame);
             db.SaveChanges();
 
-            return Navigation.Restore() ?? RedirectToAction("Index", "Frame");
+            return this.RestoreReferrer(true) ?? RedirectToAction("Index", "Frame");
         }
 
         protected override void Dispose(bool disposing)

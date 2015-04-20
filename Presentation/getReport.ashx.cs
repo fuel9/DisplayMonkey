@@ -6,6 +6,7 @@ using System.IO;
 //using System.Data;
 using System.Configuration;
 using System.Net;
+using DisplayMonkey.Models;
 //using System.Drawing;
 //using System.Drawing.Imaging;
 
@@ -23,68 +24,91 @@ namespace DisplayMonkey
 
 			try
 			{
-				int frameId = Convert.ToInt32(Request.QueryString["frame"]);
-
-                Report report = new Report(frameId);
-                Panel panel = new Panel(report.PanelId);
-
-				byte[] data = null;
-				int panelHeight = panel.Height, panelWidth = panel.Width;
-				PictureMode mode = report.Mode;
-                string user = report.User, domain = report.Domain;
-                string baseUrl = report.BaseUrl, url = report.Path;
-                byte[] password = report.Password;
-
-                if (baseUrl.EndsWith("/"))
-                    baseUrl = baseUrl.Substring(0, baseUrl.Length - 1);
-
-                if (!url.StartsWith("/"))
-                    url = "/" + url;
-                
-                // report URL
-				url = string.Format(
-					"{0}?{1}&rs:format=IMAGE",
-                    baseUrl,
-					HttpUtility.UrlEncode(url)
-					);
-
-				//throw new Exception(url);
-
-				// get response from report server
-				WebClient client = new WebClient();
-                if (!string.IsNullOrWhiteSpace(user))
-                {
-                    client.Credentials = new NetworkCredential(
-                        user.Trim(),
-                        RsaUtil.Decrypt(password),
-                        domain.Trim()
-                        );
-                }
-				data = client.DownloadData(url);
-
-				//TiffBitmapDecoder decoder = new TiffBitmapDecoder(imageStreamSource, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.Default);
-				//BitmapSource bitmapSource = decoder.Frames[0];
-
-                // prevent client caching, return PNG
+                // set headers, prevent client caching, return PNG
                 Response.Clear();
                 Response.Cache.SetCacheability(HttpCacheability.NoCache);
                 Response.Cache.SetSlidingExpiration(true);
                 Response.Cache.SetNoStore();
                 Response.ContentType = "image/png";
-                
-                using (MemoryStream ms = new MemoryStream(data))
-				{
-					Picture.WriteImage(ms, Response.OutputStream, panelWidth, panelHeight, mode);
-				}
 
-                Response.OutputStream.Flush();
+                int frameId = Convert.ToInt32(Request.QueryString["frame"]);
+
+                byte[] data = null;
+                int panelHeight = -1, panelWidth = -1;
+                RenderModes mode = RenderModes.RenderMode_Crop;
+
+                Report report = new Report(frameId);
+
+                if (report.FrameId != 0)
+                {
+                    Panel panel = new Panel(report.PanelId);
+                    if (panel.PanelId != 0)
+                    {
+                        panelWidth = panel.Width;
+                        panelHeight = panel.Height;
+                    }
+
+                    mode = report.Mode;
+
+                    //TiffBitmapDecoder decoder = new TiffBitmapDecoder(imageStreamSource, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.Default);
+                    //BitmapSource bitmapSource = decoder.Frames[0];
+
+                    data = HttpRuntime.Cache.GetOrAddSliding(
+                        string.Format("report_{0}_{1}_{2}x{3}_{4}", report.FrameId, report.Version, panelWidth, panelHeight, (int)mode),
+                        () =>
+                        {
+                            // get response from report server
+                            WebClient client = new WebClient();
+                            if (!string.IsNullOrWhiteSpace(report.User))
+                            {
+                                client.Credentials = new NetworkCredential(
+                                    report.User.Trim(),
+                                    RsaUtil.Decrypt(report.Password),
+                                    report.Domain.Trim()
+                                    );
+                            }
+
+                            byte[] repBytes = client.DownloadData(report.Url);
+
+                            if (repBytes == null)
+                                return null;
+
+                            using (MemoryStream trg = new MemoryStream())
+                            using (MemoryStream src = new MemoryStream(repBytes))
+                            {
+                                Picture.WriteImage(src, trg, panelWidth, panelHeight, mode);
+                                return trg.GetBuffer();
+                            }
+                        },
+                        TimeSpan.FromMinutes(report.CacheInterval)
+                        );
+                }
+
+                if (data != null)
+                {
+                    Response.OutputStream.Write(data, 0, data.Length);
+                }
+
+                else
+                {
+                    data = File.ReadAllBytes("~/files/404.png");
+                    using (MemoryStream ms = new MemoryStream(data))
+                    {
+                        Picture.WriteImage(ms, Response.OutputStream, panelWidth, panelHeight, mode);
+                    }
+                }
             }
 
 			catch (Exception ex)
 			{
 				Response.Write(ex.Message);
 			}
-		}
+
+            finally
+            {
+                Response.OutputStream.Flush();
+            }
+        }
 
 		public bool IsReusable
 		{

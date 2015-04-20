@@ -12,17 +12,12 @@
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
 
-    <fieldset>
-        <legend>@Resources.YouTube</legend>
+    @Html.Partial("_frameData", Model.Frame)
+    @Html.Partial("_Edit")
 
-        @Html.Partial("_frameData", Model.Frame)
-
-        @Html.Partial("_Edit")
-
-        <p>
-            <input type="submit" value="@Resources.Save" />
-        </p>
-    </fieldset>
+    <p>
+        <input type="submit" value="@Resources.Save" />
+    </p>
 }
 
 <div>
@@ -32,7 +27,7 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 
-    <script>
+    <script type="text/javascript">
         $(function () {
             $("#slider-volume").slider({
                 min: 0,

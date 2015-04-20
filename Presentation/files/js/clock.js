@@ -14,7 +14,7 @@ var Clock = Class.create({
         this.panelHeight = options.height || 0;
         var time = moment();
         this.offsetMilliseconds = time.diff(options.data.OffsetGmt ?
-            _canvas.serverTime.add(options.data.OffsetGmt, 'h') :
+            _canvas.utcTime.add(options.data.OffsetGmt, 'm') :
             _canvas.locationTime);
         this.showSeconds = !!options.data.ShowSeconds;
         this.useSvg = document.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1");

@@ -23,17 +23,12 @@
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
 
-    <fieldset>
-        <legend>@Resources.Html</legend>
+    @Html.Partial("_frameData", Model.Frame)
+    @Html.Partial("_Edit")
 
-        @Html.Partial("_frameData", Model.Frame)
-
-        @Html.Partial("_Edit")
-
-        <p>
-            <input type="submit" value="@Resources.Save" />
-        </p>
-    </fieldset>
+    <p>
+        <input type="submit" value="@Resources.Save" />
+    </p>
 }
 
 <div>

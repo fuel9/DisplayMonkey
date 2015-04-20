@@ -6,23 +6,21 @@
     ViewBag.Title = Resources.CreateNewVideoFrame;
 }
 
+
 <h2>@ViewBag.Title</h2>
 
 @using (Html.BeginForm("Upload", "Video", FormMethod.Post, new { enctype = "multipart/form-data" })) {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
 
-    <fieldset>
-        <legend>@Resources.Picture</legend>
+    @Html.Partial("_frameData", Model.Frame)
+    @Html.Partial("_frameCacheData", Model.Frame)
+    @Html.Partial("_Edit", Model)     
+    @Html.Partial("_File", Model)
 
-        @Html.Partial("_frameData", Model.Frame)
-        @Html.Partial("_Edit", Model)     
-        @Html.Partial("_File", Model)
-
-        <p>
-            <input type="submit" value="@Resources.Create" />
-        </p>
-    </fieldset>
+    <p>
+        <input type="submit" value="@Resources.Create" />
+    </p>
 }
 
 <div>

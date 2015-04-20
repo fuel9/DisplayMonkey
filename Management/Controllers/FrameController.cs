@@ -57,7 +57,7 @@ namespace DisplayMonkey.Controllers
             }
         }
 
-        private void FillFrameTypeSelectList(Frame.FrameTypes? selected = null)
+        private void FillFrameTypeSelectList(FrameTypes? selected = null)
         {
             ViewBag.FrameType = selected.TranslatedSelectList(valueAsText: true);
         }
@@ -70,9 +70,9 @@ namespace DisplayMonkey.Controllers
         //
         // GET: /Frame/
 
-        public ActionResult Index(int canvasId = 0, int panelId = 0, Frame.FrameTypes? frameType = null, int? timingOption = null /*, int page = 1*/)
+        public ActionResult Index(int canvasId = 0, int panelId = 0, FrameTypes? frameType = null, int? timingOption = null /*, int page = 1*/)
         {
-            Navigation.SaveCurrent();
+            this.SaveReferrer();
 
             //if (page <= 0) page = 1;
 
@@ -146,7 +146,7 @@ namespace DisplayMonkey.Controllers
         //
         // GET: /Frame/Create
 
-        public ActionResult Create(int canvasId = 0, int panelId = 0, Frame.FrameTypes? frameType = null)
+        public ActionResult Create(int canvasId = 0, int panelId = 0, FrameTypes? frameType = null)
         {
             if (panelId == 0)
             {
@@ -260,6 +260,8 @@ namespace DisplayMonkey.Controllers
                     ;
 
                 selector.Panel = panel;
+                selector.CacheMode = CacheModes.CacheMode_None;
+                selector.CacheInterval = 0;
 
                 TempData[SelectorFrameKey] = selector;
                 return RedirectToAction("Create", selector.FrameType.ToString());
@@ -398,7 +400,7 @@ namespace DisplayMonkey.Controllers
                 frame.Locations.Add(location);
                 db.SaveChanges();
 
-                return Navigation.Restore() ?? RedirectToAction("Index");
+                return this.RestoreReferrer() ?? RedirectToAction("Index");
             }
 
             IEnumerable<Location> locations = db.Locations
@@ -441,7 +443,7 @@ namespace DisplayMonkey.Controllers
             frame.Locations.Remove(location);
             db.SaveChanges();
 
-            return Navigation.Restore() ?? RedirectToAction("Index", "Frame");
+            return this.RestoreReferrer() ?? RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)

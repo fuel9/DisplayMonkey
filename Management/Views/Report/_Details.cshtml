@@ -4,51 +4,56 @@
 
 @model DisplayMonkey.Models.Report
 
-<fieldset>
-    <legend>@Resources.Report</legend>
-
     <table class="divTable"><tr>
         <td>
-    <div class="divTable">
+        
+            @Html.Partial("_frameDetails", Model.Frame)
+            @Html.Partial("_frameCacheDetails", Model.Frame)
 
-    @Html.Partial("_frameDetails", Model.Frame)
+            <fieldset>
+                <legend>@Resources.Report</legend>
 
-    <div class="divRow">
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Name)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Name)
-    </div>
-    </div>
+                <div class="divTable">
 
-    <div class="divRow">
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.ReportServer)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.ReportServer.Name)
-    </div>
-    </div>
+                <div class="divRow">
+                <div class="display-label">
+                     @Html.DisplayNameFor(model => model.Name)
+                </div>
+                <div class="display-field">
+                    @Html.DisplayFor(model => model.Name)
+                </div>
+                </div>
 
-    <div class="divRow">
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Path)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Path)
-    </div>
-    </div>
+                <div class="divRow">
+                <div class="display-label">
+                     @Html.DisplayNameFor(model => model.ReportServer)
+                </div>
+                <div class="display-field">
+                    @Html.DisplayFor(model => model.ReportServer.Name)
+                </div>
+                </div>
 
-    <div class="divRow">
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Mode)
-    </div>
-    <div class="display-field">
-        @Model.Mode.Translate()
-    </div>
-    </div>
-    </div>
+                <div class="divRow">
+                <div class="display-label">
+                     @Html.DisplayNameFor(model => model.Path)
+                </div>
+                <div class="display-field">
+                    @Html.DisplayFor(model => model.Path)
+                </div>
+                </div>
+
+                <div class="divRow">
+                <div class="display-label">
+                     @Html.DisplayNameFor(model => model.Mode)
+                </div>
+                <div class="display-field">
+                    @Model.Mode.Translate()
+                </div>
+                </div>
+
+                </div>
+
+            </fieldset>
 
         </td>
 
@@ -59,5 +64,3 @@
         </td>
 
     </tr></table>
-</fieldset>
-

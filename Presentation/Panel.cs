@@ -26,12 +26,12 @@ namespace DisplayMonkey
 				if (ds.Tables[0].Rows.Count > 0)
 				{
 					DataRow r = ds.Tables[0].Rows[0];
-					InitFromRow(r);
+                    _initFromRow(r);
 				}
 			}
 		}
 
-		public void InitFromRow(DataRow r)
+		private void _initFromRow(DataRow r)
 		{
 			PanelId = r.IntOrZero("PanelId");
 			Top = r.IntOrZero("Top");
@@ -124,7 +124,7 @@ namespace DisplayMonkey
 			get 
 			{ 
 				return string.Format(
-					"#div{0}, #x_div{0} {{position:absolute;overflow:hidden;margin:auto;top:{1}px;left:{2}px;width:{3}px;height:{4}px;}}\n",
+					"#panel{0}, #x_panel{0} {{position:absolute;overflow:hidden;margin:auto;top:{1}px;left:{2}px;width:{3}px;height:{4}px;}}\n",
 					PanelId, 
 					Top, 
 					Left, 
@@ -139,7 +139,7 @@ namespace DisplayMonkey
 			get
 			{
 				return string.Format(
-                    "<div class=\"panel\" id=\"div{0}\" data-panel-id=\"{0}\" data-panel-width=\"{1}\" data-panel-height=\"{2}\"></div>\n",
+                    "<div class=\"panel\" id=\"panel{0}\" data-panel-id=\"{0}\" data-panel-width=\"{1}\" data-panel-height=\"{2}\"></div>\n",
                     PanelId,
                     Width,
                     Height

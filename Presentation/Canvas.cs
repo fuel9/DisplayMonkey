@@ -22,7 +22,7 @@ namespace DisplayMonkey
 				if (ds.Tables.Count > 0)
 				{
 					DataRow r = ds.Tables[0].Rows[0];
-					InitFromRow(r);
+                    _initFromRow(r);
 				}
 			}
 
@@ -49,7 +49,7 @@ namespace DisplayMonkey
 					DisplayId = displayId,
                     Display = new Display(displayId),
 				};
-				canvas.InitFromRow(ds.Tables[0].Rows[0]);
+                canvas._initFromRow(ds.Tables[0].Rows[0]);
 			}
 
 			canvas.Panels = Panel.List(canvas.CanvasId);
@@ -57,7 +57,7 @@ namespace DisplayMonkey
 			return canvas;
 		}
 		
-		public void InitFromRow(DataRow r)
+		private void _initFromRow(DataRow r)
 		{
 			CanvasId = r.IntOrZero("CanvasId");
 			Height = r.IntOrZero("Height");
@@ -125,6 +125,7 @@ namespace DisplayMonkey
 				// add meta
                 head.AppendFormat(CultureInfo.InvariantCulture, "<meta name=\"server-latitude\" content=\"{0}\" />\n", ServerGeoData.Latitude);
                 head.AppendFormat(CultureInfo.InvariantCulture, "<meta name=\"server-longitude\" content=\"{0}\" />\n", ServerGeoData.Longitude);
+                head.AppendFormat(CultureInfo.InvariantCulture, "<meta name=\"server-time-zone\" content=\"{0}\" />\n", ServerGeoData.TimeZone.Id);
                 head.AppendFormat(CultureInfo.InvariantCulture, "<meta name=\"server-offset-gmt\" content=\"{0}\" />\n", ServerGeoData.OffsetGMT);
                 head.AppendFormat(CultureInfo.InvariantCulture, "<meta name=\"server-external-ip\" content=\"{0}\" />\n", ServerGeoData.ServerExternalIPAddress.ToString());
                 if (IsAppleMobileSupported)
@@ -159,7 +160,7 @@ namespace DisplayMonkey
                 head.AppendFormat(CultureInfo.InvariantCulture, "woeid:{0},\n", location.Woeid);
                 head.AppendFormat(CultureInfo.InvariantCulture, "culture:'{0}',\n", location.Culture);
                 head.AppendFormat(CultureInfo.InvariantCulture, "locationTime:'{0}',\n", location.LocationTime);
-                head.AppendFormat(CultureInfo.InvariantCulture, "serverTime:'{0}',\n", DateTime.UtcNow);
+                head.AppendFormat(CultureInfo.InvariantCulture, "utcTime:'{0}',\n", DateTime.UtcNow);
                 head.AppendFormat(CultureInfo.InvariantCulture, "initialIdleInterval:{0},\n", this.InitialMaxIdleInterval);
 				head.AppendFormat(CultureInfo.InvariantCulture, "width:{0},\n", this.Width);
                 head.AppendFormat(CultureInfo.InvariantCulture, "height:{0},\n", this.Height);

@@ -20,14 +20,11 @@ namespace DisplayMonkey.Controllers
         // GET: /Outlook/Details/5
         public ActionResult Details(int id = 0)
         {
-            //if (id == null)
-            //{
-            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            //}
+            this.SaveReferrer(true);
+            
             Outlook outlook = db.Outlooks.Find(id);
             if (outlook == null)
             {
-                //return HttpNotFound();
                 return View("Missing", new MissingItem(id));
             }
             return View(outlook);
@@ -48,6 +45,10 @@ namespace DisplayMonkey.Controllers
                 Frame = frame,
             };
 
+            outlook.init();
+
+            this.FillTemplatesSelectList(db, FrameTypes.Outlook);
+            this.FillCacheModeSelectList();
             FillModesSelectList();
             FillAccountsSelectList();
 
@@ -73,9 +74,11 @@ namespace DisplayMonkey.Controllers
                 db.Outlooks.Add(outlook);
                 db.SaveChanges();
 
-                return Navigation.Restore() ?? RedirectToAction("Index");
+                return this.RestoreReferrer() ?? RedirectToAction("Index", "Frame");
             }
 
+            this.FillTemplatesSelectList(db, FrameTypes.Outlook, outlook.Frame.TemplateId);
+            this.FillCacheModeSelectList(outlook.Frame.CacheMode);
             FillModesSelectList(outlook.Mode);
             FillAccountsSelectList(outlook.AccountId);
 
@@ -93,6 +96,8 @@ namespace DisplayMonkey.Controllers
                 return View("Missing", new MissingItem(id));
             }
 
+            this.FillTemplatesSelectList(db, FrameTypes.Outlook, outlook.Frame.TemplateId);
+            this.FillCacheModeSelectList(outlook.Frame.CacheMode);
             FillModesSelectList(outlook.Mode);
             FillAccountsSelectList(outlook.AccountId);
 
@@ -118,9 +123,11 @@ namespace DisplayMonkey.Controllers
                 db.Entry(outlook).State = EntityState.Modified;
                 db.SaveChanges();
 
-                return Navigation.Restore() ?? RedirectToAction("Index");
+                return this.RestoreReferrer() ?? RedirectToAction("Index", "Frame");
             }
 
+            this.FillTemplatesSelectList(db, FrameTypes.Outlook, outlook.Frame.TemplateId);
+            this.FillCacheModeSelectList(outlook.Frame.CacheMode);
             FillModesSelectList(outlook.Mode);
             FillAccountsSelectList(outlook.AccountId);
 
@@ -149,7 +156,7 @@ namespace DisplayMonkey.Controllers
             db.Frames.Remove(frame);
             db.SaveChanges();
 
-            return Navigation.Restore() ?? RedirectToAction("Index", "Frame");
+            return this.RestoreReferrer(true) ?? RedirectToAction("Index", "Frame");
         }
 
         private void FillModesSelectList(OutlookModes? selected = null)

@@ -24,22 +24,32 @@ namespace DisplayMonkey
 			HttpRequest Request = context.Request;
 			HttpResponse Response = context.Response;
 
+            int frameId = DataAccess.IntOrZero(Request.QueryString["frame"]);
             int woeid = DataAccess.IntOrZero(Request.QueryString["woeid"]);
             string tempUnit = DataAccess.StringOrBlank(Request.QueryString["tempU"]);
             string json = "";
 
             try
             {
-                // get RSS feed
-                string key = string.Format("weather_{0}_{1}", tempUnit, woeid);
-                Dictionary<string, object> map = HttpRuntime.Cache.GetOrAddAbsolute(
-                    key,
-                    () => { return GetYahooWeather(tempUnit, woeid); },
-                    DateTime.UtcNow.AddMinutes(1)
-                    );
+                Weather weather = new Weather(frameId);
 
-                JavaScriptSerializer oSerializer = new JavaScriptSerializer();
-                json = oSerializer.Serialize(map);
+                if (weather.FrameId != 0)
+                {
+                    // get RSS feed
+                    Dictionary<string, object> map = HttpRuntime.Cache.GetOrAddSliding(
+                        string.Format("weather_{0}_{1}_{2}_{3}", weather.FrameId, weather.Version, tempUnit, woeid),
+                        () => { 
+                            return GetYahooWeather(tempUnit, woeid); 
+                        },
+                        TimeSpan.FromMinutes(weather.CacheInterval)
+                        );
+
+                    JavaScriptSerializer oSerializer = new JavaScriptSerializer();
+                    json = oSerializer.Serialize(map);
+                }
+
+                else
+                    throw new Exception("Incorrect frame data");
             }
 
             catch (Exception ex)

@@ -16,6 +16,12 @@ namespace DisplayMonkey
         public string NoVideoSupport { get; private set; }
         public List<VideoAlternative> VideoAlternatives { get; private set; }
 
+        public Video(int frameId)
+            : base(frameId)
+        {
+            _init();
+        }
+
         public Video(Frame frame)
             : base(frame)
         {
@@ -42,7 +48,7 @@ namespace DisplayMonkey
 
             NoVideoSupport = DisplayMonkey.Language.Resources.BrowserNoVideoSupport;
 
-            _templatePath = HttpContext.Current.Server.MapPath("~/files/frames/video/default.htm");
+            //_templatePath = HttpContext.Current.Server.MapPath("~/files/frames/video/");
         }
 	}
 

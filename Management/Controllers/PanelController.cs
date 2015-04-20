@@ -20,7 +20,7 @@ namespace DisplayMonkey.Controllers
 
         public ActionResult Index(int canvasId = 0, string name = "")
         {
-            Navigation.SaveCurrent();
+            this.SaveReferrer();
 
             var list = from l in db.Panels
                        select l;
@@ -44,7 +44,7 @@ namespace DisplayMonkey.Controllers
 
         public ActionResult Details(int id = 0)
         {
-            Navigation.SaveCurrent();
+            this.SaveReferrer(true);
 
             Panel panel = db.Panels.Find(id);
             if (panel == null)
@@ -84,7 +84,7 @@ namespace DisplayMonkey.Controllers
                 db.Panels.Add(panel);
                 db.SaveChanges();
 
-                return Navigation.Restore() ?? RedirectToAction("Index");
+                return this.RestoreReferrer() ?? RedirectToAction("Index");
             }
 
             ViewBag.CanvasId = new SelectList(db.Canvases, "CanvasId", "Name", panel.CanvasId);
@@ -120,7 +120,7 @@ namespace DisplayMonkey.Controllers
                 db.Entry(panel).State = EntityState.Modified;
                 db.SaveChanges();
 
-                return Navigation.Restore() ?? RedirectToAction("Index");
+                return this.RestoreReferrer() ?? RedirectToAction("Index");
             }
 
             ViewBag.CanvasId = new SelectList(db.Canvases, "CanvasId", "Name", panel.CanvasId);
@@ -158,7 +158,7 @@ namespace DisplayMonkey.Controllers
                 db.Entry(panel).State = EntityState.Modified;
                 db.SaveChanges();
 
-                return Navigation.Restore() ?? RedirectToAction("Index");
+                return this.RestoreReferrer() ?? RedirectToAction("Index");
             }
             
             return View(panel);
@@ -189,7 +189,7 @@ namespace DisplayMonkey.Controllers
             db.Panels.Remove(panel);
             db.SaveChanges();
 
-            return Navigation.Restore() ?? RedirectToAction("Index");
+            return this.RestoreReferrer(true) ?? RedirectToAction("Index");
         }
 
         //

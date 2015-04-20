@@ -2,6 +2,9 @@
 
 @model DisplayMonkey.Models.Video
 
+    <fieldset>
+        <legend>@Resources.Video</legend>
+
         <div class="editor-label">
             @Html.LabelFor(model => model.PlayMuted)
         </div>
@@ -17,3 +20,5 @@
             @Html.EditorFor(model => model.AutoLoop)
             @Html.ValidationMessageFor(model => model.AutoLoop)
         </div>
+
+    </fieldset>

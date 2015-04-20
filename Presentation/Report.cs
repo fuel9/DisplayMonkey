@@ -6,13 +6,14 @@ using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using System.Web.Script.Serialization;
+using DisplayMonkey.Models;
 
 namespace DisplayMonkey
 {
 	public class Report : Frame
 	{
         public string Name { get; protected set; }
-        public PictureMode Mode { get; protected set; }
+        public RenderModes Mode { get; protected set; }
 
         [ScriptIgnore]
         public string Path { get; private set; }
@@ -24,6 +25,28 @@ namespace DisplayMonkey
         public string Domain { get; private set; }
         [ScriptIgnore]
         public byte[] Password { get; private set; }
+        [ScriptIgnore]
+        public string Url
+        {
+            get
+            {
+                string baseUrl = this.BaseUrl, url = this.Path;
+
+                if (baseUrl.EndsWith("/"))
+                    baseUrl = baseUrl.Substring(0, baseUrl.Length - 1);
+
+                if (!url.StartsWith("/"))
+                    url = "/" + url;
+
+                url = string.Format(
+                    "{0}?{1}&rs:format=IMAGE",
+                    baseUrl,
+                    HttpUtility.UrlEncode(url)
+                    );
+
+                return url;
+            }
+        }
 
         public Report(Frame frame)
             : base(frame)
@@ -31,8 +54,8 @@ namespace DisplayMonkey
             _init();
         }
 
-        public Report(int frameId, int panelId = 0)
-            : base(frameId, panelId)
+        public Report(int frameId)
+            : base(frameId)
         {
             _init();
         }
@@ -46,8 +69,9 @@ namespace DisplayMonkey
                 if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 {
                     DataRow dr = ds.Tables[0].Rows[0];
+                    
                     Path = dr.StringOrBlank("Path").Trim();
-                    Mode = (PictureMode)dr.IntOrZero("Mode");
+                    Mode = (RenderModes)dr.IntOrZero("Mode");
                     Name = dr.StringOrBlank("Name");
 
                     BaseUrl = dr.StringOrBlank("BaseUrl").Trim();
@@ -57,7 +81,7 @@ namespace DisplayMonkey
                 }
             }
 
-            _templatePath = HttpContext.Current.Server.MapPath("~/files/frames/report/default.htm");
+            //_templatePath = HttpContext.Current.Server.MapPath("~/files/frames/report/");
         }
 	}
 }

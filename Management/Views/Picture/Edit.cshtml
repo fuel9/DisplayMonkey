@@ -13,11 +13,12 @@
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
 
-    <fieldset>
-        <legend>@Resources.Picture</legend>
+    @Html.Partial("_frameData", Model.Frame)
+    @Html.Partial("_frameCacheData", Model.Frame)
+    @Html.Partial("_Edit", Model)
 
-        @Html.Partial("_frameData", Model.Frame)
-        @Html.Partial("_Edit", Model)
+    <fieldset>
+        <legend>@Resources.MediaOptions</legend>
 
         <div class="editor-label">
             @Html.LabelFor(model => model.ContentId)

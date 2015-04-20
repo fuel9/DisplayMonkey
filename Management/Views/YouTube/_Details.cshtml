@@ -1,91 +1,93 @@
-﻿@using DisplayMonkey
-@using DisplayMonkey.Models
+﻿@using DisplayMonkey.Models
 @using DisplayMonkey.Language
 
 @model DisplayMonkey.Models.Youtube
 
-<fieldset>
-    <legend>@Resources.YouTube</legend>
-
     <table class="divTable"><tr>
         <td>
-    <div class="divTable">
 
-    @Html.Partial("_frameDetails", Model.Frame)
+            @Html.Partial("_frameDetails", Model.Frame)
 
-    <div class="divRow">
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Name)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Name)
-    </div>
-    </div>
+            <fieldset>
+                <legend>@Resources.YouTube</legend>
 
-    <div class="divRow">
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.YoutubeId)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.YoutubeId)
-    </div>
-    </div>
+                <div class="divTable">
 
-    <div class="divRow">
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Volume)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Volume)
-    </div>
-    </div>
+                <div class="divRow">
+                <div class="display-label">
+                     @Html.DisplayNameFor(model => model.Name)
+                </div>
+                <div class="display-field">
+                    @Html.DisplayFor(model => model.Name)
+                </div>
+                </div>
 
-    <div class="divRow">
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.AutoLoop)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.AutoLoop)
-    </div>
-    </div>
+                <div class="divRow">
+                <div class="display-label">
+                     @Html.DisplayNameFor(model => model.YoutubeId)
+                </div>
+                <div class="display-field">
+                    @Html.DisplayFor(model => model.YoutubeId)
+                </div>
+                </div>
 
-    <div class="divRow">
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Aspect)
-    </div>
-    <div class="display-field">
-        @Model.Aspect.Translate()
-    </div>
-    </div>
+                <div class="divRow">
+                <div class="display-label">
+                     @Html.DisplayNameFor(model => model.Volume)
+                </div>
+                <div class="display-field">
+                    @Html.DisplayFor(model => model.Volume)
+                </div>
+                </div>
 
-    <div class="divRow">
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Quality)
-    </div>
-    <div class="display-field">
-        @Model.Quality.Translate()
-    </div>
-    </div>
+                <div class="divRow">
+                <div class="display-label">
+                     @Html.DisplayNameFor(model => model.AutoLoop)
+                </div>
+                <div class="display-field">
+                    @Html.DisplayFor(model => model.AutoLoop)
+                </div>
+                </div>
 
-    <div class="divRow">
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Rate)
-    </div>
-    <div class="display-field">
-        @Model.Rate.Translate()
-    </div>
-    </div>
+                <div class="divRow">
+                <div class="display-label">
+                     @Html.DisplayNameFor(model => model.Aspect)
+                </div>
+                <div class="display-field">
+                    @Model.Aspect.Translate()
+                </div>
+                </div>
 
-    <div class="divRow">
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Start)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Start) @Resources.Sec
-    </div>
-    </div>
+                <div class="divRow">
+                <div class="display-label">
+                     @Html.DisplayNameFor(model => model.Quality)
+                </div>
+                <div class="display-field">
+                    @Model.Quality.Translate()
+                </div>
+                </div>
 
-    </div>
+                <div class="divRow">
+                <div class="display-label">
+                     @Html.DisplayNameFor(model => model.Rate)
+                </div>
+                <div class="display-field">
+                    @Model.Rate.Translate()
+                </div>
+                </div>
+
+                <div class="divRow">
+                <div class="display-label">
+                     @Html.DisplayNameFor(model => model.Start)
+                </div>
+                <div class="display-field">
+                    @Html.DisplayFor(model => model.Start) @Resources.Sec
+                </div>
+                </div>
+
+                </div>
+
+            </fieldset>
 
         </td>
 
@@ -96,5 +98,4 @@
         </td>
 
     </tr></table>
-</fieldset>
 

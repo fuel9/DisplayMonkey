@@ -18,19 +18,34 @@ namespace DisplayMonkey
 	{
         public bool ShowDate { get; private set; }
         public bool ShowTime { get; private set; }
+        public bool ShowSeconds { get; private set; }
         public int Type { get; private set; }
-        public int? OffsetGmt { get; private set; }
         public string Label { get; private set; }
 
+        public int? OffsetGmt   // minutes
+        {
+            get
+            {
+                if (TimeZone != null)
+                    return (int)this.TimeZone.BaseUtcOffset.TotalMinutes;
+                return null;
+            }
+        }
+
         [ScriptIgnore]
-        public bool ShowSeconds = true;     // TODO: add column
+        public TimeZoneInfo TimeZone { get; private set; }
 
         public Clock(Frame frame)
             : base(frame)
         {
+            _init();
+        }
+
+        private void _init()
+        {
             string sql = string.Format(
                 "SELECT TOP 1 * FROM Clock WHERE FrameId={0};",
-                frame.FrameId
+                this.FrameId
                 );
 
             using (DataSet ds = DataAccess.RunSql(sql))
@@ -38,17 +53,20 @@ namespace DisplayMonkey
                 if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 {
                     DataRow dr = ds.Tables[0].Rows[0];
-                    FrameId = dr.IntOrZero("FrameId");
                     this.ShowDate = dr.Boolean("ShowDate");
                     this.ShowTime = dr.Boolean("ShowTime");
                     this.Type = dr.IntOrZero("Type");
-                    if (dr["OffsetGMT"] != DBNull.Value)
-                        this.OffsetGmt = (int?)dr.IntOrZero("OffsetGMT");
                     this.Label = dr.StringOrDefault("Label", null);
+
+                    string szTimeZoneId = dr.StringOrDefault("TimeZone", null);
+                    if (szTimeZoneId != null)
+                        this.TimeZone = TimeZoneInfo.FindSystemTimeZoneById(szTimeZoneId);
+
+                    this.ShowSeconds = true;     // TODO: add column
                 }
             }
 
-            _templatePath = HttpContext.Current.Server.MapPath("~/files/frames/clock/default.htm");
+            //_templatePath = HttpContext.Current.Server.MapPath("~/files/frames/clock/");
         }
-	}
+    }
 }

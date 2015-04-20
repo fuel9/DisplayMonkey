@@ -23,7 +23,7 @@ namespace DisplayMonkey.Controllers
 
         public ActionResult Details(int id = 0)
         {
-            Navigation.SaveCurrent();
+            this.SaveReferrer(true);
 
             Clock clock = db.Clocks.Find(id);
             if (clock == null)
@@ -50,8 +50,10 @@ namespace DisplayMonkey.Controllers
                 Frame = frame,
             };
 
-            clock.SetDefaultDuration();
+            clock.init();
 
+            this.FillTemplatesSelectList(db, FrameTypes.Clock);
+            this.FillSystemTimeZoneSelectList();
             FillClockTypeSelectList();
 
             return View(clock);
@@ -70,9 +72,11 @@ namespace DisplayMonkey.Controllers
                 db.Clocks.Add(clock);
                 db.SaveChanges();
 
-                return Navigation.Restore() ?? RedirectToAction("Index", "Frame");
+                return this.RestoreReferrer() ?? RedirectToAction("Index", "Frame");
             }
 
+            this.FillTemplatesSelectList(db, FrameTypes.Clock, clock.Frame.TemplateId);
+            this.FillSystemTimeZoneSelectList(clock.TimeZone);
             FillClockTypeSelectList();
 
             clock.Frame = frame;
@@ -91,6 +95,8 @@ namespace DisplayMonkey.Controllers
                 return View("Missing", new MissingItem(id));
             }
 
+            this.FillTemplatesSelectList(db, FrameTypes.Clock, clock.Frame.TemplateId);
+            this.FillSystemTimeZoneSelectList(clock.TimeZone);
             FillClockTypeSelectList();
             
             return View(clock);
@@ -109,9 +115,11 @@ namespace DisplayMonkey.Controllers
                 db.Entry(clock).State = EntityState.Modified;
                 db.SaveChanges();
 
-                return Navigation.Restore() ?? RedirectToAction("Index");
+                return this.RestoreReferrer() ?? RedirectToAction("Index", "Frame");
             }
 
+            this.FillTemplatesSelectList(db, FrameTypes.Clock, clock.Frame.TemplateId);
+            this.FillSystemTimeZoneSelectList(clock.TimeZone);
             FillClockTypeSelectList();
 
             clock.Frame = frame;
@@ -143,7 +151,7 @@ namespace DisplayMonkey.Controllers
             db.Frames.Remove(frame);
             db.SaveChanges();
 
-            return Navigation.Restore() ?? RedirectToAction("Index", "Frame");
+            return this.RestoreReferrer(true) ?? RedirectToAction("Index", "Frame");
         }
 
         protected override void Dispose(bool disposing)

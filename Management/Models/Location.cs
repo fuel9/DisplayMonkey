@@ -30,10 +30,10 @@ namespace DisplayMonkey.Models
         public Nullable<double> Longitude { get; set; }
         public string DateFormat { get; set; }
         public string TimeFormat { get; set; }
-        public Nullable<int> OffsetGMT { get; set; }
         public Nullable<int> Woeid { get; set; }
         public byte[] Version { get; set; }
         public string Culture { get; set; }
+        public string TimeZone { get; set; }
     
         public virtual ICollection<Display> Displays { get; set; }
         public virtual Level Level { get; set; }

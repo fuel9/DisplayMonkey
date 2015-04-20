@@ -8,15 +8,50 @@ using System.Net;
 using System.Text;
 using System.Xml;
 using System.Globalization;
+using System.Web.Script.Serialization;
 
 namespace DisplayMonkey
 {
 	public class Location
 	{
-		public Location()
-		{
-		}
-		
+        public int LocationId { get; private set; }
+        public int LevelId { get; private set; }
+        public string TemperatureUnit { get; private set; }
+        public int Woeid { get; private set; }
+        public string DateFormat { get; private set; }
+        public string TimeFormat { get; private set; }
+        public string Name { get; private set; }
+        public double Latitude { get; private set; }
+        public double Longitude { get; private set; }
+        public string Culture { get; private set; }
+
+        [ScriptIgnore]
+        public TimeZoneInfo TimeZone { get; private set; }
+
+        public int OffsetGMT
+        {
+            get
+            {
+                return (int)this.TimeZone.BaseUtcOffset.TotalMinutes;
+            }
+        }
+
+        public int OffsetUtc
+        {
+            get
+            {
+                return (int)this.TimeZone.GetUtcOffset(DateTime.UtcNow).TotalMinutes;
+            }
+        }
+
+        public DateTime LocationTime
+        {
+            get
+            {
+                return TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, this.TimeZone);
+            }
+        }
+        
 		public Location(int displayId)
 		{
 			string sql = string.Format(
@@ -28,34 +63,46 @@ namespace DisplayMonkey
 				if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
 				{
 					DataRow dr = ds.Tables[0].Rows[0];
-					InitFromRow(dr);
+                    _initFromRow(dr);
 				}
 			}
 		}
 
-		public void InitFromRow(DataRow r)
-		{
-            LocationId = r.IntOrZero("LocationId");
-            LevelId = r.IntOrZero("LevelId");
-			TemperatureUnit = r.StringOrBlank("TemperatureUnit").ToLower();
-			DateFormat = r.StringOrBlank("DateFormat");
-			TimeFormat = r.StringOrBlank("TimeFormat");
-            Name = r.StringOrBlank("Name");
-            if (Name == "")
-                Name = string.Format("Location {0}", LocationId);
+        private Location()
+        {
+        }
 
-            int? offsetGMT = r["OffsetGMT"] as Nullable<int>;
-            if (offsetGMT != null) OffsetGMT = offsetGMT.Value;
+        private void _initFromRow(DataRow r)
+		{
+            this.LocationId = r.IntOrZero("LocationId");
+            this.LevelId = r.IntOrZero("LevelId");
+            this.TemperatureUnit = r.StringOrDefault("TemperatureUnit", "C").ToLower();
+            this.DateFormat = r.StringOrDefault("DateFormat", "LL");
+            this.TimeFormat = r.StringOrDefault("TimeFormat", "LT");
+            this.Name = r.StringOrBlank("Name");
+            if (this.Name == "")
+                this.Name = string.Format("Location {0}", this.LocationId);
+
+            this.TimeZone = TimeZoneInfo.FindSystemTimeZoneById(
+                r.StringOrDefault("TimeZone", ServerGeoData.TimeZone.Id)
+                );
 
             double? latitude = r["Latitude"] as Nullable<double>;
-            if (latitude != null) Latitude = Convert.ToDecimal(latitude.Value);
+            if (latitude != null)
+                this.Latitude = latitude.Value;
+            else
+                this.Latitude = ServerGeoData.Latitude;
 
             double? longitude = r["Longitude"] as Nullable<double>;
-            if (longitude != null) Longitude = Convert.ToDecimal(longitude.Value);
+            if (longitude != null)
+                this.Longitude = longitude.Value;
+            else
+                this.Longitude = ServerGeoData.Longitude;
 
             int? woeid = r["Woeid"] as Nullable<int>;
-            if (woeid != null) Woeid = woeid.Value;
-            Culture = r.StringOrBlank("Culture");
+            this.Woeid = woeid ?? 0;
+
+            this.Culture = r.StringOrBlank("Culture");
         }
 
 		public static List<Location> List(int levelId = 0)
@@ -74,7 +121,7 @@ namespace DisplayMonkey
 				foreach (DataRow r in ds.Tables[0].Rows)
 				{
 					Location loc = new Location();
-					loc.InitFromRow(r);
+					loc._initFromRow(r);
                     string name2 = r.StringOrBlank("Name2").Trim();
                     loc.Name = string.Format("{0} : {1}",
                         name2 == "" ? string.Format("Level {0}", loc.LevelId) : name2,
@@ -85,25 +132,5 @@ namespace DisplayMonkey
 			}
 			return list;
 		}
-
-        public int LocationId = 0;
-        public int LevelId = 0;
-		public string TemperatureUnit = "C";
-		public int Woeid = 0;
-		public string DateFormat = "LL";
-		public string TimeFormat = "LT";
-		public string Name = "";
-        public int OffsetGMT = ServerGeoData.OffsetGMT;
-        public decimal Latitude = ServerGeoData.Latitude;
-        public decimal Longitude = ServerGeoData.Longitude;
-        public string Culture = "";
-
-        public DateTime LocationTime
-        {
-            get 
-            {
-                return DateTime.UtcNow.AddHours(OffsetGMT); 
-            }
-        }
     }
 }

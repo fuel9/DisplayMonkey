@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DisplayMonkey.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -68,6 +69,67 @@ namespace DisplayMonkey.Controllers
             Response.Cookies.Add(cookie);
             
             return RedirectToAction("Index");
+        }
+    }
+
+    public static class BaseControllerExtensions
+    {
+        public static void FillTemplatesSelectList(
+            this BaseController _controller, 
+            DisplayMonkeyEntities _db, 
+            FrameTypes _frameType, 
+            object _selected = null
+            )
+        {
+            var query = _db.Templates
+                .Where(t => t.FrameType == _frameType)
+                .Select(t => new
+                {
+                    TemplateId = t.TemplateId,
+                    Name = t.Name
+                })
+                .OrderBy(t => t.Name)
+                .ToList()
+                ;
+
+            _controller.ViewBag.Templates = 
+                new SelectList(query, "TemplateId", "Name", _selected);
+        }
+
+        public static void FillCacheModeSelectList(
+            this BaseController _controller,
+            CacheModes _selected
+            )
+        {
+            _controller.ViewBag.CacheModes = 
+                new Nullable<CacheModes>(_selected).TranslatedSelectList(valueAsText: false);
+        }
+
+        public static void FillCacheModeSelectList(
+            this BaseController _controller
+            )
+        {
+            CacheModes? _selected = null;
+            _controller.ViewBag.CacheModes = 
+                _selected.TranslatedSelectList(valueAsText: false);
+        }
+
+        public static void FillSystemTimeZoneSelectList(
+            this BaseController _controller,
+            string _selected = null
+            )
+        {
+            var query = TimeZoneInfo.GetSystemTimeZones()
+                .Select(z => new SelectListItem()
+                {
+                    Value = z.Id,
+                    Text = z.DisplayName,
+                })
+                .OrderBy(z => z.Text)
+                .ToList()
+                ;
+            _controller.ViewBag.TimeZones = 
+                new SelectList(query, "Value", "Text", _selected);
         }
     }
 }

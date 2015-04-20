@@ -2,30 +2,32 @@
 
 @model DisplayMonkey.Models.Memo
 
-<fieldset>
-    <legend>@Resources.Memo</legend>
-
-    <div class="divTable">
-
     @Html.Partial("_frameDetails", Model.Frame)
 
-    <div class="divRow">
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Subject)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Subject)
-    </div>
-    </div>
+    <fieldset>
+        <legend>@Resources.Memo</legend>
 
-    <div class="divRow">
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Body)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Body)
-    </div>
-    </div>
-    </div>
-</fieldset>
+        <div class="divTable">
+
+        <div class="divRow">
+        <div class="display-label">
+             @Html.DisplayNameFor(model => model.Subject)
+        </div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.Subject)
+        </div>
+        </div>
+
+        <div class="divRow">
+        <div class="display-label">
+             @Html.DisplayNameFor(model => model.Body)
+        </div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.Body)
+        </div>
+        </div>
+
+        </div>
+
+    </fieldset>
 

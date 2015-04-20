@@ -34,7 +34,7 @@ namespace DisplayMonkey
                 }
             }
 
-            _templatePath = HttpContext.Current.Server.MapPath("~/files/frames/memo/default.htm");
+            //_templatePath = HttpContext.Current.Server.MapPath("~/files/frames/memo/");
         }
 	}
 }

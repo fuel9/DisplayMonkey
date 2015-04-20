@@ -4,45 +4,24 @@
 
 @model DisplayMonkey.Models.Weather
 
-<fieldset>
-    <legend>@Resources.Weather</legend>
+    @Html.Partial("_frameDetails", Model.Frame)
+    @Html.Partial("_frameCacheDetails", Model.Frame)
 
-    <div class="divTable">
-    <div class="divRow">
-    <div class="display-label">
-         @Resources.Canvas
-    </div>
-    <div class="display-field">
-        @Html.ActionLink(Model.Frame.Panel.Canvas.Name, "Details", "Canvas", new { id=Model.Frame.Panel.CanvasId }, null)
-    </div>
-    </div>
+    <fieldset>
+        <legend>@Resources.Weather</legend>
 
-    <div class="divRow">
-    <div class="display-label">
-         @Resources.Panel
-    </div>
-    <div class="display-field">
-        @Html.ActionLink(Model.Frame.Panel.Name, "Details", "Panel", new { id=Model.Frame.PanelId }, null)
-    </div>
-    </div>
+        <div class="divTable">
+    
+        <div class="divRow">
+        <div class="display-label">
+            @Html.DisplayNameFor(model => model.Type)
+        </div>
+        <div class="display-field">
+            @Model.Type.Translate()
+        </div>
+        </div>
 
-    <div class="divRow">
-    <div class="display-label">
-         @Html.DisplayName("Update interval")
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Frame.Duration) @Resources.Sec
-    </div>
-    </div>
+        </div>
 
-    <div class="divRow">
-    <div class="display-label">
-        @Html.DisplayNameFor(model => model.Type)
-    </div>
-    <div class="display-field">
-        @Model.Type.Translate()
-    </div>
-    </div>
-    </div>
-</fieldset>
+    </fieldset>
 

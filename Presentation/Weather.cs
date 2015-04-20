@@ -19,6 +19,12 @@ namespace DisplayMonkey
         public int Woeid  { get; private set; }
         public string TemperatureUnit { get; private set; }
 
+        public Weather(int frameId)
+            : base(frameId)
+        {
+            _init();
+        }
+
         public Weather(Frame frame)
             : base(frame)
         {
@@ -41,7 +47,7 @@ namespace DisplayMonkey
                 }
             }
 
-            _templatePath = HttpContext.Current.Server.MapPath("~/files/frames/weather/default.htm");
+            //_templatePath = HttpContext.Current.Server.MapPath("~/files/frames/weather/");
 
             // TODO: add own Woeid to Weather model
             /*Location location = new Location(DisplayId);

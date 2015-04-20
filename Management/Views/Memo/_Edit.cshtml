@@ -1,0 +1,24 @@
+﻿@using DisplayMonkey.Language
+
+@model DisplayMonkey.Models.Memo
+
+    <fieldset>
+        <legend>@Resources.Memo</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Subject)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Subject)
+            @Html.ValidationMessageFor(model => model.Subject)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Body)
+        </div>
+        <div class="editor-field">
+            @Html.TextAreaFor(model => model.Body)
+            @Html.ValidationMessageFor(model => model.Body)
+        </div>
+
+    </fieldset>

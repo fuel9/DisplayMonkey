@@ -18,7 +18,7 @@ namespace DisplayMonkey.Controllers
 
         public ActionResult Details(int id = 0)
         {
-            Navigation.SaveCurrent();
+            this.SaveReferrer(true);
 
             Memo memo = db.Memos.Find(id);
             if (memo == null)
@@ -45,6 +45,10 @@ namespace DisplayMonkey.Controllers
                 Frame = frame,
             };
 
+            memo.init();
+
+            this.FillTemplatesSelectList(db, FrameTypes.Memo);
+            
             return View(memo);
         }
 
@@ -61,10 +65,12 @@ namespace DisplayMonkey.Controllers
                 db.Memos.Add(memo);
                 db.SaveChanges();
 
-                return Navigation.Restore() ?? RedirectToAction("Index", "Frame");
+                return this.RestoreReferrer() ?? RedirectToAction("Index", "Frame");
             }
 
             memo.Frame = frame;
+
+            this.FillTemplatesSelectList(db, FrameTypes.Memo, memo.Frame.TemplateId);
 
             return View(memo);
         }
@@ -80,6 +86,8 @@ namespace DisplayMonkey.Controllers
                 return View("Missing", new MissingItem(id));
             }
 
+            this.FillTemplatesSelectList(db, FrameTypes.Memo, memo.Frame.TemplateId);
+            
             return View(memo);
         }
 
@@ -96,10 +104,12 @@ namespace DisplayMonkey.Controllers
                 db.Entry(memo).State = EntityState.Modified;
                 db.SaveChanges();
 
-                return Navigation.Restore() ?? RedirectToAction("Index");
+                return this.RestoreReferrer() ?? RedirectToAction("Index", "Frame");
             }
 
             memo.Frame = frame;
+
+            this.FillTemplatesSelectList(db, FrameTypes.Memo, memo.Frame.TemplateId);
             
             return View(memo);
         }
@@ -129,7 +139,7 @@ namespace DisplayMonkey.Controllers
             db.Frames.Remove(frame);
             db.SaveChanges();
 
-            return Navigation.Restore() ?? RedirectToAction("Index", "Frame");
+            return this.RestoreReferrer(true) ?? RedirectToAction("Index", "Frame");
         }
 
         protected override void Dispose(bool disposing)

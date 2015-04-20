@@ -20,7 +20,7 @@ namespace DisplayMonkey.Controllers
         // GET: /YouTube/Details/5
         public ActionResult Details(int id = 0)
         {
-            Navigation.SaveCurrent();
+            this.SaveReferrer(true);
 
             Youtube youtube = db.Youtube.Find(id);
             if (youtube == null)
@@ -45,6 +45,9 @@ namespace DisplayMonkey.Controllers
                 Frame = frame,
             };
 
+            youtube.init();
+
+            this.FillTemplatesSelectList(db, FrameTypes.YouTube);
             FillAspectsSelectList();
             FillQualitySelectList();
             FillRatesSelectList();
@@ -69,9 +72,10 @@ namespace DisplayMonkey.Controllers
                 db.Youtube.Add(youtube);
                 db.SaveChanges();
 
-                return Navigation.Restore() ?? RedirectToAction("Index", "Frame");
+                return this.RestoreReferrer() ?? RedirectToAction("Index", "Frame");
             }
 
+            this.FillTemplatesSelectList(db, FrameTypes.YouTube, youtube.Frame.TemplateId);
             FillAspectsSelectList();
             FillQualitySelectList();
             FillRatesSelectList();
@@ -90,6 +94,7 @@ namespace DisplayMonkey.Controllers
                 return View("Missing", new MissingItem(id));
             }
 
+            this.FillTemplatesSelectList(db, FrameTypes.YouTube, youtube.Frame.TemplateId);
             FillAspectsSelectList(youtube.Aspect);
             FillQualitySelectList();
             FillRatesSelectList();
@@ -113,9 +118,10 @@ namespace DisplayMonkey.Controllers
                 db.Entry(youtube).State = EntityState.Modified;
                 db.SaveChanges();
 
-                return Navigation.Restore() ?? RedirectToAction("Index");
+                return this.RestoreReferrer() ?? RedirectToAction("Index", "Frame");
             }
 
+            this.FillTemplatesSelectList(db, FrameTypes.YouTube, youtube.Frame.TemplateId);
             FillAspectsSelectList(youtube.Aspect);
             FillQualitySelectList();
             FillRatesSelectList();
@@ -145,7 +151,7 @@ namespace DisplayMonkey.Controllers
             db.Frames.Remove(frame);
             db.SaveChanges();
 
-            return Navigation.Restore() ?? RedirectToAction("Index", "Frame");
+            return this.RestoreReferrer(true) ?? RedirectToAction("Index", "Frame");
         }
 
         private void FillAspectsSelectList(YTAspect? selected = null)

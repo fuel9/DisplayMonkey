@@ -205,6 +205,15 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to delete this template?.
+        /// </summary>
+        public static string AreYouSureYouWantToDeleteThisTemplate {
+            get {
+                return ResourceManager.GetString("AreYouSureYouWantToDeleteThisTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to remove location from this frame?.
         /// </summary>
         public static string AreYouSureYouWantToRemoveLocationFromThisFrame {
@@ -408,6 +417,51 @@ namespace DisplayMonkey.Language {
         public static string C {
             get {
                 return ResourceManager.GetString("C", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cache expiration.
+        /// </summary>
+        public static string CacheInterval {
+            get {
+                return ResourceManager.GetString("CacheInterval", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cache mode.
+        /// </summary>
+        public static string CacheMode {
+            get {
+                return ResourceManager.GetString("CacheMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to None.
+        /// </summary>
+        public static string CacheMode_None {
+            get {
+                return ResourceManager.GetString("CacheMode_None", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sliding.
+        /// </summary>
+        public static string CacheMode_Sliding {
+            get {
+                return ResourceManager.GetString("CacheMode_Sliding", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Caching options.
+        /// </summary>
+        public static string CachingOptions {
+            get {
+                return ResourceManager.GetString("CachingOptions", resourceCulture);
             }
         }
         
@@ -705,6 +759,15 @@ namespace DisplayMonkey.Language {
         public static string CreateNewReportServerAccount {
             get {
                 return ResourceManager.GetString("CreateNewReportServerAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create new frame template.
+        /// </summary>
+        public static string CreateNewTemplate {
+            get {
+                return ResourceManager.GetString("CreateNewTemplate", resourceCulture);
             }
         }
         
@@ -1033,6 +1096,15 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Delete frame template.
+        /// </summary>
+        public static string DeleteTemplate {
+            get {
+                return ResourceManager.GetString("DeleteTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Delete video frame.
         /// </summary>
         public static string DeleteVideoFrame {
@@ -1323,6 +1395,15 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Edit frame template.
+        /// </summary>
+        public static string EditTemplate {
+            get {
+                return ResourceManager.GetString("EditTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Edit video frame.
         /// </summary>
         public static string EditVideoFrame {
@@ -1521,6 +1602,15 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Frame templates.
+        /// </summary>
+        public static string FrameTemplates {
+            get {
+                return ResourceManager.GetString("FrameTemplates", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Frame type.
         /// </summary>
         public static string FrameType {
@@ -1571,6 +1661,15 @@ namespace DisplayMonkey.Language {
         public static string FullScreens {
             get {
                 return ResourceManager.GetString("FullScreens", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to General options.
+        /// </summary>
+        public static string GeneralOptions {
+            get {
+                return ResourceManager.GetString("GeneralOptions", resourceCulture);
             }
         }
         
@@ -1953,6 +2052,15 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to min..
+        /// </summary>
+        public static string Min {
+            get {
+                return ResourceManager.GetString("Min", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Missing.
         /// </summary>
         public static string Missing {
@@ -2058,15 +2166,6 @@ namespace DisplayMonkey.Language {
         public static string NotSet {
             get {
                 return ResourceManager.GetString("NotSet", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to GMT offset, hours.
-        /// </summary>
-        public static string OffsetGMT {
-            get {
-                return ResourceManager.GetString("OffsetGMT", resourceCulture);
             }
         }
         
@@ -2872,6 +2971,15 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Template.
+        /// </summary>
+        public static string Template {
+            get {
+                return ResourceManager.GetString("Template", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This frame will show in all locations.
         /// </summary>
         public static string ThisFrameWillShowInAllLocations {
@@ -2886,6 +2994,15 @@ namespace DisplayMonkey.Language {
         public static string TimeFormat {
             get {
                 return ResourceManager.GetString("TimeFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Time zone.
+        /// </summary>
+        public static string TimeZone {
+            get {
+                return ResourceManager.GetString("TimeZone", resourceCulture);
             }
         }
         
@@ -3202,6 +3319,15 @@ namespace DisplayMonkey.Language {
         public static string ViewRequired {
             get {
                 return ResourceManager.GetString("ViewRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View frame templates.
+        /// </summary>
+        public static string ViewTemplates {
+            get {
+                return ResourceManager.GetString("ViewTemplates", resourceCulture);
             }
         }
         

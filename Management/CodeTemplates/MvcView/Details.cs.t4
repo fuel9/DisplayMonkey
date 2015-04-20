@@ -1,0 +1,105 @@
+﻿<#@ template language="C#" HostSpecific="True" #>
+<#@ output extension=".cshtml" #>
+<#@ include file="Imports.include.t4" #>
+@model <#= ViewDataTypeName #>
+<#
+string controllerName = ViewDataTypeName.Split('.').Last();
+// The following chained if-statement outputs the file header code and markup for a partial view, a view using a layout page, or a regular view.
+if(IsPartialView) {
+#>
+
+<#
+} else if(IsLayoutPageSelected) {
+#>
+
+@{
+    ViewBag.Title = Resources.<#= controllerName#>;
+<#
+if (!String.IsNullOrEmpty(LayoutPageFile)) {
+#>
+    Layout = "<#= LayoutPageFile#>";
+<#
+}
+#>
+}
+
+<h2>@ViewBag.Title</h2>
+
+<#
+} else {
+#>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title><#= ViewName #></title>
+</head>
+<body>
+<#
+    PushIndent("    ");
+}
+#>
+<fieldset>
+    <legend>@Resources.<#= controllerName #></legend>
+    <div class="divTable">
+
+<#
+foreach (PropertyMetadata property in ModelMetadata.Properties) {
+    if (property.Scaffold && !property.IsPrimaryKey && !property.IsForeignKey) {
+#>
+<#
+        // This is a temporary work around until core scaffolding provides support for independent associations.
+        if (property.IsAssociation && GetRelatedModelMetadata(property) == null) {
+            continue;
+        }
+#>
+		<div class="divRow">
+			<div class="display-label">
+				@Html.DisplayNameFor(model => model.<#= GetValueExpression(property) #>)
+			</div>
+		    <div class="display-field">
+				@Html.DisplayFor(model => model.<#= GetValueExpression(property) #>)
+			</div>
+		</div>
+
+<#
+    }
+}
+#>
+    </div>
+</fieldset>
+<p>
+<#
+string pkName = GetPrimaryKeyName();
+if (pkName != null) {
+#>
+    @Html.ActionLink(Resources.Edit, "Edit", new { id = Model.<#= pkName #> }) |
+    @Html.ActionLink(Resources.View<#= controllerName#>s, "Index")
+<#
+} else {
+#>
+    @Html.ActionLink(Resources.Edit, "Edit", new { /* id = Model.PrimaryKey */ }) |
+    @Html.ActionLink(Resources.View<#= controllerName#>s, "Index")
+<#
+}
+#>
+</p>
+<#
+// The following code closes the tag used in the case of a view using a layout page and the body and html tags in the case of a regular view page
+#>
+<#
+if(!IsPartialView && !IsLayoutPageSelected) {
+    ClearIndent();
+#>
+</body>
+</html>
+<#
+}
+#>
+<#@ include file="ModelMetadataFunctions.cs.include.t4" #>

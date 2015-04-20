@@ -1,0 +1,45 @@
+﻿@using DisplayMonkey.Language
+
+@model DisplayMonkey.Models.Template
+
+@{
+    ViewBag.Title = Resources.DeleteTemplate;
+}
+
+<h2>@ViewBag.Title</h2>
+
+<h3>@Resources.AreYouSureYouWantToDeleteThisTemplate</h3>
+
+<fieldset>
+    <legend>@Resources.Template</legend>
+    <div class="divTable">
+
+		<div class="divRow">
+			<div class="display-label">
+				@Html.DisplayNameFor(model => model.Name)
+			</div>
+		    <div class="display-field">
+				@Html.DisplayFor(model => model.Name)
+			</div>
+		</div>
+
+		<div class="divRow">
+			<div class="display-label">
+				@Html.DisplayNameFor(model => model.FrameType)
+			</div>
+		    <div class="display-field">
+				@Html.DisplayFor(model => model.FrameType)
+			</div>
+		</div>
+
+    </div>
+</fieldset>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    <p>
+        <input type="submit" value="@Resources.Delete" /> |
+        @Html.ActionLink(Resources.ViewTemplates, "Index")
+    </p>
+}
+</div>

@@ -7,6 +7,8 @@
 // 2015-02-06 [LTL] - major overhaul
 // 2015-03-08 [LTL] - using data for frames
 
+// TODO: upgrade moment.js
+
 var $j = jQuery.noConflict();
 
 var ErrorReport = Class.create({
@@ -56,7 +58,7 @@ var Canvas = Class.create({
 	    this.fullScreenActive = false;
 
 	    this.locationTime = moment(options.locationTime);
-	    this.serverTime = moment(options.serverTime);
+	    this.utcTime = moment(options.utcTime);
 	    this.displayId = options.displayId;
 		this.hash = options.hash;
 		this.dateFormat = (options.dateFormat || 'LL');
@@ -137,11 +139,14 @@ var Canvas = Class.create({
                         json = resp.responseText.evalJSON();
                     if (!json)
                         throw new Error("JSON expected"); // <-- shouldn't get here
+                    if (json.Error)
+                        throw new Error("Server error");
+
                     var c = resp.request.options.canvas;
-                    var _displayId = json["DisplayId"];
+                    var _displayId = json.DisplayId;
                     if (c.displayId != _displayId)
                         return;
-                    var _hash = json["Hash"];
+                    var _hash = json.Hash;
                     if (c.hash != _hash) {
                         console.log("reload triggered in checkDisplayHash");
                         document.location.reload(true);
@@ -184,7 +189,7 @@ Ajax.PanelUpdaterBase = Class.create(Ajax.Base, {
 		this.object = null;
 
 		this.currentId = 0;
-		this.previousType = this.currentType = "";
+		this.previousType = this.currentType = -1;
 		this.fadeLength = (this.options.fadeLength || 0);
 		if (this.fadeLength < 0) this.fadeLength = 0;
 
@@ -221,21 +226,22 @@ Ajax.PanelUpdaterBase = Class.create(Ajax.Base, {
 				        json = resp.responseText.evalJSON();
 				    if (!json)
 				        throw new Error("JSON expected"); // <-- shouldn't get here
-				    //console.log($H(json).inspect());
+				    if (json.Error)
+				        throw new Error("Server error");
 
                     // get duration first
 				    p.data = $(json);
-				    p.frequency = json["Duration"];
+				    p.frequency = json.Duration;
 				    if (p.frequency == null || p.frequency <= 0)
 				        p.frequency = 1;
 
                     // now get frame id
-				    p.currentId = json["FrameId"];
+				    p.currentId = json.FrameId;
 				    if (p.currentId == null || !p.currentId) {
 				        p.currentId = 0;
 				    } else {
-				        p.currentType = json["FrameType"];
-				        p.html = json["Html"];
+				        p.currentType = json.FrameType;
+				        p.html = json.Html;
 				    }
 			    }
 			    catch (e) {
@@ -310,95 +316,118 @@ Ajax.PanelUpdaterBase = Class.create(Ajax.Base, {
                 height = panel.getAttribute('data-panel-height')
             ;
 
-            // clock
-	        if (div = panel.down('div.clock')) {
-	            obj = new Clock({
-	                div: div,
-	                data: this.data,
-	                panelId: this.panelId,
-	                width: width,
-	                height: height
-	            });
-	        }
+            switch (this.currentType) {
+                //Clock = 0,
+                case 0:
+                    if (div = panel.down('div.clock')) {
+                        obj = new Clock({
+                            div: div,
+                            data: this.data,
+                            panelId: this.panelId,
+                            width: width,
+                            height: height
+                        });
+                    }
+                    break;
+                    
+                //Html = 1,
+                case 1:
+                    if (div = panel.down('iframe.html')) {
+                        obj = new Iframe({
+                            div: div,
+                            data: this.data,
+                            panelId: this.panelId,
+                            width: width,
+                            height: height
+                        });
+                    }
+                    break;
 
-	        // html
-	        else if (div = panel.down('iframe.html')) {
-	            obj = new Iframe({
-	                div: div,
-	                data: this.data,
-	                panelId: this.panelId,
-	                width: width,
-	                height: height
-	            });
-	        }
-
-            // memo
-	        else if (div = panel.down('div.memo')) {
-	            obj = new Memo({
-	                div: div,
-	                data: this.data,
-	                panelId: this.panelId,
-	                width: width,
-	                height: height
-	            });
-	        }
-
-	        // outlook
-	        else if (div = panel.down('div.outlook')) {
-	            obj = new Outlook({
-	                div: div,
-	                data: this.data,
-	                panelId: this.panelId,
-	                width: width,
-	                height: height
-	            });
-	        }
-
-	        // picture or report
-	        else if (div = panel.down('div.picture, div.report')) {
-	            obj = new Picture({
-	                div: div,
-	                data: this.data,
-	                panelId: this.panelId,
-	                width: width,
-	                height: height
-	            });
-	        }
-
-	        // video
-	        else if ((div = panel.down('div.video')) && _canvas.supports_video) {
-	            obj = new Video({
-	                div: div,
-	                data: this.data,
-	                panelId: this.panelId,
-	                width: width,
-	                height: height,
-	                play: (this instanceof Ajax.FullScreenPanelUpdater || !_canvas.fullScreenActive)
-	            });
+                //Memo = 2,
+                case 2:
+                    if (div = panel.down('div.memo')) {
+                        obj = new Memo({
+                            div: div,
+                            data: this.data,
+                            panelId: this.panelId,
+                            width: width,
+                            height: height
+                        });
+                    }
+                    break;
+                    
+                ////News = 3,
+                //Outlook = 4,
+                case 4:
+                    if (div = panel.down('div.outlook')) {
+                        obj = new Outlook({
+                            div: div,
+                            data: this.data,
+                            panelId: this.panelId,
+                            width: width,
+                            height: height
+                        });
+                    }
+                    break;
+                    
+                //Picture = 5,
+                //Report = 6,
+                case 5:
+                case 6:
+                    if (div = panel.down('div.picture, div.report')) {
+                        obj = new Picture({
+                            div: div,
+                            data: this.data,
+                            panelId: this.panelId,
+                            width: width,
+                            height: height
+                        });
+                    }
+                    break;
+                    
+                //Video = 7,
+                case 7:
+                    if ((div = panel.down('div.video')) && _canvas.supports_video) {
+                        obj = new Video({
+                            div: div,
+                            data: this.data,
+                            panelId: this.panelId,
+                            width: width,
+                            height: height,
+                            play: (this instanceof Ajax.FullScreenPanelUpdater || !_canvas.fullScreenActive)
+                        });
+                    }
+                    break;
+                    
+                //Weather = 8,
+                case 8:
+                    if (div = panel.down('div.weather')) {
+                        obj = new Weather({
+                            div: div,
+                            data: this.data,
+                            panelId: this.panelId,
+                            width: width,
+                            height: height
+                        });
+                    }
+                    break;
+                    
+                //YouTube = 9
+                case 9:
+                    if (div = panel.down('div.youtube')) {
+                        obj = new YtLib.YtPlayer({
+                            div: div, 
+                            data: this.data,
+                            panelId: this.panelId,
+                            width: width,
+                            height: height
+                        });
+                    }
+                    break;
             }
 
-	        // weather
-	        else if (div = panel.down('div.weather')) {
-	            obj = new Weather({
-	                div: div,
-	                data: this.data,
-	                panelId: this.panelId,
-	                width: width,
-	                height: height
-	            });
-	        }
-
-            // youtube
-	        //else if (div = panel.down('div.ytplayer')) {
-	        else if (div = panel.down('div.youtube')) {
-	            obj = new YtLib.YtPlayer({
-	                div: div, 
-	                data: this.data,
-	                panelId: this.panelId,
-	                width: width,
-	                height: height
-	            });
-            }
+            if (div != null)
+                div.id = "frame" + this.data.FrameId;
 
             // immune to full frame
 	        //if (this instanceof Ajax.PanelUpdater)
@@ -638,8 +667,11 @@ Ajax.FullScreenPanelUpdater = Class.create(Ajax.PanelUpdaterBase, {
                         json = resp.responseText.evalJSON();
                     if (!json)
                         throw new Error("JSON expected, received ".concat(resp.responseText)); // <-- shouldn't get here
+                    if (json.Error)
+                        throw new Error("Server error");
+
                     var p = resp.request.options.panelUpdater;
-                    p.idleInterval = json["IdleInterval"] || p.fadeLength;
+                    p.idleInterval = json.IdleInterval || p.fadeLength;
                 }
                 catch (e) {
                     new ErrorReport({ exception: e, data: resp.responseText, source: "onAfterUpdate::onSuccess" });

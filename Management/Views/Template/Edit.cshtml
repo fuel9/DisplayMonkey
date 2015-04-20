@@ -1,0 +1,53 @@
+﻿@using DisplayMonkey.Language
+
+@model DisplayMonkey.Models.Template
+
+@{
+    ViewBag.Title = Resources.EditTemplate;
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+	@Html.HiddenFor(model => model.TemplateId)
+    @Html.HiddenFor(model => model.FrameType)
+
+    <fieldset>
+        <legend>@Resources.Template</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.FrameType)
+        </div>
+        <div class="editor-field">
+            @Html.DisplayFor(model => model.FrameType)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Name)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Html)
+        </div>
+        <div class="editor-field">
+            @Html.TextAreaFor(model => model.Html)
+            @Html.ValidationMessageFor(model => model.Html)
+        </div>
+
+    </fieldset>
+
+    <p>
+        <input type="submit" value="@Resources.Save" />
+    </p>
+}
+
+<div>
+    @Html.ActionLink(Resources.ViewTemplates, "Index")
+</div>

@@ -2,6 +2,9 @@
 
 @model DisplayMonkey.Models.Html
 
+    <fieldset>
+        <legend>@Resources.Html</legend>
+
         <div class="editor-label">
             @Html.LabelFor(model => model.Name)
         </div>
@@ -17,3 +20,5 @@
             @Html.TextAreaFor(model => model.Content, new {@class = "htmlEdit"})
             @Html.ValidationMessageFor(model => model.Content)
         </div>
+
+    </fieldset>

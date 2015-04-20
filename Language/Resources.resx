@@ -237,9 +237,6 @@
   <data name="Name" xml:space="preserve">
     <value>Name</value>
   </data>
-  <data name="OffsetGMT" xml:space="preserve">
-    <value>GMT offset, hours</value>
-  </data>
   <data name="Panel" xml:space="preserve">
     <value>Panel</value>
   </data>
@@ -1279,5 +1276,50 @@
   </data>
   <data name="BrowserNoVideoSupport" xml:space="preserve">
     <value>Your browser doesn't support this frame type, please upgrade your browser.</value>
+  </data>
+  <data name="CacheInterval" xml:space="preserve">
+    <value>Cache expiration</value>
+  </data>
+  <data name="CacheMode" xml:space="preserve">
+    <value>Cache mode</value>
+  </data>
+  <data name="Template" xml:space="preserve">
+    <value>Template</value>
+  </data>
+  <data name="Min" xml:space="preserve">
+    <value>min.</value>
+  </data>
+  <data name="CachingOptions" xml:space="preserve">
+    <value>Caching options</value>
+  </data>
+  <data name="GeneralOptions" xml:space="preserve">
+    <value>General options</value>
+  </data>
+  <data name="CacheMode_None" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="CacheMode_Sliding" xml:space="preserve">
+    <value>Sliding</value>
+  </data>
+  <data name="TimeZone" xml:space="preserve">
+    <value>Time zone</value>
+  </data>
+  <data name="AreYouSureYouWantToDeleteThisTemplate" xml:space="preserve">
+    <value>Are you sure you want to delete this template?</value>
+  </data>
+  <data name="CreateNewTemplate" xml:space="preserve">
+    <value>Create new frame template</value>
+  </data>
+  <data name="DeleteTemplate" xml:space="preserve">
+    <value>Delete frame template</value>
+  </data>
+  <data name="EditTemplate" xml:space="preserve">
+    <value>Edit frame template</value>
+  </data>
+  <data name="FrameTemplates" xml:space="preserve">
+    <value>Frame templates</value>
+  </data>
+  <data name="ViewTemplates" xml:space="preserve">
+    <value>View frame templates</value>
   </data>
 </root>

@@ -19,7 +19,7 @@ namespace DisplayMonkey.Controllers
 
         public ActionResult Index(int canvasId = 0, int locationId = 0, string name = null, string host = null)
         {
-            Navigation.SaveCurrent();
+            this.SaveReferrer();
 
             IQueryable<Display> displays = db.Displays
                 .Include(d => d.Canvas)
@@ -123,7 +123,7 @@ namespace DisplayMonkey.Controllers
                 db.Displays.Add(display);
                 db.SaveChanges();
 
-                return Navigation.Restore() ?? RedirectToAction("Index");
+                return this.RestoreReferrer() ?? RedirectToAction("Index");
             }
 
             ViewBag.CanvasId = new SelectList(db.Canvases, "CanvasId", "Name", display.CanvasId);
@@ -158,7 +158,7 @@ namespace DisplayMonkey.Controllers
                 db.Entry(display).State = EntityState.Modified;
                 db.SaveChanges();
 
-                return Navigation.Restore() ?? RedirectToAction("Index");
+                return this.RestoreReferrer() ?? RedirectToAction("Index");
             }
             ViewBag.CanvasId = new SelectList(db.Canvases, "CanvasId", "Name", display.CanvasId);
             ViewBag.LocationId = new SelectList(db.Locations, "LocationId", "Name", display.LocationId);
@@ -189,7 +189,7 @@ namespace DisplayMonkey.Controllers
             db.Displays.Remove(display);
             db.SaveChanges();
 
-            return Navigation.Restore() ?? RedirectToAction("Index");
+            return this.RestoreReferrer(true) ?? RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)

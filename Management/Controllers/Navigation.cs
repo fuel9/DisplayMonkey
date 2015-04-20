@@ -76,28 +76,57 @@ namespace DisplayMonkey.Controllers
     {
         private const string _cameFrom = "_cameFrom";
 
-        public static void SaveCurrent()
+        private class ReferrerData
         {
-            if (HttpContext.Current.Request.Url != null)
-            {
-                HttpContext.Current.Session[_cameFrom] =
-                    HttpContext.Current.Request.Url.PathAndQuery;
-            }
-            else
-                HttpContext.Current.Session[_cameFrom] = null;
+            public string ReferrerUrl { get; set; }
+            public bool NotForDelete { get; set; }
         }
 
-        public static ActionResult Restore()
+        // call this method before entering CRUD action
+        public static void SaveReferrer(
+            this BaseController _this, 
+            bool _notForDelete = false
+            )
         {
-            if (HttpContext.Current.Session[_cameFrom] != null)
+            Uri fromUrl = _this.Request.Url;
+            if (fromUrl == null)
             {
-                string url = HttpContext.Current.Session[_cameFrom] as string;
-                HttpContext.Current.Session[_cameFrom] = null;
-                //HttpContext.Current.Response.Redirect(url);
-                return new RedirectResult(url);
+                _this.Session[_cameFrom] = null;
+            }
+            else
+            {
+                _this.Session[_cameFrom] = new ReferrerData()
+                {
+                    ReferrerUrl = fromUrl.PathAndQuery,
+                    NotForDelete = _notForDelete,
+                };
+            }
+        }
+
+        // call this method before exiting from successful CRUD action
+        public static ActionResult RestoreReferrer(
+            this BaseController _this, 
+            bool _hasDeleted = false
+            )
+        {
+            try
+            {
+                ReferrerData data = _this.Session[_cameFrom] as ReferrerData;
+
+                if (data != null &&
+                    !(_hasDeleted && data.NotForDelete) && 
+                    !string.IsNullOrWhiteSpace(data.ReferrerUrl))
+                {
+                    return new RedirectResult(data.ReferrerUrl);
+                }
+
+                return null;
             }
 
-            return null;
+            finally
+            {
+                _this.Session[_cameFrom] = null;
+            }
         }
     }
 }

@@ -46,5 +46,6 @@ namespace DisplayMonkey.Models
         public DbSet<Youtube> Youtube { get; set; }
         public DbSet<ExchangeAccount> ExchangeAccounts { get; set; }
         public DbSet<Outlook> Outlooks { get; set; }
+        public DbSet<Template> Templates { get; set; }
     }
 }

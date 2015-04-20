@@ -88,5 +88,10 @@ namespace DisplayMonkey.Language
                 );
             return new Uri(help);
         }
+
+        /*public static List<TimeZoneInfo> getTimeZoneInfoList()
+        {
+            return TimeZoneInfo.GetSystemTimeZones().ToList();
+        }*/
     }
 }

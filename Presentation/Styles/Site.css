@@ -523,6 +523,16 @@ input, textarea {
     height: 30px; 
 }
 
+    input[type="text"]:disabled,
+    input[type="password"]:disabled,
+    input[type="number"]:disabled,
+    input[type="radio"]:disabled,
+    input[type="checkbox"]:disabled,
+    textarea:disabled {
+        background: #f0f0f0;
+        color: #aaaaaa;
+    }
+
 input.duration, input.pixels
 {
     width: 100px;
@@ -538,12 +548,12 @@ input.duration, input.pixels
 textarea {
     font-family: inherit;
     width: 500px;
+    height: 300px;
 }
 
     textarea.htmlEdit {
         width: 100%;
         height: 600px;
-        
     }
 
     input:focus, textarea:focus {

@@ -4,7 +4,6 @@
 
 @{
     ViewBag.Title = Resources.EditClockFrame;
-    SelectList types = ViewBag.Types as SelectList;
 }
 
 <h2>@ViewBag.Title</h2>
@@ -13,16 +12,12 @@
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
 
-    <fieldset>
-        <legend>@Resources.Clock</legend>
+    @Html.Partial("_frameData", Model.Frame)
+    @Html.Partial("_Edit")
 
-        @Html.Partial("_frameData", Model.Frame)
-        @Html.Partial("_Edit")
-
-        <p>
-            <input type="submit" value="@Resources.Save" />
-        </p>
-    </fieldset>
+    <p>
+        <input type="submit" value="@Resources.Save" />
+    </p>
 }
 
 <div>

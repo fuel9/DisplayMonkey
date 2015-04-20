@@ -21,7 +21,7 @@ namespace DisplayMonkey.Controllers
 
         public ActionResult Details(int id = 0)
         {
-            Navigation.SaveCurrent();
+            this.SaveReferrer(true);
 
             Report report = db.Reports.Find(id);
             if (report == null)
@@ -48,6 +48,10 @@ namespace DisplayMonkey.Controllers
                 Frame = frame,
             };
 
+            report.init();
+
+            this.FillTemplatesSelectList(db, FrameTypes.Report);
+            this.FillCacheModeSelectList();
             FillServersSelectList();
             FillModesSelectList();
 
@@ -67,9 +71,11 @@ namespace DisplayMonkey.Controllers
                 db.Reports.Add(report);
                 db.SaveChanges();
 
-                return Navigation.Restore() ?? RedirectToAction("Index", "Frame");
+                return this.RestoreReferrer() ?? RedirectToAction("Index", "Frame");
             }
 
+            this.FillTemplatesSelectList(db, FrameTypes.Report, report.Frame.TemplateId);
+            this.FillCacheModeSelectList(report.Frame.CacheMode);
             FillServersSelectList();
             FillModesSelectList();
             
@@ -89,6 +95,8 @@ namespace DisplayMonkey.Controllers
                 return View("Missing", new MissingItem(id));
             }
 
+            this.FillTemplatesSelectList(db, FrameTypes.Report, report.Frame.TemplateId);
+            this.FillCacheModeSelectList(report.Frame.CacheMode);
             FillServersSelectList(report.ServerId);
             FillModesSelectList(report.Mode);
             
@@ -108,9 +116,11 @@ namespace DisplayMonkey.Controllers
                 db.Entry(report).State = EntityState.Modified;
                 db.SaveChanges();
 
-                return Navigation.Restore() ?? RedirectToAction("Index");
+                return this.RestoreReferrer() ?? RedirectToAction("Index", "Frame");
             }
 
+            this.FillTemplatesSelectList(db, FrameTypes.Report, report.Frame.TemplateId);
+            this.FillCacheModeSelectList(report.Frame.CacheMode);
             FillServersSelectList(report.ServerId);
             FillModesSelectList(report.Mode);
             
@@ -143,7 +153,7 @@ namespace DisplayMonkey.Controllers
             db.Frames.Remove(frame);
             db.SaveChanges();
 
-            return Navigation.Restore() ?? RedirectToAction("Index", "Frame");
+            return this.RestoreReferrer(true) ?? RedirectToAction("Index", "Frame");
         }
 
         //

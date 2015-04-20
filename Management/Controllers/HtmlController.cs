@@ -17,16 +17,11 @@ namespace DisplayMonkey.Controllers
         // GET: /Html/Details/5
         public ActionResult Details(int id = 0)
         {
-            Navigation.SaveCurrent();
+            this.SaveReferrer(true);
 
-            //if (id == null)
-            //{
-            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            //}
             Html html = db.Html.Find(id);
             if (html == null)
             {
-                //return HttpNotFound();
                 return View("Missing", new MissingItem(id));
             }
             return View(html);
@@ -47,6 +42,10 @@ namespace DisplayMonkey.Controllers
                 Frame = frame,
             };
 
+            html.init();
+
+            this.FillTemplatesSelectList(db, FrameTypes.Html);
+            
             return View(html);
         }
 
@@ -64,11 +63,13 @@ namespace DisplayMonkey.Controllers
                 db.Html.Add(html);
                 db.SaveChanges();
 
-                return Navigation.Restore() ?? RedirectToAction("Index", "Frame");
+                return this.RestoreReferrer() ?? RedirectToAction("Index", "Frame");
             }
 
             html.Frame = frame;
 
+            this.FillTemplatesSelectList(db, FrameTypes.Html, frame.TemplateId);
+            
             return View(html);
         }
 
@@ -80,6 +81,8 @@ namespace DisplayMonkey.Controllers
             {
                 return View("Missing", new MissingItem(id));
             }
+
+            this.FillTemplatesSelectList(db, FrameTypes.Html, html.Frame.TemplateId);
 
             return View(html);
         }
@@ -98,11 +101,13 @@ namespace DisplayMonkey.Controllers
                 db.Entry(html).State = EntityState.Modified;
                 db.SaveChanges();
 
-                return Navigation.Restore() ?? RedirectToAction("Index", "Frame");
+                return this.RestoreReferrer() ?? RedirectToAction("Index", "Frame");
             }
 
             html.Frame = frame;
 
+            this.FillTemplatesSelectList(db, FrameTypes.Html, html.Frame.TemplateId);
+            
             return View(html);
         }
 
@@ -143,7 +148,7 @@ namespace DisplayMonkey.Controllers
             db.Frames.Remove(frame);
             db.SaveChanges();
 
-            return Navigation.Restore() ?? RedirectToAction("Index", "Frame");
+            return this.RestoreReferrer(true) ?? RedirectToAction("Index", "Frame");
         }
 
         protected override void Dispose(bool disposing)

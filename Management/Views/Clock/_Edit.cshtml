@@ -7,6 +7,9 @@
     SelectList types = ViewBag.Types as SelectList;
 }
 
+    <fieldset>
+        <legend>@Resources.Clock</legend>
+
         <div class="editor-label">
             @Html.LabelFor(model => model.Type)
         </div>
@@ -40,9 +43,11 @@
         </div>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.OffsetGMT)
+            @Html.LabelFor(model => model.TimeZone)
         </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.OffsetGMT)
-            @Html.ValidationMessageFor(model => model.OffsetGMT)
+        <div class="editor-field select">
+            @Html.DropDownListFor(m => m.TimeZone, ViewBag.TimeZones as SelectList, Resources.FromArea)
+            @Html.ValidationMessageFor(model => model.TimeZone)
         </div>
+
+    </fieldset>

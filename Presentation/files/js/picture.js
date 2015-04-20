@@ -8,7 +8,7 @@ var Picture = Class.create({
         var div = $(options.div);
         var img = div.down('img');
         img.alt = options.data.Name;
-        img.src = options.data.FrameType === "PICTURE" ?
+        img.src = options.data.FrameType === 5 ?
             "getImage.ashx?" + $H({ content: options.data.ContentId, frame: options.data.FrameId }).toQueryString() :
             "getReport.ashx?" + $H({ frame: options.data.FrameId }).toQueryString()
         ;

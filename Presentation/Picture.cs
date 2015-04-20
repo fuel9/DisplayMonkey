@@ -7,19 +7,18 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Drawing;
 using System.Drawing.Imaging;
+using DisplayMonkey.Models;
 
 namespace DisplayMonkey
 {
-	public enum PictureMode { CROP = 0, STRETCH = 1, FIT = 2 }
-
 	public class Picture : Frame
 	{
         public string Name { get; protected set; }
-        public PictureMode Mode { get; protected set; }
+        public RenderModes Mode { get; protected set; }
         public int ContentId { get; private set; }
         
-        public Picture(int frameId, int panelId = 0)
-            : base(frameId, panelId)
+        public Picture(int frameId)
+            : base(frameId)
         {
             _init();
         }
@@ -43,15 +42,15 @@ namespace DisplayMonkey
                 {
                     DataRow dr = ds.Tables[0].Rows[0];
                     ContentId = dr.IntOrZero("ContentId");
-                    Mode = (PictureMode)dr.IntOrZero("Mode");
+                    Mode = (RenderModes)dr.IntOrZero("Mode");
                     Name = dr.StringOrBlank("Name");
                 }
             }
 
-            _templatePath = HttpContext.Current.Server.MapPath("~/files/frames/picture/default.htm");
+            //_templatePath = HttpContext.Current.Server.MapPath("~/files/frames/picture/");
         }
 
-		public static void WriteImage(Stream inStream, Stream outStream, int boundWidth, int boundHeight, PictureMode mode)
+		public static void WriteImage(Stream inStream, Stream outStream, int boundWidth, int boundHeight, RenderModes mode)
 		{
 			Bitmap bmpSrc = null, bmpTrg = null;
 
@@ -73,11 +72,11 @@ namespace DisplayMonkey
 				{
 					switch (mode)
 					{
-						case PictureMode.STRETCH:
+						case RenderModes.RenderMode_Stretch:
 							bmpTrg = new Bitmap(bmpSrc, new Size(boundWidth, boundHeight));
 							break;
 
-						case PictureMode.FIT:
+						case RenderModes.RenderMode_Fit:
 							targetWidth = imageWidth;
                             targetHeight = imageHeight;
 							float scale = 1F;
@@ -98,7 +97,7 @@ namespace DisplayMonkey
 							bmpTrg = new Bitmap(bmpSrc, new Size(targetWidth, targetHeight));
 							break;
 
-						case PictureMode.CROP:
+						case RenderModes.RenderMode_Crop:
 							targetWidth = Math.Min(boundWidth, imageWidth);
 							targetHeight = Math.Min(boundHeight, imageHeight);
 							bmpTrg = bmpSrc.Clone(

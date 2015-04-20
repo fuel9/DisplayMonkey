@@ -7,3 +7,9 @@
 /Presentation/files/menu.jpg
 /Presentation/files/background.jpg
 /Presentation/js/tubular
+/Management/CodeTemplates/MvcView/Create.cs.cshtml
+/Management/CodeTemplates/MvcView/Delete.cs.cshtml
+/Management/CodeTemplates/MvcView/Details.cs.cshtml
+/Management/CodeTemplates/MvcView/Edit.cs.cshtml
+/Management/CodeTemplates/MvcView/Empty.cs.cshtml
+/Management/CodeTemplates/MvcView/List.cs.cshtml

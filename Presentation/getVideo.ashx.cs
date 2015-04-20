@@ -21,12 +21,28 @@ namespace DisplayMonkey
 			byte[] data = null;
 			string mediaName = "";
 
-			try
+            int frameId = DataAccess.IntOrZero(Request.QueryString["frame"]);
+            int contentId = DataAccess.IntOrZero(Request.QueryString["content"]);
+            
+            try
 			{
-				int contentId = Convert.ToInt32(Request.QueryString["content"]);
-                Content content = new Content(contentId);
-                data = content.Data;
-                mediaName = content.Name;
+                Video video = new Video(frameId);
+
+                if (contentId != 0)
+                {
+                    data = HttpRuntime.Cache.GetOrAddSliding(
+                        string.Format("video_{0}_{1}_{2}", video.FrameId, video.Version, contentId),
+                        () => 
+                        { 
+                            Content content = new Content(contentId);
+                            if (content.ContentId == 0)
+                                return null;
+                            mediaName = content.Name;
+                            return content.Data;
+                        },
+                        TimeSpan.FromMinutes(video.CacheInterval)
+                        );
+                }
 			}
 
 			catch (Exception ex)

@@ -4,71 +4,74 @@
 
 @model DisplayMonkey.Models.Clock
 
-<fieldset>
-    <legend>@Resources.Clock</legend>
-
-        <table><tr>
+    <table><tr>
         <td>
 
-    <div class="divTable">
+            @Html.Partial("_frameDetails", Model.Frame)
 
-    @Html.Partial("_frameDetails", Model.Frame)
+            <fieldset>
+                <legend>@Resources.Clock</legend>
 
-    <div class="divRow">
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Type)
-    </div>
-    <div class="display-field">
-        @Model.Type.Translate()
-    </div>
-    </div>
+                <div class="divTable">
 
-    @if (Model.Type == ClockTypes.ClockType_Text) 
-    {
-        <div class="divRow">
-        <div class="display-label">
-             @Html.DisplayNameFor(model => model.ShowDate)
-        </div>
-        <div class="display-field">
-            @Html.DisplayFor(model => model.ShowDate)
-        </div>
-        </div>
+                <div class="divRow">
+                <div class="display-label">
+                     @Html.DisplayNameFor(model => model.Type)
+                </div>
+                <div class="display-field">
+                    @Model.Type.Translate()
+                </div>
+                </div>
 
-        <div class="divRow">
-        <div class="display-label">
-             @Html.DisplayNameFor(model => model.ShowTime)
-        </div>
-        <div class="display-field">
-            @Html.DisplayFor(model => model.ShowTime)
-        </div>
-        </div>
-    }
+                @if (Model.Type == ClockTypes.ClockType_Text) 
+                {
+                    <div class="divRow">
+                    <div class="display-label">
+                         @Html.DisplayNameFor(model => model.ShowDate)
+                    </div>
+                    <div class="display-field">
+                        @Html.DisplayFor(model => model.ShowDate)
+                    </div>
+                    </div>
 
-    @if (!string.IsNullOrWhiteSpace(Model.Label))
-    {
-        <div class="divRow">
-        <div class="display-label">
-             @Html.DisplayNameFor(model => model.Label)
-        </div>
-        <div class="display-field">
-            @Html.DisplayFor(model => model.Label)
-        </div>
-        </div>
-    }
+                    <div class="divRow">
+                    <div class="display-label">
+                         @Html.DisplayNameFor(model => model.ShowTime)
+                    </div>
+                    <div class="display-field">
+                        @Html.DisplayFor(model => model.ShowTime)
+                    </div>
+                    </div>
+                }
 
-    @if (Model.OffsetGMT != null)
-    {
-        <div class="divRow">
-        <div class="display-label">
-             @Html.DisplayNameFor(model => model.OffsetGMT)
-        </div>
-        <div class="display-field">
-            @Html.DisplayFor(model => model.OffsetGMT)
-        </div>
-        </div>
-    }
+                @if (!string.IsNullOrWhiteSpace(Model.Label))
+                {
+                    <div class="divRow">
+                    <div class="display-label">
+                         @Html.DisplayNameFor(model => model.Label)
+                    </div>
+                    <div class="display-field">
+                        @Html.DisplayFor(model => model.Label)
+                    </div>
+                    </div>
+                }
 
-    </div>
+                @if (Model.TimeZone != null)
+                {
+                    <div class="divRow">
+                    <div class="display-label">
+                         @Html.DisplayNameFor(model => model.TimeZone)
+                    </div>
+                    <div class="display-field">
+                        @Html.DisplayFor(model => model.TimeZone)
+                    </div>
+                    </div>
+                }
+
+                </div>
+
+            </fieldset>
+
         </td>
         <td class="preview">
             @switch (Model.Type) 
@@ -90,5 +93,4 @@
             }
         </td>
     </tr></table>
-</fieldset>
 

@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="bc7e2af02eae42709a76a4c4f1b15942" Name="Diagram1" ZoomLevel="64">
+      <Diagram DiagramId="bc7e2af02eae42709a76a4c4f1b15942" Name="Diagram1" ZoomLevel="95">
         <EntityTypeShape EntityType="DisplayMonkey.Model.Canvas" Width="1.5" PointX="4.625" PointY="13.375" IsExpanded="true" />
         <EntityTypeShape EntityType="DisplayMonkey.Model.Clock" Width="1.5" PointX="13.5" PointY="6.75" IsExpanded="true" />
         <EntityTypeShape EntityType="DisplayMonkey.Model.Content" Width="1.5" PointX="4.625" PointY="17.625" IsExpanded="true" />
@@ -51,6 +51,8 @@
         <EntityTypeShape EntityType="DisplayMonkey.Model.Outlook" Width="1.5" PointX="13.5" PointY="22.625" />
         <AssociationConnector Association="DisplayMonkey.Model.FK_Outlook_ExchangeAccount" />
         <AssociationConnector Association="DisplayMonkey.Model.FK_Outlook_Frame" />
+        <EntityTypeShape EntityType="DisplayMonkey.Model.Template" Width="1.5" PointX="9" PointY="7.125" />
+        <AssociationConnector Association="DisplayMonkey.Model.FK_Frame_Template" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

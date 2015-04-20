@@ -31,7 +31,7 @@ namespace DisplayMonkey.Controllers
             this.id = id;
             this.resource = resource;
         }
-        public int id { get; set; }
-        public string resource { get; set; }
+        public int id { get; private set; }
+        public string resource { get; private set; }
     }
 }

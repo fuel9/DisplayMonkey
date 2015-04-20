@@ -69,6 +69,8 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Images\button_blue.png" />
+    <Content Include="Images\button_blue_red.png" />
     <Content Include="files\frames\clock\default.htm" />
     <Content Include="files\frames\html\default.htm" />
     <Content Include="files\frames\memo\default.htm" />
@@ -196,18 +198,19 @@
     <Content Include="getHtml.ashx" />
     <Content Include="Images\manifest.json" />
     <Content Include="getYahooWeather.ashx" />
+    <Content Include="files\windowsZones.xml" />
     <None Include="Scripts\jquery-2.0.3-vsdoc.js" />
     <Content Include="Scripts\jqsimplemenu.js" />
     <Content Include="Scripts\jquery-2.0.3.js" />
     <Content Include="Scripts\jquery-2.0.3.min.js" />
     <Content Include="Styles\custom.css" />
     <Content Include="Styles\jqsimplemenu.css" />
-    <Content Include="Styles\Site.css" />
     <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\jquery-1.4.1-vsdoc.js" />
     <Content Include="Scripts\jquery-1.4.1.js" />
     <Content Include="Scripts\jquery-1.4.1.min.js" />
+    <Content Include="Styles\Site.css" />
     <Content Include="Styles\style.css" />
     <Content Include="Styles\themes\base\images\animated-overlay.gif" />
     <Content Include="Styles\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
@@ -282,6 +285,18 @@
     <Content Include="HomePage.Master" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Management\CacheModes.cs">
+      <Link>CacheModes.cs</Link>
+    </Compile>
+    <Compile Include="..\Management\FrameTypes.cs">
+      <Link>FrameTypes.cs</Link>
+    </Compile>
+    <Compile Include="..\Management\Models\ContentTypes.cs">
+      <Link>ContentTypes.cs</Link>
+    </Compile>
+    <Compile Include="..\Management\Models\RenderModes.cs">
+      <Link>RenderModes.cs</Link>
+    </Compile>
     <Compile Include="..\Management\RsaUtil.cs">
       <Link>RsaUtil.cs</Link>
     </Compile>
@@ -407,7 +422,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>49355</DevelopmentServerPort>
+          <DevelopmentServerPort>49357</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>
@@ -420,6 +435,9 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
+  <PropertyGroup>
+    <PreBuildEvent>xcopy "$(SolutionDir)Management\Content\Site.css" "$(SolutionDir)Presentation\Styles\Site.css" /Y /U</PreBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

@@ -1,0 +1,51 @@
+﻿@using DisplayMonkey.Language
+@using DisplayMonkey.Models
+
+@model IEnumerable<DisplayMonkey.Models.Template>
+
+@{
+    ViewBag.Title = Resources.FrameTemplates;
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm("Index", "Template", FormMethod.Get))
+{    
+    <fieldset>
+        <legend>@Resources.Search</legend>
+        <table>
+            <tr><td>@Resources.FrameType:</td><td><div class="select">@Html.DropDownList("FrameType", ViewBag.FrameTypes as SelectList, Resources.Any)</div></td></tr>
+            <tr><td colspan="2"><input type="submit" value="@Resources.Filter" /></td></tr>
+        </table>
+    </fieldset> 
+}
+
+<p>
+    @Html.ActionLink(Resources.CreateNewTemplate, "Create")
+</p>
+<table class="grid">
+    <tr>
+        <th class="nw">
+            @Html.DisplayNameFor(model => model.FrameType)
+        </th>
+        <th class="nw">
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td class="nw">
+            @Html.ActionImgLink(Frame.IconFromFrameType(item.FrameType), "Edit", new { id = item.TemplateId }, new { @class = "thumb1", title =((FrameTypes)item.FrameType).Translate() })
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td class="nw">
+            @Html.ActionLink(Resources.Delete, "Delete", new { id=item.TemplateId })
+        </td>
+    </tr>
+}
+
+</table>

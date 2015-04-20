@@ -20,7 +20,7 @@ namespace DisplayMonkey.Controllers
 
         public ActionResult Details(int id = 0)
         {
-            Navigation.SaveCurrent();
+            this.SaveReferrer(true);
             
             Video video = db.Videos.Find(id);
             if (video == null)
@@ -45,10 +45,12 @@ namespace DisplayMonkey.Controllers
             Video video = new Video()
             {
                 Frame = frame,
-                PlayMuted = true,
-                AutoLoop = true
             };
 
+            video.init();
+
+            this.FillTemplatesSelectList(db, FrameTypes.Video);
+            this.FillCacheModeSelectList();
             FillVideosSelectList();
 
             return View(video);
@@ -72,7 +74,7 @@ namespace DisplayMonkey.Controllers
                     db.Videos.Add(video);
                     db.SaveChanges();
 
-                    return Navigation.Restore() ?? RedirectToAction("Index", "Frame");
+                    return this.RestoreReferrer() ?? RedirectToAction("Index", "Frame");
                 }
                 else
                 {
@@ -81,6 +83,8 @@ namespace DisplayMonkey.Controllers
                 }
             }
 
+            this.FillTemplatesSelectList(db, FrameTypes.Video, video.Frame.TemplateId);
+            this.FillCacheModeSelectList(video.Frame.CacheMode);
             FillVideosSelectList();
 
             return View(video);
@@ -98,6 +102,8 @@ namespace DisplayMonkey.Controllers
                 return RedirectToAction("Create", "Frame");
             }
 
+            this.FillTemplatesSelectList(db, FrameTypes.Video, video.Frame.TemplateId);
+            this.FillCacheModeSelectList(video.Frame.CacheMode);
             FillVideosSelectList();
             ViewBag.MaxVideoSize = db.Settings.FirstOrDefault(s => s.Key == DisplayMonkey.Models.Setting.Key_MaxVideoSize).IntValuePositive;
 
@@ -152,7 +158,7 @@ namespace DisplayMonkey.Controllers
                 db.Videos.Add(video);
                 db.SaveChanges();
 
-                return Navigation.Restore() ?? RedirectToAction("Index");
+                return this.RestoreReferrer() ?? RedirectToAction("Index", "Frame");
             }
 
             else if (hasFiles)
@@ -160,6 +166,8 @@ namespace DisplayMonkey.Controllers
                 // TODO: validator for wrong file types
             }
 
+            this.FillTemplatesSelectList(db, FrameTypes.Video, video.Frame.TemplateId);
+            this.FillCacheModeSelectList(video.Frame.CacheMode);
             FillVideosSelectList();
             ViewBag.MaxVideoSize = db.Settings.FirstOrDefault(s => s.Key == DisplayMonkey.Models.Setting.Key_MaxVideoSize).IntValuePositive;
 
@@ -177,6 +185,7 @@ namespace DisplayMonkey.Controllers
                 return View("Missing", new MissingItem(id));
             }
 
+            this.FillTemplatesSelectList(db, FrameTypes.Video, video.Frame.TemplateId);
             FillAvailableVideosSelectList(id);
 
             return View(video);
@@ -196,7 +205,7 @@ namespace DisplayMonkey.Controllers
                 video.Contents.Add(content);
                 db.SaveChanges();
                 
-                return Navigation.Restore() ?? RedirectToAction("Details", new { id = video.FrameId });
+                return this.RestoreReferrer() ?? RedirectToAction("Details", new { id = video.FrameId });
             }
 
             if (video.FrameId > 0)
@@ -272,7 +281,7 @@ namespace DisplayMonkey.Controllers
             {
                 db.SaveChanges();
                 
-                return Navigation.Restore() ?? RedirectToAction("Details", new { id = video.FrameId });
+                return this.RestoreReferrer() ?? RedirectToAction("Details", new { id = video.FrameId });
             }
 
             else if (hasFiles)
@@ -335,6 +344,9 @@ namespace DisplayMonkey.Controllers
                 return View("Missing", new MissingItem(id));
             }
 
+            this.FillTemplatesSelectList(db, FrameTypes.Video, video.Frame.TemplateId);
+            this.FillCacheModeSelectList(video.Frame.CacheMode);
+
             return View(video);
         }
 
@@ -351,10 +363,13 @@ namespace DisplayMonkey.Controllers
                 db.Entry(video).State = EntityState.Modified;
                 db.SaveChanges();
 
-                return Navigation.Restore() ?? RedirectToAction("Index");
+                return this.RestoreReferrer() ?? RedirectToAction("Index", "Frame");
             }
 
             video.Frame = frame;
+
+            this.FillTemplatesSelectList(db, FrameTypes.Video, video.Frame.TemplateId);
+            this.FillCacheModeSelectList(video.Frame.CacheMode);
 
             return View(video);
         }
@@ -383,7 +398,7 @@ namespace DisplayMonkey.Controllers
             db.Frames.Remove(frame);
             db.SaveChanges();
 
-            return Navigation.Restore() ?? RedirectToAction("Index", "Frame");
+            return this.RestoreReferrer(true) ?? RedirectToAction("Index", "Frame");
         }
 
         private void FillVideosSelectList(object selected = null)

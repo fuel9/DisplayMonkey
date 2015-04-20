@@ -12,31 +12,12 @@
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
 
-    <fieldset>
-        <legend>@Resources.Memo</legend>
+    @Html.Partial("_frameData", Model.Frame)
+    @Html.Partial("_Edit")
 
-        @Html.Partial("_frameData", Model.Frame)
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Subject)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Subject)
-            @Html.ValidationMessageFor(model => model.Subject)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Body)
-        </div>
-        <div class="editor-field">
-            @Html.TextAreaFor(model => model.Body)
-            @Html.ValidationMessageFor(model => model.Body)
-        </div>
-
-        <p>
-            <input type="submit" value="@Resources.Save" />
-        </p>
-    </fieldset>
+    <p>
+        <input type="submit" value="@Resources.Save" />
+    </p>
 }
 
 <div>

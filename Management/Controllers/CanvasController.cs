@@ -18,7 +18,7 @@ namespace DisplayMonkey.Controllers
 
         public ActionResult Index()
         {
-            Navigation.SaveCurrent();
+            this.SaveReferrer();
 
             var canvas = db.Canvases;
             return View(canvas.ToList());
@@ -59,7 +59,7 @@ namespace DisplayMonkey.Controllers
 
         public ActionResult Details(int id = 0)
         {
-            Navigation.SaveCurrent();
+            this.SaveReferrer(true);
             
             Canvas canvas = db.Canvases.Find(id);
             if (canvas == null)
@@ -96,7 +96,7 @@ namespace DisplayMonkey.Controllers
                 db.Canvases.Add(canvas);
                 db.SaveChanges();
 
-                return Navigation.Restore() ?? RedirectToAction("Index");
+                return this.RestoreReferrer() ?? RedirectToAction("Index");
             }
 
             ViewBag.BackgroundImage = new SelectList(db.Contents, "ContentId", "Name", canvas.BackgroundImage);
@@ -128,13 +128,9 @@ namespace DisplayMonkey.Controllers
             if (ModelState.IsValid)
             {
                 db.Entry(canvas).State = EntityState.Modified;
-                //db.Canvases.Attach(canvas).Version++;
-                
-
-                //db.Entry(canvas).Entity.Version++;
                 db.SaveChanges();
 
-                return Navigation.Restore() ?? RedirectToAction("Index");
+                return this.RestoreReferrer() ?? RedirectToAction("Index");
             }
             ViewBag.BackgroundImage = new SelectList(db.Contents, "ContentId", "Name", canvas.BackgroundImage);
             return View(canvas);
@@ -164,7 +160,7 @@ namespace DisplayMonkey.Controllers
             db.Canvases.Remove(canvas);
             db.SaveChanges();
 
-            return Navigation.Restore() ?? RedirectToAction("Index");
+            return this.RestoreReferrer(true) ?? RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)

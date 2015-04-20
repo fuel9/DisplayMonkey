@@ -14,8 +14,8 @@ namespace DisplayMonkey
         [ScriptIgnore]
         public string Content { get; private set; }
 
-        public Html(int frameId, int panelId = 0)
-            : base(frameId, panelId)
+        public Html(int frameId)
+            : base(frameId)
         {
             _init();
         }
@@ -39,7 +39,7 @@ namespace DisplayMonkey
                 }
             }
 
-            _templatePath = HttpContext.Current.Server.MapPath("~/files/frames/html/default.htm");
+            //_templatePath = HttpContext.Current.Server.MapPath("~/files/frames/html/");
         }
     }
 }

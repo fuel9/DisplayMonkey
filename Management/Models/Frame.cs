@@ -26,6 +26,10 @@ namespace DisplayMonkey.Models
         public Nullable<System.DateTime> EndsOn { get; set; }
         public Nullable<int> Sort { get; set; }
         public System.DateTime DateCreated { get; protected set; }
+        public byte[] Version { get; protected set; }
+        public int TemplateId { get; set; }
+        public CacheModes CacheMode { get; set; }
+        public int CacheInterval { get; set; }
     
         public virtual Clock Clock { get; set; }
         public virtual Panel Panel { get; set; }
@@ -39,5 +43,6 @@ namespace DisplayMonkey.Models
         public virtual Html Html { get; set; }
         public virtual Youtube Youtube { get; set; }
         public virtual Outlook Outlook { get; set; }
+        public virtual Template Template { get; set; }
     }
 }
