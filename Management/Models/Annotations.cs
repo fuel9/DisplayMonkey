@@ -534,11 +534,6 @@ namespace DisplayMonkey.Models
             public int TemplateId { get; set; }
             
             [
-                Display(ResourceType = typeof(Resources), Name = "CacheMode"),
-            ]
-            public CacheModes CacheMode { get; set; }
-            
-            [
                 Display(ResourceType = typeof(Resources), Name = "CacheInterval"),
                 Range(0, Int32.MaxValue,
                     ErrorMessageResourceType = typeof(Resources),
@@ -1062,7 +1057,6 @@ namespace DisplayMonkey.Models
         {
             if (Frame != null)
             {
-                Frame.CacheMode = CacheModes.CacheMode_Sliding;
                 Frame.CacheInterval = 5;
             }
         }
@@ -1150,7 +1144,6 @@ namespace DisplayMonkey.Models
             if (Frame != null)
             {
                 Frame.Duration = 600;
-                Frame.CacheMode = CacheModes.CacheMode_Sliding;
                 Frame.CacheInterval = 5;
             }
         }
@@ -1197,7 +1190,6 @@ namespace DisplayMonkey.Models
         {
             if (Frame != null)
             {
-                Frame.CacheMode = CacheModes.CacheMode_Sliding;
                 Frame.CacheInterval = 60;
             }
         }
@@ -1244,7 +1236,6 @@ namespace DisplayMonkey.Models
         {
             if (Frame != null)
             {
-                Frame.CacheMode = CacheModes.CacheMode_Sliding;
                 Frame.CacheInterval = 60;
             }
 
@@ -1488,7 +1479,6 @@ namespace DisplayMonkey.Models
         {
             if (Frame != null)
             {
-                Frame.CacheMode = CacheModes.CacheMode_Sliding;
                 Frame.CacheInterval = 1;
             }
         }

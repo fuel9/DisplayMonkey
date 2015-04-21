@@ -25,9 +25,6 @@ namespace DisplayMonkey
         public string TemplateName { get; private set; }
 
         [ScriptIgnore]
-        public CacheModes CacheMode { get; private set; }
-
-        [ScriptIgnore]
         public int CacheInterval { get; private set; }
 
         [ScriptIgnore]
@@ -97,7 +94,6 @@ namespace DisplayMonkey
             this.TemplateName = rhs.TemplateName;
             this.Html = rhs.Html;
             this.FrameType = rhs.FrameType;
-            this.CacheMode = rhs.CacheMode;
             this.CacheInterval = rhs.CacheInterval;
             this.Version = rhs.Version;
         }
@@ -114,9 +110,7 @@ namespace DisplayMonkey
             TemplateName = dr.StringOrDefault("TemplateName", "default");
             Html = dr.StringOrBlank("Html");
             FrameType = (FrameTypes)dr.IntOrZero("FrameType");
-            CacheMode = (CacheModes)dr.IntOrZero("CacheMode");
-            CacheInterval = 
-                (CacheMode == CacheModes.CacheMode_None) ? 0 : dr.IntOrZero("CacheInterval");
+            CacheInterval = dr.IntOrZero("CacheInterval");
             CacheInterval = CacheInterval < 0 ? 0 : CacheInterval;
             Version = BitConverter.ToInt64((byte[])dr["Version"], 0);       // is never a null
         }

@@ -260,7 +260,6 @@ namespace DisplayMonkey.Controllers
                     ;
 
                 selector.Panel = panel;
-                selector.CacheMode = CacheModes.CacheMode_None;
                 selector.CacheInterval = 0;
 
                 TempData[SelectorFrameKey] = selector;

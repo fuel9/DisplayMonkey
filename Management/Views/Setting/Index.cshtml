@@ -15,7 +15,7 @@
 @foreach (var item in Model) {
     <tr>
         <td class="nw">
-            @Html.DisplayFor(m => item.Name)
+            @Html.ActionLink(item.Name, "Edit", new { id=item.Key })
         </td>
         <td>
             @switch (item.Type)
@@ -32,9 +32,6 @@
                     @Html.DisplayFor(m => item.Value)
                     break;
             }
-        </td>
-        <td>
-            @Html.ActionLink(Resources.Edit, "Edit", new { id=item.Key })
         </td>
     </tr>
 }

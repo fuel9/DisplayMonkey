@@ -96,24 +96,6 @@ namespace DisplayMonkey.Controllers
                 new SelectList(query, "TemplateId", "Name", _selected);
         }
 
-        public static void FillCacheModeSelectList(
-            this BaseController _controller,
-            CacheModes _selected
-            )
-        {
-            _controller.ViewBag.CacheModes = 
-                new Nullable<CacheModes>(_selected).TranslatedSelectList(valueAsText: false);
-        }
-
-        public static void FillCacheModeSelectList(
-            this BaseController _controller
-            )
-        {
-            CacheModes? _selected = null;
-            _controller.ViewBag.CacheModes = 
-                _selected.TranslatedSelectList(valueAsText: false);
-        }
-
         public static void FillSystemTimeZoneSelectList(
             this BaseController _controller,
             string _selected = null

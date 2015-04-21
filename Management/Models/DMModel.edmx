@@ -208,7 +208,6 @@
           <Property Name="DateCreated" Type="datetime" Nullable="false" StoreGeneratedPattern="Computed" />
           <Property Name="Version" Type="timestamp" Nullable="false" StoreGeneratedPattern="Computed" />
           <Property Name="TemplateId" Type="int" Nullable="false" />
-          <Property Name="CacheMode" Type="int" Nullable="false" />
           <Property Name="CacheInterval" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="FrameLocation">
@@ -959,7 +958,6 @@
           <NavigationProperty Name="Outlook" Relationship="DisplayMonkey.Model.FK_Outlook_Frame" FromRole="Frame" ToRole="Outlook" />
           <Property Type="Binary" Name="Version" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" a:SetterAccess="Protected" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
           <Property Type="Int32" Name="TemplateId" Nullable="false" />
-          <Property Type="DisplayMonkey.Model.CacheModes" Name="CacheMode" Nullable="false" />
           <Property Type="Int32" Name="CacheInterval" Nullable="false" />
           <NavigationProperty Name="Template" Relationship="DisplayMonkey.Model.FK_Frame_Template" FromRole="Frame" ToRole="Template" />
         </EntityType>
@@ -1530,8 +1528,6 @@
           </ReferentialConstraint>
         </Association>
         <EnumType Name="FrameTypes" a:ExternalTypeName="FrameTypes" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
-        <EnumType Name="CacheModes" a:ExternalTypeName="CacheModes" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration">
-          </EnumType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1591,7 +1587,6 @@
             <EntityTypeMapping TypeName="DisplayMonkey.Model.Frame">
               <MappingFragment StoreEntitySet="Frame">
                 <ScalarProperty Name="CacheInterval" ColumnName="CacheInterval" />
-                <ScalarProperty Name="CacheMode" ColumnName="CacheMode" />
                 <ScalarProperty Name="TemplateId" ColumnName="TemplateId" />
                 <ScalarProperty Name="Version" ColumnName="Version" />
                 <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />

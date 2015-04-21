@@ -43,7 +43,9 @@
             @Html.DisplayFor(modelItem => item.Name)
         </td>
         <td class="nw">
-            @Html.ActionLink(Resources.Delete, "Delete", new { id=item.TemplateId })
+            @if (item.Name != "default") {
+                @Html.ActionLink(Resources.Delete, "Delete", new { id=item.TemplateId })
+            }
         </td>
     </tr>
 }

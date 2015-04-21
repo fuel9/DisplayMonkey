@@ -53,7 +53,6 @@ namespace DisplayMonkey.Controllers
             weather.init();
 
             this.FillTemplatesSelectList(db, FrameTypes.Weather);
-            this.FillCacheModeSelectList();
             FillWeatherTypeSelectList();
 
             return View(weather);
@@ -76,7 +75,6 @@ namespace DisplayMonkey.Controllers
             }
 
             this.FillTemplatesSelectList(db, FrameTypes.Weather, weather.Frame.TemplateId);
-            this.FillCacheModeSelectList(weather.Frame.CacheMode);
             FillWeatherTypeSelectList();
 
             weather.Frame = frame;
@@ -96,7 +94,6 @@ namespace DisplayMonkey.Controllers
             }
 
             this.FillTemplatesSelectList(db, FrameTypes.Weather, weather.Frame.TemplateId);
-            this.FillCacheModeSelectList(weather.Frame.CacheMode);
             FillWeatherTypeSelectList();
             
             return View(weather);
@@ -119,7 +116,6 @@ namespace DisplayMonkey.Controllers
             }
 
             this.FillTemplatesSelectList(db, FrameTypes.Weather, weather.Frame.TemplateId);
-            this.FillCacheModeSelectList(weather.Frame.CacheMode);
             FillWeatherTypeSelectList();
 
             weather.Frame = frame;

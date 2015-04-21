@@ -28,7 +28,6 @@ namespace DisplayMonkey.Models
         public System.DateTime DateCreated { get; protected set; }
         public byte[] Version { get; protected set; }
         public int TemplateId { get; set; }
-        public CacheModes CacheMode { get; set; }
         public int CacheInterval { get; set; }
     
         public virtual Clock Clock { get; set; }

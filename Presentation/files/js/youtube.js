@@ -37,9 +37,8 @@ YtLib.YtPlayer = Class.create({
         YtLib.load();
         this.player = null;
         this.finishedLoading = false;
-        var div = $(options.div);
-        this.id = div.id;
-        this.width = options.width || div.parentNode.clientWidth;
+        this.div = $(options.div);
+        this.width = options.width || this.div.parentNode.clientWidth;
         var aspect = options.data.Aspect || 0;
         switch (Number(aspect)) {
             case 1: aspect = (16 / 9); break;
@@ -107,7 +106,7 @@ YtLib.YtPlayer = Class.create({
             return;
         }
         try {
-            this.player = new YT.Player(this.id, {
+            this.player = new YT.Player(this.div, {
                 width: this.width,
                 height: this.height,
                 //videoId: this.videoId,
@@ -130,7 +129,7 @@ YtLib.YtPlayer = Class.create({
             });
         }
         catch (e) {
-            new ErrorReport({exception: e, data: this.id, source: 'YtPlayer.create'});
+            new ErrorReport({exception: e, data: this.div.id, source: 'YtPlayer.create'});
         }
     },
 

@@ -11,14 +11,6 @@
         <legend>@Resources.CachingOptions</legend>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.CacheMode)
-        </div>
-        <div class="editor-field select">
-            @Html.DropDownListFor(model => model.CacheMode, modes, new { id = "cacheMode" })
-            @Html.ValidationMessageFor(model => model.CacheMode)
-        </div>
-
-        <div class="editor-label">
             @Html.LabelFor(model => model.CacheInterval)
         </div>
         <div class="editor-field">
@@ -27,18 +19,3 @@
         </div>
     
     </fieldset>
-
-    <script type="text/javascript">
-        $(document).ready(function () {
-            var cacheMode = $("#cacheMode");
-            function onCacheModeChange() {
-                var ro = cacheMode.val() == @((int)CacheModes.CacheMode_None), 
-                    ci = $("#cacheInterval");
-                ci.prop('disabled', ro); if (ro) ci.val(0);
-            }
-            if (cacheMode) {
-                cacheMode.change(function () { onCacheModeChange(); });
-                onCacheModeChange();
-            }
-        });
-    </script>

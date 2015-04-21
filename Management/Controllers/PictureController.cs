@@ -50,7 +50,6 @@ namespace DisplayMonkey.Controllers
             picture.init();
 
             this.FillTemplatesSelectList(db, FrameTypes.Picture);
-            this.FillCacheModeSelectList();
             FillPicturesSelectList();
             FillModesSelectList();
 
@@ -84,7 +83,6 @@ namespace DisplayMonkey.Controllers
             }
 
             this.FillTemplatesSelectList(db, FrameTypes.Picture, picture.Frame.TemplateId);
-            this.FillCacheModeSelectList(picture.Frame.CacheMode);
             FillPicturesSelectList();
             FillModesSelectList();
 
@@ -104,7 +102,6 @@ namespace DisplayMonkey.Controllers
             }
 
             this.FillTemplatesSelectList(db, FrameTypes.Picture, picture.Frame.TemplateId);
-            this.FillCacheModeSelectList(picture.Frame.CacheMode);
             FillPicturesSelectList();
             FillModesSelectList();
             ViewBag.MaxImageSize = db.Settings.FirstOrDefault(s => s.Key == DisplayMonkey.Models.Setting.Key_MaxImageSize).IntValuePositive;
@@ -151,7 +148,6 @@ namespace DisplayMonkey.Controllers
             }
 
             this.FillTemplatesSelectList(db, FrameTypes.Picture, picture.Frame.TemplateId);
-            this.FillCacheModeSelectList(picture.Frame.CacheMode);
             FillPicturesSelectList();
             FillModesSelectList();
             ViewBag.MaxImageSize = db.Settings.FirstOrDefault(s => s.Key == DisplayMonkey.Models.Setting.Key_MaxImageSize).IntValuePositive;
@@ -171,7 +167,6 @@ namespace DisplayMonkey.Controllers
             }
 
             this.FillTemplatesSelectList(db, FrameTypes.Picture, picture.Frame.TemplateId);
-            this.FillCacheModeSelectList(picture.Frame.CacheMode);
             FillPicturesSelectList(picture.ContentId);
             FillModesSelectList(picture.Mode);
 
@@ -195,7 +190,6 @@ namespace DisplayMonkey.Controllers
             }
 
             this.FillTemplatesSelectList(db, FrameTypes.Picture, picture.Frame.TemplateId);
-            this.FillCacheModeSelectList(picture.Frame.CacheMode);
             FillPicturesSelectList(picture.ContentId);
             FillModesSelectList(picture.Mode);
 

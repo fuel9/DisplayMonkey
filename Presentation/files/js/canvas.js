@@ -323,7 +323,7 @@ Ajax.PanelUpdaterBase = Class.create(Ajax.Base, {
                         obj = new Clock({
                             div: div,
                             data: this.data,
-                            panelId: this.panelId,
+                            panelId: panel.id,
                             width: width,
                             height: height
                         });
@@ -336,7 +336,7 @@ Ajax.PanelUpdaterBase = Class.create(Ajax.Base, {
                         obj = new Iframe({
                             div: div,
                             data: this.data,
-                            panelId: this.panelId,
+                            panelId: panel.id,
                             width: width,
                             height: height
                         });
@@ -349,7 +349,7 @@ Ajax.PanelUpdaterBase = Class.create(Ajax.Base, {
                         obj = new Memo({
                             div: div,
                             data: this.data,
-                            panelId: this.panelId,
+                            panelId: panel.id,
                             width: width,
                             height: height
                         });
@@ -363,7 +363,7 @@ Ajax.PanelUpdaterBase = Class.create(Ajax.Base, {
                         obj = new Outlook({
                             div: div,
                             data: this.data,
-                            panelId: this.panelId,
+                            panelId: panel.id,
                             width: width,
                             height: height
                         });
@@ -378,7 +378,7 @@ Ajax.PanelUpdaterBase = Class.create(Ajax.Base, {
                         obj = new Picture({
                             div: div,
                             data: this.data,
-                            panelId: this.panelId,
+                            panelId: panel.id,
                             width: width,
                             height: height
                         });
@@ -391,7 +391,7 @@ Ajax.PanelUpdaterBase = Class.create(Ajax.Base, {
                         obj = new Video({
                             div: div,
                             data: this.data,
-                            panelId: this.panelId,
+                            panelId: panel.id,
                             width: width,
                             height: height,
                             play: (this instanceof Ajax.FullScreenPanelUpdater || !_canvas.fullScreenActive)
@@ -405,7 +405,7 @@ Ajax.PanelUpdaterBase = Class.create(Ajax.Base, {
                         obj = new Weather({
                             div: div,
                             data: this.data,
-                            panelId: this.panelId,
+                            panelId: panel.id,
                             width: width,
                             height: height
                         });
@@ -418,7 +418,7 @@ Ajax.PanelUpdaterBase = Class.create(Ajax.Base, {
                         obj = new YtLib.YtPlayer({
                             div: div, 
                             data: this.data,
-                            panelId: this.panelId,
+                            panelId: panel.id,
                             width: width,
                             height: height
                         });

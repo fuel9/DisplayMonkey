@@ -48,7 +48,6 @@ namespace DisplayMonkey.Controllers
             outlook.init();
 
             this.FillTemplatesSelectList(db, FrameTypes.Outlook);
-            this.FillCacheModeSelectList();
             FillModesSelectList();
             FillAccountsSelectList();
 
@@ -78,7 +77,6 @@ namespace DisplayMonkey.Controllers
             }
 
             this.FillTemplatesSelectList(db, FrameTypes.Outlook, outlook.Frame.TemplateId);
-            this.FillCacheModeSelectList(outlook.Frame.CacheMode);
             FillModesSelectList(outlook.Mode);
             FillAccountsSelectList(outlook.AccountId);
 
@@ -97,7 +95,6 @@ namespace DisplayMonkey.Controllers
             }
 
             this.FillTemplatesSelectList(db, FrameTypes.Outlook, outlook.Frame.TemplateId);
-            this.FillCacheModeSelectList(outlook.Frame.CacheMode);
             FillModesSelectList(outlook.Mode);
             FillAccountsSelectList(outlook.AccountId);
 
@@ -127,7 +124,6 @@ namespace DisplayMonkey.Controllers
             }
 
             this.FillTemplatesSelectList(db, FrameTypes.Outlook, outlook.Frame.TemplateId);
-            this.FillCacheModeSelectList(outlook.Frame.CacheMode);
             FillModesSelectList(outlook.Mode);
             FillAccountsSelectList(outlook.AccountId);
 

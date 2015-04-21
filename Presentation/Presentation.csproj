@@ -285,9 +285,6 @@
     <Content Include="HomePage.Master" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Management\CacheModes.cs">
-      <Link>CacheModes.cs</Link>
-    </Compile>
     <Compile Include="..\Management\FrameTypes.cs">
       <Link>FrameTypes.cs</Link>
     </Compile>

@@ -54,7 +54,7 @@ namespace DisplayMonkey
                         Panel panel = new Panel(picture.PanelId);
 
                         data = HttpRuntime.Cache.GetOrAddSliding(
-                            string.Format("picture_{0}_{1)", picture.FrameId, picture.Version),
+                            string.Format("picture_{0}_{1}", picture.FrameId, picture.Version),
                             () =>
                             {
                                 Content content = new Content(picture.ContentId);

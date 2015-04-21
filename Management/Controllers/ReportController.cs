@@ -51,7 +51,6 @@ namespace DisplayMonkey.Controllers
             report.init();
 
             this.FillTemplatesSelectList(db, FrameTypes.Report);
-            this.FillCacheModeSelectList();
             FillServersSelectList();
             FillModesSelectList();
 
@@ -75,7 +74,6 @@ namespace DisplayMonkey.Controllers
             }
 
             this.FillTemplatesSelectList(db, FrameTypes.Report, report.Frame.TemplateId);
-            this.FillCacheModeSelectList(report.Frame.CacheMode);
             FillServersSelectList();
             FillModesSelectList();
             
@@ -96,7 +94,6 @@ namespace DisplayMonkey.Controllers
             }
 
             this.FillTemplatesSelectList(db, FrameTypes.Report, report.Frame.TemplateId);
-            this.FillCacheModeSelectList(report.Frame.CacheMode);
             FillServersSelectList(report.ServerId);
             FillModesSelectList(report.Mode);
             
@@ -120,7 +117,6 @@ namespace DisplayMonkey.Controllers
             }
 
             this.FillTemplatesSelectList(db, FrameTypes.Report, report.Frame.TemplateId);
-            this.FillCacheModeSelectList(report.Frame.CacheMode);
             FillServersSelectList(report.ServerId);
             FillModesSelectList(report.Mode);
             
