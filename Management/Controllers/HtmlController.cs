@@ -42,7 +42,7 @@ namespace DisplayMonkey.Controllers
                 Frame = frame,
             };
 
-            html.init();
+            html.init(db);
 
             this.FillTemplatesSelectList(db, FrameTypes.Html);
             

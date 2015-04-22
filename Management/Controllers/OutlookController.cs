@@ -45,7 +45,7 @@ namespace DisplayMonkey.Controllers
                 Frame = frame,
             };
 
-            outlook.init();
+            outlook.init(db);
 
             this.FillTemplatesSelectList(db, FrameTypes.Outlook);
             FillModesSelectList();

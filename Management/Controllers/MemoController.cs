@@ -45,7 +45,7 @@ namespace DisplayMonkey.Controllers
                 Frame = frame,
             };
 
-            memo.init();
+            memo.init(db);
 
             this.FillTemplatesSelectList(db, FrameTypes.Memo);
             

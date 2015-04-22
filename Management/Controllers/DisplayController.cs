@@ -14,6 +14,26 @@ namespace DisplayMonkey.Controllers
     {
         private DisplayMonkeyEntities db = new DisplayMonkeyEntities();
 
+        private void FillCanvasSelectList(object selected = null)
+        {
+            var list = db.Canvases
+                .OrderBy(c => c.Name)
+                .ToList()
+                ;
+
+            ViewBag.Canvases = new SelectList(list, "CanvasId", "Name", selected);
+        }
+
+        private void FillLocationSelectList(object selected = null)
+        {
+            var list = db.Locations
+                .OrderBy(c => c.Name)
+                .ToList()
+                ;
+
+            ViewBag.Locations = new SelectList(list, "LocationId", "Name", selected);
+        }
+
         //
         // GET: /Display/
 
@@ -60,8 +80,8 @@ namespace DisplayMonkey.Controllers
                     ;
             }
 
-            ViewBag.CanvasId = new SelectList(db.Canvases, "CanvasId", "Name", canvasId);
-            ViewBag.LocationId = new SelectList(db.Locations, "LocationId", "Name", locationId);            
+            FillCanvasSelectList(canvasId);
+            FillLocationSelectList(locationId);
             
             return View(displays.ToList());
         }
@@ -71,10 +91,7 @@ namespace DisplayMonkey.Controllers
 
         public ActionResult Browse(int id = 0)
         {
-            string path = db.Settings
-                .FirstOrDefault(s => s.Key == Setting.Key_PresentationSite)
-                .StringValue
-                ;
+            string path = Setting.GetSetting(db, Setting.Keys.PresentationSite).StringValue;
 
             if (string.IsNullOrWhiteSpace(path))
             {
@@ -106,8 +123,8 @@ namespace DisplayMonkey.Controllers
 
         public ActionResult Create(int canvasId = 0, int locationId = 0)
         {
-            ViewBag.CanvasId = new SelectList(db.Canvases, "CanvasId", "Name", canvasId);
-            ViewBag.LocationId = new SelectList(db.Locations, "LocationId", "Name", locationId);
+            FillCanvasSelectList(canvasId);
+            FillLocationSelectList(locationId);
             return View();
         }
 
@@ -126,8 +143,9 @@ namespace DisplayMonkey.Controllers
                 return this.RestoreReferrer() ?? RedirectToAction("Index");
             }
 
-            ViewBag.CanvasId = new SelectList(db.Canvases, "CanvasId", "Name", display.CanvasId);
-            ViewBag.LocationId = new SelectList(db.Locations, "LocationId", "Name", display.LocationId);
+            FillCanvasSelectList(display.CanvasId);
+            FillLocationSelectList(display.LocationId);
+
             return View(display);
         }
 
@@ -141,8 +159,10 @@ namespace DisplayMonkey.Controllers
             {
                 return View("Missing", new MissingItem(id));
             }
-            ViewBag.CanvasId = new SelectList(db.Canvases, "CanvasId", "Name", display.CanvasId);
-            ViewBag.LocationId = new SelectList(db.Locations, "LocationId", "Name", display.LocationId);
+
+            FillCanvasSelectList(display.CanvasId);
+            FillLocationSelectList(display.LocationId);
+
             return View(display);
         }
 
@@ -160,8 +180,10 @@ namespace DisplayMonkey.Controllers
 
                 return this.RestoreReferrer() ?? RedirectToAction("Index");
             }
-            ViewBag.CanvasId = new SelectList(db.Canvases, "CanvasId", "Name", display.CanvasId);
-            ViewBag.LocationId = new SelectList(db.Locations, "LocationId", "Name", display.LocationId);
+
+            FillCanvasSelectList(display.CanvasId);
+            FillLocationSelectList(display.LocationId);
+
             return View(display);
         }
 

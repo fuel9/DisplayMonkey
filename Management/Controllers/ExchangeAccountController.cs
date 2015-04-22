@@ -30,7 +30,7 @@ namespace DisplayMonkey.Controllers
         public ActionResult Create()
         {
             ExchangeAccount ews = new ExchangeAccount();
-            ews.init();
+            ews.init(db);
             FillVersionsSelectList();
             return View(ews);
         }

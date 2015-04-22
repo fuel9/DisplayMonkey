@@ -47,7 +47,7 @@ namespace DisplayMonkey.Controllers
                 Frame = frame,
             };
 
-            picture.init();
+            picture.init(db);
 
             this.FillTemplatesSelectList(db, FrameTypes.Picture);
             FillPicturesSelectList();
@@ -104,7 +104,7 @@ namespace DisplayMonkey.Controllers
             this.FillTemplatesSelectList(db, FrameTypes.Picture, picture.Frame.TemplateId);
             FillPicturesSelectList();
             FillModesSelectList();
-            ViewBag.MaxImageSize = db.Settings.FirstOrDefault(s => s.Key == DisplayMonkey.Models.Setting.Key_MaxImageSize).IntValuePositive;
+            ViewBag.MaxImageSize = Setting.GetSetting(db, Setting.Keys.MaxImageSize).IntValuePositive;
 
             return View(picture);
         }
@@ -150,7 +150,7 @@ namespace DisplayMonkey.Controllers
             this.FillTemplatesSelectList(db, FrameTypes.Picture, picture.Frame.TemplateId);
             FillPicturesSelectList();
             FillModesSelectList();
-            ViewBag.MaxImageSize = db.Settings.FirstOrDefault(s => s.Key == DisplayMonkey.Models.Setting.Key_MaxImageSize).IntValuePositive;
+            ViewBag.MaxImageSize = Setting.GetSetting(db, Setting.Keys.MaxImageSize).IntValuePositive;
 
             return View(picture);
         }

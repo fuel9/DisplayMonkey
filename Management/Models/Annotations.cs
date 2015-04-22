@@ -15,6 +15,7 @@ using System.Reflection;
 
 using DisplayMonkey.Language;
 using System.Text.RegularExpressions;
+using System.Collections;
 
 
 namespace DisplayMonkey.Models
@@ -809,7 +810,7 @@ namespace DisplayMonkey.Models
             }
         }
 
-        public void init()
+        public void init(DisplayMonkeyEntities _db)
         {
             if (Frame != null)
             {
@@ -848,7 +849,7 @@ namespace DisplayMonkey.Models
             public virtual Frame Frame { get; set; }
         }
 
-        public void init()
+        public void init(DisplayMonkeyEntities _db)
         {
             if (Frame != null)
             {
@@ -1053,7 +1054,7 @@ namespace DisplayMonkey.Models
             public virtual ReportServer ReportServer { get; set; }
         }
 
-        public void init()
+        public void init(DisplayMonkeyEntities _db)
         {
             if (Frame != null)
             {
@@ -1106,7 +1107,7 @@ namespace DisplayMonkey.Models
             public string Label { get; set; }
         }
 
-        public void init()
+        public void init(DisplayMonkeyEntities _db)
         {
             if (Frame != null)
             {
@@ -1139,7 +1140,7 @@ namespace DisplayMonkey.Models
             public virtual Frame Frame { get; set; }
         }
 
-        public void init()
+        public void init(DisplayMonkeyEntities _db)
         {
             if (Frame != null)
             {
@@ -1186,7 +1187,7 @@ namespace DisplayMonkey.Models
             "BMP", "GIF", "JPG", "JPEG", "PNG", "TIF", "TIFF"
         };
 
-        public void init()
+        public void init(DisplayMonkeyEntities _db)
         {
             if (Frame != null)
             {
@@ -1232,7 +1233,7 @@ namespace DisplayMonkey.Models
             "AVI", "MP4", "MPG", "MPEG", "OGG", "WEBM"
         };
 
-        public void init()
+        public void init(DisplayMonkeyEntities _db)
         {
             if (Frame != null)
             {
@@ -1312,7 +1313,7 @@ namespace DisplayMonkey.Models
             public YTRate Rate { get; set; }
         }
 
-        public void init()
+        public void init(DisplayMonkeyEntities _db)
         {
             if (Frame != null)
             {
@@ -1331,7 +1332,7 @@ namespace DisplayMonkey.Models
     ]
     public partial class ExchangeAccount
     {
-        public void init()
+        public void init(DisplayMonkeyEntities _db)
         {
             this.EwsVersion = OutlookEwsVersions.OutlookEwsVersion_Exchange2007_SP1;
             this.Url = "https://outlook.office365.com/EWS/Exchange.asmx";
@@ -1475,7 +1476,7 @@ namespace DisplayMonkey.Models
         ]
         public string NameOrMailboxOrAccount { get { return this.Name ?? this.Mailbox ?? this.ExchangeAccount.Name; } }
 
-        public void init()
+        public void init(DisplayMonkeyEntities _db)
         {
             if (Frame != null)
             {
@@ -1543,7 +1544,7 @@ namespace DisplayMonkey.Models
     {
         internal class Annotations
         {
-            public int TemplateId { get; set; }
+            //public int TemplateId { get; set; }
 
             [
                 Display(ResourceType = typeof(Resources), Name = "Name"),
@@ -1595,17 +1596,74 @@ namespace DisplayMonkey.Models
             public SettingTypes Type { get; set; }
         }
 
-        public static Guid Key_MaxImageSize { get; private set; }
-        public static Guid Key_MaxVideoSize { get; private set; }
-        public static Guid Key_PresentationSite { get; private set; }
-        public static Guid Key_HelpSite { get; private set; }
+        #region -----  Key Identification  -----
+
+        public enum Keys : int
+        {
+            MaxImageSize = 0,
+            MaxVideoSize,
+            PresentationSite,
+
+            /*DefaultTemplateClock,
+            DefaultTemplateHtml,
+            DefaultTemplateMemo,
+            //DefaultTemplateNews,
+            DefaultTemplateOutlook,
+            DefaultTemplatePicture,
+            DefaultTemplateReport,
+            DefaultTemplateVideo,
+            DefaultTemplateWeather,
+            DefaultTemplateYouTube,
+
+            DefaultCacheIntervalClock,
+            DefaultCacheIntervalHtml,
+            DefaultCacheIntervalMemo,
+            //DefaultCacheIntervalNews,
+            DefaultCacheIntervalOutlook,
+            DefaultCacheIntervalPicture,
+            DefaultCacheIntervalReport,
+            DefaultCacheIntervalVideo,
+            DefaultCacheIntervalWeather,
+            DefaultCacheIntervalYouTube,*/
+
+            /// <summary>
+            /// end with Count
+            /// </summary>
+            Count
+        }
 
         static Setting()
         {
-            Key_MaxImageSize = new Guid("9A0BC012-FF01-4103-8A75-A03B275B0AD1");
-            Key_MaxVideoSize = new Guid("4CAB57C4-EFEF-4EDE-91A3-EFFD48660909");
-            Key_PresentationSite = new Guid("417D856B-7EC4-4CBD-A5EA-47BFC0F7B1F9");
-            Key_HelpSite = new Guid("30F7521D-0058-4ED5-9B1E-D0AB0BACB7D8");
+            _keyNames.Add(
+                _keyGuids[(int)Setting.Keys.MaxImageSize] = new Guid("9A0BC012-FF01-4103-8A75-A03B275B0AD1"),
+                "Settings_MaxImageSize"
+                );
+            
+            _keyNames.Add(
+                _keyGuids[(int)Setting.Keys.MaxVideoSize] = new Guid("4CAB57C4-EFEF-4EDE-91A3-EFFD48660909"),
+                "Settings_MaxVideoSize"
+                );
+            
+            _keyNames.Add(
+                _keyGuids[(int)Setting.Keys.PresentationSite] = new Guid("417D856B-7EC4-4CBD-A5EA-47BFC0F7B1F9"),
+                "Settings_PresentationSite"
+                );
+
+            //_keyNames.Add(
+            //    _keyGuids[(int)Setting.Keys.ZZZ] = new Guid("12345678-90AB-CDEF-1234-567890ABCDEF"),
+            //    "Settings_ZZZ"
+            //    );
+        }
+
+        public static Setting GetSetting(DisplayMonkeyEntities _db, Setting.Keys _id)
+        {
+            Guid key = _keyGuids[(int)_id];
+            return _db.Settings.FirstOrDefault(s => s.Key == key);
+        }
+
+        public string ResourceId
+        {
+            get { return _keyNames[this.Key]; }
         }
         
         [
@@ -1615,21 +1673,16 @@ namespace DisplayMonkey.Models
         {
             get
             {
-                if (this.Key == Key_MaxImageSize)
-                    return Resources.Settings_MaxImageSize;
-
-                if (this.Key == Key_MaxVideoSize)
-                    return Resources.Settings_MaxVideoSize;
-
-                if (this.Key == Key_PresentationSite)
-                    return Resources.Settings_PresentationSite;
-
-                if (this.Key == Key_HelpSite)
-                    return Resources.Settings_HelpSite;
-
-                return this.Key.ToString();
+                return Resources.ResourceManager.GetString(ResourceId) ?? this.Key.ToString();
             }
         }
+
+        private static Guid[] _keyGuids = new Guid[(int)Setting.Keys.Count];
+        private static Dictionary<Guid, string> _keyNames = new Dictionary<Guid, string>((int)Setting.Keys.Count);
+
+        #endregion
+
+        #region -----  Value Management  -----
 
         [
             Display(ResourceType = typeof(Resources), Name = "Value"),
@@ -1668,6 +1721,8 @@ namespace DisplayMonkey.Models
             get { return this.Value == null ? null : Encoding.ASCII.GetString(this.Value); }
             set { this.Value = value == null ? null : Encoding.ASCII.GetBytes(value); }
         }
+
+        #endregion
     }
 
 

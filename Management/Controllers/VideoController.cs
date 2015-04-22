@@ -47,7 +47,7 @@ namespace DisplayMonkey.Controllers
                 Frame = frame,
             };
 
-            video.init();
+            video.init(db);
 
             this.FillTemplatesSelectList(db, FrameTypes.Video);
             FillVideosSelectList();
@@ -102,7 +102,7 @@ namespace DisplayMonkey.Controllers
 
             this.FillTemplatesSelectList(db, FrameTypes.Video, video.Frame.TemplateId);
             FillVideosSelectList();
-            ViewBag.MaxVideoSize = db.Settings.FirstOrDefault(s => s.Key == DisplayMonkey.Models.Setting.Key_MaxVideoSize).IntValuePositive;
+            ViewBag.MaxVideoSize = Setting.GetSetting(db, Setting.Keys.MaxVideoSize).IntValuePositive;
 
             return View(video);
         }
@@ -165,7 +165,7 @@ namespace DisplayMonkey.Controllers
 
             this.FillTemplatesSelectList(db, FrameTypes.Video, video.Frame.TemplateId);
             FillVideosSelectList();
-            ViewBag.MaxVideoSize = db.Settings.FirstOrDefault(s => s.Key == DisplayMonkey.Models.Setting.Key_MaxVideoSize).IntValuePositive;
+            ViewBag.MaxVideoSize = Setting.GetSetting(db, Setting.Keys.MaxVideoSize).IntValuePositive;
 
             return View(video);
         }

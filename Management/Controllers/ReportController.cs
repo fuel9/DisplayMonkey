@@ -48,7 +48,7 @@ namespace DisplayMonkey.Controllers
                 Frame = frame,
             };
 
-            report.init();
+            report.init(db);
 
             this.FillTemplatesSelectList(db, FrameTypes.Report);
             FillServersSelectList();

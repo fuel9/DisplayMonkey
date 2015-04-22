@@ -45,7 +45,7 @@ namespace DisplayMonkey.Controllers
                 Frame = frame,
             };
 
-            youtube.init();
+            youtube.init(db);
 
             this.FillTemplatesSelectList(db, FrameTypes.YouTube);
             FillAspectsSelectList();

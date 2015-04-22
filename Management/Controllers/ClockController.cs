@@ -50,7 +50,7 @@ namespace DisplayMonkey.Controllers
                 Frame = frame,
             };
 
-            clock.init();
+            clock.init(db);
 
             this.FillTemplatesSelectList(db, FrameTypes.Clock);
             this.FillSystemTimeZoneSelectList();

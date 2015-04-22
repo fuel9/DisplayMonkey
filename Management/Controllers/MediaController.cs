@@ -91,8 +91,8 @@ namespace DisplayMonkey.Controllers
 
         public ActionResult Upload()
         {
-            ViewBag.MaxImageSize = db.Settings.FirstOrDefault(s => s.Key == DisplayMonkey.Models.Setting.Key_MaxImageSize).IntValuePositive;
-            ViewBag.MaxVideoSize = db.Settings.FirstOrDefault(s => s.Key == DisplayMonkey.Models.Setting.Key_MaxVideoSize).IntValuePositive;
+            ViewBag.MaxImageSize = Setting.GetSetting(db, Setting.Keys.MaxImageSize).IntValuePositive;
+            ViewBag.MaxVideoSize = Setting.GetSetting(db, Setting.Keys.MaxVideoSize).IntValuePositive;
             return View();
         }
 

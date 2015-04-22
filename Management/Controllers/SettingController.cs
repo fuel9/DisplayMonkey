@@ -19,7 +19,12 @@ namespace DisplayMonkey.Controllers
         {
             this.SaveReferrer();
 
-            return View(db.Settings.ToList());
+            var list = db.Settings
+                .OrderBy(s => s.Key)
+                .ToList()
+                ;
+
+            return View(list);
         }
 
         // GET: /Setting/Edit/5

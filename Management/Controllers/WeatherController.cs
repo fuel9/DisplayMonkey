@@ -50,7 +50,7 @@ namespace DisplayMonkey.Controllers
                 Frame = frame,
             };
 
-            weather.init();
+            weather.init(db);
 
             this.FillTemplatesSelectList(db, FrameTypes.Weather);
             FillWeatherTypeSelectList();
