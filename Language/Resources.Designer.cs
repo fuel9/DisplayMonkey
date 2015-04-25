@@ -2809,6 +2809,132 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Default cache expiration for new Outlook frames.
+        /// </summary>
+        public static string Settings_DefaultCacheIntervalOutlook {
+            get {
+                return ResourceManager.GetString("Settings_DefaultCacheIntervalOutlook", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Default cache expiration for new Picture frames.
+        /// </summary>
+        public static string Settings_DefaultCacheIntervalPicture {
+            get {
+                return ResourceManager.GetString("Settings_DefaultCacheIntervalPicture", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Default cache expiration for new Report frames.
+        /// </summary>
+        public static string Settings_DefaultCacheIntervalReport {
+            get {
+                return ResourceManager.GetString("Settings_DefaultCacheIntervalReport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Default cache expiration for new Video frames.
+        /// </summary>
+        public static string Settings_DefaultCacheIntervalVideo {
+            get {
+                return ResourceManager.GetString("Settings_DefaultCacheIntervalVideo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Default cache expiration for new Weather frames.
+        /// </summary>
+        public static string Settings_DefaultCacheIntervalWeather {
+            get {
+                return ResourceManager.GetString("Settings_DefaultCacheIntervalWeather", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Default template for new Clock frames.
+        /// </summary>
+        public static string Settings_DefaultTemplateClock {
+            get {
+                return ResourceManager.GetString("Settings_DefaultTemplateClock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Default template for new HTML frames.
+        /// </summary>
+        public static string Settings_DefaultTemplateHtml {
+            get {
+                return ResourceManager.GetString("Settings_DefaultTemplateHtml", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Default template for new Memo frames.
+        /// </summary>
+        public static string Settings_DefaultTemplateMemo {
+            get {
+                return ResourceManager.GetString("Settings_DefaultTemplateMemo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Default template for new Outlook frames.
+        /// </summary>
+        public static string Settings_DefaultTemplateOutlook {
+            get {
+                return ResourceManager.GetString("Settings_DefaultTemplateOutlook", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Default template for new Picture frames.
+        /// </summary>
+        public static string Settings_DefaultTemplatePicture {
+            get {
+                return ResourceManager.GetString("Settings_DefaultTemplatePicture", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Default template for new Report frames.
+        /// </summary>
+        public static string Settings_DefaultTemplateReport {
+            get {
+                return ResourceManager.GetString("Settings_DefaultTemplateReport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Default template for new Video frames.
+        /// </summary>
+        public static string Settings_DefaultTemplateVideo {
+            get {
+                return ResourceManager.GetString("Settings_DefaultTemplateVideo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Default template for new Weather frames.
+        /// </summary>
+        public static string Settings_DefaultTemplateWeather {
+            get {
+                return ResourceManager.GetString("Settings_DefaultTemplateWeather", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Default template for new YouTube frames.
+        /// </summary>
+        public static string Settings_DefaultTemplateYouTube {
+            get {
+                return ResourceManager.GetString("Settings_DefaultTemplateYouTube", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Help site URL.
         /// </summary>
         public static string Settings_HelpSite {

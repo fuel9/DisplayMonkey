@@ -22,7 +22,7 @@
             @Html.LabelFor(model => model.Canvas)
         </div>
         <div class="editor-field select">
-            @Html.DropDownList("CanvasId")
+            @Html.DropDownList("CanvasId", ViewBag.Canvases as SelectList)
             @Html.ValidationMessageFor(model => model.CanvasId)
         </div>
 

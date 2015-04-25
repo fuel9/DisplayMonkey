@@ -140,7 +140,7 @@ namespace DisplayMonkey
                     },
                     currentEvent = strCurrentEvent,
                     currentStatus = strCurrentStatus,
-                    mode = outlook.Mode,
+                    //mode = outlook.Mode,
                     events = new
                     {
                         showEvents = outlook.ShowEvents,

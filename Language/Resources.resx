@@ -1322,4 +1322,46 @@
   <data name="ViewTemplates" xml:space="preserve">
     <value>View frame templates</value>
   </data>
+  <data name="Settings_DefaultTemplateClock" xml:space="preserve">
+    <value>Default template for new Clock frames</value>
+  </data>
+  <data name="Settings_DefaultTemplateHtml" xml:space="preserve">
+    <value>Default template for new HTML frames</value>
+  </data>
+  <data name="Settings_DefaultTemplateMemo" xml:space="preserve">
+    <value>Default template for new Memo frames</value>
+  </data>
+  <data name="Settings_DefaultTemplateOutlook" xml:space="preserve">
+    <value>Default template for new Outlook frames</value>
+  </data>
+  <data name="Settings_DefaultTemplatePicture" xml:space="preserve">
+    <value>Default template for new Picture frames</value>
+  </data>
+  <data name="Settings_DefaultTemplateReport" xml:space="preserve">
+    <value>Default template for new Report frames</value>
+  </data>
+  <data name="Settings_DefaultTemplateVideo" xml:space="preserve">
+    <value>Default template for new Video frames</value>
+  </data>
+  <data name="Settings_DefaultTemplateWeather" xml:space="preserve">
+    <value>Default template for new Weather frames</value>
+  </data>
+  <data name="Settings_DefaultTemplateYouTube" xml:space="preserve">
+    <value>Default template for new YouTube frames</value>
+  </data>
+  <data name="Settings_DefaultCacheIntervalOutlook" xml:space="preserve">
+    <value>Default cache expiration for new Outlook frames</value>
+  </data>
+  <data name="Settings_DefaultCacheIntervalPicture" xml:space="preserve">
+    <value>Default cache expiration for new Picture frames</value>
+  </data>
+  <data name="Settings_DefaultCacheIntervalReport" xml:space="preserve">
+    <value>Default cache expiration for new Report frames</value>
+  </data>
+  <data name="Settings_DefaultCacheIntervalVideo" xml:space="preserve">
+    <value>Default cache expiration for new Video frames</value>
+  </data>
+  <data name="Settings_DefaultCacheIntervalWeather" xml:space="preserve">
+    <value>Default cache expiration for new Weather frames</value>
+  </data>
 </root>

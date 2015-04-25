@@ -37,7 +37,7 @@ YtLib.YtPlayer = Class.create({
         YtLib.load();
         this.player = null;
         this.finishedLoading = false;
-        this.div = $(options.div);
+        this.div = $(options.div).down('.ytplayer');
         this.width = options.width || this.div.parentNode.clientWidth;
         var aspect = options.data.Aspect || 0;
         switch (Number(aspect)) {

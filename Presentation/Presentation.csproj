@@ -71,15 +71,6 @@
   <ItemGroup>
     <Content Include="Images\button_blue.png" />
     <Content Include="Images\button_blue_red.png" />
-    <Content Include="files\frames\clock\default.htm" />
-    <Content Include="files\frames\html\default.htm" />
-    <Content Include="files\frames\memo\default.htm" />
-    <Content Include="files\frames\outlook\default.htm" />
-    <Content Include="files\frames\picture\default.htm" />
-    <Content Include="files\frames\report\default.htm" />
-    <Content Include="files\frames\video\default.htm" />
-    <Content Include="files\frames\weather\default.htm" />
-    <Content Include="files\frames\youtube\default.htm" />
     <Content Include="files\js\weather.js" />
     <Content Include="Register.aspx" />
     <Content Include="Images\android-chrome-144x144.png" />

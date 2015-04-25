@@ -12,13 +12,13 @@
 @using (Html.BeginForm("Index", "Panel", FormMethod.Get))
 {    
     <fieldset><legend>@Resources.Search</legend><table>
-        <tr><td>@Resources.Canvas:</td><td><div class="select">@Html.DropDownList("CanvasId", Resources.Any)</div></td></tr>
+        <tr><td>@Resources.Canvas:</td><td><div class="select">@Html.DropDownList("CanvasId", ViewBag.Canvases as SelectList, Resources.Any)</div></td></tr>
         <tr><td>@Resources.Name:</td><td>@Html.TextBox("name")</td></tr>
     <tr><td colspan="2"><input type="submit" value="@Resources.Filter" /></td></tr></table></fieldset> 
 }
 
 <p>
-    @Html.ActionLink(Resources.CreateNewPanel, "Create", new { canvasId = ViewBag.CanvasId.SelectedValue })
+    @Html.ActionLink(Resources.CreateNewPanel, "Create", new { canvasId = ViewBag.Canvases.SelectedValue })
 </p>
 <table class="grid">
     <tr>

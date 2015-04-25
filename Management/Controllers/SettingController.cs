@@ -20,8 +20,8 @@ namespace DisplayMonkey.Controllers
             this.SaveReferrer();
 
             var list = db.Settings
-                .OrderBy(s => s.Key)
                 .ToList()
+                .OrderBy(s => s.ResourceId)
                 ;
 
             return View(list);

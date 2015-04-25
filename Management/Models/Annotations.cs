@@ -809,13 +809,6 @@ namespace DisplayMonkey.Models
                 return this.Body.Length > 100 ? this.Body.Substring(0, 100) + "..." : this.Body;
             }
         }
-
-        public void init(DisplayMonkeyEntities _db)
-        {
-            if (Frame != null)
-            {
-            }
-        }
     }
 
     [
@@ -847,13 +840,6 @@ namespace DisplayMonkey.Models
                 Display(ResourceType = typeof(Resources), Name = "Frame"),
             ]
             public virtual Frame Frame { get; set; }
-        }
-
-        public void init(DisplayMonkeyEntities _db)
-        {
-            if (Frame != null)
-            {
-            }
         }
     }
 
@@ -1053,14 +1039,6 @@ namespace DisplayMonkey.Models
             ]
             public virtual ReportServer ReportServer { get; set; }
         }
-
-        public void init(DisplayMonkeyEntities _db)
-        {
-            if (Frame != null)
-            {
-                Frame.CacheInterval = 5;
-            }
-        }
     }
 
     [
@@ -1106,14 +1084,6 @@ namespace DisplayMonkey.Models
             ]
             public string Label { get; set; }
         }
-
-        public void init(DisplayMonkeyEntities _db)
-        {
-            if (Frame != null)
-            {
-                Frame.Duration = 600;
-            }
-        }
     }
 
     [
@@ -1138,15 +1108,6 @@ namespace DisplayMonkey.Models
                 Display(ResourceType = typeof(Resources), Name = "Frame"),
             ]
             public virtual Frame Frame { get; set; }
-        }
-
-        public void init(DisplayMonkeyEntities _db)
-        {
-            if (Frame != null)
-            {
-                Frame.Duration = 600;
-                Frame.CacheInterval = 5;
-            }
         }
     }
 
@@ -1186,14 +1147,6 @@ namespace DisplayMonkey.Models
         public static string[] SupportedFormats = new string[] {
             "BMP", "GIF", "JPG", "JPEG", "PNG", "TIF", "TIFF"
         };
-
-        public void init(DisplayMonkeyEntities _db)
-        {
-            if (Frame != null)
-            {
-                Frame.CacheInterval = 60;
-            }
-        }
     }
 
     [
@@ -1232,17 +1185,6 @@ namespace DisplayMonkey.Models
         public static string[] SupportedFormats = new string[] {
             "AVI", "MP4", "MPG", "MPEG", "OGG", "WEBM"
         };
-
-        public void init(DisplayMonkeyEntities _db)
-        {
-            if (Frame != null)
-            {
-                Frame.CacheInterval = 60;
-            }
-
-            PlayMuted = true;
-            AutoLoop = true;
-        }
     }
 
     [
@@ -1311,19 +1253,6 @@ namespace DisplayMonkey.Models
                 //Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "AspectRequired"),
             ]
             public YTRate Rate { get; set; }
-        }
-
-        public void init(DisplayMonkeyEntities _db)
-        {
-            if (Frame != null)
-            {
-            }
-
-            Aspect = YTAspect.YTAspect_Auto;
-            Quality = YTQuality.YTQuality_Default;
-            Rate = YTRate.YTRate_Normal;
-            Start = 0;
-            Volume = 0;
         }
     }
 
@@ -1414,12 +1343,6 @@ namespace DisplayMonkey.Models
     ]
     public partial class Outlook
     {
-        public Outlook()
-        {
-            this.Mode = OutlookModes.OutlookMode_Today;
-            this.ShowEvents = 0;
-        }
-        
         internal class Annotations
         {
             [
@@ -1427,11 +1350,11 @@ namespace DisplayMonkey.Models
             ]
             public int FrameId { get; set; }
 
-            [
+            /*[
                 Display(ResourceType = typeof(Resources), Name = "View"),
                 Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "ViewRequired"),
             ]
-            public OutlookModes Mode { get; set; }
+            public OutlookModes Mode { get; set; }*/
 
             [
                 Display(ResourceType = typeof(Resources), Name = "Name"),
@@ -1475,14 +1398,6 @@ namespace DisplayMonkey.Models
             NotMapped,
         ]
         public string NameOrMailboxOrAccount { get { return this.Name ?? this.Mailbox ?? this.ExchangeAccount.Name; } }
-
-        public void init(DisplayMonkeyEntities _db)
-        {
-            if (Frame != null)
-            {
-                Frame.CacheInterval = 1;
-            }
-        }
     }
 
     [
@@ -1596,76 +1511,7 @@ namespace DisplayMonkey.Models
             public SettingTypes Type { get; set; }
         }
 
-        #region -----  Key Identification  -----
-
-        public enum Keys : int
-        {
-            MaxImageSize = 0,
-            MaxVideoSize,
-            PresentationSite,
-
-            /*DefaultTemplateClock,
-            DefaultTemplateHtml,
-            DefaultTemplateMemo,
-            //DefaultTemplateNews,
-            DefaultTemplateOutlook,
-            DefaultTemplatePicture,
-            DefaultTemplateReport,
-            DefaultTemplateVideo,
-            DefaultTemplateWeather,
-            DefaultTemplateYouTube,
-
-            DefaultCacheIntervalClock,
-            DefaultCacheIntervalHtml,
-            DefaultCacheIntervalMemo,
-            //DefaultCacheIntervalNews,
-            DefaultCacheIntervalOutlook,
-            DefaultCacheIntervalPicture,
-            DefaultCacheIntervalReport,
-            DefaultCacheIntervalVideo,
-            DefaultCacheIntervalWeather,
-            DefaultCacheIntervalYouTube,*/
-
-            /// <summary>
-            /// end with Count
-            /// </summary>
-            Count
-        }
-
-        static Setting()
-        {
-            _keyNames.Add(
-                _keyGuids[(int)Setting.Keys.MaxImageSize] = new Guid("9A0BC012-FF01-4103-8A75-A03B275B0AD1"),
-                "Settings_MaxImageSize"
-                );
-            
-            _keyNames.Add(
-                _keyGuids[(int)Setting.Keys.MaxVideoSize] = new Guid("4CAB57C4-EFEF-4EDE-91A3-EFFD48660909"),
-                "Settings_MaxVideoSize"
-                );
-            
-            _keyNames.Add(
-                _keyGuids[(int)Setting.Keys.PresentationSite] = new Guid("417D856B-7EC4-4CBD-A5EA-47BFC0F7B1F9"),
-                "Settings_PresentationSite"
-                );
-
-            //_keyNames.Add(
-            //    _keyGuids[(int)Setting.Keys.ZZZ] = new Guid("12345678-90AB-CDEF-1234-567890ABCDEF"),
-            //    "Settings_ZZZ"
-            //    );
-        }
-
-        public static Setting GetSetting(DisplayMonkeyEntities _db, Setting.Keys _id)
-        {
-            Guid key = _keyGuids[(int)_id];
-            return _db.Settings.FirstOrDefault(s => s.Key == key);
-        }
-
-        public string ResourceId
-        {
-            get { return _keyNames[this.Key]; }
-        }
-        
+        #region -----  Value Management  -----
         [
             Display(ResourceType = typeof(Resources), Name = "Setting"),
         ]
@@ -1676,13 +1522,6 @@ namespace DisplayMonkey.Models
                 return Resources.ResourceManager.GetString(ResourceId) ?? this.Key.ToString();
             }
         }
-
-        private static Guid[] _keyGuids = new Guid[(int)Setting.Keys.Count];
-        private static Dictionary<Guid, string> _keyNames = new Dictionary<Guid, string>((int)Setting.Keys.Count);
-
-        #endregion
-
-        #region -----  Value Management  -----
 
         [
             Display(ResourceType = typeof(Resources), Name = "Value"),
@@ -1718,105 +1557,10 @@ namespace DisplayMonkey.Models
         ]
         public string StringValue
         {
-            get { return this.Value == null ? null : Encoding.ASCII.GetString(this.Value); }
-            set { this.Value = value == null ? null : Encoding.ASCII.GetBytes(value); }
+            get { return this.Value == null ? null : Encoding.Unicode.GetString(this.Value); }
+            set { this.Value = value == null ? null : Encoding.Unicode.GetBytes(value); }
         }
 
         #endregion
     }
-
-
-
-
-
-
-    #region Sundry
-
-
-    public static class LinqExtension
-    {
-        public static IEnumerable<T> SelfAndChildren<T>(
-            this T self,
-            Func<T, IEnumerable<T>> children
-            )
-        {
-            yield return self;
-            IEnumerable<T> elements = children(self);
-            foreach (T c in elements.SelectMany(e => e.SelfAndChildren(children)))
-            {
-                yield return c;
-            }
-        }
-    }
-
-
-
-
-
-
-
-    public partial class DisplayMonkeyEntities : DbContext
-    {
-        public override int SaveChanges()
-        {
-            try
-            {
-                return base.SaveChanges();
-            }
-
-            catch (System.Data.Entity.Validation.DbEntityValidationException ex)
-            {
-                // Retrieve the error messages as a list of strings.
-                var errorMessages = ex.EntityValidationErrors
-                    .SelectMany(x => x.ValidationErrors)
-                    .Select(x => x.ErrorMessage)
-                    ;
-
-                // Join the list to a single string.
-                var fullErrorMessage = string.Join("; ", errorMessages);
-
-                // Combine the original exception message with the new one.
-                //var exceptionMessage = string.Concat(ex.Message, " The validation errors are: ", fullErrorMessage);
-
-                // Throw a new DbEntityValidationException with the improved exception message.
-                //throw new System.Data.Entity.Validation.DbEntityValidationException(exceptionMessage, ex.EntityValidationErrors);
-                throw new System.Data.Entity.Validation.DbEntityValidationException(fullErrorMessage, ex.EntityValidationErrors);
-            }
-        }
-
-        /*static void ObjectContext_SavingChanges(object sender, EventArgs args)
-        {
-            ObjectContext context = sender as ObjectContext;
-            if (context != null)
-            {
-                foreach (ObjectStateEntry e in context.ObjectStateManager.GetObjectStateEntries(EntityState.Modified))
-                {
-                    Type type = e.Entity.GetType();
-                    PropertyInfo[] properties = type.GetProperties();
-                    foreach (PropertyInfo property in properties)
-                    {
-                        var test = property.GetCustomAttributes();
-                        
-                        var metaDataList = property.GetCustomAttributes(typeof(MetadataTypeAttribute), false);
-                        foreach (MetadataTypeAttribute metaData in metaDataList)
-                        {
-                            properties = metaData.MetadataClassType.GetProperties();
-                            foreach (PropertyInfo subproperty in properties)
-                            {
-                                var attributes = subproperty.GetCustomAttributes(typeof(NeverUpdateAttribute), false);
-                                if (attributes.Length > 0)
-                                    e.RejectPropertyChanges(property.Name);
-                            }
-                        }
-                    }
-                }
-            }
-        }*/
-    }
-
-    //public class NeverUpdateAttribute : System.Attribute
-    //{
-    //}
-
-    #endregion
 }

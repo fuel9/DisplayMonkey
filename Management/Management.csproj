@@ -238,6 +238,7 @@
     <Compile Include="Models\Frame.cs">
       <DependentUpon>DMModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\FrameInitializers.cs" />
     <Compile Include="Models\FullScreen.cs">
       <DependentUpon>DMModel.tt</DependentUpon>
     </Compile>
@@ -253,6 +254,7 @@
     <Compile Include="Models\Memo.cs">
       <DependentUpon>DMModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ModelExtensions.cs" />
     <Compile Include="Models\News.cs">
       <DependentUpon>DMModel.tt</DependentUpon>
     </Compile>
@@ -283,6 +285,7 @@
     <Compile Include="Models\Setting.cs">
       <DependentUpon>DMModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SettingKeys.cs" />
     <Compile Include="Models\SettingTypes.cs">
       <DependentUpon>DMModel.tt</DependentUpon>
     </Compile>

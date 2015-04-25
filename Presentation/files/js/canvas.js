@@ -480,15 +480,11 @@ Ajax.PanelUpdater = Class.create(Ajax.PanelUpdaterBase, {
 	    oldContainer.insert({ after: newContainer });
 	    oldContainer.id = "x_" + oldContainer.id;
 
-	    var afterFadeIn = function () {
-	        newContainer.setStyle({ display: '' });
-	    };
-
-	    var afterFadeOut = function () {
-	        oldContainer.remove();
-	    };
-
 	    var fadeOut = function () {
+			var afterFadeOut = function () {
+				oldContainer.remove();
+			};
+
 	        if (this.fadeLength > 0) {
 	            oldContainer.fade({
 	                duration: this.fadeLength,
@@ -496,8 +492,7 @@ Ajax.PanelUpdater = Class.create(Ajax.PanelUpdaterBase, {
 	                    afterFadeOut();
 	                }
 	            });
-	        }
-	        else {
+	        } else {
 	            afterFadeOut();
 	        }
 	    };
@@ -529,6 +524,10 @@ Ajax.PanelUpdater = Class.create(Ajax.PanelUpdaterBase, {
 	        this.object = obj;   // <-- already inited
 
 	        // 3. fade in new container
+			var afterFadeIn = function () {
+				newContainer.setStyle({ display: '' });
+			};
+
 	        if (this.fadeLength > 0) {
 	            newContainer.appear({
 	                duration: this.fadeLength,
@@ -567,8 +566,7 @@ Ajax.FullScreenPanelUpdater = Class.create(Ajax.PanelUpdaterBase, {
 	    this._uninitFrame();
 
 	    // create new screen
-	    var screen = $("screen"),
-            oldContainer = $(this.containerId),
+	    var oldContainer = $(this.containerId),
             newContainer = oldContainer
                 .clone(false)
 	            .setStyle({ 
@@ -580,20 +578,19 @@ Ajax.FullScreenPanelUpdater = Class.create(Ajax.PanelUpdaterBase, {
 
 	    var afterFadeOut = function () {
 	        oldContainer.remove();
-	        screen.setStyle({ display: 'none' });
+	        $("screen").setStyle({ display: 'none' });
 	        _canvas.fullScreenActive = false;
 	    };
 
 	    // fade out old container and remove it
 	    if (this.fadeLength > 0) {
-	        screen.fade({
+	        $("screen").fade({
 	            duration: this.fadeLength,
 	            afterFinish: function () {
 	                afterFadeOut();
 	            }
 	        });
-	    }
-	    else {
+	    } else {
 	        afterFadeOut();
 	    }
 
@@ -609,23 +606,22 @@ Ajax.FullScreenPanelUpdater = Class.create(Ajax.PanelUpdaterBase, {
 	    }
 
 	    // set html
-	    var screen = $("screen"),
-            container = $(this.containerId)
-                .update(this.html)
-                .setStyle({ display: '' })
+	    var newContainer = $(this.containerId)
+			.update(this.html)
+			.setStyle({ display: '' })
 	    ;
 
 	    _canvas.fullScreenActive = true;
 
 	    // init new frame
-	    this.object = this._initFrame(container);
-
-	    var afterFadeIn = function () {
-	        screen.setStyle({ display: 'block' });
-	    };
+	    this.object = this._initFrame(newContainer);
 
 	    // fadeIn new frame
 	    var fadeIn = function () {
+			var afterFadeIn = function () {
+				$("screen").setStyle({ display: 'block' });
+			};
+
 	        // 1. wait till new object is ready
 	        if (this.object && this.object.isReady && !this.object.isReady()) {
 	            fadeIn.bind(this).delay(0.1);
@@ -634,7 +630,7 @@ Ajax.FullScreenPanelUpdater = Class.create(Ajax.PanelUpdaterBase, {
 
 	        // 2. fade in new container
 	        if (this.fadeLength > 0) {
-	            screen.appear({
+	            $("screen").appear({
 	                duration: this.fadeLength,
 	                afterFinish: function () {
 	                    afterFadeIn();

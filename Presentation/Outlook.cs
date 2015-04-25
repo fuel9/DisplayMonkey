@@ -16,7 +16,7 @@ namespace DisplayMonkey
         public string Name { get; private set; }
         
         [ScriptIgnore]
-        public int Mode { get; private set; }
+        public int Mode { get; private set; }   // Reserved
         [ScriptIgnore]
         public string Account { get; private set; }
         [ScriptIgnore]

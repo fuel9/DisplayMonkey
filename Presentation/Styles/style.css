@@ -240,14 +240,21 @@
         height:100%;
     }
 	
-    div.ytshield {
-        z-index:2; 
-        position:absolute; 
-        left:0; 
-        top:0; 
-        width:100%; 
-        height:100%;
-    }
+        div.ytplayer, div.ytshield {
+            position:absolute; 
+            left:0; 
+            top:0; 
+            width:100%; 
+            height:100%;
+        }
+
+        div.ytplayer {
+            z-index:1; 
+        }
+
+        div.ytshield {
+            z-index:2; 
+        }
 
 	/*******************************************************************************/
 	

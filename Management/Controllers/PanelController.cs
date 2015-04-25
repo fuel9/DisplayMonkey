@@ -15,6 +15,16 @@ namespace DisplayMonkey.Controllers
     {
         private DisplayMonkeyEntities db = new DisplayMonkeyEntities();
 
+        private void FillCanvasSelectList(object selected = null)
+        {
+            var list = db.Canvases
+                .OrderBy(c => c.Name)
+                .ToList()
+                ;
+
+            ViewBag.Canvases = new SelectList(list, "CanvasId", "Name", selected);
+        }
+
         //
         // GET: /Panel/
 
@@ -34,7 +44,7 @@ namespace DisplayMonkey.Controllers
                 );
             }
 
-            ViewBag.CanvasId = new SelectList(db.Canvases, "CanvasId", "Name", canvasId);
+            FillCanvasSelectList(canvasId);
 
             return View(list.ToList());
         }
@@ -67,7 +77,7 @@ namespace DisplayMonkey.Controllers
 
         public ActionResult Create(int canvasId = 0)
         {
-            ViewBag.CanvasId = new SelectList(db.Canvases, "CanvasId", "Name", canvasId);
+            FillCanvasSelectList(canvasId);
 
             return View();
         }
@@ -87,7 +97,7 @@ namespace DisplayMonkey.Controllers
                 return this.RestoreReferrer() ?? RedirectToAction("Index");
             }
 
-            ViewBag.CanvasId = new SelectList(db.Canvases, "CanvasId", "Name", panel.CanvasId);
+            FillCanvasSelectList(panel.CanvasId);
             
             return View(panel);
         }
@@ -102,8 +112,6 @@ namespace DisplayMonkey.Controllers
             {
                 return View("Missing", new MissingItem(id));
             }
-
-            ViewBag.CanvasId = new SelectList(db.Canvases, "CanvasId", "Name", panel.CanvasId);
 
             return View(panel);
         }
@@ -123,7 +131,6 @@ namespace DisplayMonkey.Controllers
                 return this.RestoreReferrer() ?? RedirectToAction("Index");
             }
 
-            ViewBag.CanvasId = new SelectList(db.Canvases, "CanvasId", "Name", panel.CanvasId);
             return View(panel);
         }
 
