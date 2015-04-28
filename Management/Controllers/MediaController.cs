@@ -39,7 +39,9 @@ namespace DisplayMonkey.Controllers
                     Type = (ContentTypes)m.Type,
                     Size = SqlFunctions.DataLength(m.Data) / 1024
                 })
-                .AsQueryable();
+                .OrderBy(m => m.Name)
+                .AsQueryable()
+                ;
 
             if (mediaType != null)
             {

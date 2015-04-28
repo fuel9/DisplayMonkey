@@ -28,7 +28,11 @@ namespace DisplayMonkey.Controllers
         {
             this.SaveReferrer();
             
-            IQueryable<Location> list = db.Locations;
+            IQueryable<Location> list = db.Locations
+                .OrderBy(l => l.Level.Name)
+                .ThenBy(l => l.Area.Name)
+                .ThenBy(l => l.Name)
+                ;
 
             if (levelId > 0)
             {
@@ -216,8 +220,8 @@ namespace DisplayMonkey.Controllers
         private void FillLevelsSelectList(object selected = null)
         {
             var query = from d in db.Levels
-                              orderby d.LevelId
-                              select d;
+                        orderby d.Name
+                        select d;
             ViewBag.LevelId = new SelectList(query, "LevelId", "Name", selected);
         }
 

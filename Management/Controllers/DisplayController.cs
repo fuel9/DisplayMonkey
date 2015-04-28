@@ -44,6 +44,7 @@ namespace DisplayMonkey.Controllers
             IQueryable<Display> displays = db.Displays
                 .Include(d => d.Canvas)
                 .Include(d => d.Location)
+                .OrderBy(d => d.Name)
                 ;
 
             if (canvasId > 0)

@@ -56,7 +56,7 @@ namespace DisplayMonkey
 			get
 			{
                 List<Display> list = new List<Display>();
-                string sql = "SELECT * FROM Display ORDER BY 1";
+                string sql = "SELECT * FROM Display ORDER BY Name";
                 using (DataSet ds = DataAccess.RunSql(sql))
                 {
                     list.Capacity = ds.Tables[0].Rows.Count;

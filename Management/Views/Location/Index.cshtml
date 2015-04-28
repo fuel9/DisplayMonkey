@@ -22,14 +22,14 @@
 </p>
 <table class="grid">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
         <th class="nw">
             @Html.DisplayNameFor(model => model.Level)
         </th>
         <th class="nw">
             @Html.DisplayNameFor(model => model.Area)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
         </th>
         <th class="nw">
             @Html.DisplayNameFor(model => model.TemperatureUnit)
@@ -51,14 +51,14 @@
 
 @foreach (var item in Model) {
     <tr>
-        <td>
-            @Html.ActionLink(item.Name, "Details", new { id=item.LocationId })
-        </td>
         <td class="nw">
             @Html.DisplayFor(modelItem => item.Level.Name)
         </td>
         <td class="nw">
             @Html.DisplayFor(modelItem => item.Area.Name)
+        </td>
+        <td>
+            @Html.ActionLink(item.Name, "Details", new { id=item.LocationId })
         </td>
         <td class="nw">
             @Html.DisplayFor(modelItem => item.TempUnitTranslated)

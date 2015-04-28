@@ -76,7 +76,7 @@ namespace DisplayMonkey
 			get
 			{
 				List<Canvas> list = new List<Canvas>();
-				string sql = "SELECT * FROM Canvas ORDER BY 1";
+				string sql = "SELECT * FROM Canvas ORDER BY Name";
 				using (DataSet ds = DataAccess.RunSql(sql))
 				{
 					list.Capacity = ds.Tables[0].Rows.Count;
