@@ -149,7 +149,7 @@ namespace DisplayMonkey
 				{
 					head.AppendFormat("<script src=\"{0}\" type=\"text/javascript\" charset=\"utf-8\"></script>\n", js);
 				}
-				head.Append("<script type=\"text/javascript\" charset=\"utf-8\"><!--\r\n_canvas=new Canvas({\n");
+				head.Append("<script type=\"text/javascript\" charset=\"utf-8\"><!--\r\n_canvas=new DM.Canvas({\n");
                 head.AppendFormat(CultureInfo.InvariantCulture, "displayId:{0},\n", DisplayId);
                 head.AppendFormat(CultureInfo.InvariantCulture, "hash:{0},\n", Display.GetHash(DisplayId));
                 head.AppendFormat(CultureInfo.InvariantCulture, "temperatureUnit:'{0}',\n", location.TemperatureUnit);

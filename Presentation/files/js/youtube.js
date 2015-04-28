@@ -2,6 +2,7 @@
 // 2014-10-24 [LTL] - use strict
 // 2015-02-06 [LTL] - added isReady method
 // 2015-03-08 [LTL] - using data
+// 2015-04-27 [LTL] - report ready in onPlayerStateChange
 
 // 1. This code initiates load of the IFrame Player API code asynchronously.
 var YtLib = {
@@ -123,7 +124,7 @@ YtLib.YtPlayer = Class.create({
                 },
                 events: {
                     'onReady': this.onPlayerReady.bind(this),
-                    'onStateChange': this.onPlayerStateChange,
+                    'onStateChange': this.onPlayerStateChange.bind(this),
                     'onError': this.onPlayerError
                 }
             });
@@ -139,14 +140,15 @@ YtLib.YtPlayer = Class.create({
         event.target.setVolume(this.volume);
         event.target.loadVideoById(this.videoId, this.start, this.quality);
         event.target.setPlaybackRate(this.rate);
-        this.finishedLoading = true;
+        //this.finishedLoading = true;
     },
 
     // 5. The API calls this function when the player's state changes.
     onPlayerStateChange: function (event) {
         "use strict";
-        //if (event.data == YtLib.PlayerState.PLAYING) {
-        //}
+        if (event.data == YT.PlayerState.PLAYING) {
+			this.finishedLoading = true;
+        }
     },
 
     // 6. The API calls this function when error occurs.
