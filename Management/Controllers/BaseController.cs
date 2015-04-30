@@ -18,9 +18,9 @@ namespace DisplayMonkey.Controllers
             if (cultureCookie != null)
             {
                 string lang = cultureCookie.Value;
-                if (CultureHelper.IsValid(lang))
+                if (CultureHelpers.IsValid(lang))
                     culture = lang;
-                uiCulture = CultureHelper.GetSupported(lang);
+                uiCulture = CultureHelpers.GetSupported(lang);
             }
 
             // fallback to browser preferred culture
@@ -30,11 +30,11 @@ namespace DisplayMonkey.Controllers
             {
                 foreach (string lang in Request.UserLanguages)
                 {
-                    if (culture == null && CultureHelper.IsValid(lang))
+                    if (culture == null && CultureHelpers.IsValid(lang))
                         culture = lang;
                     
                     if (uiCulture == null)
-                        uiCulture = CultureHelper.GetSupported(lang);
+                        uiCulture = CultureHelpers.GetSupported(lang);
                     
                     if (culture != null && uiCulture != null)
                         break;
@@ -42,8 +42,8 @@ namespace DisplayMonkey.Controllers
             }
 
             // set current thread culture if any
-            CultureHelper.SetCurrentCulture(culture);       // locale
-            CultureHelper.SetCurrentUICulture(uiCulture);   // resource manager
+            CultureHelpers.SetCurrentCulture(culture);       // locale
+            CultureHelpers.SetCurrentUICulture(uiCulture);   // resource manager
 
             // execute controller
             return base.BeginExecuteCore(callback, state);
@@ -53,7 +53,7 @@ namespace DisplayMonkey.Controllers
         public ActionResult SetCulture(string culture)
         {
             // Validate input
-            culture = CultureHelper.GetSupported(culture);
+            culture = CultureHelpers.GetSupported(culture);
 
             // Save culture in a cookie
             HttpCookie cookie = Request.Cookies["accept-language"];

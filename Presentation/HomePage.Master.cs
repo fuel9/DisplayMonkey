@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading;
 using System.Web;
 using System.Web.UI;
@@ -20,5 +21,17 @@ namespace DisplayMonkey
                 Resources.Help
                 );
         }
+
+        public static IHtmlString ProductVersion
+        {
+            get
+            {
+                if (_version == null)
+                    _version = new HtmlString("v." + Assembly.GetExecutingAssembly().GetName().Version.ToString());
+                return _version;
+            }
+        }
+
+        private static HtmlString _version = null;
     }
 }

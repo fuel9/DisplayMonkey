@@ -47,10 +47,10 @@
             @Html.DisplayFor(modelItem => item.Host)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Canvas.Name)
+            @Html.ActionLink(item.Canvas.Name, "Details", "Canvas", new { id = item.CanvasId }, null)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Location.Name)
+            @Html.ActionLink(item.Location.Name, "Details", "Location", new { id = item.LocationId }, null)
         </td>
         <td>
             @Html.ActionLink(Resources.Edit, "Edit", new { id=item.DisplayId }) |

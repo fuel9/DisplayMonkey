@@ -77,6 +77,7 @@
         <footer>
             <div class="content-wrapper">
                 <div class="float-left">
+                    <p><%=DisplayMonkey.HomePage.ProductVersion %></p>
                     <p>&copy; <%=DateTime.Now.Year%> - Fuel9.com</p>
                 </div>
             </div>
