@@ -30,7 +30,7 @@ namespace DisplayMonkey
 
                 if (contentId != 0)
                 {
-                    data = HttpRuntime.Cache.GetOrAddSliding(
+                    data = HttpRuntime.Cache.GetOrAddAbsolute(
                         string.Format("video_{0}_{1}_{2}", video.FrameId, video.Version, contentId),
                         () => 
                         { 
@@ -40,7 +40,7 @@ namespace DisplayMonkey
                             mediaName = content.Name;
                             return content.Data;
                         },
-                        TimeSpan.FromMinutes(video.CacheInterval)
+                        DateTime.Now.AddMinutes(video.CacheInterval)
                         );
                 }
 			}

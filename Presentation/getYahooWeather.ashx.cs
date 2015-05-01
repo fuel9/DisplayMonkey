@@ -36,12 +36,12 @@ namespace DisplayMonkey
                 if (weather.FrameId != 0)
                 {
                     // get RSS feed
-                    Dictionary<string, object> map = HttpRuntime.Cache.GetOrAddSliding(
+                    Dictionary<string, object> map = HttpRuntime.Cache.GetOrAddAbsolute(
                         string.Format("weather_{0}_{1}_{2}_{3}", weather.FrameId, weather.Version, tempUnit, woeid),
                         () => { 
                             return GetYahooWeather(tempUnit, woeid); 
                         },
-                        TimeSpan.FromMinutes(weather.CacheInterval)
+                        DateTime.Now.AddMinutes(weather.CacheInterval)
                         );
 
                     JavaScriptSerializer oSerializer = new JavaScriptSerializer();

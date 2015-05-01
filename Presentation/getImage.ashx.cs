@@ -53,7 +53,7 @@ namespace DisplayMonkey
                     {
                         Panel panel = new Panel(picture.PanelId);
 
-                        data = HttpRuntime.Cache.GetOrAddSliding(
+                        data = HttpRuntime.Cache.GetOrAddAbsolute(
                             string.Format("picture_{0}_{1}", picture.FrameId, picture.Version),
                             () =>
                             {
@@ -67,7 +67,7 @@ namespace DisplayMonkey
                                     return trg.GetBuffer();
                                 }
                             },
-                            TimeSpan.FromMinutes(picture.CacheInterval)
+                            DateTime.Now.AddMinutes(picture.CacheInterval)
                             );
                     }
                 }

@@ -53,7 +53,7 @@ namespace DisplayMonkey
                     //TiffBitmapDecoder decoder = new TiffBitmapDecoder(imageStreamSource, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.Default);
                     //BitmapSource bitmapSource = decoder.Frames[0];
 
-                    data = HttpRuntime.Cache.GetOrAddSliding(
+                    data = HttpRuntime.Cache.GetOrAddAbsolute(
                         string.Format("report_{0}_{1}_{2}x{3}_{4}", report.FrameId, report.Version, panelWidth, panelHeight, (int)mode),
                         () =>
                         {
@@ -80,7 +80,7 @@ namespace DisplayMonkey
                                 return trg.GetBuffer();
                             }
                         },
-                        TimeSpan.FromMinutes(report.CacheInterval)
+                        DateTime.Now.AddMinutes(report.CacheInterval)
                         );
                 }
 

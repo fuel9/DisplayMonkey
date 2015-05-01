@@ -44,13 +44,13 @@ namespace DisplayMonkey
                 }
 
                 // EWS: get data
-                OutlookData data = HttpRuntime.Cache.GetOrAddSliding(
+                OutlookData data = HttpRuntime.Cache.GetOrAddAbsolute(
                     string.Format("outlook_{0}_{1}_{2}", location.LocationId, outlook.FrameId, outlook.Version),
                     () =>
                     {
                         return new OutlookData(outlook, location);
                     },
-                    TimeSpan.FromMinutes(outlook.CacheInterval)
+                    DateTime.Now.AddMinutes(outlook.CacheInterval)
                     );
 
                 // ---------------------- culture-specific starts here --------------------- //
@@ -228,7 +228,7 @@ namespace DisplayMonkey
                             service.AutodiscoverUrl(outlook.Account, RedirectionUrlValidationCallback);
                             return service.Url;
                         },
-                        TimeSpan.FromHours(24)
+                        TimeSpan.FromMinutes(60)
                         );
                 }
 
