@@ -209,9 +209,12 @@ namespace DisplayMonkey
 
             // jquery
             "scripts/jquery-2.0.3.min.js",
+
+            // canvas:
+            "files/js/moment.min.js",
+			"files/js/canvas.js",
 			
             // frame scripts
-            "files/js/moment.min.js",
 			"files/js/clock.js",
             "files/js/iframe.js",
 			"files/js/memo.js",
@@ -219,10 +222,7 @@ namespace DisplayMonkey
             "files/js/picture.js",
             "files/js/video.js",
             "files/js/weather.js",
-            "files/js/youtube.js",
-
-            // comes last:
-			"files/js/canvas.js"
+            "files/js/youtube.js"
 		};
 
 		#endregion

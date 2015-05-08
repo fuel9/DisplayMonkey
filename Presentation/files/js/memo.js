@@ -2,46 +2,44 @@
 // 2014-10-25 [LTL] - use strict, code improvements
 // 2014-11-19 [LTL] - code improvements
 // 2015-03-08 [LTL] - using data
+// 2015-05-08 [LTL] - ready callback
 
-var Memo = Class.create(PeriodicalExecuter, {
+DM.Memo = Class.create(DM.FrameBase, {
     initialize: function ($super, options) {
         "use strict";
-        this.finishedLoading = false;
-        this.div = options.div;
+        $super(options, 'div.memo');
+        var data = options.panel.data;
         this.state = 0;
         this.delay = 0;
         this.tick = 0.1; 			// seconds
         this.length = 5 / this.tick; // seconds
         this.paused = false;
-        this.div.select('.subject')[0].update(options.data.Subject);
-        this.div.select('.body')[0].update(options.data.Body);
-        this.finishedLoading = true;
+        this.div.select('.subject')[0].update(data.Subject);
+        this.div.select('.body')[0].update(data.Body);
 
-        if (this.div) {
-            $super(this._callBack, this.tick);
-        }
+        this.timer = setInterval(this._callBack.bind(this), this.tick * 1000);
+        this.ready();
     },
 
-    isReady: function () {
-        "use strict";
-        return !!this.finishedLoading;
-    },
-
-    pause: function () {
+    pause: function ($super) {
+        $super();
         this.paused = true;
     },
 
-    stop: function () {
-        this.pause();
+    stop: function ($super) {
+        $super();
+        clearInterval(this.timer);
+        this.timer = null;
     },
 
-    play: function () {
+    play: function ($super) {
+        $super();
         this.paused = false;
     },
 
-    _callBack: function (pe) {
+    _callBack: function () {
         "use strict";
-        if (this.paused)
+        if (this.paused || this.exiting)
             return;
 
         // no need to do anything if our text fits container completely
@@ -91,33 +89,5 @@ var Memo = Class.create(PeriodicalExecuter, {
         }
     },
 });
-
-/*(function () {
-    Element.addMethods('div', {
-        __textScroller: {},
-
-        startScroller: function (e) {
-            e.__textScroller = new TextScroller(e.id);
-        },
-
-        stopScroller: function (e) {
-            if (e.__textScroller instanceof TextScroller) {
-                e.__textScroller.stop();
-            }
-        },
-
-        pauseScroller: function (e) {
-            if (e.__textScroller instanceof TextScroller) {
-                e.__textScroller.pause();
-            }
-        },
-
-        resumeScroller: function (e) {
-            if (e.__textScroller instanceof TextScroller) {
-                e.__textScroller.resume();
-            }
-        },
-    });
-})();*/
 
 // 12-08-13 [DPA] - client side scripting END

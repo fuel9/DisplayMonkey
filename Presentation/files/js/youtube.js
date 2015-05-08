@@ -3,6 +3,7 @@
 // 2015-02-06 [LTL] - added isReady method
 // 2015-03-08 [LTL] - using data
 // 2015-04-27 [LTL] - report ready in onPlayerStateChange
+// 2015-05-08 [LTL] - ready callback
 
 // 1. This code initiates load of the IFrame Player API code asynchronously.
 var YtLib = {
@@ -32,23 +33,23 @@ var YtLib = {
 })(window);
 
 // 3. This class creates a player.
-YtLib.YtPlayer = Class.create({
-    initialize: function (options) {
+DM.YtPlayer = Class.create(DM.FrameBase, {
+    initialize: function ($super, options) {
         "use strict";
+        $super(options, 'div.youtube');
+        var data = options.panel.data;
+
         YtLib.load();
         this.player = null;
-        this.finishedLoading = false;
-        this.div = $(options.div).down('.ytplayer');
-        this.width = options.width || this.div.parentNode.clientWidth;
-        var aspect = options.data.Aspect || 0;
+        var aspect = data.Aspect || 0;
         switch (Number(aspect)) {
             case 1: aspect = (16 / 9); break;
             case 2: aspect = (4 / 3); break;
-            default: aspect = this.width / options.height; break;
+            default: aspect = this.width / this.height; break;
         }
         this.height = Math.ceil(this.width / aspect);
-        this.videoId = options.data.YoutubeId;
-        var quality = options.data.Quality || 0;
+        this.videoId = data.YoutubeId;
+        var quality = data.Quality || 0;
         switch (Number(quality)) {
             case 1: this.quality = "small"; break;     // 320x240
             case 2: this.quality = "medium"; break;    // 640x360 or 480x360
@@ -58,8 +59,8 @@ YtLib.YtPlayer = Class.create({
             case 6: this.quality = "highres"; break;   // above 1080
             default: this.quality = "default"; break;
         }
-        this.start = options.data.Start || 0;
-        var rate = options.data.Rate || 0;
+        this.start = data.Start || 0;
+        var rate = data.Rate || 0;
         switch (Number(rate)) {
             case 1: this.rate = 0.25; break;           // very slow
             case 2: this.rate = 0.5; break;            // slow
@@ -67,33 +68,31 @@ YtLib.YtPlayer = Class.create({
             case 4: this.rate = 2.0; break;            // very fast
             default: this.rate = 1.0; break;           // normal
         }
-        this.loop = !!options.data.AutoLoop;
-        this.volume = options.data.Volume || 0;
+        this.loop = !!data.AutoLoop;
+        this.volume = data.Volume || 0;
         if (this.volume > 100) this.volume = 100;
         this.show();
     },
 
-    isReady: function () {
+    stop: function ($super) {
         "use strict";
-        return !!this.finishedLoading;
-    },
-
-    stop: function () {
-        "use strict";
+        $super();
         try {
             if (this.player) this.player.stopVideo(); 
         } catch (e) { }
-    },
+    0},
 
-    pause: function () {
+    pause: function ($super) {
         "use strict";
+        $super();
         try {
             if (this.player) this.player.pauseVideo();
         } catch (e) { }
     },
 
-    play: function () {
+    play: function ($super) {
         "use strict";
+        $super();
         try {
             if (this.player) this.player.playVideo();
         } catch (e) { }
@@ -103,11 +102,11 @@ YtLib.YtPlayer = Class.create({
         "use strict";
         if (this.player) return;
         if (!YtLib.loaded) {
-            this.show.bind(this).delay(0.1);
+            this.show.bind(this).delay(1);
             return;
         }
         try {
-            this.player = new YT.Player(this.div, {
+            this.player = new YT.Player(this.div.down('.ytplayer'), {
                 width: this.width,
                 height: this.height,
                 //videoId: this.videoId,
@@ -125,12 +124,12 @@ YtLib.YtPlayer = Class.create({
                 events: {
                     'onReady': this.onPlayerReady.bind(this),
                     'onStateChange': this.onPlayerStateChange.bind(this),
-                    'onError': this.onPlayerError
+                    'onError': this.onPlayerError.bind(this),
                 }
             });
         }
         catch (e) {
-            new ErrorReport({exception: e, data: this.div.id, source: 'YtPlayer.create'});
+            new DM.ErrorReport({exception: e, data: this.div.id, source: 'YtPlayer.create'});
         }
     },
 
@@ -140,14 +139,13 @@ YtLib.YtPlayer = Class.create({
         event.target.setVolume(this.volume);
         event.target.loadVideoById(this.videoId, this.start, this.quality);
         event.target.setPlaybackRate(this.rate);
-        //this.finishedLoading = true;
     },
 
     // 5. The API calls this function when the player's state changes.
     onPlayerStateChange: function (event) {
         "use strict";
         if (event.data == YT.PlayerState.PLAYING) {
-			this.finishedLoading = true;
+            this.ready();
         }
     },
 
@@ -164,12 +162,13 @@ YtLib.YtPlayer = Class.create({
             throw "Error has occurred";
         }
         catch (e) {
-            new ErrorReport({
+            new DM.ErrorReport({
                 exception: e,
                 data: typeof event.data === 'undefined' ? event : event.data,
                 source: "YtPlayer.onPlayerError"
             });
         }
+        this.ready();
     }
 });
 

@@ -1,27 +1,20 @@
 ﻿// 2015-02-06 [LTL] - object for reports and pictures
 // 2015-03-08 [LTL] - using data
 // 2015-05-01 [LTL] - hash URL to avoid browser caching
+// 2015-05-08 [LTL] - ready callback
 
-var Picture = Class.create({
-    initialize: function (options) {
+DM.Picture = Class.create(DM.FrameBase, {
+    initialize: function ($super, options) {
         "use strict";
-        this.finishedLoading = false;
-        var div = $(options.div);
-        var img = div.down('img');
-        img.alt = options.data.Name;
-        img.src = this._hashUrl(options.data.FrameType === 5 ?
-            "getImage.ashx?" + $H({ content: options.data.ContentId, frame: options.data.FrameId }).toQueryString() :
-            "getReport.ashx?" + $H({ frame: options.data.FrameId }).toQueryString()
+        $super(options, 'div.picture, div.report');
+        var data = options.panel.data;
+        var img = this.div.down('img');
+        img.alt = data.Name;
+        img.src = this._hashUrl(data.FrameType === 5 ?
+            "getImage.ashx?" + $H({ content: data.ContentId, frame: this.frameId }).toQueryString() :
+            "getReport.ashx?" + $H({ frame: this.frameId }).toQueryString()
         );
-        img.observe('load', function () {
-            this.finishedLoading = true;
-            //console.log("picture " + options.div.id + " finished loading");
-        }.bind(this));
-    },
-
-    isReady: function () {
-        "use strict";
-        return !!this.finishedLoading;
+        img.observe('load', this.ready.bind(this));
     },
 
     _hashUrl: function (url) {

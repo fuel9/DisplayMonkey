@@ -1,21 +1,14 @@
 ﻿// 2015-02-06 [LTL] - object for iframe
+// 2015-05-08 [LTL] - ready callback
 
-var Iframe = Class.create({
-    initialize: function (options) {
+DM.Iframe = Class.create(DM.FrameBase, {
+    initialize: function ($super, options) {
         "use strict";
-        this.finishedLoading = false;
-        var div = $(options.div);
-        div.src = "getHtml.ashx?" + $H({ frame: options.data.FrameId }).toQueryString();
+        $super(options, 'iframe.html');
+        var data = options.panel.data;
+        this.div.observe('load', this.ready.bind(this));
 
-        div.observe('load', function () {
-            this.finishedLoading = true;
-            //console.log("iframe " + options.div.id + " finished loading");
-        }.bind(this));
-    },
-
-    isReady: function () {
-        "use strict";
-        return !!this.finishedLoading;
+        this.div.src = "getHtml.ashx?" + $H({ frame: this.frameId }).toQueryString();
     },
 });
 

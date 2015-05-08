@@ -1,50 +1,53 @@
 ﻿// 2015-02-06 [LTL] - object for reports and pictures
 // 2015-03-08 [LTL] - using data
+// 2015-05-08 [LTL] - ready callback
 
-var Video = Class.create({
-    initialize: function (options) {
+DM.Video = Class.create(DM.FrameBase, {
+    initialize: function ($super, options) {
         "use strict";
-        this.finishedLoading = false;
-        var div = $(options.div);
+        $super(options, 'div.video');
+        var data = options.panel.data;
+        var frameId = this.frameId;
 
-        div.style.backgroundColor = _canvas.backColor;
-        var video = this.video = div.select('video')[0];
-        video.loop = !!options.data.AutoLoop;
-        video.muted = !!options.data.PlayMuted;
-        video.update(options.data.NoVideoSupport);
-        options.data.VideoAlternatives.each(function (va) {
+        if (!_canvas.supports_video) {
+            new DM.ErrorReport({ exception: data.NoVideoSupport, data: data, source: "DM.Video::initialize" });
+            return this.ready();
+        }
+
+        this.div.style.backgroundColor = _canvas.backColor;
+        var video = this.video = this.div.down('video');
+        video.loop = !!data.AutoLoop;
+        video.muted = !!data.PlayMuted;
+        video.update(data.NoVideoSupport);
+        video.observe('loadeddata', this.ready.bind(this));
+
+        data.VideoAlternatives.each(function (va) {
             var e = new Element("source", {
-                src: "getVideo.ashx?" + $H({content: va.ContentId, frame: options.data.FrameId}).toQueryString(),
+                src: "getVideo.ashx?" + $H({content: va.ContentId, frame: frameId}).toQueryString(),
                 type: va.MimeType
             });
             video.insert({ top: e });
         });
-        if (options.play) video.play();
 
-        div.observe('loadeddata', function () {
-            this.finishedLoading = true;
-            //console.log("video " + div.id + " finished loading");
-        }.bind(this));
+        if (options.play) video.play();
     },
 
-    stop: function () {
+    stop: function ($super) {
         "use strict";
+        $super();
         this.video.pause();
     },
 
-    pause: function () {
+    pause: function ($super) {
         "use strict";
+        $super();
         this.stop();
     },
 
-    play: function () {
+    play: function ($super) {
         "use strict";
+        $super();
         this.video.play();
-    },
-
-    isReady: function () {
-        "use strict";
-        return !!this.finishedLoading;
     },
 });
 

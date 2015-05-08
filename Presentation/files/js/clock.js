@@ -2,21 +2,21 @@
 // 2014-10-25 [LTL] - use strict, code improvements
 // 2015-02-15 [LTL] - SVG analog face
 // 2015-03-08 [LTL] - using data
+// 2015-05-08 [LTL] - ready callback
 
-var Clock = Class.create({
-    initialize: function (options) {
+DM.Clock = Class.create(DM.FrameBase, {
+    initialize: function ($super, options) {
         "use strict";
-        this.div = options.div;
-        this.showDate = !!options.data.ShowDate;
-        this.showTime = !!options.data.ShowTime;
-        this.faceType = options.data.Type || 0;
-        this.panelWidth = options.width || 0;
-        this.panelHeight = options.height || 0;
+        $super(options, 'div.clock');
+        var data = options.panel.data;
+        this.showDate = !!data.ShowDate;
+        this.showTime = !!data.ShowTime;
+        this.faceType = data.Type || 0;
         var time = moment();
-        this.offsetMilliseconds = time.diff(options.data.OffsetGmt ?
-            _canvas.utcTime.add(options.data.OffsetGmt, 'm') :
+        this.offsetMilliseconds = time.diff(data.OffsetGmt ?
+            _canvas.utcTime.add(data.OffsetGmt, 'm') :
             _canvas.locationTime);
-        this.showSeconds = !!options.data.ShowSeconds;
+        this.showSeconds = !!data.ShowSeconds;
         this.useSvg = document.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1");
 
         switch (this.faceType) {
@@ -30,11 +30,12 @@ var Clock = Class.create({
             label.hide();
 
         this.timer = setInterval(this._callBack.bind(this), 1000);
-        this._callBack();
+        this.ready();
     },
 	
-	stop: function() {
-	    "use strict";
+    stop: function ($super) {
+        "use strict";
+        $super();
 	    clearInterval(this.timer);
 	    this.timer = null;
 	},
@@ -49,7 +50,7 @@ var Clock = Class.create({
 
 	_initAnalog: function () {
 	    "use strict";
-	    var s = this.panelWidth > this.panelHeight ? this.panelHeight : this.panelWidth;
+	    var s = this.width > this.height ? this.height : this.width;
 	    this.div.style.width = this.div.style.height = s + "px";
 	    if (this.useSvg) {
 	        this.elemHour = this.div.select('#hourHand')[0];
@@ -76,7 +77,7 @@ var Clock = Class.create({
 
     _callBack: function () {
         "use strict";
-        if (!this.timer)
+        if (!this.timer || this.exiting)
             return;
 
         var time = moment();
@@ -120,21 +121,5 @@ var Clock = Class.create({
         }
     },
 });
-
-/*(function () {
-    Element.addMethods('div', {
-        __clock: {},
-
-		startClock: function (e) {
-			e.__clock = new Clock(e.id);
-		},
-
-		stopClock: function (e) {
-		    if (e.__clock instanceof Clock) {
-			    e.__clock.stop();
-			}
-		}
-    });
-})();*/
 
 // 12-08-13 [DPA] - client side scripting END

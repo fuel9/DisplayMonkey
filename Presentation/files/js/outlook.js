@@ -1,40 +1,23 @@
 ﻿// 2014-11-18 [LTL] - outlook BEGIN
 // 2015-02-06 [LTL] - added isReady method
 // 2015-03-08 [LTL] - using data
+// 2015-05-08 [LTL] - ready callback
 
-var Outlook = Class.create(PeriodicalExecuter, {
+DM.Outlook = Class.create(/*PeriodicalExecuter*/ DM.FrameBase, {
     initialize: function ($super, options) {
         "use strict";
-        this.exiting = false;
-        this.updating = false;
-        this.finishedLoading = false;
-        this.div = options.div;
-        this.frameId = options.data.FrameId || 0;
-        this.panelId = options.panelId || 0;
-        if (!this.div || !this.panelId || !this.frameId)
-            return;
-        //this.div.hide();
-        //$super(this._callback, 60);
+        $super(options, 'div.outlook');
+        var data = options.panel.data;
 
         this.div.select("div.busy")[0].hide();
         this.div.select("div.plan")[0].hide();
         this.div.select("div.free")[0].hide();
         this.div.select("div.progress")[0].show();
-        //this.div.show();
 
-        this._callback(null);
+        this._callback();
     },
 
-    stop: function () {
-        this.exiting = true;
-    },
-
-    isReady: function () {
-        "use strict";
-        return !!this.finishedLoading;
-    },
-
-    _callback: function (pe) {
+    _callback: function () {
         "use strict";
         if (this.exiting || this.updating)
             return;
@@ -105,18 +88,20 @@ var Outlook = Class.create(PeriodicalExecuter, {
                     o.show();
                 }
                 catch (e) {
-                    new ErrorReport({ exception: e, data: resp.responseText, source: "Outlook::callBack::onSuccess" });
+                    new DM.ErrorReport({ exception: e, data: resp.responseText, source: "Outlook::callBack::onSuccess" });
                 }
                 finally {
                     outlook.updating = false;
                     //console.log(resp.responseText);
-                    outlook.finishedLoading = true;
+                    outlook.ready();
                 }
             }
 
             , onFailure: function (resp) {
-                new ErrorReport({ exception: resp, source: "Outlook::callBack::onFailure" });
-                resp.request.options.outlook.finishedLoading = true;
+                var outlook = resp.request.options.outlook;
+                new DM.ErrorReport({ exception: resp, source: "Outlook::callBack::onFailure" });
+                outlook.updating = false;
+                outlook.ready();
             }
         });
     },

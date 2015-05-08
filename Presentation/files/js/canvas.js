@@ -7,12 +7,16 @@
 // 2015-02-06 [LTL] - major overhaul
 // 2015-03-08 [LTL] - using data for frames
 // 2015-03-27 [LTL] - fixed YT Flash w/ FF & IE
+// 2015-05-08 [LTL] - frame ready callback
 
 // TODO: upgrade moment.js
 
 var $j = jQuery.noConflict();
 
-var ErrorReport = Class.create({
+var DM = {};
+var _canvas = {};
+
+DM.ErrorReport = Class.create({
     initialize: function (options) {
         "use strict";
         this.info = {
@@ -51,9 +55,6 @@ var ErrorReport = Class.create({
         _hide.delay(length < 1 ? 1 : length);
     },
 });
-
-var DM = {};
-var _canvas = {};
 
 DM.Canvas = Class.create({
 	initialize: function (options) {
@@ -100,7 +101,7 @@ DM.Canvas = Class.create({
 	    $$('div[data-panel-id]').each(function (e) {
 	        var pi = e.readAttribute('data-panel-id');
 	        if (e.id === "full")
-	            this.fullPanel = new DM.FullScreenPanelUpdater({
+	            this.fullPanel = new DM.FullScreenPanel({
                     panelId: pi,
                     container: e.id,
 		            evalScripts: false,
@@ -108,7 +109,7 @@ DM.Canvas = Class.create({
 		            idleInterval: this.initialIdleInterval,
                 });
 	        else
-	            this.panels.push(new DM.PanelUpdater({
+	            this.panels.push(new DM.Panel({
                     panelId: pi,
                     container: e.id,
 		            evalScripts: false,
@@ -156,12 +157,12 @@ DM.Canvas = Class.create({
                     }
                 }
                 catch (e) {
-                    new ErrorReport({ exception: e, data: resp.responseText, source: "checkDisplayHash::onSuccess" });
+                    new DM.ErrorReport({ exception: e, data: resp.responseText, source: "checkDisplayHash::onSuccess" });
                 }
             }
 
 			, onFailure: function (resp) {
-			    new ErrorReport({ exception: resp, source: "checkDisplayHash::onFailure" });
+			    new DM.ErrorReport({ exception: resp, source: "checkDisplayHash::onFailure" });
 			}
         });
     },
@@ -173,7 +174,55 @@ DM.Canvas = Class.create({
     },
 });
 
-DM.PanelUpdaterBase = Class.create(Ajax.Base, {
+
+DM.FrameBase = Class.create({
+    initialize: function (options, element) {
+        "use strict";
+        this.onFrameReady = options.panel.onFrameReady.bind(options.panel);
+
+        this.panelId = options.panel.panelId || 0;
+        this.frameId = options.panel.newFrameId || 0;
+
+        var panel = options.panel.newContainer;
+        this.div = panel.down(element);
+        this.div.id = "frame" + this.frameId;
+
+        this.width = panel.getAttribute('data-panel-width') || panel.clientWidth;
+        this.height = panel.getAttribute('data-panel-height') || panel.clientHeight;
+
+        this.exiting = false;
+        this.updating = false;
+    },
+
+    ready: function () {
+        "use strict";
+        if (this.onFrameReady) {
+            this.onFrameReady.delay(0);
+            this.onFrameReady = null;
+        }
+    },
+
+    uninit: function () {
+        "use strict";
+        this.stop();
+    },
+
+    stop: function () {
+        "use strict";
+        this.exiting = true;
+    },
+
+    pause: function () {
+        "use strict";
+    },
+
+    play: function () {
+        "use strict";
+    },
+});
+
+
+DM.PanelBase = Class.create(Ajax.Base, {
 	initialize: function ($super, options) {
 	    "use strict";
 	    $super(options);
@@ -181,25 +230,17 @@ DM.PanelUpdaterBase = Class.create(Ajax.Base, {
 		this.panelId = (this.options.panelId || 0);
 		this.frequency = (this.options.frequency || 1);
 		this.containerId = this.options.container; // "div" + this.panelId;
-		this.html = "";
 		this.data = {};
 		//this.hash = "";
 		this.object = null;
 
 		this.newFrameId = 0;
-		this.previousType = this.currentType = -1;
+		this.newType = -1;
 		this.fadeLength = (this.options.fadeLength || 0);
 		if (this.fadeLength < 0) this.fadeLength = 0;
 
-		//this._onFrameExpire.bind(this);
 		this._onGetNextFrame.bind(this);
-		//this._onUpdateEnd.bind(this);
 	},
-
-	/*_onFrameExpire: function () {
-	    "use strict";
-	    this._onGetNextFrame();
-	},                // <-- override*/
 
 	_onGetNextFrame: function () {
 	    "use strict";
@@ -238,12 +279,12 @@ DM.PanelUpdaterBase = Class.create(Ajax.Base, {
 				    if (p.newFrameId == null || !p.newFrameId) {
 				        p.newFrameId = 0;
 				    } else {
-				        p.currentType = json.FrameType;
-				        p.html = json.Html;
+				        p.newType = json.FrameType;
+				        //p.html = json.Html;
 				    }
 			    }
 			    catch (e) {
-			        new ErrorReport({ exception: e, data: resp.responseText, source: "_onGetNextFrame::onSuccess" });
+			        new DM.ErrorReport({ exception: e, data: resp.responseText, source: "_onGetNextFrame::onSuccess" });
 			    }
 		        finally {
 		            p._onUpdateEnd();
@@ -259,180 +300,94 @@ DM.PanelUpdaterBase = Class.create(Ajax.Base, {
 			    break;
 			    }*/
 		        //_updateBegin();
-		        new ErrorReport({ exception: resp.toString(), source: "_onGetNextFrame::onFailure", data: resp });
+		        new DM.ErrorReport({ exception: resp.toString(), source: "_onGetNextFrame::onFailure", data: resp });
 		        resp.request.options.panelUpdater._onUpdateEnd();
 		    }
 		});
 	},               // <-- get HTML via Ajax, then calls _onUpdateEnd
 
-	/*_onUpdateEnd: function () {
-	    "use strict";
-	    this.previousType = this.currentType;
-
-	    // queue _onFrameExpire
-	    this.expire = this._onFrameExpire
-            .bind(this)
-            .delay(this.frequency + this.fadeLength)
-	    ;
-	},                  // <-- override*/
-
 	_uninitFrame: function () {
 	    "use strict";
 	    try {
-	        if (this.object && this.object.stop) {
-	            this.object.stop();
-	        }
-
-	        // resume others
-	        //if (this instanceof DM.FullScreenPanelUpdater) {
-	        //    _canvas.panels.forEach(function (p) {
-	        //        if (p.object && p.object.play) p.object.play();
-	        //    });
-	        //}
+	        if (this.object)
+	            this.object.uninit();
 	    }
 	    catch (e) {
-	        new ErrorReport({ exception: e, source: "_uninitFrame" }); // <-- shouldn't get here
+	        new DM.ErrorReport({ exception: e, source: "_uninitFrame" }); // <-- shouldn't get here
 	    }
 	    finally {
 	        this.object = null;
 	    }
 	},                 // <-- stops and destroys current object; for full panel resumes objects in other panels
 
-	_initFrame: function (panel) {
+	_initFrame: function () {
 	    "use strict";
 	    var obj = null;
         try {
-            //// pause others
-            //if (this instanceof DM.FullScreenPanelUpdater) {
-            //    _canvas.panels.forEach(function (p) {
-            //        if (p.object && p.object.pause) p.object.pause();
-            //    });
-            //}
-
-            var div = null,
-                width = panel.getAttribute('data-panel-width'),
-                height = panel.getAttribute('data-panel-height')
-            ;
-
-            switch (this.currentType) {
+            switch (this.newType) {
                 //Clock = 0,
                 case 0:
-                    if (div = panel.down('div.clock')) {
-                        obj = new Clock({
-                            div: div,
-                            data: this.data,
-                            panelId: panel.id,
-                            width: width,
-                            height: height
-                        });
-                    }
+                    obj = new DM.Clock({
+                        panel: this
+                    });
                     break;
                     
                 //Html = 1,
                 case 1:
-                    if (div = panel.down('iframe.html')) {
-                        obj = new Iframe({
-                            div: div,
-                            data: this.data,
-                            panelId: panel.id,
-                            width: width,
-                            height: height
-                        });
-                    }
+                    obj = new DM.Iframe({
+                        panel: this
+                    });
                     break;
 
                 //Memo = 2,
                 case 2:
-                    if (div = panel.down('div.memo')) {
-                        obj = new Memo({
-                            div: div,
-                            data: this.data,
-                            panelId: panel.id,
-                            width: width,
-                            height: height
-                        });
-                    }
+                    obj = new DM.Memo({
+                        panel: this
+                    });
                     break;
                     
                 ////News = 3,
                 //Outlook = 4,
                 case 4:
-                    if (div = panel.down('div.outlook')) {
-                        obj = new Outlook({
-                            div: div,
-                            data: this.data,
-                            panelId: panel.id,
-                            width: width,
-                            height: height
-                        });
-                    }
+                    obj = new DM.Outlook({
+                        panel: this
+                    });
                     break;
                     
                 //Picture = 5,
                 //Report = 6,
                 case 5:
                 case 6:
-                    if (div = panel.down('div.picture, div.report')) {
-                        obj = new Picture({
-                            div: div,
-                            data: this.data,
-                            panelId: panel.id,
-                            width: width,
-                            height: height
-                        });
-                    }
+                    obj = new DM.Picture({
+                        panel: this
+                    });
                     break;
                     
                 //Video = 7,
                 case 7:
-                    if ((div = panel.down('div.video')) && _canvas.supports_video) {
-                        obj = new Video({
-                            div: div,
-                            data: this.data,
-                            panelId: panel.id,
-                            width: width,
-                            height: height,
-                            play: (this instanceof DM.FullScreenPanelUpdater || !_canvas.fullScreenActive)
-                        });
-                    }
+                    obj = new DM.Video({
+                        panel: this,
+                        play: (this instanceof DM.FullScreenPanel || !_canvas.fullScreenActive)
+                    });
                     break;
                     
                 //Weather = 8,
                 case 8:
-                    if (div = panel.down('div.weather')) {
-                        obj = new Weather({
-                            div: div,
-                            data: this.data,
-                            panelId: panel.id,
-                            width: width,
-                            height: height
-                        });
-                    }
+                    obj = new DM.Weather({
+                        panel: this
+                    });
                     break;
                     
                 //YouTube = 9
                 case 9:
-                    if (div = panel.down('div.youtube')) {
-                        obj = new YtLib.YtPlayer({
-                            div: div, 
-                            data: this.data,
-                            panelId: panel.id,
-                            width: width,
-                            height: height
-                        });
-                    }
+                    obj = new DM.YtPlayer({
+                        panel: this
+                    });
                     break;
             }
-
-            if (div != null)
-                div.id = "frame" + this.data.FrameId;
-
-            // immune to full frame
-	        //if (this instanceof DM.PanelUpdater)
-	        //    this.freezeOnFullScreen = (this.currentType != "WEATHER");
         }
 	    catch (e) {
-	        new ErrorReport({ exception: e, source: "_initFrame" }); // <-- shouldn't get here
+	        new DM.ErrorReport({ exception: e, source: "_initFrame" }); // <-- shouldn't get here
 	    }
 	    finally {
 	        return obj;
@@ -440,7 +395,7 @@ DM.PanelUpdaterBase = Class.create(Ajax.Base, {
 	},          // <-- for full panel pauses other panels' objects, depending on frame type creates new object and optionally plays it
 });
 
-DM.PanelUpdater = Class.create(DM.PanelUpdaterBase, {
+DM.Panel = Class.create(DM.PanelBase, {
 	initialize: function ($super, options) {
 	    "use strict";
 	    $super(options);
@@ -454,7 +409,6 @@ DM.PanelUpdater = Class.create(DM.PanelUpdaterBase, {
             // TODO: recalculate expire and frequency when caught up in fullscreen
 	        this.expire = this._onFrameExpire.bind(this).delay(1);   // wait 1 sec
 	    } else {
-	        //$super();
 	        this._onGetNextFrame();
         }
 	},                // <-- if not behind full frame call _onGetNextFrame, otherwise queue _onFrameExpire again
@@ -480,47 +434,20 @@ DM.PanelUpdater = Class.create(DM.PanelUpdaterBase, {
 	    }
 
 	    // set html
-	    this.newContainer.update(this.html);
+	    this.newContainer.update(this.data.Html);
 
 	    // init new frame
 	    this.newObj = this._initFrame(this.newContainer);
-
-	    // cross-fade
-	    this._crossFade();
-	},
-
-	_fadeOut: function () {
-	    "use strict";
-
-	    var afterFadeOut = function () {
-	        this.oldContainer.remove();
-	        //this.oldContainer.setAttribute("collect", "1");
-	    };
-
-	    if (this.fadeLength > 0) {
-	        this.oldContainer.fade({
-	            duration: this.fadeLength,
-	            afterFinish: afterFadeOut.bind(this)
-	        });
-	    } else {
-	        afterFadeOut.apply(this);
-	    }
 	},
 	
-	_crossFade: function () {
+	onFrameReady: function () {
 	    "use strict";
 
-	    // 1. if previous object existed wait till new object is ready
-	    if (this.object && this.newObj && this.newObj.isReady && !this.newObj.isReady()) {
-	        this._crossFade.bind(this).delay(0.1);
-	        return;
-	    }
-
-	    // 2. uninit old object first, then bind to new object
+	    // uninit old object first, then bind to new object
 	    this._uninitFrame();
 	    this.object = this.newObj;   // <-- already inited
 
-	    // 3. fade in new container
+	    // fade in new container
 	    var afterFadeIn = function () {
 	        this.newContainer.setStyle({ opacity: 1 });	// display: ''
 	    };
@@ -534,12 +461,8 @@ DM.PanelUpdater = Class.create(DM.PanelUpdaterBase, {
 	        afterFadeIn.apply(this);
 	    }
 
-	    // 4. fade out old container
+	    // fade out old container
 	    this._fadeOut();
-
-	    // 5. queue next frame
-	    //$super();
-	    this.previousType = this.currentType;
 
 	    // queue _onFrameExpire
 	    this.expire = this._onFrameExpire
@@ -547,9 +470,29 @@ DM.PanelUpdater = Class.create(DM.PanelUpdaterBase, {
             .delay(this.frequency + this.fadeLength)
 	    ;
 	},
+
+	_fadeOut: function () {
+	    "use strict";
+
+	    var afterFadeOut = function () {
+	        try {
+	            this.oldContainer.remove();
+	        }
+	        catch (e) {}
+	    };
+
+	    if (this.fadeLength > 0) {
+	        this.oldContainer.fade({
+	            duration: this.fadeLength,
+	            afterFinish: afterFadeOut.bind(this)
+	        });
+	    } else {
+	        afterFadeOut.apply(this);
+	    }
+	},
 });
 
-DM.FullScreenPanelUpdater = Class.create(DM.PanelUpdaterBase, {
+DM.FullScreenPanel = Class.create(DM.PanelBase, {
 	initialize: function ($super, options) {
 	    "use strict";
 	    $super(options);
@@ -572,16 +515,19 @@ DM.FullScreenPanelUpdater = Class.create(DM.PanelUpdaterBase, {
 		});
 		
 	    // create new screen
-	    var oldContainer = $(this.containerId);
-        this.newContainer = oldContainer
+	    this.oldContainer = $(this.containerId);
+        this.newContainer = this.oldContainer
             .clone(false)
             .setStyle({ display: 'none' })
 	    ;
-        oldContainer.id = "x_" + oldContainer.id;
-        oldContainer.insert({ after: this.newContainer });
+        this.oldContainer.id = "x_" + this.oldContainer.id;
+        this.oldContainer.insert({ after: this.newContainer });
 
 	    var afterFadeOut = function () {
-	        oldContainer.remove();
+	        try {
+	            this.oldContainer.remove();
+	        }
+	        catch (e) { }
 	        this.screen.setStyle({ opacity: 0 });	//display: 'none'
 	        _canvas.fullScreenActive = false;
 	    };
@@ -609,7 +555,7 @@ DM.FullScreenPanelUpdater = Class.create(DM.PanelUpdaterBase, {
 
 	    // set html
 	    this.newContainer //= $(this.containerId)
-			.update(this.html)
+			.update(this.data.Html)
 			.setStyle({ display: '' })
 	    ;
 
@@ -622,20 +568,11 @@ DM.FullScreenPanelUpdater = Class.create(DM.PanelUpdaterBase, {
 		
 	    // init new frame
 	    this.object = this._initFrame(this.newContainer);
-
-	    // fadeIn new frame
-	    this.fadeIn();
 	},
 
-	fadeIn: function () {
+	onFrameReady: function () {
 	    "use strict";
-		// 1. wait till new object is ready
-	    if (this.object && this.object.isReady && !this.object.isReady()) {
-	        this.fadeIn.bind(this).delay(0.1);
-	        return;
-	    }
-
-	    // 2. fade in new container
+	    // fade in new container
 	    var afterFadeIn = function () {
 	        this.screen.setStyle({ opacity: 1 });	// display: 'block'
 	    };
@@ -648,10 +585,6 @@ DM.FullScreenPanelUpdater = Class.create(DM.PanelUpdaterBase, {
 	    } else {
 	        afterFadeIn.apply(this);
 	    }
-
-	    // 3. queue next frame
-	    //$super();
-	    this.previousType = this.currentType;
 
 	    // queue _onFrameExpire
 	    this.expire = this._onFrameExpire
@@ -683,12 +616,12 @@ DM.FullScreenPanelUpdater = Class.create(DM.PanelUpdaterBase, {
                     p.idleInterval = json.IdleInterval || p.fadeLength;
                 }
                 catch (e) {
-                    new ErrorReport({ exception: e, data: resp.responseText, source: "onAfterUpdate::onSuccess" });
+                    new DM.ErrorReport({ exception: e, data: resp.responseText, source: "onAfterUpdate::onSuccess" });
                 }
             }
 
             , onFailure: function (resp) {
-                new ErrorReport({ exception: resp, source: "onAfterUpdate::onFailure" });
+                new DM.ErrorReport({ exception: resp, source: "onAfterUpdate::onFailure" });
             }
 	    });
 
@@ -757,7 +690,7 @@ document.observe("dom:loaded", function () {
 		_canvas.initPanels();
 	}
     catch (e) {
-        new ErrorReport({ exception: e, source: "dom:loaded" }); // <-- shouldn't get here
+        new DM.ErrorReport({ exception: e, source: "dom:loaded" }); // <-- shouldn't get here
     }
 });
 

@@ -1,4 +1,5 @@
 ﻿// 2015-03-08 [LTL] - weather BEGIN
+// 2015-05-08 [LTL] - ready callback
 
 /*********************************************************
 Yahoo weather JSON sample: {
@@ -74,35 +75,18 @@ Yahoo weather JSON sample: {
 }
 *********************************************************/
 
-var Weather = Class.create(PeriodicalExecuter, {
+DM.Weather = Class.create(/*PeriodicalExecuter*/ DM.FrameBase, {
     initialize: function ($super, options) {
         "use strict";
-        this.exiting = false;
-        this.updating = false;
-        this.finishedLoading = false;
-        this.div = options.div;
-        this.frameId = options.data.FrameId || 0;
-        this.panelId = options.panelId || 0;
-        if (!this.div || !this.panelId || !this.frameId)
-            return;
-        this.tempU = options.data.TemperatureUnit || _canvas.temperatureUnit;
-        this.woeid = options.data.Woeid || _canvas.woeid;
-        //this.div.hide();
-        //$super(this._callback, 60);
+        $super(options, 'div.weather');
+        var data = options.panel.data;
+        this.tempU = data.TemperatureUnit || _canvas.temperatureUnit;
+        this.woeid = data.Woeid || _canvas.woeid;
 
-        this._callback(null);
+        this._callback();
     },
 
-    stop: function () {
-        this.exiting = true;
-    },
-
-    isReady: function () {
-        "use strict";
-        return !!this.finishedLoading;
-    },
-
-    _callback: function (pe) {
+    _callback: function () {
         "use strict";
         if (this.exiting || this.updating)
             return;
@@ -144,18 +128,20 @@ var Weather = Class.create(PeriodicalExecuter, {
                     weather.div.select('.units_temperature').each(function (e) { e.update(json.units.temperature); });
                 }
                 catch (e) {
-                    new ErrorReport({ exception: e, data: resp.responseText, source: "Weather::callBack::onSuccess" });
+                    new DM.ErrorReport({ exception: e, data: resp.responseText, source: "Weather::callBack::onSuccess" });
                 }
                 finally {
                     weather.updating = false;
                     //console.log(resp.responseText);
-                    weather.finishedLoading = true;
+                    weather.ready();
                 }
             },
 
             onFailure: function (resp) {
-                new ErrorReport({ exception: resp, source: "Weather::callBack::onFailure" });
-                resp.request.options.weather.finishedLoading = true;
+                var weather = resp.request.options.weather;
+                new DM.ErrorReport({ exception: resp, source: "Weather::callBack::onFailure" });
+                weather.updating = false;
+                weather.ready();
             },
         });
     },
