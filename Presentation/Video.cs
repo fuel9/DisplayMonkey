@@ -6,6 +6,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using System.Text;
+using System.Web.Script.Serialization;
 
 namespace DisplayMonkey
 {
@@ -82,8 +83,59 @@ namespace DisplayMonkey
             }
         }
 
+        public string Hash
+        {
+            get
+            {
+                string hash = null;
+                uint crc32 = HttpRuntime.Cache.GetItemCrc32(this.CacheKey);
+                hash = (crc32 != 0) ? crc32.ToString() :
+                    this.Version.ToString();                // use content version to avoid spinning browser cache
+
+                //System.Diagnostics.Debug.Print(string.Format("???: key={0} hash={1}", this.CacheKey, hash));
+                return hash;
+            }
+        }
+
+        [ScriptIgnore]
+        public UInt64 Version { get; private set; }
+
+        [ScriptIgnore]
+        public string CacheKey { get; private set; }
+
         private VideoAlternative()
         {
+        }
+
+        public VideoAlternative(Video _video, int _contentId)
+        {
+            string sql = string.Format(
+                "SELECT top 1 c.ContentId, Name, convert(varbinary(256),Data) Chunk, c.Version FROM VideoAlternative a INNER JOIN Content c ON c.ContentId=a.ContentId WHERE a.FrameId={0} and a.ContentId={1};",
+                _video.FrameId, _contentId
+                );
+
+            using (DataSet ds = DataAccess.RunSql(sql))
+            {
+                DataRowCollection rows = ds.Tables[0].Rows;
+                if (rows.Count > 0)
+                {
+                    this._initFromRow(rows[0]);
+                    this.CacheKey = this.cacheKeyForVideoId(_video.FrameId);
+                }
+            }
+        }
+
+        public string cacheKeyForVideoId(int _frameId)
+        {
+            return string.Format("video_{0}_{1}_{2}", _frameId, this.Version, this.ContentId);
+        }
+
+        private void _initFromRow(DataRow _dr)
+        {
+            ContentId = _dr.IntOrZero("ContentId");
+            Name = _dr.StringOrBlank("Name").Trim();
+            Chunk = (byte[])_dr["Chunk"];
+            Version = BitConverter.ToUInt64((byte[])_dr["Version"], 0);       // is never a null
         }
 
         public static List<VideoAlternative> List(int frameId)
@@ -91,7 +143,7 @@ namespace DisplayMonkey
             List<VideoAlternative> list = null;
 
             string sql = string.Format(
-                "SELECT c.ContentId, Name, convert(varbinary(256),Data) Chunk FROM VideoAlternative a INNER JOIN Content c ON c.ContentId=a.ContentId WHERE a.FrameId={0};",
+                "SELECT c.ContentId, Name, convert(varbinary(256),Data) Chunk, c.Version FROM VideoAlternative a INNER JOIN Content c ON c.ContentId=a.ContentId WHERE a.FrameId={0};",
                 frameId
                 );
 
@@ -106,12 +158,9 @@ namespace DisplayMonkey
                     {
                         if (dr["Chunk"] != DBNull.Value)
                         {
-                            VideoAlternative va = new VideoAlternative()
-                            {
-                                ContentId = dr.IntOrZero("ContentId"),
-                                Name = dr.StringOrBlank("Name").Trim(),
-                                Chunk = (byte[])dr["Chunk"],
-                            };
+                            VideoAlternative va = new VideoAlternative();
+                            va._initFromRow(dr);
+                            va.CacheKey = va.cacheKeyForVideoId(frameId);
                             list.Add(va);
                         }
                     }

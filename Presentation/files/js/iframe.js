@@ -6,9 +6,11 @@ DM.Iframe = Class.create(DM.FrameBase, {
         "use strict";
         $super(options, 'iframe.html');
         var data = options.panel.data;
-        this.div.observe('load', this.ready.bind(this));
+        this.div.observe('load', function () {
+            this.ready();
+        }.bind(this));
 
-        this.div.src = "getHtml.ashx?" + $H({ frame: this.frameId }).toQueryString();
+        this.div.src = "getHtml.ashx?" + $H({ frame: this.frameId, hash: data.Hash }).toQueryString();
     },
 });
 

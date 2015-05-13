@@ -54,7 +54,7 @@ namespace DisplayMonkey
                     //BitmapSource bitmapSource = decoder.Frames[0];
 
                     data = HttpRuntime.Cache.GetOrAddAbsolute(
-                        string.Format("report_{0}_{1}_{2}x{3}_{4}", report.FrameId, report.Version, panelWidth, panelHeight, (int)mode),
+                        report.CacheKey,
                         () =>
                         {
                             // get response from report server

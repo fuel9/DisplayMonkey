@@ -52,11 +52,15 @@ namespace DisplayMonkey
         public static string GetMimeTypeFromList(string sFileNameOrPath)
         {
             string sMimeType = null;
-            string sExtensionWithoutDot = Path.GetExtension(sFileNameOrPath).Substring(1).ToLower();
-
-            if (!String.IsNullOrEmpty(sExtensionWithoutDot) && spDicMIMETypes.ContainsKey(sExtensionWithoutDot))
+            
+            if (!string.IsNullOrWhiteSpace(sFileNameOrPath))
             {
-                sMimeType = spDicMIMETypes[sExtensionWithoutDot];
+                string sExtensionWithoutDot = Path.GetExtension(sFileNameOrPath).Substring(1).ToLower();
+
+                if (!String.IsNullOrEmpty(sExtensionWithoutDot) && spDicMIMETypes.ContainsKey(sExtensionWithoutDot))
+                {
+                    sMimeType = spDicMIMETypes[sExtensionWithoutDot];
+                }
             }
 
             return sMimeType;
@@ -65,12 +69,16 @@ namespace DisplayMonkey
         public static string GetMimeTypeFromRegistry(string sFileNameOrPath)
         {
             string sMimeType = null;
-            string sExtension = Path.GetExtension(sFileNameOrPath).ToLower();
-            RegistryKey pKey = Registry.ClassesRoot.OpenSubKey(sExtension);
 
-            if (pKey != null && pKey.GetValue("Content Type") != null)
+            if (!string.IsNullOrWhiteSpace(sFileNameOrPath))
             {
-                sMimeType = pKey.GetValue("Content Type").ToString();
+                string sExtension = Path.GetExtension(sFileNameOrPath).ToLower();
+                RegistryKey pKey = Registry.ClassesRoot.OpenSubKey(sExtension);
+
+                if (pKey != null && pKey.GetValue("Content Type") != null)
+                {
+                    sMimeType = pKey.GetValue("Content Type").ToString();
+                }
             }
 
             return sMimeType;
@@ -80,7 +88,7 @@ namespace DisplayMonkey
         {
             string sMimeType = null;
 
-            if (File.Exists(sFilePath))
+            if (!string.IsNullOrWhiteSpace(sFilePath) && File.Exists(sFilePath))
             {
                 using (FileStream pFileStream = new FileStream(sFilePath, FileMode.Open))
                 {

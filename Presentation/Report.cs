@@ -14,6 +14,35 @@ namespace DisplayMonkey
 	{
         public string Name { get; protected set; }
         public RenderModes Mode { get; protected set; }
+        
+        public override string Hash
+        {
+            get
+            {
+                string hash = null;
+                if (this.CacheInterval > 0)
+                {
+                    uint crc32 = HttpRuntime.Cache.GetItemCrc32(this.CacheKey);
+                    hash = (crc32 != 0) ? crc32.ToString() :
+                        HttpRuntime.Cache.GetItemGuid(this.CacheKey).ToString();
+                }
+                else
+                    hash = Guid.NewGuid().ToString();   // get fresh version of report every time
+
+                //System.Diagnostics.Debug.Print(string.Format("???: key={0} hash={1}", this.CacheKey, hash));
+                return hash;
+            }
+        }
+
+        [ScriptIgnore]
+        public string CacheKey
+        {
+            get
+            {
+                return string.Format("report_{0}_{1}", this.FrameId, base.Version);
+            }
+        }
+        
 
         [ScriptIgnore]
         public string Path { get; private set; }

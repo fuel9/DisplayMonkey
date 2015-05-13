@@ -8,6 +8,7 @@ using System.IO;
 using System.Drawing;
 using System.Drawing.Imaging;
 using DisplayMonkey.Models;
+using System.Web.Script.Serialization;
 
 namespace DisplayMonkey
 {
@@ -16,6 +17,37 @@ namespace DisplayMonkey
         public string Name { get; protected set; }
         public RenderModes Mode { get; protected set; }
         public int ContentId { get; private set; }
+        
+        public override string Hash 
+        {
+            get 
+            {
+                string hash = null;
+                if (this.CacheInterval > 0)
+                {
+                    // attempt crc32 as a hash first
+                    UInt64 crc32 = HttpRuntime.Cache.GetItemCrc32(this.CacheKey);
+
+                    // otherwise use unique guid
+                    hash = (crc32 != 0) ? crc32.ToString() : 
+                        HttpRuntime.Cache.GetItemGuid(this.CacheKey).ToString();
+                }
+                else
+                    hash = base.Hash;   // this will return frame version to avoid spinning browser cache
+                
+                //System.Diagnostics.Debug.Print(string.Format("???: key={0} hash={1}", this.CacheKey, hash));
+                return hash;
+            } 
+        }
+
+        [ScriptIgnore]
+        public string CacheKey
+        {
+            get
+            {
+                return string.Format("picture_{0}_{1}", this.FrameId, base.Version);
+            }
+        }
         
         public Picture(int frameId)
             : base(frameId)

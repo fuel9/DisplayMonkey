@@ -23,51 +23,21 @@ namespace DisplayMonkey
         public DateTime? DateCreated { get; private set; }
         public FrameTypes FrameType { get; protected set; }
         public string TemplateName { get; private set; }
+        public string Html { get; private set; }
+        public UInt64 Version { get; private set; }
+        
+        public virtual string Hash 
+        {
+            // this is used to trick browser built-in caching 
+            // for certain HTML attributes, like img->src, iframe->src, etc.
+            get
+            { 
+                return this.Version.ToString(); 
+            } 
+        }
 
         [ScriptIgnore]
         public int CacheInterval { get; private set; }
-
-        [ScriptIgnore]
-        public Int64 Version { get; private set; }
-
-        public string Html { get; private set; }
-        /*public virtual string Html 
-        { 
-            get 
-            {
-                if (_templatePath == null)
-                {
-                    return string.Format(Resources.ErrorContentTypeNotImplemented, FrameType);
-                }
-                else
-                {
-                    string html = "";
-                    try
-                    {
-                        // load template
-                        string template = string.Format("{0}{1}", _templatePath, Template);
-                        if (!template.EndsWith(".htm"))
-                            template += ".htm";
-
-                        html = File.ReadAllText(template);
-
-                        // fill template
-                        //if (FrameId > 0)
-                        //{
-                        //    html = string.Format(template, FrameId);
-                        //}
-                    }
-
-                    catch (Exception ex)
-                    {
-                        html = ex.Message;
-                    }
-
-                    // return html
-                    return html;
-                }
-            } 
-        }*/
 
         private Frame()
         {
@@ -112,7 +82,7 @@ namespace DisplayMonkey
             FrameType = (FrameTypes)dr.IntOrZero("FrameType");
             CacheInterval = dr.IntOrZero("CacheInterval");
             CacheInterval = CacheInterval < 0 ? 0 : CacheInterval;
-            Version = BitConverter.ToInt64((byte[])dr["Version"], 0);       // is never a null
+            Version = BitConverter.ToUInt64((byte[])dr["Version"], 0);       // is never a null
         }
 
         private void _init()

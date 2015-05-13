@@ -219,6 +219,14 @@ DM.FrameBase = Class.create({
     play: function () {
         "use strict";
     },
+
+    _hashUrl: function (url) {
+        "use strict";
+        var u = url.split('?'), p = $H();
+        if (u.length > 1) p = p.merge(u[1].toQueryParams());
+        p.set('ts', (new Date()).getTime());
+        return u[0] + '?' + p.toQueryString();
+    },
 });
 
 

@@ -8,6 +8,7 @@ using System.IO;
 using System.Drawing;
 using System.Drawing.Imaging;
 using DisplayMonkey.Models;
+using System.Diagnostics;
 
 namespace DisplayMonkey
 {
@@ -28,18 +29,19 @@ namespace DisplayMonkey
                 Response.Cache.SetCacheability(HttpCacheability.NoCache);
                 Response.Cache.SetSlidingExpiration(true);
                 Response.Cache.SetNoStore();
+
+                //Response.Headers.Add("Pragma-directive", "no-cache");
+                //Response.Headers.Add("Cache-directive", "no-cache");
+                //Response.Headers.Add("Cache-control", "no-cache");
+                //Response.Headers.Add("Pragma", "no-cache");
+                //Response.Headers.Add("Expires", "0");
+
                 Response.ContentType = "image/png";
 
                 int contentId = DataAccess.IntOrZero(Request.QueryString["content"]);
                 int frameId = DataAccess.IntOrZero(Request.QueryString["frame"]);
 
                 byte[] data = null;
-                int 
-                    panelHeight = -1, 
-                    panelWidth = -1, 
-                    cacheInterval = 60
-                    ;
-                RenderModes mode = RenderModes.RenderMode_Crop;
 
                 // images can either come from:
                 // 1) frames, in which case they are constraint to panel dimensions, their own rendering mode and cacheing
@@ -54,7 +56,7 @@ namespace DisplayMonkey
                         Panel panel = new Panel(picture.PanelId);
 
                         data = HttpRuntime.Cache.GetOrAddAbsolute(
-                            string.Format("picture_{0}_{1}", picture.FrameId, picture.Version),
+                            picture.CacheKey,
                             () =>
                             {
                                 Content content = new Content(picture.ContentId);
@@ -75,7 +77,7 @@ namespace DisplayMonkey
                 else if (contentId != 0)
                 {
                     data = HttpRuntime.Cache.GetOrAddSliding(
-                        string.Format("image_{0}_{1}x{2}_{3}", contentId, panelWidth, panelHeight, (int)mode),
+                        string.Format("image_{0}_{1}x{2}_{3}", contentId, -1, -1, (int)RenderModes.RenderMode_Crop),
                         () =>
                         {
                             Content content = new Content(contentId);
@@ -88,12 +90,13 @@ namespace DisplayMonkey
                                 return trg.GetBuffer();
                             }
                         },
-                        TimeSpan.FromMinutes(cacheInterval)
+                        TimeSpan.FromMinutes(60)
                         );
                 }
 
                 if (data != null)
                 {
+                    //Debug.Print(string.Format("image {0}, {1} bytes", frameId, data.Length));
                     Response.OutputStream.Write(data, 0, data.Length);
                 }
 
@@ -109,6 +112,7 @@ namespace DisplayMonkey
 
             catch (Exception ex)
             {
+                Debug.Print(string.Format("getImage error: {0}", ex.Message));
                 Response.Write(ex.Message);
             }
 

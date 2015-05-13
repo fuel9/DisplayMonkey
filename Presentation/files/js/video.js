@@ -19,11 +19,13 @@ DM.Video = Class.create(DM.FrameBase, {
         video.loop = !!data.AutoLoop;
         video.muted = !!data.PlayMuted;
         video.update(data.NoVideoSupport);
-        video.observe('loadeddata', this.ready.bind(this));
+        video.observe('loadeddata', function () {
+            this.ready();
+        }.bind(this));
 
         data.VideoAlternatives.each(function (va) {
             var e = new Element("source", {
-                src: "getVideo.ashx?" + $H({content: va.ContentId, frame: frameId}).toQueryString(),
+                src: "getVideo.ashx?" + $H({content: va.ContentId, frame: frameId, hash: va.Hash}).toQueryString(),
                 type: va.MimeType
             });
             video.insert({ top: e });

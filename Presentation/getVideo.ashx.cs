@@ -27,14 +27,15 @@ namespace DisplayMonkey
             try
 			{
                 Video video = new Video(frameId);
+                VideoAlternative va = new VideoAlternative(video, contentId);
 
-                if (contentId != 0)
+                if (va.ContentId != 0)
                 {
                     data = HttpRuntime.Cache.GetOrAddAbsolute(
-                        string.Format("video_{0}_{1}_{2}", video.FrameId, video.Version, contentId),
+                        va.CacheKey,
                         () => 
                         { 
-                            Content content = new Content(contentId);
+                            Content content = new Content(va.ContentId);
                             if (content.ContentId == 0)
                                 return null;
                             mediaName = content.Name;

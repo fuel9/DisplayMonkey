@@ -10,19 +10,13 @@ DM.Picture = Class.create(DM.FrameBase, {
         var data = options.panel.data;
         var img = this.div.down('img');
         img.alt = data.Name;
-        img.src = this._hashUrl(data.FrameType === 5 ?
-            "getImage.ashx?" + $H({ content: data.ContentId, frame: this.frameId }).toQueryString() :
-            "getReport.ashx?" + $H({ frame: this.frameId }).toQueryString()
-        );
-        img.observe('load', this.ready.bind(this));
+        img.src = (data.FrameType === 5 ? 
+            "getImage.ashx?" :
+            "getReport.ashx?") + $H({ frame: this.frameId, hash: data.Hash }).toQueryString()
+        ;
+        img.observe('load', function () {
+            this.ready();
+        }.bind(this));
     },
-
-    _hashUrl: function (url) {
-	    "use strict";
-	    var u = url.split('?'), p = $H();
-	    if (u.length > 1) p = p.merge(u[1].toQueryParams());
-	    p.set('ts', (new Date()).getTime());
-	    return u[0] + '?' + p.toQueryString();
-	},
 });
 
