@@ -27,7 +27,15 @@ namespace DisplayMonkey.Controllers
         private void FillLocationSelectList(object selected = null)
         {
             var list = db.Locations
-                .OrderBy(c => c.Name)
+                .AsEnumerable()
+                .Select(l => new
+                {
+                    LocationId = l.LocationId,
+                    Name = l.Area == null ? 
+                        string.Format("{0} : {1}", l.Level.Name, l.Name) :
+                        string.Format("{0} : {1} : {2}", l.Level.Name, l.Area.Name, l.Name),
+                })
+                .OrderBy(l => l.Name)
                 .ToList()
                 ;
 

@@ -25,36 +25,9 @@ namespace DisplayMonkey.Controllers
 
         private void FillPanelsSelectList(object selected = null, int canvasId = 0)
         {
-            if (canvasId > 0)
-            {
-                var query = db.Panels
-                    .Where(p => p.CanvasId == canvasId)
-                    .Select(p => new
-                    {
-                        PanelId = p.PanelId,
-                        Name = p.Name
-                    })
-                    .OrderBy(p => p.Name)
-                    .ToList()
-                    ;
-
-                ViewBag.PanelId = new SelectList(query, "PanelId", "Name", selected);
-            }
-            else
-            {
-                var query = db.Panels
-                    .Include(p => p.Canvas)
-                    .Select(p => new
-                    {
-                        PanelId = p.PanelId,
-                        Name = p.Canvas.Name + " : " + p.Name
-                    })
-                    .OrderBy(p => p.Name)
-                    .ToList()
-                    ;
-
-                ViewBag.PanelId = new SelectList(query, "PanelId", "Name", selected);
-            }
+            // LTL: use ajax to populate
+            var query = db.Panels.Where(p => false);
+            ViewBag.PanelId = new SelectList(query, "PanelId", "Name", selected);
         }
 
         private void FillFrameTypeSelectList(FrameTypes? selected = null)

@@ -23,10 +23,12 @@
 <table class="grid">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Canvas.FullScreen.Panel)
-        </th><th></th>
+        </th>
         <th class="nw">
             @Html.DisplayNameFor(model => model.Canvas)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Canvas.FullScreen.Panel)
         </th>
         <th class="nw">
             @Resources.Options
@@ -49,11 +51,11 @@
                 <img alt="Fullscreen" src="images/partial.png" />
             }
         </td>
-        <td>
-            @Html.ActionLink(item.Name, "Details", "Panel", new { id=item.PanelId }, null)
-        </td>
         <td class="nw">
             @Html.DisplayFor(modelItem => item.Canvas.Name)
+        </td>
+        <td>
+            @Html.ActionLink(item.Name, "Details", "Panel", new { id=item.PanelId }, null)
         </td>
         <td class="nw">
             @if (fs.PanelId == item.PanelId)

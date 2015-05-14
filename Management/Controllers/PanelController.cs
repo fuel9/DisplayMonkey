@@ -25,6 +25,30 @@ namespace DisplayMonkey.Controllers
             ViewBag.Canvases = new SelectList(list, "CanvasId", "Name", selected);
         }
 
+
+        //
+        // GET: /PanelsForCanvas/5
+
+        public JsonResult PanelsForCanvas(int /*canvas*/ id = 0)
+        {
+            IQueryable<Panel> list = db.Panels;
+
+            if (id > 0)
+            {
+                list = list
+                    .Where(p => p.CanvasId == id)
+                    ;
+            }
+
+            var res = list
+                .Select(p => new { id = p.PanelId, name = id == 0 ? p.Canvas.Name + " : " + p.Name : p.Name })
+                .OrderBy(p => p.name)
+                .ToList()
+                ;
+
+            return Json(res, JsonRequestBehavior.AllowGet);
+        }
+        
         //
         // GET: /Panel/
 
@@ -32,12 +56,15 @@ namespace DisplayMonkey.Controllers
         {
             this.SaveReferrer();
 
-            var list = from l in db.Panels
-                       select l;
+            IQueryable<Panel> list = db.Panels
+                .OrderBy(p => p.Canvas.Name)
+                .ThenBy(p => p.Name)
+                ;
 
             if (!String.IsNullOrEmpty(name) || canvasId > 0)
             {
-                list = list.Where(s => (
+                list = list
+                    .Where(s => (
                         (canvasId == 0 || s.CanvasId == canvasId) &&
                         (String.IsNullOrEmpty(name) || s.Name.Contains(name))
                     )

@@ -21,3 +21,30 @@
 @Html.ActionLink(Resources.CreateNewFrame, "Create", new { canvasId = Request["canvasId"], panelId = Request["panelId"], frameType = Request["frameType"] })
 
 @Html.Partial("_frameList", Model)
+
+@section Scripts {
+    <script type="text/javascript">
+        function fillPanels () {
+            var canvasId = $('select#CanvasId').val() || 0;
+            $.ajax({
+                url: url = "@Url.Action("PanelsForCanvas", "Panel")/" + canvasId,
+            })
+            .done(function (data) {
+                var panels = $("select#PanelId");
+                panels.children("[value!='']").each(function (i, p) {
+                    $(p).remove();
+                });
+                $(data).each(function (i, p) {
+                    panels.append('<option value="' + p.id + '">' + p.name + '</option>');
+                });
+            });
+        };
+        $(document).ready(function () {
+            $('select#CanvasId').change(function () {
+                fillPanels();
+            });
+            fillPanels();
+        });
+    </script>
+}
+

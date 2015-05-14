@@ -13,6 +13,16 @@ namespace DisplayMonkey.Controllers
     {
         private DisplayMonkeyEntities db = new DisplayMonkeyEntities();
 
+        private void fillSelectBackgroundImage(object selected = null)
+        {
+            var contents = db.Contents
+                .Where(c => c.Type == ContentTypes.ContentType_Picture)
+                .OrderBy(c => c.Name)
+                .ToList()
+                ;
+            ViewBag.BackgroundImage = new SelectList(contents, "ContentId", "Name", selected);
+        }
+
         //
         // GET: /Canvas/
 
@@ -79,8 +89,7 @@ namespace DisplayMonkey.Controllers
 
         public ActionResult Create()
         {
-            var contents = db.Contents.Where(c => c.Type == 0).ToList();
-            ViewBag.BackgroundImage = new SelectList(contents, "ContentId", "Name");
+            fillSelectBackgroundImage();
             return View();
         }
 
@@ -99,7 +108,7 @@ namespace DisplayMonkey.Controllers
                 return this.RestoreReferrer() ?? RedirectToAction("Index");
             }
 
-            ViewBag.BackgroundImage = new SelectList(db.Contents, "ContentId", "Name", canvas.BackgroundImage);
+            fillSelectBackgroundImage(canvas.BackgroundImage);
             return View(canvas);
         }
 
@@ -113,8 +122,7 @@ namespace DisplayMonkey.Controllers
             {
                 return View("Missing", new MissingItem(id));
             }
-            var contents = db.Contents.Where(c => c.Type == 0).ToList();
-            ViewBag.BackgroundImage = new SelectList(contents, "ContentId", "Name", canvas.BackgroundImage);
+            fillSelectBackgroundImage(canvas.BackgroundImage);
             return View(canvas);
         }
 
@@ -132,7 +140,7 @@ namespace DisplayMonkey.Controllers
 
                 return this.RestoreReferrer() ?? RedirectToAction("Index");
             }
-            ViewBag.BackgroundImage = new SelectList(db.Contents, "ContentId", "Name", canvas.BackgroundImage);
+            fillSelectBackgroundImage(canvas.BackgroundImage);
             return View(canvas);
         }
 

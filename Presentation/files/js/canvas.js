@@ -61,6 +61,7 @@ DM.Canvas = Class.create({
 	    "use strict";
 	    this.fullScreenActive = false;
 
+	    this.time = moment();
 	    this.locationTime = moment(options.locationTime);
 	    this.utcTime = moment(options.utcTime);
 	    this.displayId = options.displayId;

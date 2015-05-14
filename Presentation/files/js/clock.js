@@ -12,8 +12,7 @@ DM.Clock = Class.create(DM.FrameBase, {
         this.showDate = !!data.ShowDate;
         this.showTime = !!data.ShowTime;
         this.faceType = data.Type || 0;
-        var time = moment();
-        this.offsetMilliseconds = time.diff(data.OffsetGmt ?
+        this.offsetMilliseconds = _canvas.time.diff(data.OffsetGmt ?
             _canvas.utcTime.add(data.OffsetGmt, 'm') :
             _canvas.locationTime);
         this.showSeconds = !!data.ShowSeconds;
@@ -30,7 +29,7 @@ DM.Clock = Class.create(DM.FrameBase, {
             label.hide();
 
         this.timer = setInterval(this._callBack.bind(this), 1000);
-        this.ready();
+        this._callBack();
     },
 	
     stop: function ($super) {
@@ -103,6 +102,8 @@ DM.Clock = Class.create(DM.FrameBase, {
                     this._rotateHand(this.elemSec, sec * 6);
                 break;
         }
+
+        this.ready();
     },
 
     _rotateHand: function (e, r) {
