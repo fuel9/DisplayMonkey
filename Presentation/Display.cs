@@ -9,7 +9,15 @@ namespace DisplayMonkey
 {
 	public class Display
 	{
-		public Display()
+        public string Name = "";
+        public string Host = "";
+        public int DisplayId = 0;
+        public int CanvasId = 0;
+        public int LocationId = 0;
+        public bool ShowErrors = false;
+        public bool NoScroll { get; private set; }
+
+        public Display()
 		{
 		}
 		
@@ -46,6 +54,7 @@ namespace DisplayMonkey
 			LocationId = r.IntOrZero("LocationId");
 			Host = r.StringOrBlank("Host").Trim();
             ShowErrors = r.Boolean("ShowErrors");
+            NoScroll = r.Boolean("NoScroll");
 			Name = r.StringOrBlank("Name").Trim();
 			if (Name == "")
 				Name = string.Format("Display {0}", DisplayId);
@@ -116,13 +125,6 @@ namespace DisplayMonkey
                 return cmd.Parameters["@idleInterval"].IntOrZero();
             }
         }
-
-        public string Name = "";
-        public string Host = "";
-        public int DisplayId = 0;
-        public int CanvasId = 0;
-        public int LocationId = 0;
-        public bool ShowErrors = false;
 
         #region Private Members
 

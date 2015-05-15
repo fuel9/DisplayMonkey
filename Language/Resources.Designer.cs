@@ -2142,6 +2142,15 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hide window scrollbars.
+        /// </summary>
+        public static string NoScroll {
+            get {
+                return ResourceManager.GetString("NoScroll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Note: for variety of browsers video frames can be linked to multiple alternative media streams, to select multiple files push and hold [Shift] or [Ctrl]..
         /// </summary>
         public static string NoteForVarietyOfBrowsersVideoFramesCanBeLinkedToMultipleAlternativeMediaStreamsToSelectMultipleFilesPushAndHoldShiftOrCtrl {

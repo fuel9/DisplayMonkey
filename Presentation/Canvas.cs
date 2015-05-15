@@ -169,6 +169,7 @@ namespace DisplayMonkey
 				if (this.BackgroundColor != "") 
 					head.AppendFormat(CultureInfo.InvariantCulture, "backColor:'{0}',\n", this.BackgroundColor);
                 head.AppendFormat(CultureInfo.InvariantCulture, "showErrors:{0},\n", this.Display.ShowErrors ? "true" : "false");
+                head.AppendFormat(CultureInfo.InvariantCulture, "noScroll:{0},\n", this.Display.NoScroll ? "true" : "false");
                 head.Append("});\n--></script>\n<style></style>\n");
 				
 				return head.ToString();

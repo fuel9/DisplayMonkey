@@ -1364,4 +1364,7 @@
   <data name="Settings_DefaultCacheIntervalWeather" xml:space="preserve">
     <value>Default cache expiration for new Weather frames</value>
   </data>
+  <data name="NoScroll" xml:space="preserve">
+    <value>Hide window scrollbars</value>
+  </data>
 </root>

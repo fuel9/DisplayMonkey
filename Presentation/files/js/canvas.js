@@ -8,6 +8,7 @@
 // 2015-03-08 [LTL] - using data for frames
 // 2015-03-27 [LTL] - fixed YT Flash w/ FF & IE
 // 2015-05-08 [LTL] - frame ready callback
+// 2015-05-15 [LTL] - noscroll
 
 // TODO: upgrade moment.js
 
@@ -74,6 +75,7 @@ DM.Canvas = Class.create({
 		this.culture = (options.culture || "");
 		this.temperatureUnit = (options.temperatureUnit || 'c');
 		this.showErrors = (options.showErrors || false);
+		this.noScroll = (options.noScroll || false);
 
 		this.width = (options.width || 0);
 		this.height = (options.height || 0);
@@ -91,6 +93,9 @@ DM.Canvas = Class.create({
 	    this.fixScreenDiv();
 	    Event.observe(window, "resize", this.fixScreenDiv);
 
+	    if (this.noScroll) {
+	        $(document.body).addClassName("noscroll");
+        }
 	    var s = $('segments').style;
 	    if (this.backImage > 0) {
 	        s.backgroundImage = "url('getImage.ashx?content=" + this.backImage + "')";

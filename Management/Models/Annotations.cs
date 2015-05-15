@@ -1440,6 +1440,11 @@ namespace DisplayMonkey.Models
             public bool ShowErrors { get; set; }
 
             [
+                Display(ResourceType = typeof(Resources), Name = "NoScroll"),
+            ]
+            public bool NoScroll { get; set; }
+
+            [
                 Display(ResourceType = typeof(Resources), Name = "Canvas"),
             ]
             public virtual Canvas Canvas { get; set; }
