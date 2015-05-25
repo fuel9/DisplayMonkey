@@ -25,14 +25,17 @@ namespace DisplayMonkey.Controllers
 
         private void FillPanelsSelectList(object selected = null, int canvasId = 0)
         {
-            // LTL: use ajax to populate
-            var query = db.Panels.Where(p => false);
+            var query = db.Panels
+                .Where(p => p.CanvasId == canvasId)
+                .OrderBy(p => p.Name)
+                .ToList()
+                ;
             ViewBag.PanelId = new SelectList(query, "PanelId", "Name", selected);
         }
 
         private void FillFrameTypeSelectList(FrameTypes? selected = null)
         {
-            ViewBag.FrameType = selected.TranslatedSelectList(valueAsText: true);
+            ViewBag.FrameType = selected.TranslatedSelectList(valueAsText: false);
         }
 
         private void FillTimingOptionsSelectList(Frame.TimingOptions? selected = null)
@@ -109,7 +112,7 @@ namespace DisplayMonkey.Controllers
                 ;
 
             FillCanvasesSelectList(canvasId);
-            FillPanelsSelectList(panelId, canvasId);
+            //FillPanelsSelectList(panelId, canvasId);  // LTL: use ajax to populate
             FillFrameTypeSelectList(frameType);
             FillTimingOptionsSelectList((Frame.TimingOptions?)timingOption);
              
