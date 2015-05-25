@@ -23,24 +23,64 @@ namespace DisplayMonkey.Controllers
             ViewBag.CanvasId = new SelectList(query, "CanvasId", "Name", selected);
         }
 
+        private class PanelSelectListItem
+        {
+            public int id { get; set; }
+            public string name { get; set; }
+            //public bool selected { get; set; }
+        }
+
+        private IQueryable<PanelSelectListItem> GetPanelsForCanvas(int canvasId = 0 /*, int panelId = 0*/)
+        {
+            IQueryable<Panel> list = db.Panels;
+
+            if (canvasId > 0)
+            {
+                return db.Panels
+                    .Where(p => p.CanvasId == canvasId)
+                    .Select(p => new PanelSelectListItem { 
+                        id = p.PanelId, 
+                        name = p.Name, 
+                        //selected = p.PanelId == panelId 
+                    })
+                    .OrderBy(p => p.name)
+                    ;
+            }
+            else
+            {
+                return db.Panels
+                    .Select(p => new PanelSelectListItem { 
+                        id = p.PanelId,
+                        name = canvasId == 0 ? p.Canvas.Name + " : " + p.Name : p.Name,
+                        //selected = p.PanelId == panelId 
+                    })
+                    .OrderBy(p => p.name)
+                    ;
+            }
+        }
+
         private void FillPanelsSelectList(object selected = null, int canvasId = 0)
         {
-            var query = db.Panels
-                .Where(p => p.CanvasId == canvasId)
-                .OrderBy(p => p.Name)
-                .ToList()
-                ;
-            ViewBag.PanelId = new SelectList(query, "PanelId", "Name", selected);
+            ViewBag.PanelId = new SelectList(GetPanelsForCanvas(canvasId).AsEnumerable(), "id", "name", selected);
         }
 
         private void FillFrameTypeSelectList(FrameTypes? selected = null)
         {
-            ViewBag.FrameType = selected.TranslatedSelectList(valueAsText: false);
+            ViewBag.FrameType = selected.TranslatedSelectList(valueAsText: true);
         }
 
         private void FillTimingOptionsSelectList(Frame.TimingOptions? selected = null)
         {
             ViewBag.TimingOption = selected.TranslatedSelectList(valueAsText: false);
+        }
+
+
+        //
+        // GET: /PanelsForCanvas/5
+
+        public JsonResult PanelsForCanvas(int /*canvas*/ id = 0)
+        {
+            return Json(GetPanelsForCanvas(id).ToList(), JsonRequestBehavior.AllowGet);
         }
 
         //
@@ -112,7 +152,7 @@ namespace DisplayMonkey.Controllers
                 ;
 
             FillCanvasesSelectList(canvasId);
-            //FillPanelsSelectList(panelId, canvasId);  // LTL: use ajax to populate
+            FillPanelsSelectList(panelId, canvasId);
             FillFrameTypeSelectList(frameType);
             FillTimingOptionsSelectList((Frame.TimingOptions?)timingOption);
              
@@ -124,39 +164,41 @@ namespace DisplayMonkey.Controllers
 
         public ActionResult Create(int canvasId = 0, int panelId = 0, FrameTypes? frameType = null)
         {
-            if (panelId == 0)
+            Panel panel = null;
+            if (panelId != 0)
             {
-                if (canvasId == 0)
-                    return RedirectToAction("ForCanvas");
-                else
-                    return RedirectToAction("ForPanel", new { canvasId = canvasId });
-            }
-            
-            else if (TempData[SelectorFrameKey] == null)
-            {
-                Panel panel = db.Panels
+                panel = db.Panels
                     .Include(p => p.Canvas)
-                    .First(p => p.PanelId == panelId)
+                    .FirstOrDefault(p => p.PanelId == panelId)
                     ;
 
-                FrameSelector selector = new FrameSelector()
-                {
-                    Panel = panel,
-                    PanelId = panel.PanelId,
-                };
-
-                TempData[SelectorFrameKey] = selector;
+                if (panel == null)
+                    panelId = 0;
             }
-
-            if (frameType == null)
+            
+            if (frameType == null || panel == null)
             {
-                return RedirectToAction("ForFrameType", new { panelId = panelId });
+                if (canvasId == 0 && panel != null)
+                    canvasId = panel.CanvasId;
+                
+                return RedirectToAction("ForFrameType", new { 
+                    canvasId = canvasId, 
+                    panelId = panelId, 
+                    frameType = frameType
+                });
             }
+
+            TempData[SelectorFrameKey] = new Frame()
+            {
+                Panel = panel,
+                PanelId = panelId,
+                CacheInterval = 0,
+            };
 
             return RedirectToAction("Create", frameType.ToString());
         }
 
-        public ActionResult ForCanvas()
+        /*public ActionResult ForCanvas()
         {
             FillCanvasesSelectList();
             return View();
@@ -172,9 +214,9 @@ namespace DisplayMonkey.Controllers
             }
 
             return RedirectToAction("ForCanvas");
-        }
+        }*/
 
-        public ActionResult ForPanel(int canvasId)
+        /*public ActionResult ForPanel(int canvasId)
         {
             Panel panel = db.Panels
                 .Include(p => p.Canvas)
@@ -200,35 +242,39 @@ namespace DisplayMonkey.Controllers
             }
 
             return RedirectToAction("ForPanel", new { canvasId = panel.Canvas.CanvasId });
-        }
+        }*/
 
-        public ActionResult ForFrameType(int panelId)
+        public ActionResult ForFrameType(int canvasId = 0, int panelId = 0, FrameTypes? frameType = null)
         {
-            Panel panel = db.Panels
-                .Include(p => p.Canvas)
-                .FirstOrDefault(p => p.PanelId == panelId)
-                ;
-
-            if (panel.PanelId == 0)
+            if (canvasId == 0)
             {
-                return RedirectToAction("ForCanvas");
-            }
+                Canvas canvas = db.Canvases
+                    .OrderBy(c => c.Name)
+                    .FirstOrDefault()
+                    ;
 
+                if (canvas != null)
+                    canvasId = canvas.CanvasId;
+            }
+            
             FrameSelector selector = new FrameSelector() 
             { 
-                Panel = panel,
-                PanelId = panel.PanelId,
+                CanvasId = canvasId,
+                PanelId = panelId,
+                FrameType = frameType.HasValue ? frameType.Value : 0,
             };
 
-            FillFrameTypeSelectList();
+            FillCanvasesSelectList(canvasId);
+            FillPanelsSelectList(panelId, canvasId);
+            FillFrameTypeSelectList(frameType);
             return View(selector);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult ForFrameType(FrameSelector selector)
+        public ActionResult ForFrameType([Bind(Include = "CanvasId,PanelId,FrameType")] FrameSelector selector)
         {
-            if (selector.FrameType != null)
+            if (selector.PanelId != 0 && selector.FrameType != null)
             {
                 Panel panel = db.Panels
                     .Include(p => p.Canvas)
@@ -236,13 +282,17 @@ namespace DisplayMonkey.Controllers
                     ;
 
                 selector.Panel = panel;
-                selector.CacheInterval = 0;
+                //selector.CacheInterval = 0;
 
                 TempData[SelectorFrameKey] = selector;
                 return RedirectToAction("Create", selector.FrameType.ToString());
             }
 
-            return RedirectToAction("ForFrameType", new { panelId = selector.PanelId });
+            return RedirectToAction("ForFrameType", new { 
+                canvasId = selector.CanvasId, 
+                panelId = selector.PanelId, 
+                frameType = selector.FrameType 
+            });
         }
 
         //

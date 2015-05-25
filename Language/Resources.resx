@@ -1367,4 +1367,7 @@
   <data name="NoScroll" xml:space="preserve">
     <value>Hide window scrollbars</value>
   </data>
+  <data name="PanelRequired" xml:space="preserve">
+    <value>Panel is required</value>
+  </data>
 </root>

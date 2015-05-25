@@ -15,20 +15,18 @@
     <fieldset>
         <legend>@Resources.Frame</legend>
 
-        @Html.HiddenFor(s => s.PanelId)
+        <div class="editor-label">
+            @Html.Label(Resources.SelectCanvas)
+        </div>
+        <div class="editor-field select">
+            @Html.DropDownListFor(c => c.CanvasId, ViewBag.CanvasId as SelectList)
+        </div>
 
         <div class="editor-label">
-            @Html.LabelFor(s => s.Panel.Canvas)
+            @Html.Label(Resources.SelectPanel)
         </div>
-        <div class="editor-field">
-            @Html.DisplayFor(s => s.Panel.Canvas.Name)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(s => s.Panel)
-        </div>
-        <div class="editor-field">
-            @Html.DisplayFor(s => s.Panel.Name)
+        <div class="editor-field select">
+            @Html.DropDownListFor(p => p.PanelId, ViewBag.PanelId as SelectList)
         </div>
 
         <div class="editor-label">
@@ -50,4 +48,27 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        function fillPanels () {
+            var canvasId = $('select#CanvasId').val() || 0;
+            $.ajax({
+                url: url = "@Url.Action("PanelsForCanvas", "Frame")/" + canvasId,
+            })
+            .done(function (data) {
+                var panels = $("select#PanelId"), v = panels.val();
+                panels.children().each(function (i, p) {
+                    $(p).remove();
+                });
+                $(data).each(function (i, p) {
+                    panels.append('<option value="' + p.id + (p.id == v ? '" selected>' : '">') + p.name + '</option>');
+                });
+            });
+        };
+        $(document).ready(function () {
+            $('select#CanvasId').change(function () {
+                fillPanels();
+            });
+        });
+    </script>
 }
+

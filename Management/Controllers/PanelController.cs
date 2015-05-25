@@ -27,29 +27,6 @@ namespace DisplayMonkey.Controllers
 
 
         //
-        // GET: /PanelsForCanvas/5
-
-        public JsonResult PanelsForCanvas(int /*canvas*/ id = 0)
-        {
-            IQueryable<Panel> list = db.Panels;
-
-            if (id > 0)
-            {
-                list = list
-                    .Where(p => p.CanvasId == id)
-                    ;
-            }
-
-            var res = list
-                .Select(p => new { id = p.PanelId, name = id == 0 ? p.Canvas.Name + " : " + p.Name : p.Name })
-                .OrderBy(p => p.name)
-                .ToList()
-                ;
-
-            return Json(res, JsonRequestBehavior.AllowGet);
-        }
-        
-        //
         // GET: /Panel/
 
         public ActionResult Index(int canvasId = 0, string name = "")

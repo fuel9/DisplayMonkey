@@ -482,12 +482,13 @@ namespace DisplayMonkey.Models
         internal class Annotations
         {
             [
-               Display(ResourceType = typeof(Resources), Name = "ID"), 
+                Display(ResourceType = typeof(Resources), Name = "ID"), 
             ]
             public int FrameId { get; set; }
 
             [
-               Display(ResourceType = typeof(Resources), Name = "Panel"),
+                Display(ResourceType = typeof(Resources), Name = "Panel"),
+                Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "PanelRequired"),
             ]
             public int PanelId { get; set; }
 
@@ -754,12 +755,18 @@ namespace DisplayMonkey.Models
             Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "FrameTypeRequired"),
         ]
         public override FrameTypes? FrameType { get; set; }
+
+        [
+            Display(ResourceType = typeof(Resources), Name = "Canvas"),
+        ]
+        public int CanvasId { get; set; }
     }
 
     public class LocationSelector : Frame
     {
-        [  Display(ResourceType = typeof(Resources), Name = "ID"),
-           Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "IDRequired"),
+        [  
+            Display(ResourceType = typeof(Resources), Name = "ID"),
+            Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "IDRequired"),
         ]
         public int LocationId { get; set; }
 

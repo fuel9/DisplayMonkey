@@ -2458,6 +2458,15 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Panel is required.
+        /// </summary>
+        public static string PanelRequired {
+            get {
+                return ResourceManager.GetString("PanelRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Panels.
         /// </summary>
         public static string Panels {

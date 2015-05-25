@@ -12,7 +12,7 @@
 {    
     <fieldset><legend>@Resources.Search</legend><table>
         <tr><td>@Resources.Canvas:</td><td><div class="select">@Html.DropDownList("CanvasId",Resources.Any)</div></td></tr>
-        <tr><td>@Resources.Panel:</td><td><div class="select">@Html.DropDownList("PanelId", Enumerable.Empty<SelectListItem>(), Resources.Any)</div></td></tr>
+        <tr><td>@Resources.Panel:</td><td><div class="select">@Html.DropDownList("PanelId", Resources.Any)</div></td></tr>
         <tr><td>@Resources.FrameType:</td><td><div class="select">@Html.DropDownList("FrameType",Resources.Any)</div></td></tr>
         <tr><td>@Resources.TimingOption:</td><td><div class="select">@Html.DropDownList("TimingOption",Resources.Any)</div></td></tr>
     <tr><td colspan="2"><input type="submit" value="@Resources.Filter" /></td></tr></table></fieldset> 
@@ -27,15 +27,15 @@
         function fillPanels () {
             var canvasId = $('select#CanvasId').val() || 0;
             $.ajax({
-                url: url = "@Url.Action("PanelsForCanvas", "Panel")/" + canvasId,
+                url: url = "@Url.Action("PanelsForCanvas", "Frame")/" + canvasId,
             })
             .done(function (data) {
-                var panels = $("select#PanelId");
+                var panels = $("select#PanelId"), v = panels.val();
                 panels.children("[value!='']").each(function (i, p) {
                     $(p).remove();
                 });
                 $(data).each(function (i, p) {
-                    panels.append('<option value="' + p.id + '">' + p.name + '</option>');
+                    panels.append('<option value="' + p.id + (p.id == v ? '" selected>' : '">') + p.name + '</option>');
                 });
             });
         };
@@ -43,7 +43,6 @@
             $('select#CanvasId').change(function () {
                 fillPanels();
             });
-            fillPanels();
         });
     </script>
 }
