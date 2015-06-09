@@ -5,24 +5,41 @@ using System.Web;
 
 using System.Security.Cryptography;
 using System.Text;
+using System.Security.AccessControl;
 
 namespace DisplayMonkey
 {
     public static class RsaUtil
     {
 
-        private static CspParameters _container = new CspParameters()
+        private static CspParameters _container = null;
+        private static CspParameters Container
         {
-            KeyContainerName = "DisplayMonkeyRsaKeyContainer",
-            Flags = CspProviderFlags.NoPrompt | CspProviderFlags.UseMachineKeyStore | CspProviderFlags.UseArchivableKey,
-        };
+            get
+            {
+                if (_container == null)
+                {
+                    _container = new CspParameters()
+                    {
+                        KeyContainerName = "DisplayMonkeyRsaKeyContainer",
+                        Flags = CspProviderFlags.NoPrompt | 
+                            CspProviderFlags.UseMachineKeyStore | 
+                            CspProviderFlags.UseArchivableKey,
+                        //CryptoKeySecurity = new CryptoKeySecurity(),
+                    };
+                    //CryptoKeyAccessRule rule = new CryptoKeyAccessRule("everyone", CryptoKeyRights.FullControl, AccessControlType.Allow);
+                    //_container.CryptoKeySecurity.SetAccessRule(rule);
+                }
+                return _container;
+            }
+        }
         
         public static string Decrypt(byte [] data)
         {
             if (data == null) 
                 return null;
 
-            using (RSACryptoServiceProvider provider = new RSACryptoServiceProvider(_container))
+            using (RSACryptoServiceProvider provider = new RSACryptoServiceProvider(Container))
             {
                 byte[] buf = null;
 
@@ -50,7 +67,7 @@ namespace DisplayMonkey
                 return null;
             }
 
-            using (RSACryptoServiceProvider provider = new RSACryptoServiceProvider(_container))
+            using (RSACryptoServiceProvider provider = new RSACryptoServiceProvider(Container))
             {
                 return provider.Encrypt(
                     Encoding.UTF8.GetBytes(value),

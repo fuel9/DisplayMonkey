@@ -126,7 +126,7 @@ namespace DisplayMonkey.Controllers
         //
         // GET: /Media/Preview/5
 
-        [Authorize]
+        //[Authorize]
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult Preview(int id)
         {

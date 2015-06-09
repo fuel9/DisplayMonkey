@@ -3,6 +3,7 @@
 // 2015-02-15 [LTL] - SVG analog face
 // 2015-03-08 [LTL] - using data
 // 2015-05-08 [LTL] - ready callback
+// 2015-06-09 [LTL] - refinements
 
 DM.Clock = Class.create(DM.FrameBase, {
     initialize: function ($super, options) {
@@ -16,17 +17,24 @@ DM.Clock = Class.create(DM.FrameBase, {
             _canvas.utcTime.add(data.OffsetGmt, 'm') :
             _canvas.locationTime);
         this.showSeconds = !!data.ShowSeconds;
-        this.useSvg = document.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1");
 
-        switch (this.faceType) {
-            case 1: this._initAnalog(); break;
-            case 2: this._initDigital(); break;
-            default: this._initText(); break;
+        this.div.setStyle({ width: this.width + "px", height: this.height + "px" });
+
+        this.label = null;
+        var label = this.div.down('.clockLabel');
+        if (data.Label && this.faceType) {
+            this.label = label.update(data.Label);
+        } else {
+            label.parentNode.removeChild(label);
         }
 
-        var label = this.div.select('.clockLabel')[0];
-        if (label.innerText === '')
-            label.hide();
+        switch (this.faceType) {
+            case 1: this._initAnalog(data); break;
+            case 2: this._initDigital(data); break;
+            default: this._initText(data); break;
+        }
+
+        //console.log(this.div.innerHTML);
 
         this.timer = setInterval(this._callBack.bind(this), 1000);
         this._callBack();
@@ -37,41 +45,53 @@ DM.Clock = Class.create(DM.FrameBase, {
         $super();
 	    clearInterval(this.timer);
 	    this.timer = null;
+    },
+
+    _setContainer: function(cls) {
+        this.container = null;
+        this.div.select('div[class!=clockLabel]').each(function (e) {
+            if (e.getAttribute('class') == cls)
+                this.container = e;
+            else
+                e.parentNode.removeChild(e);
+        }, this);
+        if (!this.label)
+            this.container.style.height = "100%";
+        return this.container;
+    },
+
+    _initText: function (data) {
+	    "use strict";
+	    this._setContainer('clockText');
 	},
 
-	_initText: function () {
+    _initAnalog: function (data) {
 	    "use strict";
-	    this.div.select('svg').each(function (e) {
-	        e.parentNode.removeChild(e);
-	    });
-	    //console.log(this.div.innerHTML);
-	},
-
-	_initAnalog: function () {
-	    "use strict";
-	    var s = this.width > this.height ? this.height : this.width;
-	    this.div.style.width = this.div.style.height = s + "px";
-	    if (this.useSvg) {
-	        this.elemHour = this.div.select('#hourHand')[0];
-	        this.elemMin = this.div.select('#minuteHand')[0];
-	        this.elemSec = this.div.select('#secondHand')[0];
+	    var supportSvg = document.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1");
+	    if (supportSvg) {
+	        this._setContainer('svgAnalog');
+	        this.container.setStyle({ height: "" + (this.div.getHeight() - this.container.offsetTop) + "px" });
+	        this.elemHour = this.div.down('#hourHand');
+	        this.elemMin = this.div.down('#minuteHand');
+	        this.elemSec = this.div.down('#secondHand');
 	        if (!this.showSeconds)
 	            this.elemSec.setAttribute('visibility', 'hidden');
 	    } else {
-	        this._initText();
-	        var face = new Element('ul', { "class": "analogFace", style: "background-size: " + s + "px " + s + "px;" })
-	        face.insert(this.elemHour = new Element('li', { "class": "analogHour", style: "width:" + s + "px; height:" + s + "px; background-size:" + s + "px " + s + "px;" }));
-	        face.insert(this.elemMin = new Element('li', { "class": "analogMin", style: "width:" + s + "px; height:" + s + "px; background-size:" + s + "px " + s + "px;" }));
-	        if (this.showSeconds)
-	            face.insert(this.elemSec = new Element('li', { "class": "analogSec", style: "width:" + s + "px; height:" + s + "px; background-size:" + s + "px " + s + "px;" }));
-	        this.div.insert(face);
+	        this._setContainer('bmpAnalog');
+	        var w = this.container.getWidth(), h = this.div.getHeight() - this.container.offsetTop, s = w > h ? h : w, px = "" + s + "px ";
+	        var face = this.container.down('.analogFace').setStyle({ backgroundSize: px + px, width: px, height: px });
+	        this.elemHour = face.down('.analogHour').setStyle({ backgroundSize: px + px, width: px, height: px });
+	        this.elemMin = face.down('.analogMin').setStyle({ backgroundSize: px + px, width: px, height: px });
+	        this.elemSec = face.down('.analogSec').setStyle({ backgroundSize: px + px, width: px, height: px });
+	        if (!this.showSeconds)
+	            this.elemSec.setAttribute('visibility', 'hidden');
 	    }
-	    //console.log(this.div.innerHTML);
+	    this.showDate = false;
 	},
 
-    _initDigital: function () {
+    _initDigital: function (data) {
         "use strict";
-        this._initText();
+        //this._initText();
     },
 
     _callBack: function () {
@@ -89,7 +109,7 @@ DM.Clock = Class.create(DM.FrameBase, {
             case 0:
                 var d = this.showDate ? time.format(_canvas.dateFormat) : "";
                 var t = this.showTime ? time.format(_canvas.timeFormat) : "";
-                this.div.innerHTML = d + (d != "" && t != "" ? "<br>" : "") + t;
+                /*this.div*/ this.container.innerHTML = d + (d != "" && t != "" ? "<br>" : "") + t;
                 break;
 
             case 1:

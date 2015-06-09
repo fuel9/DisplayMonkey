@@ -9,6 +9,7 @@ using DisplayMonkey.Models;
 
 using System.IO;
 using System.Net;
+using System.Text;
 
 namespace DisplayMonkey.Controllers
 {
@@ -155,11 +156,11 @@ namespace DisplayMonkey.Controllers
         //
         // GET: /Content/Thumb/5
 
-        [Authorize]
+        //[Authorize]
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult Thumb(int id, int width = 0, int height = 0, RenderModes mode = RenderModes.RenderMode_Fit, int trace = 0)
         {
-            string message = "";
+            StringBuilder message = new StringBuilder();
 
             try
             {
@@ -196,13 +197,36 @@ namespace DisplayMonkey.Controllers
 
             catch (Exception ex)
             {
-                message += ex.ToString();
+                if (trace > 0)
+                    message.Append(ex.ToString());
+
+                if (trace > 1)
+                {
+                    Report report = db.Reports
+                        .Include(r => r.ReportServer)
+                        .FirstOrDefault(r => r.FrameId == id)
+                        ;
+                    
+                    message.Append("\n");
+                    if (report == null)
+                    {
+                        message.AppendFormat("\nReport id {0} not found", id);
+                    }
+                    else
+                    {
+                        message.AppendFormat("\nReport name: {0}", report.Name);
+                        message.AppendFormat("\nReport path: {0}", report.Path);
+                        message.AppendFormat("\nReport server URL: {0}", report.ReportServer.BaseUrl);
+                        message.AppendFormat("\nReport server account: {0}\\{1}", report.ReportServer.Domain, report.ReportServer.User);
+                        //message.AppendFormat("\nReport server passwrd: {0}", HttpUtility.HtmlEncode(RsaUtil.Decrypt(report.ReportServer.Password)));
+                    }
+                }
             }
 
             if (trace == 0)
                 return RedirectToAction("BadImg", "Media");
             else
-                return Content(message);
+                return Content(message.Length == 0 ? "OK" : message.ToString());
         }
 
         private byte[] GetReportBytes(int id)
@@ -228,14 +252,17 @@ namespace DisplayMonkey.Controllers
                 );
 
             WebClient client = new WebClient();
-            string user = report.ReportServer.User ?? ""
-                , domain = report.ReportServer.Domain ?? "";
+            string
+                user = (report.ReportServer.User ?? "").Trim(),
+                domain = (report.ReportServer.Domain ?? "").Trim()
+                ;
+            
             if (!string.IsNullOrWhiteSpace(user))
             {
                 client.Credentials = new NetworkCredential(
-                    user.Trim(),
+                    user,
                     RsaUtil.Decrypt(report.ReportServer.Password),
-                    domain.Trim()
+                    domain
                     );
             }
 

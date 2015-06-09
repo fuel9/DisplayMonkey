@@ -12,6 +12,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Data.Entity.Validation;
 using System.Data.Objects.SqlClient;
+using System.Text;
 
 namespace DisplayMonkey.Controllers
 {
@@ -225,7 +226,7 @@ namespace DisplayMonkey.Controllers
         //
         // GET: /Media/Playback/5
 
-        [Authorize]
+        //[Authorize]
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult Playback(int id)
         {
@@ -244,11 +245,11 @@ namespace DisplayMonkey.Controllers
 
         //
         // GET: /Media/Thumb/5
-        [Authorize]
+        //[Authorize]
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult Thumb(int id, int width = 0, int height = 0, RenderModes mode = RenderModes.RenderMode_Fit, int trace = 0)
         {
-            string message = "";
+            StringBuilder message = new StringBuilder();
 
             try
             {
@@ -285,13 +286,14 @@ namespace DisplayMonkey.Controllers
 
             catch (Exception ex)
             {
-                message += ex.ToString();
+                if (trace > 0)
+                    message.Append(ex.ToString());
             }
 
             if (trace == 0)
                 return RedirectToAction("BadImg");
             else
-                return Content(message);
+                return Content(message.Length == 0 ? "OK" : message.ToString());
         }
 
         // TODO: move to separate file

@@ -598,6 +598,11 @@ textarea {
         margin-right: 4px;
     }
 
+textarea#Html:focus {
+	width: 100%;
+	height: 600px;
+}
+
 /* info and errors */
 .message-info {
     border: 1px solid;
