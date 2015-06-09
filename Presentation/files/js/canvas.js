@@ -9,6 +9,7 @@
 // 2015-03-27 [LTL] - fixed YT Flash w/ FF & IE
 // 2015-05-08 [LTL] - frame ready callback
 // 2015-05-15 [LTL] - noscroll
+// 2015-06-09 [LTL] - regular panel expiration no longer depends on fullscreen
 
 // TODO: upgrade moment.js
 
@@ -122,6 +123,20 @@ DM.Canvas = Class.create({
 		            fadeLength: 1, // sec (default)
                 }));
 	    }.bind(this));
+	},
+
+	pausePanels: function () {
+	    _canvas.fullScreenActive = true;
+	    _canvas.panels.forEach(function (p) {
+	        try { if (p.object && p.object.pause) p.object.pause(); } catch (e) { }
+	    });
+	},
+
+	resumePanels: function () {
+	    _canvas.fullScreenActive = false;
+	    _canvas.panels.forEach(function (p) {
+	        try { if (p.object && p.object.play) p.object.play(); } catch (e) { }
+	    });
 	},
 
 	fixScreenDiv: function () {
@@ -413,18 +428,21 @@ DM.Panel = Class.create(DM.PanelBase, {
 	initialize: function ($super, options) {
 	    "use strict";
 	    $super(options);
-		this.freezeOnFullScreen = (options.freezeOnFullScreen || true);
+	    this.countdown = 0.0;
+	    this.step = 1.0;  // sec
 		this._onFrameExpire();
 	},
 
 	_onFrameExpire: function (/*$super*/) {
 	    "use strict";
-	    if (this.freezeOnFullScreen && _canvas.fullScreenActive) {
-            // TODO: recalculate expire and frequency when caught up in fullscreen
-	        this.expire = this._onFrameExpire.bind(this).delay(1);   // wait 1 sec
+	    if (_canvas.fullScreenActive || --this.countdown > 0) {
+	        this._onFrameExpire
+                .bind(this)
+                .delay(this.step)
+            ;
 	    } else {
 	        this._onGetNextFrame();
-        }
+	    }
 	},                // <-- if not behind full frame call _onGetNextFrame, otherwise queue _onFrameExpire again
 
 	_onUpdateEnd: function (/*$super*/) {
@@ -443,7 +461,7 @@ DM.Panel = Class.create(DM.PanelBase, {
 	    if (!this.newFrameId) {
 	        this._uninitFrame();
 	        this._fadeOut();
-	        this.expire = this._onFrameExpire.bind(this).delay(60);  // wait 1 min
+	        this._onFrameExpire.bind(this).delay(60);  // wait 1 min
 	        return;
 	    }
 
@@ -479,9 +497,10 @@ DM.Panel = Class.create(DM.PanelBase, {
 	    this._fadeOut();
 
 	    // queue _onFrameExpire
-	    this.expire = this._onFrameExpire
+	    this.countdown = (this.frequency + this.fadeLength) / this.step;
+	    this._onFrameExpire
             .bind(this)
-            .delay(this.frequency + this.fadeLength)
+            .delay(this.step)
 	    ;
 	},
 
@@ -522,12 +541,6 @@ DM.FullScreenPanel = Class.create(DM.PanelBase, {
 	    // un-init old frame
 	    this._uninitFrame();
 
-		// resume other panels
-		_canvas.panels.forEach(function (p) {
-			if (p.object && p.object.play) 
-				p.object.play();
-		});
-		
 	    // create new screen
 	    this.oldContainer = $(this.containerId);
         this.newContainer = this.oldContainer
@@ -538,12 +551,9 @@ DM.FullScreenPanel = Class.create(DM.PanelBase, {
         this.oldContainer.insert({ after: this.newContainer });
 
 	    var afterFadeOut = function () {
-	        try {
-	            this.oldContainer.remove();
-	        }
-	        catch (e) { }
+	        _canvas.resumePanels();
+	        try { this.oldContainer.remove(); } catch (e) { }
 	        this.screen.setStyle({ opacity: 0 });	//display: 'none'
-	        _canvas.fullScreenActive = false;
 	    };
 
 	    // fade out old container and remove it
@@ -563,7 +573,7 @@ DM.FullScreenPanel = Class.create(DM.PanelBase, {
 	_onUpdateEnd: function (/*$super*/) {
 	    "use strict";
 	    if (!this.newFrameId) {
-	        this.expire = this._onFrameExpire.bind(this).delay(this.idleInterval);
+	        this._onFrameExpire.bind(this).delay(this.idleInterval);
 	        return;
 	    }
 
@@ -574,11 +584,7 @@ DM.FullScreenPanel = Class.create(DM.PanelBase, {
 	    ;
 
 	    // tell other panels to pause
-		_canvas.fullScreenActive = true;
-		_canvas.panels.forEach(function (p) {
-			if (p.object && p.object.pause) 
-				p.object.pause();
-		});
+		_canvas.pausePanels();
 		
 	    // init new frame
 	    this.object = this._initFrame(this.newContainer);
@@ -601,7 +607,7 @@ DM.FullScreenPanel = Class.create(DM.PanelBase, {
 	    }
 
 	    // queue _onFrameExpire
-	    this.expire = this._onFrameExpire
+	    this._onFrameExpire
             .bind(this)
             .delay(this.frequency + this.fadeLength)
 	    ;
