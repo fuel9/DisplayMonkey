@@ -601,20 +601,6 @@ namespace DisplayMonkey.Models
             public virtual ICollection<Location> Locations { get; set; }
         }
   
-        /*public enum FrameTypes
-        {
-            Clock,
-            Html,
-            Memo,
-            //News,
-            Outlook,
-            Picture,
-            Report,
-            Video,
-            Weather,
-            YouTube
-        }*/
-
         public enum TimingOptions : int
         {
             TimingOption_Pending = 0,
@@ -628,23 +614,7 @@ namespace DisplayMonkey.Models
         ]
         public virtual FrameTypes? FrameType
         {
-            get
-            {
-                return this.Template.FrameType;
-
-                /*if (this.Clock != null) return FrameTypes.Clock;
-                if (this.Html != null) return FrameTypes.Html;
-                if (this.Memo != null) return FrameTypes.Memo;
-                //if (this.News != null) return FrameTypes.News;
-                if (this.Outlook != null) return FrameTypes.Outlook;
-                if (this.Picture != null) return FrameTypes.Picture;
-                if (this.Report != null) return FrameTypes.Report;
-                if (this.Video != null) return FrameTypes.Video;
-                if (this.Weather != null) return FrameTypes.Weather;
-                if (this.Youtube != null) return FrameTypes.YouTube;
-                return null;*/
-            }
-
+            get { return this.Template.FrameType; }
             set { }
         }
 
@@ -665,40 +635,6 @@ namespace DisplayMonkey.Models
                 return (f => true);
             else
                 return (f => f.Template.FrameType == frameType.Value);
-            
-            /*switch (frameType)
-            {
-                case FrameTypes.Clock:
-                    return (frame => frame.Clock != null);
-                case FrameTypes.Html:
-                    return (frame => frame.Html != null);
-                case FrameTypes.Memo:
-                    return (frame => frame.Memo != null);
-                //case FrameTypes.News:
-                //    return (frame => frame.News != null);
-                case FrameTypes.Outlook:
-                    return (frame => frame.Outlook != null);
-                case FrameTypes.Picture:
-                    return (frame => frame.Picture != null);
-                case FrameTypes.Report:
-                    return (frame => frame.Report != null);
-                case FrameTypes.Video:
-                    return (frame => frame.Video != null);
-                case FrameTypes.Weather:
-                    return (frame => frame.Weather != null);
-                case FrameTypes.YouTube:
-                    return (frame => frame.Youtube != null);
-                default:
-                    return (frame => true);
-            }*/
-        }
-
-        [
-            NotMapped,
-        ]
-        public bool ShowDuration
-        {
-            get { return /*this.Clock == null && this.Weather == null*/ true; }
         }
 
         [
@@ -1075,6 +1011,11 @@ namespace DisplayMonkey.Models
                 Display(ResourceType = typeof(Resources), Name = "ShowTime"),
             ]
             public bool ShowTime { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "ShowSeconds"),
+            ]
+            public bool ShowSeconds { get; set; }
 
             [
                 Display(ResourceType = typeof(Resources), Name = "Frame"),

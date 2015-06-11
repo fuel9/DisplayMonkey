@@ -47,8 +47,6 @@ namespace DisplayMonkey
                 }
             }
 
-            //_templatePath = HttpContext.Current.Server.MapPath("~/files/frames/weather/");
-
             // TODO: add own Woeid to Weather model
             /*Location location = new Location(DisplayId);
             if (location.LocationId != 0)

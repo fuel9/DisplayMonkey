@@ -34,6 +34,14 @@
             @Html.ValidationMessageFor(model => model.ShowTime)
         </div>
 
+        <div class="editor-label" data-option="analog">
+            @Html.LabelFor(model => model.ShowSeconds)
+        </div>
+        <div class="editor-field" data-option="analog">
+            @Html.EditorFor(model => model.ShowSeconds)
+            @Html.ValidationMessageFor(model => model.ShowSeconds)
+        </div>
+
         <div class="editor-label">
             @Html.LabelFor(model => model.Label)
         </div>
@@ -51,3 +59,19 @@
         </div>
 
     </fieldset>
+
+    <script type="text/javascript">
+        function setUi() {
+            var v = $('#Type').val();
+            $('div[data-option=text]').each(function (i,e) {
+                $(e).css('display', !!(v === '@((int)DisplayMonkey.Models.ClockTypes.ClockType_Text)') ? '' : 'none');
+            });
+            $('div[data-option=analog]').each(function (i, e) {
+                $(e).css('display', !!(v === '@((int)DisplayMonkey.Models.ClockTypes.ClockType_Analog)') ? '' : 'none');
+            });
+            }
+        $(document).ready(function () {
+            $('#Type').change(function () { setUi(); });
+            setUi();
+        });
+    </script>

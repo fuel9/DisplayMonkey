@@ -46,8 +46,6 @@ namespace DisplayMonkey
                     Rate = dr.IntOrZero("Rate");
                 }
             }
-
-            //_templatePath = HttpContext.Current.Server.MapPath("~/files/frames/youtube/");
         }
     }
 }

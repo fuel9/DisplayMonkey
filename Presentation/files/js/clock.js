@@ -20,14 +20,6 @@ DM.Clock = Class.create(DM.FrameBase, {
 
         this.div.setStyle({ width: this.width + "px", height: this.height + "px" });
 
-        this.label = null;
-        var label = this.div.down('.clockLabel');
-        if (data.Label && this.faceType) {
-            this.label = label.update(data.Label);
-        } else {
-            label.parentNode.removeChild(label);
-        }
-
         switch (this.faceType) {
             case 1: this._initAnalog(data); break;
             case 2: this._initDigital(data); break;
@@ -47,51 +39,69 @@ DM.Clock = Class.create(DM.FrameBase, {
 	    this.timer = null;
     },
 
-    _setContainer: function(cls) {
+    _setContainer: function(cls, data) {
         this.container = null;
-        this.div.select('div[class!=clockLabel]').each(function (e) {
+        this.div.childElements().each(function (e) {
             if (e.getAttribute('class') == cls)
                 this.container = e;
             else
                 e.parentNode.removeChild(e);
         }, this);
-        if (!this.label)
-            this.container.style.height = "100%";
-        return this.container;
+
+        this.label = null;
+        var label = this.container.down('.label'), face = this.container.down('.face');
+        if (data.Label) {
+            this.label = label.update(data.Label);
+            face.style.height = "" + this.div.getHeight() - face.offsetTop + "px";
+        } else {
+            label.parentNode.removeChild(label);
+            face.style.height = "" + this.div.getHeight() + "px";
+        }
     },
 
     _initText: function (data) {
 	    "use strict";
-	    this._setContainer('clockText');
-	},
+	    this._setContainer('text', data);
+	    var elemDate = this.container.down('.date');
+	    var elemTime = this.container.down('.time');
+	    if (this.showDate) {
+	        this.elemDate = elemDate;
+	    } else {
+	        elemDate.parentNode.removeChild(elemDate);
+	    }
+	    if (this.showTime) {
+	        this.elemTime = elemTime;
+	    } else {
+	        elemTime.parentNode.removeChild(elemTime);
+	    }
+    },
 
     _initAnalog: function (data) {
 	    "use strict";
 	    var supportSvg = document.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1");
 	    if (supportSvg) {
-	        this._setContainer('svgAnalog');
-	        this.container.setStyle({ height: "" + (this.div.getHeight() - this.container.offsetTop) + "px" });
-	        this.elemHour = this.div.down('#hourHand');
-	        this.elemMin = this.div.down('#minuteHand');
-	        this.elemSec = this.div.down('#secondHand');
+	        this._setContainer('svgAnalog', data);
+	        this.elemHour = this.container.down('#hourHand');
+	        this.elemMin = this.container.down('#minuteHand');
+	        this.elemSec = this.container.down('#secondHand');
 	        if (!this.showSeconds)
 	            this.elemSec.setAttribute('visibility', 'hidden');
 	    } else {
-	        this._setContainer('bmpAnalog');
-	        var w = this.container.getWidth(), h = this.div.getHeight() - this.container.offsetTop, s = w > h ? h : w, px = "" + s + "px ";
-	        var face = this.container.down('.analogFace').setStyle({ backgroundSize: px + px, width: px, height: px });
-	        this.elemHour = face.down('.analogHour').setStyle({ backgroundSize: px + px, width: px, height: px });
-	        this.elemMin = face.down('.analogMin').setStyle({ backgroundSize: px + px, width: px, height: px });
-	        this.elemSec = face.down('.analogSec').setStyle({ backgroundSize: px + px, width: px, height: px });
+	        this._setContainer('bmpAnalog', data);
+	        var face = this.container.down('.face');
+	        var w = face.getWidth(), h = face.getHeight(), s = w > h ? h : w, px = "" + s + "px ";
+	        face.setStyle({ backgroundSize: px + px, width: px, height: px });
+	        this.elemHour = face.down('.hour').setStyle({ backgroundSize: px + px, width: px, height: px });
+	        this.elemMin = face.down('.minute').setStyle({ backgroundSize: px + px, width: px, height: px });
+	        this.elemSec = face.down('.second').setStyle({ backgroundSize: px + px, width: px, height: px });
 	        if (!this.showSeconds)
 	            this.elemSec.setAttribute('visibility', 'hidden');
 	    }
-	    this.showDate = false;
 	},
 
     _initDigital: function (data) {
         "use strict";
-        //this._initText();
+        throw new Error("Not implemented");
     },
 
     _callBack: function () {
@@ -107,9 +117,12 @@ DM.Clock = Class.create(DM.FrameBase, {
 
         switch (this.faceType) {
             case 0:
-                var d = this.showDate ? time.format(_canvas.dateFormat) : "";
-                var t = this.showTime ? time.format(_canvas.timeFormat) : "";
-                /*this.div*/ this.container.innerHTML = d + (d != "" && t != "" ? "<br>" : "") + t;
+                if (this.elemDate) {
+                    this.elemDate.update(time.format(_canvas.dateFormat));
+                }
+                if (this.elemTime) {
+                    this.elemTime.update(time.format(_canvas.timeFormat));
+                }
                 break;
 
             case 1:

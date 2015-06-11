@@ -35,7 +35,6 @@ namespace DisplayMonkey
                 else
                     hash = base.Hash;   // this will return frame version to avoid spinning browser cache
                 
-                //System.Diagnostics.Debug.Print(string.Format("???: key={0} hash={1}", this.CacheKey, hash));
                 return hash;
             } 
         }
@@ -78,8 +77,6 @@ namespace DisplayMonkey
                     Name = dr.StringOrBlank("Name");
                 }
             }
-
-            //_templatePath = HttpContext.Current.Server.MapPath("~/files/frames/picture/");
         }
 
 		public static void WriteImage(Stream inStream, Stream outStream, int boundWidth, int boundHeight, RenderModes mode)

@@ -33,8 +33,6 @@ namespace DisplayMonkey
                     Body = dr.StringOrBlank("Body");
                 }
             }
-
-            //_templatePath = HttpContext.Current.Server.MapPath("~/files/frames/memo/");
         }
 	}
 }

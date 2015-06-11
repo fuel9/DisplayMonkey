@@ -25,7 +25,7 @@ DM.ErrorReport = Class.create({
             Error: ((options.exception instanceof Error ? options.exception.message : options.exception) || "unspecified"),
             Where: (options.source || "unspecified"),
             When: moment().format(),
-            Data: (options.data || "none")
+            Data: (JSON.stringify(options.data) || "none")
         };
         console.error("!Display Monkey error: " + JSON.stringify(this.info));
         this.length = options.length || 100;
@@ -416,7 +416,11 @@ DM.PanelBase = Class.create(Ajax.Base, {
             }
         }
 	    catch (e) {
-	        new DM.ErrorReport({ exception: e, source: "_initFrame" }); // <-- shouldn't get here
+	        new DM.ErrorReport({
+	            exception: e,
+	            source: "_initFrame",
+	            data: { frameId: this.newFrameId, panel: this.panelId }
+	        });
 	    }
 	    finally {
 	        return obj;

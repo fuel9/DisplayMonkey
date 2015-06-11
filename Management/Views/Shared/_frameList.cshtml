@@ -42,12 +42,13 @@
         <td>
             @if (item.Clock != null)
             {
-                @(string.Format("{0}{1}{2}{3}{4}",
+                @(string.Format("{0}{1}{2}{3}{4}{5}",
                     item.Clock.Type.Translate(),
                     !string.IsNullOrWhiteSpace(item.Clock.Label) ? ", " + item.Clock.Label : "",
                     item.Clock.TimeZone != null ? ", " + item.Clock.TimeZone : "",
                     item.Clock.Type == ClockTypes.ClockType_Text && item.Clock.ShowDate ? ", " + Resources.ShowDate : "",
-                    item.Clock.Type == ClockTypes.ClockType_Text && item.Clock.ShowTime ? ", " + Resources.ShowTime : ""
+                    item.Clock.Type == ClockTypes.ClockType_Text && item.Clock.ShowTime ? ", " + Resources.ShowTime : "",
+                    item.Clock.Type == ClockTypes.ClockType_Analog && item.Clock.ShowSeconds ? ", " + Resources.ShowSeconds : ""
                     ))
             }
             else if (item.Html != null)    
@@ -96,10 +97,7 @@
             }
         </td>
         <td class="nw num">
-            @if (item.ShowDuration)
-            {
-                @Html.DisplayFor(modelItem => item.Duration)
-            }
+            @Html.DisplayFor(modelItem => item.Duration)
         </td>
         <td class="nw">
             @Html.ActionLink(Resources.Edit, "Edit", "Frame", new { id=item.FrameId }, null) |

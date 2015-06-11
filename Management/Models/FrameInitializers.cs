@@ -11,8 +11,6 @@ namespace DisplayMonkey.Models
         {
             if (Frame != null)
             {
-                //Frame.Duration = 600;
-
                 Setting defTemplate = Setting.GetSetting(_db, Setting.Keys.DefaultTemplateClock);
                 if (defTemplate != null)
                 {
@@ -24,6 +22,10 @@ namespace DisplayMonkey.Models
                         ;
                 }
             }
+
+            ShowSeconds = true;
+            ShowDate = true;
+            ShowTime = true;
         }
     }
 
@@ -183,8 +185,6 @@ namespace DisplayMonkey.Models
         {
             if (Frame != null)
             {
-                //Frame.Duration = 600;
-
                 Setting defCacheInt = Setting.GetSetting(_db, Setting.Keys.DefaultCacheIntervalWeather);
                 if (defCacheInt != null)
                 {

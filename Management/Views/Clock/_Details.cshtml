@@ -42,6 +42,15 @@
                         @Html.DisplayFor(model => model.ShowTime)
                     </div>
                     </div>
+                } else {
+                    <div class="divRow">
+                    <div class="display-label">
+                         @Html.DisplayNameFor(model => model.ShowSeconds)
+                    </div>
+                    <div class="display-field">
+                        @Html.DisplayFor(model => model.ShowSeconds)
+                    </div>
+                    </div>
                 }
 
                 @if (!string.IsNullOrWhiteSpace(Model.Label))

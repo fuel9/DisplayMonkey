@@ -20,6 +20,7 @@ namespace DisplayMonkey.Models
         public bool ShowTime { get; set; }
         public string Label { get; set; }
         public string TimeZone { get; set; }
+        public bool ShowSeconds { get; set; }
     
         public virtual Frame Frame { get; set; }
     }

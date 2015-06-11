@@ -161,6 +161,7 @@
           <Property Name="ShowTime" Type="bit" Nullable="false" />
           <Property Name="Label" Type="varchar" MaxLength="50" />
           <Property Name="TimeZone" Type="varchar" MaxLength="50" />
+          <Property Name="ShowSeconds" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Content">
           <Key>
@@ -906,6 +907,7 @@
           <NavigationProperty Name="Frame" Relationship="DisplayMonkey.Model.FK_Clock_Frame" FromRole="Clock" ToRole="Frame" />
           <Property Type="String" Name="Label" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Type="String" Name="TimeZone" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="Boolean" Name="ShowSeconds" Nullable="false" />
         </EntityType>
         <EntityType Name="Content">
           <Key>
@@ -1552,6 +1554,7 @@
           <EntitySetMapping Name="Clocks">
             <EntityTypeMapping TypeName="DisplayMonkey.Model.Clock">
               <MappingFragment StoreEntitySet="Clock">
+                <ScalarProperty Name="ShowSeconds" ColumnName="ShowSeconds" />
                 <ScalarProperty Name="TimeZone" ColumnName="TimeZone" />
                 <ScalarProperty Name="Label" ColumnName="Label" />
                 <ScalarProperty Name="FrameId" ColumnName="FrameId" />

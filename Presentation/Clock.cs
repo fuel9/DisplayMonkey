@@ -55,18 +55,15 @@ namespace DisplayMonkey
                     DataRow dr = ds.Tables[0].Rows[0];
                     this.ShowDate = dr.Boolean("ShowDate");
                     this.ShowTime = dr.Boolean("ShowTime");
+                    this.ShowSeconds = dr.Boolean("ShowSeconds");
                     this.Type = dr.IntOrZero("Type");
                     this.Label = dr.StringOrDefault("Label", null);
 
                     string szTimeZoneId = dr.StringOrDefault("TimeZone", null);
                     if (szTimeZoneId != null)
                         this.TimeZone = TimeZoneInfo.FindSystemTimeZoneById(szTimeZoneId);
-
-                    this.ShowSeconds = true;     // TODO: add column
                 }
             }
-
-            //_templatePath = HttpContext.Current.Server.MapPath("~/files/frames/clock/");
         }
     }
 }

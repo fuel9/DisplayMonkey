@@ -3043,6 +3043,15 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Show seconds.
+        /// </summary>
+        public static string ShowSeconds {
+            get {
+                return ResourceManager.GetString("ShowSeconds", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Show time.
         /// </summary>
         public static string ShowTime {

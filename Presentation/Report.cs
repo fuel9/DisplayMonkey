@@ -109,8 +109,6 @@ namespace DisplayMonkey
                     Password = (byte[])dr["Password"];
                 }
             }
-
-            //_templatePath = HttpContext.Current.Server.MapPath("~/files/frames/report/");
         }
 	}
 }

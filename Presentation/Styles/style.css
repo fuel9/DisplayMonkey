@@ -148,76 +148,76 @@
 	
 	/*******************************************************************************/
 	
-	.clock {
-        /*display: table;*/
+	.clock, .clock>div {
         padding: 0 0 0 0;
         margin: 0 0 0 0;
 	}
 
-        .clock>div {
-            position: relative;
-            /*display: table-row;*/
-            /*overflow: hidden;*/
+        .clock>.text, .clock>.svgAnalog, .clock>.bmpAnalog {
         }
 
-        .clockLabel {
-		    font-size: large;
-    		text-align: center;
-            height: 10%;
-        }
-
-	    .clockText {
+	    .clock>.text {
             height: auto;
 		    vertical-align: middle;
-		    line-height: 150%;
 		    font-size: medium;
 		    text-align: right;
 	    }
 
-        .clockText, .svgAnalog, .bmpAnalog {
-        }
+            .clock ul
+            {
+                list-style-type: none;
+            }
 
-            .analogFace {
+            .clock .label {
                 position: relative;
+		        font-size: x-large;
+    		    text-align: center;
+                height: auto;
+            }
+
+            .clock>.text>.label {
+    		    text-align: right;
+            }
+
+            .clock>.bmpAnalog>.face {
+                position: absolute;
                 width: 100%;
                 height: 100%;
                 background: url(../files/clockface.png) no-repeat;
                 background-size: 600px 600px;
                 background-position: 0px 0px;
-                list-style: none;
                 margin: 0px;
                 padding: 0px;
-            }
-        
-            .analogSec {
-                z-index: 4;
-                background: url(../files/sechand.png) no-repeat;
-                /*border:1px solid yellow;*/
-            }
-           
-            .analogMin {
-                z-index: 3;
-                background: url(../files/minhand.png) no-repeat;
-                /*border:1px solid green;*/
-            }
-           
-            .analogHour {
-                z-index: 2;
-                background: url(../files/hourhand.png) no-repeat;
-                /*border:1px solid red;*/
             }
 	
-            .analogSec, .analogMin, .analogHour {
-                position: absolute;
-                margin: 0px;
-                padding: 0px;
-                top: 0px;
-                left: 0px;
-                width: 600px;
-                height: 600px;
-                background-size: 600px 600px;
-                background-attachment:local;
-            }
+                .clock>.bmpAnalog .second, 
+                .clock>.bmpAnalog .minute, 
+                .clock>.bmpAnalog .hour {
+                    position: absolute;
+                    margin: 0px;
+                    padding: 0px;
+                    top: 0px;
+                    left: 0px;
+                    width: 600px;
+                    height: 600px;
+                    background-size: 600px 600px;
+                    background-attachment: local;
+                }
+        
+                .clock>.bmpAnalog .second {
+                    z-index: 4;
+                    background: url(../files/sechand.png) no-repeat;
+                }
+           
+                .clock>.bmpAnalog .minute {
+                    z-index: 3;
+                    background: url(../files/minhand.png) no-repeat;
+                }
+           
+                .clock>.bmpAnalog .hour {
+                    z-index: 2;
+                    background: url(../files/hourhand.png) no-repeat;
+                }
         
 	/*******************************************************************************/
 	

@@ -1370,4 +1370,7 @@
   <data name="PanelRequired" xml:space="preserve">
     <value>Panel is required</value>
   </data>
+  <data name="ShowSeconds" xml:space="preserve">
+    <value>Show seconds</value>
+  </data>
 </root>

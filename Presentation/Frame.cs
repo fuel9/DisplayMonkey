@@ -179,7 +179,6 @@ namespace DisplayMonkey
 		#region Protected Members
 
         protected int DisplayId = 0;
-        //protected string _templatePath = null;
 
 		#endregion
 	}

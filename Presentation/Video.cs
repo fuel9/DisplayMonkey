@@ -48,8 +48,6 @@ namespace DisplayMonkey
             }
 
             NoVideoSupport = DisplayMonkey.Language.Resources.BrowserNoVideoSupport;
-
-            //_templatePath = HttpContext.Current.Server.MapPath("~/files/frames/video/");
         }
 	}
 

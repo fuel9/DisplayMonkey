@@ -68,8 +68,6 @@ namespace DisplayMonkey
                     this.URL = dr.StringOrBlank("Url").Trim();
                 }
             }
-
-            //_templatePath = HttpContext.Current.Server.MapPath("~/files/frames/outlook/");
         }
     }
 }
