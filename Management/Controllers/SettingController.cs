@@ -21,7 +21,7 @@ namespace DisplayMonkey.Controllers
 
             var list = db.Settings
                 .ToList()
-                .OrderBy(s => s.ResourceId)
+                .OrderBy(s => s.ResourceId)     // <-- must be behind .ToList() call
                 ;
 
             return View(list);

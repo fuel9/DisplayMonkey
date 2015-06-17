@@ -21,7 +21,11 @@ namespace DisplayMonkey.Controllers
 
         public ActionResult Index()
         {
-            return View(db.ExchangeAccounts.ToList());
+            return View(
+                db.ExchangeAccounts
+                    .OrderBy(x => x.Name)
+                    .ToList()
+                );
         }
 
         //

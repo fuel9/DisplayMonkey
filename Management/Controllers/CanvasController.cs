@@ -30,7 +30,10 @@ namespace DisplayMonkey.Controllers
         {
             this.SaveReferrer();
 
-            var canvas = db.Canvases;
+            var canvas = db.Canvases
+                .OrderBy(c => c.Name)
+                ;
+
             return View(canvas.ToList());
         }
 

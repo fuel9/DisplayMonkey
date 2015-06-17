@@ -28,6 +28,11 @@ namespace DisplayMonkey.Controllers
                     ;
             }
 
+            list = list
+                .OrderBy(t => t.FrameType)
+                .ThenBy(t => t.Name)
+                ;
+
             FillFrameTypesSelectList();
 
             return View(list.ToList());

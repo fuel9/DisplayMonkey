@@ -18,7 +18,11 @@ namespace DisplayMonkey.Controllers
 
         public ActionResult Index()
         {
-            return View(db.ReportServers.ToList());
+            return View(
+                db.ReportServers
+                    .OrderBy(rs => rs.Name)
+                    .ToList()
+                );
         }
 
         //
