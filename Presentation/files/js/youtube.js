@@ -130,7 +130,7 @@ DM.YtPlayer = Class.create(DM.FrameBase, {
             });
 
             //this.pollDelay = 0.1;
-            //this.pollPlayerState();
+            //this.pollStateTimer = this.pollPlayerState();
         }
         catch (e) {
             new DM.ErrorReport({ exception: e, data: this.div.id, source: 'YtPlayer.create' });
@@ -155,12 +155,20 @@ DM.YtPlayer = Class.create(DM.FrameBase, {
         }
     },
 
-    /*pollPlayerState: function () {
+    /*
+    uninit: function ($super) {
+        "use strict";
+        if (this.pollStateTimer) clearTimeout(this.pollStateTimer);
+        $super();
+    },
+
+    pollPlayerState: function () {
         "use strict";
         if (this.player.getPlayerState && this.player.getPlayerState() == YT.PlayerState.PLAYING) {
+            this.pollStateTimer = 0;
             this.ready();
         } else {
-            this.pollPlayerState.bind(this).delay(this.pollDelay += 0.1);   // progressive delay
+            this.pollStateTimer = this.pollPlayerState.bind(this).delay(this.pollDelay += 0.1);   // progressive delay
         }
     },*/
 

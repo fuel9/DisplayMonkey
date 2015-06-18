@@ -213,18 +213,28 @@ DM.FrameBase = Class.create({
 
         this.exiting = false;
         this.updating = false;
+
+        var safetyCallback = function () {
+            "use strict";
+            this.ready();
+        };
+
+        this.safetyTimer = safetyCallback
+            .bind(this)
+            .delay(options.panel.frequency || 60)
+        ;
     },
 
     ready: function () {
         "use strict";
-        if (this.onFrameReady) {
-            this.onFrameReady.delay(0);
-            this.onFrameReady = null;
-        }
+        this.safetyTimerClear();
+        var foo = this.onFrameReady; this.onFrameReady = null;
+        if (foo) (foo)();
     },
 
     uninit: function () {
         "use strict";
+        this.safetyTimerClear();
         this.stop();
     },
 
@@ -239,6 +249,14 @@ DM.FrameBase = Class.create({
 
     play: function () {
         "use strict";
+    },
+
+    safetyTimerClear: function () {
+        "use strict";
+        if (this.safetyTimer) {
+            clearTimeout(this.safetyTimer);
+            this.safetyTimer = 0;
+        }
     },
 
     _hashUrl: function (url) {
