@@ -4,6 +4,7 @@
 // 2015-03-08 [LTL] - using data
 // 2015-05-08 [LTL] - ready callback
 // 2015-06-09 [LTL] - refinements
+// 2015-06-18 [LTL] - performance refinements for analog
 
 DM.Clock = Class.create(DM.FrameBase, {
     initialize: function ($super, options) {
@@ -78,6 +79,7 @@ DM.Clock = Class.create(DM.FrameBase, {
 
     _initAnalog: function (data) {
 	    "use strict";
+	    this.prevH = 0; this.prevM = 0;
 	    var supportSvg = document.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1");
 	    if (supportSvg) {
 	        this._setContainer('svgAnalog', data);
@@ -126,11 +128,15 @@ DM.Clock = Class.create(DM.FrameBase, {
                 break;
 
             case 1:
-                var sec = time.seconds();
-                var min = time.minutes();
-                var hrs = time.hours(); if (hrs > 12) hrs -= 12;
-                this._rotateHand(this.elemHour, hrs * 30 + (min * 0.5));
-                this._rotateHand(this.elemMin, min * 6);
+                var sec = time.seconds(),
+                    min = time.minutes(),
+                    hrs = time.hours()
+                    ;
+                if (hrs > 12) hrs -= 12;
+                if (this.prevH != hrs)
+                    this._rotateHand(this.elemHour, hrs * 30 + (min * 0.5));
+                if (this.prevM != min)
+                    this._rotateHand(this.elemMin, min * 6);
                 if (this.showSeconds)
                     this._rotateHand(this.elemSec, sec * 6);
                 break;
