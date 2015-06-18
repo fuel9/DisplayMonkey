@@ -4,6 +4,7 @@
 // 2015-03-08 [LTL] - using data
 // 2015-04-27 [LTL] - report ready in onPlayerStateChange
 // 2015-05-08 [LTL] - ready callback
+// 2015-06-18 [LTL] - RC10: tweak for http://stackoverflow.com/questions/17078094/youtube-iframe-player-api-onstatechange-not-firing
 
 // 1. This code initiates load of the IFrame Player API code asynchronously.
 var YtLib = {
@@ -123,19 +124,24 @@ DM.YtPlayer = Class.create(DM.FrameBase, {
                 },
                 events: {
                     'onReady': this.onPlayerReady.bind(this),
-                    'onStateChange': this.onPlayerStateChange.bind(this),
+                    //'onStateChange': this.onPlayerStateChange.bind(this),
                     'onError': this.onPlayerError.bind(this),
                 }
             });
+
+            //this.pollDelay = 0.1;
+            //this.pollPlayerState();
         }
         catch (e) {
-            new DM.ErrorReport({exception: e, data: this.div.id, source: 'YtPlayer.create'});
+            new DM.ErrorReport({ exception: e, data: this.div.id, source: 'YtPlayer.create' });
+            this.ready();
         }
     },
 
     // 4. The API will call this function when the video player is ready.
     onPlayerReady: function (event) {
         "use strict";
+		this.player.addEventListener('onStateChange', this.onPlayerStateChange.bind(this));
         event.target.setVolume(this.volume);
         event.target.loadVideoById(this.videoId, this.start, this.quality);
         event.target.setPlaybackRate(this.rate);
@@ -148,6 +154,15 @@ DM.YtPlayer = Class.create(DM.FrameBase, {
             this.ready();
         }
     },
+
+    /*pollPlayerState: function () {
+        "use strict";
+        if (this.player.getPlayerState && this.player.getPlayerState() == YT.PlayerState.PLAYING) {
+            this.ready();
+        } else {
+            this.pollPlayerState.bind(this).delay(this.pollDelay += 0.1);   // progressive delay
+        }
+    },*/
 
     // 6. The API calls this function when error occurs.
     onPlayerError: function (event) {
