@@ -2,6 +2,9 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presentation", "Presentation\Presentation.csproj", "{A6E61519-C36A-470E-BB4C-20F229AA7274}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A4006D9D-0C4A-4A2B-86CC-A3707A0F17CB} = {A4006D9D-0C4A-4A2B-86CC-A3707A0F17CB}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Management", "Management\Management.csproj", "{A4006D9D-0C4A-4A2B-86CC-A3707A0F17CB}"
 EndProject

@@ -22,6 +22,7 @@ namespace DisplayMonkey.Models
         public bool ShowErrors { get; set; }
         public byte[] Version { get; set; }
         public bool NoScroll { get; set; }
+        public int ReadyTimeout { get; set; }
     
         public virtual Canvas Canvas { get; set; }
         public virtual Location Location { get; set; }

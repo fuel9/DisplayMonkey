@@ -185,6 +185,7 @@
           <Property Name="ShowErrors" Type="bit" Nullable="false" />
           <Property Name="Version" Type="timestamp" Nullable="false" StoreGeneratedPattern="Computed" />
           <Property Name="NoScroll" Type="bit" Nullable="false" />
+          <Property Name="ReadyTimeout" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="ExchangeAccount">
           <Key>
@@ -936,6 +937,7 @@
           <Property Type="Boolean" Name="ShowErrors" Nullable="false" />
           <Property Type="Binary" Name="Version" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
           <Property Type="Boolean" Name="NoScroll" Nullable="false" />
+          <Property Type="Int32" Name="ReadyTimeout" Nullable="false" />
         </EntityType>
         <EntityType Name="Frame">
           <Key>
@@ -1578,6 +1580,7 @@
           <EntitySetMapping Name="Displays">
             <EntityTypeMapping TypeName="DisplayMonkey.Model.Display">
               <MappingFragment StoreEntitySet="Display">
+                <ScalarProperty Name="ReadyTimeout" ColumnName="ReadyTimeout" />
                 <ScalarProperty Name="NoScroll" ColumnName="NoScroll" />
                 <ScalarProperty Name="Version" ColumnName="Version" />
                 <ScalarProperty Name="ShowErrors" ColumnName="ShowErrors" />

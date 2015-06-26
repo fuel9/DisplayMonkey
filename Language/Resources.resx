@@ -1350,19 +1350,19 @@
     <value>Default template for new YouTube frames</value>
   </data>
   <data name="Settings_DefaultCacheIntervalOutlook" xml:space="preserve">
-    <value>Default cache expiration for new Outlook frames</value>
+    <value>Default cache expiration for new Outlook frames, minutes</value>
   </data>
   <data name="Settings_DefaultCacheIntervalPicture" xml:space="preserve">
-    <value>Default cache expiration for new Picture frames</value>
+    <value>Default cache expiration for new Picture frames, minutes</value>
   </data>
   <data name="Settings_DefaultCacheIntervalReport" xml:space="preserve">
-    <value>Default cache expiration for new Report frames</value>
+    <value>Default cache expiration for new Report frames, minutes</value>
   </data>
   <data name="Settings_DefaultCacheIntervalVideo" xml:space="preserve">
-    <value>Default cache expiration for new Video frames</value>
+    <value>Default cache expiration for new Video frames, minutes</value>
   </data>
   <data name="Settings_DefaultCacheIntervalWeather" xml:space="preserve">
-    <value>Default cache expiration for new Weather frames</value>
+    <value>Default cache expiration for new Weather frames, minutes</value>
   </data>
   <data name="NoScroll" xml:space="preserve">
     <value>Hide window scrollbars</value>
@@ -1372,5 +1372,11 @@
   </data>
   <data name="ShowSeconds" xml:space="preserve">
     <value>Show seconds</value>
+  </data>
+  <data name="Settings_ReadyEventTimeout" xml:space="preserve">
+    <value>Frame ready event timeout, seconds</value>
+  </data>
+  <data name="ReadyTimeout" xml:space="preserve">
+    <value>Frame ready event timeout</value>
   </data>
 </root>

@@ -16,6 +16,7 @@ namespace DisplayMonkey
         public int LocationId = 0;
         public bool ShowErrors = false;
         public bool NoScroll { get; private set; }
+        public int ReadyTimeout { get; private set; }
 
         public Display()
 		{
@@ -55,6 +56,7 @@ namespace DisplayMonkey
 			Host = r.StringOrBlank("Host").Trim();
             ShowErrors = r.Boolean("ShowErrors");
             NoScroll = r.Boolean("NoScroll");
+            ReadyTimeout = r.IntOrZero("ReadyTimeout");
 			Name = r.StringOrBlank("Name").Trim();
 			if (Name == "")
 				Name = string.Format("Display {0}", DisplayId);

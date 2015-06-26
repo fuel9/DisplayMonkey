@@ -10,6 +10,7 @@
 // 2015-05-08 [LTL] - frame ready callback
 // 2015-05-15 [LTL] - noscroll
 // 2015-06-09 [LTL] - regular panel expiration no longer depends on fullscreen
+// 2015-06-25 [LTL] - added readyTimeout
 
 // TODO: upgrade moment.js
 
@@ -77,6 +78,8 @@ DM.Canvas = Class.create({
 		this.temperatureUnit = (options.temperatureUnit || 'c');
 		this.showErrors = (options.showErrors || false);
 		this.noScroll = (options.noScroll || false);
+		this.readyTimeout = (options.readyTimeout || 10);
+		//this.skipIfTimeout = !!options.skipIfTimeout;
 
 		this.width = (options.width || 0);
 		this.height = (options.height || 0);
@@ -214,27 +217,27 @@ DM.FrameBase = Class.create({
         this.exiting = false;
         this.updating = false;
 
-        var safetyCallback = function () {
+        var readyTimeoutCallback = function () {
             "use strict";
             this.ready();
         };
 
-        this.safetyTimer = safetyCallback
+        this.readyTimer = readyTimeoutCallback
             .bind(this)
-            .delay(options.panel.frequency || 60)
+            .delay(_canvas.readyTimeout || 60)
         ;
     },
 
     ready: function () {
         "use strict";
-        this.safetyTimerClear();
+        this.readyTimeoutClear();
         var foo = this.onFrameReady; this.onFrameReady = null;
         if (foo) (foo)();
     },
 
     uninit: function () {
         "use strict";
-        this.safetyTimerClear();
+        this.readyTimeoutClear();
         this.stop();
     },
 
@@ -251,11 +254,11 @@ DM.FrameBase = Class.create({
         "use strict";
     },
 
-    safetyTimerClear: function () {
+    readyTimeoutClear: function () {
         "use strict";
-        if (this.safetyTimer) {
-            clearTimeout(this.safetyTimer);
-            this.safetyTimer = 0;
+        if (this.readyTimer) {
+            clearTimeout(this.readyTimer);
+            this.readyTimer = 0;
         }
     },
 
@@ -472,12 +475,12 @@ DM.Panel = Class.create(DM.PanelBase, {
 
 	    // create new empty container
 	    this.oldContainer = $(this.containerId);
-        this.newContainer = this.oldContainer
+	    this.newContainer = this.oldContainer
             .clone(false)
             .setStyle({ opacity: 0 }) //display: 'none'
 	    ;
-        this.oldContainer.id = "x_" + this.oldContainer.id;
-        this.oldContainer.insert({ after: this.newContainer });
+	    this.oldContainer.id = "x_" + this.containerId;
+	    this.oldContainer.insert({ after: this.newContainer });
 
 	    // bail if no more frames
 	    if (!this.newFrameId) {
@@ -515,15 +518,15 @@ DM.Panel = Class.create(DM.PanelBase, {
 	        afterFadeIn.apply(this);
 	    }
 
-	    // fade out old container
-	    this._fadeOut();
-
 	    // queue _onFrameExpire
 	    this.countdown = (this.frequency + this.fadeLength) / this.step;
 	    this._onFrameExpire
             .bind(this)
             .delay(this.step)
 	    ;
+
+	    // fade out old container
+	    this._fadeOut();
 	},
 
 	_fadeOut: function () {
@@ -531,12 +534,14 @@ DM.Panel = Class.create(DM.PanelBase, {
 
 	    var afterFadeOut = function () {
 	        try {
-	            this.oldContainer.remove();
+	            $$("#x_" + this.containerId).each(function (e) {
+	                e.remove();
+	            });
 	        }
-	        catch (e) {}
+	        catch (e) { }
 	    };
 
-	    if (this.fadeLength > 0) {
+	    if (this.fadeLength && this.oldContainer) {
 	        this.oldContainer.fade({
 	            duration: this.fadeLength,
 	            afterFinish: afterFadeOut.bind(this)
@@ -564,17 +569,22 @@ DM.FullScreenPanel = Class.create(DM.PanelBase, {
 	    this._uninitFrame();
 
 	    // create new screen
-	    this.oldContainer = $(this.containerId);
-        this.newContainer = this.oldContainer
+	    var oldContainer = $(this.containerId);
+        this.newContainer = oldContainer
             .clone(false)
             .setStyle({ display: 'none' })
 	    ;
-        this.oldContainer.id = "x_" + this.oldContainer.id;
-        this.oldContainer.insert({ after: this.newContainer });
+        oldContainer.id = "x_" + this.containerId;
+        oldContainer.insert({ after: this.newContainer });
 
 	    var afterFadeOut = function () {
 	        _canvas.resumePanels();
-	        try { this.oldContainer.remove(); } catch (e) { }
+	        try {
+	            $$("#x_" + this.containerId).each(function (e) {
+	                e.remove();
+	            });
+            }
+	        catch (e) { }
 	        this.screen.setStyle({ opacity: 0 });	//display: 'none'
 	    };
 
@@ -619,7 +629,7 @@ DM.FullScreenPanel = Class.create(DM.PanelBase, {
 	        this.screen.setStyle({ opacity: 1 });	// display: 'block'
 	    };
 
-	    if (this.fadeLength > 0) {
+	    if (this.fadeLength) {
 	        this.screen.appear({
 	            duration: this.fadeLength,
 	            afterFinish: afterFadeIn.bind(this)

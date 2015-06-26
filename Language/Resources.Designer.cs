@@ -2566,6 +2566,15 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Frame ready event timeout.
+        /// </summary>
+        public static string ReadyTimeout {
+            get {
+                return ResourceManager.GetString("ReadyTimeout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Render mode.
         /// </summary>
         public static string RederMode {
@@ -2827,7 +2836,7 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Default cache expiration for new Outlook frames.
+        ///   Looks up a localized string similar to Default cache expiration for new Outlook frames, minutes.
         /// </summary>
         public static string Settings_DefaultCacheIntervalOutlook {
             get {
@@ -2836,7 +2845,7 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Default cache expiration for new Picture frames.
+        ///   Looks up a localized string similar to Default cache expiration for new Picture frames, minutes.
         /// </summary>
         public static string Settings_DefaultCacheIntervalPicture {
             get {
@@ -2845,7 +2854,7 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Default cache expiration for new Report frames.
+        ///   Looks up a localized string similar to Default cache expiration for new Report frames, minutes.
         /// </summary>
         public static string Settings_DefaultCacheIntervalReport {
             get {
@@ -2854,7 +2863,7 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Default cache expiration for new Video frames.
+        ///   Looks up a localized string similar to Default cache expiration for new Video frames, minutes.
         /// </summary>
         public static string Settings_DefaultCacheIntervalVideo {
             get {
@@ -2863,7 +2872,7 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Default cache expiration for new Weather frames.
+        ///   Looks up a localized string similar to Default cache expiration for new Weather frames, minutes.
         /// </summary>
         public static string Settings_DefaultCacheIntervalWeather {
             get {
@@ -2985,6 +2994,15 @@ namespace DisplayMonkey.Language {
         public static string Settings_PresentationSite {
             get {
                 return ResourceManager.GetString("Settings_PresentationSite", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Frame ready event timeout, seconds.
+        /// </summary>
+        public static string Settings_ReadyEventTimeout {
+            get {
+                return ResourceManager.GetString("Settings_ReadyEventTimeout", resourceCulture);
             }
         }
         

@@ -49,3 +49,11 @@
             @Html.EditorFor(model => model.NoScroll)
             @Html.ValidationMessageFor(model => model.NoScroll)
         </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ReadyTimeout)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ReadyTimeout, new { htmlAttributes = new { @class = "duration" } }) @Resources.Sec
+            @Html.ValidationMessageFor(model => model.ReadyTimeout)
+        </div>

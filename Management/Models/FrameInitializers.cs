@@ -231,4 +231,20 @@ namespace DisplayMonkey.Models
             AutoLoop = true;
         }
     }
+
+
+
+
+    public partial class Display
+    {
+        public void init(DisplayMonkeyEntities _db)
+        {
+            Setting readyTimeout = Setting.GetSetting(_db, Setting.Keys.ReadyEventTimeout);
+            if (readyTimeout != null)
+            {
+                this.ReadyTimeout = readyTimeout.IntValuePositive;
+            }
+        }
+    }
+
 }

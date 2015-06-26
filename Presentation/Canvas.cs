@@ -47,17 +47,19 @@ namespace DisplayMonkey
 				canvas = new Canvas()
 				{
 					DisplayId = displayId,
-                    Display = new Display(displayId),
-				};
-                canvas._initFromRow(ds.Tables[0].Rows[0]);
+				}
+                ._initFromRow(ds.Tables[0].Rows[0])
+                ;
 			}
 
+            canvas.Display = new Display(displayId);
+            canvas.Location = new Location(displayId);
 			canvas.Panels = Panel.List(canvas.CanvasId);
 
 			return canvas;
 		}
 		
-		private void _initFromRow(DataRow r)
+		private Canvas _initFromRow(DataRow r)
 		{
 			CanvasId = r.IntOrZero("CanvasId");
 			Height = r.IntOrZero("Height");
@@ -69,6 +71,8 @@ namespace DisplayMonkey
 			Name = r.StringOrBlank("Name");
 			if (Name == "")
 				Name = string.Format("Canvas {0}", CanvasId);
+
+            return this;
 		}
 
 		public static List<Canvas> List
@@ -105,6 +109,7 @@ namespace DisplayMonkey
         public int FullScreenPanelId = 0;
 
         public Display Display { get; private set; }
+        public Location Location { get; private set; }
 
 		public int InitialMaxIdleInterval
 		{
@@ -120,8 +125,6 @@ namespace DisplayMonkey
 			{
 				StringBuilder head = new StringBuilder();
 
-				Location location = new Location(DisplayId);
-				
 				// add meta
                 head.AppendFormat(CultureInfo.InvariantCulture, "<meta name=\"server-latitude\" content=\"{0}\" />\n", ServerGeoData.Latitude);
                 head.AppendFormat(CultureInfo.InvariantCulture, "<meta name=\"server-longitude\" content=\"{0}\" />\n", ServerGeoData.Longitude);
@@ -152,14 +155,14 @@ namespace DisplayMonkey
 				head.Append("<script type=\"text/javascript\" charset=\"utf-8\"><!--\r\n_canvas=new DM.Canvas({\n");
                 head.AppendFormat(CultureInfo.InvariantCulture, "displayId:{0},\n", DisplayId);
                 head.AppendFormat(CultureInfo.InvariantCulture, "hash:{0},\n", Display.GetHash(DisplayId));
-                head.AppendFormat(CultureInfo.InvariantCulture, "temperatureUnit:'{0}',\n", location.TemperatureUnit);
-				head.AppendFormat(CultureInfo.InvariantCulture, "dateFormat:'{0}',\n", location.DateFormat);
-				head.AppendFormat(CultureInfo.InvariantCulture, "timeFormat:'{0}',\n", location.TimeFormat);
-				head.AppendFormat(CultureInfo.InvariantCulture, "latitude:{0},\n", location.Latitude);
-				head.AppendFormat(CultureInfo.InvariantCulture, "longitude:{0},\n", location.Longitude);
-                head.AppendFormat(CultureInfo.InvariantCulture, "woeid:{0},\n", location.Woeid);
-                head.AppendFormat(CultureInfo.InvariantCulture, "culture:'{0}',\n", location.Culture);
-                head.AppendFormat(CultureInfo.InvariantCulture, "locationTime:'{0}',\n", location.LocationTime);
+                head.AppendFormat(CultureInfo.InvariantCulture, "temperatureUnit:'{0}',\n", this.Location.TemperatureUnit);
+				head.AppendFormat(CultureInfo.InvariantCulture, "dateFormat:'{0}',\n", this.Location.DateFormat);
+				head.AppendFormat(CultureInfo.InvariantCulture, "timeFormat:'{0}',\n", this.Location.TimeFormat);
+				head.AppendFormat(CultureInfo.InvariantCulture, "latitude:{0},\n", this.Location.Latitude);
+				head.AppendFormat(CultureInfo.InvariantCulture, "longitude:{0},\n", this.Location.Longitude);
+                head.AppendFormat(CultureInfo.InvariantCulture, "woeid:{0},\n", this.Location.Woeid);
+                head.AppendFormat(CultureInfo.InvariantCulture, "culture:'{0}',\n", this.Location.Culture);
+                head.AppendFormat(CultureInfo.InvariantCulture, "locationTime:'{0}',\n", this.Location.LocationTime);
                 head.AppendFormat(CultureInfo.InvariantCulture, "utcTime:'{0}',\n", DateTime.UtcNow);
                 head.AppendFormat(CultureInfo.InvariantCulture, "initialIdleInterval:{0},\n", this.InitialMaxIdleInterval);
 				head.AppendFormat(CultureInfo.InvariantCulture, "width:{0},\n", this.Width);
@@ -170,6 +173,7 @@ namespace DisplayMonkey
 					head.AppendFormat(CultureInfo.InvariantCulture, "backColor:'{0}',\n", this.BackgroundColor);
                 head.AppendFormat(CultureInfo.InvariantCulture, "showErrors:{0},\n", this.Display.ShowErrors ? "true" : "false");
                 head.AppendFormat(CultureInfo.InvariantCulture, "noScroll:{0},\n", this.Display.NoScroll ? "true" : "false");
+                head.AppendFormat(CultureInfo.InvariantCulture, "readyTimeout:{0},\n", this.Display.ReadyTimeout);
                 head.Append("});\n--></script>\n<style></style>\n");
 				
 				return head.ToString();

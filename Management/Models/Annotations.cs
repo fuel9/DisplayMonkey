@@ -505,7 +505,7 @@ namespace DisplayMonkey.Models
                 DataType(DataType.DateTime,
                     ErrorMessageResourceType = typeof(Resources),
                     ErrorMessageResourceName = "DateTimeExpected"),
-                //DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true),
+                //DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true),
             ]
             public Nullable<System.DateTime> BeginsOn { get; set; }
 
@@ -514,7 +514,7 @@ namespace DisplayMonkey.Models
                 DataType(DataType.DateTime,
                     ErrorMessageResourceType = typeof(Resources),
                     ErrorMessageResourceName = "DateTimeExpected"),
-                //DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true),
+                //DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true),
             ]
             public Nullable<System.DateTime> EndsOn { get; set; }
 
@@ -1402,6 +1402,13 @@ namespace DisplayMonkey.Models
             ]
             public virtual Location Location { get; set; }
 
+            [
+                Display(ResourceType = typeof(Resources), Name = "ReadyTimeout"),
+                Range(1, Int32.MaxValue,
+                    ErrorMessageResourceType = typeof(Resources),
+                    ErrorMessageResourceName = "PositiveIntegerRequired"),
+            ]
+            public int ReadyTimeout { get; set; }
         }
     }
 
@@ -1481,7 +1488,7 @@ namespace DisplayMonkey.Models
             Required(ErrorMessageResourceType = typeof(Resources),
                 ErrorMessageResourceName = "IntegerRequired"),
             DisplayFormat(ApplyFormatInEditMode = false,
-                DataFormatString = "{0:0,###}"),
+                DataFormatString = "{0:N0}"),
         ]
         public int IntValue
         {
@@ -1497,7 +1504,7 @@ namespace DisplayMonkey.Models
                 ErrorMessageResourceType = typeof(Resources),
                 ErrorMessageResourceName = "PositiveIntegerRequired"),
             DisplayFormat(ApplyFormatInEditMode = false, 
-                DataFormatString = "{0:0,###}"),
+                DataFormatString = "{0:N0}"),
         ]
         public int IntValuePositive
         {

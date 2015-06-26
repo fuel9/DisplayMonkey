@@ -132,9 +132,15 @@ namespace DisplayMonkey.Controllers
 
         public ActionResult Create(int canvasId = 0, int locationId = 0)
         {
+            Display display = new Display()
+            {
+                CanvasId = canvasId,
+                LocationId = locationId,
+            };
+            display.init(db);
             FillCanvasSelectList(canvasId);
             FillLocationSelectList(locationId);
-            return View();
+            return View(display);
         }
 
         //

@@ -15,6 +15,7 @@ namespace DisplayMonkey.Models
             MaxImageSize = 0,
             MaxVideoSize,
             PresentationSite,
+            ReadyEventTimeout,
 
             // default template by frame type
             DefaultTemplateClock,
@@ -67,6 +68,11 @@ namespace DisplayMonkey.Models
             _keyRes.Add(
                 _keyGuids[(int)Setting.Keys.PresentationSite] = new Guid("417D856B-7EC4-4CBD-A5EA-47BFC0F7B1F9"),
                 "Settings_PresentationSite"
+                );
+
+            _keyRes.Add(
+                _keyGuids[(int)Setting.Keys.ReadyEventTimeout] = new Guid("3AC645E8-30B9-4473-A78C-69DBC4BFFAA6"),
+                "Settings_ReadyEventTimeout"
                 );
 
             _keyRes.Add(
