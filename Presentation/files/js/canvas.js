@@ -14,7 +14,7 @@
 
 // TODO: upgrade moment.js
 
-var $j = jQuery.noConflict();
+//var $j = jQuery.noConflict();
 
 var DM = {};
 var _canvas = {};
@@ -534,8 +534,8 @@ DM.Panel = Class.create(DM.PanelBase, {
 
 	    var afterFadeOut = function () {
 	        try {
-	            $$("#x_" + this.containerId).each(function (e) {
-	                e.remove();
+	            $$("#x_" + this.containerId).each(function (ee) {
+	                ee.remove();
 	            });
 	        }
 	        catch (e) { }
@@ -580,8 +580,8 @@ DM.FullScreenPanel = Class.create(DM.PanelBase, {
 	    var afterFadeOut = function () {
 	        _canvas.resumePanels();
 	        try {
-	            $$("#x_" + this.containerId).each(function (e) {
-	                e.remove();
+	            $$("#x_" + this.containerId).each(function (ee) {
+	                ee.remove();
 	            });
             }
 	        catch (e) { }

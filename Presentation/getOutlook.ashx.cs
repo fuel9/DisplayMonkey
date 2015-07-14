@@ -17,13 +17,13 @@ namespace DisplayMonkey
 
         public void ProcessRequest(HttpContext context)
 		{
-			HttpRequest Request = context.Request;
-			HttpResponse Response = context.Response;
+			HttpRequest request = context.Request;
+			HttpResponse response = context.Response;
 
-            int frameId = DataAccess.IntOrZero(Request.QueryString["frame"]);
-            int panelId = DataAccess.IntOrZero(Request.QueryString["panel"]);
-            int displayId = DataAccess.IntOrZero(Request.QueryString["display"]);
-            string culture = DataAccess.StringOrBlank(Request.QueryString["culture"]);
+            int frameId = DataAccess.IntOrZero(request.QueryString["frame"]);
+            int panelId = DataAccess.IntOrZero(request.QueryString["panel"]);
+            int displayId = DataAccess.IntOrZero(request.QueryString["display"]);
+            string culture = DataAccess.StringOrBlank(request.QueryString["culture"]);
 
 			string json = "";
 				
@@ -168,13 +168,13 @@ namespace DisplayMonkey
                 });
 			}
 
-            Response.Clear();
-            Response.Cache.SetCacheability(HttpCacheability.NoCache);
-            Response.Cache.SetSlidingExpiration(true);
-            Response.Cache.SetNoStore();
-            Response.ContentType = "application/json";
-			Response.Write(json);
-            Response.Flush();
+            response.Clear();
+            response.Cache.SetCacheability(HttpCacheability.NoCache);
+            response.Cache.SetSlidingExpiration(true);
+            response.Cache.SetNoStore();
+            response.ContentType = "application/json";
+			response.Write(json);
+            response.Flush();
         }
 
         #region -------- OutlookData --------

@@ -1379,4 +1379,7 @@
   <data name="ReadyTimeout" xml:space="preserve">
     <value>Frame ready event timeout</value>
   </data>
+  <data name="CouldNotBeResolved" xml:space="preserve">
+    <value>Could not be resolved.</value>
+  </data>
 </root>

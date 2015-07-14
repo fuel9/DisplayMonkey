@@ -148,7 +148,7 @@ namespace DisplayMonkey
                 head.Append("</style>\n");
 
 				// scripts
-				foreach (string js in _js_libs)
+				foreach (string js in _jsLibs)
 				{
 					head.AppendFormat("<script src=\"{0}\" type=\"text/javascript\" charset=\"utf-8\"></script>\n", js);
 				}
@@ -205,29 +205,32 @@ namespace DisplayMonkey
 
         #region Private Members
 
-		private static string[] _js_libs = new string[] {
-			// prototype 1.7 & script-aculo-us
-            "js/pt/prototype.js", 
-			"js/pt/prototype_ccs.js", 
-			"js/pt/ajaxpanel.js", 
-			"js/pt/scriptaculous.js",
+		private static readonly string[] _jsLibs = new string[] 
+        {
+            // prototype & script-aculo-us
+            "scripts/prototype.js",
+            "scripts/scriptaculous/scriptaculous.js",
 
             // jquery
-            "scripts/jquery-2.0.3.min.js",
+            //"scripts/jquery-2.0.3.min.js",
+
+            // moment.js
+            "scripts/moment.min.js",
 
             // canvas:
-            "files/js/moment.min.js",
-			"files/js/canvas.js",
+			"files/js/canvas.js"
 			
             // frame scripts
-			"files/js/clock.js",
-            "files/js/iframe.js",
-			"files/js/memo.js",
-            "files/js/outlook.js",
-            "files/js/picture.js",
-            "files/js/video.js",
-            "files/js/weather.js",
-            "files/js/youtube.js"
+			, "files/js/clock.js"
+            , "files/js/iframe.js"
+			, "files/js/memo.js"
+            , "files/js/outlook.js"
+            , "files/js/picture.js"
+            , "files/js/video.js"
+            , "files/js/weather.js"
+            , "files/js/youtube.js"
+
+            // add new frame js code here
 		};
 
 		#endregion

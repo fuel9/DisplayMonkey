@@ -637,6 +637,15 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Could not be resolved..
+        /// </summary>
+        public static string CouldNotBeResolved {
+            get {
+                return ResourceManager.GetString("CouldNotBeResolved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create.
         /// </summary>
         public static string Create {

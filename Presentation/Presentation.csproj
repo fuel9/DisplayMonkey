@@ -164,25 +164,26 @@
     <Content Include="files\js\clock.js" />
     <Content Include="files\js\iframe.js" />
     <Content Include="files\js\outlook.js" />
-    <Content Include="files\js\moment.min.js" />
+    <Content Include="Scripts\moment-with-locales.js" />
+    <Content Include="Scripts\moment-with-locales.min.js" />
+    <Content Include="Scripts\moment.js" />
+    <Content Include="Scripts\moment.min.js" />
     <Content Include="files\js\canvas.js" />
     <Content Include="getCanvas.aspx" />
     <Content Include="files\js\picture.js" />
-    <Content Include="js\pt\ajaxpanel.js" />
-    <Content Include="js\pt\builder.js" />
-    <Content Include="js\pt\captcha.js" />
-    <Content Include="js\pt\controls.js" />
-    <Content Include="js\pt\dragdrop.js" />
-    <Content Include="js\pt\effects.js" />
-    <Content Include="js\pt\inlineediting.js" />
-    <Content Include="js\pt\prototype.js" />
-    <Content Include="js\pt\prototype_ccs.js" />
-    <Content Include="js\pt\scriptaculous.js" />
-    <Content Include="js\pt\slider.js" />
     <Content Include="files\js\memo.js" />
     <Content Include="files\js\video.js" />
     <Content Include="files\js\youtube.js" />
     <Content Include="packages.config" />
+    <Content Include="Scripts\prototype.js" />
+    <Content Include="Scripts\Scriptaculous\builder.js" />
+    <Content Include="Scripts\Scriptaculous\controls.js" />
+    <Content Include="Scripts\Scriptaculous\dragdrop.js" />
+    <Content Include="Scripts\Scriptaculous\effects.js" />
+    <Content Include="Scripts\Scriptaculous\scriptaculous.js" />
+    <Content Include="Scripts\Scriptaculous\slider.js" />
+    <Content Include="Scripts\Scriptaculous\sound.js" />
+    <Content Include="Scripts\Scriptaculous\unittest.js" />
     <Content Include="Styles\fonts\futura.eot" />
     <Content Include="Styles\fonts\futura.ttc" />
     <Content Include="Styles\fonts\futura.ttf" />
@@ -190,10 +191,7 @@
     <Content Include="Images\manifest.json" />
     <Content Include="getYahooWeather.ashx" />
     <Content Include="files\windowsZones.xml" />
-    <None Include="Scripts\jquery-2.0.3-vsdoc.js" />
     <Content Include="Scripts\jqsimplemenu.js" />
-    <Content Include="Scripts\jquery-2.0.3.js" />
-    <Content Include="Scripts\jquery-2.0.3.min.js" />
     <Content Include="Styles\custom.css" />
     <Content Include="Styles\jqsimplemenu.css" />
     <Content Include="Default.aspx" />
@@ -272,7 +270,6 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Scripts\jquery-2.0.3.min.map" />
     <Content Include="HomePage.Master" />
   </ItemGroup>
   <ItemGroup>

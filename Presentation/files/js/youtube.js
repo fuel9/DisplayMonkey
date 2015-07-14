@@ -81,7 +81,7 @@ DM.YtPlayer = Class.create(DM.FrameBase, {
         try {
             if (this.player) this.player.stopVideo(); 
         } catch (e) { }
-    0},
+    },
 
     pause: function ($super) {
         "use strict";
@@ -141,7 +141,7 @@ DM.YtPlayer = Class.create(DM.FrameBase, {
     // 4. The API will call this function when the video player is ready.
     onPlayerReady: function (event) {
         "use strict";
-		this.player.addEventListener('onStateChange', this.onPlayerStateChange.bind(this));
+        this.player.addEventListener('onStateChange', this.onPlayerStateChange.bind(this));
         event.target.setVolume(this.volume);
         event.target.loadVideoById(this.videoId, this.start, this.quality);
         event.target.setPlaybackRate(this.rate);
