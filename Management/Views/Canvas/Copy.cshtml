@@ -4,6 +4,10 @@
 
 @{
     ViewBag.Title = Resources.CopyCanvas;
+    DisplayMonkey.Models.Canvas canvas = ViewBag.Canvas;
+    string panels = string.Format("({0})", ViewBag.PanelCount);
+    string frames = string.Format("({0})", ViewBag.FrameCount);
+    string locations = string.Format("({0})", ViewBag.LocationCount);
 }
 
 <h2>@ViewBag.Title</h2>
@@ -18,13 +22,13 @@
         <td>
 
         @Html.HiddenFor(model => model.CanvasId)
-        @Html.HiddenFor(model => model.Canvas.Width, new { id = "Width" })
-        @Html.HiddenFor(model => model.Canvas.Height, new { id = "Height" })
-        @Html.HiddenFor(model => model.Canvas.BackgroundImage, new { id = "BackgroundImage" })
-        @Html.HiddenFor(model => model.Canvas.BackgroundColor, new { id = "BackgroundColor" })
+        @Html.Hidden("Width", canvas.Width)
+        @Html.Hidden("Height", canvas.Height)
+        @Html.Hidden("BackgroundImage", canvas.BackgroundImage)
+        @Html.Hidden("BackgroundColor", canvas.BackgroundColor)
             
         <div class="editor-label">
-            @Html.LabelFor(model => model.Name)
+            @Html.LabelFor(model => model.Name) 
         </div>
         <div class="editor-field">
             @Html.EditorFor(model => model.Name)
@@ -35,7 +39,7 @@
             @Html.LabelFor(model => model.CopyPanels)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.CopyPanels)
+            @Html.EditorFor(model => model.CopyPanels) @panels
             @Html.ValidationMessageFor(model => model.CopyPanels)
         </div>
 
@@ -43,7 +47,7 @@
             @Html.LabelFor(model => model.CopyFrames)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.CopyFrames)
+            @Html.EditorFor(model => model.CopyFrames) @frames
             @Html.ValidationMessageFor(model => model.CopyFrames)
         </div>
 
@@ -51,7 +55,7 @@
             @Html.LabelFor(model => model.CopyFrameLocations)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.CopyFrameLocations)
+            @Html.EditorFor(model => model.CopyFrameLocations) @locations
             @Html.ValidationMessageFor(model => model.CopyFrameLocations)
         </div>
 

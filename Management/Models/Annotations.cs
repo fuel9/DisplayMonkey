@@ -367,8 +367,6 @@ namespace DisplayMonkey.Models
             Display(ResourceType = typeof(Resources), Name = "CopyFrameLocations"),
         ]
         public bool CopyFrameLocations { get; set; }
-        
-        public virtual Canvas Canvas { get; set; }
     }
 
     [

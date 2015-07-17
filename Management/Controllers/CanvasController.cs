@@ -211,15 +211,18 @@ namespace DisplayMonkey.Controllers
                 return View("Missing", new MissingItem(id));
             }
 
+            ViewBag.PanelCount = canvas.Panels.Count;
+            ViewBag.FrameCount = canvas.Panels.Sum(p => p.Frames.Count);
+            ViewBag.LocationCount = canvas.Panels.Sum(p => p.Frames.Sum(f => f.Locations.Count));
             CanvasCopy canvasCopy = new CanvasCopy()
             {
-                Canvas = canvas,
                 CanvasId = canvas.CanvasId,
                 Name = string.Format("{0} - {1}", canvas.Name, Resources.Copy),
-                CopyPanels = true,
-                CopyFrames = canvas.Panels.Any(p => p.Frames.Any()),
-                CopyFrameLocations = canvas.Panels.Any(p => p.Frames.Any(f => f.Locations.Any())),
+                CopyPanels = ViewBag.PanelCount > 0,
+                CopyFrames = ViewBag.FrameCount > 0,
+                CopyFrameLocations = ViewBag.LocationCount > 0,
             };
+            ViewBag.Canvas = canvas;
             return View(canvasCopy);
         }
 
@@ -288,7 +291,13 @@ namespace DisplayMonkey.Controllers
                 return RedirectToAction("Details", new { id = canvas.CanvasId });
             }
 
-            canvasCopy.Canvas = canvas;
+            ViewBag.PanelCount = canvas.Panels.Count;
+            ViewBag.FrameCount = canvas.Panels.Sum(p => p.Frames.Count);
+            ViewBag.LocationCount = canvas.Panels.Sum(p => p.Frames.Sum(f => f.Locations.Count));
+            canvasCopy.CopyPanels = ViewBag.PanelCount > 0;
+            canvasCopy.CopyFrames = ViewBag.FrameCount > 0;
+            canvasCopy.CopyFrameLocations = ViewBag.LocationCount > 0;
+            ViewBag.Canvas = canvas;
             return View(canvasCopy);
         }
 
