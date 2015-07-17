@@ -226,7 +226,7 @@
     <Compile Include="Models\Frame.cs">
       <DependentUpon>DMModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\FrameInitializers.cs" />
+    <Compile Include="Models\ModelInitializers.cs" />
     <Compile Include="Models\FullScreen.cs">
       <DependentUpon>DMModel.tt</DependentUpon>
     </Compile>
@@ -695,6 +695,7 @@
     <Content Include="Views\Template\Index.cshtml" />
     <Content Include="Views\Template\Create.cshtml" />
     <Content Include="Views\Template\Edit.cshtml" />
+    <Content Include="Views\Canvas\Copy.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

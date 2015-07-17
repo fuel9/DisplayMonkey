@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using DisplayMonkey.Models;
+using DisplayMonkey.Language;
 
 namespace DisplayMonkey.Controllers
 {
@@ -96,6 +97,29 @@ namespace DisplayMonkey.Controllers
             return View();
         }
 
+
+        private void makeFullscreenPanel(Canvas canvas)
+        {
+            Panel panel = new Panel()
+            {
+                Left = 0,
+                Top = 0,
+                Height = canvas.Height,
+                Width = canvas.Width,
+                Name = "Full-screen",   // TODO: resource
+                Canvas = canvas,
+            };
+
+            FullScreen fullScreen = new FullScreen()
+            {
+                Canvas = canvas,
+                Panel = panel,
+            };
+
+            panel.FullScreens.Add(fullScreen);
+            canvas.Panels.Add(panel);
+        }
+        
         //
         // POST: /Canvas/Create
 
@@ -105,6 +129,7 @@ namespace DisplayMonkey.Controllers
         {
             if (ModelState.IsValid)
             {
+                this.makeFullscreenPanel(canvas);
                 db.Canvases.Add(canvas);
                 db.SaveChanges();
 
@@ -172,6 +197,99 @@ namespace DisplayMonkey.Controllers
             db.SaveChanges();
 
             return this.RestoreReferrer(true) ?? RedirectToAction("Index");
+        }
+
+
+        //
+        // GET: /Canvas/Copy
+
+        public ActionResult Copy(int id = 0)
+        {
+            Canvas canvas = db.Canvases.Find(id);
+            if (canvas == null)
+            {
+                return View("Missing", new MissingItem(id));
+            }
+
+            CanvasCopy canvasCopy = new CanvasCopy()
+            {
+                Canvas = canvas,
+                CanvasId = canvas.CanvasId,
+                Name = string.Format("{0} - {1}", canvas.Name, Resources.Copy),
+                CopyPanels = true,
+                CopyFrames = canvas.Panels.Any(p => p.Frames.Any()),
+                CopyFrameLocations = canvas.Panels.Any(p => p.Frames.Any(f => f.Locations.Any())),
+            };
+            return View(canvasCopy);
+        }
+
+        //
+        // POST: /Canvas/Copy
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Copy(CanvasCopy canvasCopy)
+        {
+            int id = canvasCopy.CanvasId;
+            IQueryable<Canvas> canvasQ = db.Canvases
+                .AsQueryable()
+                ;
+
+            if (canvasCopy.CopyPanels)
+            {
+                canvasQ = canvasQ
+                    .Include(c => c.Panels.Select(p => p.FullScreens))
+                    ;
+
+                if (canvasCopy.CopyFrames)
+                {
+                    canvasQ = canvasQ
+                        .Include(c => c.Panels.Select(p => p.Frames.Select(f => f.Clock)))
+                        .Include(c => c.Panels.Select(p => p.Frames.Select(f => f.Memo)))
+                        .Include(c => c.Panels.Select(p => p.Frames.Select(f => f.News)))
+                        .Include(c => c.Panels.Select(p => p.Frames.Select(f => f.Picture)))
+                        .Include(c => c.Panels.Select(p => p.Frames.Select(f => f.Report)))
+                        .Include(c => c.Panels.Select(p => p.Frames.Select(f => f.Video).Select(v => v.Contents)))
+                        .Include(c => c.Panels.Select(p => p.Frames.Select(f => f.Weather)))
+                        .Include(c => c.Panels.Select(p => p.Frames.Select(f => f.Html)))
+                        .Include(c => c.Panels.Select(p => p.Frames.Select(f => f.Youtube)))
+                        .Include(c => c.Panels.Select(p => p.Frames.Select(f => f.Outlook)))
+                        ;
+
+                    if (canvasCopy.CopyFrameLocations)
+                        canvasQ = canvasQ.Include(c => c.Panels.Select(p => p.Frames.Select(f => f.Locations)));
+                }
+            }
+
+            Canvas canvas = canvasQ
+                .AsNoTracking()
+                .FirstOrDefault(c => c.CanvasId == id)
+                ;
+
+            if (canvas == null)
+            {
+                return View("Missing", new MissingItem(id));
+            }
+
+            db.Entry(canvas).State = EntityState.Detached;
+
+            canvas.Name = canvasCopy.Name;
+            if (!canvasCopy.CopyPanels)
+            {
+                canvas.Panels.Clear();
+                this.makeFullscreenPanel(canvas);
+            }
+
+            if (ModelState.IsValid)
+            {
+                db.Canvases.Add(canvas);
+                db.SaveChanges();
+
+                return RedirectToAction("Details", new { id = canvas.CanvasId });
+            }
+
+            canvasCopy.Canvas = canvas;
+            return View(canvasCopy);
         }
 
         protected override void Dispose(bool disposing)

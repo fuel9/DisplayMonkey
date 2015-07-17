@@ -1,0 +1,107 @@
+﻿@using DisplayMonkey.Language
+
+@model DisplayMonkey.Models.CanvasCopy
+
+@{
+    ViewBag.Title = Resources.CopyCanvas;
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>@Resources.Canvas</legend>
+        <table><tr>
+        <td>
+
+        @Html.HiddenFor(model => model.CanvasId)
+        @Html.HiddenFor(model => model.Canvas.Width, new { id = "Width" })
+        @Html.HiddenFor(model => model.Canvas.Height, new { id = "Height" })
+        @Html.HiddenFor(model => model.Canvas.BackgroundImage, new { id = "BackgroundImage" })
+        @Html.HiddenFor(model => model.Canvas.BackgroundColor, new { id = "BackgroundColor" })
+            
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Name)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.CopyPanels)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.CopyPanels)
+            @Html.ValidationMessageFor(model => model.CopyPanels)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.CopyFrames)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.CopyFrames)
+            @Html.ValidationMessageFor(model => model.CopyFrames)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.CopyFrameLocations)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.CopyFrameLocations)
+            @Html.ValidationMessageFor(model => model.CopyFrameLocations)
+        </div>
+
+        <p>
+            <input type="submit" value="@Resources.Copy" />
+        </p>
+        </td>
+        <td class="preview">
+            <div id="canvas" data-path="@Html.Raw(Url.Action("Data", "Canvas"))">
+                <div>
+                    <img src="@Html.Raw(Url.Action("Thumb", "Media", new { id="nnn", width="qqq", height="qqq" }))" alt="@Resources.Background" />
+                </div>
+            </div>
+        </td>
+    </tr></table>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink(Resources.ViewCanvases, "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jsquery")
+    @Scripts.Render("~/bundles/canvas")
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var _p = $('#CopyPanels'),
+                _f = $('#CopyFrames'),
+                _l = $('#CopyFrameLocations');
+            _p.change(function () {
+                if (!_p.is(':checked')) {
+                    if (_f.is(':checked')) _f.prop('checked', false);
+                    if (_l.is(':checked')) _l.prop('checked', false);
+                }
+            });
+            _f.change(function () {
+                if (_f.is(':checked')) {
+                    if (!_p.is(':checked')) _p.prop('checked', true);
+                } else {
+                    if (_l.is(':checked')) _l.prop('checked', false);
+                }
+            });
+            _l.change(function () {
+                if (_l.is(':checked')) {
+                    if (!_f.is(':checked')) _f.prop('checked', true);
+                    if (!_p.is(':checked')) _p.prop('checked', true);
+                }
+            });
+        });
+    </script>
+}

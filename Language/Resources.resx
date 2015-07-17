@@ -1382,4 +1382,19 @@
   <data name="CouldNotBeResolved" xml:space="preserve">
     <value>Could not be resolved.</value>
   </data>
+  <data name="Copy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="CopyCanvas" xml:space="preserve">
+    <value>Copy canvas</value>
+  </data>
+  <data name="CopyFrameLocations" xml:space="preserve">
+    <value>Copy all frame locations</value>
+  </data>
+  <data name="CopyFrames" xml:space="preserve">
+    <value>Copy all frames</value>
+  </data>
+  <data name="CopyPanels" xml:space="preserve">
+    <value>Copy all panels</value>
+  </data>
 </root>

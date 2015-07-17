@@ -195,7 +195,7 @@ FakesAssemblies/
 # Visual Studio 6 workspace options file
 *.opt
 packages
-*.cshtml
 /Management/App_Data
 /Management/Doc
 /Presentation/App_Data
+/Management/CodeTemplates/MvcView/*.cshtml

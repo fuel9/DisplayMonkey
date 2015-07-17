@@ -246,5 +246,4 @@ namespace DisplayMonkey.Models
             }
         }
     }
-
 }

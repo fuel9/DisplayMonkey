@@ -143,18 +143,18 @@ namespace DisplayMonkey.Controllers
 
         public ActionResult EditFS(int id = 0)
         {
-            FullScreen panel = db.Panels
+            FullScreen fs = db.Panels
                 .Find(id)
                 .FullScreens
                 .FirstOrDefault()
                 ;
 
-            if (panel == null)
+            if (fs == null)
             {
                 return View("Missing", new MissingItem(id));
             }
 
-            return View(panel);
+            return View(fs);
         }
 
         //
@@ -162,17 +162,19 @@ namespace DisplayMonkey.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditFS(FullScreen panel)
+        public ActionResult EditFS(FullScreen fs)
         {
             if (ModelState.IsValid)
             {
+                Panel panel = db.Panels.Find(fs.PanelId);
                 db.Entry(panel).State = EntityState.Modified;
+                db.Entry(fs).State = EntityState.Modified;
                 db.SaveChanges();
 
                 return this.RestoreReferrer() ?? RedirectToAction("Index");
             }
             
-            return View(panel);
+            return View(fs);
         }
 
         //
@@ -210,7 +212,6 @@ namespace DisplayMonkey.Controllers
         {
             var list = db.Frames
                 .Where(f => f.PanelId == id)
-                .Include(f => f.Panel)
                 .Include(f => f.Panel.Canvas)
                 .Include(f => f.News)
                 .Include(f => f.Clock)

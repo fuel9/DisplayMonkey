@@ -339,6 +339,38 @@ namespace DisplayMonkey.Models
         }
     }
 
+    public class CanvasCopy
+    {
+        [
+            Display(ResourceType = typeof(Resources), Name = "ID"),
+        ]
+        public int CanvasId { get; set; }
+
+        [
+            Display(ResourceType = typeof(Resources), Name = "Name"),
+            Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "NameRequired"),
+            StringLength(100, ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "MaxLengthExceeded"),
+        ]
+        public string Name { get; set; }
+        
+        [
+            Display(ResourceType = typeof(Resources), Name = "CopyPanels"),
+        ]
+        public bool CopyPanels { get; set; }
+        
+        [
+            Display(ResourceType = typeof(Resources), Name = "CopyFrames"),
+        ]
+        public bool CopyFrames { get; set; }
+        
+        [
+            Display(ResourceType = typeof(Resources), Name = "CopyFrameLocations"),
+        ]
+        public bool CopyFrameLocations { get; set; }
+        
+        public virtual Canvas Canvas { get; set; }
+    }
+
     [
         MetadataType(typeof(Panel.Annotations))
     ]

@@ -637,6 +637,51 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Copy.
+        /// </summary>
+        public static string Copy {
+            get {
+                return ResourceManager.GetString("Copy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Copy canvas.
+        /// </summary>
+        public static string CopyCanvas {
+            get {
+                return ResourceManager.GetString("CopyCanvas", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Copy all frame locations.
+        /// </summary>
+        public static string CopyFrameLocations {
+            get {
+                return ResourceManager.GetString("CopyFrameLocations", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Copy all frames.
+        /// </summary>
+        public static string CopyFrames {
+            get {
+                return ResourceManager.GetString("CopyFrames", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Copy all panels.
+        /// </summary>
+        public static string CopyPanels {
+            get {
+                return ResourceManager.GetString("CopyPanels", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Could not be resolved..
         /// </summary>
         public static string CouldNotBeResolved {

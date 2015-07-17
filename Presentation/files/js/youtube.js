@@ -128,9 +128,6 @@ DM.YtPlayer = Class.create(DM.FrameBase, {
                     'onError': this.onPlayerError.bind(this),
                 }
             });
-
-            //this.pollDelay = 0.1;
-            //this.pollStateTimer = this.pollPlayerState();
         }
         catch (e) {
             new DM.ErrorReport({ exception: e, data: this.div.id, source: 'YtPlayer.create' });
@@ -141,7 +138,7 @@ DM.YtPlayer = Class.create(DM.FrameBase, {
     // 4. The API will call this function when the video player is ready.
     onPlayerReady: function (event) {
         "use strict";
-        this.player.addEventListener('onStateChange', this.onPlayerStateChange.bind(this));
+        event.target.addEventListener('onStateChange', this.onPlayerStateChange.bind(this));
         event.target.setVolume(this.volume);
         event.target.loadVideoById(this.videoId, this.start, this.quality);
         event.target.setPlaybackRate(this.rate);
@@ -151,6 +148,7 @@ DM.YtPlayer = Class.create(DM.FrameBase, {
     onPlayerStateChange: function (event) {
         "use strict";
         if (event.data == YT.PlayerState.PLAYING) {
+			event.target.removeEventListener('onStateChange', this.onPlayerStateChange);
             this.ready();
         }
     },

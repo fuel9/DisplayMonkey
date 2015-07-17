@@ -69,7 +69,7 @@
             $('div[data-option=analog]').each(function (i, e) {
                 $(e).css('display', !!(v === '@((int)DisplayMonkey.Models.ClockTypes.ClockType_Analog)') ? '' : 'none');
             });
-            }
+        }
         $(document).ready(function () {
             $('#Type').change(function () { setUi(); });
             setUi();
