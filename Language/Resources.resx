@@ -1039,9 +1039,6 @@
   <data name="Designate" xml:space="preserve">
     <value>Designate</value>
   </data>
-  <data name="ShowErrors" xml:space="preserve">
-    <value>Show errors</value>
-  </data>
   <data name="Auto" xml:space="preserve">
     <value>Auto</value>
   </data>
@@ -1373,7 +1370,7 @@
   <data name="ShowSeconds" xml:space="preserve">
     <value>Show seconds</value>
   </data>
-  <data name="Settings_ReadyEventTimeout" xml:space="preserve">
+  <data name="Settings_DefaultDisplayReadyEventTimeout" xml:space="preserve">
     <value>Frame ready event timeout, seconds</value>
   </data>
   <data name="ReadyTimeout" xml:space="preserve">
@@ -1396,5 +1393,35 @@
   </data>
   <data name="CopyPanels" xml:space="preserve">
     <value>Copy all panels</value>
+  </data>
+  <data name="Settings_DefaultDisplayPollInterval" xml:space="preserve">
+    <value>Default display data poll interval, sec</value>
+  </data>
+  <data name="RegisterThisDisplay" xml:space="preserve">
+    <value>Register this display</value>
+  </data>
+  <data name="DecimalRequired" xml:space="preserve">
+    <value>Please enter a valid decimal number</value>
+  </data>
+  <data name="Settings_DefaultDisplayErrorLength" xml:space="preserve">
+    <value>Default length for display errors, sec</value>
+  </data>
+  <data name="Settings_DefaultFullPanelFadeLength" xml:space="preserve">
+    <value>Default full screen panel transition length, sec</value>
+  </data>
+  <data name="Settings_DefaultPanelFadeLength" xml:space="preserve">
+    <value>Default panel transition length, sec</value>
+  </data>
+  <data name="ErrorLength" xml:space="preserve">
+    <value>Error popup duration (use 0 to suppress errors)</value>
+  </data>
+  <data name="FadeLength" xml:space="preserve">
+    <value>Frame transition duration</value>
+  </data>
+  <data name="PollInterval" xml:space="preserve">
+    <value>Background display state refresh interval</value>
+  </data>
+  <data name="PositiveDecimalRequired" xml:space="preserve">
+    <value>Please enter a positive decimal number</value>
   </data>
 </root>

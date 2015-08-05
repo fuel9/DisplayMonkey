@@ -182,10 +182,11 @@
           <Property Name="Host" Type="varchar" MaxLength="50" />
           <Property Name="CanvasId" Type="int" Nullable="false" />
           <Property Name="LocationId" Type="int" Nullable="false" />
-          <Property Name="ShowErrors" Type="bit" Nullable="false" />
           <Property Name="Version" Type="timestamp" Nullable="false" StoreGeneratedPattern="Computed" />
           <Property Name="NoScroll" Type="bit" Nullable="false" />
           <Property Name="ReadyTimeout" Type="int" Nullable="false" />
+          <Property Name="PollInterval" Type="int" Nullable="false" />
+          <Property Name="ErrorLength" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="ExchangeAccount">
           <Key>
@@ -300,6 +301,7 @@
           <Property Name="Width" Type="int" Nullable="false" />
           <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="100" />
           <Property Name="Version" Type="timestamp" Nullable="false" StoreGeneratedPattern="Computed" />
+          <Property Name="FadeLength" Type="float" Nullable="false" />
         </EntityType>
         <EntityType Name="Picture">
           <Key>
@@ -934,10 +936,11 @@
           <Property Name="LocationId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Canvas" Relationship="DisplayMonkey.Model.FK_Display_Canvas" FromRole="Display" ToRole="Canvas" />
           <NavigationProperty Name="Location" Relationship="DisplayMonkey.Model.FK_Display_Location" FromRole="Display" ToRole="Location" />
-          <Property Type="Boolean" Name="ShowErrors" Nullable="false" />
           <Property Type="Binary" Name="Version" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
           <Property Type="Boolean" Name="NoScroll" Nullable="false" />
           <Property Type="Int32" Name="ReadyTimeout" Nullable="false" />
+          <Property Type="Int32" Name="PollInterval" Nullable="false" />
+          <Property Type="Int32" Name="ErrorLength" Nullable="false" />
         </EntityType>
         <EntityType Name="Frame">
           <Key>
@@ -1040,6 +1043,7 @@
           <NavigationProperty Name="Frames" Relationship="DisplayMonkey.Model.FK_Frame_Panel" FromRole="Panel" ToRole="Frame" />
           <NavigationProperty Name="FullScreens" Relationship="DisplayMonkey.Model.FK_FullScreen_Panel" FromRole="Panel" ToRole="FullScreen" />
           <Property Type="Binary" Name="Version" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <Property Type="Double" Name="FadeLength" Nullable="false" />
         </EntityType>
         <EntityType Name="Picture">
           <Key>
@@ -1370,6 +1374,9 @@
         <EnumType Name="SettingTypes">
           <Member Name="SettingType_IntPositive" Value="0" />
           <Member Name="SettingType_String" Value="1" />
+          <Member Name="SettingType_DecimalPositive" Value="2" />
+          <Member Name="SettingType_Int" Value="3" />
+          <Member Name="SettingType_Decimal" Value="4" />
         </EnumType>
         <EntityType Name="Html">
           <Key>
@@ -1580,10 +1587,11 @@
           <EntitySetMapping Name="Displays">
             <EntityTypeMapping TypeName="DisplayMonkey.Model.Display">
               <MappingFragment StoreEntitySet="Display">
+                <ScalarProperty Name="ErrorLength" ColumnName="ErrorLength" />
+                <ScalarProperty Name="PollInterval" ColumnName="PollInterval" />
                 <ScalarProperty Name="ReadyTimeout" ColumnName="ReadyTimeout" />
                 <ScalarProperty Name="NoScroll" ColumnName="NoScroll" />
                 <ScalarProperty Name="Version" ColumnName="Version" />
-                <ScalarProperty Name="ShowErrors" ColumnName="ShowErrors" />
                 <ScalarProperty Name="DisplayId" ColumnName="DisplayId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Host" ColumnName="Host" />
@@ -1664,6 +1672,7 @@
           <EntitySetMapping Name="Panels">
             <EntityTypeMapping TypeName="DisplayMonkey.Model.Panel">
               <MappingFragment StoreEntitySet="Panel">
+                <ScalarProperty Name="FadeLength" ColumnName="FadeLength" />
                 <ScalarProperty Name="Version" ColumnName="Version" />
                 <ScalarProperty Name="PanelId" ColumnName="PanelId" />
                 <ScalarProperty Name="CanvasId" ColumnName="CanvasId" />

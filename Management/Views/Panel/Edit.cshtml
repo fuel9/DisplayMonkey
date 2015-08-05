@@ -68,6 +68,14 @@
             @Html.ValidationMessageFor(model => model.Height)
         </div>
 
+        <div class="editor-label">
+            @Html.LabelFor(model => model.FadeLength)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.FadeLength, new { htmlAttributes = new { @class = "duration" } }) @Resources.Sec
+            @Html.ValidationMessageFor(model => model.FadeLength)
+        </div>
+
         <p>
             <input type="submit" value="@Resources.Save" />
         </p>

@@ -33,6 +33,21 @@
                         @Html.EditorFor(model => model.StringValue)
                         @Html.ValidationMessageFor(model => model.StringValue)
                         break;
+
+                    case SettingTypes.SettingType_DecimalPositive:
+                        @Html.EditorFor(model => model.DecimalValuePositive)
+                        @Html.ValidationMessageFor(model => model.DecimalValuePositive)
+                        break;
+
+                    case SettingTypes.SettingType_Int:
+                        @Html.EditorFor(model => model.IntValue)
+                        @Html.ValidationMessageFor(model => model.IntValue)
+                        break;
+
+                    case SettingTypes.SettingType_Decimal:
+                        @Html.EditorFor(model => model.DecimalValue)
+                        @Html.ValidationMessageFor(model => model.DecimalValue)
+                        break;
                 }
             </div>
         </div>

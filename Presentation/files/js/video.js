@@ -1,6 +1,7 @@
 ﻿// 2015-02-06 [LTL] - object for reports and pictures
 // 2015-03-08 [LTL] - using data
 // 2015-05-08 [LTL] - ready callback
+// 2015-07-29 [LTL] - RC12: performance and memory management improvements
 
 DM.Video = Class.create(DM.FrameBase, {
     initialize: function ($super, options) {
@@ -19,9 +20,7 @@ DM.Video = Class.create(DM.FrameBase, {
         video.loop = !!data.AutoLoop;
         video.muted = !!data.PlayMuted;
         video.update(data.NoVideoSupport);
-        video.observe('loadeddata', function () {
-            this.ready();
-        }.bind(this));
+        video.addEventListener('loadeddata', this.ready.bind(this));
 
         data.VideoAlternatives.each(function (va) {
             var e = new Element("source", {
@@ -50,6 +49,12 @@ DM.Video = Class.create(DM.FrameBase, {
         "use strict";
         $super();
         this.video.play();
+    },
+
+    uninit: function ($super) {
+        "use strict";
+        this.video.removeEventListener('loadeddata', this.ready);
+        $super();
     },
 });
 

@@ -5,6 +5,7 @@ using System.Web;
 using System.Data;
 using System.Data.SqlClient;
 using System.Text;
+using System.Globalization;
 
 namespace DisplayMonkey
 {
@@ -61,12 +62,16 @@ namespace DisplayMonkey
 		{
 			get
 			{
-				return string.Format(
-                    "<div id=\"screen\"><div class=\"fullpanel\" id=\"full\" data-panel-id=\"{0}\" data-panel-width=\"{1}\" data-panel-height=\"{2}\"></div></div>\n",
-                    PanelId,
-                    Width,
-                    Height
-					);
+                return new StringBuilder()
+                    .AppendFormat(CultureInfo.InvariantCulture,
+                        "<div id=\"screen\"><div class=\"fullpanel\" id=\"full\" data-panel-id=\"{0}\" data-panel-width=\"{1}\" data-panel-height=\"{2}\" data-fade-length=\"{3}\"></div></div>\n",
+                        PanelId,
+                        Width,
+                        Height,
+                        FadeLength
+                    )
+                    .ToString()
+                    ;
 			}
 		}
 	}

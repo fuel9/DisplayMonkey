@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Data;
+using System.Text;
+using System.Globalization;
 
 namespace DisplayMonkey
 {
@@ -38,6 +40,7 @@ namespace DisplayMonkey
 			Left = r.IntOrZero("Left");
 			Width = r.IntOrZero("Width");
 			Height = r.IntOrZero("Height");
+            FadeLength = r.DoubleOrZero("FadeLength");
 			Name = r.StringOrBlank("Name").Trim();
 			if (Name == "")
 				Name = string.Format("Panel {0}", PanelId);
@@ -91,6 +94,7 @@ namespace DisplayMonkey
 							Height = fs.IntOrZero("Height"),
 							Width = fs.IntOrZero("Width"),
 							Name = r.StringOrBlank("Name"),
+                            FadeLength = r.DoubleOrZero("FadeLength"),
 						};
 					else
 						panel = new Panel()
@@ -101,7 +105,8 @@ namespace DisplayMonkey
 							Height = r.IntOrZero("Height"),
 							Width = r.IntOrZero("Width"),
 							Name = r.StringOrBlank("Name"),
-						};
+                            FadeLength = r.DoubleOrZero("FadeLength"),
+                        };
 
 					if (panel.Name == "")
 						panel.Name = string.Format("Panel {0}", panelId);
@@ -112,12 +117,13 @@ namespace DisplayMonkey
 			return list;
 		}
 
-		public int PanelId = 0;
-		public int Top = 0;
-		public int Left = 0;
-		public int Width = 0;
-		public int Height = 0;
-		public string Name = "";
+        public int PanelId { get; private set; }
+        public int Top { get; protected set; }
+        public int Left { get; protected set; }
+        public int Width { get; protected set; }
+        public int Height { get; protected set; }
+        public string Name { get; protected set; }
+        public double FadeLength { get; protected set; }   // RC13
 
 		public virtual string Style 
 		{ 
@@ -138,12 +144,16 @@ namespace DisplayMonkey
 		{
 			get
 			{
-				return string.Format(
-                    "<div class=\"panel\" id=\"panel{0}\" data-panel-id=\"{0}\" data-panel-width=\"{1}\" data-panel-height=\"{2}\"></div>\n",
-                    PanelId,
-                    Width,
-                    Height
-					);
+                return new StringBuilder()
+                    .AppendFormat(CultureInfo.InvariantCulture,
+                        "<div class=\"panel\" id=\"panel{0}\" data-panel-id=\"{0}\" data-panel-width=\"{1}\" data-panel-height=\"{2}\" data-fade-length=\"{3}\"></div>\n", 
+                        PanelId,
+                        Width,
+                        Height,
+                        FadeLength
+                    )
+                    .ToString()
+                    ;
 			}
 		}
 	}

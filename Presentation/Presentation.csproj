@@ -102,7 +102,6 @@
     <Content Include="Images\mstile-70x70.png" />
     <Content Include="files\world.gif" />
     <Content Include="getOutlook.ashx" />
-    <Content Include="getDisplayHash.ashx" />
     <Content Include="favicon.ico" />
     <Content Include="files\404.png" />
     <Content Include="files\clockface.png" />
@@ -158,7 +157,6 @@
     <Content Include="files\weather\7.gif" />
     <Content Include="files\weather\8.gif" />
     <Content Include="files\weather\9.gif" />
-    <Content Include="getIdleInterval.ashx" />
     <Content Include="getNextFrame.ashx" />
     <Content Include="Images\logo.png" />
     <Content Include="files\js\clock.js" />
@@ -191,14 +189,10 @@
     <Content Include="Images\manifest.json" />
     <Content Include="getYahooWeather.ashx" />
     <Content Include="files\windowsZones.xml" />
-    <Content Include="Scripts\jqsimplemenu.js" />
     <Content Include="Styles\custom.css" />
     <Content Include="Styles\jqsimplemenu.css" />
     <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
-    <Content Include="Scripts\jquery-1.4.1-vsdoc.js" />
-    <Content Include="Scripts\jquery-1.4.1.js" />
-    <Content Include="Scripts\jquery-1.4.1.min.js" />
     <Content Include="Styles\Site.css" />
     <Content Include="Styles\style.css" />
     <Content Include="Styles\themes\base\images\animated-overlay.gif" />
@@ -289,6 +283,9 @@
     <Compile Include="Canvas.cs" />
     <Compile Include="Clock.cs" />
     <Compile Include="Content.cs" />
+    <Compile Include="getDisplayData.ashx.cs">
+      <DependentUpon>getDisplayData.ashx</DependentUpon>
+    </Compile>
     <Compile Include="getYahooWeather.ashx.cs">
       <DependentUpon>getYahooWeather.ashx</DependentUpon>
     </Compile>
@@ -312,9 +309,6 @@
     </Compile>
     <Compile Include="YouTube.cs" />
     <Compile Include="Html.cs" />
-    <Compile Include="getDisplayHash.ashx.cs">
-      <DependentUpon>getDisplayHash.ashx</DependentUpon>
-    </Compile>
     <Compile Include="getHtml.ashx.cs">
       <DependentUpon>getHtml.ashx</DependentUpon>
     </Compile>
@@ -324,9 +318,6 @@
     <Compile Include="MimeTypeParser.cs" />
     <Compile Include="ServerGeoData.cs" />
     <Compile Include="Video.cs" />
-    <Compile Include="getIdleInterval.ashx.cs">
-      <DependentUpon>getIdleInterval.ashx</DependentUpon>
-    </Compile>
     <Compile Include="DataAccess.cs" />
     <Compile Include="Display.cs" />
     <Compile Include="Frame.cs" />
@@ -381,6 +372,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="getVideo.ashx" />
+    <Content Include="getDisplayData.ashx" />
     <None Include="Properties\PublishProfiles\Debug.pubxml" />
     <None Include="Properties\PublishProfiles\Release.pubxml" />
     <None Include="Properties\Settings.settings">

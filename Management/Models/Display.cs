@@ -19,10 +19,11 @@ namespace DisplayMonkey.Models
         public string Host { get; set; }
         public int CanvasId { get; set; }
         public int LocationId { get; set; }
-        public bool ShowErrors { get; set; }
         public byte[] Version { get; set; }
         public bool NoScroll { get; set; }
         public int ReadyTimeout { get; set; }
+        public int PollInterval { get; set; }
+        public int ErrorLength { get; set; }
     
         public virtual Canvas Canvas { get; set; }
         public virtual Location Location { get; set; }

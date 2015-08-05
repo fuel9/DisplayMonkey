@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 
 namespace DisplayMonkey.Models
 {
@@ -12,12 +11,18 @@ namespace DisplayMonkey.Models
 
         public enum Keys : int
         {
-            MaxImageSize = 0,
-            MaxVideoSize,
-            PresentationSite,
-            ReadyEventTimeout,
+            MaxImageSize = 0,                       // max allowed size of uploaded image, Bytes
+            MaxVideoSize,                           // max allowed size of uploaded video, Bytes
+            PresentationSite,                       // URL root of the nearest DMP site when navigating to displays from DMM
+            
+            DefaultDisplayReadyEventTimeout,        // timeout interval to wait till a frame reports itself "ready" so as to smoothly continue presentation, sec, RC10
+            DefaultDisplayPollInterval,             // display poll interval for hash sum check and panel idle length, sec, RC13
+            DefaultDisplayErrorLength,              // default length for display errors, sec, RC13
+            
+            DefaultPanelFadeLength,                 // default panel frame fade/transition length, sec, RC13
+            DefaultFullPanelFadeLength,             // default full screen panel frame fade/transition length, sec, RC13
 
-            // default template by frame type
+            // default template by frame type, RC10
             DefaultTemplateClock,
             DefaultTemplateHtml,
             DefaultTemplateMemo,
@@ -29,7 +34,7 @@ namespace DisplayMonkey.Models
             DefaultTemplateWeather,
             DefaultTemplateYouTube,
 
-            // default cache interval by frame type
+            // default cache interval by frame type, min, RC10
             //DefaultCacheIntervalClock,
             //DefaultCacheIntervalHtml,
             //DefaultCacheIntervalMemo,
@@ -48,12 +53,17 @@ namespace DisplayMonkey.Models
             Count
         }
 
+        private static Guid[] _keyGuids = new Guid[(int)Setting.Keys.Count];
+        private static Dictionary<Guid, string> _keyRes = new Dictionary<Guid, string>((int)Setting.Keys.Count);
+
         static Setting()
         {
             //_keyRes.Add(
             //    _keyGuids[(int)Setting.Keys.ZZZ] = new Guid("12345678-90AB-CDEF-1234-567890ABCDEF"),
             //    "Settings_ZZZ"
             //    );
+
+            // ---- General defaults
 
             _keyRes.Add(
                 _keyGuids[(int)Setting.Keys.MaxImageSize] = new Guid("9A0BC012-FF01-4103-8A75-A03B275B0AD1"),
@@ -70,10 +80,36 @@ namespace DisplayMonkey.Models
                 "Settings_PresentationSite"
                 );
 
+            // ---- Display defaults
+
             _keyRes.Add(
-                _keyGuids[(int)Setting.Keys.ReadyEventTimeout] = new Guid("3AC645E8-30B9-4473-A78C-69DBC4BFFAA6"),
-                "Settings_ReadyEventTimeout"
+                _keyGuids[(int)Setting.Keys.DefaultDisplayReadyEventTimeout] = new Guid("3AC645E8-30B9-4473-A78C-69DBC4BFFAA6"),
+                "Settings_DefaultDisplayReadyEventTimeout"
                 );
+
+            _keyRes.Add(
+                _keyGuids[(int)Setting.Keys.DefaultDisplayPollInterval] = new Guid("7C993AC3-2E15-44DD-84B3-D13935BD1E43"),
+                "Settings_DefaultDisplayPollInterval"
+                );
+
+            _keyRes.Add(
+                _keyGuids[(int)Setting.Keys.DefaultDisplayErrorLength] = new Guid("2F43071D-C314-4C78-8438-76B474364258"),
+                "Settings_DefaultDisplayErrorLength"
+                );
+
+            // ---- Panel defaults
+
+            _keyRes.Add(
+                _keyGuids[(int)Setting.Keys.DefaultPanelFadeLength] = new Guid("6865C5AE-8A91-4A44-B03A-EA81F69D6539"),
+                "Settings_DefaultPanelFadeLength"
+                );
+
+            _keyRes.Add(
+                _keyGuids[(int)Setting.Keys.DefaultFullPanelFadeLength] = new Guid("9A4989FC-4C2F-49F3-AD60-E120AD8F85FE"),
+                "Settings_DefaultFullPanelFadeLength"
+                );
+
+            // ---- Frame defaults
 
             _keyRes.Add(
                 _keyGuids[(int)Setting.Keys.DefaultTemplateClock] = new Guid("1D715B8D-2377-4FC6-B2A1-D025A4E48A56"),
@@ -120,6 +156,8 @@ namespace DisplayMonkey.Models
                 "Settings_DefaultTemplateYouTube"
                 );
 
+            // ---- Frame cache defaults
+
             _keyRes.Add(
                 _keyGuids[(int)Setting.Keys.DefaultCacheIntervalOutlook] = new Guid("C12A15AA-3C10-407E-8368-A2397C7625BB"),
                 "Settings_DefaultCacheIntervalOutlook"
@@ -152,16 +190,7 @@ namespace DisplayMonkey.Models
             return _db.Settings.FirstOrDefault(s => s.Key == key);
         }
 
-        public string ResourceId
-        {
-            get { return _keyRes[this.Key]; }
-        }
-
-
-        private static Guid[] _keyGuids = new Guid[(int)Setting.Keys.Count];
-        private static Dictionary<Guid, string> _keyRes = new Dictionary<Guid, string>((int)Setting.Keys.Count);
-
         #endregion
-
     }
 }
+

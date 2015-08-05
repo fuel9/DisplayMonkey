@@ -21,11 +21,23 @@
             @switch (item.Type)
             {
                 case SettingTypes.SettingType_IntPositive:
-                    <div class="num">@Html.DisplayFor(m => item.IntValuePositive)</div>
+                    <p class="num">@Html.DisplayFor(m => item.IntValuePositive)</p>
                     break;
                     
                 case SettingTypes.SettingType_String:
                     @Html.DisplayFor(m => item.StringValue)
+                    break;
+                    
+                case SettingTypes.SettingType_DecimalPositive:
+                    <p class="num">@Html.DisplayFor(m => item.DecimalValuePositive)</p>
+                    break;
+                    
+                case SettingTypes.SettingType_Int:
+                    <p class="num">@Html.DisplayFor(m => item.IntValue)</p>
+                    break;
+                    
+                case SettingTypes.SettingType_Decimal:
+                    <p class="num">@Html.DisplayFor(m => item.DecimalValue)</p>
                     break;
                     
                 default:

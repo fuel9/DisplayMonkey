@@ -111,14 +111,6 @@ namespace DisplayMonkey
         public Display Display { get; private set; }
         public Location Location { get; private set; }
 
-		public int InitialMaxIdleInterval
-		{
-			get
-			{
-                return Display.GetIdleInterval(DisplayId);
-			}
-		}
-
 		public virtual string Head 
 		{
 			get 
@@ -154,7 +146,6 @@ namespace DisplayMonkey
 				}
 				head.Append("<script type=\"text/javascript\" charset=\"utf-8\"><!--\r\n_canvas=new DM.Canvas({\n");
                 head.AppendFormat(CultureInfo.InvariantCulture, "displayId:{0},\n", DisplayId);
-                head.AppendFormat(CultureInfo.InvariantCulture, "hash:{0},\n", Display.GetHash(DisplayId));
                 head.AppendFormat(CultureInfo.InvariantCulture, "temperatureUnit:'{0}',\n", this.Location.TemperatureUnit);
 				head.AppendFormat(CultureInfo.InvariantCulture, "dateFormat:'{0}',\n", this.Location.DateFormat);
 				head.AppendFormat(CultureInfo.InvariantCulture, "timeFormat:'{0}',\n", this.Location.TimeFormat);
@@ -164,20 +155,20 @@ namespace DisplayMonkey
                 head.AppendFormat(CultureInfo.InvariantCulture, "culture:'{0}',\n", this.Location.Culture);
                 head.AppendFormat(CultureInfo.InvariantCulture, "locationTime:'{0}',\n", this.Location.LocationTime);
                 head.AppendFormat(CultureInfo.InvariantCulture, "utcTime:'{0}',\n", DateTime.UtcNow);
-                head.AppendFormat(CultureInfo.InvariantCulture, "initialIdleInterval:{0},\n", this.InitialMaxIdleInterval);
 				head.AppendFormat(CultureInfo.InvariantCulture, "width:{0},\n", this.Width);
                 head.AppendFormat(CultureInfo.InvariantCulture, "height:{0},\n", this.Height);
                 if (this.BackgroundImage > 0) 
 					head.AppendFormat(CultureInfo.InvariantCulture, "backImage:{0},\n", this.BackgroundImage);
 				if (this.BackgroundColor != "") 
 					head.AppendFormat(CultureInfo.InvariantCulture, "backColor:'{0}',\n", this.BackgroundColor);
-                head.AppendFormat(CultureInfo.InvariantCulture, "showErrors:{0},\n", this.Display.ShowErrors ? "true" : "false");
+                head.AppendFormat(CultureInfo.InvariantCulture, "pollInterval:{0},\n", this.Display.PollInterval);
+                head.AppendFormat(CultureInfo.InvariantCulture, "errorLength:{0},\n", this.Display.ErrorLength);
                 head.AppendFormat(CultureInfo.InvariantCulture, "noScroll:{0},\n", this.Display.NoScroll ? "true" : "false");
                 head.AppendFormat(CultureInfo.InvariantCulture, "readyTimeout:{0},\n", this.Display.ReadyTimeout);
                 head.Append("});\n--></script>\n<style></style>\n");
 				
 				return head.ToString();
-			} 
+			}
 		}
 
 		public string Body
@@ -207,12 +198,38 @@ namespace DisplayMonkey
 
 		private static readonly string[] _jsLibs = new string[] 
         {
+#if (DEBUG)
             // prototype & script-aculo-us
             "scripts/prototype.js",
             "scripts/scriptaculous/scriptaculous.js",
 
             // jquery
-            //"scripts/jquery-2.0.3.min.js",
+            //"scripts/jquery-2.1.4.js",
+
+            // moment.js
+            "scripts/moment.js",
+
+            // canvas:
+			"files/js/canvas.js"
+			
+            // frame scripts
+			, "files/js/clock.js"
+            , "files/js/iframe.js"
+			, "files/js/memo.js"
+            , "files/js/outlook.js"
+            , "files/js/picture.js"
+            , "files/js/video.js"
+            , "files/js/weather.js"
+            , "files/js/youtube.js"
+
+            // add new frame js code here
+#else
+            // prototype & script-aculo-us
+            "scripts/prototype.js",
+            "scripts/scriptaculous/scriptaculous.js",
+
+            // jquery
+            //"scripts/jquery-2.1.4.min.js",
 
             // moment.js
             "scripts/moment.min.js",
@@ -231,6 +248,7 @@ namespace DisplayMonkey
             , "files/js/youtube.js"
 
             // add new frame js code here
+#endif
 		};
 
 		#endregion

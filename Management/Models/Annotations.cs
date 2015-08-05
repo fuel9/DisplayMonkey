@@ -436,6 +436,14 @@ namespace DisplayMonkey.Models
             public string Name { get; set; }
 
             [
+                Display(ResourceType = typeof(Resources), Name = "FadeLength"),
+                Range(0, Int32.MaxValue,
+                    ErrorMessageResourceType = typeof(Resources),
+                    ErrorMessageResourceName = "PositiveIntegerRequired"),
+            ]
+            public double FadeLength { get; set; }
+
+            [
                 Display(ResourceType = typeof(Resources), Name = "Canvas"),
             ]
             public virtual Canvas Canvas { get; set; }
@@ -501,6 +509,18 @@ namespace DisplayMonkey.Models
                 Display(ResourceType = typeof(Resources), Name = "Panel"),
             ]
             public virtual Panel Panel { get; set; }
+        }
+
+        [
+            Display(ResourceType = typeof(Resources), Name = "FadeLength"),
+            Range(0, Int32.MaxValue,
+                ErrorMessageResourceType = typeof(Resources),
+                ErrorMessageResourceName = "PositiveIntegerRequired"),
+        ]
+        public double FadeLength 
+        { 
+            get; 
+            set; 
         }
     }
 
@@ -1413,9 +1433,20 @@ namespace DisplayMonkey.Models
             public string Host { get; set; }
 
             [
-                Display(ResourceType = typeof(Resources), Name = "ShowErrors"),
+                Display(ResourceType = typeof(Resources), Name = "ErrorLength"),
+                Range(0, Int32.MaxValue,
+                    ErrorMessageResourceType = typeof(Resources),
+                    ErrorMessageResourceName = "PositiveIntegerRequired"),
             ]
-            public bool ShowErrors { get; set; }
+            public int ErrorLength { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "PollInterval"),
+                Range(1, Int32.MaxValue,
+                    ErrorMessageResourceType = typeof(Resources),
+                    ErrorMessageResourceName = "PositiveIntegerRequired"),
+            ]
+            public int PollInterval { get; set; }
 
             [
                 Display(ResourceType = typeof(Resources), Name = "NoScroll"),
@@ -1500,8 +1531,9 @@ namespace DisplayMonkey.Models
             ]
             public SettingTypes Type { get; set; }
         }
-
+        
         #region -----  Value Management  -----
+
         [
             Display(ResourceType = typeof(Resources), Name = "Setting"),
         ]
@@ -1511,6 +1543,11 @@ namespace DisplayMonkey.Models
             {
                 return Resources.ResourceManager.GetString(ResourceId) ?? this.Key.ToString();
             }
+        }
+
+        public string ResourceId
+        {
+            get { return _keyRes[this.Key]; }
         }
 
         [
@@ -1533,7 +1570,7 @@ namespace DisplayMonkey.Models
             Range(0, Int32.MaxValue,
                 ErrorMessageResourceType = typeof(Resources),
                 ErrorMessageResourceName = "PositiveIntegerRequired"),
-            DisplayFormat(ApplyFormatInEditMode = false, 
+            DisplayFormat(ApplyFormatInEditMode = false,
                 DataFormatString = "{0:N0}"),
         ]
         public int IntValuePositive
@@ -1544,11 +1581,49 @@ namespace DisplayMonkey.Models
 
         [
             Display(ResourceType = typeof(Resources), Name = "Value"),
+            Required(ErrorMessageResourceType = typeof(Resources),
+                ErrorMessageResourceName = "DecimalRequired"),
+            DisplayFormat(ApplyFormatInEditMode = false,
+                DataFormatString = "{0:F}"),
+        ]
+        public double DecimalValue
+        {
+            get 
+            { 
+                byte [] v = new byte[8];
+                if (this.Value != null)
+                    this.Value.Reverse().ToArray().CopyTo(v, 0);
+                return BitConverter.ToDouble(v, 0); 
+            }
+            set 
+            {
+                this.Value = BitConverter.GetBytes(value).Reverse().ToArray();
+            }
+        }
+
+        [
+            Display(ResourceType = typeof(Resources), Name = "Value"),
+            Required(ErrorMessageResourceType = typeof(Resources),
+                ErrorMessageResourceName = "PositiveDecimalRequired"),
+            Range(0, Double.MaxValue,
+                ErrorMessageResourceType = typeof(Resources),
+                ErrorMessageResourceName = "PositiveDecimalRequired"),
+            DisplayFormat(ApplyFormatInEditMode = false,
+                DataFormatString = "{0:F}"),
+        ]
+        public double DecimalValuePositive
+        {
+            get { return this.DecimalValue; }
+            set { this.DecimalValue = value; }
+        }
+
+        [
+            Display(ResourceType = typeof(Resources), Name = "Value"),
         ]
         public string StringValue
         {
-            get { return this.Value == null ? null : Encoding.Unicode.GetString(this.Value); }
-            set { this.Value = value == null ? null : Encoding.Unicode.GetBytes(value); }
+            get { return this.Value == null ? null : System.Text.Encoding.Unicode.GetString(this.Value); }
+            set { this.Value = value == null ? null : System.Text.Encoding.Unicode.GetBytes(value); }
         }
 
         #endregion

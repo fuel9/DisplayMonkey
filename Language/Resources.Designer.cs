@@ -1024,6 +1024,15 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please enter a valid decimal number.
+        /// </summary>
+        public static string DecimalRequired {
+            get {
+                return ResourceManager.GetString("DecimalRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Delete.
         /// </summary>
         public static string Delete {
@@ -1530,6 +1539,15 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Error popup duration (use 0 to suppress errors).
+        /// </summary>
+        public static string ErrorLength {
+            get {
+                return ResourceManager.GetString("ErrorLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Message.
         /// </summary>
         public static string ErrorMessage {
@@ -1616,6 +1634,15 @@ namespace DisplayMonkey.Language {
         public static string F {
             get {
                 return ResourceManager.GetString("F", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Frame transition duration.
+        /// </summary>
+        public static string FadeLength {
+            get {
+                return ResourceManager.GetString("FadeLength", resourceCulture);
             }
         }
         
@@ -2602,11 +2629,29 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Background display state refresh interval.
+        /// </summary>
+        public static string PollInterval {
+            get {
+                return ResourceManager.GetString("PollInterval", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Position: {0}, {1}, Size: {2} x {3}.
         /// </summary>
         public static string PositionSize {
             get {
                 return ResourceManager.GetString("PositionSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter a positive decimal number.
+        /// </summary>
+        public static string PositiveDecimalRequired {
+            get {
+                return ResourceManager.GetString("PositiveDecimalRequired", resourceCulture);
             }
         }
         
@@ -2634,6 +2679,15 @@ namespace DisplayMonkey.Language {
         public static string RederMode {
             get {
                 return ResourceManager.GetString("RederMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Register this display.
+        /// </summary>
+        public static string RegisterThisDisplay {
+            get {
+                return ResourceManager.GetString("RegisterThisDisplay", resourceCulture);
             }
         }
         
@@ -2935,6 +2989,51 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Default length for display errors, sec.
+        /// </summary>
+        public static string Settings_DefaultDisplayErrorLength {
+            get {
+                return ResourceManager.GetString("Settings_DefaultDisplayErrorLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Default display data poll interval, sec.
+        /// </summary>
+        public static string Settings_DefaultDisplayPollInterval {
+            get {
+                return ResourceManager.GetString("Settings_DefaultDisplayPollInterval", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Frame ready event timeout, seconds.
+        /// </summary>
+        public static string Settings_DefaultDisplayReadyEventTimeout {
+            get {
+                return ResourceManager.GetString("Settings_DefaultDisplayReadyEventTimeout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Default full screen panel transition length, sec.
+        /// </summary>
+        public static string Settings_DefaultFullPanelFadeLength {
+            get {
+                return ResourceManager.GetString("Settings_DefaultFullPanelFadeLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Default panel transition length, sec.
+        /// </summary>
+        public static string Settings_DefaultPanelFadeLength {
+            get {
+                return ResourceManager.GetString("Settings_DefaultPanelFadeLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Default template for new Clock frames.
         /// </summary>
         public static string Settings_DefaultTemplateClock {
@@ -3052,15 +3151,6 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Frame ready event timeout, seconds.
-        /// </summary>
-        public static string Settings_ReadyEventTimeout {
-            get {
-                return ResourceManager.GetString("Settings_ReadyEventTimeout", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Setup.
         /// </summary>
         public static string Setup {
@@ -3084,15 +3174,6 @@ namespace DisplayMonkey.Language {
         public static string ShowDate {
             get {
                 return ResourceManager.GetString("ShowDate", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Show errors.
-        /// </summary>
-        public static string ShowErrors {
-            get {
-                return ResourceManager.GetString("ShowErrors", resourceCulture);
             }
         }
         

@@ -116,6 +116,8 @@ namespace DisplayMonkey.Controllers
                 Panel = panel,
             };
 
+            fullScreen.init(db);
+
             panel.FullScreens.Add(fullScreen);
             canvas.Panels.Add(panel);
         }

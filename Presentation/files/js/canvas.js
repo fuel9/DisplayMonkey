@@ -11,13 +11,15 @@
 // 2015-05-15 [LTL] - noscroll
 // 2015-06-09 [LTL] - regular panel expiration no longer depends on fullscreen
 // 2015-06-25 [LTL] - added readyTimeout
+// 2015-07-28 [LTL] - minor improvements
+// 2015-07-29 [LTL] - RC13: performance and memory management improvements
 
-// TODO: upgrade moment.js
+var $j = {};
+if (typeof jQuery === 'object') {
+    $j = jQuery.noConflict();
+}
 
-//var $j = jQuery.noConflict();
-
-var DM = {};
-var _canvas = {};
+var DM = {}, _canvas = {};
 
 DM.ErrorReport = Class.create({
     initialize: function (options) {
@@ -29,8 +31,8 @@ DM.ErrorReport = Class.create({
             Data: (JSON.stringify(options.data) || "none")
         };
         console.error("!Display Monkey error: " + JSON.stringify(this.info));
-        this.length = options.length || 100;
-        if (_canvas.showErrors) {
+        this.length = options.length || _canvas.errorLength || 0;
+        if (this.length) {
             this.show(this.length);
         }
     },
@@ -48,14 +50,16 @@ DM.ErrorReport = Class.create({
             ).interpolate(this.info)
         );
         $(document.body).insert({ bottom: div });
-        div.fade({ duration: 1, from: 0, to: 1 });
-        function _remove() { div.remove(); }
-        function _hide() {
-            _remove.delay(2);
-            div.fade({ duration: 1, from: 1, to: 0 });
-        }
+        var hide = function () {
+            div.fade({
+                duration: 1,
+                from: 1,
+                to: 0,
+                afterFinish: function () { div.remove(); },
+            });
+        };
         length = length || this.length;
-        _hide.delay(length < 1 ? 1 : length);
+        hide.delay(length < 1 ? 1 : length);
     },
 });
 
@@ -68,7 +72,7 @@ DM.Canvas = Class.create({
 	    this.locationTime = moment(options.locationTime);
 	    this.utcTime = moment(options.utcTime);
 	    this.displayId = options.displayId;
-		this.hash = options.hash;
+		this.hash = (options.hash || 0);
 		this.dateFormat = (options.dateFormat || 'LL');
 		this.timeFormat = (options.timeFormat || 'LT');
 		this.latitude = (options.latitude || 0);
@@ -76,17 +80,19 @@ DM.Canvas = Class.create({
 		this.woeid = (options.woeid || 0);
 		this.culture = (options.culture || "");
 		this.temperatureUnit = (options.temperatureUnit || 'c');
-		this.showErrors = (options.showErrors || false);
 		this.noScroll = (options.noScroll || false);
-		this.readyTimeout = (options.readyTimeout || 10);
-		//this.skipIfTimeout = !!options.skipIfTimeout;
-
+		this.readyTimeout = (options.readyTimeout || 0);
+		this.fsIdleInterval = (options.initialIdleInterval || 0);   // !!!
+		this.pollInterval = (options.pollInterval || 0);
+		this.errorLength = (options.errorLength || 0);
 		this.width = (options.width || 0);
 		this.height = (options.height || 0);
 		this.backImage = (options.backImage || 0);
 		this.backColor = (options.backColor || 'transparent');
-		this.initialIdleInterval = (options.initialIdleInterval || 0);
+
 		this.supports_video = !!document.createElement('video').canPlayType;
+		this._initializedPanels = false;
+		this._checkingDisplayHashNow = false;
 
 		this.panels = [];
 		this.fullPanel = {};
@@ -94,70 +100,104 @@ DM.Canvas = Class.create({
 
 	initPanels: function () {
 	    "use strict";
+	    if (this._initializedPanels)
+	        return;
+	    this._initializedPanels = true;
+
+	    var body = $(document.body),
+            segs = $('segments'),
+            scr = $('screen')
+	    ;
+
+	    scr.setStyle({ opacity: 0 });
+
+	    if (this.noScroll) {
+	        body.addClassName("noscroll");
+        }
+
+	    if (this.backImage > 0) {
+	        segs.style.backgroundImage = "url('getImage.ashx?content=" + this.backImage + "')";
+	    }
+
+	    if (this.backColor != '') {
+	        body.style.backgroundColor = this.backColor;
+	        segs.style.backgroundColor = this.backColor;
+	        scr.style.backgroundColor = this.backColor;
+        }
+
 	    this.fixScreenDiv();
 	    Event.observe(window, "resize", this.fixScreenDiv);
 
-	    if (this.noScroll) {
-	        $(document.body).addClassName("noscroll");
-        }
-	    var s = $('segments').style;
-	    if (this.backImage > 0) {
-	        s.backgroundImage = "url('getImage.ashx?content=" + this.backImage + "')";
-	    }
-	    if (this.backColor != '') {
-	        s.backgroundColor = this.backColor;
-	    }
-
 	    $$('div[data-panel-id]').each(function (e) {
-	        var pi = e.readAttribute('data-panel-id');
-	        if (e.id === "full")
-	            this.fullPanel = new DM.FullScreenPanel({
-                    panelId: pi,
-                    container: e.id,
-		            evalScripts: false,
-		            fadeLength: 2, // sec (default)
-		            idleInterval: this.initialIdleInterval,
-                });
-	        else
-	            this.panels.push(new DM.Panel({
-                    panelId: pi,
-                    container: e.id,
-		            evalScripts: false,
-		            fadeLength: 1, // sec (default)
-                }));
-	    }.bind(this));
+	        var pi = parseInt(e.readAttribute('data-panel-id'), 10),
+	            fl = parseFloat(e.readAttribute('data-fade-length') || 0)
+	        ;
+	        if (e.id === "full") {
+	            _canvas.fullPanel = new DM.FullScreenPanel({
+	                panelId: pi,
+	                container: e.id,
+	                fadeLength: fl,
+	            });
+	        } else {
+	            _canvas.panels.push(new DM.Panel({
+	                panelId: pi,
+	                container: e.id,
+	                fadeLength: fl,
+	            }));
+	        }
+	    });
 	},
 
 	pausePanels: function () {
 	    _canvas.fullScreenActive = true;
 	    _canvas.panels.forEach(function (p) {
-	        try { if (p.object && p.object.pause) p.object.pause(); } catch (e) { }
+	        try {
+	            if (p.object && typeof p.object.pause === "function")
+	                p.object.pause();
+	        } catch (e) { }
 	    });
 	},
 
 	resumePanels: function () {
 	    _canvas.fullScreenActive = false;
 	    _canvas.panels.forEach(function (p) {
-	        try { if (p.object && p.object.play) p.object.play(); } catch (e) { }
+	        try {
+	            if (p.object && p.object.play)
+	                p.object.play();
+	        } catch (e) { }
 	    });
 	},
 
 	fixScreenDiv: function () {
 	    "use strict";
-	    var body = $$('body')[0];
-		body.style.backgroundColor = this.backColor;
-		var s = $('screen').style;
-		s.height = body.clientHeight + 'px';
-		s.width = body.clientWidth + 'px';
-		s.backgroundColor = this.backColor;
+	    var body = $(document.body);
+		var scr = $('screen').style;
+		scr.height = body.clientHeight + 'px';
+		scr.width = body.clientWidth + 'px';
 	},
+});
 
-    checkDisplayHash: function () {
-        "use strict";
-        new Ajax.Request("getDisplayHash.ashx", {
+DM.Canvas.RefreshDisplay = function () {
+    "use strict";
+
+    // first off, queue us again
+    DM.Canvas.RefreshDisplay.delay(_canvas.pollInterval);
+
+    // refresh the window every midnight
+    var now = new Date();
+    if (now.getHours() + now.getMinutes() === 0) {
+        console.log("reload triggered in DM::Canvas::RefreshDisplay " + now.toString());
+        document.location.reload(true);
+        return;
+    }
+
+    // trigger display data update
+    if (!_canvas._checkingDisplayHashNow) {
+        _canvas._checkingDisplayHashNow = true;
+
+        new Ajax.Request("getDisplayData.ashx", {
             method: 'get'
-            , parameters: $H({display: this.displayId})
-            , canvas: this
+            , parameters: $H({ display: _canvas.displayId })
             , evalJSON: false
 
             , onSuccess: function (resp) {
@@ -170,33 +210,39 @@ DM.Canvas = Class.create({
                     if (json.Error)
                         throw new Error("Server error");
 
-                    var c = resp.request.options.canvas;
-                    var _displayId = json.DisplayId;
-                    if (c.displayId != _displayId)
+                    if (_canvas.displayId != json.DisplayId)
                         return;
-                    var _hash = json.Hash;
-                    if (c.hash != _hash) {
-                        console.log("reload triggered in checkDisplayHash");
+                    
+                    if (_canvas.hash && _canvas.hash != json.Hash) {
+                        console.log("reload triggered in DM::Canvas::RefreshDisplay::getDisplayData::onSuccess");
                         document.location.reload(true);
+                        return;
                     }
+
+                    _canvas.hash = json.Hash || _canvas.hash;
+                    _canvas.fsIdleInterval = json.IdleInterval || _canvas.fsIdleInterval;
+                    _canvas.initPanels();
                 }
                 catch (e) {
-                    new DM.ErrorReport({ exception: e, data: resp.responseText, source: "checkDisplayHash::onSuccess" });
+                    new DM.ErrorReport({ exception: e, data: resp.responseText, source: "DM::Canvas::RefreshDisplay::getDisplayData::onSuccess" });
+                }
+                finally {
+                    _canvas._checkingDisplayHashNow = false;
                 }
             }
 
-			, onFailure: function (resp) {
-			    new DM.ErrorReport({ exception: resp, source: "checkDisplayHash::onFailure" });
-			}
+            , onFailure: function (resp) {
+                new DM.ErrorReport({ exception: resp, source: "DM::Canvas::RefreshDisplay::getDisplayData::onFailure" });
+                _canvas._checkingDisplayHashNow = false;
+            }
         });
-    },
+    }
 
-    collectUsedContainers: function () {
-        $$("div[id^='x_'][collect='1']").each(function (e) {
-            e.remove();
-        });
-    },
-});
+    // force garbage collector
+    if (typeof CollectGarbage === "function") {
+        CollectGarbage();
+    }
+};
 
 
 DM.FrameBase = Class.create({
@@ -224,7 +270,7 @@ DM.FrameBase = Class.create({
 
         this.readyTimer = readyTimeoutCallback
             .bind(this)
-            .delay(_canvas.readyTimeout || 60)
+            .delay(_canvas.readyTimeout)
         ;
     },
 
@@ -232,7 +278,7 @@ DM.FrameBase = Class.create({
         "use strict";
         this.readyTimeoutClear();
         var foo = this.onFrameReady; this.onFrameReady = null;
-        if (foo) (foo)();
+        if (typeof foo === "function") foo();
     },
 
     uninit: function () {
@@ -271,6 +317,18 @@ DM.FrameBase = Class.create({
     },
 });
 
+DM.FrameBase.Reclaim = function (id) {
+    $$("#" + id).each(function (_x) {
+        try {
+            _x.select("iframe").each(function (_f) {
+                _f.src = "about:blank";
+            });
+            _x.remove();
+        }
+        catch (e) { }
+    });
+};
+
 
 DM.PanelBase = Class.create(Ajax.Base, {
 	initialize: function ($super, options) {
@@ -278,16 +336,15 @@ DM.PanelBase = Class.create(Ajax.Base, {
 	    $super(options);
 
 		this.panelId = (this.options.panelId || 0);
-		this.frequency = (this.options.frequency || 1);
-		this.containerId = this.options.container; // "div" + this.panelId;
-		this.data = {};
-		//this.hash = "";
-		this.object = null;
-
-		this.newFrameId = 0;
-		this.newType = -1;
+		this.frameLength = (this.options.frameLength || 1);
+		this.containerId = this.options.container;
 		this.fadeLength = (this.options.fadeLength || 0);
 		if (this.fadeLength < 0) this.fadeLength = 0;
+		this.data = {
+		    FrameId: this.newFrameId = 0,
+		    FrameType: this.newType = -1,
+		    Duration: 0,
+		};
 
 		this._onGetNextFrame.bind(this);
 	},
@@ -318,21 +375,12 @@ DM.PanelBase = Class.create(Ajax.Base, {
 				    if (json.Error)
 				        throw new Error("Server error");
 
-                    // get duration first
+				    p.newFrameId = json.FrameId || 0;
+				    p.newType = json.FrameType;
+				    var l = json.Duration || 0;
+				    p.frameLength = p.newFrameId && l < 0 || !p.newFrameId ? 0 : l;
 				    p.data = $(json);
-				    p.frequency = json.Duration;
-				    if (p.frequency == null || p.frequency <= 0)
-				        p.frequency = 1;
-
-                    // now get frame id
-				    p.newFrameId = json.FrameId;
-				    if (p.newFrameId == null || !p.newFrameId) {
-				        p.newFrameId = 0;
-				    } else {
-				        p.newType = json.FrameType;
-				        //p.html = json.Html;
-				    }
-			    }
+                }
 			    catch (e) {
 			        new DM.ErrorReport({ exception: e, data: resp.responseText, source: "_onGetNextFrame::onSuccess" });
 			    }
@@ -342,14 +390,6 @@ DM.PanelBase = Class.create(Ajax.Base, {
 		    }
 
 		    , onFailure: function (resp) {
-			    /*switch(resp.status)
-			    {
-			    case 404:
-			    case 415:
-			    default:
-			    break;
-			    }*/
-		        //_updateBegin();
 		        new DM.ErrorReport({ exception: resp.toString(), source: "_onGetNextFrame::onFailure", data: resp });
 		        resp.request.options.panelUpdater._onUpdateEnd();
 		    }
@@ -359,15 +399,17 @@ DM.PanelBase = Class.create(Ajax.Base, {
 	_uninitFrame: function () {
 	    "use strict";
 	    try {
-	        if (this.object)
+	        if (this.object) {
 	            this.object.uninit();
-	    }
+	            delete this.object;
+	        }
+        }
 	    catch (e) {
 	        new DM.ErrorReport({ exception: e, source: "_uninitFrame" }); // <-- shouldn't get here
 	    }
-	    finally {
-	        this.object = null;
-	    }
+	    //finally {
+	    //    this.object = null;
+	    //}
 	},                 // <-- stops and destroys current object; for full panel resumes objects in other panels
 
 	_initFrame: function () {
@@ -450,76 +492,78 @@ DM.PanelBase = Class.create(Ajax.Base, {
 });
 
 DM.Panel = Class.create(DM.PanelBase, {
-	initialize: function ($super, options) {
-	    "use strict";
-	    $super(options);
-	    this.countdown = 0.0;
-	    this.step = 1.0;  // sec
-		this._onFrameExpire();
-	},
+    initialize: function ($super, options) {
+        "use strict";
+        $super(options);
+        this.countdown = 0.0;
+        this.step = 1.0;  // sec
+        this._onFrameExpire();
+    },
 
-	_onFrameExpire: function (/*$super*/) {
-	    "use strict";
-	    if (_canvas.fullScreenActive || --this.countdown > 0) {
-	        this._onFrameExpire
+    _onFrameExpire: function (/*$super*/) {
+        "use strict";
+        if (_canvas.fullScreenActive || --this.countdown > 0) {
+            this._onFrameExpire
                 .bind(this)
                 .delay(this.step)
             ;
-	    } else {
-	        this._onGetNextFrame();
-	    }
-	},                // <-- if not behind full frame call _onGetNextFrame, otherwise queue _onFrameExpire again
+        } else {
+            this._onGetNextFrame();
+        }
+    },                // <-- if not behind full frame call _onGetNextFrame, otherwise queue _onFrameExpire again
 
-	_onUpdateEnd: function (/*$super*/) {
-	    "use strict";
+    _onUpdateEnd: function (/*$super*/) {
+        "use strict";
 
-	    // create new empty container
-	    this.oldContainer = $(this.containerId);
-	    this.newContainer = this.oldContainer
+        // create new empty container
+        this.oldContainer = $(this.containerId);
+        this.newContainer = this.oldContainer
             .clone(false)
             .setStyle({ opacity: 0 }) //display: 'none'
-	    ;
-	    this.oldContainer.id = "x_" + this.containerId;
-	    this.oldContainer.insert({ after: this.newContainer });
+        ;
+        this.oldContainer.id = "x_" + this.containerId;
+        this.oldContainer.insert({ after: this.newContainer });
 
-	    // bail if no more frames
-	    if (!this.newFrameId) {
-	        this._uninitFrame();
-	        this._fadeOut();
-	        this._onFrameExpire.bind(this).delay(60);  // wait 1 min
-	        return;
-	    }
+        // bail if no more frames
+        if (!this.newFrameId) {
+            this._uninitFrame();
+            this._fadeOut();
+            this._onFrameExpire
+                .bind(this)
+                .delay(_canvas.pollInterval)
+            ;
+            return;
+        }
 
-	    // set html
-	    this.newContainer.update(this.data.Html);
+        // set html
+        this.newContainer.update(this.data.Html);
 
-	    // init new frame
-	    this.newObj = this._initFrame(this.newContainer);
-	},
+        // init new frame
+        this.newObj = this._initFrame(this.newContainer);
+    },
 	
-	onFrameReady: function () {
-	    "use strict";
+    onFrameReady: function () {
+        "use strict";
 
-	    // uninit old object first, then bind to new object
-	    this._uninitFrame();
-	    this.object = this.newObj;   // <-- already inited
+        // uninit old object first, then bind to new object
+        this._uninitFrame();
+        this.object = this.newObj;   // <-- already inited
 
-	    // fade in new container
-	    var afterFadeIn = function () {
-	        this.newContainer.setStyle({ opacity: 1 });	// display: ''
-	    };
+        // fade in new container
+        (function (con, l) {
+            var done = function () {
+                con.setStyle({ opacity: 1 });	// display: ''
+            };
 
-	    if (this.fadeLength > 0) {
-	        this.newContainer.appear({
-	            duration: this.fadeLength,
-	            afterFinish: afterFadeIn.bind(this)
-	        });
-	    } else {
-	        afterFadeIn.apply(this);
-	    }
+            // fade out old container and remove it
+	        if (l)
+	            con.appear({ duration: l, afterFinish: done });
+	        else
+	            done();
+        })(this.newContainer, this.fadeLength);
 
 	    // queue _onFrameExpire
-	    this.countdown = (this.frequency + this.fadeLength) / this.step;
+	    this.countdown = (this.frameLength + this.fadeLength) / this.step;
 	    this._onFrameExpire
             .bind(this)
             .delay(this.step)
@@ -532,23 +576,20 @@ DM.Panel = Class.create(DM.PanelBase, {
 	_fadeOut: function () {
 	    "use strict";
 
-	    var afterFadeOut = function () {
-	        try {
-	            $$("#x_" + this.containerId).each(function (ee) {
-	                ee.remove();
-	            });
-	        }
-	        catch (e) { }
-	    };
+	    if (/^x_/.exec(this.oldContainer.id)) {
+	        var done = (function (id) {
+	            return function () {
+	                DM.FrameBase.Reclaim(id);
+	            }
+	        })(this.oldContainer.id);
 
-	    if (this.fadeLength && this.oldContainer) {
-	        this.oldContainer.fade({
-	            duration: this.fadeLength,
-	            afterFinish: afterFadeOut.bind(this)
-	        });
-	    } else {
-	        afterFadeOut.apply(this);
+	        if (this.fadeLength)
+	            this.oldContainer.fade({ duration: this.fadeLength, afterFinish: done });
+	        else
+	            done();
 	    }
+
+	    this.oldContainer = {};
 	},
 });
 
@@ -556,194 +597,124 @@ DM.FullScreenPanel = Class.create(DM.PanelBase, {
 	initialize: function ($super, options) {
 	    "use strict";
 	    $super(options);
-	    this.idleInterval = (this.options.idleInterval || 0);
 	    this.screen = $('screen');
-		this._getIdleInterval();
 		this._onFrameExpire();
 	},
 
 	_onFrameExpire: function (/*$super*/) {
 	    "use strict";
 
+	    // blank frame?
+	    if (!this.newFrameId) {
+	        this._onGetNextFrame
+                .bind(this)
+                .delay(_canvas.fsIdleInterval)
+	        ;
+	        return;
+	    }
+
 	    // un-init old frame
 	    this._uninitFrame();
 
-	    // create new screen
+	    // create new container
 	    var oldContainer = $(this.containerId);
-        this.newContainer = oldContainer
+	    this.newContainer = oldContainer
             .clone(false)
-            .setStyle({ display: 'none' })
+            .setStyle({ display: '' })
 	    ;
-        oldContainer.id = "x_" + this.containerId;
-        oldContainer.insert({ after: this.newContainer });
-
-	    var afterFadeOut = function () {
-	        _canvas.resumePanels();
-	        try {
-	            $$("#x_" + this.containerId).each(function (ee) {
-	                ee.remove();
-	            });
-            }
-	        catch (e) { }
-	        this.screen.setStyle({ opacity: 0 });	//display: 'none'
-	    };
+	    oldContainer.id = "x_" + this.containerId;
+	    oldContainer.insert({ after: this.newContainer });
 
 	    // fade out old container and remove it
-	    if (this.fadeLength > 0) {
-	        this.screen.fade({
-	            duration: this.fadeLength,
-	            afterFinish: afterFadeOut.bind(this)
-	        });
-	    } else {
-	        afterFadeOut.apply(this);
-	    }
+	    (function (id, screen, l) {
+	        var done = function () {
+	            screen.setStyle({ opacity: 0 });
+	            _canvas.resumePanels();
+	            DM.FrameBase.Reclaim(id);
+
+	        };
+
+	        if (l)
+	            screen.fade({ duration: l, afterFinish: done });
+	        else
+	            done();
+
+	    })(oldContainer.id, this.screen, this.fadeLength);
+
+	    oldContainer = {};
 
         // queue next frame update
-	    this.idler = this._onGetNextFrame.bind(this).delay(this.idleInterval);
+	    this._onGetNextFrame
+            .bind(this)
+            .delay(_canvas.fsIdleInterval + this.fadeLength)    // !!! must add fade length to avoid cross-fader issues
+	    ;
 	},
 
 	_onUpdateEnd: function (/*$super*/) {
 	    "use strict";
+
+	    // blank frame?
 	    if (!this.newFrameId) {
-	        this._onFrameExpire.bind(this).delay(this.idleInterval);
-	        return;
+	        if (this.object) {
+	            this._onFrameExpire();  // clear previous frame
+	        } else {
+	            this._onGetNextFrame
+                    .bind(this)
+                    .delay(_canvas.fsIdleInterval)
+	            ;
+	        }
+            return;
 	    }
 
 	    // set html
-	    this.newContainer //= $(this.containerId)
+	    this.newContainer = (this.newContainer || $(this.containerId))
 			.update(this.data.Html)
-			.setStyle({ display: '' })
+	        .setStyle({ display: '' })
 	    ;
 
-	    // tell other panels to pause
-		_canvas.pausePanels();
-		
 	    // init new frame
 	    this.object = this._initFrame(this.newContainer);
 	},
 
 	onFrameReady: function () {
 	    "use strict";
-	    // fade in new container
-	    var afterFadeIn = function () {
-	        this.screen.setStyle({ opacity: 1 });	// display: 'block'
-	    };
 
-	    if (this.fadeLength) {
-	        this.screen.appear({
-	            duration: this.fadeLength,
-	            afterFinish: afterFadeIn.bind(this)
-	        });
-	    } else {
-	        afterFadeIn.apply(this);
-	    }
+	    // tell other panels to pause
+	    _canvas.pausePanels();
+
+	    // fade in new container
+	    (function (screen, l) {
+	        var done = function () {
+	            screen.setStyle({ opacity: 1 });
+	        };
+
+	        if (l)
+	            screen.appear({ duration: l, afterFinish: done });
+	        else
+	            done();
+
+	    })(this.screen, this.fadeLength);
+
 
 	    // queue _onFrameExpire
 	    this._onFrameExpire
             .bind(this)
-            .delay(this.frequency + this.fadeLength)
+            .delay(this.frameLength + this.fadeLength)
 	    ;
-	},
-
-    _getIdleInterval: function () {
-	    "use strict";
-	    var p = $H({ display: _canvas.displayId });
-	    new Ajax.Request("getIdleInterval.ashx", {
-	        method: 'get'
-            , parameters: p
-            , panelUpdater: this
-            , evalJSON: false
-
-            , onSuccess: function (resp) {
-                try {
-                    var json = null;
-                    if (resp.responseText.isJSON())
-                        json = resp.responseText.evalJSON();
-                    if (!json)
-                        throw new Error("JSON expected, received ".concat(resp.responseText)); // <-- shouldn't get here
-                    if (json.Error)
-                        throw new Error("Server error");
-
-                    var p = resp.request.options.panelUpdater;
-                    p.idleInterval = json.IdleInterval || p.fadeLength;
-                }
-                catch (e) {
-                    new DM.ErrorReport({ exception: e, data: resp.responseText, source: "onAfterUpdate::onSuccess" });
-                }
-            }
-
-            , onFailure: function (resp) {
-                new DM.ErrorReport({ exception: resp, source: "onAfterUpdate::onFailure" });
-            }
-	    });
-
-	    this.getInterval = this._getIdleInterval.bind(this).delay(60);     // check every 60 seconds
 	},
 });
 
 
-// to prevent webkit issues this func needs to be a global object
-function ticker() {
-    "use strict";
-    // refresh the window every midnight
-    var now = new Date();
-    if (now.getHours() === 0 && now.getMinutes() === 0) {
-        console.log("reload triggered in ticker " + now.toString());
-        document.location.reload(true);
-        return;
-    }
-    _canvas.checkDisplayHash();
-    _canvas.collectUsedContainers();
-}
-
-/**
- * Calculate a 32 bit FNV-1a hash
- * Found here: https://gist.github.com/vaiorabbit/5657561
- * Ref.: http://isthe.com/chongo/tech/comp/fnv/
- *
- * @param {string} str the input value
- * @param {boolean} [asString=false] set to true to return the hash value as 
- *     8-digit hex string instead of an integer
- * @param {integer} [seed] optionally pass the hash of the previous chunk
- * @returns {integer | string}
- */
-function hashFnv32a(str, asString, seed) {
-    "use strict";
-    /*jshint bitwise:false */
-    var i, l,
-        hval = (seed === undefined) ? 0x811c9dc5 : seed;
-
-    for (i = 0, l = str.length; i < l; i++) {
-        hval ^= str.charCodeAt(i);
-        hval += (hval << 1) + (hval << 4) + (hval << 7) + (hval << 8) + (hval << 24);
-    }
-    if (asString) {
-        // Convert to 8 digit hex string
-        return ("0000000" + (hval >>> 0).toString(16)).substr(-8);
-    }
-    return hval >>> 0;
-}
-
-/*(function () {
-    "use strict";
-    if (!document.createElement('video').stop)
-        Element.addMethods('video', {
-            stop: function (e) { e.pause(); }
-        });
-})();*/
-
+/////////////////////////////////////////////////////////////////////////////////////////////////
 document.observe("dom:loaded", function () {
     "use strict";
 	try {
-	    // periodic checker
-		setInterval(ticker, 60000);
-
-		// init panels
-		_canvas.initPanels();
+	    DM.Canvas.RefreshDisplay();
 	}
     catch (e) {
-        new DM.ErrorReport({ exception: e, source: "dom:loaded" }); // <-- shouldn't get here
+        new DM.ErrorReport({ exception: e, source: "dom:loaded", length: 60 }); // <-- shouldn't get here
     }
 });
+/////////////////////////////////////////////////////////////////////////////////////////////////
 
 // 12-08-13 [DPA] - client side scripting END

@@ -35,11 +35,19 @@
         </div>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.ShowErrors)
+            @Html.LabelFor(model => model.ErrorLength)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.ShowErrors)
-            @Html.ValidationMessageFor(model => model.ShowErrors)
+            @Html.EditorFor(model => model.ErrorLength, new { htmlAttributes = new { @class = "duration" } }) @Resources.Sec
+            @Html.ValidationMessageFor(model => model.ErrorLength)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.PollInterval)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.PollInterval, new { htmlAttributes = new { @class = "duration" } }) @Resources.Sec
+            @Html.ValidationMessageFor(model => model.PollInterval)
         </div>
 
         <div class="editor-label">

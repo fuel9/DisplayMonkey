@@ -7,16 +7,56 @@ using System.Data.SqlClient;
 
 namespace DisplayMonkey
 {
-	public class Display
+    public class DisplayData
+    {
+        public int DisplayId { get; private set; }
+        public int IdleInterval { get; private set; }
+        public int Hash { get; private set; }
+
+        private DisplayData()
+        {
+        }
+
+        public static DisplayData Refresh(int displayId)
+        {
+            DisplayData data = new DisplayData()
+            {
+                DisplayId = 0,
+                IdleInterval = 0,
+                Hash = 0
+            };
+            
+            using (SqlCommand cmd = new SqlCommand("sp_GetDisplayData"))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@displayId", displayId);
+                using (DataSet ds = DataAccess.RunSql(cmd))
+                {
+                    if (ds.Tables.Count > 0)
+                    {
+                        DataRow r = ds.Tables[0].Rows[0];
+                        data.DisplayId = r.IntOrZero("DisplayId");
+                        data.IdleInterval = r.IntOrZero("IdleInterval");
+                        data.Hash = r.IntOrZero("Hash");
+                    }
+                }
+            }
+            
+            return data;
+        }
+    }
+    
+    public class Display
 	{
-        public string Name = "";
-        public string Host = "";
-        public int DisplayId = 0;
-        public int CanvasId = 0;
-        public int LocationId = 0;
-        public bool ShowErrors = false;
-        public bool NoScroll { get; private set; }
-        public int ReadyTimeout { get; private set; }
+        public int DisplayId { get; private set; }
+        public string Name { get; set; }
+        public string Host { get; set; }
+        public int CanvasId { get; set; }
+        public int LocationId { get; set; }
+        public bool NoScroll { get; set; }
+        public int ReadyTimeout { get; set; }
+        public int PollInterval { get; set; }   // RC13
+        public int ErrorLength { get; set; }    // RC13
 
         public Display()
 		{
@@ -54,10 +94,11 @@ namespace DisplayMonkey
 			CanvasId = r.IntOrZero("CanvasId");
 			LocationId = r.IntOrZero("LocationId");
 			Host = r.StringOrBlank("Host").Trim();
-            ShowErrors = r.Boolean("ShowErrors");
             NoScroll = r.Boolean("NoScroll");
             ReadyTimeout = r.IntOrZero("ReadyTimeout");
-			Name = r.StringOrBlank("Name").Trim();
+            PollInterval = r.IntOrZero("PollInterval");
+            ErrorLength = r.IntOrZero("ErrorLength");
+            Name = r.StringOrBlank("Name").Trim();
 			if (Name == "")
 				Name = string.Format("Display {0}", DisplayId);
 		}
@@ -100,36 +141,5 @@ namespace DisplayMonkey
 				DisplayId = cmd.Parameters["@displayId"].IntOrZero();
 			}
 		}
-
-        public static int GetHash(int displayId)
-        {
-            using (SqlCommand cmd = new SqlCommand())
-            {
-                cmd.CommandText = "select dbo.fn_GetDisplayHash(@displayId);";
-                cmd.CommandType = CommandType.Text;
-                cmd.Parameters.Add("@displayId", SqlDbType.Int).Value = displayId;
-                using (DataSet ds = DataAccess.RunSql(cmd))
-                {
-                    return DataAccess.IntOrZero(ds.Tables[0].Rows[0][0]);
-                }
-            }
-        }
-
-        public static int GetIdleInterval(int displayId)
-        {
-            using (SqlCommand cmd = new SqlCommand("sp_GetIdleInterval"))
-            {
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.Add("@displayId", SqlDbType.Int);
-                cmd.Parameters.Add("@idleInterval", SqlDbType.Int).Direction = ParameterDirection.Output;
-                cmd.Parameters["@displayId"].Value = displayId;
-                DataAccess.ExecuteNonQuery(cmd);
-                return cmd.Parameters["@idleInterval"].IntOrZero();
-            }
-        }
-
-        #region Private Members
-
-        #endregion
     }
 }

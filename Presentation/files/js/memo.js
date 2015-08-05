@@ -18,21 +18,24 @@ DM.Memo = Class.create(DM.FrameBase, {
         this.div.select('.body')[0].update(data.Body);
 
         this.timer = setInterval(this._callBack.bind(this), this.tick * 1000);
-        this.ready();
+        this.ready.bind(this).delay(0);
     },
 
     pause: function ($super) {
+        "use strict";
         $super();
         this.paused = true;
     },
 
     stop: function ($super) {
+        "use strict";
         $super();
         clearInterval(this.timer);
         this.timer = null;
     },
 
     play: function ($super) {
+        "use strict";
         $super();
         this.paused = false;
     },

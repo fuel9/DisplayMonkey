@@ -14,6 +14,9 @@ namespace DisplayMonkey.Models
     public enum SettingTypes : int
     {
         SettingType_IntPositive = 0,
-        SettingType_String = 1
+        SettingType_String = 1,
+        SettingType_DecimalPositive = 2,
+        SettingType_Int = 3,
+        SettingType_Decimal = 4
     }
 }

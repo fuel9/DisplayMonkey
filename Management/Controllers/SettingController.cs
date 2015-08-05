@@ -47,7 +47,7 @@ namespace DisplayMonkey.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include="Key,IntValuePositive,StringValue")] Setting setting)
+        public ActionResult Edit([Bind(Include = "Key,IntValue,IntValuePositive,StringValue,DecimalValue,DecimalValuePositive")] Setting setting)
         {
             if (ModelState.IsValid)
             {

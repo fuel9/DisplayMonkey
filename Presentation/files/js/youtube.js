@@ -5,35 +5,30 @@
 // 2015-04-27 [LTL] - report ready in onPlayerStateChange
 // 2015-05-08 [LTL] - ready callback
 // 2015-06-18 [LTL] - RC10: tweak for http://stackoverflow.com/questions/17078094/youtube-iframe-player-api-onstatechange-not-firing
+// 2015-07-29 [LTL] - RC12: performance and memory management improvements
 
-// 1. This code initiates load of the IFrame Player API code asynchronously.
-var YtLib = {
-    initialized: false,
-    loaded: false,
-
-    // 1. Delayed Player API loading.
-    load: function (div) {
-        "use strict";
-        if (!this.initialized) {
-            this.initialized = true;
-            var lib = new Element('script', {
-                src: 'https:'.concat('//www.youtube.com/iframe_api')
-            });
-            $$('script').last().insert({ after: lib });
-        }
-    }
-};
-
-// 2. This code loads the IFrame Player API code asynchronously.
-// must be a static funciton
-(function (w) {
+// Create YT lib loader object
+var YtLib = (function (w) {
     "use strict";
     w.onYouTubeIframeAPIReady = function () {
         YtLib.loaded = true;
     }
+    return {
+        initialized: false,
+        loaded: false,
+        load: function (div) {
+            "use strict";
+            if (!this.initialized) {
+                this.initialized = true;
+                var lib = new Element('script', {
+                    src: 'https:'.concat('//www.youtube.com/iframe_api')
+                });
+                $$('script').last().insert({ after: lib });
+            }
+        }
+    };
 })(window);
 
-// 3. This class creates a player.
 DM.YtPlayer = Class.create(DM.FrameBase, {
     initialize: function ($super, options) {
         "use strict";
@@ -70,8 +65,12 @@ DM.YtPlayer = Class.create(DM.FrameBase, {
             default: this.rate = 1.0; break;           // normal
         }
         this.loop = !!data.AutoLoop;
-        this.volume = data.Volume || 0;
-        if (this.volume > 100) this.volume = 100;
+        var v = data.Volume || 0;
+        this.volume =
+            v > 100 ? 100 :
+            v < 0 ? 0 :
+            v
+        ;
         this.show();
     },
 
@@ -99,6 +98,19 @@ DM.YtPlayer = Class.create(DM.FrameBase, {
         } catch (e) { }
     },
 
+    uninit: function ($super) {
+        "use strict";
+        try {
+            if (this.player && typeof this.player.removeEventListener === "function") {
+                this.player.removeEventListener('onStateChange', this.onPlayerStateChange);
+                this.player.removeEventListener('onReady', this.onPlayerReady);
+                this.player.removeEventListener('onError', this.onPlayerError);
+            }
+        }
+        catch (e) { }
+        $super();
+    },
+
     show: function () {
         "use strict";
         if (this.player) return;
@@ -117,7 +129,7 @@ DM.YtPlayer = Class.create(DM.FrameBase, {
                     showinfo: 0,
                     modestbranding: 1,
                     rel: 0,
-                    //origin: window.location,
+                    origin: document.domain,
                     wmode: 'opaque',
                     autoplay: 0,
                     loop: this.loop
@@ -135,7 +147,7 @@ DM.YtPlayer = Class.create(DM.FrameBase, {
         }
     },
 
-    // 4. The API will call this function when the video player is ready.
+    // The API will call this function when the video player is ready.
     onPlayerReady: function (event) {
         "use strict";
         event.target.addEventListener('onStateChange', this.onPlayerStateChange.bind(this));
@@ -144,33 +156,16 @@ DM.YtPlayer = Class.create(DM.FrameBase, {
         event.target.setPlaybackRate(this.rate);
     },
 
-    // 5. The API calls this function when the player's state changes.
+    // The API calls this function when the player's state changes.
     onPlayerStateChange: function (event) {
         "use strict";
         if (event.data == YT.PlayerState.PLAYING) {
-			event.target.removeEventListener('onStateChange', this.onPlayerStateChange);
-            this.ready();
+            event.target.removeEventListener('onStateChange', this.onPlayerStateChange);
+			this.ready();
         }
     },
 
-    /*
-    uninit: function ($super) {
-        "use strict";
-        if (this.pollStateTimer) clearTimeout(this.pollStateTimer);
-        $super();
-    },
-
-    pollPlayerState: function () {
-        "use strict";
-        if (this.player.getPlayerState && this.player.getPlayerState() == YT.PlayerState.PLAYING) {
-            this.pollStateTimer = 0;
-            this.ready();
-        } else {
-            this.pollStateTimer = this.pollPlayerState.bind(this).delay(this.pollDelay += 0.1);   // progressive delay
-        }
-    },*/
-
-    // 6. The API calls this function when error occurs.
+    // The API calls this function when error occurs.
     onPlayerError: function (event) {
         "use strict";
         try {

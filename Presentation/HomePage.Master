@@ -33,8 +33,8 @@
         <link rel="Stylesheet" href="~/files/custom.css" />
 
         <!-- script src="~/Scripts/modernizr-2.6.2.js"></!-->
-        <script src="~/Scripts/jquery-2.0.3.js"></script>
-        <script src="~/Scripts/jqsimplemenu.js"></script>
+        <!-- script src="~/Scripts/jquery-2.1.4.js"></!-->
+        <!-- script src="~/Scripts/jqsimplemenu.js"></!-->
         <!-- script src="~/Scripts/json2.js"></!-->
         <!-- script src="~/Scripts/jquery-ui-1.10.3.js"></!-->
         <!-- script src="~/Scripts/jquery-ui-i18n.js"></!-->
@@ -60,7 +60,7 @@
                     <nav>
                         <ul class="menu">
                             <li><a href="default.aspx"><%=DisplayMonkey.Language.Resources.Home%></a></li>
-                            <li><a href="register.aspx">Register this display</a></li>
+                            <li><a href="register.aspx"><%=DisplayMonkey.Language.Resources.RegisterThisDisplay%></a></li>
                             <li><a href="#" onclick="window.open('help','Help','width=640,height=480,resizable=1,scrollbars=1'); return false;" id="help" target="_blank" runat="server"><%=DisplayMonkey.Language.Resources.Help%></a></li>
                             <li><a href="http://www.fuel9.com/home/about-us/"><%=DisplayMonkey.Language.Resources.About%></a></li>
                         </ul>

@@ -81,9 +81,12 @@ namespace DisplayMonkey.Controllers
 
         public ActionResult Create(int canvasId = 0)
         {
+            Panel panel = new Panel();
+            panel.init(db);
+
             FillCanvasSelectList(canvasId);
 
-            return View();
+            return View(panel);
         }
 
         //
@@ -154,6 +157,8 @@ namespace DisplayMonkey.Controllers
                 return View("Missing", new MissingItem(id));
             }
 
+            fs.FadeLength = fs.Panel.FadeLength;
+
             return View(fs);
         }
 
@@ -167,6 +172,7 @@ namespace DisplayMonkey.Controllers
             if (ModelState.IsValid)
             {
                 Panel panel = db.Panels.Find(fs.PanelId);
+                panel.FadeLength = fs.FadeLength;
                 db.Entry(panel).State = EntityState.Modified;
                 db.Entry(fs).State = EntityState.Modified;
                 db.SaveChanges();

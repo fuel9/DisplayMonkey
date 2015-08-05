@@ -28,6 +28,7 @@ namespace DisplayMonkey.Models
         public int Width { get; set; }
         public string Name { get; set; }
         public byte[] Version { get; set; }
+        public double FadeLength { get; set; }
     
         public virtual Canvas Canvas { get; set; }
         public virtual ICollection<Frame> Frames { get; set; }

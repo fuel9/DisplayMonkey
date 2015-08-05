@@ -8,7 +8,7 @@ using System.Web.Script.Serialization;
 
 namespace DisplayMonkey
 {
-    public partial class getIdleInterval : IHttpHandler
+    public partial class getDisplayData : IHttpHandler
     {
         public bool IsReusable { get { return false; } }
 
@@ -17,14 +17,15 @@ namespace DisplayMonkey
 			HttpRequest Request = context.Request;
 			HttpResponse Response = context.Response;
 
-			int displayId = DataAccess.IntOrZero(Request.QueryString["display"]);
- 
+            int displayId = DataAccess.IntOrZero(Request.QueryString["display"]);
+
 			string json = "";
 				
 			try
 			{
-                JavaScriptSerializer oSerializer = new JavaScriptSerializer();
-                json = oSerializer.Serialize(new { IdleInterval = Display.GetIdleInterval(displayId) });
+                DisplayData data = DisplayData.Refresh(displayId);
+				JavaScriptSerializer oSerializer = new JavaScriptSerializer();
+                json = oSerializer.Serialize(data);
 			}
 
             catch (Exception ex)

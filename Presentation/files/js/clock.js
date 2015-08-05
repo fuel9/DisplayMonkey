@@ -31,6 +31,7 @@ DM.Clock = Class.create(DM.FrameBase, {
 
         this.timer = setInterval(this._callBack.bind(this), 1000);
         this._callBack();
+        this.ready.bind(this).delay(0);
     },
 	
     stop: function ($super) {
@@ -41,6 +42,7 @@ DM.Clock = Class.create(DM.FrameBase, {
     },
 
     _setContainer: function(cls, data) {
+        "use strict";
         this.container = null;
         this.div.childElements().each(function (e) {
             if (e.getAttribute('class') == cls)
@@ -141,8 +143,6 @@ DM.Clock = Class.create(DM.FrameBase, {
                     this._rotateHand(this.elemSec, sec * 6);
                 break;
         }
-
-        this.ready();
     },
 
     _rotateHand: function (e, r) {
