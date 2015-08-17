@@ -7,6 +7,7 @@ go
   2013-11-07 [DPA] - DisplayMonkey object
   2014-11-16 [LTL] - displayId instead of panelId, fixed location
   2015-07-30 [LTL] - supersedes sp_GetIdleInterval and fn_GetDisplayHash, RC13
+  2015-08-17 [LTL] - fixed hash, RC14
 *******************************************************************/
 alter procedure dbo.sp_GetDisplayData
 	@displayId int
@@ -80,7 +81,7 @@ as begin
 	-- return result
 	select 
 		DisplayId		= DisplayId
-	,	[Hash]			= cast(@v as int)
+	,	[Hash]			= checksum(@v)
 	,	IdleInterval	= case when 0 < MaxDuration and MaxDuration < Duration then MaxDuration else Duration end
 	from _f outer apply _m
 	;

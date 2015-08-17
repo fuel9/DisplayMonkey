@@ -81,6 +81,7 @@ DM.Canvas = Class.create({
 		this.culture = (options.culture || "");
 		this.temperatureUnit = (options.temperatureUnit || 'c');
 		this.noScroll = (options.noScroll || false);
+		this.noCursor = (options.noCursor || false);
 		this.readyTimeout = (options.readyTimeout || 0);
 		this.fsIdleInterval = (options.initialIdleInterval || 0);   // !!!
 		this.pollInterval = (options.pollInterval || 0);
@@ -113,7 +114,11 @@ DM.Canvas = Class.create({
 
 	    if (this.noScroll) {
 	        body.addClassName("noscroll");
-        }
+	    }
+
+	    if (this.noCursor) {
+	        body.addClassName("nocursor");
+	    }
 
 	    if (this.backImage > 0) {
 	        segs.style.backgroundImage = "url('getImage.ashx?content=" + this.backImage + "')";

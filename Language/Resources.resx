@@ -1424,4 +1424,7 @@
   <data name="PositiveDecimalRequired" xml:space="preserve">
     <value>Please enter a positive decimal number</value>
   </data>
+  <data name="NoCursor" xml:space="preserve">
+    <value>Hide mouse pointer</value>
+  </data>
 </root>

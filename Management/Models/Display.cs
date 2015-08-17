@@ -24,6 +24,7 @@ namespace DisplayMonkey.Models
         public int ReadyTimeout { get; set; }
         public int PollInterval { get; set; }
         public int ErrorLength { get; set; }
+        public bool NoCursor { get; set; }
     
         public virtual Canvas Canvas { get; set; }
         public virtual Location Location { get; set; }

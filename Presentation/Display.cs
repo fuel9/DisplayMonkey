@@ -54,6 +54,7 @@ namespace DisplayMonkey
         public int CanvasId { get; set; }
         public int LocationId { get; set; }
         public bool NoScroll { get; set; }
+        public bool NoCursor { get; set; }
         public int ReadyTimeout { get; set; }
         public int PollInterval { get; set; }   // RC13
         public int ErrorLength { get; set; }    // RC13
@@ -95,6 +96,7 @@ namespace DisplayMonkey
 			LocationId = r.IntOrZero("LocationId");
 			Host = r.StringOrBlank("Host").Trim();
             NoScroll = r.Boolean("NoScroll");
+            NoCursor = r.Boolean("NoCursor");
             ReadyTimeout = r.IntOrZero("ReadyTimeout");
             PollInterval = r.IntOrZero("PollInterval");
             ErrorLength = r.IntOrZero("ErrorLength");

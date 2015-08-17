@@ -1454,6 +1454,11 @@ namespace DisplayMonkey.Models
             public bool NoScroll { get; set; }
 
             [
+                Display(ResourceType = typeof(Resources), Name = "NoCursor"),
+            ]
+            public bool NoCursor { get; set; }
+
+            [
                 Display(ResourceType = typeof(Resources), Name = "Canvas"),
             ]
             public virtual Canvas Canvas { get; set; }

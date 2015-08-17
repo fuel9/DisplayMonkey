@@ -59,6 +59,14 @@
         </div>
 
         <div class="editor-label">
+            @Html.LabelFor(model => model.NoCursor)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.NoCursor)
+            @Html.ValidationMessageFor(model => model.NoCursor)
+        </div>
+
+        <div class="editor-label">
             @Html.LabelFor(model => model.ReadyTimeout)
         </div>
         <div class="editor-field">

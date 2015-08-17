@@ -182,6 +182,7 @@
     <Content Include="Scripts\Scriptaculous\slider.js" />
     <Content Include="Scripts\Scriptaculous\sound.js" />
     <Content Include="Scripts\Scriptaculous\unittest.js" />
+    <Content Include="Styles\blank.cur" />
     <Content Include="Styles\fonts\futura.eot" />
     <Content Include="Styles\fonts\futura.ttc" />
     <Content Include="Styles\fonts\futura.ttf" />

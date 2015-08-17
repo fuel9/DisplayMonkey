@@ -164,6 +164,7 @@ namespace DisplayMonkey
                 head.AppendFormat(CultureInfo.InvariantCulture, "pollInterval:{0},\n", this.Display.PollInterval);
                 head.AppendFormat(CultureInfo.InvariantCulture, "errorLength:{0},\n", this.Display.ErrorLength);
                 head.AppendFormat(CultureInfo.InvariantCulture, "noScroll:{0},\n", this.Display.NoScroll ? "true" : "false");
+                head.AppendFormat(CultureInfo.InvariantCulture, "noCursor:{0},\n", this.Display.NoCursor ? "true" : "false");
                 head.AppendFormat(CultureInfo.InvariantCulture, "readyTimeout:{0},\n", this.Display.ReadyTimeout);
                 head.Append("});\n--></script>\n<style></style>\n");
 				

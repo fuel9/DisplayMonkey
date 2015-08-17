@@ -2214,6 +2214,15 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hide mouse pointer.
+        /// </summary>
+        public static string NoCursor {
+            get {
+                return ResourceManager.GetString("NoCursor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No linked alternatives.
         /// </summary>
         public static string NoLinkedAlternatives {

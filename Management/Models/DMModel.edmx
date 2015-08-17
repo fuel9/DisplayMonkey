@@ -187,6 +187,7 @@
           <Property Name="ReadyTimeout" Type="int" Nullable="false" />
           <Property Name="PollInterval" Type="int" Nullable="false" />
           <Property Name="ErrorLength" Type="int" Nullable="false" />
+          <Property Name="NoCursor" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="ExchangeAccount">
           <Key>
@@ -941,6 +942,7 @@
           <Property Type="Int32" Name="ReadyTimeout" Nullable="false" />
           <Property Type="Int32" Name="PollInterval" Nullable="false" />
           <Property Type="Int32" Name="ErrorLength" Nullable="false" />
+          <Property Type="Boolean" Name="NoCursor" Nullable="false" />
         </EntityType>
         <EntityType Name="Frame">
           <Key>
@@ -1587,6 +1589,7 @@
           <EntitySetMapping Name="Displays">
             <EntityTypeMapping TypeName="DisplayMonkey.Model.Display">
               <MappingFragment StoreEntitySet="Display">
+                <ScalarProperty Name="NoCursor" ColumnName="NoCursor" />
                 <ScalarProperty Name="ErrorLength" ColumnName="ErrorLength" />
                 <ScalarProperty Name="PollInterval" ColumnName="PollInterval" />
                 <ScalarProperty Name="ReadyTimeout" ColumnName="ReadyTimeout" />
