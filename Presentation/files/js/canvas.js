@@ -93,7 +93,6 @@ DM.Canvas = Class.create({
 
 		this.supports_video = !!document.createElement('video').canPlayType;
 		this._initializedPanels = false;
-		this._checkingDisplayHashNow = false;
 
 		this.panels = [];
 		this.fullPanel = {};
@@ -182,71 +181,66 @@ DM.Canvas = Class.create({
 	},
 });
 
-DM.Canvas.RefreshDisplay = function () {
+DM.Canvas.Collector = function () {
     "use strict";
-
-    // first off, queue us again
-    DM.Canvas.RefreshDisplay.delay(_canvas.pollInterval);
 
     // refresh the window every midnight
     var now = new Date();
     if (now.getHours() + now.getMinutes() === 0) {
-        console.log("reload triggered in DM::Canvas::RefreshDisplay " + now.toString());
+        console.log("reload triggered in DM::Canvas::Collector " + now.toString());
         document.location.reload(true);
         return;
-    }
-
-    // trigger display data update
-    if (!_canvas._checkingDisplayHashNow) {
-        _canvas._checkingDisplayHashNow = true;
-
-        new Ajax.Request("getDisplayData.ashx", {
-            method: 'get'
-            , parameters: $H({ display: _canvas.displayId })
-            , evalJSON: false
-
-            , onSuccess: function (resp) {
-                try {
-                    var json = null;
-                    if (resp.responseText.isJSON())
-                        json = resp.responseText.evalJSON();
-                    if (!json)
-                        throw new Error("JSON expected"); // <-- shouldn't get here
-                    if (json.Error)
-                        throw new Error("Server error");
-
-                    if (_canvas.displayId != json.DisplayId)
-                        return;
-                    
-                    if (_canvas.hash && _canvas.hash != json.Hash) {
-                        console.log("reload triggered in DM::Canvas::RefreshDisplay::getDisplayData::onSuccess");
-                        document.location.reload(true);
-                        return;
-                    }
-
-                    _canvas.hash = json.Hash || _canvas.hash;
-                    _canvas.fsIdleInterval = json.IdleInterval || _canvas.fsIdleInterval;
-                    _canvas.initPanels();
-                }
-                catch (e) {
-                    new DM.ErrorReport({ exception: e, data: resp.responseText, source: "DM::Canvas::RefreshDisplay::getDisplayData::onSuccess" });
-                }
-                finally {
-                    _canvas._checkingDisplayHashNow = false;
-                }
-            }
-
-            , onFailure: function (resp) {
-                new DM.ErrorReport({ exception: resp, source: "DM::Canvas::RefreshDisplay::getDisplayData::onFailure" });
-                _canvas._checkingDisplayHashNow = false;
-            }
-        });
     }
 
     // force garbage collector
     if (typeof CollectGarbage === "function") {
         CollectGarbage();
     }
+};
+
+DM.Canvas.CheckDisplay = function () {
+    "use strict";
+
+    // first off, queue us again
+    DM.Canvas.CheckDisplay.delay(_canvas.pollInterval);
+
+    new Ajax.Request("getDisplayData.ashx", {
+        method: 'get'
+        , parameters: $H({ display: _canvas.displayId })
+        , evalJSON: false
+
+        , onSuccess: function (resp) {
+            try {
+                var json = null;
+                if (resp.responseText.isJSON())
+                    json = resp.responseText.evalJSON();
+                if (!json)
+                    throw new Error("JSON expected"); // <-- shouldn't get here
+                if (json.Error)
+                    throw new Error("Server error");
+
+                if (_canvas.displayId != json.DisplayId)
+                    return;
+
+                if (_canvas.hash && _canvas.hash != json.Hash) {
+                    console.log("reload triggered in DM::Canvas::CheckDisplay::getDisplayData::onSuccess");
+                    document.location.reload(true);
+                    return;
+                }
+
+                _canvas.hash = json.Hash || _canvas.hash;
+                _canvas.fsIdleInterval = json.IdleInterval || _canvas.fsIdleInterval;
+                _canvas.initPanels();
+            }
+            catch (e) {
+                new DM.ErrorReport({ exception: e, data: resp.responseText, source: "DM::Canvas::CheckDisplay::getDisplayData::onSuccess" });
+            }
+        }
+
+        , onFailure: function (resp) {
+            new DM.ErrorReport({ exception: resp, source: "DM::Canvas::CheckDisplay::getDisplayData::onFailure" });
+        }
+    });
 };
 
 
@@ -714,7 +708,8 @@ DM.FullScreenPanel = Class.create(DM.PanelBase, {
 document.observe("dom:loaded", function () {
     "use strict";
 	try {
-	    DM.Canvas.RefreshDisplay();
+	    setInterval(DM.Canvas.Collector, 60000);
+	    DM.Canvas.CheckDisplay();
 	}
     catch (e) {
         new DM.ErrorReport({ exception: e, source: "dom:loaded", length: 60 }); // <-- shouldn't get here
