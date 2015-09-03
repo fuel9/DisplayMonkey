@@ -8,6 +8,7 @@ go
   2014-11-16 [LTL] - displayId instead of panelId, fixed location
   2015-07-30 [LTL] - supersedes sp_GetIdleInterval and fn_GetDisplayHash, RC13
   2015-08-17 [LTL] - fixed hash, RC14
+  2015-09-03 [LTL] - added RecycleTime, RC15
 *******************************************************************/
 alter procedure dbo.sp_GetDisplayData
 	@displayId int
@@ -17,7 +18,7 @@ as begin
 	-- calculate display hash
 	declare @v varbinary(max); set @v = 0x;
 	with _c as (
-		select c.CanvasId ID, c.Version VC, d.Version V 
+		select c.CanvasId ID, c.Version VC, d.Version V
 		from Display d with(nolock)
 		inner join Canvas c with(nolock) on c.CanvasId=d.CanvasId 
 		where d.DisplayId=@displayId
@@ -49,6 +50,7 @@ as begin
 			d.DisplayId
 		,	d.CanvasId
 		,	d.LocationId
+		,	d.RecycleTime
 		,	f.PanelId
 		,	MaxDuration	= isnull(MaxIdleInterval,0)
 		from Display d with(nolock)
@@ -83,6 +85,7 @@ as begin
 		DisplayId		= DisplayId
 	,	[Hash]			= checksum(@v)
 	,	IdleInterval	= case when 0 < MaxDuration and MaxDuration < Duration then MaxDuration else Duration end
+	,	RecycleTime
 	from _f outer apply _m
 	;
 end

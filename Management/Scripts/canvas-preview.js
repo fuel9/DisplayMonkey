@@ -1,4 +1,14 @@
-﻿var square = 500;
+/*!
+* DisplayMonkey source file
+* http://displaymonkey.org
+*
+* Copyright (c) 2015 Fuel9 LLC and contributors
+*
+* Released under the MIT license:
+* http://opensource.org/licenses/MIT
+*/
+
+var square = 500;
 var scale = 1.0;
 var url;
 

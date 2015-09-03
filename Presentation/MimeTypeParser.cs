@@ -1,4 +1,14 @@
-﻿using System;
+/*!
+* DisplayMonkey source file
+* http://displaymonkey.org
+*
+* Copyright (c) 2015 Fuel9 LLC and contributors
+*
+* Released under the MIT license:
+* http://opensource.org/licenses/MIT
+*/
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;

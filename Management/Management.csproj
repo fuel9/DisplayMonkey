@@ -322,6 +322,7 @@
     <Content Include="Content\images\toolbar.gif" />
     <Content Include="Content\jqsimplemenu.css" />
     <Content Include="Content\jquery.cleditor.css" />
+    <Content Include="Content\jquery.timepicker.css" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
     <Content Include="Content\themes\base\autocomplete.css" />
@@ -496,6 +497,8 @@
     <Content Include="Scripts\jquery.cleditor.min.js" />
     <Content Include="Scripts\jquery-2.1.4.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.timepicker.js" />
+    <Content Include="Scripts\jquery.timepicker.min.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />

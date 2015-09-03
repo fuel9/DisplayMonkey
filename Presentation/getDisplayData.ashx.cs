@@ -1,9 +1,17 @@
-﻿using System;
+/*!
+* DisplayMonkey source file
+* http://displaymonkey.org
+*
+* Copyright (c) 2015 Fuel9 LLC and contributors
+*
+* Released under the MIT license:
+* http://opensource.org/licenses/MIT
+*/
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-//using System.Web.UI;
-//using System.Web.UI.WebControls;
 using System.Web.Script.Serialization;
 
 namespace DisplayMonkey
@@ -34,7 +42,6 @@ namespace DisplayMonkey
                 json = s.Serialize(new
                 {
                     Error = ex.Message,
-                    //Stack = ex.StackTrace,
                     Data = new
                     {
                         DisplayId = displayId,

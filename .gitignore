@@ -199,3 +199,8 @@ packages
 /Management/Doc
 /Presentation/App_Data
 /Management/CodeTemplates/MvcView/*.cshtml
+/BrandJs.txt
+/Build.proj
+/BrandAsp.txt
+/BrandHtm.txt
+/.build

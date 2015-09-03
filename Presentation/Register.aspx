@@ -1,4 +1,14 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" masterpagefile="~/HomePage.Master" CodeBehind="Register.aspx.cs" Inherits="DisplayMonkey.Register" %>
+<%--
+* DisplayMonkey source file
+* http://displaymonkey.org
+*
+* Copyright (c) 2015 Fuel9 LLC and contributors
+*
+* Released under the MIT license:
+* http://opensource.org/licenses/MIT
+--%>
+
+<%@ Page Language="C#" AutoEventWireup="true" masterpagefile="~/HomePage.Master" CodeBehind="Register.aspx.cs" Inherits="DisplayMonkey.Register" %>
 
 <asp:Content ID="content1" runat="server" ContentPlaceHolderID="ContentPlaceHolder1">
         <form id="form1" runat="server">

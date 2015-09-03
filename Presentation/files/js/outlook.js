@@ -1,4 +1,14 @@
-﻿// 2014-11-18 [LTL] - outlook BEGIN
+/*!
+* DisplayMonkey source file
+* http://displaymonkey.org
+*
+* Copyright (c) 2015 Fuel9 LLC and contributors
+*
+* Released under the MIT license:
+* http://opensource.org/licenses/MIT
+*/
+
+// 2014-11-18 [LTL] - outlook BEGIN
 // 2015-02-06 [LTL] - added isReady method
 // 2015-03-08 [LTL] - using data
 // 2015-05-08 [LTL] - ready callback

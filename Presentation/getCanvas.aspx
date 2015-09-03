@@ -1,4 +1,14 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="getCanvas.aspx.cs" Inherits="DisplayMonkey.getCanvas" %>
+<%--
+* DisplayMonkey source file
+* http://displaymonkey.org
+*
+* Copyright (c) 2015 Fuel9 LLC and contributors
+*
+* Released under the MIT license:
+* http://opensource.org/licenses/MIT
+--%>
+
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="getCanvas.aspx.cs" Inherits="DisplayMonkey.getCanvas" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 

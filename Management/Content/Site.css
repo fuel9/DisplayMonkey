@@ -1,3 +1,13 @@
+/*!
+* DisplayMonkey source file
+* http://displaymonkey.org
+*
+* Copyright (c) 2015 Fuel9 LLC and contributors
+*
+* Released under the MIT license:
+* http://opensource.org/licenses/MIT
+*/
+
 /* !!! Please do not change this file. It is reserved for Display Monkey development team. !!! */
 /* !!!     Use custom.css stylesheet instead to override default styles in this file.      !!! */
 
@@ -925,7 +935,7 @@ tr.pager td {
 }
 
 
-/********************************************* DP **************************************************/
+/********************************************* DM **************************************************/
 
 div.select {
     width: 400px;
@@ -975,6 +985,15 @@ div.select {
     div.select select:focus {
         outline: none;
     }
+
+/** custom datepicker **/
+.ui-datepicker {
+    padding: 20px;
+    border-radius: 5px;
+    margin: 5px 0 6px 0;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+}
 
 .preview {
     padding-left:100px;

@@ -1,3 +1,13 @@
+/*!
+* DisplayMonkey source file
+* http://displaymonkey.org
+*
+* Copyright (c) 2015 Fuel9 LLC and contributors
+*
+* Released under the MIT license:
+* http://opensource.org/licenses/MIT
+*/
+
 // 2012-08-13 [DPA] - client side scripting BEGIN
 // 2014-10-06 [LTL] - reload when display hash changes
 // 2014-10-11 [LTL] - error reporting
@@ -13,6 +23,7 @@
 // 2015-06-25 [LTL] - added readyTimeout
 // 2015-07-28 [LTL] - minor improvements
 // 2015-07-29 [LTL] - RC13: performance and memory management improvements
+// 2015-09-03 [LTL] - RC15: added canvas recycleTime handling
 
 var $j = {};
 if (typeof jQuery === 'object') {
@@ -90,6 +101,7 @@ DM.Canvas = Class.create({
 		this.height = (options.height || 0);
 		this.backImage = (options.backImage || 0);
 		this.backColor = (options.backColor || 'transparent');
+		this.recycleTime = null;
 
 		this.supports_video = !!document.createElement('video').canPlayType;
 		this._initializedPanels = false;
@@ -185,11 +197,13 @@ DM.Canvas.Collector = function () {
     "use strict";
 
     // refresh the window every midnight
-    var now = new Date();
-    if (now.getHours() + now.getMinutes() === 0) {
-        console.log("reload triggered in DM::Canvas::Collector " + now.toString());
-        document.location.reload(true);
-        return;
+    if (_canvas.recycleTime) {
+        var now = new Date();
+        if (now.getHours() == _canvas.recycleTime.Hours && now.getMinutes() == _canvas.recycleTime.Minutes) {
+            console.log("auto-recycle triggered at " + now.toString());
+            document.location.reload(true);
+            return;
+        }
     }
 
     // force garbage collector
@@ -223,13 +237,14 @@ DM.Canvas.CheckDisplay = function () {
                     return;
 
                 if (_canvas.hash && _canvas.hash != json.Hash) {
-                    console.log("reload triggered in DM::Canvas::CheckDisplay::getDisplayData::onSuccess");
+                    console.log("recycle triggered in DM::Canvas::CheckDisplay::getDisplayData::onSuccess");
                     document.location.reload(true);
                     return;
                 }
 
                 _canvas.hash = json.Hash || _canvas.hash;
                 _canvas.fsIdleInterval = json.IdleInterval || _canvas.fsIdleInterval;
+                _canvas.recycleTime = json.RecycleTime;
                 _canvas.initPanels();
             }
             catch (e) {

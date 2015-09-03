@@ -1427,4 +1427,10 @@
   <data name="NoCursor" xml:space="preserve">
     <value>Hide mouse pointer</value>
   </data>
+  <data name="Never" xml:space="preserve">
+    <value>Never</value>
+  </data>
+  <data name="RecycleTime" xml:space="preserve">
+    <value>Auto-recycle time</value>
+  </data>
 </root>

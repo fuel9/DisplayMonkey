@@ -1,4 +1,14 @@
-﻿@using DisplayMonkey.Language
+<!--
+* DisplayMonkey source file
+* http://displaymonkey.org
+*
+* Copyright (c) 2015 Fuel9 LLC and contributors
+*
+* Released under the MIT license:
+* http://opensource.org/licenses/MIT
+-->
+
+@using DisplayMonkey.Language
 
 @{
     string help = Url.Content(Info.HelpUri(HttpContext.Current.Request, "management").OriginalString);
@@ -110,12 +120,12 @@
         </footer>
 
         <script type="text/javascript">
-                $(document).ready(function () {
-                    $('.menu').jqsimplemenu();
-                    var culture = $("meta[name='culture']").attr("content");
-                    $.datepicker.setDefaults($.datepicker.regional[culture]);
-                    $('input[type=datetime]').datepicker();
-                });
+            $(document).ready(function () {
+                $('.menu').jqsimplemenu();
+                var culture = $("meta[name='culture']").attr("content");
+                $.datepicker.setDefaults($.datepicker.regional[culture]);
+                //$('input[type=datetime]').datepicker();
+            });
         </script>
     </body>
 </html>

@@ -1,4 +1,14 @@
-﻿using System.Web;
+/*!
+* DisplayMonkey source file
+* http://displaymonkey.org
+*
+* Copyright (c) 2015 Fuel9 LLC and contributors
+*
+* Released under the MIT license:
+* http://opensource.org/licenses/MIT
+*/
+
+using System.Web;
 using System.Web.Optimization;
 
 namespace DisplayMonkey
@@ -21,7 +31,8 @@ namespace DisplayMonkey
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include(
                         "~/Scripts/jquery-ui-{version}.js",
-                        "~/Scripts/jquery-ui-i18n.js"                           // DPA: i18n
+                        "~/Scripts/jquery-ui-i18n.js",                          // DPA: i18n
+                        "~/Scripts/jquery.timepicker.js"                        // DPA: JQUI timepicker
                         ));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
@@ -72,25 +83,13 @@ namespace DisplayMonkey
             //            //"~/Content/redactor/redactor-iframe.css"
             //            ));
 
-            bundles.Add(new StyleBundle("~/Content/cleditorcss").Include(      // DPA: CLEditor style bundle
+            bundles.Add(new StyleBundle("~/Content/cleditorcss").Include(        // DPA: CLEditor style bundle
                         "~/Content/jquery.cleditor.css"
                         ));
 
             bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(
-                        /*"~/Content/themes/base/jquery.ui.core.css",
-                        "~/Content/themes/base/jquery.ui.resizable.css",
-                        "~/Content/themes/base/jquery.ui.selectable.css",
-                        "~/Content/themes/base/jquery.ui.accordion.css",
-                        "~/Content/themes/base/jquery.ui.autocomplete.css",
-                        "~/Content/themes/base/jquery.ui.button.css",
-                        "~/Content/themes/base/jquery.ui.dialog.css",
-                        "~/Content/themes/base/jquery.ui.slider.css",
-                        "~/Content/themes/base/jquery.ui.tabs.css",
-                        "~/Content/themes/base/jquery.ui.datepicker.css",
-                        "~/Content/themes/base/jquery.ui.progressbar.css",
-                        "~/Content/themes/base/jquery.ui.theme.css",*/
-                        "~/Content/themes/base/jquery-ui.css",
-                        "~/Content/themes/base/jquery-ui.all.css"
+                        "~/Content/themes/base/all.css",                         // DPA: JQUI
+                        "~/Content/jquery.timepicker.css"                        // DPA: JQUI timepicker add-on
                         ));
         }
     }

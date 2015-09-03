@@ -1,4 +1,14 @@
-﻿using System;
+/*!
+* DisplayMonkey source file
+* http://displaymonkey.org
+*
+* Copyright (c) 2015 Fuel9 LLC and contributors
+*
+* Released under the MIT license:
+* http://opensource.org/licenses/MIT
+*/
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -1475,6 +1485,34 @@ namespace DisplayMonkey.Models
                     ErrorMessageResourceName = "PositiveIntegerRequired"),
             ]
             public int ReadyTimeout { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "RecycleTime"),
+            ]
+            public Nullable<System.TimeSpan> RecycleTime { get; set; }
+        }
+
+        [
+            Display(ResourceType = typeof(Resources), Name = "RecycleTime"),
+        ]
+        public string AutoRefreshAt 
+        { 
+            get 
+            {
+                string x = null;
+                if (this.RecycleTime.HasValue)
+                    x = this.RecycleTime.Value.ToString(@"h\:mm");
+                return x;
+            }
+
+            set 
+            { 
+                TimeSpan x;
+                if (TimeSpan.TryParse(value, out x)) 
+                    this.RecycleTime = x;
+                else
+                    this.RecycleTime = null;
+            }
         }
     }
 

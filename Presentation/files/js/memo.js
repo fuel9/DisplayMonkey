@@ -1,4 +1,14 @@
-﻿// 2012-08-13 [DPA] - client side scripting BEGIN
+/*!
+* DisplayMonkey source file
+* http://displaymonkey.org
+*
+* Copyright (c) 2015 Fuel9 LLC and contributors
+*
+* Released under the MIT license:
+* http://opensource.org/licenses/MIT
+*/
+
+// 2012-08-13 [DPA] - client side scripting BEGIN
 // 2014-10-25 [LTL] - use strict, code improvements
 // 2014-11-19 [LTL] - code improvements
 // 2015-03-08 [LTL] - using data

@@ -1,4 +1,14 @@
-﻿using System;
+/*!
+* DisplayMonkey source file
+* http://displaymonkey.org
+*
+* Copyright (c) 2015 Fuel9 LLC and contributors
+*
+* Released under the MIT license:
+* http://opensource.org/licenses/MIT
+*/
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -12,6 +22,7 @@ namespace DisplayMonkey
         public int DisplayId { get; private set; }
         public int IdleInterval { get; private set; }
         public int Hash { get; private set; }
+        public Nullable<TimeSpan> RecycleTime { get; private set; }
 
         private DisplayData()
         {
@@ -23,7 +34,8 @@ namespace DisplayMonkey
             {
                 DisplayId = 0,
                 IdleInterval = 0,
-                Hash = 0
+                Hash = 0,
+                RecycleTime = null
             };
             
             using (SqlCommand cmd = new SqlCommand("sp_GetDisplayData"))
@@ -38,6 +50,11 @@ namespace DisplayMonkey
                         data.DisplayId = r.IntOrZero("DisplayId");
                         data.IdleInterval = r.IntOrZero("IdleInterval");
                         data.Hash = r.IntOrZero("Hash");
+
+                        if (r["RecycleTime"] != DBNull.Value)
+                        {
+                            data.RecycleTime = (TimeSpan)r["RecycleTime"];
+                        }
                     }
                 }
             }
@@ -58,6 +75,7 @@ namespace DisplayMonkey
         public int ReadyTimeout { get; set; }
         public int PollInterval { get; set; }   // RC13
         public int ErrorLength { get; set; }    // RC13
+        public Nullable<TimeSpan> RecycleTime { get; set; }    // RC15
 
         public Display()
 		{
@@ -100,10 +118,16 @@ namespace DisplayMonkey
             ReadyTimeout = r.IntOrZero("ReadyTimeout");
             PollInterval = r.IntOrZero("PollInterval");
             ErrorLength = r.IntOrZero("ErrorLength");
+            
             Name = r.StringOrBlank("Name").Trim();
 			if (Name == "")
 				Name = string.Format("Display {0}", DisplayId);
-		}
+            
+            if (r["RecycleTime"] != DBNull.Value)
+            {
+                RecycleTime = (TimeSpan)r["RecycleTime"];
+            }
+        }
 	
 		public static List<Display> List
 		{
