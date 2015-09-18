@@ -51,11 +51,11 @@ namespace DisplayMonkey.Models
         public DbSet<Video> Videos { get; set; }
         public DbSet<Weather> Weathers { get; set; }
         public DbSet<ReportServer> ReportServers { get; set; }
-        public DbSet<Setting> Settings { get; set; }
         public DbSet<Html> Html { get; set; }
         public DbSet<Youtube> Youtube { get; set; }
         public DbSet<ExchangeAccount> ExchangeAccounts { get; set; }
         public DbSet<Outlook> Outlooks { get; set; }
         public DbSet<Template> Templates { get; set; }
+        public DbSet<Setting> Settings { get; set; }
     }
 }

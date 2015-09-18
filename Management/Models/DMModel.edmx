@@ -339,7 +339,7 @@
             <PropertyRef Name="Key" />
           </Key>
           <Property Name="Key" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="Value" Type="varbinary(max)" />
+          <Property Name="Value" Type="varbinary" MaxLength="512" />
           <Property Name="Type" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Template">
@@ -858,7 +858,6 @@
             <End Role="ReportServer" EntitySet="ReportServers" />
             <End Role="Report" EntitySet="Reports" />
           </AssociationSet>
-          <EntitySet Name="Settings" EntityType="DisplayMonkey.Model.Setting" />
           <EntitySet Name="Html" EntityType="DisplayMonkey.Model.Html" />
           <AssociationSet Name="FK_Html_Frame" Association="DisplayMonkey.Model.FK_Html_Frame">
             <End Role="Frame" EntitySet="Frames" />
@@ -884,6 +883,7 @@
             <End Role="Template" EntitySet="Templates" />
             <End Role="Frame" EntitySet="Frames" />
           </AssociationSet>
+          <EntitySet Name="Settings" EntityType="DisplayMonkey.Model.Setting" />
           </EntityContainer>
         <EntityType Name="Canvas">
           <Key>
@@ -1351,14 +1351,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Setting">
-          <Key>
-            <PropertyRef Name="Key" />
-          </Key>
-          <Property Type="Guid" Name="Key" Nullable="false" />
-          <Property Type="Binary" Name="Value" MaxLength="Max" FixedLength="false" />
-          <Property Type="DisplayMonkey.Model.SettingTypes" Name="Type" Nullable="false" />
-        </EntityType>
         <EnumType Name="ContentTypes">
           <Member Name="ContentType_Picture" Value="0" />
           <Member Name="ContentType_Video" Value="1" />
@@ -1545,6 +1537,14 @@
           </ReferentialConstraint>
         </Association>
         <EnumType Name="FrameTypes" a:ExternalTypeName="FrameTypes" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
+        <EntityType Name="Setting">
+          <Key>
+            <PropertyRef Name="Key" />
+          </Key>
+          <Property Type="Guid" Name="Key" Nullable="false" />
+          <Property Type="Binary" Name="RawValue" MaxLength="512" FixedLength="false" />
+          <Property Type="DisplayMonkey.Model.SettingTypes" Name="Type" Nullable="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1755,15 +1755,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Settings">
-            <EntityTypeMapping TypeName="DisplayMonkey.Model.Setting">
-              <MappingFragment StoreEntitySet="Settings">
-                <ScalarProperty Name="Type" ColumnName="Type" />
-                <ScalarProperty Name="Value" ColumnName="Value" />
-                <ScalarProperty Name="Key" ColumnName="Key" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Html">
             <EntityTypeMapping TypeName="DisplayMonkey.Model.Html">
               <MappingFragment StoreEntitySet="Html">
@@ -1820,6 +1811,15 @@
                 <ScalarProperty Name="Html" ColumnName="Html" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="TemplateId" ColumnName="TemplateId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Settings">
+            <EntityTypeMapping TypeName="DisplayMonkey.Model.Setting">
+              <MappingFragment StoreEntitySet="Settings">
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="RawValue" ColumnName="Value" />
+                <ScalarProperty Name="Key" ColumnName="Key" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

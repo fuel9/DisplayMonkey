@@ -25,7 +25,7 @@ namespace DisplayMonkey.Models
     public partial class Setting
     {
         public System.Guid Key { get; set; }
-        public byte[] Value { get; set; }
+        public byte[] RawValue { get; set; }
         public SettingTypes Type { get; set; }
     }
 }

@@ -57,12 +57,12 @@ namespace DisplayMonkey.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Key,IntValue,IntValuePositive,StringValue,DecimalValue,DecimalValuePositive")] Setting setting)
+        public ActionResult Edit(Setting setting)
         {
             if (ModelState.IsValid)
             {
                 db.Settings.Attach(setting);
-                db.Entry(setting).Property(p => p.Value).IsModified = true;
+                db.Entry(setting).Property(p => p.RawValue).IsModified = true;
                 db.SaveChanges();
 
                 return this.RestoreReferrer() ?? RedirectToAction("Index");

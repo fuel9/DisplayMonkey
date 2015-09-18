@@ -21,7 +21,6 @@ using System.IO;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Data.Entity.Validation;
-using System.Data.Objects.SqlClient;
 using System.Text;
 
 namespace DisplayMonkey.Controllers
@@ -48,7 +47,7 @@ namespace DisplayMonkey.Controllers
                     ContentId = m.ContentId,
                     Name = m.Name,
                     Type = (ContentTypes)m.Type,
-                    Size = SqlFunctions.DataLength(m.Data) / 1024
+                    Size = System.Data.Entity.SqlServer.SqlFunctions.DataLength(m.Data) / 1024
                 })
                 .OrderBy(m => m.Name)
                 .AsQueryable()

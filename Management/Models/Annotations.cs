@@ -20,7 +20,7 @@ using System.Data.Entity.Infrastructure;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data;
-using System.Data.Objects;
+using System.Data.Entity.Core.Objects;
 using System.Reflection;
 
 using DisplayMonkey.Language;
@@ -1567,7 +1567,7 @@ namespace DisplayMonkey.Models
             [
                 Display(ResourceType = typeof(Resources), Name = "Value"),
             ]
-            public byte[] Value { get; set; }
+            public byte[] RawValue { get; set; }
 
             [
                 Display(ResourceType = typeof(Resources), Name = "Type"),
@@ -1602,8 +1602,8 @@ namespace DisplayMonkey.Models
         ]
         public int IntValue
         {
-            get { return this.Value == null ? 0 : BitConverter.ToInt32(this.Value.Reverse().ToArray(), 0); }
-            set { this.Value = BitConverter.GetBytes(value).Reverse().ToArray(); }
+            get { return this.RawValue == null ? 0 : BitConverter.ToInt32(this.RawValue.Reverse().ToArray(), 0); }
+            set { this.RawValue = BitConverter.GetBytes(value).Reverse().ToArray(); }
         }
 
         [
@@ -1634,13 +1634,13 @@ namespace DisplayMonkey.Models
             get 
             { 
                 byte [] v = new byte[8];
-                if (this.Value != null)
-                    this.Value.Reverse().ToArray().CopyTo(v, 0);
+                if (this.RawValue != null)
+                    Array.Copy(this.RawValue.Reverse().ToArray(), v, 8);
                 return BitConverter.ToDouble(v, 0); 
             }
             set 
             {
-                this.Value = BitConverter.GetBytes(value).Reverse().ToArray();
+                this.RawValue = BitConverter.GetBytes(value).Reverse().ToArray();
             }
         }
 
@@ -1662,11 +1662,39 @@ namespace DisplayMonkey.Models
 
         [
             Display(ResourceType = typeof(Resources), Name = "Value"),
+            StringLength(255, ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "MaxLengthExceeded"),
         ]
         public string StringValue
         {
-            get { return this.Value == null ? null : System.Text.Encoding.Unicode.GetString(this.Value); }
-            set { this.Value = value == null ? null : System.Text.Encoding.Unicode.GetBytes(value); }
+            get 
+            {
+                if (this.RawValue == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    return System.Text.Encoding.Unicode.GetString(this.RawValue).TrimEnd('\0');
+                }
+            }
+            set 
+            {
+                if (value == null)
+                {
+                    this.RawValue = null;
+                }
+                else
+                {
+                    byte[] buf = System.Text.Encoding.Unicode.GetBytes(value);
+                    if (buf.Length < 8)
+                    {
+                        byte[] buf2 = new byte[8];
+                        buf.CopyTo(buf2, 0);
+                        buf = buf2;
+                    }
+                    this.RawValue = buf;
+                }
+            }
         }
 
         #endregion
