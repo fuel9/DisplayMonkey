@@ -15,6 +15,7 @@
 // 2015-05-08 [LTL] - ready callback
 // 2015-06-09 [LTL] - refinements
 // 2015-06-18 [LTL] - performance refinements for analog
+// 2015-09-21 [LTL] - fixed custom location time
 
 DM.Clock = Class.create(DM.FrameBase, {
     initialize: function ($super, options) {
@@ -24,9 +25,11 @@ DM.Clock = Class.create(DM.FrameBase, {
         this.showDate = !!data.ShowDate;
         this.showTime = !!data.ShowTime;
         this.faceType = data.Type || 0;
-        this.offsetMilliseconds = _canvas.time.diff(data.OffsetGmt ?
-            _canvas.utcTime.add(data.OffsetGmt, 'm') :
-            _canvas.locationTime);
+        if (data.LocationTime) {
+            this.offsetMilliseconds = moment(data.LocationTime).diff(moment());
+        } else {
+            this.offsetMilliseconds = _canvas.time.diff(_canvas.locationTime);
+        }
         this.showSeconds = !!data.ShowSeconds;
 
         this.div.setStyle({ width: this.width + "px", height: this.height + "px" });
@@ -123,11 +126,7 @@ DM.Clock = Class.create(DM.FrameBase, {
         if (!this.timer || this.exiting)
             return;
 
-        var time = moment();
-        if (this.offsetMilliseconds > 0)
-            time.add('ms', this.offsetMilliseconds);
-        else
-            time.subtract('ms', this.offsetMilliseconds);
+        var time = moment().add('ms', this.offsetMilliseconds);
 
         switch (this.faceType) {
             case 0:

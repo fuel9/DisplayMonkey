@@ -32,12 +32,12 @@ namespace DisplayMonkey
         public int Type { get; private set; }
         public string Label { get; private set; }
 
-        public int? OffsetGmt   // minutes
+        public DateTime? LocationTime
         {
             get
             {
-                if (TimeZone != null)
-                    return (int)this.TimeZone.BaseUtcOffset.TotalMinutes;
+                if (TimeZone != null) 
+                    return TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, this.TimeZone);
                 return null;
             }
         }
