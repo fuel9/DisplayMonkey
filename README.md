@@ -11,9 +11,7 @@
 [Twitter](https://twitter.com/fuel9) |
 [Linked-in](https://www.linkedin.com/company/fuel9?trk=company_logo)
 
-Display Monkey is an awesome and easy to use browser based digital signage solution that can spread the gospel in stores, hallways, conference rooms and shop floors.
-
-Display Monkey comprises Management (a.k.a. DMM) and Presentation (a.k.a. DMP) applications. It is built around the Microsoft platform and utilizes the latest functionality in the ASP.Net and SQL technologies.
+Display Monkey is an awesome and easy to use browser based digital signage solution that can spread the gospel in stores, hallways, conference rooms and shop floors. It is built around the Microsoft platform and utilizes the latest functionality in the ASP.Net and SQL technologies.
 
 The architecture is highly scalable, robust and can be used to manage large networks of displays over WAN or LAN connections.  
 
@@ -22,6 +20,8 @@ The architecture is highly scalable, robust and can be used to manage large netw
 Display Monkey provides an affordable yet powerful and modern alternative to commercial digital signage solutions that can improve communications in most organizations and corporations. 
 
 ### Current features
+
+Display Monkey comprises Management (a.k.a. DMM) and Presentation (a.k.a. DMP) applications. Current features include:
 
 - Frame caching
 - Location-specific frames
