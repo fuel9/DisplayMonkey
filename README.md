@@ -69,7 +69,8 @@ We encourage contributions. Please feel free to send us [pull requests](https://
 #### Non-programming tasks
 
 - Translate language resources to other languages.
-- Test with and provide feedback about other browsers.
+- Test with browsers not yet known to be supported and provide your valuable feedback.
+- Report issues [here](https://github.com/fuel9/DisplayMonkey/issues)
 - Spread the word around.
 
 ### License
