@@ -1,5 +1,5 @@
 
-![DisplayMonkey](http://www.displaymonkey.org/dm/wp-content/uploads/logo_500_76.png)
+![DisplayMonkey](http://www.displaymonkey.org/dm/wp-content/uploads/display_monkey_whi_red_cool_6.png)
 
 ### Digital Signage Solution for Everybody, Anywhere
 
