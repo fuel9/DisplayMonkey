@@ -12,7 +12,8 @@ Digital Signage Solution for Everybody, Anywhere
 [Linked-in](https://www.linkedin.com/company/fuel9?trk=company_logo)
 
 Display Monkey is an awesome and easy to use browser based digital signage solution that can spread the gospel in stores, hallways, conference rooms and shop floors.
-DisplayMonkey comprises DisplayMonkey Management (a.k.a. DMM) and DisplayMonkey Presentation (a.k.a. DMP) applications.
+
+DisplayMonkey comprises DisplayMonkey Management (a.k.a. DMM) and DisplayMonkey Presentation (a.k.a. DMP) applications and is built for the Microsoft platform and utilize the latest functionality in the ASP.Net and SQL platforms. The architecture is highly scalable, robust and can be used to manage large networks of displays over WAN or LAN connections.  
 
 ### Current features
 
@@ -30,6 +31,16 @@ DisplayMonkey comprises DisplayMonkey Management (a.k.a. DMM) and DisplayMonkey 
   - MSO Outlook calendar
   - Text and graphical face clock
 - Tested browsers include Firefox, Chrome, Safari, IE8 end up, Raspberry Pi Midori.
+- WYSIWYG Editor to design presentation layouts
+- Management of Displays
+- Management of Media (images and videos)
+- Online help
+- Dashboard
+- UI for Application Settings
+
+### Why
+
+Display Monkey provides an affordable yet powerful and modern alternativ to commercial digital signage solutions that can improve communications in most organizations and corporations. 
 
 ### Contributing
 
@@ -42,6 +53,11 @@ We encourage contributions. Please feel free to send us [pullrequests](https://g
 - Implement custom ICacheProvider service instead of System.Web.Caching.Cache, which would allow share cache between multiple application pool workers, also double as a call statistics provider.
 - Implement activity graph for DMM home page using D3 or similar library.
 - Implement RSS news feed frame type.
+- Implement Twitter feed frame type.
+- Implement Instagram feed frame type.
+- Implement FaceBook feed frame type.
+- Implement PowerPoint frame type.
+- Implement Panel layer funtion for overlapping panels.
 - Implement sorting and paginations in the frame list page grid.
 - Implement persistent cookie-based display auto-discovery key instead of the IP address (possible solution [here](http://samy.pl/evercookie/)).
 - Transform DMM EF data model from data-first to code-first for a simpler maintenance and database deployment.
