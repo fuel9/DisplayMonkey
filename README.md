@@ -13,7 +13,9 @@ Digital Signage Solution for Everybody, Anywhere
 
 Display Monkey is an awesome and easy to use browser based digital signage solution that can spread the gospel in stores, hallways, conference rooms and shop floors.
 
-DisplayMonkey comprises DisplayMonkey Management (a.k.a. DMM) and DisplayMonkey Presentation (a.k.a. DMP) applications and is built for the Microsoft platform and utilize the latest functionality in the ASP.Net and SQL platforms. The architecture is highly scalable, robust and can be used to manage large networks of displays over WAN or LAN connections.  
+DisplayMonkey comprises DisplayMonkey Management (a.k.a. DMM) and DisplayMonkey Presentation (a.k.a. DMP) applications and is built for the Microsoft platform and utilize the latest functionality in the ASP.Net and SQL platforms. 
+
+The architecture is highly scalable, robust and can be used to manage large networks of displays over WAN or LAN connections.  
 
 ### Current features
 
