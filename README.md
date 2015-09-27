@@ -17,6 +17,10 @@ DisplayMonkey comprises DisplayMonkey Management (a.k.a. DMM) and DisplayMonkey 
 
 The architecture is highly scalable, robust and can be used to manage large networks of displays over WAN or LAN connections.  
 
+### Why
+
+Display Monkey provides an affordable yet powerful and modern alternative to commercial digital signage solutions that can improve communications in most organizations and corporations. 
+
 ### Current features
 
 - Frame caching
@@ -39,10 +43,6 @@ The architecture is highly scalable, robust and can be used to manage large netw
 - Online help
 - Dashboard
 - UI for Application Settings
-
-### Why
-
-Display Monkey provides an affordable yet powerful and modern alternativ to commercial digital signage solutions that can improve communications in most organizations and corporations. 
 
 ### Contributing
 
