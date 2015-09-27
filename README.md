@@ -70,6 +70,7 @@ We encourage contributions. Please feel free to send us [pull requests](https://
 
 - Translate language resources to other languages.
 - Test with and provide feedback about other browsers.
+- Spread the word around.
 
 ### License
 
