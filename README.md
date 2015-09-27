@@ -1,7 +1,7 @@
 
 ![DisplayMonkey](http://www.displaymonkey.org/dm/wp-content/uploads/logo_500_76.png)
 
-Digital Signage Solution for Everybody, Anywhere
+### Digital Signage Solution for Everybody, Anywhere
 
 [Website](http://displaymonkey.org) |
 [Community](http://displaymonkey.org/forum/) |
