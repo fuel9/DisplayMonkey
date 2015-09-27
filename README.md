@@ -50,7 +50,7 @@ We encourage contributions. Please feel free to send us [pull requests](https://
 
 - Improve DMM navigation flow. Currently server-side request referrer is used as a basis for navigation for CRUD actions. It would be nice to switch to client-side cookies, or similar.
 - Fix YT iframe being pegged because of unreleased event handlers installed by YTPlayer causing memory leaks (possible solution [here](http://stackoverflow.com/questions/8948403/youtube-api-target-multiple-existing-iframes)).
-- Implement custom ICacheProvider service instead of System.Web.Caching.Cache, which would allow share cache between multiple application pool workers, also double as a call statistics provider.
+- Implement custom ICacheProvider service instead of System.Web.Caching.Cache, which would allow share cache between multiple application pool workers, also double as display activity statistics provider.
 - Implement activity graph for DMM home page using D3 or similar library.
 - Implement RSS news feed frame type.
 - Implement Twitter feed frame type.
