@@ -60,7 +60,7 @@ We encourage contributions. Please feel free to send us [pull requests](https://
 - Implement Panel layer funtion for overlapping panels.
 - Implement sorting and paginations in the frame list page grid.
 - Implement persistent cookie-based display auto-discovery key instead of the IP address (possible solution [here](http://samy.pl/evercookie/)).
-- Transform DMM EF data model from data-first to code-first for a simpler maintenance and database deployment.
+- Transform DMM EF data model from data-first to code-first for simpler maintenance and database deployment.
 - Improve frame and panel preview user experience by means of javascript.
 - Migrate DMP canvas from Prototype 1.7 to AngularJS.
 
