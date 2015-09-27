@@ -13,7 +13,7 @@
 
 Display Monkey is an awesome and easy to use browser based digital signage solution that can spread the gospel in stores, hallways, conference rooms and shop floors.
 
-DisplayMonkey comprises DisplayMonkey Management (a.k.a. DMM) and DisplayMonkey Presentation (a.k.a. DMP) applications and is built for the Microsoft platform and utilize the latest functionality in the ASP.Net and SQL platforms. 
+Display Monkey comprises Management (a.k.a. DMM) and Presentation (a.k.a. DMP) applications. It is built around the Microsoft platform and utilizes the latest functionality in the ASP.Net and SQL technologies.
 
 The architecture is highly scalable, robust and can be used to manage large networks of displays over WAN or LAN connections.  
 
@@ -75,4 +75,4 @@ We encourage contributions. Please feel free to send us [pull requests](https://
 
 ### License
 
-DisplayMonkey is licensed under the terms of MIT License. See full terms [here](https://opensource.org/licenses/MIT).
+Display Monkey is licensed under the terms of MIT License. See full terms [here](https://opensource.org/licenses/MIT).
