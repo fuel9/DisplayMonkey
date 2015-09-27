@@ -46,7 +46,7 @@ Display Monkey provides an affordable yet powerful and modern alternativ to comm
 
 ### Contributing
 
-We encourage contributions. Please feel free to send us [pullrequests](https://github.com/fuel9/DisplayMonkey/pulls). We need help with the following:
+We encourage contributions. Please feel free to send us [pull requests](https://github.com/fuel9/DisplayMonkey/pulls). We need help with the following:
 
 #### Programming tasks
 
@@ -73,4 +73,4 @@ We encourage contributions. Please feel free to send us [pullrequests](https://g
 
 ### License
 
-DisplayMonkey is distributed under the MIT License. See full terms [here](https://opensource.org/licenses/MIT).
+DisplayMonkey is licensed under the terms of MIT License. See full terms [here](https://opensource.org/licenses/MIT).
