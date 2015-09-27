@@ -4,7 +4,7 @@
 ### Digital Signage Solution for Everybody, Anywhere
 
 [Website](http://displaymonkey.org) |
-[Community](http://displaymonkey.org/forum/) |
+[Community](http://www.displaymonkey.org/dm/answers/) |
 [Documentation](http://www.displaymonkey.org/dm/documentation/) |
 [Binaries](http://www.displaymonkey.org/dm/download/) |
 [Installation](http://www.displaymonkey.org/dm/documentation/installation/) |
