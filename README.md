@@ -34,7 +34,7 @@ Display Monkey comprises Management (a.k.a. DMM) and Presentation (a.k.a. DMP) a
   - Simple memos
   - MSO Outlook calendar
   - Text and graphical face clock
-- Tested browsers include Firefox, Chrome, Safari, IE8 end up, Raspberry Pi Midori.
+- Tested browsers include Firefox, Chrome, Safari, IE8 end up, Raspberry Pi Epiphany.
 - WYSIWYG Editor to design presentation layouts
 - Management of Displays
 - Management of Media (images and videos)
