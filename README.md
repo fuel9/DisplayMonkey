@@ -13,9 +13,9 @@
 
 Display Monkey is an awesome and easy to use browser based digital signage solution that can spread the gospel in stores, hallways, conference rooms and shop floors. 
 
-Display Monkey is written with the following frameworks and technologies:
+Display Monkey is written with the following products, frameworks and technologies:
 - [ASP.Net MVC](http://www.asp.net/mvc) 5 with C#/Razor
-- [Entity Framework](https://msdn.microsoft.com/en-us/data/ef.aspx) 6 with Data-first model
+- [Entity Framework](https://msdn.microsoft.com/en-us/data/ef.aspx) 6 with Data-first model context
 - [jQuery](http://jquery.com) 2.1 + jQueryUI + plugins, [Prototype](http://prototypejs.org) 1.7, [Script.aculo.us](http://script.aculo.us), [Moment.js](http://momentjs.com), [Modernizr](https://modernizr.com)
 - Microsoft SQL Server 2005+
 - Google and Yahoo APIs
