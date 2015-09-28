@@ -11,7 +11,22 @@
 [Twitter](https://twitter.com/fuel9) |
 [Linked-in](https://www.linkedin.com/company/fuel9?trk=company_logo)
 
-Display Monkey is an awesome and easy to use browser based digital signage solution that can spread the gospel in stores, hallways, conference rooms and shop floors. It is built around the Microsoft platform and utilizes the latest functionality in the ASP.Net and SQL technologies.
+Display Monkey is an awesome and easy to use browser based digital signage solution that can spread the gospel in stores, hallways, conference rooms and shop floors. 
+
+Display Monkey is written with the following frameworks and technologies:
+- [ASP.Net MVC](http://www.asp.net/mvc) 5 with C#/Razor
+- [Entity Framework](https://msdn.microsoft.com/en-us/data/ef.aspx) 6 with Data-first model
+- [jQuery](http://jquery.com) 2.1 + jQueryUI + plugins, [Prototype](http://prototypejs.org) 1.7, [Script.aculo.us](http://script.aculo.us), [Moment.js](http://momentjs.com), [Modernizr](https://modernizr.com)
+- Microsoft SQL Server 2005+
+- Google and Yahoo APIs
+
+As of this writing Display Monkey server components run on IIS 7 and the front-end side supports the following browsers:
+- Firefox
+- Chrome
+- Safari
+- IE (8 end up)
+- Raspberry Pi Epiphany
+- Samsung Smart TV browser (6-series and up)
 
 ### Why
 
@@ -35,7 +50,6 @@ Display Monkey comprises Management (a.k.a. DMM) and Presentation (a.k.a. DMP) a
   - MSO Outlook calendar
   - Text and graphical face clock
   - Yahoo weather
-- Tested browsers include Firefox, Chrome, Safari, IE8 end up, Raspberry Pi Epiphany.
 - WYSIWYG Editor to design presentation layouts
 - Management of Displays
 - Management of Media (images and videos)
