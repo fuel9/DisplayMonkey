@@ -21,6 +21,9 @@ using System.Net;
 //using System.Xml;
 using System.Web.Script.Serialization;
 using System.Diagnostics;
+using System.Reflection;
+using System.Xml.Xsl;
+using System.Xml;
 
 namespace DisplayMonkey
 {
@@ -89,9 +92,8 @@ namespace DisplayMonkey
         private Dictionary<string, object> GetYahooWeather(string temperatureUnit, int woeid)
         {
             // get repsonse from yahoo
-            // TODO: switch to YQL: http://query.yahooapis.com/v1/public/yql?q=select+*+from+weather.forecast+where+woeid%3D2502265+and+u%3D%22c%22
             string response = "", url = string.Format(
-                @"http://weather.yahooapis.com/forecastrss?u={0}&w={1}",
+                @"http://query.yahooapis.com/v1/public/yql?q=select+*+from+weather.forecast+where+woeid%3D{1}+and+u%3D%22{0}%22",
                 temperatureUnit,
                 woeid
                 );
@@ -100,35 +102,104 @@ namespace DisplayMonkey
                 response = Encoding.ASCII.GetString(client.DownloadData(url));
             }
 
-            // get RSS data strips
-            Dictionary<string, string> dic = null;
             Dictionary<string, object> map = new Dictionary<string, object>();
-            map.Add("forecast", new List<Dictionary<string, string>>());
-            MatchCollection strips = new Regex(@"(?<=<yweather:).+(?=\/>)").Matches(response);
-            foreach (Match strip in strips)
+            XmlDocument xml = new XmlDocument();
+            xml.LoadXml(response);
+            XmlElement channel = xml.SelectSingleNode(@"//channel[1]") as XmlElement;
+            if (channel != null)
             {
-                int i = 0;
-                string strip_name = "";
-                MatchCollection fields = new Regex("(^\\w+(?=\\s))|(\\w+=\"[^\"]*\")").Matches(strip.Value);
-                foreach (Match field in fields)
+                XmlElement e = null;
+                
+                // wind
+                e = channel.SelectSingleNode(@"*[local-name()='wind']") as XmlElement;
+                if (e != null)
                 {
-                    if (0 == i++)
+                    Dictionary<string, object> o = new Dictionary<string, object>();
+                    o.Add("chill", e.GetAttribute("chill"));
+                    o.Add("direction", e.GetAttribute("direction"));
+                    o.Add("speed", e.GetAttribute("speed"));
+                    map.Add(e.LocalName, o);
+                }
+
+                // location
+                e = channel.SelectSingleNode(@"*[local-name()='location']") as XmlElement;
+                if (e != null)
+                {
+                    Dictionary<string, object> o = new Dictionary<string, object>();
+                    o.Add("city", e.GetAttribute("city"));
+                    o.Add("region", e.GetAttribute("region"));
+                    o.Add("country", e.GetAttribute("country"));
+                    map.Add(e.LocalName, o);
+                }
+
+                // units
+                e = channel.SelectSingleNode(@"*[local-name()='units']") as XmlElement;
+                if (e != null)
+                {
+                    Dictionary<string, object> o = new Dictionary<string, object>();
+                    o.Add("temperature", e.GetAttribute("temperature"));
+                    o.Add("distance", e.GetAttribute("distance"));
+                    o.Add("pressure", e.GetAttribute("pressure"));
+                    o.Add("speed", e.GetAttribute("speed"));
+                    map.Add(e.LocalName, o);
+                }
+
+                // atmosphere
+                e = channel.SelectSingleNode(@"*[local-name()='atmosphere']") as XmlElement;
+                if (e != null)
+                {
+                    Dictionary<string, object> o = new Dictionary<string, object>();
+                    o.Add("humidity", e.GetAttribute("humidity"));
+                    o.Add("visibility", e.GetAttribute("visibility"));
+                    o.Add("pressure", e.GetAttribute("pressure"));
+                    o.Add("rising", e.GetAttribute("rising"));
+                    map.Add(e.LocalName, o);
+                }
+
+                // astronomy
+                e = channel.SelectSingleNode(@"*[local-name()='astronomy']") as XmlElement;
+                if (e != null)
+                {
+                    Dictionary<string, object> o = new Dictionary<string, object>();
+                    o.Add("sunrise", e.GetAttribute("sunrise"));
+                    o.Add("sunset", e.GetAttribute("sunset"));
+                    map.Add(e.LocalName, o);
+                }
+
+                // item
+                XmlElement item = channel.SelectSingleNode(@"item[1]") as XmlElement;
+                if (item != null)
+                {
+                    // condition
+                    e = item.SelectSingleNode(@"*[local-name()='condition']") as XmlElement;
+                    if (e != null)
                     {
-                        strip_name = field.Value;
-                        if (strip_name == "forecast")
-                        {
-                            List<Dictionary<string, string>> lst = map[strip_name] as List<Dictionary<string, string>>;
-                            lst.Add(dic = new Dictionary<string, string>());
-                        }
-                        else
-                        {
-                            map.Add(strip_name, dic = new Dictionary<string, string>());
-                        }
+                        Dictionary<string, object> o = new Dictionary<string, object>();
+                        o.Add("text", e.GetAttribute("text"));
+                        o.Add("code", e.GetAttribute("code"));
+                        o.Add("temp", e.GetAttribute("temp"));
+                        o.Add("date", e.GetAttribute("date"));
+                        map.Add(e.LocalName, o);
                     }
-                    else
+
+                    // forecast
+                    XmlNodeList forecastList = item.SelectNodes(@"*[local-name()='forecast']");
+                    if (forecastList.Count > 0)
                     {
-                        string[] pair = field.Value.Split(new char[] { '=' });
-                        dic.Add(pair[0], pair[1].Replace("\"", ""));
+                        List<object> fmap = new List<object>(forecastList.Count);
+                        foreach (XmlNode n in forecastList)
+                        {
+                            Dictionary<string, object> o = new Dictionary<string, object>();
+                            XmlElement f = n as XmlElement;
+                            o.Add("day", f.GetAttribute("day"));
+                            o.Add("date", f.GetAttribute("date"));
+                            o.Add("low", f.GetAttribute("low"));
+                            o.Add("high", f.GetAttribute("high"));
+                            o.Add("text", f.GetAttribute("text"));
+                            o.Add("code", f.GetAttribute("code"));
+                            fmap.Add(o);
+                        }
+                        map.Add("forecast", fmap);
                     }
                 }
             }

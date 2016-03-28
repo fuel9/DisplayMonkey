@@ -10,6 +10,7 @@
 
 // 2015-03-08 [LTL] - weather BEGIN
 // 2015-05-08 [LTL] - ready callback
+// 2016-03-27 [LTL] - fixed onSuccess
 
 /*********************************************************
 Yahoo weather JSON sample: {
@@ -129,13 +130,21 @@ DM.Weather = Class.create(/*PeriodicalExecuter*/ DM.FrameBase, {
                     if (json.Error)
                         throw new Error(json.Error);
 
-                    weather.div.select('.condition_code').each(function(e) { e.src = "files/weather/" + json.condition.code + ".gif"; });
-                    weather.div.select('.location_city').each(function(e) { e.update(json.location.city); });
-                    weather.div.select('.location_region').each(function(e) { e.update(json.location.region); });
-                    weather.div.select('.location_country').each(function(e) { e.update(json.location.country); });
-                    weather.div.select('.condition_text').each(function(e) { e.update(json.condition.text); });
-                    weather.div.select('.condition_temp').each(function(e) { e.update(json.condition.temp); });
-                    weather.div.select('.units_temperature').each(function (e) { e.update(json.units.temperature); });
+                    if (json.location) {
+                        weather.div.select('.location_city').each(function (e) { e.update(json.location.city); });
+                        weather.div.select('.location_region').each(function (e) { e.update(json.location.region); });
+                        weather.div.select('.location_country').each(function (e) { e.update(json.location.country); });
+                    }
+
+                    if (json.condition) {
+                        weather.div.select('.condition_code').each(function (e) { e.src = "files/weather/" + json.condition.code + ".gif"; });
+                        weather.div.select('.condition_text').each(function (e) { e.update(json.condition.text); });
+                        weather.div.select('.condition_temp').each(function (e) { e.update(json.condition.temp); });
+                    }
+
+                    if (json.units) {
+                        weather.div.select('.units_temperature').each(function (e) { e.update(json.units.temperature); });
+                    }
                 }
                 catch (e) {
                     new DM.ErrorReport({ exception: e, data: resp.responseText, source: "Weather::callBack::onSuccess" });
