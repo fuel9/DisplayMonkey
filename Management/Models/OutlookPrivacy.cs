@@ -20,19 +20,11 @@
 namespace DisplayMonkey.Models
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class Outlook
+    public enum OutlookPrivacy : int
     {
-        public int FrameId { get; set; }
-        public OutlookModes Mode { get; set; }
-        public string Name { get; set; }
-        public string Mailbox { get; set; }
-        public int ShowEvents { get; set; }
-        public int AccountId { get; set; }
-        public OutlookPrivacy Privacy { get; set; }
-    
-        public virtual ExchangeAccount ExchangeAccount { get; set; }
-        public virtual Frame Frame { get; set; }
+        OutlookPrivacy_All = 0,
+        OutlookPrivacy_NoClassified = 1,
+        OutlookPrivacy_ProtectSubject = 2
     }
 }

@@ -65,6 +65,12 @@ namespace DisplayMonkey.Controllers
             ViewBag.Count_Youtube = db.Youtube.Count();
             ViewBag.Count_Youtube_7 = db.Youtube.Count(t => t.Frame.DateCreated >= sevenDaysAgo);
 
+            ViewBag.Count_Clock = db.Clocks.Count();
+            ViewBag.Count_Clock_7 = db.Clocks.Count(t => t.Frame.DateCreated >= sevenDaysAgo);
+
+            ViewBag.Count_Weather = db.Weathers.Count();
+            ViewBag.Count_Weather_7 = db.Weathers.Count(t => t.Frame.DateCreated >= sevenDaysAgo);
+
             TopContent [] topFiveContent = db.Frames
                 .Where(f => 
                     (f.BeginsOn == null || f.BeginsOn <= DateTime.Now) &&

@@ -60,6 +60,7 @@ namespace DisplayMonkey.Controllers
             this.FillTemplatesSelectList(db, FrameTypes.Outlook);
             FillModesSelectList();
             FillAccountsSelectList();
+            FillPrivacySelectList();
 
             return View(outlook);
         }
@@ -69,7 +70,7 @@ namespace DisplayMonkey.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "FrameId,Mode,Name,AccountId,Mailbox,ShowEvents")] Outlook outlook, Frame frame)
+        public ActionResult Create(Outlook outlook, Frame frame)
         {
             if (!string.IsNullOrWhiteSpace(outlook.Mailbox))
             {
@@ -89,6 +90,7 @@ namespace DisplayMonkey.Controllers
             this.FillTemplatesSelectList(db, FrameTypes.Outlook, outlook.Frame.TemplateId);
             FillModesSelectList(outlook.Mode);
             FillAccountsSelectList(outlook.AccountId);
+            FillPrivacySelectList(outlook.Privacy);
 
             outlook.Frame = frame;
             
@@ -107,6 +109,7 @@ namespace DisplayMonkey.Controllers
             this.FillTemplatesSelectList(db, FrameTypes.Outlook, outlook.Frame.TemplateId);
             FillModesSelectList(outlook.Mode);
             FillAccountsSelectList(outlook.AccountId);
+            FillPrivacySelectList(outlook.Privacy);
 
             return View(outlook);
         }
@@ -116,7 +119,7 @@ namespace DisplayMonkey.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "FrameId,Mode,Name,AccountId,Mailbox,ShowEvents")] Outlook outlook, Frame frame)
+        public ActionResult Edit(Outlook outlook, Frame frame)
         {
             if (!string.IsNullOrWhiteSpace(outlook.Mailbox))
             {
@@ -136,6 +139,7 @@ namespace DisplayMonkey.Controllers
             this.FillTemplatesSelectList(db, FrameTypes.Outlook, outlook.Frame.TemplateId);
             FillModesSelectList(outlook.Mode);
             FillAccountsSelectList(outlook.AccountId);
+            FillPrivacySelectList(outlook.Privacy);
 
             outlook.Frame = frame;
             
@@ -163,6 +167,11 @@ namespace DisplayMonkey.Controllers
             db.SaveChanges();
 
             return this.RestoreReferrer(true) ?? RedirectToAction("Index", "Frame");
+        }
+
+        private void FillPrivacySelectList(OutlookPrivacy? selected = null)
+        {
+            ViewBag.Privacies = selected.TranslatedSelectList();
         }
 
         private void FillModesSelectList(OutlookModes? selected = null)

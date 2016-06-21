@@ -944,7 +944,7 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Number of Active Frames.
+        ///   Looks up a localized string similar to Active frames.
         /// </summary>
         public static string Dashboard_NumberOfActiveFrames {
             get {
@@ -953,7 +953,7 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Number of Expired Frames.
+        ///   Looks up a localized string similar to Expired frames.
         /// </summary>
         public static string Dashboard_NumberOfExpiredFrames {
             get {
@@ -962,7 +962,7 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Number of Frames.
+        ///   Looks up a localized string similar to All frames.
         /// </summary>
         public static string Dashboard_NumberOfFrames {
             get {
@@ -971,7 +971,7 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Number of Pending Frames.
+        ///   Looks up a localized string similar to Pending frames.
         /// </summary>
         public static string Dashboard_NumberOfPendingFrames {
             get {
@@ -1590,6 +1590,42 @@ namespace DisplayMonkey.Language {
         public static string ErrorStack {
             get {
                 return ResourceManager.GetString("ErrorStack", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Confidential.
+        /// </summary>
+        public static string EWS_Sensitivity_Confidential {
+            get {
+                return ResourceManager.GetString("EWS_Sensitivity_Confidential", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Normal.
+        /// </summary>
+        public static string EWS_Sensitivity_Normal {
+            get {
+                return ResourceManager.GetString("EWS_Sensitivity_Normal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Personal.
+        /// </summary>
+        public static string EWS_Sensitivity_Personal {
+            get {
+                return ResourceManager.GetString("EWS_Sensitivity_Personal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Private.
+        /// </summary>
+        public static string EWS_Sensitivity_Private {
+            get {
+                return ResourceManager.GetString("EWS_Sensitivity_Private", resourceCulture);
             }
         }
         
@@ -2540,6 +2576,33 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to All events included.
+        /// </summary>
+        public static string OutlookPrivacy_All {
+            get {
+                return ResourceManager.GetString("OutlookPrivacy_All", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Classified events excluded.
+        /// </summary>
+        public static string OutlookPrivacy_NoClassified {
+            get {
+                return ResourceManager.GetString("OutlookPrivacy_NoClassified", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hide classified events subject.
+        /// </summary>
+        public static string OutlookPrivacy_ProtectSubject {
+            get {
+                return ResourceManager.GetString("OutlookPrivacy_ProtectSubject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to EWS Url (optional).
         /// </summary>
         public static string OutlookUrl {
@@ -2689,6 +2752,24 @@ namespace DisplayMonkey.Language {
         public static string PositiveIntegerRequired {
             get {
                 return ResourceManager.GetString("PositiveIntegerRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Privacy.
+        /// </summary>
+        public static string Privacy {
+            get {
+                return ResourceManager.GetString("Privacy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Privacy is required.
+        /// </summary>
+        public static string PrivacyRequired {
+            get {
+                return ResourceManager.GetString("PrivacyRequired", resourceCulture);
             }
         }
         

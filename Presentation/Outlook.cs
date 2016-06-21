@@ -40,6 +40,9 @@ namespace DisplayMonkey
         [ScriptIgnore]
         public string URL { get; private set; } // e.g. https://outlook.office365.com/EWS/Exchange.asmx
 
+        [ScriptIgnore]
+        public DisplayMonkey.Models.OutlookPrivacy Privacy { get; private set; }   // TODO: 0 = show everything, 1 = normal only, 2 = sensitivity as subject
+
         public Outlook(int frameId)
             : base(frameId)
         {
@@ -76,6 +79,7 @@ namespace DisplayMonkey
                         this.Mailbox = Account;
                     this.Name = dr.StringOrBlank("Name").Trim();
                     this.URL = dr.StringOrBlank("Url").Trim();
+                    this.Privacy = (DisplayMonkey.Models.OutlookPrivacy)dr.IntOrZero("Privacy");
                 }
             }
         }

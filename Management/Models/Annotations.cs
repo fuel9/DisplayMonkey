@@ -1365,6 +1365,12 @@ namespace DisplayMonkey.Models
             public OutlookModes Mode { get; set; }*/
 
             [
+                Display(ResourceType = typeof(Resources), Name = "Privacy"),
+                Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "PrivacyRequired"),
+            ]
+            public OutlookPrivacy Privacy { get; set; }
+
+            [
                 Display(ResourceType = typeof(Resources), Name = "Name"),
                 //Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "NameRequired"),
                 StringLength(100, ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "MaxLengthExceeded"),

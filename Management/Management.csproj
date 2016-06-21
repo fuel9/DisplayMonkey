@@ -260,6 +260,9 @@
     <Compile Include="Models\OutlookModes.cs">
       <DependentUpon>DMModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\OutlookPrivacy.cs">
+      <DependentUpon>DMModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Panel.cs">
       <DependentUpon>DMModel.tt</DependentUpon>
     </Compile>

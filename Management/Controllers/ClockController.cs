@@ -107,7 +107,7 @@ namespace DisplayMonkey.Controllers
 
             this.FillTemplatesSelectList(db, FrameTypes.Clock, clock.Frame.TemplateId);
             this.FillSystemTimeZoneSelectList(clock.TimeZone);
-            FillClockTypeSelectList();
+            FillClockTypeSelectList(clock.Type);
             
             return View(clock);
         }
@@ -130,7 +130,7 @@ namespace DisplayMonkey.Controllers
 
             this.FillTemplatesSelectList(db, FrameTypes.Clock, clock.Frame.TemplateId);
             this.FillSystemTimeZoneSelectList(clock.TimeZone);
-            FillClockTypeSelectList();
+            FillClockTypeSelectList(clock.Type);
 
             clock.Frame = frame;
 

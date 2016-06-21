@@ -46,6 +46,16 @@
         @Html.DisplayFor(model => model.ShowEvents)
     </div>
     </div>
+
+    <div class="divRow">
+    <div class="display-label">
+            @Html.DisplayNameFor(model => model.Privacy)
+    </div>
+    <div class="display-field">
+        @Model.Privacy.Translate()
+    </div>
+    </div>
+
     </div>
 </fieldset>
 

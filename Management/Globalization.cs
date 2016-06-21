@@ -31,13 +31,12 @@ namespace System.Web.Mvc
                         select new SelectListItem
                         {
                             Value = valueAsText ? e.ToString() : e.ToInt32(null).ToString(),
-                            //Text = e.TranslatedDescription()
+                            //Text = e.TranslatedDescription(),
                             Text = rm.GetString(e.ToString()),
                             //Selected = (!enumObj.Equals(null) && e.Equals(enumObj))
                         })
                         .OrderBy(i => i.Text)
                         ;
-
             return new SelectList(items, "Value", "Text", enumObj);
         }
     }

@@ -3,7 +3,9 @@
 @model DisplayMonkey.Models.Outlook
 
 @{
+    SelectList modes = ViewBag.Modes as SelectList;
     SelectList accounts = ViewBag.Accounts as SelectList;
+    SelectList privacies = ViewBag.Privacies as SelectList;
 }
 
     <fieldset>
@@ -39,6 +41,14 @@
         <div class="editor-field">
             @Html.EditorFor(model => model.ShowEvents, new { htmlAttributes = new { @class = "duration" } })
             @Html.ValidationMessageFor(model => model.ShowEvents)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Privacy)
+        </div>
+        <div class="editor-field select">
+            @Html.DropDownListFor(model => model.Privacy, privacies)
+            @Html.ValidationMessageFor(model => model.Privacy)
         </div>
 
     </fieldset>

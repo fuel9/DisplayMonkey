@@ -953,10 +953,10 @@
     <value>Frames by Type</value>
   </data>
   <data name="Dashboard_NumberOfActiveFrames" xml:space="preserve">
-    <value>Number of Active Frames</value>
+    <value>Active frames</value>
   </data>
   <data name="Dashboard_NumberOfFrames" xml:space="preserve">
-    <value>Number of Frames</value>
+    <value>All frames</value>
   </data>
   <data name="Dashboard_PreviousSevenDays" xml:space="preserve">
     <value>Previous 7 Days</value>
@@ -1106,10 +1106,10 @@
     <value>Pending</value>
   </data>
   <data name="Dashboard_NumberOfExpiredFrames" xml:space="preserve">
-    <value>Number of Expired Frames</value>
+    <value>Expired frames</value>
   </data>
   <data name="Dashboard_NumberOfPendingFrames" xml:space="preserve">
-    <value>Number of Pending Frames</value>
+    <value>Pending frames</value>
   </data>
   <data name="Outlook_AvailableUntil" xml:space="preserve">
     <value>Available until {0}</value>
@@ -1432,5 +1432,32 @@
   </data>
   <data name="RecycleTime" xml:space="preserve">
     <value>Auto-recycle time</value>
+  </data>
+  <data name="EWS_Sensitivity_Confidential" xml:space="preserve">
+    <value>Confidential</value>
+  </data>
+  <data name="EWS_Sensitivity_Normal" xml:space="preserve">
+    <value>Normal</value>
+  </data>
+  <data name="EWS_Sensitivity_Personal" xml:space="preserve">
+    <value>Personal</value>
+  </data>
+  <data name="EWS_Sensitivity_Private" xml:space="preserve">
+    <value>Private</value>
+  </data>
+  <data name="OutlookPrivacy_NoClassified" xml:space="preserve">
+    <value>Classified events excluded</value>
+  </data>
+  <data name="OutlookPrivacy_All" xml:space="preserve">
+    <value>All events included</value>
+  </data>
+  <data name="OutlookPrivacy_ProtectSubject" xml:space="preserve">
+    <value>Hide classified events subject</value>
+  </data>
+  <data name="Privacy" xml:space="preserve">
+    <value>Privacy</value>
+  </data>
+  <data name="PrivacyRequired" xml:space="preserve">
+    <value>Privacy is required</value>
   </data>
 </root>

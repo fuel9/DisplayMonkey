@@ -290,6 +290,7 @@
           <Property Name="Mailbox" Type="varchar" MaxLength="100" />
           <Property Name="ShowEvents" Type="int" Nullable="false" />
           <Property Name="AccountId" Type="int" Nullable="false" />
+          <Property Name="Privacy" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Panel">
           <Key>
@@ -1482,6 +1483,7 @@
           <Property Type="Int32" Name="AccountId" Nullable="false" />
           <NavigationProperty Name="ExchangeAccount" Relationship="DisplayMonkey.Model.FK_Outlook_ExchangeAccount" FromRole="Outlook" ToRole="ExchangeAccount" />
           <NavigationProperty Name="Frame" Relationship="DisplayMonkey.Model.FK_Outlook_Frame" FromRole="Outlook" ToRole="Frame" />
+          <Property Type="DisplayMonkey.Model.OutlookPrivacy" Name="Privacy" Nullable="false" />
         </EntityType>
         <Association Name="FK_Outlook_ExchangeAccount">
           <End Type="DisplayMonkey.Model.ExchangeAccount" Role="ExchangeAccount" Multiplicity="1">
@@ -1545,6 +1547,11 @@
           <Property Type="Binary" Name="RawValue" MaxLength="512" FixedLength="false" />
           <Property Type="DisplayMonkey.Model.SettingTypes" Name="Type" Nullable="false" />
         </EntityType>
+        <EnumType Name="OutlookPrivacy">
+          <Member Name="OutlookPrivacy_All" Value="0" />
+          <Member Name="OutlookPrivacy_NoClassified" Value="1" />
+          <Member Name="OutlookPrivacy_ProtectSubject" Value="2" />
+        </EnumType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1794,6 +1801,7 @@
           <EntitySetMapping Name="Outlooks">
             <EntityTypeMapping TypeName="DisplayMonkey.Model.Outlook">
               <MappingFragment StoreEntitySet="Outlook">
+                <ScalarProperty Name="Privacy" ColumnName="Privacy" />
                 <ScalarProperty Name="AccountId" ColumnName="AccountId" />
                 <ScalarProperty Name="ShowEvents" ColumnName="ShowEvents" />
                 <ScalarProperty Name="Mailbox" ColumnName="Mailbox" />

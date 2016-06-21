@@ -56,8 +56,7 @@ namespace DisplayMonkey
                 // EWS: get data
                 OutlookData data = HttpRuntime.Cache.GetOrAddAbsolute(
                     string.Format("outlook_{0}_{1}_{2}", location.LocationId, outlook.FrameId, outlook.Version),
-                    () =>
-                    {
+                    () => {
                         return new OutlookData(outlook, location);
                     },
                     DateTime.Now.AddMinutes(outlook.CacheInterval)
@@ -69,6 +68,7 @@ namespace DisplayMonkey
                     locationToday = new DateTime(locationTime.Year, locationTime.Month, locationTime.Day)
                     ;
 
+                //int showEvents = outlook.ShowEvents;
                 List<EventEntry> currentList = data.events
                     .Where(e => e.Ends >= locationTime)
                     .Take(Math.Max(1, outlook.ShowEvents))
@@ -204,6 +204,9 @@ namespace DisplayMonkey
 
             #region -------- EWS Data Call --------
 
+            private static ExtendedPropertyDefinition PR_TextBody = new ExtendedPropertyDefinition(0x1000, MapiPropertyType.String);
+            private static ExtendedPropertyDefinition PR_Sensitivity = new ExtendedPropertyDefinition(0x0036, MapiPropertyType.Integer);
+
             private static void initFromFrame(OutlookData data, Outlook outlook, Location location)
             {
                 DateTime
@@ -290,31 +293,39 @@ namespace DisplayMonkey
                 CalendarView cView = new CalendarView(windowBeg, windowEnd)
                 {
                     PropertySet = new PropertySet(
+                        //BasePropertySet.FirstClassProperties,
                         AppointmentSchema.Subject,
                         AppointmentSchema.DateTimeCreated,
                         AppointmentSchema.Start,
                         AppointmentSchema.End,
-                        AppointmentSchema.Duration
+                        AppointmentSchema.Duration,
+                        AppointmentSchema.Sensitivity
                         )
                 };
+
+                System.Resources.ResourceManager rm = new System.Resources.ResourceManager(typeof(DisplayMonkey.Language.Resources));
 
                 // events: get list
                 data.events = calendar
                     .FindAppointments(cView)
+                    .Where(a => outlook.Privacy != Models.OutlookPrivacy.OutlookPrivacy_NoClassified)
                     .OrderBy(i => i.Start)
                     .ThenBy(i => i.DateTimeCreated)
                     .ThenBy(i => i.Subject)
                     //.Take(Math.Max(1, outlook.ShowEvents))
                     .Select(a => new EventEntry
                     {
-                        Subject = a.Subject,
+                        Subject =
+                            outlook.Privacy == Models.OutlookPrivacy.OutlookPrivacy_All || a.Sensitivity == Sensitivity.Normal ? a.Subject : 
+                            rm.GetString(string.Format("EWS_Sensitivity_{0}", a.Sensitivity.ToString())),
                         CreatedOn = a.DateTimeCreated,
                         Starts = a.Start,
                         Ends = a.End,
                         Duration = a.Duration,
+                        Sensitivity = a.Sensitivity,
                         Today = locationToday,
                     })
-                    //.ToList()
+                    .ToList()
                     ;
             }
 
@@ -406,6 +417,7 @@ namespace DisplayMonkey
             public DateTime Ends { get; set; }
             public TimeSpan Duration { get; set; }
             public DateTime Today { get; set; }
+            public Sensitivity Sensitivity { get; set; }
 
             public int CompareTo(EventEntry rhs)
             {

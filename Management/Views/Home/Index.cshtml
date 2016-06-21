@@ -87,6 +87,11 @@
           <td class="Heading_Table2_Right" colspan="2">@Resources.Total</td>
         </tr>
         <tr>
+          <td class="Left_Align">@Html.ActionLink(Resources.Clock, "Index", "Frame", new { FrameType = "Clock" }, null)</td>
+          <td class="Right_Align" colspan="2">@ViewBag.Count_Clock_7</td>
+          <td class="Right_Align" colspan="2">@ViewBag.Count_Clock</td>
+        </tr>
+        <tr>
           <td class="Left_Align Alt">@Html.ActionLink(Resources.Html, "Index", "Frame", new { FrameType = "HTML" }, null)</td>
           <td class="Right_Align Alt" colspan="2">@ViewBag.Count_Html_7</td>
           <td class="Right_Align Alt" colspan="2">@ViewBag.Count_Html</td>
@@ -117,9 +122,14 @@
           <td class="Right_Align" colspan="2">@ViewBag.Count_Videos</td>
         </tr>
         <tr>
-          <td class="Left_Align Alt">@Html.ActionLink(Resources.YouTube, "Index", "Frame", new { FrameType = "Youtube" }, null)</td>
-          <td class="Right_Align Alt" colspan="2">@ViewBag.Count_Youtube_7</td>
-          <td class="Right_Align Alt" colspan="2">@ViewBag.Count_Youtube</td>
+          <td class="Left_Align Alt">@Html.ActionLink(Resources.Weather, "Index", "Frame", new { FrameType = "Weather" }, null)</td>
+          <td class="Right_Align Alt" colspan="2">@ViewBag.Count_Weather_7</td>
+          <td class="Right_Align Alt" colspan="2">@ViewBag.Count_Weather</td>
+        </tr>
+        <tr>
+          <td class="Left_Align">@Html.ActionLink(Resources.YouTube, "Index", "Frame", new { FrameType = "Youtube" }, null)</td>
+          <td class="Right_Align" colspan="2">@ViewBag.Count_Youtube_7</td>
+          <td class="Right_Align" colspan="2">@ViewBag.Count_Youtube</td>
         </tr>
       </tbody>
     </table>
