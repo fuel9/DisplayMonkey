@@ -56,6 +56,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
@@ -69,6 +70,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="files\js\powerbi.js" />
     <Content Include="Images\button_blue.png" />
     <Content Include="Images\button_blue_red.png" />
     <Content Include="files\js\weather.js" />
@@ -290,9 +292,14 @@
     <Compile Include="getDisplayData.ashx.cs">
       <DependentUpon>getDisplayData.ashx</DependentUpon>
     </Compile>
+    <Compile Include="getPowerbiToken.ashx.cs">
+      <DependentUpon>getPowerbiToken.ashx</DependentUpon>
+    </Compile>
     <Compile Include="getYahooWeather.ashx.cs">
       <DependentUpon>getYahooWeather.ashx</DependentUpon>
     </Compile>
+    <Compile Include="Powerbi.cs" />
+    <Compile Include="PowerbiUtil.cs" />
     <Compile Include="Register.aspx.cs">
       <DependentUpon>Register.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -377,6 +384,7 @@
   <ItemGroup>
     <Content Include="getVideo.ashx" />
     <Content Include="getDisplayData.ashx" />
+    <Content Include="getPowerbiToken.ashx" />
     <None Include="Properties\PublishProfiles\Debug.pubxml" />
     <None Include="Properties\PublishProfiles\Release.pubxml" />
     <None Include="Properties\Settings.settings">

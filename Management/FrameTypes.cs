@@ -18,12 +18,13 @@ namespace DisplayMonkey.Models
         Clock = 0,
         Html = 1,
         Memo = 2,
-        //News = 3,
+        //News = 3, reserved
         Outlook = 4,
         Picture = 5,
         Report = 6,
         Video = 7,
         Weather = 8,
-        YouTube = 9
+        YouTube = 9,
+        Powerbi = 10
     }
 }

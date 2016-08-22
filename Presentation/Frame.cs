@@ -154,12 +154,17 @@ namespace DisplayMonkey
                         break;
 
                     //case FrameTypes.News:
+
                     case FrameTypes.Outlook:
                         nci = new Outlook(nci);
                         break;
 
                     case FrameTypes.Picture:
                         nci = new Picture(nci);
+                        break;
+
+                    case FrameTypes.Powerbi:
+                        nci = new Powerbi(nci);
                         break;
 
                     case FrameTypes.Report:

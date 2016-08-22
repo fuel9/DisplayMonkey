@@ -39,7 +39,7 @@ DM.ErrorReport = Class.create({
             Error: ((options.exception instanceof Error ? options.exception.message : options.exception) || "unspecified"),
             Where: (options.source || "unspecified"),
             When: moment().format(),
-            Data: (JSON.stringify(options.data) || "none")
+            Data: (JSON.stringify(options.data) || "none").replace(/\"/g, ''),
         };
         console.error("!Display Monkey error: " + JSON.stringify(this.info));
         this.length = options.length || _canvas.errorLength || 0;
@@ -108,6 +108,8 @@ DM.Canvas = Class.create({
 
 		this.panels = [];
 		this.fullPanel = {};
+
+		window.addEventListener('message', this._postback.bind(this));
 	},
 
 	initPanels: function () {
@@ -178,7 +180,7 @@ DM.Canvas = Class.create({
 	    _canvas.fullScreenActive = false;
 	    _canvas.panels.forEach(function (p) {
 	        try {
-	            if (p.object && p.object.play)
+	            if (p.object && typeof p.object.play === "function")
 	                p.object.play();
 	        } catch (e) { }
 	    });
@@ -190,6 +192,19 @@ DM.Canvas = Class.create({
 		var scr = $('screen').style;
 		scr.height = body.clientHeight + 'px';
 		scr.width = body.clientWidth + 'px';
+	},
+
+	_postback: function (evt) {
+	    "use strict";
+	    try {
+	        if (evt.data) {
+	            var msg = JSON.parse(evt.data);
+	            if (msg.error) {
+	                new DM.ErrorReport({ exception: msg.error, data: msg, source: "DM.Canvas::_postback" });
+	            }
+	        }
+	    }
+	    catch (e) { }
 	},
 });
 
@@ -431,37 +446,37 @@ DM.PanelBase = Class.create(Ajax.Base, {
 	    var obj = null;
         try {
             switch (this.newType) {
-                //Clock = 0,
+                //Clock
                 case 0:
                     obj = new DM.Clock({
                         panel: this
                     });
                     break;
                     
-                //Html = 1,
+                //Html
                 case 1:
                     obj = new DM.Iframe({
                         panel: this
                     });
                     break;
 
-                //Memo = 2,
+                //Memo
                 case 2:
                     obj = new DM.Memo({
                         panel: this
                     });
                     break;
                     
-                ////News = 3,
-                //Outlook = 4,
+                //News = 3
+                //Outlook = 4
                 case 4:
                     obj = new DM.Outlook({
                         panel: this
                     });
                     break;
                     
-                //Picture = 5,
-                //Report = 6,
+                //Picture = 5
+                //Report = 6
                 case 5:
                 case 6:
                     obj = new DM.Picture({
@@ -469,7 +484,7 @@ DM.PanelBase = Class.create(Ajax.Base, {
                     });
                     break;
                     
-                //Video = 7,
+                //Video
                 case 7:
                     obj = new DM.Video({
                         panel: this,
@@ -477,16 +492,23 @@ DM.PanelBase = Class.create(Ajax.Base, {
                     });
                     break;
                     
-                //Weather = 8,
+                //Weather
                 case 8:
                     obj = new DM.Weather({
                         panel: this
                     });
                     break;
-                    
-                //YouTube = 9
+
+                //YouTube
                 case 9:
                     obj = new DM.YtPlayer({
+                        panel: this
+                    });
+                    break;
+
+                //Power BI
+                case 10:
+                    obj = new DM.Powerbi({
                         panel: this
                     });
                     break;

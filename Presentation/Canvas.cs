@@ -232,6 +232,7 @@ namespace DisplayMonkey
             , "files/js/video.js"
             , "files/js/weather.js"
             , "files/js/youtube.js"
+            , "files/js/powerbi.js"
 
             // add new frame js code here
 #else
@@ -257,6 +258,7 @@ namespace DisplayMonkey
             , "files/js/video.js"
             , "files/js/weather.js"
             , "files/js/youtube.js"
+            , "files/js/powerbi.js"
 
             // add new frame js code here
 #endif

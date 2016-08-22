@@ -19,6 +19,7 @@ using System.Data.SqlClient;
 using System.Threading;
 using System.Globalization;
 using System.Configuration;
+using System.Threading.Tasks;
 
 namespace DisplayMonkey
 {
@@ -80,6 +81,34 @@ namespace DisplayMonkey
 				return RunSql(cmd);
 			}
 		}
+
+        public delegate void TransactionBatch(SqlConnection connection, SqlTransaction transaction);
+
+        public static void ExecuteTransaction(TransactionBatch batch)
+        {
+            // borrow new connection from the pool
+            using (SqlConnection cnn = new SqlConnection(ConnectionString))
+            {
+                SqlTransaction transaction = null;
+
+                try
+                {
+                    cnn.Open();
+                    transaction = cnn.BeginTransaction();
+                    batch(cnn, transaction);
+                    transaction.Commit();
+                }
+
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    throw ex;
+                }
+            }
+        }
+
+
+        #region Value helper extensions  //////////////////////////////////////////////
 
         public static bool BooleanOrDefault(object o, bool _default)
         {
@@ -237,9 +266,11 @@ namespace DisplayMonkey
             return StringOrDefault(row[column], _default);
         }
 
+        #endregion // Value helper extensions  //////////////////////////////////////////////
+
         #region Private Members //////////////////////////////////////////////
 
-		private static string ConnectionString
+        private static string ConnectionString
 		{
 			get
 			{

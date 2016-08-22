@@ -75,6 +75,48 @@ namespace DisplayMonkey
             return result;
         }
 
+        public delegate T FuncWithExpiration<out T>(ref DateTime _expireDate);
+        public static T GetOrAddAbsolute<T>(this Cache cache, string key, FuncWithExpiration<T> action)
+        {
+            T result;
+            DateTime when = DateTime.Now;
+            CacheItem<T> data = cache[key] as CacheItem<T>;
+
+            if (data == null)
+            {
+                lock (_cacheLock)
+                {
+                    data = cache[key] as CacheItem<T>;
+
+                    if (data == null)
+                    {
+                        result = action(ref when);
+
+                        if (result == null)
+                            return result;
+
+                        //Debug.Print(string.Format("+++: key={0}, time={1}", key, DateTime.Now));
+
+                        if (when > DateTime.Now)
+                            cache.Insert(
+                                key,
+                                new CacheItem<T>(result),
+                                null,
+                                when,
+                                Cache.NoSlidingExpiration,
+                                new CacheItemUpdateCallback(DMCacheItemUpdateCallback)
+                                );
+                    }
+                    else
+                        result = (T)data.Data;
+                }
+            }
+            else
+                result = (T)data.Data;
+
+            return result;
+        }
+
         public static T GetOrAddSliding<T>(this Cache cache, string key, Func<T> action, TimeSpan after)
         {
             if (after.TotalSeconds <= 0)
@@ -108,6 +150,48 @@ namespace DisplayMonkey
                             after,
                             new CacheItemUpdateCallback(DMCacheItemUpdateCallback)
                             );
+                    }
+                    else
+                        result = (T)data.Data;
+                }
+            }
+            else
+                result = (T)data.Data;
+
+            return result;
+        }
+
+        public delegate T FuncWithTimeout<out T>(ref TimeSpan _timeout);
+        public static T GetOrAddSliding<T>(this Cache cache, string key, FuncWithTimeout<T> action)
+        {
+            T result;
+            TimeSpan after = new TimeSpan(0);
+            CacheItem<T> data = cache[key] as CacheItem<T>;
+
+            if (data == null)
+            {
+                lock (_cacheLock)
+                {
+                    data = cache[key] as CacheItem<T>;
+
+                    if (data == null)
+                    {
+                        result = action(ref after);
+
+                        if (result == null)
+                            return result;
+
+                        //Debug.Print(string.Format("+++: key={0}, time={1}", key, DateTime.Now));
+
+                        if (after.TotalSeconds > 0)
+                            cache.Insert(
+                                key,
+                                new CacheItem<T>(result),
+                                null,
+                                Cache.NoAbsoluteExpiration,
+                                after,
+                                new CacheItemUpdateCallback(DMCacheItemUpdateCallback)
+                                );
                     }
                     else
                         result = (T)data.Data;

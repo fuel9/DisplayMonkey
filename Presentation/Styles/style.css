@@ -1,4 +1,4 @@
-/*!
+﻿/*!
 * DisplayMonkey source file
 * http://displaymonkey.org
 *
@@ -385,4 +385,21 @@
 
 	/*******************************************************************************/
 	
+    div.powerbi {
+        overflow:hidden; 
+        z-index:1; 
+        width:100%; 
+        height:100%;
+    }
 
+        div.powerbi>.tile, div.powerbi>.report {
+            position:absolute; 
+            left:0; 
+            top:0; 
+            width:100%; 
+            height:100%;
+            background-color: transparent;
+        }
+
+	/*******************************************************************************/
+	
