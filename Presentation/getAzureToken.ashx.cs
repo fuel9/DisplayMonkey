@@ -18,10 +18,11 @@ using System.Web.Script.Serialization;
 using Microsoft.Exchange.WebServices.Data;
 using System.Net;
 using DisplayMonkey.Language;
+using DisplayMonkey.PowerbiUtil;
 
 namespace DisplayMonkey
 {
-    public partial class getPowerbiToken : IHttpHandler
+    public partial class getAzureToken : IHttpHandler
     {
         public bool IsReusable { get { return false; } }
 
@@ -60,7 +61,7 @@ namespace DisplayMonkey
                 });
 			}
 
-			catch (Exception ex)
+            catch (Exception ex)
 			{
                 JavaScriptSerializer s = new JavaScriptSerializer();
                 json = s.Serialize(new
@@ -72,7 +73,8 @@ namespace DisplayMonkey
                         FrameId = frameId,
                         PanelId = panelId,
                         DisplayId = displayId,
-                        Culture = culture
+                        Culture = culture,
+                        Details = ex.GetType() == typeof(TokenException) ? (ex as TokenException).Details : null,
                     },
                 });
 			}

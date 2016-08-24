@@ -292,8 +292,8 @@
     <Compile Include="getDisplayData.ashx.cs">
       <DependentUpon>getDisplayData.ashx</DependentUpon>
     </Compile>
-    <Compile Include="getPowerbiToken.ashx.cs">
-      <DependentUpon>getPowerbiToken.ashx</DependentUpon>
+    <Compile Include="getAzureToken.ashx.cs">
+      <DependentUpon>getAzureToken.ashx</DependentUpon>
     </Compile>
     <Compile Include="getYahooWeather.ashx.cs">
       <DependentUpon>getYahooWeather.ashx</DependentUpon>
@@ -384,7 +384,7 @@
   <ItemGroup>
     <Content Include="getVideo.ashx" />
     <Content Include="getDisplayData.ashx" />
-    <Content Include="getPowerbiToken.ashx" />
+    <Content Include="getAzureToken.ashx" />
     <None Include="Properties\PublishProfiles\Debug.pubxml" />
     <None Include="Properties\PublishProfiles\Release.pubxml" />
     <None Include="Properties\Settings.settings">

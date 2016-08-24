@@ -392,13 +392,16 @@
         height:100%;
     }
 
-        div.powerbi>.tile, div.powerbi>.report {
+        div.powerbi>iframe {
             position:absolute; 
             left:0; 
             top:0; 
             width:100%; 
             height:100%;
             background-color: transparent;
+            border: 0px none transparent;
+            padding: 0px;
+            overflow: hidden;
         }
 
 	/*******************************************************************************/

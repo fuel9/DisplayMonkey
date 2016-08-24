@@ -8,4 +8,4 @@
 * http://opensource.org/licenses/MIT
 --%>
 
-<%@ WebHandler Language="C#" CodeBehind="getPowerbiToken.ashx.cs" Class="DisplayMonkey.getPowerbiToken" %>
+<%@ WebHandler Language="C#" CodeBehind="getAzureToken.ashx.cs" Class="DisplayMonkey.getAzureToken" %>

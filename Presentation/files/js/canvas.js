@@ -39,7 +39,7 @@ DM.ErrorReport = Class.create({
             Error: ((options.exception instanceof Error ? options.exception.message : options.exception) || "unspecified"),
             Where: (options.source || "unspecified"),
             When: moment().format(),
-            Data: (JSON.stringify(options.data) || "none").replace(/\"/g, ''),
+            Data: (JSON.stringify(options.data) || "none").replace(/\\"|"/g, ''),
         };
         console.error("!Display Monkey error: " + JSON.stringify(this.info));
         this.length = options.length || _canvas.errorLength || 0;
@@ -56,7 +56,7 @@ DM.ErrorReport = Class.create({
             "<tr><td>Error:</td><td>#{Error}</td></tr>",
             "<tr><td>Where:</td><td>#{Where}</td></tr>",
             "<tr><td>When:</td><td>#{When}</td></tr>",
-            "<tr><td>Data:</td><td>#{Data}</td></tr>",
+            _canvas.errorInfo ? "<tr><td>Info:</td><td>#{Data}</td></tr>" : "",
             "</table>"
             ).interpolate(this.info)
         );
@@ -97,6 +97,7 @@ DM.Canvas = Class.create({
 		this.fsIdleInterval = (options.initialIdleInterval || 0);   // !!!
 		this.pollInterval = (options.pollInterval || 0);
 		this.errorLength = (options.errorLength || 0);
+		this.errorInfo = (options.errorInfo || true);
 		this.width = (options.width || 0);
 		this.height = (options.height || 0);
 		this.backImage = (options.backImage || 0);

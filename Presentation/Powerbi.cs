@@ -37,7 +37,7 @@ namespace DisplayMonkey
                     using (SqlCommand cmd = new SqlCommand()
                     {
                         CommandType = CommandType.Text,
-                        CommandText = "select top 1 * from PowerbiAccount with(updlock) where AccountId=@accountId",
+                        CommandText = "select top 1 * from AzureAccount with(updlock,rowlock) where AccountId=@accountId",
                         Connection = cnn,
                         Transaction = trn,
                     })
@@ -56,15 +56,16 @@ namespace DisplayMonkey
                             if (string.IsNullOrWhiteSpace(accessToken) || !expiresOn.HasValue || expiresOn.Value < DateTime.UtcNow)
                             {
                                 TokenInfo token = Token.GetGrantTypePassword(
-                                    dr.StringOrBlank("ClientId").Trim(), 
-                                    dr.StringOrBlank("ClientSecret").Trim(),
-                                    dr.StringOrBlank("User").Trim(),
-                                    RsaUtil.Decrypt(dr.Field<byte[]>("Password")).Trim()
+                                    dr.StringOrBlank("ClientId"), 
+                                    dr.StringOrBlank("ClientSecret"),
+                                    dr.StringOrBlank("User"),
+                                    RsaUtil.Decrypt(dr.Field<byte[]>("Password")),
+                                    dr.Field<string>("TenantId")
                                     );
                                 using (SqlCommand cmdu = new SqlCommand()
                                 {
                                     CommandType = CommandType.Text,
-                                    CommandText = "update PowerbiAccount set AccessToken=@accessToken, ExpiresOn=@expiresOn where AccountId=@accountId",
+                                    CommandText = "update AzureAccount set AccessToken=@accessToken, ExpiresOn=@expiresOn where AccountId=@accountId",
                                     Connection = cnn,
                                     Transaction = trn,
                                 })
@@ -75,7 +76,6 @@ namespace DisplayMonkey
                                     cmdu.ExecuteNonQuery();
                                 }
                                 accessToken = token.AccessToken;
-                                //System.Diagnostics.Debug.WriteLine(string.Format("New access token: {0}", accessToken));
                             }
                         }                        
                     }

@@ -28,7 +28,7 @@ DM.Powerbi = Class.create(DM.FrameBase, {
 
         // get access token
         this.updating = true;
-        new Ajax.Request("getPowerbiToken.ashx", {
+        new Ajax.Request("getAzureToken.ashx", {
             method: 'get',
             parameters: $H({
                 frame: this.frameId,
