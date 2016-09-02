@@ -296,6 +296,27 @@ namespace DisplayMonkey
                     data.timeZone = u.WorkingHours.TimeZone;
                 }
 
+                if (reserveMinutes > 0)
+                {
+                    Appointment appointment = new Appointment(service)
+                    {
+                        Body = "Test",
+                        Subject = "Test",
+                        Start = DateTime.Now,
+                        End = DateTime.Now.AddMinutes(reserveMinutes),
+                    };
+
+                    if (outlook.Mailbox == outlook.Account)
+                    {
+                        appointment.Save(SendInvitationsMode.SendToNone);
+                    }
+                    else
+                    {
+                        appointment.Resources.Add(outlook.Mailbox);
+                        appointment.Save(SendInvitationsMode.SendOnlyToAll);
+                    }
+                }
+
                 // events: prep filter
                 FolderId folderId = new FolderId(WellKnownFolderName.Calendar, new Mailbox(outlook.Mailbox));
                 CalendarFolder calendar = CalendarFolder.Bind(service, folderId, new PropertySet());
@@ -451,8 +472,6 @@ namespace DisplayMonkey
         {
             public override IEnumerable<Type> SupportedTypes { get { return _supportedTypes; } }
 
-            public static object[] Labels { get { return _labels; } }
-
             public override IDictionary<string, object> Serialize(object obj, JavaScriptSerializer serializer)
             {
                 IDictionary<string, object> serialized = new Dictionary<string, object>();
@@ -491,22 +510,11 @@ namespace DisplayMonkey
             private static Dictionary<Sensitivity, string> _sens;
             private static Dictionary<LegacyFreeBusyStatus, string> _showAs;
             private static IEnumerable<Type> _supportedTypes;
-            private static object[] _labels;
 
             static EventEntryConverter()
             {
                 _supportedTypes = new[] { typeof(EventEntry) };
 
-                _labels = new[] 
-                {
-                    new {key = "subject", value = Resources.Outlook_Event},
-                    new {key = "starts", value = Resources.Outlook_Starts},
-                    new {key = "ends", value = Resources.Outlook_Ends},
-                    new {key = "duration", value = Resources.Outlook_Duration},
-                    new {key = "sensitivity", value = "Sensitivity"},                       // TODO
-                    new {key = "showAs", value = "Show As"},                       // TODO
-                };
-                
                 _sens = new Dictionary<Sensitivity, string>();
                 _sens.Add(Sensitivity.Confidential, "confidential");
                 _sens.Add(Sensitivity.Normal, "normal");

@@ -76,7 +76,7 @@ namespace DisplayMonkey
                         this.ShowEvents = 0;
                     this.Mailbox = dr.StringOrBlank("Mailbox").Trim();
                     if (string.IsNullOrWhiteSpace(Mailbox))
-                        this.Mailbox = Account;
+                        this.Mailbox = this.Account;
                     this.Name = dr.StringOrBlank("Name").Trim();
                     this.URL = dr.StringOrBlank("Url").Trim();
                     this.Privacy = (DisplayMonkey.Models.OutlookPrivacy)dr.IntOrZero("Privacy");

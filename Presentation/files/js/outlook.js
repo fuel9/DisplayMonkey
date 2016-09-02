@@ -57,9 +57,8 @@ DM.Outlook = Class.create(/*PeriodicalExecuter*/ DM.FrameBase, {
         var a = $(event.target);
         if (a && a.hasClassName("reserve")) {
             this.reserveMinutes = a.getAttribute("data-minutes") || 0;
-            //alert("frame: " + this.frameId + " reserve : " + this.reserveMinutes + " min");
             if (this.reserveMinutes)
-                this._callback.bind(this).delay(1);
+                this._callback.bind(this).delay(0);
             this.actions.hide();
             Event.stop(event);
         }
@@ -78,31 +77,37 @@ DM.Outlook = Class.create(/*PeriodicalExecuter*/ DM.FrameBase, {
             ;
 
         if (this.events) {
-            var item = this.events.select(".item")[0];
-            if (item) {
+            var items=this.events.select(".item"), i=items.length;
+            if (i) {
                 if (json.events.showEvents) {
-                    for (var j = 0; j < json.events.showEvents; j++) {
-                        var c = item.clone(true), i = null, subj = null;
-                        if (!j && !json.events.items.length) {
+                    for (; i<json.events.showEvents; i++) {
+                        items[0].insert({ after: items[0].clone(true) });
+                    }
+                    for (; i>json.events.showEvents; i--) {
+                        Element.remove(0);
+                    }
+                    var i=0;
+                    this.events.select(".item").each(function (c) {
+                        var ev, subj;
+                        if (!i && !json.events.items.length) {
                             subj = json.events.noEvents;
                         }
-                        else if (j < json.events.items.length) {
-                            var i = json.events.items[j];
-                            subj = i.subject;
-                            i.flags.forEach(function (f) {
+                        else if (i < json.events.items.length) {
+                            ev = json.events.items[i];
+                            subj = ev.subject;
+                            ev.flags.forEach(function (f) {
                                 c.addClassName(f);
                             });
                         }
                         c   .setAll(".subject", subj)
-                            .setAll(".starts", i ? i.starts : null)
-                            .setAll(".ends", i ? i.ends : null)
-                            .setAll(".sensitivity", i ? i.sensitivity : null)
-                            .setAll(".showAs", i ? i.showAs : null)
-                            .setAll(".duration", i ? i.duration : null)
+                            .setAll(".starts", ev ? ev.starts : null)
+                            .setAll(".ends", ev ? ev.ends : null)
+                            .setAll(".sensitivity", ev ? ev.sensitivity : null)
+                            .setAll(".showAs", ev ? ev.showAs : null)
+                            .setAll(".duration", ev ? ev.duration : null)
                         ;
-                        item.insert({ before: c });
-                    }
-                    Element.remove(item);
+                        i++;
+                    });
                     this.events.show();
                 } else {
                     this.events.hide();
@@ -112,8 +117,8 @@ DM.Outlook = Class.create(/*PeriodicalExecuter*/ DM.FrameBase, {
             }
         }
 
-        json.events.labels.forEach(function (l) {
-            this.setAll(".label." + l.key, l.value);
+        json.labels.forEach(function (l) {
+            this.setAll(".label."+l.key, l.value);
         }, this.div);
 
         if (this.progress)
