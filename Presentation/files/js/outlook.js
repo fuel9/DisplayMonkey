@@ -12,6 +12,7 @@
 // 2015-02-06 [LTL] - added isReady method
 // 2015-03-08 [LTL] - using data
 // 2015-05-08 [LTL] - ready callback
+// 2016-09-04 [LTL] - more robust HTML and frame data implementation + reserve time
 
 DM.Outlook = Class.create(/*PeriodicalExecuter*/ DM.FrameBase, {
     initialize: function ($super, options) {
@@ -19,12 +20,104 @@ DM.Outlook = Class.create(/*PeriodicalExecuter*/ DM.FrameBase, {
         $super(options, 'div.outlook');
         var data = options.panel.data;
 
-        this.div.select("div.busy")[0].hide();
-        this.div.select("div.plan")[0].hide();
-        this.div.select("div.free")[0].hide();
-        this.div.select("div.progress")[0].show();
+        this.reserveMinutes = 0;
+        this.allowReserve = data.allowReserve || true;
+
+        this.summary = this.div.select(".summary")[0];
+        this.events = this.div.select(".events")[0];
+        this.actions = this.div.select(".actions")[0];
+        this.progress = this.div.select(".progress")[0];
+
+        if (this.summary) this.summary.hide();
+        if (this.events) this.events.hide();
+        if (this.progress) this.progress.show();
+
+        if (this.actions) {
+            this.actions
+                .hide()
+                .select(".reserve").each(function (a) {
+                    $(a).observe('click', this._reserve.bind(this), true);
+                }, this)
+            ;
+            if (this.allowReserve) {
+                this.div.observe('click', function () {
+                    if (this.visible())
+                        this.hide();
+                    else
+                        this.show();
+                }.bind(this.actions), true);
+            }
+        }
 
         this._callback();
+    },
+
+    _reserve: function(event) {
+        "use strict";
+        var a = $(event.target);
+        if (a && a.hasClassName("reserve")) {
+            this.reserveMinutes = a.getAttribute("data-minutes") || 0;
+            //alert("frame: " + this.frameId + " reserve : " + this.reserveMinutes + " min");
+            if (this.reserveMinutes)
+                this._callback.bind(this).delay(1);
+            this.actions.hide();
+            Event.stop(event);
+        }
+    },
+
+    _update: function (json) {
+        "use strict";
+
+        if (this.summary)
+            this.summary
+                .addClassName(json.currentEvent !== "" ? "busy" : "free")
+                .setAll(".mailbox", json.mailbox)
+                .setAll(".current.status", json.currentStatus)
+                .setAll(".current.event", json.currentEvent)
+                .show()
+            ;
+
+        if (this.events) {
+            var item = this.events.select(".item")[0];
+            if (item) {
+                if (json.events.showEvents) {
+                    for (var j = 0; j < json.events.showEvents; j++) {
+                        var c = item.clone(true), i = null, subj = null;
+                        if (!j && !json.events.items.length) {
+                            subj = json.events.noEvents;
+                        }
+                        else if (j < json.events.items.length) {
+                            var i = json.events.items[j];
+                            subj = i.subject;
+                            i.flags.forEach(function (f) {
+                                c.addClassName(f);
+                            });
+                        }
+                        c   .setAll(".subject", subj)
+                            .setAll(".starts", i ? i.starts : null)
+                            .setAll(".ends", i ? i.ends : null)
+                            .setAll(".sensitivity", i ? i.sensitivity : null)
+                            .setAll(".showAs", i ? i.showAs : null)
+                            .setAll(".duration", i ? i.duration : null)
+                        ;
+                        item.insert({ before: c });
+                    }
+                    Element.remove(item);
+                    this.events.show();
+                } else {
+                    this.events.hide();
+                }
+            } else {
+                this.events.hide();
+            }
+        }
+
+        json.events.labels.forEach(function (l) {
+            this.setAll(".label." + l.key, l.value);
+        }, this.div);
+
+        if (this.progress)
+            this.progress.hide();
     },
 
     _callback: function () {
@@ -39,7 +132,8 @@ DM.Outlook = Class.create(/*PeriodicalExecuter*/ DM.FrameBase, {
                 frame: this.frameId,
                 panel: this.panelId,
                 display: _canvas.displayId,
-                culture: _canvas.culture
+                culture: _canvas.culture,
+                reserveMinutes: this.reserveMinutes,
             })
             , evalJSON: false
             , outlook: this
@@ -59,43 +153,7 @@ DM.Outlook = Class.create(/*PeriodicalExecuter*/ DM.FrameBase, {
                     if (json.Error)
                         throw new Error("Server error");
 
-                    var o = outlook.div,
-                        free = o.select("div.free")[0],
-                        busy = o.select("div.busy")[0],
-                        plan = o.select("div.plan")[0]
-                    ;
-                    o.select("div.progress")[0].hide();
-                    o.select(".mailbox").each(function (e) { e.update(json.mailbox); });
-                    o.select(".status").each(function (e) { e.update(json.currentStatus); });
-                    if (json.currentEvent === "") {
-                        busy.hide();
-                        free.show();
-                    } else {
-                        free.hide();
-                        busy.select(".event")[0].update(json.currentEvent);
-                        busy.show();
-                    }
-
-                    if (!json.events.showEvents) {
-                        plan.update('');
-                    }
-                    else {
-                        plan.update('<table><tr></tr></table>');
-                        var rows = plan.down(1);
-                        json.events.head.forEach(function (e) {
-                            rows.insert(new Element('th', { 'class': e.cls }).update(e.name));
-                        });
-                        for (var i = 0, j = json.events.items.length; i < json.events.showEvents; i++) {
-                            var r = rows.insert(new Element('tr')), k = 0;
-                            json.events.head.forEach(function (e) {
-                                r.insert(new Element('td', { class: e.cls }).update(
-                                    !i && !j && !(k++) ? json.events.noEvents : i < j ? json.events.items[i][e.cls] : "&nbsp;"
-                                    ));
-                            });
-                        }
-                        plan.show();
-                    }
-                    o.show();
+                    outlook._update.call(outlook, json);
                 }
                 catch (e) {
                     new DM.ErrorReport({ exception: e, data: resp.responseText, source: "Outlook::callBack::onSuccess" });
@@ -114,6 +172,8 @@ DM.Outlook = Class.create(/*PeriodicalExecuter*/ DM.FrameBase, {
                 outlook.ready();
             }
         });
+
+        this.reserveMinutes = 0;
     },
 });
 

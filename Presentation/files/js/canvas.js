@@ -612,7 +612,8 @@ DM.FullScreenPanel = Class.create(DM.PanelBase, {
 	    "use strict";
 	    $super(options);
 	    this.screen = $('screen');
-		this._onFrameExpire();
+	    this.screen.setStyle({ display: 'none' });
+	    this._onFrameExpire();
 	},
 
 	_onFrameExpire: function (/*$super*/) {
@@ -642,10 +643,9 @@ DM.FullScreenPanel = Class.create(DM.PanelBase, {
 	    // fade out old container and remove it
 	    (function (id, screen, l) {
 	        var done = function () {
-	            screen.setStyle({ opacity: 0 });
+	            screen.setStyle({ opacity: 0, display: 'none' });
 	            _canvas.resumePanels();
 	            DM.FrameBase.Reclaim(id);
-
 	        };
 
 	        if (l)
@@ -702,6 +702,7 @@ DM.FullScreenPanel = Class.create(DM.PanelBase, {
 	            screen.setStyle({ opacity: 1 });
 	        };
 
+	        screen.setStyle({ display: '' });
 	        if (l)
 	            screen.appear({ duration: l, afterFinish: done });
 	        else
@@ -723,6 +724,12 @@ DM.FullScreenPanel = Class.create(DM.PanelBase, {
 document.observe("dom:loaded", function () {
     "use strict";
 	try {
+	    Element.addMethods({
+	        setAll: function (ctx, filter, value, def) {
+	            $(ctx).select(filter).each(function (_ea) { _ea.update(value || def || ""); });
+	            return ctx;
+	        },
+	    });
 	    setInterval(DM.Canvas.Collector, 60000);
 	    DM.Canvas.CheckDisplay();
 	}

@@ -34,6 +34,7 @@ namespace DisplayMonkey
             int panelId = DataAccess.IntOrZero(request.QueryString["panel"]);
             int displayId = DataAccess.IntOrZero(request.QueryString["display"]);
             string culture = DataAccess.StringOrBlank(request.QueryString["culture"]);
+            int reserveMinutes = DataAccess.IntOrZero(request.QueryString["reserveMinutes"]);
 
 			string json = "";
 				
@@ -57,7 +58,7 @@ namespace DisplayMonkey
                 OutlookData data = HttpRuntime.Cache.GetOrAddAbsolute(
                     string.Format("outlook_{0}_{1}_{2}", location.LocationId, outlook.FrameId, outlook.Version),
                     () => {
-                        return new OutlookData(outlook, location);
+                        return new OutlookData(outlook, location, reserveMinutes);
                     },
                     DateTime.Now.AddMinutes(outlook.CacheInterval)
                     );
@@ -154,9 +155,17 @@ namespace DisplayMonkey
                     events = new
                     {
                         showEvents = outlook.ShowEvents,
-                        head = EventEntryConverter.Head(),
                         items = currentList,
-                        noEvents = currentList.Count == 0 ? Resources.Outlook_NoEventsToday : "",
+                        noEvents = Resources.Outlook_NoEventsToday,
+                    },
+                    labels = new[] 
+                    {
+                        new {key = "subject", value = Resources.Outlook_Event},
+                        new {key = "starts", value = Resources.Outlook_Starts},
+                        new {key = "ends", value = Resources.Outlook_Ends},
+                        new {key = "duration", value = Resources.Outlook_Duration},
+                        new {key = "sensitivity", value = "Sensitivity"},                       // TODO
+                        new {key = "showAs", value = "Show As"},                       // TODO
                     },
                 });
 			}
@@ -197,17 +206,17 @@ namespace DisplayMonkey
             public TimeZoneInfo timeZone = TimeZoneInfo.Local;
             public string DisplayName;
 
-            public OutlookData(Outlook outlook, Location location)
+            public OutlookData(Outlook outlook, Location location, int reserveMinutes)
             {
-                OutlookData.initFromFrame(this, outlook, location);
+                OutlookData.initFromFrame(this, outlook, location, reserveMinutes);
             }
 
-            #region -------- EWS Data Call --------
+            #region -------- EWS Data Call --------f
 
             private static ExtendedPropertyDefinition PR_TextBody = new ExtendedPropertyDefinition(0x1000, MapiPropertyType.String);
             private static ExtendedPropertyDefinition PR_Sensitivity = new ExtendedPropertyDefinition(0x0036, MapiPropertyType.Integer);
 
-            private static void initFromFrame(OutlookData data, Outlook outlook, Location location)
+            private static void initFromFrame(OutlookData data, Outlook outlook, Location location, int reserveMinutes)
             {
                 DateTime
                     locationTime = location.LocationTime,
@@ -299,7 +308,8 @@ namespace DisplayMonkey
                         AppointmentSchema.Start,
                         AppointmentSchema.End,
                         AppointmentSchema.Duration,
-                        AppointmentSchema.Sensitivity
+                        AppointmentSchema.Sensitivity,
+                        AppointmentSchema.LegacyFreeBusyStatus
                         )
                 };
 
@@ -324,6 +334,7 @@ namespace DisplayMonkey
                         Duration = a.Duration,
                         Sensitivity = a.Sensitivity,
                         Today = locationToday,
+                        ShowAs = a.LegacyFreeBusyStatus,
                     })
                     .ToList()
                     ;
@@ -418,6 +429,7 @@ namespace DisplayMonkey
             public TimeSpan Duration { get; set; }
             public DateTime Today { get; set; }
             public Sensitivity Sensitivity { get; set; }
+            public LegacyFreeBusyStatus ShowAs { get; set; }
 
             public int CompareTo(EventEntry rhs)
             {
@@ -437,24 +449,9 @@ namespace DisplayMonkey
 
         private class EventEntryConverter : JavaScriptConverter
         {
-            public override IEnumerable<Type> SupportedTypes
-            {
-                get
-                {
-                    return new[] { typeof(EventEntry) };
-                }
-            }
+            public override IEnumerable<Type> SupportedTypes { get { return _supportedTypes; } }
 
-            public static object[] Head()
-            {
-                return new[] 
-                {
-                    new {cls = "col1", name = Resources.Outlook_Event},
-                    new {cls = "col2", name = Resources.Outlook_Starts},
-                    new {cls = "col3", name = Resources.Outlook_Ends},
-                    new {cls = "col4", name = Resources.Outlook_Duration}
-                };
-            }
+            public static object[] Labels { get { return _labels; } }
 
             public override IDictionary<string, object> Serialize(object obj, JavaScriptSerializer serializer)
             {
@@ -462,14 +459,24 @@ namespace DisplayMonkey
                 EventEntry evt = obj as EventEntry;
                 if (evt != null)
                 {
+                    List<string> flags = new List<string>();
+                    foreach( var x in _sens.Where(e => e.Key == evt.Sensitivity))
+                        flags.Add(x.Value);
+                    foreach (var x in _showAs.Where(e => e.Key == evt.ShowAs))
+                        flags.Add(x.Value);
+
+                    serialized["flags"] = flags.ToArray();
+                    serialized["subject"] = evt.Subject;
+                    serialized["sensitivity"] = evt.Sensitivity.ToString("G");
+                    serialized["showAs"] = evt.ShowAs.ToString("G");
+                    
                     DateTime tomorrow = evt.Today.AddDays(1);
-                    serialized["col1"] = evt.Subject;
-                    serialized["col2"] = (evt.Starts >= tomorrow ? evt.Starts.ToShortDateString() + " " : "") + evt.Starts.ToShortTimeString();
-                    serialized["col3"] = (evt.Ends >= tomorrow ? evt.Ends.ToShortDateString() + " " : "") + evt.Ends.ToShortTimeString();
+                    serialized["starts"] = (evt.Starts >= tomorrow ? evt.Starts.ToShortDateString() + " " : "") + evt.Starts.ToShortTimeString();
+                    serialized["ends"] = (evt.Ends >= tomorrow ? evt.Ends.ToShortDateString() + " " : "") + evt.Ends.ToShortTimeString();
                     if ((int)evt.Duration.TotalHours > 0)
-                        serialized["col4"] = string.Format(Resources.Outlook_HrsMin, (int)evt.Duration.TotalHours, evt.Duration.Minutes);
+                        serialized["duration"] = string.Format(Resources.Outlook_HrsMin, (int)evt.Duration.TotalHours, evt.Duration.Minutes);
                     else
-                        serialized["col4"] = string.Format(Resources.Outlook_Min, evt.Duration.Minutes);
+                        serialized["duration"] = string.Format(Resources.Outlook_Min, evt.Duration.Minutes);
                 }
                 return serialized;
             }
@@ -478,6 +485,44 @@ namespace DisplayMonkey
             {
                 throw new NotImplementedException();
             }
+
+            #region Private members
+
+            private static Dictionary<Sensitivity, string> _sens;
+            private static Dictionary<LegacyFreeBusyStatus, string> _showAs;
+            private static IEnumerable<Type> _supportedTypes;
+            private static object[] _labels;
+
+            static EventEntryConverter()
+            {
+                _supportedTypes = new[] { typeof(EventEntry) };
+
+                _labels = new[] 
+                {
+                    new {key = "subject", value = Resources.Outlook_Event},
+                    new {key = "starts", value = Resources.Outlook_Starts},
+                    new {key = "ends", value = Resources.Outlook_Ends},
+                    new {key = "duration", value = Resources.Outlook_Duration},
+                    new {key = "sensitivity", value = "Sensitivity"},                       // TODO
+                    new {key = "showAs", value = "Show As"},                       // TODO
+                };
+                
+                _sens = new Dictionary<Sensitivity, string>();
+                _sens.Add(Sensitivity.Confidential, "confidential");
+                _sens.Add(Sensitivity.Normal, "normal");
+                _sens.Add(Sensitivity.Personal, "personal");
+                _sens.Add(Sensitivity.Private, "private");
+
+                _showAs = new Dictionary<LegacyFreeBusyStatus, string>();
+                _showAs.Add(LegacyFreeBusyStatus.Busy, "busy");
+                _showAs.Add(LegacyFreeBusyStatus.Free, "free");
+                //_showAs.Add(LegacyFreeBusyStatus.NoData, "");
+                _showAs.Add(LegacyFreeBusyStatus.OOF, "oof");
+                _showAs.Add(LegacyFreeBusyStatus.Tentative, "tentative");
+                _showAs.Add(LegacyFreeBusyStatus.WorkingElsewhere, "wew");
+            }
+
+            #endregion
         }
 
         #endregion

@@ -1,4 +1,4 @@
-/*!
+﻿/*!
 * DisplayMonkey source file
 * http://displaymonkey.org
 *
@@ -315,7 +315,7 @@
     		text-align:center;
         }
 
-        div.outlook>.free {
+        div.outlook>.summary.free {
             background-color: green;
             color: white;
             text-shadow: -1px -2px 0px #4d6d4d;
@@ -323,7 +323,7 @@
             border-bottom:  1px solid #003300;
         }
 
-        div.outlook>.busy {
+        div.outlook>.summary.busy {
             background-color: red;
             color: white;
             text-shadow: -1px -1px 0px #8d4d4d;
@@ -331,7 +331,7 @@
             border-bottom:  1px solid #B20000;
         }
 
-            div.outlook>.free div, div.outlook>.busy div {
+            div.outlook>.summary div {
                 padding-left: 10px;
                 padding-right: 10px;
                 padding-top: 5px;
@@ -342,17 +342,22 @@
                 font-size: 2em;
             }
 
-        div.outlook>.plan table {
+        div.outlook>.events table {
             width: 100%;
             border: 0;
             border-spacing: 0;
         }
 
-            div.outlook>.plan tr {
+            div.outlook>.events tr.item {
                 background-color: #EEE;
+                height: 20px;
             }
 
-                div.outlook>.plan th {
+            div.outlook>.events tr.item.busy {
+                background-color: #AEE;
+            }
+
+                div.outlook>.events th.label {
                     background-color: grey;
                     color: white;
                     text-shadow: -1px -1px 0px #4d4d4d;
@@ -362,14 +367,7 @@
                     text-align: left;
                 }
 
-                div.outlook>.plan th.col1, 
-                div.outlook>.plan th.col2,
-                div.outlook>.plan th.col3,
-                div.outlook>.plan th.col4 {
-                }
-
-                div.outlook>.plan td {
-                    background-color: #CFCFCF;
+                div.outlook>.events tr.item>td {
                     color: #444;
                     text-shadow: -0.5px 1px 0px #fff;
                     padding: 5px;
@@ -377,12 +375,30 @@
                     border-bottom:  1px solid #7C7C7C;
                 }
 
-                div.outlook>.plan td.col1, 
-                div.outlook>.plan td.col2,
-                div.outlook>.plan td.col3,
-                div.outlook>.plan td.col4 {
-                }
+        div.outlook>.actions {
+            width: auto;
+            border-spacing: 0;
+            background-color: white;
+            
+            position: absolute;
+            top: 8px;
+            float: right;
+            right: 10px;
+            padding: 1%;
+            z-index: 5;
+            opacity:0.9;
+            border: 1px solid;
+            border-radius: 10px;
+            box-shadow: 4px 4px 6px rgba(0,0,0,1);
+            -webkit-box-shadow: 4px 4px 6px rgba(0,0,0,1);
+            -moz-box-shadow: 4px 4px 6px rgba(0,0,0,1);
+        }
 
+            div.outlook > .actions input.reserve {
+                border: 1px solid;
+                border-radius: 8px;
+                background-color: white;
+            }
 	/*******************************************************************************/
 	
 
