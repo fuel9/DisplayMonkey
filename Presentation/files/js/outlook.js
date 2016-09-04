@@ -21,7 +21,8 @@ DM.Outlook = Class.create(/*PeriodicalExecuter*/ DM.FrameBase, {
         var data = options.panel.data;
 
         this.reserveMinutes = 0;
-        this.allowReserve = data.allowReserve || true;
+        this.allowReserve = data.AllowReserve || false;
+        this.showEvents = data.ShowEvents || 0;
 
         this.summary = this.div.select(".summary")[0];
         this.events = this.div.select(".events")[0];
@@ -79,11 +80,11 @@ DM.Outlook = Class.create(/*PeriodicalExecuter*/ DM.FrameBase, {
         if (this.events) {
             var items=this.events.select(".item"), i=items.length;
             if (i) {
-                if (json.events.showEvents) {
-                    for (; i<json.events.showEvents; i++) {
+                if (this.showEvents) {
+                    for (; i<this.showEvents; i++) {
                         items[0].insert({ after: items[0].clone(true) });
                     }
-                    for (; i>json.events.showEvents; i--) {
+                    for (; i>this.showEvents; i--) {
                         Element.remove(0);
                     }
                     var i=0;

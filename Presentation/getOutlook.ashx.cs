@@ -151,10 +151,8 @@ namespace DisplayMonkey
                     },
                     currentEvent = strCurrentEvent,
                     currentStatus = strCurrentStatus,
-                    //mode = outlook.Mode,
                     events = new
                     {
-                        showEvents = outlook.ShowEvents,
                         items = currentList,
                         noEvents = Resources.Outlook_NoEventsToday,
                     },
@@ -339,7 +337,10 @@ namespace DisplayMonkey
                 // events: get list
                 data.events = calendar
                     .FindAppointments(cView)
-                    .Where(a => outlook.Privacy != Models.OutlookPrivacy.OutlookPrivacy_NoClassified)
+                    .Where(a => 
+                        (outlook.Privacy != Models.OutlookPrivacy.OutlookPrivacy_NoClassified || a.Sensitivity == Sensitivity.Normal) && 
+                        (outlook.IsShowAsAllowed(a.LegacyFreeBusyStatus))
+                        )
                     .OrderBy(i => i.Start)
                     .ThenBy(i => i.DateTimeCreated)
                     .ThenBy(i => i.Subject)
