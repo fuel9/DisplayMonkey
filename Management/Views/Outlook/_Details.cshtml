@@ -48,12 +48,21 @@
     </div>
 
     <div class="divRow">
-    <div class="display-label">
+        <div class="display-label">
+            @Html.DisplayNameFor(model => model.AllowReserve)
+        </div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.AllowReserve)
+        </div>
+    </div>
+
+    <div class="divRow">
+        <div class="display-label">
             @Html.DisplayNameFor(model => model.Privacy)
-    </div>
-    <div class="display-field">
-        @Model.Privacy.Translate()
-    </div>
+        </div>
+        <div class="display-field">
+            @Model.Privacy.Translate()
+        </div>
     </div>
 
     <div class="divRow">

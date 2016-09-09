@@ -1461,7 +1461,7 @@
     <value>Privacy is required</value>
   </data>
   <data name="OutlookAllowReserve" xml:space="preserve">
-    <value>Reserve time</value>
+    <value>Allow quick booking</value>
   </data>
   <data name="OutlookShowAs" xml:space="preserve">
     <value>Show as</value>
