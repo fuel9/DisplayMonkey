@@ -20,6 +20,7 @@ DM.Outlook = Class.create(/*PeriodicalExecuter*/ DM.FrameBase, {
         $super(options, 'div.outlook');
         var data = options.panel.data;
 
+        this.availableMinutes = 0;
         this.reserveMinutes = 0;
         this.allowReserve = data.AllowReserve || false;
         this.showEvents = data.ShowEvents || 0;
@@ -29,6 +30,9 @@ DM.Outlook = Class.create(/*PeriodicalExecuter*/ DM.FrameBase, {
         this.actions = this.div.select(".actions")[0];
         this.progress = this.div.select(".progress")[0];
 
+        this.bookingImpossible = "";
+        this.bookingSent = "";
+
         if (this.summary) this.summary.hide();
         if (this.events) this.events.hide();
         if (this.progress) this.progress.show();
@@ -36,37 +40,100 @@ DM.Outlook = Class.create(/*PeriodicalExecuter*/ DM.FrameBase, {
         if (this.actions) {
             this.actions
                 .hide()
-                .select(".reserve").each(function (a) {
-                    $(a).observe('click', this._reserve.bind(this), true);
+                .select(".book").each(function (a) {
+                    $(a).observe('click', this._book.bind(this), true);
                 }, this)
             ;
             if (this.allowReserve) {
                 this.div.observe('click', function () {
-                    if (this.visible())
-                        this.hide();
+                    if (this.actions.visible())
+                        this.actions.hide();
                     else
-                        this.show();
-                }.bind(this.actions), true);
+                        this._showBook();
+                }.bind(this), true);
             }
         }
+
+        this.timer = setInterval(this._onTimer.bind(this), 60 * 1000);
 
         this._callback();
     },
 
-    _reserve: function(event) {
+    uninit: function ($super) {
         "use strict";
-        var a = $(event.target);
-        if (a && a.hasClassName("reserve")) {
-            this.reserveMinutes = a.getAttribute("data-minutes") || 0;
-            if (this.reserveMinutes)
+        if (this.timer) {
+            clearInterval(this.timer);
+            this.timer = 0;
+        }
+        $super();
+    },
+
+
+    _onTimer: function () {
+        "use strict";
+        if (this.availableMinutes > 0)
+            this.availableMinutes--;
+    },
+
+    _showBook: function () {
+        "use strict";
+        if (this.allowReserve && this.actions) {
+            var am = this.availableMinutes;
+            if (!am) {
+                this.actions.setAll(".message", this.bookingImpossible);
+            }
+            this.actions
+                .show()
+                .select(".book").each(function (c) {
+                    if (am) {
+                        var dm = $(c).getAttribute("data-minutes");
+                        if (!dm || isNaN(dm)) {
+                            if (!c.getAttribute("value")) {
+                                var dur = moment.duration(am, "m");
+                                c.writeAttribute("value", dur.hours().pad(0) + ":" + dur.minutes().pad(2));
+                            }
+                            c.writeAttribute("data-minutes", null);
+                            c.show();
+                        } else {
+                            if (am >= parseInt(dm))
+                                c.show();
+                            else
+                                c.hide();
+                        }
+                    } else
+                        c.hide();
+                });
+        }
+    },
+
+    _book: function (event) {
+        "use strict";
+        var e = $(event.target);
+        if (e && e.hasClassName("book")) {
+            this.reserveMinutes = e.getAttribute("data-minutes") || this.availableMinutes;
+            if (this.reserveMinutes) {
                 this._callback.bind(this).delay(0);
-            this.actions.hide();
+                this.actions.setAll(".message", this.bookingSent);
+            }
+            this.actions.select(".book").each(function (c) {
+                $(c).hide();
+            });
             Event.stop(event);
         }
     },
 
+    _dismiss: function () {
+        "use strict";
+        if (this.actions.visible())
+            this.actions.hide();
+    },
+
     _update: function (json) {
         "use strict";
+
+        if (this.allowReserve && this.actions) {
+            this.availableMinutes = json.available.minutes || 0;
+        }
 
         if (this.summary)
             this.summary
@@ -91,7 +158,9 @@ DM.Outlook = Class.create(/*PeriodicalExecuter*/ DM.FrameBase, {
                     this.events.select(".item").each(function (c) {
                         var ev, subj;
                         if (!i && !json.events.items.length) {
-                            subj = json.events.noEvents;
+                            json.labels.forEach(function (l) {
+                                if (l.key == "noEvents") subj = l.value;
+                            });
                         }
                         else if (i < json.events.items.length) {
                             ev = json.events.items[i];
@@ -119,8 +188,10 @@ DM.Outlook = Class.create(/*PeriodicalExecuter*/ DM.FrameBase, {
         }
 
         json.labels.forEach(function (l) {
-            this.setAll(".label."+l.key, l.value);
-        }, this.div);
+            this.div.setAll(".label." + l.key, l.value);
+            if (l.key == "bookingSent") this.bookingSent = l.value;
+            if (l.key == "bookingImpossible") this.bookingImpossible = l.value;
+        }, this);
 
         if (this.progress)
             this.progress.hide();

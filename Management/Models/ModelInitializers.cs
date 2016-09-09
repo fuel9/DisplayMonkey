@@ -106,6 +106,7 @@ namespace DisplayMonkey.Models
             this.Mode = OutlookModes.OutlookMode_Today;
             this.Privacy = OutlookPrivacy.OutlookPrivacy_All;
             this.ShowEvents = 0;
+            this.ShowAsFlags = -1;
         }
     }
 

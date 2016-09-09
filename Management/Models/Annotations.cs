@@ -23,6 +23,8 @@ using System.Data;
 using System.Data.Entity.Core.Objects;
 using System.Reflection;
 
+using Microsoft.Exchange.WebServices.Data;
+
 using DisplayMonkey.Language;
 using System.Text.RegularExpressions;
 using System.Collections;
@@ -1371,6 +1373,11 @@ namespace DisplayMonkey.Models
             public OutlookPrivacy Privacy { get; set; }
 
             [
+                Display(ResourceType = typeof(Resources), Name = "OutlookAllowReserve"),
+            ]
+            public bool AllowReserve { get; set; }
+
+            [
                 Display(ResourceType = typeof(Resources), Name = "Name"),
                 //Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "NameRequired"),
                 StringLength(100, ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "MaxLengthExceeded"),
@@ -1412,6 +1419,108 @@ namespace DisplayMonkey.Models
             NotMapped,
         ]
         public string NameOrMailboxOrAccount { get { return this.Name ?? this.Mailbox ?? this.ExchangeAccount.Name; } }
+
+        [
+            NotMapped,
+            Display(ResourceType = typeof(Resources), Name = "EWS_ShowAs_Free"),
+        ]
+        public bool ShowAsFree 
+        { 
+            get { return (this.ShowAsFlags & (1 << (int)LegacyFreeBusyStatus.Free)) != 0; } 
+            set 
+            {
+                int mask = (1 << (int)LegacyFreeBusyStatus.Free);
+                if (value)
+                    this.ShowAsFlags |= mask;
+                else
+                    this.ShowAsFlags &= ~mask;
+            }
+        }
+
+        [
+            NotMapped,
+            Display(ResourceType = typeof(Resources), Name = "EWS_ShowAs_Tentative"),
+        ]
+        public bool ShowAsTentative
+        {
+            get { return (this.ShowAsFlags & (1 << (int)LegacyFreeBusyStatus.Tentative)) != 0; }
+            set
+            {
+                int mask = (1 << (int)LegacyFreeBusyStatus.Tentative);
+                if (value)
+                    this.ShowAsFlags |= mask;
+                else
+                    this.ShowAsFlags &= ~mask;
+            }
+        }
+
+        [
+            NotMapped,
+            Display(ResourceType = typeof(Resources), Name = "EWS_ShowAs_Busy"),
+        ]
+        public bool ShowAsBusy
+        {
+            get { return (this.ShowAsFlags & (1 << (int)LegacyFreeBusyStatus.Busy)) != 0; }
+            set
+            {
+                int mask = (1 << (int)LegacyFreeBusyStatus.Busy);
+                if (value)
+                    this.ShowAsFlags |= mask;
+                else
+                    this.ShowAsFlags &= ~mask;
+            }
+        }
+
+        [
+            NotMapped,
+            Display(ResourceType = typeof(Resources), Name = "EWS_ShowAs_Oof"),
+        ]
+        public bool ShowAsOof
+        {
+            get { return (this.ShowAsFlags & (1 << (int)LegacyFreeBusyStatus.OOF)) != 0; }
+            set
+            {
+                int mask = (1 << (int)LegacyFreeBusyStatus.OOF);
+                if (value)
+                    this.ShowAsFlags |= mask;
+                else
+                    this.ShowAsFlags &= ~mask;
+            }
+        }
+
+        [
+            NotMapped,
+            Display(ResourceType = typeof(Resources), Name = "EWS_ShowAs_Wew"),
+        ]
+        public bool ShowAsWew
+        {
+            get { return (this.ShowAsFlags & (1 << (int)LegacyFreeBusyStatus.WorkingElsewhere)) != 0; }
+            set
+            {
+                int mask = (1 << (int)LegacyFreeBusyStatus.WorkingElsewhere);
+                if (value)
+                    this.ShowAsFlags |= mask;
+                else
+                    this.ShowAsFlags &= ~mask;
+            }
+        }
+
+        [
+            NotMapped,
+            Display(ResourceType = typeof(Resources), Name = "EWS_ShowAs_NoData"),
+        ]
+        public bool ShowAsNoData
+        {
+            get { return (this.ShowAsFlags & (1 << (int)LegacyFreeBusyStatus.NoData)) != 0; }
+            set
+            {
+                int mask = (1 << (int)LegacyFreeBusyStatus.NoData);
+                if (value)
+                    this.ShowAsFlags |= mask;
+                else
+                    this.ShowAsFlags &= ~mask;
+            }
+        }
     }
 
     [

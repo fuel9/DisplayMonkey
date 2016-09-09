@@ -51,4 +51,18 @@
             @Html.ValidationMessageFor(model => model.Privacy)
         </div>
 
+        <div class="editor-label">
+            @Html.Label(Resources.OutlookShowAs)
+        </div>
+        <div class="display-field">
+            <ul class="options">
+                <li>@Html.EditorFor(model => model.ShowAsFree) @Html.DisplayNameFor(model => model.ShowAsFree)</li>
+                <li>@Html.EditorFor(model => model.ShowAsTentative) @Html.DisplayNameFor(model => model.ShowAsTentative)</li>
+                <li>@Html.EditorFor(model => model.ShowAsBusy) @Html.DisplayNameFor(model => model.ShowAsBusy)</li>
+                <li>@Html.EditorFor(model => model.ShowAsOof) @Html.DisplayNameFor(model => model.ShowAsOof)</li>
+                <li>@Html.EditorFor(model => model.ShowAsWew) @Html.DisplayNameFor(model => model.ShowAsWew)</li>
+                <li>@Html.EditorFor(model => model.ShowAsNoData) @Html.DisplayNameFor(model => model.ShowAsNoData)</li>
+            </ul>
+        </div>
+
     </fieldset>

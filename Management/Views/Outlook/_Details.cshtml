@@ -56,6 +56,22 @@
     </div>
     </div>
 
+    <div class="divRow">
+        <div class="display-label">
+            @Resources.OutlookShowAs
+        </div>
+        <div class="display-field">
+            <ul class="options">
+                <li>@Html.DisplayFor(model => model.ShowAsFree) @Html.DisplayNameFor(model => model.ShowAsFree)</li>
+                <li>@Html.DisplayFor(model => model.ShowAsTentative) @Html.DisplayNameFor(model => model.ShowAsTentative)</li>
+                <li>@Html.DisplayFor(model => model.ShowAsBusy) @Html.DisplayNameFor(model => model.ShowAsBusy)</li>
+                <li>@Html.DisplayFor(model => model.ShowAsOof) @Html.DisplayNameFor(model => model.ShowAsOof)</li>
+                <li>@Html.DisplayFor(model => model.ShowAsWew) @Html.DisplayNameFor(model => model.ShowAsWew)</li>
+                <li>@Html.DisplayFor(model => model.ShowAsNoData) @Html.DisplayNameFor(model => model.ShowAsNoData)</li>
+            </ul>
+        </div>
+    </div>
+
     </div>
 </fieldset>
 

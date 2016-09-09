@@ -730,6 +730,11 @@ document.observe("dom:loaded", function () {
 	            return ctx;
 	        },
 	    });
+	    Number.prototype.pad = function (size) {
+	        var s = String(this);
+	        while (s.length < (size || 0)) { s = "0" + s; }
+	        return s;
+	    };
 	    setInterval(DM.Canvas.Collector, 60000);
 	    DM.Canvas.CheckDisplay();
 	}

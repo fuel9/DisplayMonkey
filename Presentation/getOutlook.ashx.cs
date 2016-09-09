@@ -86,13 +86,15 @@ namespace DisplayMonkey
                     currentEvent = firstEvent;
                 }
 
+                DateTime endTime = locationToday.Add(data.endTime);
                 string 
                     strCurrentEvent = "",
                     strCurrentStatus = string.Format(
                         Resources.Outlook_AvailableUntil,
-                        new DateTime(data.endTime.Ticks).ToShortTimeString()
+                        endTime.ToShortTimeString()
                         )
                     ;
+                TimeSpan availableTime = new TimeSpan(0);
                     
                 if (currentEvent != null)
                 {
@@ -108,16 +110,19 @@ namespace DisplayMonkey
                     else
                         strCurrentStatus = string.Format(Resources.Outlook_EndsInMin, gap.Minutes);
                 }
-
                 else if (firstEvent != null)
                 {
-                    TimeSpan gap = firstEvent.Starts.Subtract(locationTime);
-                    if (gap.Hours > 0)
-                        strCurrentStatus = string.Format(Resources.Outlook_AvailableForHrsMin, (int)gap.TotalHours, gap.Minutes);
+                    availableTime = firstEvent.Starts.Subtract(locationTime);
+                    if (availableTime.Hours > 0)
+                        strCurrentStatus = string.Format(Resources.Outlook_AvailableForHrsMin, (int)availableTime.TotalHours, availableTime.Minutes);
                     else
-                        strCurrentStatus = string.Format(Resources.Outlook_AvailableForMin, gap.Minutes);
+                        strCurrentStatus = string.Format(Resources.Outlook_AvailableForMin, availableTime.Minutes);
                 }
-                    
+                else if (locationTime < endTime)
+                {
+                    availableTime = endTime.Subtract(locationTime);
+                }
+
                 JavaScriptSerializer jss = new JavaScriptSerializer();
                 jss.RegisterConverters(new[] { new EventEntryConverter() });
                 json = jss.Serialize(new
@@ -151,10 +156,15 @@ namespace DisplayMonkey
                     },
                     currentEvent = strCurrentEvent,
                     currentStatus = strCurrentStatus,
+                    available = new
+                    {
+                        days = (int)availableTime.TotalDays,
+                        hours = (int)availableTime.TotalHours,
+                        minutes = (int)availableTime.TotalMinutes,
+                    },
                     events = new
                     {
                         items = currentList,
-                        noEvents = Resources.Outlook_NoEventsToday,
                     },
                     labels = new[] 
                     {
@@ -162,8 +172,11 @@ namespace DisplayMonkey
                         new {key = "starts", value = Resources.Outlook_Starts},
                         new {key = "ends", value = Resources.Outlook_Ends},
                         new {key = "duration", value = Resources.Outlook_Duration},
-                        new {key = "sensitivity", value = "Sensitivity"},                       // TODO
-                        new {key = "showAs", value = "Show As"},                       // TODO
+                        new {key = "sensitivity", value = Resources.Outlook_Sensitivity},
+                        new {key = "showAs", value = Resources.OutlookShowAs},
+                        new {key = "noEvents", value = Resources.Outlook_NoEventsToday},
+                        new {key = "bookingImpossible", value = Resources.Outlook_BookingImpossible},
+                        new {key = "bookingSent", value = Resources.Outlook_BookingSent},
                     },
                 });
 			}
@@ -332,8 +345,6 @@ namespace DisplayMonkey
                         )
                 };
 
-                System.Resources.ResourceManager rm = new System.Resources.ResourceManager(typeof(DisplayMonkey.Language.Resources));
-
                 // events: get list
                 data.events = calendar
                     .FindAppointments(cView)
@@ -349,7 +360,7 @@ namespace DisplayMonkey
                     {
                         Subject =
                             outlook.Privacy == Models.OutlookPrivacy.OutlookPrivacy_All || a.Sensitivity == Sensitivity.Normal ? a.Subject : 
-                            rm.GetString(string.Format("EWS_Sensitivity_{0}", a.Sensitivity.ToString())),
+                            DataAccess.ResourceManager.GetString(string.Format("EWS_Sensitivity_{0}", a.Sensitivity.ToString())),
                         CreatedOn = a.DateTimeCreated,
                         Starts = a.Start,
                         Ends = a.End,
@@ -479,20 +490,29 @@ namespace DisplayMonkey
                 EventEntry evt = obj as EventEntry;
                 if (evt != null)
                 {
-                    List<string> flags = new List<string>();
-                    foreach( var x in _sens.Where(e => e.Key == evt.Sensitivity))
-                        flags.Add(x.Value);
-                    foreach (var x in _showAs.Where(e => e.Key == evt.ShowAs))
-                        flags.Add(x.Value);
-
-                    serialized["flags"] = flags.ToArray();
                     serialized["subject"] = evt.Subject;
-                    serialized["sensitivity"] = evt.Sensitivity.ToString("G");
-                    serialized["showAs"] = evt.ShowAs.ToString("G");
+                    serialized["sensitivity"] = "";
+                    serialized["showAs"] = "";
+
+                    List<string> flags = new List<string>();
+                    foreach (var x in _sens.Where(e => e.Key == evt.Sensitivity))   // one and only
+                    {
+                        flags.Add(x.Value.Flag);
+                        serialized["sensitivity"] = DataAccess.ResourceManager.GetString(x.Value.Resource);
+                        break;
+                    }
+                    foreach (var x in _showAs.Where(e => e.Key == evt.ShowAs))   // one and only
+                    {
+                        flags.Add(x.Value.Flag);
+                        serialized["showAs"] = DataAccess.ResourceManager.GetString(x.Value.Resource);
+                        break;
+                    }
+                    serialized["flags"] = flags.ToArray();
                     
                     DateTime tomorrow = evt.Today.AddDays(1);
                     serialized["starts"] = (evt.Starts >= tomorrow ? evt.Starts.ToShortDateString() + " " : "") + evt.Starts.ToShortTimeString();
                     serialized["ends"] = (evt.Ends >= tomorrow ? evt.Ends.ToShortDateString() + " " : "") + evt.Ends.ToShortTimeString();
+                    
                     if ((int)evt.Duration.TotalHours > 0)
                         serialized["duration"] = string.Format(Resources.Outlook_HrsMin, (int)evt.Duration.TotalHours, evt.Duration.Minutes);
                     else
@@ -508,27 +528,33 @@ namespace DisplayMonkey
 
             #region Private members
 
-            private static Dictionary<Sensitivity, string> _sens;
-            private static Dictionary<LegacyFreeBusyStatus, string> _showAs;
+            private static Dictionary<Sensitivity, EventEntryAttribute> _sens;
+            private static Dictionary<LegacyFreeBusyStatus, EventEntryAttribute> _showAs;
             private static IEnumerable<Type> _supportedTypes;
+
+            private class EventEntryAttribute
+            {
+                public string Flag { get; set; }
+                public string Resource { get; set; }
+            }
 
             static EventEntryConverter()
             {
                 _supportedTypes = new[] { typeof(EventEntry) };
 
-                _sens = new Dictionary<Sensitivity, string>();
-                _sens.Add(Sensitivity.Confidential, "confidential");
-                _sens.Add(Sensitivity.Normal, "normal");
-                _sens.Add(Sensitivity.Personal, "personal");
-                _sens.Add(Sensitivity.Private, "private");
+                _sens = new Dictionary<Sensitivity, EventEntryAttribute>(4);
+                _sens.Add(Sensitivity.Normal, new EventEntryAttribute { Flag = "normal", Resource = "EWS_Sensitivity_Normal" });    // 0
+                _sens.Add(Sensitivity.Personal, new EventEntryAttribute { Flag = "personal", Resource = "EWS_Sensitivity_Personal" });    // 1
+                _sens.Add(Sensitivity.Private, new EventEntryAttribute { Flag = "private", Resource = "EWS_Sensitivity_Private" });  // 2
+                _sens.Add(Sensitivity.Confidential, new EventEntryAttribute { Flag = "confidential", Resource = "EWS_Sensitivity_Confidential" });    // 3
 
-                _showAs = new Dictionary<LegacyFreeBusyStatus, string>();
-                _showAs.Add(LegacyFreeBusyStatus.Busy, "busy");
-                _showAs.Add(LegacyFreeBusyStatus.Free, "free");
-                //_showAs.Add(LegacyFreeBusyStatus.NoData, "");
-                _showAs.Add(LegacyFreeBusyStatus.OOF, "oof");
-                _showAs.Add(LegacyFreeBusyStatus.Tentative, "tentative");
-                _showAs.Add(LegacyFreeBusyStatus.WorkingElsewhere, "wew");
+                _showAs = new Dictionary<LegacyFreeBusyStatus, EventEntryAttribute>(6);
+                _showAs.Add(LegacyFreeBusyStatus.Free, new EventEntryAttribute { Flag = "free", Resource = "EWS_ShowAs_Free" }); // 0
+                _showAs.Add(LegacyFreeBusyStatus.Tentative, new EventEntryAttribute { Flag = "tentative", Resource = "EWS_ShowAs_Tentative" });   // 1
+                _showAs.Add(LegacyFreeBusyStatus.Busy, new EventEntryAttribute { Flag = "busy", Resource = "EWS_ShowAs_Busy" }); // 2
+                _showAs.Add(LegacyFreeBusyStatus.OOF, new EventEntryAttribute { Flag = "oof", Resource = "EWS_ShowAs_Oof" });   // 3
+                _showAs.Add(LegacyFreeBusyStatus.WorkingElsewhere, new EventEntryAttribute { Flag = "wew", Resource = "EWS_ShowAs_Wew" });  // 4
+                _showAs.Add(LegacyFreeBusyStatus.NoData, new EventEntryAttribute { Flag = "noData", Resource = "EWS_ShowAs_NoData" }); // 5
             }
 
             #endregion
