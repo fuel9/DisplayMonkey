@@ -489,7 +489,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Create.cs.t4</DependentUpon>
     </None>
-    <None Include="Properties\PublishProfiles\Debug.pubxml" />
+    <None Include="Properties\PublishProfiles\Local.pubxml" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.4.js" />
     <Content Include="Scripts\jquery-2.1.4.min.js" />

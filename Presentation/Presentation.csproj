@@ -377,8 +377,7 @@
   <ItemGroup>
     <Content Include="getVideo.ashx" />
     <Content Include="getDisplayData.ashx" />
-    <None Include="Properties\PublishProfiles\Debug.pubxml" />
-    <None Include="Properties\PublishProfiles\Release.pubxml" />
+    <None Include="Properties\PublishProfiles\Local.pubxml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

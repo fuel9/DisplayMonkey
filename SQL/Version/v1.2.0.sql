@@ -11,14 +11,7 @@
 use DisplayMonkey	-- TODO: change if DisplayMonkey database name is different
 GO
 
--- changes since v1.1
-if not exists(select 1 from sys.columns where object_id=object_id('Outlook','U') and name='Privacy') begin
-	alter table dbo.Outlook add
-		Privacy int NOT NULL constraint DF_Outlook_Privacy default (0)
-end
-GO
-
--- changes since v1.2
+-- changes for v1.2.0
 update Template set html='
 <div class="outlook">
 	<div class="progress">

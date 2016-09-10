@@ -18,6 +18,7 @@ Display Monkey is written with the following products, frameworks and technologi
 - [Entity Framework](https://msdn.microsoft.com/en-us/data/ef.aspx) 6 with Data-first model context
 - [jQuery](http://jquery.com) 2.1 + jQueryUI + plugins, [Prototype](http://prototypejs.org) 1.7, [Script.aculo.us](http://script.aculo.us), [Moment.js](http://momentjs.com), [Modernizr](https://modernizr.com)
 - Microsoft SQL Server 2005+
+- Microsoft Exchange Web Services
 - Google and Yahoo APIs
 
 As of this writing Display Monkey server components run on IIS 7 and the front-end side supports the following browsers:
@@ -56,6 +57,8 @@ Display Monkey comprises Management (a.k.a. DMM) and Presentation (a.k.a. DMP) a
 - Online help
 - Dashboard
 - UI for Application Settings
+
+Check the latest [Change Log](https://github.com/fuel9/DisplayMonkey/blob/master/ChangeLog.md) document for more details.
 
 ### Contributing
 

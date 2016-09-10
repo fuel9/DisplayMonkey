@@ -172,6 +172,9 @@
 	}
 
         .clock>.text, .clock>.svgAnalog, .clock>.bmpAnalog {
+		    font-family:Futura, Verdana, Arial, Helvetica, sans-serif;
+		    font-size:1em;
+		    color:white;
         }
 
 	    .clock>.text {
@@ -250,6 +253,8 @@
 		color:#525;
 		background-image:url(../files/weather.png);
 		background-repeat:no-repeat;		
+		font-family: Futura, Verdana, Arial, Helvetica, sans-serif;
+		font-size:0.8em;
 	}
 	
 	    .weather table {
@@ -311,16 +316,16 @@
 
         .outlook .progress {
             background-color: transparent;
-    		    text-align:center;
+    		text-align:center;
         }
 
         .outlook .summary {
             color: white;
             background-color: #cccccc; 
-          padding-left: 10px;
-          padding-right: 10px;
-          padding-top: 3px;
-          padding-bottom: 3px;
+            padding-left: 10px;
+            padding-right: 10px;
+            padding-top: 3px;
+            padding-bottom: 3px;
         }
 
             .outlook .mailbox {
@@ -335,7 +340,7 @@
             }        
 
             .outlook .summary.free .current.status {
-              color: #338800; 
+                color: #338800; 
             }        
 
             .outlook .summary.busy .current.status {
@@ -377,25 +382,20 @@
                 background-color: #ff9999;
             }
 
-
                 .outlook .events .label {
-                    background-color: #cccccc; /* #808080; */
+                    background-color: #cccccc;
                     color: #444;
-                    /* text-shadow: -1px -1px 0px #4d4d4d; */
                     padding: 5px;
                     padding-left: 10px;
                     border-top: 1px solid #B2B2B2; 
-                    /* border-bottom:  1px solid #333333; */
                     text-align: left;
                     font-weight: bold;
                 }
 
                 .outlook .events .item td {
                     color: #444;
-                    /* text-shadow: -0.5px 1px 0px #fff; */
                     padding: 5px;
                     padding-left: 10px;
-                    /* border-top: 1px solid #E2E2E2; */
                     border-bottom:  1px solid #fff;
                 }
 
@@ -405,7 +405,7 @@
                        color: white;
                    }
 
-      .outlook .actions {
+    .outlook .actions {
         width: 100%;
         height: 100%;
         border-spacing: 0;
@@ -417,18 +417,18 @@
         background: rgba(50, 50, 50, 0.6);
         text-align: center;
         font-size: 1.8em;
-      }
+    }
       
-          div.outlook .actions > * {
+        div.outlook .actions > * {
             width: 100%;
             padding-top: 3px;
             color: white;
-          }
+        }
           
-          div.outlook .actions .title {
+        div.outlook .actions .title {
             vertical-align: bottom;
             height: auto;
-          }
+        }
 
             div.outlook .actions .book {
                 border: 1px solid;

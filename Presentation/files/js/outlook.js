@@ -88,9 +88,10 @@ DM.Outlook = Class.create(/*PeriodicalExecuter*/ DM.FrameBase, {
                     if (am) {
                         var dm = $(c).getAttribute("data-minutes");
                         if (!dm || isNaN(dm)) {
-                            if (!c.getAttribute("value")) {
+                            if (!c.getAttribute("value") || c.getAttribute("data-value") == "*") {
                                 var dur = moment.duration(am, "m");
                                 c.writeAttribute("value", dur.hours().pad(0) + ":" + dur.minutes().pad(2));
+                                c.writeAttribute("data-value", "*");
                             }
                             c.writeAttribute("data-minutes", null);
                             c.show();
