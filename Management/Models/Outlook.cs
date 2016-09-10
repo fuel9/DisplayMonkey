@@ -31,6 +31,8 @@ namespace DisplayMonkey.Models
         public int ShowEvents { get; set; }
         public int AccountId { get; set; }
         public OutlookPrivacy Privacy { get; set; }
+        public bool AllowReserve { get; set; }
+        public int ShowAsFlags { get; set; }
     
         public virtual ExchangeAccount ExchangeAccount { get; set; }
         public virtual Frame Frame { get; set; }

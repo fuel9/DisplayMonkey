@@ -1630,6 +1630,60 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Busy.
+        /// </summary>
+        public static string EWS_ShowAs_Busy {
+            get {
+                return ResourceManager.GetString("EWS_ShowAs_Busy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Free.
+        /// </summary>
+        public static string EWS_ShowAs_Free {
+            get {
+                return ResourceManager.GetString("EWS_ShowAs_Free", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not specified.
+        /// </summary>
+        public static string EWS_ShowAs_NoData {
+            get {
+                return ResourceManager.GetString("EWS_ShowAs_NoData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Out of office.
+        /// </summary>
+        public static string EWS_ShowAs_Oof {
+            get {
+                return ResourceManager.GetString("EWS_ShowAs_Oof", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tentative.
+        /// </summary>
+        public static string EWS_ShowAs_Tentative {
+            get {
+                return ResourceManager.GetString("EWS_ShowAs_Tentative", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Working elsewhere.
+        /// </summary>
+        public static string EWS_ShowAs_Wew {
+            get {
+                return ResourceManager.GetString("EWS_ShowAs_Wew", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to EWS version.
         /// </summary>
         public static string EwsVersion {
@@ -2423,6 +2477,24 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The resource is not available for booking right now.
+        /// </summary>
+        public static string Outlook_BookingImpossible {
+            get {
+                return ResourceManager.GetString("Outlook_BookingImpossible", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Booking request has been sent.
+        /// </summary>
+        public static string Outlook_BookingSent {
+            get {
+                return ResourceManager.GetString("Outlook_BookingSent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Duration.
         /// </summary>
         public static string Outlook_Duration {
@@ -2495,11 +2567,29 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sensitivity.
+        /// </summary>
+        public static string Outlook_Sensitivity {
+            get {
+                return ResourceManager.GetString("Outlook_Sensitivity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Starts.
         /// </summary>
         public static string Outlook_Starts {
             get {
                 return ResourceManager.GetString("Outlook_Starts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Allow quick booking.
+        /// </summary>
+        public static string OutlookAllowReserve {
+            get {
+                return ResourceManager.GetString("OutlookAllowReserve", resourceCulture);
             }
         }
         
@@ -2599,6 +2689,15 @@ namespace DisplayMonkey.Language {
         public static string OutlookPrivacy_ProtectSubject {
             get {
                 return ResourceManager.GetString("OutlookPrivacy_ProtectSubject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show as.
+        /// </summary>
+        public static string OutlookShowAs {
+            get {
+                return ResourceManager.GetString("OutlookShowAs", resourceCulture);
             }
         }
         

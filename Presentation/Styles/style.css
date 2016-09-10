@@ -44,10 +44,6 @@
 	body {
 		margin:0px;
 		padding:0px;
-		font-family:Futura, Verdana, Arial, Helvetica, sans-serif;
-		font-size:10px;
-		text-align:center;
-		color:white;
 	}
 	
 	.video {
@@ -70,11 +66,11 @@
 	#error {
 		position:absolute;
 		padding:20px;
-        text-align:left;
-        font-size:3em;
-        font-family:'Lucida Console';
+    text-align:left;
+    font-size:1em;
+    font-family:'Lucida Console';
 		background-color:red;
-        color:white;
+    color:white;
 		top:10px;
 		left:10px;
 		width:auto;
@@ -92,7 +88,7 @@
 		height:100px;
 		z-index:10000;
 		/*display:none;*/
-        overflow: hidden;
+    overflow: hidden;
 	}
 
 	#full, #x_full {
@@ -152,9 +148,12 @@
 		left:0;
 		top:0;
 		width:100%;
-		font-size:20px;
 		line-height:normal;
 		/*border:1px solid maroon;*/
+		font-family:Futura, Verdana, Arial, Helvetica, sans-serif;
+		font-size:1.5em;
+		text-align:center;
+		color:white;
 	}
 	
 	    .memo h1.subject {
@@ -173,6 +172,9 @@
 	}
 
         .clock>.text, .clock>.svgAnalog, .clock>.bmpAnalog {
+		    font-family:Futura, Verdana, Arial, Helvetica, sans-serif;
+		    font-size:1em;
+		    color:white;
         }
 
 	    .clock>.text {
@@ -251,6 +253,8 @@
 		color:#525;
 		background-image:url(../files/weather.png);
 		background-repeat:no-repeat;		
+		font-family: Futura, Verdana, Arial, Helvetica, sans-serif;
+		font-size:0.8em;
 	}
 	
 	    .weather table {
@@ -303,85 +307,135 @@
 
 	/*******************************************************************************/
 	
-    div.outlook {
-        font-family: lucida console;
+    .outlook {
+        font-family: Verdana;
         text-align: left;
         overflow: hidden;
         padding: 0px;
     }
 
-        div.outlook>.progress {
+        .outlook .progress {
             background-color: transparent;
     		text-align:center;
         }
 
-        div.outlook>.free {
-            background-color: green;
+        .outlook .summary {
             color: white;
-            text-shadow: -1px -2px 0px #4d6d4d;
-            border-top: 1px solid #80B280;
-            border-bottom:  1px solid #003300;
+            background-color: #cccccc; 
+            padding-left: 10px;
+            padding-right: 10px;
+            padding-top: 3px;
+            padding-bottom: 3px;
         }
 
-        div.outlook>.busy {
-            background-color: red;
-            color: white;
-            text-shadow: -1px -1px 0px #8d4d4d;
-            border-top: 1px solid #FF8080;
-            border-bottom:  1px solid #B20000;
-        }
-
-            div.outlook>.free div, div.outlook>.busy div {
-                padding-left: 10px;
-                padding-right: 10px;
-                padding-top: 5px;
-                padding-bottom: 3px;
-            }
-
-            div.outlook .mailbox {
+            .outlook .mailbox {
                 font-size: 2em;
             }
 
-        div.outlook>.plan table {
+            .outlook .current.event {
+                min-height: 26px;
+            }
+
+            .outlook .summary .current.status {
+            }        
+
+            .outlook .summary.free .current.status {
+                color: #338800; 
+            }        
+
+            .outlook .summary.busy .current.status {
+                color: red;
+            }
+        
+        .outlook .events table {
             width: 100%;
             border: 0;
             border-spacing: 0;
         }
 
-            div.outlook>.plan tr {
-                background-color: #EEE;
+            .outlook .events .item {
+                background-color: #EEE; 
+                height: 26px;
             }
 
-                div.outlook>.plan th {
-                    background-color: grey;
-                    color: white;
-                    text-shadow: -1px -1px 0px #4d4d4d;
-                    padding: 5px;
-                    border-top: 1px solid #B2B2B2;
-                    border-bottom:  1px solid #333333;
-                    text-align: left;
-                }
+            .outlook .events .item.free {
+                background-color: #ffffff;
+            }
+            
+            .outlook .events .item.busy {
+                background-color: #aaccee;
+            }
+            
+            .outlook .events .item.tentative {
+                background-color: #d5e6f7;
+            }
+            
+            .outlook .events .item.oof {
+                background-color: #3399cc;
+            }
 
-                div.outlook>.plan th.col1, 
-                div.outlook>.plan th.col2,
-                div.outlook>.plan th.col3,
-                div.outlook>.plan th.col4 {
-                }
+            .outlook .events .item.wew {
+                background-color: #990066;                  
+            }
+            
+            .outlook .events .item.noData {
+                background-color: #ff9999;
+            }
 
-                div.outlook>.plan td {
-                    background-color: #CFCFCF;
+                .outlook .events .label {
+                    background-color: #cccccc;
                     color: #444;
-                    text-shadow: -0.5px 1px 0px #fff;
                     padding: 5px;
-                    border-top: 1px solid #E2E2E2;
-                    border-bottom:  1px solid #7C7C7C;
+                    padding-left: 10px;
+                    border-top: 1px solid #B2B2B2; 
+                    text-align: left;
+                    font-weight: bold;
                 }
 
-                div.outlook>.plan td.col1, 
-                div.outlook>.plan td.col2,
-                div.outlook>.plan td.col3,
-                div.outlook>.plan td.col4 {
+                .outlook .events .item td {
+                    color: #444;
+                    padding: 5px;
+                    padding-left: 10px;
+                    border-bottom:  1px solid #fff;
                 }
+
+                    .outlook .events .item.oof *,
+                    .outlook .events .item.wew *,
+                    .outlook .events .item.noData * {
+                       color: white;
+                   }
+
+    .outlook .actions {
+        width: 100%;
+        height: 100%;
+        border-spacing: 0;
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        padding: 0;
+        z-index: 5;
+        background: rgba(50, 50, 50, 0.6);
+        text-align: center;
+        font-size: 1.8em;
+    }
+      
+        div.outlook .actions > * {
+            width: 100%;
+            padding-top: 3px;
+            color: white;
+        }
+          
+        div.outlook .actions .title {
+            vertical-align: bottom;
+            height: auto;
+        }
+
+            div.outlook .actions .book {
+                border: 1px solid;
+                border-radius: 5px;
+                background-color: white;
+                font-size: 1em;
+            }
 
 	/*******************************************************************************/
 	

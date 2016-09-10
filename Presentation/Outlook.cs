@@ -24,6 +24,9 @@ namespace DisplayMonkey
 	public class Outlook : Frame
 	{
         public string Name { get; private set; }
+
+        public bool AllowReserve { get; private set; }
+        public int ShowEvents { get; private set; }
         
         [ScriptIgnore]
         public int Mode { get; private set; }   // Reserved
@@ -34,11 +37,16 @@ namespace DisplayMonkey
         [ScriptIgnore]
         public string Mailbox { get; private set; }
         [ScriptIgnore]
-        public int ShowEvents { get; private set; }
-        [ScriptIgnore]
         public ExchangeVersion EwsVersion { get; private set; }
         [ScriptIgnore]
         public string URL { get; private set; } // e.g. https://outlook.office365.com/EWS/Exchange.asmx
+
+        private int ShowAsFlags { get; set; }
+
+        public bool IsShowAsAllowed(LegacyFreeBusyStatus flag)
+        {
+            return (ShowAsFlags & (1 << (int)flag)) != 0;
+        }
 
         [ScriptIgnore]
         public DisplayMonkey.Models.OutlookPrivacy Privacy { get; private set; }   // TODO: 0 = show everything, 1 = normal only, 2 = sensitivity as subject
@@ -76,10 +84,12 @@ namespace DisplayMonkey
                         this.ShowEvents = 0;
                     this.Mailbox = dr.StringOrBlank("Mailbox").Trim();
                     if (string.IsNullOrWhiteSpace(Mailbox))
-                        this.Mailbox = Account;
+                        this.Mailbox = this.Account;
                     this.Name = dr.StringOrBlank("Name").Trim();
                     this.URL = dr.StringOrBlank("Url").Trim();
                     this.Privacy = (DisplayMonkey.Models.OutlookPrivacy)dr.IntOrZero("Privacy");
+                    this.AllowReserve = dr.Boolean("AllowReserve");
+                    this.ShowAsFlags = dr.IntOrZero("ShowAsFlags");
                 }
             }
         }

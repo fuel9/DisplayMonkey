@@ -1460,4 +1460,37 @@
   <data name="PrivacyRequired" xml:space="preserve">
     <value>Privacy is required</value>
   </data>
+  <data name="OutlookAllowReserve" xml:space="preserve">
+    <value>Allow quick booking</value>
+  </data>
+  <data name="OutlookShowAs" xml:space="preserve">
+    <value>Show as</value>
+  </data>
+  <data name="EWS_ShowAs_Busy" xml:space="preserve">
+    <value>Busy</value>
+  </data>
+  <data name="EWS_ShowAs_Free" xml:space="preserve">
+    <value>Free</value>
+  </data>
+  <data name="EWS_ShowAs_Oof" xml:space="preserve">
+    <value>Out of office</value>
+  </data>
+  <data name="EWS_ShowAs_Tentative" xml:space="preserve">
+    <value>Tentative</value>
+  </data>
+  <data name="EWS_ShowAs_Wew" xml:space="preserve">
+    <value>Working elsewhere</value>
+  </data>
+  <data name="EWS_ShowAs_NoData" xml:space="preserve">
+    <value>Not specified</value>
+  </data>
+  <data name="Outlook_Sensitivity" xml:space="preserve">
+    <value>Sensitivity</value>
+  </data>
+  <data name="Outlook_BookingImpossible" xml:space="preserve">
+    <value>The resource is not available for booking right now</value>
+  </data>
+  <data name="Outlook_BookingSent" xml:space="preserve">
+    <value>Booking request has been sent</value>
+  </data>
 </root>
