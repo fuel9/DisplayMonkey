@@ -337,6 +337,7 @@
             }
 
             .outlook .summary .current.status {
+                font-weight: bold;
             }        
 
             .outlook .summary.free .current.status {
@@ -397,6 +398,8 @@
                     padding: 5px;
                     padding-left: 10px;
                     border-bottom:  1px solid #fff;
+					white-space: nowrap;
+					overflow: hidden;
                 }
 
                     .outlook .events .item.oof *,
@@ -404,6 +407,7 @@
                     .outlook .events .item.noData * {
                        color: white;
                    }
+
 
     .outlook .actions {
         width: 100%;
