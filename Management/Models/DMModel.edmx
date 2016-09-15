@@ -5,6 +5,23 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="DisplayMonkey.Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AzureAccount">
+          <Key>
+            <PropertyRef Name="AccountId" />
+          </Key>
+          <Property Name="AccountId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Resource" Type="int" Nullable="false" />
+          <Property Name="ClientId" Type="varchar" MaxLength="36" Nullable="false" />
+          <Property Name="ClientSecret" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="TenantId" Type="varchar" MaxLength="100" />
+          <Property Name="User" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Password" Type="varbinary" MaxLength="400" />
+          <Property Name="AccessToken" Type="varchar" MaxLength="2000" />
+          <Property Name="ExpiresOn" Type="datetime" />
+          <Property Name="RefreshToken" Type="varchar" MaxLength="1000" />
+          <Property Name="IdToken" Type="varchar" MaxLength="1000" />
+        </EntityType>
         <EntityType Name="Canvas">
           <Key>
             <PropertyRef Name="CanvasId" />
@@ -627,6 +644,7 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="DisplayMonkeyModelStoreContainer">
+          <EntitySet Name="AzureAccount" EntityType="Self.AzureAccount" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Canvas" EntityType="Self.Canvas" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Clock" EntityType="Self.Clock" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Content" EntityType="Self.Content" Schema="dbo" store:Type="Tables" />
@@ -887,6 +905,7 @@
             <End Role="Frame" EntitySet="Frames" />
           </AssociationSet>
           <EntitySet Name="Settings" EntityType="DisplayMonkey.Model.Setting" />
+          <EntitySet Name="AzureAccounts" EntityType="DisplayMonkey.Model.AzureAccount" />
           </EntityContainer>
         <EntityType Name="Canvas">
           <Key>
@@ -1556,6 +1575,26 @@
           <Member Name="OutlookPrivacy_NoClassified" Value="1" />
           <Member Name="OutlookPrivacy_ProtectSubject" Value="2" />
         </EnumType>
+        <EntityType Name="AzureAccount">
+          <Key>
+            <PropertyRef Name="AccountId" />
+          </Key>
+          <Property Name="AccountId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ClientId" Type="String" Nullable="false" MaxLength="36" FixedLength="false" Unicode="false" />
+          <Property Name="ClientSecret" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="TenantId" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="User" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="Binary" MaxLength="400" FixedLength="false" />
+          <Property Name="AccessToken" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="ExpiresOn" Type="DateTime" Precision="3" />
+          <Property Name="RefreshToken" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="IdToken" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="Resource" Type="DisplayMonkey.Model.AzureResources" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EnumType Name="AzureResources">
+        <Member Name="AzureResource_PowerBi" Value="0" />
+        </EnumType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1834,6 +1873,24 @@
                 <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="RawValue" ColumnName="Value" />
                 <ScalarProperty Name="Key" ColumnName="Key" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AzureAccounts">
+            <EntityTypeMapping TypeName="DisplayMonkey.Model.AzureAccount">
+              <MappingFragment StoreEntitySet="AzureAccount">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Resource" ColumnName="Resource" />
+                <ScalarProperty Name="IdToken" ColumnName="IdToken" />
+                <ScalarProperty Name="RefreshToken" ColumnName="RefreshToken" />
+                <ScalarProperty Name="ExpiresOn" ColumnName="ExpiresOn" />
+                <ScalarProperty Name="AccessToken" ColumnName="AccessToken" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="User" ColumnName="User" />
+                <ScalarProperty Name="TenantId" ColumnName="TenantId" />
+                <ScalarProperty Name="ClientSecret" ColumnName="ClientSecret" />
+                <ScalarProperty Name="ClientId" ColumnName="ClientId" />
+                <ScalarProperty Name="AccountId" ColumnName="AccountId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

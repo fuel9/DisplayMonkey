@@ -1493,4 +1493,52 @@
   <data name="Outlook_BookingSent" xml:space="preserve">
     <value>Booking request has been sent</value>
   </data>
+  <data name="AzureAccounts" xml:space="preserve">
+    <value>Microsoft Azure accounts</value>
+  </data>
+  <data name="AzureClientId" xml:space="preserve">
+    <value>Client id</value>
+  </data>
+  <data name="AzureClientIdRequired" xml:space="preserve">
+    <value>Client id is required</value>
+  </data>
+  <data name="AzureClientSecret" xml:space="preserve">
+    <value>Client secret</value>
+  </data>
+  <data name="AzureClientSecretRequired" xml:space="preserve">
+    <value>Client secret is required</value>
+  </data>
+  <data name="AzureResource" xml:space="preserve">
+    <value>Azure resource</value>
+  </data>
+  <data name="AzureResourceRequired" xml:space="preserve">
+    <value>Azure resource is required</value>
+  </data>
+  <data name="AzureTenantId" xml:space="preserve">
+    <value>Tenant id</value>
+  </data>
+  <data name="AzureTenantIdRequired" xml:space="preserve">
+    <value>Tenant id is required</value>
+  </data>
+  <data name="CreateNewAzureAccount" xml:space="preserve">
+    <value>Create new Microsoft Azure account</value>
+  </data>
+  <data name="AzureAccount" xml:space="preserve">
+    <value>Microsoft Azure account</value>
+  </data>
+  <data name="AzureResource_PowerBi" xml:space="preserve">
+    <value>Power BI</value>
+  </data>
+  <data name="DeleteAzureAccount" xml:space="preserve">
+    <value>Delete Microsoft Azure account</value>
+  </data>
+  <data name="DeletingAzureAccountWillCauseDeletionOfAllRelatedContentAreYouSureYouWantToContinue" xml:space="preserve">
+    <value>Deleting Microsoft Azure account will cause deletion of all related content. Would you like to continue?</value>
+  </data>
+  <data name="EditAzureAccount" xml:space="preserve">
+    <value>Edit Microsoft Azure account</value>
+  </data>
+  <data name="ProvideAccountPassword" xml:space="preserve">
+    <value>Please enter the account password</value>
+  </data>
 </root>

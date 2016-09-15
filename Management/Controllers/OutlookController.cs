@@ -25,7 +25,7 @@ namespace DisplayMonkey.Controllers
     {
         private DisplayMonkeyEntities db = new DisplayMonkeyEntities();
 
-        private static Regex _emailRgx = new Regex(Models.ExchangeAccount._emailMsk);
+        private static Regex _emailRgx = new Regex(Models.Constants.EmailMask);
 
         // GET: /Outlook/Details/5
         public ActionResult Details(int id = 0)

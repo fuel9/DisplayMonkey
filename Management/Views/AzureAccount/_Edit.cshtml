@@ -1,0 +1,65 @@
+﻿@using DisplayMonkey
+@using DisplayMonkey.Models
+@using DisplayMonkey.Language
+
+@model DisplayMonkey.Models.AzureAccount
+
+@{
+    SelectList azureResources = ViewBag.AzureResources as SelectList;
+}
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Name)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Resource)
+        </div>
+        <div class="editor-field select">
+            @Html.DropDownListFor(model => model.Resource, azureResources)
+            @Html.ValidationMessageFor(model => model.Resource)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.TenantId)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.TenantId)
+            @Html.ValidationMessageFor(model => model.TenantId)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ClientId)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ClientId)
+            @Html.ValidationMessageFor(model => model.ClientId)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ClientSecret)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ClientSecret)
+            @Html.ValidationMessageFor(model => model.ClientSecret)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.User)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.User)
+            @Html.ValidationMessageFor(model => model.User)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.PasswordUnmasked)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.PasswordUnmasked)
+            @Html.ValidationMessageFor(model => model.PasswordUnmasked)
+        </div>

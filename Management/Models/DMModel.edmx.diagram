@@ -53,6 +53,7 @@
         <EntityTypeShape EntityType="DisplayMonkey.Model.Template" Width="1.5" PointX="9" PointY="7.125" />
         <AssociationConnector Association="DisplayMonkey.Model.FK_Frame_Template" />
         <EntityTypeShape EntityType="DisplayMonkey.Model.Setting" Width="1.5" PointX="6.5" PointY="20.875" />
+        <EntityTypeShape EntityType="DisplayMonkey.Model.AzureAccount" Width="1.5" PointX="4" PointY="21.375" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

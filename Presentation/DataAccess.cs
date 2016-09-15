@@ -94,9 +94,7 @@ namespace DisplayMonkey
 			}
 		}
 
-        public delegate void TransactionBatch(SqlConnection connection, SqlTransaction transaction);
-
-        public static void ExecuteTransaction(TransactionBatch batch)
+        public static void ExecuteTransaction(Action<SqlConnection,SqlTransaction> batch)
         {
             // borrow new connection from the pool
             using (SqlConnection cnn = new SqlConnection(ConnectionString))

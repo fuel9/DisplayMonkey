@@ -12,12 +12,19 @@ namespace DisplayMonkey.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Html
+    public partial class AzureAccount
     {
-        public int FrameId { get; set; }
+        public int AccountId { get; set; }
+        public string ClientId { get; set; }
+        public string ClientSecret { get; set; }
+        public string TenantId { get; set; }
+        public string User { get; set; }
+        public byte[] Password { get; set; }
+        public string AccessToken { get; set; }
+        public Nullable<System.DateTime> ExpiresOn { get; set; }
+        public string RefreshToken { get; set; }
+        public string IdToken { get; set; }
+        public AzureResources Resource { get; set; }
         public string Name { get; set; }
-        public string Content { get; set; }
-    
-        public virtual Frame Frame { get; set; }
     }
 }

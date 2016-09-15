@@ -18,7 +18,7 @@ using System.Web.Script.Serialization;
 using Microsoft.Exchange.WebServices.Data;
 using System.Net;
 using DisplayMonkey.Language;
-using DisplayMonkey.PowerbiUtil;
+using DisplayMonkey.AzureUtil;
 
 namespace DisplayMonkey
 {
@@ -74,7 +74,7 @@ namespace DisplayMonkey
                         PanelId = panelId,
                         DisplayId = displayId,
                         Culture = culture,
-                        Details = ex.GetType() == typeof(TokenException) ? (ex as TokenException).Details : null,
+                        Details = ex.GetType() == typeof(AzureTokenException) ? (ex as AzureTokenException).Details : null,
                     },
                 });
 			}

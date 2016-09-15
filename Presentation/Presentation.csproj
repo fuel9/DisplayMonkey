@@ -273,6 +273,9 @@
     <Compile Include="..\Management\FrameTypes.cs">
       <Link>FrameTypes.cs</Link>
     </Compile>
+    <Compile Include="..\Management\Models\AzureResources.cs">
+      <Link>AzureResources.cs</Link>
+    </Compile>
     <Compile Include="..\Management\Models\ContentTypes.cs">
       <Link>ContentTypes.cs</Link>
     </Compile>
@@ -299,7 +302,7 @@
       <DependentUpon>getYahooWeather.ashx</DependentUpon>
     </Compile>
     <Compile Include="Powerbi.cs" />
-    <Compile Include="PowerbiUtil.cs" />
+    <Compile Include="AzureUtil.cs" />
     <Compile Include="Register.aspx.cs">
       <DependentUpon>Register.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

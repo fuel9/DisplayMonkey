@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Web.Script.Serialization;
 using System.IO;
 
-namespace DisplayMonkey.PowerbiUtil
+namespace DisplayMonkey.AzureUtil
 {
     public class TokenInfo
     {
@@ -22,9 +22,9 @@ namespace DisplayMonkey.PowerbiUtil
         public string IdToken { get; set; }
     }
 
-    public class TokenException : ApplicationException
+    public class AzureTokenException : ApplicationException
     {
-        public TokenException(string error, string error_description)
+        public AzureTokenException(string error, string error_description)
             : base(error)
         {
             Details = error_description
@@ -33,11 +33,17 @@ namespace DisplayMonkey.PowerbiUtil
         }
 
         public string Details { get; private set; }
+
+        public override string ToString()
+        {
+            return this.Details;
+        }
     }
 
     public class Token
     {
         public static TokenInfo GetGrantTypePassword(
+            Models.AzureResources _resource,
             string _clientId, 
             string _clientSecret, 
             string _user, 
@@ -49,7 +55,16 @@ namespace DisplayMonkey.PowerbiUtil
             
             List<KeyValuePair<string, string>> vals = new List<KeyValuePair<string, string>>();
             vals.Add(new KeyValuePair<string, string>("scope", "openid"));
-            vals.Add(new KeyValuePair<string, string>("resource", "https://analysis.windows.net/powerbi/api"));
+            
+            switch (_resource)
+            {
+                case Models.AzureResources.AzureResource_PowerBi:
+                    vals.Add(new KeyValuePair<string, string>("resource", "https://analysis.windows.net/powerbi/api"));     // TODO: move URL to config file
+                    break;
+
+                default:
+                    throw new ApplicationException("Resource is required.");
+            }
 
             if (string.IsNullOrWhiteSpace(_clientId))
                 throw new ApplicationException("Client ID is required.");
@@ -62,7 +77,7 @@ namespace DisplayMonkey.PowerbiUtil
             vals.Add(new KeyValuePair<string, string>("username", (_user ?? "").Trim()));
             vals.Add(new KeyValuePair<string, string>("password", (_password ?? "").Trim()));
 
-            string url = string.Format("https://login.windows.net/{0}/oauth2/token", (_tenantId ?? "common").Trim());
+            string url = string.Format("https://login.windows.net/{0}/oauth2/token", (_tenantId ?? "common").Trim());     // TODO: move URL to config file
 
             HttpClient client = new HttpClient();
             HttpResponseMessage response = client.PostAsync(url, new FormUrlEncodedContent(vals)).Result;
@@ -80,7 +95,7 @@ namespace DisplayMonkey.PowerbiUtil
                 if (response.IsSuccessStatusCode)
                     token = jss.Deserialize<TokenInfo>(responseData);
                 else
-                    throw jss.Deserialize<TokenException>(responseData);    // cannot throw from inside converter (different call context)
+                    throw jss.Deserialize<AzureTokenException>(responseData);    // cannot throw from inside converter (different call context)
             }
 
             return token;
@@ -88,16 +103,16 @@ namespace DisplayMonkey.PowerbiUtil
 
         private class TokenInfoConverter : JavaScriptConverter
         {
-            public override IEnumerable<Type> SupportedTypes { get { return new[] { typeof(TokenInfo), typeof(TokenException) }; } }
+            public override IEnumerable<Type> SupportedTypes { get { return new[] { typeof(TokenInfo), typeof(AzureTokenException) }; } }
 
             public override IDictionary<string, object> Serialize(object obj, JavaScriptSerializer serializer) { throw new NotImplementedException(); }
 
             public override object Deserialize(IDictionary<string, object> dictionary, Type type, JavaScriptSerializer serializer)
             {
-                if (type == typeof(TokenException))
+                if (type == typeof(AzureTokenException))
                 {
                     //"{\"error\":\"invalid_request\",\"error_description\":\"AADSTS90014: The request body must contain the following parameter: 'client_id'.\\r\\nTrace ID: a778b02f-0985-44d4-8ff0-fbc46ba046de\\r\\nCorrelation ID: f35a6c18-c5f0-45cd-96e7-23ed7163f504\\r\\nTimestamp: 2016-08-22 21:17:39Z\",\"error_codes\":[90014],\"timestamp\":\"2016-08-22 21:17:39Z\",\"trace_id\":\"a778b02f-0985-44d4-8ff0-fbc46ba046de\",\"correlation_id\":\"f35a6c18-c5f0-45cd-96e7-23ed7163f504\"}"
-                    return new TokenException(
+                    return new AzureTokenException(
                         (string)dictionary["error"], 
                         (string)dictionary["error_description"]
                         );

@@ -153,6 +153,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Presentation\AzureUtil.cs">
+      <Link>AzureUtil.cs</Link>
+    </Compile>
     <Compile Include="..\Presentation\CacheExtensions.cs">
       <Link>CacheExtensions.cs</Link>
     </Compile>
@@ -163,6 +166,7 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CanvasController.cs" />
     <Compile Include="Controllers\ClockController.cs" />
+    <Compile Include="Controllers\AzureAccountController.cs" />
     <Compile Include="Controllers\ExchangeAccountController.cs" />
     <Compile Include="Controllers\DisplayController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
@@ -192,6 +196,12 @@
     <Compile Include="Globalization.cs" />
     <Compile Include="HtmlExtensions.cs" />
     <Compile Include="Models\Annotations.cs" />
+    <Compile Include="Models\AzureAccount.cs">
+      <DependentUpon>DMModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AzureResources.cs">
+      <DependentUpon>DMModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Canvas.cs">
       <DependentUpon>DMModel.tt</DependentUpon>
     </Compile>
@@ -678,6 +688,11 @@
     <Content Include="Views\Template\Create.cshtml" />
     <Content Include="Views\Template\Edit.cshtml" />
     <Content Include="Views\Canvas\Copy.cshtml" />
+    <Content Include="Views\AzureAccount\_Edit.cshtml" />
+    <Content Include="Views\AzureAccount\Create.cshtml" />
+    <Content Include="Views\AzureAccount\Delete.cshtml" />
+    <Content Include="Views\AzureAccount\Edit.cshtml" />
+    <Content Include="Views\AzureAccount\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

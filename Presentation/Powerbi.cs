@@ -16,7 +16,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using System.Web.Script.Serialization;
-using DisplayMonkey.PowerbiUtil;
+using DisplayMonkey.AzureUtil;
 
 namespace DisplayMonkey
 {
@@ -56,6 +56,7 @@ namespace DisplayMonkey
                             if (string.IsNullOrWhiteSpace(accessToken) || !expiresOn.HasValue || expiresOn.Value < DateTime.UtcNow)
                             {
                                 TokenInfo token = Token.GetGrantTypePassword(
+                                    (Models.AzureResources)dr.IntOrZero("Resource"),
                                     dr.StringOrBlank("ClientId"), 
                                     dr.StringOrBlank("ClientSecret"),
                                     dr.StringOrBlank("User"),

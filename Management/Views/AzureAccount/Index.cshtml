@@ -1,0 +1,47 @@
+﻿@using DisplayMonkey
+@using DisplayMonkey.Models
+@using DisplayMonkey.Language
+
+@model IEnumerable<DisplayMonkey.Models.AzureAccount>
+
+@{
+    ViewBag.Title = Resources.AzureAccounts;
+}
+
+<h2>@ViewBag.Title</h2>
+
+<p>
+    @Html.ActionLink(Resources.CreateNewAzureAccount, "Create")
+</p>
+<table class="grid">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Resource)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.User)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.ActionLink(item.Name, "Edit", new { id=item.AccountId })
+        </td>
+        <td>
+            @(item.Resource.Translate())
+        </td>
+        <td>
+            @Html.DisplayFor(i => item.User)
+        </td>
+        <td>
+            @Html.ActionLink(Resources.Delete, "Delete", new { id=item.AccountId })
+        </td>
+    </tr>
+}
+
+</table>
