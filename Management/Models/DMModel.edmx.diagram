@@ -9,7 +9,7 @@
         <EntityTypeShape EntityType="DisplayMonkey.Model.Clock" Width="1.5" PointX="13.5" PointY="6.75" IsExpanded="true" />
         <EntityTypeShape EntityType="DisplayMonkey.Model.Content" Width="1.5" PointX="4.625" PointY="17.625" IsExpanded="true" />
         <EntityTypeShape EntityType="DisplayMonkey.Model.Display" Width="1.5" PointX="1.75" PointY="14.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="DisplayMonkey.Model.Frame" Width="1.5" PointX="10.375" PointY="11.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DisplayMonkey.Model.Frame" Width="2" PointX="10.375" PointY="11.5" IsExpanded="true" />
         <EntityTypeShape EntityType="DisplayMonkey.Model.FullScreen" Width="1.5" PointX="6.125" PointY="10.625" IsExpanded="true" />
         <EntityTypeShape EntityType="DisplayMonkey.Model.Level" Width="1.5" PointX="6" PointY="7.875" IsExpanded="true" />
         <EntityTypeShape EntityType="DisplayMonkey.Model.Location" Width="1.5" PointX="2.875" PointY="8.375" IsExpanded="true" />
@@ -52,8 +52,11 @@
         <AssociationConnector Association="DisplayMonkey.Model.FK_Outlook_Frame" />
         <EntityTypeShape EntityType="DisplayMonkey.Model.Template" Width="1.5" PointX="9" PointY="7.125" />
         <AssociationConnector Association="DisplayMonkey.Model.FK_Frame_Template" />
-        <EntityTypeShape EntityType="DisplayMonkey.Model.Setting" Width="1.5" PointX="6.5" PointY="20.875" />
-        <EntityTypeShape EntityType="DisplayMonkey.Model.AzureAccount" Width="1.5" PointX="4" PointY="21.375" />
+        <EntityTypeShape EntityType="DisplayMonkey.Model.Setting" Width="1.5" PointX="1.75" PointY="18.125" />
+        <EntityTypeShape EntityType="DisplayMonkey.Model.AzureAccount" Width="1.5" PointX="6.5" PointY="21.75" />
+        <EntityTypeShape EntityType="DisplayMonkey.Model.Powerbi" Width="1.5" PointX="9" PointY="22.125" />
+        <AssociationConnector Association="DisplayMonkey.Model.FK_Powerbi_AzureAccount" />
+        <AssociationConnector Association="DisplayMonkey.Model.FK_Powerbi_Frame" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -282,6 +282,9 @@
     <Compile Include="..\Management\Models\OutlookPrivacy.cs">
       <Link>OutlookPrivacy.cs</Link>
     </Compile>
+    <Compile Include="..\Management\Models\PowerbiTypes.cs">
+      <Link>PowerbiTypes.cs</Link>
+    </Compile>
     <Compile Include="..\Management\Models\RenderModes.cs">
       <Link>RenderModes.cs</Link>
     </Compile>

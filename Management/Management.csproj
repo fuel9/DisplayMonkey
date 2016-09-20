@@ -279,6 +279,12 @@
     <Compile Include="Models\Picture.cs">
       <DependentUpon>DMModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Powerbi.cs">
+      <DependentUpon>DMModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PowerbiTypes.cs">
+      <DependentUpon>DMModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\RenderModes.cs">
       <DependentUpon>DMModel.tt</DependentUpon>
     </Compile>
@@ -411,6 +417,7 @@
     <Content Include="Images\mstile-310x310.png" />
     <Content Include="Images\mstile-70x70.png" />
     <Content Include="Images\partial.png" />
+    <Content Include="Images\powerbi.png" />
     <Content Include="Images\question.png" />
     <Content Include="Images\ssrs.png" />
     <Content Include="Images\unknown.png" />

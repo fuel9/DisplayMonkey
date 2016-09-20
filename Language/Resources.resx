@@ -1541,4 +1541,13 @@
   <data name="ProvideAccountPassword" xml:space="preserve">
     <value>Please enter the account password</value>
   </data>
+  <data name="Powerbi" xml:space="preserve">
+    <value>Power BI</value>
+  </data>
+  <data name="PowerbiType_Report" xml:space="preserve">
+    <value>Report</value>
+  </data>
+  <data name="PowerbiType_Tile" xml:space="preserve">
+    <value>Tile</value>
+  </data>
 </root>

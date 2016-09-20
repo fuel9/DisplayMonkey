@@ -136,7 +136,7 @@ namespace DisplayMonkey
                 {
                     DataRow dr = ds.Tables[0].Rows[0];
                     this.TargetUrl = dr.StringOrBlank("Url").Trim();
-                    this.Action = dr.IntOrZero("Type") == 0 ? "loadReport" : "loadTile";
+                    this.Action = (Models.PowerbiTypes)dr.IntOrZero("Type") == Models.PowerbiTypes.PowerbiType_Report ? "loadReport" : "loadTile";
                     this.AccountId = dr.IntOrZero("AccountId");
                 }
             }

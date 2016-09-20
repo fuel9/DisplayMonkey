@@ -56,6 +56,9 @@ namespace DisplayMonkey.Controllers
             ViewBag.Count_Pictures = db.Pictures.Count();
             ViewBag.Count_Pictures_7 = db.Pictures.Count(t => t.Frame.DateCreated >= sevenDaysAgo);
 
+            ViewBag.Count_Powerbi = db.Powerbis.Count();
+            ViewBag.Count_Powerbi_7 = db.Powerbis.Count(t => t.Frame.DateCreated >= sevenDaysAgo);
+
             ViewBag.Count_Reports = db.Reports.Count();
             ViewBag.Count_Reports_7 = db.Reports.Count(t => t.Frame.DateCreated >= sevenDaysAgo);
 
@@ -85,6 +88,7 @@ namespace DisplayMonkey.Controllers
                         f.News != null ? DisplayMonkey.Language.Resources.News :
                         f.Outlook != null ? f.Outlook.Name :
                         f.Picture != null ? f.Picture.Content.Name :
+                        f.Powerbi != null ? f.Powerbi.Name :
                         f.Report != null ? f.Report.Name :
                         f.Video != null ? f.Video.Contents.FirstOrDefault().Name :
                         f.Weather != null ? DisplayMonkey.Language.Resources.Weather :

@@ -2981,6 +2981,33 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Power BI.
+        /// </summary>
+        public static string Powerbi {
+            get {
+                return ResourceManager.GetString("Powerbi", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Report.
+        /// </summary>
+        public static string PowerbiType_Report {
+            get {
+                return ResourceManager.GetString("PowerbiType_Report", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tile.
+        /// </summary>
+        public static string PowerbiType_Tile {
+            get {
+                return ResourceManager.GetString("PowerbiType_Tile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Privacy.
         /// </summary>
         public static string Privacy {

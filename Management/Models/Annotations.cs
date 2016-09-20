@@ -735,6 +735,9 @@ namespace DisplayMonkey.Models
                 case FrameTypes.Picture:
                     return "~/images/image.png";
 
+                case FrameTypes.Powerbi:
+                    return "~/images/powerbi.png";
+
                 case FrameTypes.Report:
                     return "~/images/ssrs.png";
 

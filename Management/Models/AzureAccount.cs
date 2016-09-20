@@ -14,6 +14,11 @@ namespace DisplayMonkey.Models
     
     public partial class AzureAccount
     {
+        public AzureAccount()
+        {
+            this.Powerbis = new HashSet<Powerbi>();
+        }
+    
         public int AccountId { get; set; }
         public string ClientId { get; set; }
         public string ClientSecret { get; set; }
@@ -26,5 +31,7 @@ namespace DisplayMonkey.Models
         public string IdToken { get; set; }
         public AzureResources Resource { get; set; }
         public string Name { get; set; }
+    
+        public virtual ICollection<Powerbi> Powerbis { get; set; }
     }
 }

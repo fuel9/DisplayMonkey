@@ -106,30 +106,35 @@
           <td class="Right_Align Alt" colspan="2">@ViewBag.Count_Outlook_7</td>
           <td class="Right_Align Alt" colspan="2">@ViewBag.Count_Outlook</td>
         </tr>
+          <tr>
+              <td class="Left_Align">@Html.ActionLink(Resources.Picture, "Index", "Frame", new { FrameType = "Picture" }, null)</td>
+              <td class="Right_Align" colspan="2">@ViewBag.Count_Pictures_7</td>
+              <td class="Right_Align" colspan="2">@ViewBag.Count_Pictures</td>
+          </tr>
+          <tr>
+              <td class="Left_Align Alt">@Html.ActionLink(Resources.Powerbi, "Index", "Frame", new { FrameType = "Powerbi" }, null)</td>
+              <td class="Right_Align Alt" colspan="2">@ViewBag.Count_Powerbi_7</td>
+              <td class="Right_Align Alt" colspan="2">@ViewBag.Count_Powerbi</td>
+          </tr>
         <tr>
-          <td class="Left_Align">@Html.ActionLink(Resources.Picture, "Index", "Frame", new { FrameType = "Picture" }, null)</td>
-          <td class="Right_Align" colspan="2">@ViewBag.Count_Pictures_7</td>
-          <td class="Right_Align" colspan="2">@ViewBag.Count_Pictures</td>
+          <td class="Left_Align">@Html.ActionLink(Resources.Report, "Index", "Frame", new { FrameType = "Report" }, null)</td>
+          <td class="Right_Align" colspan="2">@ViewBag.Count_Reports_7</td>
+          <td class="Right_Align" colspan="2">@ViewBag.Count_Reports</td>
         </tr>
         <tr>
-          <td class="Left_Align Alt">@Html.ActionLink(Resources.Report, "Index", "Frame", new { FrameType = "Report" }, null)</td>
-          <td class="Right_Align Alt" colspan="2">@ViewBag.Count_Reports_7</td>
-          <td class="Right_Align Alt" colspan="2">@ViewBag.Count_Reports</td>
+            <td class="Left_Align Alt">@Html.ActionLink(Resources.Video, "Index", "Frame", new { FrameType = "Video" }, null)</td>
+            <td class="Right_Align Alt" colspan="2">@ViewBag.Count_Videos_7</td>
+            <td class="Right_Align Alt" colspan="2">@ViewBag.Count_Videos</td>
         </tr>
         <tr>
-          <td class="Left_Align">@Html.ActionLink(Resources.Video, "Index", "Frame", new { FrameType = "Video" }, null)</td>
-          <td class="Right_Align" colspan="2">@ViewBag.Count_Videos_7</td>
-          <td class="Right_Align" colspan="2">@ViewBag.Count_Videos</td>
+          <td class="Left_Align">@Html.ActionLink(Resources.Weather, "Index", "Frame", new { FrameType = "Weather" }, null)</td>
+          <td class="Right_Align" colspan="2">@ViewBag.Count_Weather_7</td>
+          <td class="Right_Align" colspan="2">@ViewBag.Count_Weather</td>
         </tr>
         <tr>
-          <td class="Left_Align Alt">@Html.ActionLink(Resources.Weather, "Index", "Frame", new { FrameType = "Weather" }, null)</td>
-          <td class="Right_Align Alt" colspan="2">@ViewBag.Count_Weather_7</td>
-          <td class="Right_Align Alt" colspan="2">@ViewBag.Count_Weather</td>
-        </tr>
-        <tr>
-          <td class="Left_Align">@Html.ActionLink(Resources.YouTube, "Index", "Frame", new { FrameType = "Youtube" }, null)</td>
-          <td class="Right_Align" colspan="2">@ViewBag.Count_Youtube_7</td>
-          <td class="Right_Align" colspan="2">@ViewBag.Count_Youtube</td>
+            <td class="Left_Align Alt">@Html.ActionLink(Resources.YouTube, "Index", "Frame", new { FrameType = "Youtube" }, null)</td>
+            <td class="Right_Align Alt" colspan="2">@ViewBag.Count_Youtube_7</td>
+            <td class="Right_Align Alt" colspan="2">@ViewBag.Count_Youtube</td>
         </tr>
       </tbody>
     </table>

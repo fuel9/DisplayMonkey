@@ -199,6 +199,19 @@
           <Property Name="ContentId" Type="int" Nullable="false" />
           <Property Name="Mode" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="Powerbi">
+          <Key>
+            <PropertyRef Name="FrameId" />
+          </Key>
+          <Property Name="FrameId" Type="int" Nullable="false" />
+          <Property Name="AccountId" Type="int" Nullable="false" />
+          <Property Name="Type" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" />
+          <Property Name="Dashboard" Type="uniqueidentifier" />
+          <Property Name="Tile" Type="uniqueidentifier" />
+          <Property Name="Report" Type="uniqueidentifier" />
+          <Property Name="Url" Type="varchar" MaxLength="200" />
+        </EntityType>
         <EntityType Name="Report">
           <Key>
             <PropertyRef Name="FrameId" />
@@ -545,6 +558,32 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Powerbi_AzureAccount">
+          <End Role="AzureAccount" Type="Self.AzureAccount" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Powerbi" Type="Self.Powerbi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AzureAccount">
+              <PropertyRef Name="AccountId" />
+            </Principal>
+            <Dependent Role="Powerbi">
+              <PropertyRef Name="AccountId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Powerbi_Frame">
+          <End Role="Frame" Type="Self.Frame" Multiplicity="1" />
+          <End Role="Powerbi" Type="Self.Powerbi" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Frame">
+              <PropertyRef Name="FrameId" />
+            </Principal>
+            <Dependent Role="Powerbi">
+              <PropertyRef Name="FrameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Report_Frame">
           <End Role="Frame" Type="Self.Frame" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -661,6 +700,7 @@
           <EntitySet Name="Outlook" EntityType="Self.Outlook" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Panel" EntityType="Self.Panel" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Picture" EntityType="Self.Picture" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Powerbi" EntityType="Self.Powerbi" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Report" EntityType="Self.Report" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ReportServer" EntityType="Self.ReportServer" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Settings" EntityType="Self.Settings" Schema="dbo" store:Type="Tables" />
@@ -748,6 +788,14 @@
           <AssociationSet Name="FK_Picture_Frame" Association="Self.FK_Picture_Frame">
             <End Role="Frame" EntitySet="Frame" />
             <End Role="Picture" EntitySet="Picture" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Powerbi_AzureAccount" Association="Self.FK_Powerbi_AzureAccount">
+            <End Role="AzureAccount" EntitySet="AzureAccount" />
+            <End Role="Powerbi" EntitySet="Powerbi" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Powerbi_Frame" Association="Self.FK_Powerbi_Frame">
+            <End Role="Frame" EntitySet="Frame" />
+            <End Role="Powerbi" EntitySet="Powerbi" />
           </AssociationSet>
           <AssociationSet Name="FK_Report_Frame" Association="Self.FK_Report_Frame">
             <End Role="Frame" EntitySet="Frame" />
@@ -906,6 +954,15 @@
           </AssociationSet>
           <EntitySet Name="Settings" EntityType="DisplayMonkey.Model.Setting" />
           <EntitySet Name="AzureAccounts" EntityType="DisplayMonkey.Model.AzureAccount" />
+          <EntitySet Name="Powerbis" EntityType="DisplayMonkey.Model.Powerbi" />
+          <AssociationSet Name="FK_Powerbi_AzureAccount" Association="DisplayMonkey.Model.FK_Powerbi_AzureAccount">
+            <End Role="AzureAccount" EntitySet="AzureAccounts" />
+            <End Role="Powerbi" EntitySet="Powerbis" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Powerbi_Frame" Association="DisplayMonkey.Model.FK_Powerbi_Frame">
+            <End Role="Frame" EntitySet="Frames" />
+            <End Role="Powerbi" EntitySet="Powerbis" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Canvas">
           <Key>
@@ -995,6 +1052,7 @@
           <Property Type="Int32" Name="TemplateId" Nullable="false" />
           <Property Type="Int32" Name="CacheInterval" Nullable="false" />
           <NavigationProperty Name="Template" Relationship="DisplayMonkey.Model.FK_Frame_Template" FromRole="Frame" ToRole="Template" />
+          <NavigationProperty Name="Powerbi" Relationship="DisplayMonkey.Model.FK_Powerbi_Frame" FromRole="Frame" ToRole="Powerbi" />
         </EntityType>
         <EntityType Name="FullScreen">
           <Key>
@@ -1591,9 +1649,52 @@
           <Property Name="IdToken" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
           <Property Name="Resource" Type="DisplayMonkey.Model.AzureResources" Nullable="false" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Powerbis" Relationship="DisplayMonkey.Model.FK_Powerbi_AzureAccount" FromRole="AzureAccount" ToRole="Powerbi" />
         </EntityType>
         <EnumType Name="AzureResources">
         <Member Name="AzureResource_PowerBi" Value="0" />
+        </EnumType>
+        <EntityType Name="Powerbi">
+          <Key>
+            <PropertyRef Name="FrameId" />
+          </Key>
+          <Property Name="FrameId" Type="Int32" Nullable="false" />
+          <Property Name="AccountId" Type="Int32" Nullable="false" />
+          <Property Name="Type" Type="DisplayMonkey.Model.PowerbiTypes" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Url" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="AzureAccount" Relationship="DisplayMonkey.Model.FK_Powerbi_AzureAccount" FromRole="Powerbi" ToRole="AzureAccount" />
+          <NavigationProperty Name="Frame" Relationship="DisplayMonkey.Model.FK_Powerbi_Frame" FromRole="Powerbi" ToRole="Frame" />
+        </EntityType>
+        <Association Name="FK_Powerbi_AzureAccount">
+          <End Type="DisplayMonkey.Model.AzureAccount" Role="AzureAccount" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="DisplayMonkey.Model.Powerbi" Role="Powerbi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AzureAccount">
+              <PropertyRef Name="AccountId" />
+            </Principal>
+            <Dependent Role="Powerbi">
+              <PropertyRef Name="AccountId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Powerbi_Frame">
+          <End Type="DisplayMonkey.Model.Frame" Role="Frame" Multiplicity="1" />
+          <End Type="DisplayMonkey.Model.Powerbi" Role="Powerbi" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Frame">
+              <PropertyRef Name="FrameId" />
+            </Principal>
+            <Dependent Role="Powerbi">
+              <PropertyRef Name="FrameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EnumType Name="PowerbiTypes">
+        <Member Name="PowerbiType_Report" Value="0" />
+          <Member Name="PowerbiType_Tile" Value="1" />
         </EnumType>
         </Schema>
     </edmx:ConceptualModels>
@@ -1891,6 +1992,17 @@
                 <ScalarProperty Name="ClientSecret" ColumnName="ClientSecret" />
                 <ScalarProperty Name="ClientId" ColumnName="ClientId" />
                 <ScalarProperty Name="AccountId" ColumnName="AccountId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Powerbis">
+            <EntityTypeMapping TypeName="DisplayMonkey.Model.Powerbi">
+              <MappingFragment StoreEntitySet="Powerbi">
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="AccountId" ColumnName="AccountId" />
+                <ScalarProperty Name="FrameId" ColumnName="FrameId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
