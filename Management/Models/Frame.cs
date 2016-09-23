@@ -43,6 +43,5 @@ namespace DisplayMonkey.Models
         public virtual Youtube Youtube { get; set; }
         public virtual Outlook Outlook { get; set; }
         public virtual Template Template { get; set; }
-        public virtual Powerbi Powerbi { get; set; }
     }
 }

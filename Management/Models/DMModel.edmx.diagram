@@ -56,7 +56,7 @@
         <EntityTypeShape EntityType="DisplayMonkey.Model.AzureAccount" Width="1.5" PointX="6.5" PointY="21.75" />
         <EntityTypeShape EntityType="DisplayMonkey.Model.Powerbi" Width="1.5" PointX="9" PointY="22.125" />
         <AssociationConnector Association="DisplayMonkey.Model.FK_Powerbi_AzureAccount" />
-        <AssociationConnector Association="DisplayMonkey.Model.FK_Powerbi_Frame" />
+        <InheritanceConnector EntityType="DisplayMonkey.Model.Powerbi" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

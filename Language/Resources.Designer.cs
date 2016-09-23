@@ -304,6 +304,15 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Azure account is required.
+        /// </summary>
+        public static string AzureAccountRequired {
+            get {
+                return ResourceManager.GetString("AzureAccountRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Microsoft Azure accounts.
         /// </summary>
         public static string AzureAccounts {
@@ -2990,6 +2999,15 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Resource type.
+        /// </summary>
+        public static string PowerbiType {
+            get {
+                return ResourceManager.GetString("PowerbiType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Report.
         /// </summary>
         public static string PowerbiType_Report {
@@ -3004,6 +3022,24 @@ namespace DisplayMonkey.Language {
         public static string PowerbiType_Tile {
             get {
                 return ResourceManager.GetString("PowerbiType_Tile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Resource type is required.
+        /// </summary>
+        public static string PowerbiTypeRequired {
+            get {
+                return ResourceManager.GetString("PowerbiTypeRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Resource URL.
+        /// </summary>
+        public static string PowerbiUrl {
+            get {
+                return ResourceManager.GetString("PowerbiUrl", resourceCulture);
             }
         }
         

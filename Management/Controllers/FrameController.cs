@@ -110,7 +110,7 @@ namespace DisplayMonkey.Controllers
                 .Include(f => f.Memo)
                 //.Include(f => f.News)
                 .Include(f => f.Picture)
-                .Include(f => f.Powerbi)
+                //.Include(f => f.Powerbi)
                 .Include(f => f.Report)
                 .Include(f => f.Video)
                 .Include(f => f.Weather)

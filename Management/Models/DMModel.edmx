@@ -954,14 +954,9 @@
           </AssociationSet>
           <EntitySet Name="Settings" EntityType="DisplayMonkey.Model.Setting" />
           <EntitySet Name="AzureAccounts" EntityType="DisplayMonkey.Model.AzureAccount" />
-          <EntitySet Name="Powerbis" EntityType="DisplayMonkey.Model.Powerbi" />
           <AssociationSet Name="FK_Powerbi_AzureAccount" Association="DisplayMonkey.Model.FK_Powerbi_AzureAccount">
             <End Role="AzureAccount" EntitySet="AzureAccounts" />
-            <End Role="Powerbi" EntitySet="Powerbis" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Powerbi_Frame" Association="DisplayMonkey.Model.FK_Powerbi_Frame">
-            <End Role="Frame" EntitySet="Frames" />
-            <End Role="Powerbi" EntitySet="Powerbis" />
+            <End Role="Powerbi" EntitySet="Frames" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="Canvas">
@@ -1052,7 +1047,6 @@
           <Property Type="Int32" Name="TemplateId" Nullable="false" />
           <Property Type="Int32" Name="CacheInterval" Nullable="false" />
           <NavigationProperty Name="Template" Relationship="DisplayMonkey.Model.FK_Frame_Template" FromRole="Frame" ToRole="Template" />
-          <NavigationProperty Name="Powerbi" Relationship="DisplayMonkey.Model.FK_Powerbi_Frame" FromRole="Frame" ToRole="Powerbi" />
         </EntityType>
         <EntityType Name="FullScreen">
           <Key>
@@ -1654,17 +1648,12 @@
         <EnumType Name="AzureResources">
         <Member Name="AzureResource_PowerBi" Value="0" />
         </EnumType>
-        <EntityType Name="Powerbi">
-          <Key>
-            <PropertyRef Name="FrameId" />
-          </Key>
-          <Property Name="FrameId" Type="Int32" Nullable="false" />
+        <EntityType Name="Powerbi" BaseType="DisplayMonkey.Model.Frame">
           <Property Name="AccountId" Type="Int32" Nullable="false" />
           <Property Name="Type" Type="DisplayMonkey.Model.PowerbiTypes" Nullable="false" />
           <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Url" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="AzureAccount" Relationship="DisplayMonkey.Model.FK_Powerbi_AzureAccount" FromRole="Powerbi" ToRole="AzureAccount" />
-          <NavigationProperty Name="Frame" Relationship="DisplayMonkey.Model.FK_Powerbi_Frame" FromRole="Powerbi" ToRole="Frame" />
         </EntityType>
         <Association Name="FK_Powerbi_AzureAccount">
           <End Type="DisplayMonkey.Model.AzureAccount" Role="AzureAccount" Multiplicity="1">
@@ -1677,18 +1666,6 @@
             </Principal>
             <Dependent Role="Powerbi">
               <PropertyRef Name="AccountId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Powerbi_Frame">
-          <End Type="DisplayMonkey.Model.Frame" Role="Frame" Multiplicity="1" />
-          <End Type="DisplayMonkey.Model.Powerbi" Role="Powerbi" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="Frame">
-              <PropertyRef Name="FrameId" />
-            </Principal>
-            <Dependent Role="Powerbi">
-              <PropertyRef Name="FrameId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1758,18 +1735,27 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Frames">
-            <EntityTypeMapping TypeName="DisplayMonkey.Model.Frame">
+            <EntityTypeMapping TypeName="IsTypeOf(DisplayMonkey.Model.Frame)">
               <MappingFragment StoreEntitySet="Frame">
-                <ScalarProperty Name="CacheInterval" ColumnName="CacheInterval" />
-                <ScalarProperty Name="TemplateId" ColumnName="TemplateId" />
-                <ScalarProperty Name="Version" ColumnName="Version" />
-                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
-                <ScalarProperty Name="Sort" ColumnName="Sort" />
-                <ScalarProperty Name="EndsOn" ColumnName="EndsOn" />
-                <ScalarProperty Name="BeginsOn" ColumnName="BeginsOn" />
                 <ScalarProperty Name="FrameId" ColumnName="FrameId" />
-                <ScalarProperty Name="PanelId" ColumnName="PanelId" />
                 <ScalarProperty Name="Duration" ColumnName="Duration" />
+                <ScalarProperty Name="PanelId" ColumnName="PanelId" />
+                <ScalarProperty Name="BeginsOn" ColumnName="BeginsOn" />
+                <ScalarProperty Name="EndsOn" ColumnName="EndsOn" />
+                <ScalarProperty Name="Sort" ColumnName="Sort" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="Version" ColumnName="Version" />
+                <ScalarProperty Name="TemplateId" ColumnName="TemplateId" />
+                <ScalarProperty Name="CacheInterval" ColumnName="CacheInterval" />
+              </MappingFragment>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="IsTypeOf(DisplayMonkey.Model.Powerbi)">
+              <MappingFragment StoreEntitySet="Powerbi">
+                <ScalarProperty Name="FrameId" ColumnName="FrameId" />
+                <ScalarProperty Name="AccountId" ColumnName="AccountId" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1992,17 +1978,6 @@
                 <ScalarProperty Name="ClientSecret" ColumnName="ClientSecret" />
                 <ScalarProperty Name="ClientId" ColumnName="ClientId" />
                 <ScalarProperty Name="AccountId" ColumnName="AccountId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Powerbis">
-            <EntityTypeMapping TypeName="DisplayMonkey.Model.Powerbi">
-              <MappingFragment StoreEntitySet="Powerbi">
-                <ScalarProperty Name="Url" ColumnName="Url" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Type" ColumnName="Type" />
-                <ScalarProperty Name="AccountId" ColumnName="AccountId" />
-                <ScalarProperty Name="FrameId" ColumnName="FrameId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

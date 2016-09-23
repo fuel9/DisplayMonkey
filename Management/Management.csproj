@@ -178,6 +178,7 @@
     <Compile Include="Controllers\LevelController.cs" />
     <Compile Include="Controllers\LocationController.cs" />
     <Compile Include="Controllers\MemoController.cs" />
+    <Compile Include="Controllers\PowerbiController.cs" />
     <Compile Include="Controllers\OutlookController.cs" />
     <Compile Include="Controllers\PanelController.cs" />
     <Compile Include="Controllers\Navigation.cs" />
@@ -196,6 +197,8 @@
     <Compile Include="Globalization.cs" />
     <Compile Include="HtmlExtensions.cs" />
     <Compile Include="Models\Annotations.cs" />
+    <Compile Include="Models\Annotations\AzureAccount.cs" />
+    <Compile Include="Models\Annotations\Powerbi.cs" />
     <Compile Include="Models\AzureAccount.cs">
       <DependentUpon>DMModel.tt</DependentUpon>
     </Compile>

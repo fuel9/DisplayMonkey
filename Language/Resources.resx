@@ -1550,4 +1550,16 @@
   <data name="PowerbiType_Tile" xml:space="preserve">
     <value>Tile</value>
   </data>
+  <data name="AzureAccountRequired" xml:space="preserve">
+    <value>Azure account is required</value>
+  </data>
+  <data name="PowerbiType" xml:space="preserve">
+    <value>Resource type</value>
+  </data>
+  <data name="PowerbiTypeRequired" xml:space="preserve">
+    <value>Resource type is required</value>
+  </data>
+  <data name="PowerbiUrl" xml:space="preserve">
+    <value>Resource URL</value>
+  </data>
 </root>

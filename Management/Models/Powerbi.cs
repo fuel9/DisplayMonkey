@@ -12,15 +12,13 @@ namespace DisplayMonkey.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Powerbi
+    public partial class Powerbi : Frame
     {
-        public int FrameId { get; set; }
         public int AccountId { get; set; }
         public PowerbiTypes Type { get; set; }
         public string Name { get; set; }
         public string Url { get; set; }
     
         public virtual AzureAccount AzureAccount { get; set; }
-        public virtual Frame Frame { get; set; }
     }
 }

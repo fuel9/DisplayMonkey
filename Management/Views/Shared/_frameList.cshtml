@@ -50,7 +50,7 @@
                     item.Clock.Type == ClockTypes.ClockType_Analog && item.Clock.ShowSeconds ? ", " + Resources.ShowSeconds : ""
                     ))
             }
-            else if (item.Html != null)    
+            else if (item.Html != null)
             {
                 <text>Name: <span>@item.Html.Name</span></text>
             }
@@ -72,16 +72,16 @@
                 <img class="thumb1" src="@Url.Action("Thumb", "Media", new { id = item.Picture.ContentId, width = 50, height = 50, mode = (int)RenderModes.RenderMode_Stretch })" alt="" />
                 <span>@item.Picture.Content.Name</span>
             }
-            else if (item.Powerbi != null)
+            else if (item is Powerbi)
             {
-                <span>@item.Powerbi.Type.Translate()</span>@(": ")<span>@item.Powerbi.Name</span>
+                <span>@((item as Powerbi).Type.Translate())</span>@(": ")<span>@((item as Powerbi).Name)</span>
             }
             else if (item.Report != null)
             {
                 <img class="thumb1" src="@Url.Action("Thumb", "Report", new { id = item.FrameId, width = 50, height = 50, mode = (int)RenderModes.RenderMode_Stretch })" alt="" />
                 <span>@item.Report.Name</span>
             }
-            else if (item.Video != null)    
+            else if (item.Video != null)
             {
                 <span>@(string.Format(Resources.VideoAlternatives, item.Video.Contents.Count()))</span>
             }
@@ -89,12 +89,12 @@
             {
                 @item.Weather.Type.Translate()
             }
-            else if (item.Youtube != null)    
+            else if (item.Youtube != null)
             {
                 <img class="thumb1" src="@Html.Raw(string.Format("http://i.ytimg.com/vi/{0}/0.jpg", item.Youtube.YoutubeId))" alt="" />
                 <span>@item.Youtube.Name</span>
             }
-            else   
+            else
             {
                 <text>@Resources.UnsupportedFrame</text>
             }
