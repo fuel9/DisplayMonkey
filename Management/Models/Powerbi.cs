@@ -15,9 +15,12 @@ namespace DisplayMonkey.Models
     public partial class Powerbi : Frame
     {
         public int AccountId { get; set; }
-        public PowerbiTypes Type { get; set; }
+        public Nullable<PowerbiTypes> Type { get; set; }
         public string Name { get; set; }
         public string Url { get; set; }
+        public Nullable<System.Guid> DashboardGuid { get; set; }
+        public Nullable<System.Guid> TileGuid { get; set; }
+        public Nullable<System.Guid> ReportGuid { get; set; }
     
         public virtual AzureAccount AzureAccount { get; set; }
     }

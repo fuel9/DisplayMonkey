@@ -64,6 +64,9 @@ namespace DisplayMonkey
             bundles.Add(new ScriptBundle("~/bundles/panel").Include(
                         "~/Scripts/panel-preview.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/spin").Include(             // DPA: simple spinner
+                        "~/Scripts/spin.js"));
+
             
             // Styles ==========================================================================================
             bundles.Add(new StyleBundle("~/Content/css").Include(

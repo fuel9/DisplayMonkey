@@ -3,7 +3,7 @@
 @model DisplayMonkey.Models.Html
 
 @{
-    ViewBag.Title = Resources.CreateNewHtmlFrame;
+    ViewBag.Title = Resources.EditHtmlFrame;
     DisplayMonkey.Models.Canvas cvs = Model.Frame.Panel.Canvas;
     string bg = string.Format("background-color:{0};", cvs.BackgroundColor);
     if (cvs.BackgroundImage != null)

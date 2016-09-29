@@ -244,7 +244,6 @@
     <Compile Include="Models\Frame.cs">
       <DependentUpon>DMModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\ModelInitializers.cs" />
     <Compile Include="Models\FullScreen.cs">
       <DependentUpon>DMModel.tt</DependentUpon>
     </Compile>
@@ -260,6 +259,7 @@
     <Compile Include="Models\Memo.cs">
       <DependentUpon>DMModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ModelInitializers.cs" />
     <Compile Include="Models\ModelExtensions.cs" />
     <Compile Include="Models\News.cs">
       <DependentUpon>DMModel.tt</DependentUpon>
@@ -537,6 +537,8 @@
     <Content Include="Scripts\json2.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\panel-preview.js" />
+    <Content Include="Scripts\spin.js" />
+    <Content Include="Scripts\spin.min.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -703,6 +705,12 @@
     <Content Include="Views\AzureAccount\Delete.cshtml" />
     <Content Include="Views\AzureAccount\Edit.cshtml" />
     <Content Include="Views\AzureAccount\Index.cshtml" />
+    <Content Include="Views\Powerbi\Edit.cshtml" />
+    <Content Include="Views\Powerbi\_Edit.cshtml" />
+    <Content Include="Views\Powerbi\Delete.cshtml" />
+    <Content Include="Views\Powerbi\_Details.cshtml" />
+    <Content Include="Views\Powerbi\Details.cshtml" />
+    <Content Include="Views\Powerbi\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

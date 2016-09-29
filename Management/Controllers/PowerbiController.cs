@@ -18,6 +18,10 @@ using System.Web;
 using System.Web.Mvc;
 using DisplayMonkey.Models;
 using System.Text.RegularExpressions;
+using DisplayMonkey.Language;
+using System.IO;
+using System.Web.Script.Serialization;
+using DisplayMonkey.AzureUtil;
 
 namespace DisplayMonkey.Controllers
 {
@@ -144,15 +148,227 @@ namespace DisplayMonkey.Controllers
             return this.RestoreReferrer(true) ?? RedirectToAction("Index", "Frame");
         }
 
+        #region Reports helper
+
+        //
+        // POST: /Powerbi/reports/5
+        [HttpPost]
+        public JsonResult Reports(int accountId)
+        {
+            try {
+                var x = new List<SelectListItemWithUrl>();
+
+                AzureAccount acc = AzureAccountRefreshToken(accountId);
+                if (acc != null)
+                {
+                    WebRequest request = WebRequest.Create(String.Format("{0}/{1}/reports", _baseUrl, acc.TenantId ?? "myorg")) as System.Net.HttpWebRequest;
+                    request.Method = "GET";
+                    request.ContentLength = 0;
+                    request.Headers.Add("Authorization", String.Format("Bearer {0}", acc.AccessToken));
+
+                    using (var response = request.GetResponse() as HttpWebResponse)
+                    using (var reader = new StreamReader(response.GetResponseStream()))
+                    {
+                        string responseContent = reader.ReadToEnd();
+                        PBIReports reports = new JavaScriptSerializer().Deserialize<PBIReports>(responseContent);
+                        foreach (PBIReport i in reports.value.Where(j => j.embedUrl != ""))
+                        {
+                            x.Add(new SelectListItemWithUrl()
+                            {
+                                Value = i.id,
+                                Text = i.name,
+                                Url = i.embedUrl,
+                            });
+                        }
+                    }
+                }
+
+                return Json(new { success = true, data = x.ToList() }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, data = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        private class PBIReports
+        {
+            public PBIReport[] value { get; set; }
+        }
+        private class PBIReport
+        {
+            public string id { get; set; }
+
+            // the name of this property will change to 'displayName' when the API moves from Beta to V1 namespace
+            public string name { get; set; }
+
+            public string webUrl { get; set; }
+
+            public string embedUrl { get; set; }
+        }
+
+        #endregion  // Reports helper
+
+        #region Dashboards helper
+
+        //
+        // POST: /Powerbi/dashboards/5
+        [HttpPost]
+        public JsonResult Dashboards(int accountId)
+        {
+            try
+            {
+                var x = new List<SelectListItem>();
+
+                AzureAccount acc = AzureAccountRefreshToken(accountId);
+                if (acc != null)
+                {
+                    WebRequest request = WebRequest.Create(String.Format("{0}/{1}/dashboards", _baseUrl, acc.TenantId ?? "myorg")) as System.Net.HttpWebRequest;
+                    request.Method = "GET";
+                    request.ContentLength = 0;
+                    request.Headers.Add("Authorization", String.Format("Bearer {0}", acc.AccessToken));
+
+                    using (var response = request.GetResponse() as HttpWebResponse)
+                    using (var reader = new StreamReader(response.GetResponseStream()))
+                    {
+                        string responseContent = reader.ReadToEnd();
+                        PBIDashboards reports = new JavaScriptSerializer().Deserialize<PBIDashboards>(responseContent);
+                        foreach (PBIDashboard i in reports.value)
+                        {
+                            x.Add(new SelectListItem()
+                            {
+                                Value = i.id,
+                                Text = i.displayName,
+                            });
+                        }
+                    }
+                }
+
+                return Json(new { success = true, data = x.ToList() }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, data = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        private class PBIDashboards
+        {
+            public PBIDashboard[] value { get; set; }
+        }
+        
+        private class PBIDashboard
+        {
+            public string id { get; set; }
+            public string displayName { get; set; }
+        }
+
+        #endregion
+
+        #region Tiles helper
+
+        //
+        // POST: /Powerbi/tiles/5
+        [HttpPost]
+        public JsonResult Tiles(int accountId, string dashboard)
+        {
+            try
+            {
+                var x = new List<SelectListItemWithUrl>();
+
+                AzureAccount acc = AzureAccountRefreshToken(accountId);
+                if (acc != null)
+                {
+                    WebRequest request = WebRequest.Create(String.Format("{0}/{1}/dashboards/{2}/tiles", _baseUrl, acc.TenantId ?? "myorg", dashboard)) as System.Net.HttpWebRequest;
+                    request.Method = "GET";
+                    request.ContentLength = 0;
+                    request.Headers.Add("Authorization", String.Format("Bearer {0}", acc.AccessToken));
+
+                    using (var response = request.GetResponse() as HttpWebResponse)
+                    using (var reader = new StreamReader(response.GetResponseStream()))
+                    {
+                        string responseContent = reader.ReadToEnd();
+                        PBITiles reports = new JavaScriptSerializer().Deserialize<PBITiles>(responseContent);
+                        foreach (PBITile i in reports.value.Where(j => j.embedUrl != ""))
+                        {
+                            x.Add(new SelectListItemWithUrl()
+                            {
+                                Value = i.id,
+                                Text = i.title,
+                                Url = i.embedUrl,
+                            });
+                        }
+                    }
+                }
+
+                return Json(new { success = true, data = x.ToList() }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, data = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        private class PBITiles
+        {
+            public PBITile[] value { get; set; }
+        }
+
+        private class PBITile
+        {
+            public string id { get; set; }
+            public string title { get; set; }
+            public string embedUrl { get; set; }
+        }
+
+        #endregion
+
+        #region Misc members
+
+        private AzureAccount AzureAccountRefreshToken(int accountId)
+        {
+            AzureAccount az = db.AzureAccounts.Find(accountId);
+            if (az != null && string.IsNullOrWhiteSpace(az.AccessToken) || !az.ExpiresOn.HasValue || az.ExpiresOn.Value < DateTime.UtcNow)
+            {
+                TokenInfo ti = Token.GetGrantTypePassword(
+                    az.Resource,
+                    az.ClientId,
+                    az.ClientSecret,
+                    az.User,
+                    RsaUtil.Decrypt(az.Password),
+                    az.TenantId
+                    );
+
+                az.RefreshToken = ti.RefreshToken;
+                az.AccessToken = ti.AccessToken;
+                az.ExpiresOn = ti.ExpiresOn;
+                az.IdToken = ti.IdToken;
+
+                db.Entry(az).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+
+            return az;
+        }
+
+        private const string _baseUrl = "https://api.powerbi.com/v1.0";
+
         private void FillTypesSelectList(PowerbiTypes? selected = null)
         {
-            ViewBag.Modes = selected.TranslatedSelectList();
+            ViewBag.Types = selected.TranslatedSelectList();
         }
 
         private void FillAccountsSelectList(object selected = null)
         {
             ViewBag.Accounts = new SelectList(db.AzureAccounts, "AccountId", "Name", selected);
         }
+
+        private class SelectListItemWithUrl : SelectListItem
+        {
+            public string Url { get; set; }
+        }
+
+        #endregion
 
         protected override void Dispose(bool disposing)
         {

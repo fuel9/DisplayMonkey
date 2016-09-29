@@ -997,6 +997,15 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Create Microsoft Power BI frame.
+        /// </summary>
+        public static string CreatePowerbiFrame {
+            get {
+                return ResourceManager.GetString("CreatePowerbiFrame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Culture.
         /// </summary>
         public static string Cultre {
@@ -1263,6 +1272,15 @@ namespace DisplayMonkey.Language {
         public static string DeletePictureFrame {
             get {
                 return ResourceManager.GetString("DeletePictureFrame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete Microsoft Power BI frame.
+        /// </summary>
+        public static string DeletePowerbiFrame {
+            get {
+                return ResourceManager.GetString("DeletePowerbiFrame", resourceCulture);
             }
         }
         
@@ -1581,6 +1599,15 @@ namespace DisplayMonkey.Language {
         public static string EditPictureFrame {
             get {
                 return ResourceManager.GetString("EditPictureFrame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit Microsoft Power BI frame.
+        /// </summary>
+        public static string EditPowerbiFrame {
+            get {
+                return ResourceManager.GetString("EditPowerbiFrame", resourceCulture);
             }
         }
         
@@ -2995,6 +3022,78 @@ namespace DisplayMonkey.Language {
         public static string Powerbi {
             get {
                 return ResourceManager.GetString("Powerbi", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dashboard.
+        /// </summary>
+        public static string PowerbiDashboard {
+            get {
+                return ResourceManager.GetString("PowerbiDashboard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Microsoft Power BI frame details.
+        /// </summary>
+        public static string PowerBiFrameDetails {
+            get {
+                return ResourceManager.GetString("PowerBiFrameDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Report.
+        /// </summary>
+        public static string PowerbiReport {
+            get {
+                return ResourceManager.GetString("PowerbiReport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to - Select dashboard -.
+        /// </summary>
+        public static string PowerbiSelectDashboard {
+            get {
+                return ResourceManager.GetString("PowerbiSelectDashboard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to - Select report -.
+        /// </summary>
+        public static string PowerbiSelectReport {
+            get {
+                return ResourceManager.GetString("PowerbiSelectReport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to - Select tile -.
+        /// </summary>
+        public static string PowerbiSelectTile {
+            get {
+                return ResourceManager.GetString("PowerbiSelectTile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to - Select type -.
+        /// </summary>
+        public static string PowerbiSelectType {
+            get {
+                return ResourceManager.GetString("PowerbiSelectType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tile.
+        /// </summary>
+        public static string PowerbiTile {
+            get {
+                return ResourceManager.GetString("PowerbiTile", resourceCulture);
             }
         }
         

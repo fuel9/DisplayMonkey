@@ -1,0 +1,31 @@
+﻿@using DisplayMonkey.Models
+@using DisplayMonkey.Language
+
+@model DisplayMonkey.Models.Powerbi
+
+@{
+    ViewBag.Title = Resources.EditPowerbiFrame;
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    @Html.Partial("_frameData", Model as Frame)
+    @Html.Partial("_Edit")
+
+    <p>
+        <input id="submit" type="submit" value="@Resources.Save" />
+    </p>
+}
+
+<div>
+    @Html.ActionLink(Resources.ViewFrames, "Index", "Frame")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/spin")
+}

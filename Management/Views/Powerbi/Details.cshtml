@@ -1,0 +1,19 @@
+﻿@using DisplayMonkey.Models
+@using DisplayMonkey.Language
+
+@model DisplayMonkey.Models.Powerbi
+
+@{
+    ViewBag.Title = Resources.PowerBiFrameDetails;
+}
+
+<h2>@ViewBag.Title</h2>
+
+@Html.Partial("_Details")
+
+<p>
+    @Html.ActionLink(Resources.Edit, "Edit", "Frame", new { id=Model.FrameId }, null) |
+    @Html.ActionLink(Resources.ViewFrames, "Index", "Frame")
+</p>
+
+@Html.Partial("_frameLocations", Model)

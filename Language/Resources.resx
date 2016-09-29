@@ -1562,4 +1562,37 @@
   <data name="PowerbiUrl" xml:space="preserve">
     <value>Resource URL</value>
   </data>
+  <data name="CreatePowerbiFrame" xml:space="preserve">
+    <value>Create Microsoft Power BI frame</value>
+  </data>
+  <data name="DeletePowerbiFrame" xml:space="preserve">
+    <value>Delete Microsoft Power BI frame</value>
+  </data>
+  <data name="EditPowerbiFrame" xml:space="preserve">
+    <value>Edit Microsoft Power BI frame</value>
+  </data>
+  <data name="PowerbiDashboard" xml:space="preserve">
+    <value>Dashboard</value>
+  </data>
+  <data name="PowerBiFrameDetails" xml:space="preserve">
+    <value>Microsoft Power BI frame details</value>
+  </data>
+  <data name="PowerbiReport" xml:space="preserve">
+    <value>Report</value>
+  </data>
+  <data name="PowerbiSelectDashboard" xml:space="preserve">
+    <value>- Select dashboard -</value>
+  </data>
+  <data name="PowerbiSelectReport" xml:space="preserve">
+    <value>- Select report -</value>
+  </data>
+  <data name="PowerbiSelectTile" xml:space="preserve">
+    <value>- Select tile -</value>
+  </data>
+  <data name="PowerbiSelectType" xml:space="preserve">
+    <value>- Select type -</value>
+  </data>
+  <data name="PowerbiTile" xml:space="preserve">
+    <value>Tile</value>
+  </data>
 </root>

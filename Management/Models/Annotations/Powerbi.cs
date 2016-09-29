@@ -11,13 +11,15 @@ namespace DisplayMonkey.Models
     [
         MetadataType(typeof(Powerbi.Annotations))
     ]
-    public class Powerbi
+    public partial class Powerbi : Frame
     {
         public Powerbi(Frame _fromFrame, DisplayMonkeyEntities db) : 
             base(_fromFrame) 
         {
             init(db);
         }
+
+        public Powerbi() : base() { }
         
         internal class Annotations
         {
@@ -29,9 +31,9 @@ namespace DisplayMonkey.Models
 
             [
                 Display(ResourceType = typeof(Resources), Name = "PowerbiType"),
-                Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "PowerbiTypeRequired"),
+                //Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "PowerbiTypeRequired"),
             ]
-            public PowerbiTypes Type { get; set; }
+            public Nullable<PowerbiTypes> Type { get; set; }
 
             [
                 Display(ResourceType = typeof(Resources), Name = "Name"),
@@ -44,6 +46,26 @@ namespace DisplayMonkey.Models
                 Display(ResourceType = typeof(Resources), Name = "PowerbiUrl"),
             ]
             public string Url { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "AzureAccount"),
+            ]
+            public virtual AzureAccount AzureAccount { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "PowerbiDashboard"),
+            ]
+            public Nullable<System.Guid> DashboardGuid { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "PowerbiTile"),
+            ]
+            public Nullable<System.Guid> TileGuid { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "PowerbiReport"),
+            ]
+            public Nullable<System.Guid> ReportGuid { get; set; }
         }
     }
 }

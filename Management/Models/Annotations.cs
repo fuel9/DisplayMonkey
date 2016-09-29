@@ -543,7 +543,7 @@ namespace DisplayMonkey.Models
     }
 
     [
-        MetadataType(typeof(Frame.Annotations))
+        MetadataType(typeof(Frame.AnnotationsBase))
     ]
     public partial class Frame
     {
@@ -565,7 +565,7 @@ namespace DisplayMonkey.Models
         {
         }
         
-        internal class Annotations
+        internal class AnnotationsBase
         {
             [
                 Display(ResourceType = typeof(Resources), Name = "ID"), 

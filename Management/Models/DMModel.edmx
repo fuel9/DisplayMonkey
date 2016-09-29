@@ -205,7 +205,7 @@
           </Key>
           <Property Name="FrameId" Type="int" Nullable="false" />
           <Property Name="AccountId" Type="int" Nullable="false" />
-          <Property Name="Type" Type="int" Nullable="false" />
+          <Property Name="Type" Type="int" />
           <Property Name="Name" Type="nvarchar" MaxLength="100" />
           <Property Name="Dashboard" Type="uniqueidentifier" />
           <Property Name="Tile" Type="uniqueidentifier" />
@@ -1650,10 +1650,13 @@
         </EnumType>
         <EntityType Name="Powerbi" BaseType="DisplayMonkey.Model.Frame">
           <Property Name="AccountId" Type="Int32" Nullable="false" />
-          <Property Name="Type" Type="DisplayMonkey.Model.PowerbiTypes" Nullable="false" />
+          <Property Name="Type" Type="DisplayMonkey.Model.PowerbiTypes" Nullable="true" />
           <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Url" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="AzureAccount" Relationship="DisplayMonkey.Model.FK_Powerbi_AzureAccount" FromRole="Powerbi" ToRole="AzureAccount" />
+          <Property Name="DashboardGuid" Type="Guid" Nullable="true" />
+          <Property Name="TileGuid" Type="Guid" Nullable="true" />
+          <Property Name="ReportGuid" Type="Guid" Nullable="true" />
         </EntityType>
         <Association Name="FK_Powerbi_AzureAccount">
           <End Type="DisplayMonkey.Model.AzureAccount" Role="AzureAccount" Multiplicity="1">
@@ -1751,6 +1754,9 @@
             </EntityTypeMapping>
             <EntityTypeMapping TypeName="IsTypeOf(DisplayMonkey.Model.Powerbi)">
               <MappingFragment StoreEntitySet="Powerbi">
+                <ScalarProperty Name="ReportGuid" ColumnName="Report" />
+                <ScalarProperty Name="TileGuid" ColumnName="Tile" />
+                <ScalarProperty Name="DashboardGuid" ColumnName="Dashboard" />
                 <ScalarProperty Name="FrameId" ColumnName="FrameId" />
                 <ScalarProperty Name="AccountId" ColumnName="AccountId" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
