@@ -6,6 +6,7 @@
 
 @{
     SelectList types = ViewBag.Types as SelectList;
+    SelectList accounts = ViewBag.Accounts as SelectList;
     bool isCreate = this.ViewContext.RouteData.Values["action"].ToString().ToLower() == "create";
     var emptyList = Enumerable.Empty<SelectListItem>();
 }
@@ -24,164 +25,64 @@
         <div class="editor-label">
             @Html.LabelFor(m => m.AccountId)
         </div>
-        <div class="editor-field select">
-            @Html.DropDownListFor(m => m.AccountId, ViewBag.Accounts as SelectList)
-            @Html.ValidationMessageFor(m => m.AccountId)
-        </div>
+        @if (accounts.Count() == 0)
+        {
+            <div class="editor-field">
+                @Html.ActionLink(Resources.CreateNewAzureAccount, "Create", "AzureAccount")
+            </div>
+        }
+        else
+        {
+            <div class="editor-field select">
+                @Html.DropDownListFor(m => m.AccountId, accounts)
+                @Html.ValidationMessageFor(m => m.AccountId)
+            </div>
 
-        <div class="editor-label">
-            @Html.LabelFor(m => m.Type)
-        </div>
-        <div class="editor-field select">
-            @Html.DropDownListFor(m => m.Type, ViewBag.Types as SelectList, Resources.PowerbiSelectType)
-            @Html.ValidationMessageFor(m => m.Type)
-        </div>
+            <div class="editor-label">
+                @Html.LabelFor(m => m.Type)
+            </div>
+            <div class="editor-field select">
+                @Html.DropDownListFor(m => m.Type, ViewBag.Types as SelectList, Resources.PowerbiSelectType)
+                @Html.ValidationMessageFor(m => m.Type)
+            </div>
 
-        <div class="editor-label dashboard">
-            @Html.LabelFor(m => m.DashboardGuid)
-        </div>
-        <div class="editor-field select dashboard">
-            @Html.DropDownListFor(m => m.DashboardGuid, emptyList, Resources.PowerbiSelectDashboard)
-            @Html.ValidationMessageFor(m => m.DashboardGuid)
-        </div>
+            <div class="editor-label dashboard">
+                @Html.LabelFor(m => m.DashboardGuid)
+            </div>
+            <div class="editor-field select dashboard">
+                @Html.DropDownListFor(m => m.DashboardGuid, emptyList, Resources.PowerbiSelectDashboard)
+                @Html.ValidationMessageFor(m => m.DashboardGuid)
+                @Html.HiddenFor(m => m.DashboardGuid, new { id = "oldDashboardGuid" })
+            </div>
 
-        <div class="editor-label tile">
-            @Html.LabelFor(m => m.TileGuid)
-        </div>
-        <div class="editor-field select tile">
-            @Html.DropDownListFor(m => m.TileGuid, emptyList, Resources.PowerbiSelectTile)
-            @Html.ValidationMessageFor(m => m.TileGuid)
-        </div>
+            <div class="editor-label tile">
+                @Html.LabelFor(m => m.TileGuid)
+            </div>
+            <div class="editor-field select tile">
+                @Html.DropDownListFor(m => m.TileGuid, emptyList, Resources.PowerbiSelectTile)
+                @Html.ValidationMessageFor(m => m.TileGuid)
+                @Html.HiddenFor(m => m.TileGuid, new { id = "oldTileGuid" })
+            </div>
 
-        <div class="editor-label report">
-            @Html.LabelFor(m => m.ReportGuid)
-        </div>
-        <div class="editor-field select report">
-            @Html.DropDownListFor(m => m.ReportGuid, emptyList, Resources.PowerbiSelectReport)
-            @Html.ValidationMessageFor(m => m.ReportGuid)
-        </div>
+            <div class="editor-label report">
+                @Html.LabelFor(m => m.ReportGuid)
+            </div>
+            <div class="editor-field select report">
+                @Html.DropDownListFor(m => m.ReportGuid, emptyList, Resources.PowerbiSelectReport)
+                @Html.ValidationMessageFor(m => m.ReportGuid)
+                @Html.HiddenFor(m => m.ReportGuid, new { id = "oldReportGuid" })
+            </div>
 
-        @Html.HiddenFor(m => m.Url)
+            @Html.HiddenFor(m => m.Url)
+
+        }
 
         <span id="spinholder"></span>
 
     </fieldset>
 
-<script type="text/javascript">
-        var __spinner;
-
-        $(document).ajaxStart(function () {
-            __spinner = new Spinner().spin();
-            document.getElementById("spinholder").appendChild(__spinner.el);
-        });
-
-        $(document).ajaxComplete(function () {
-            if (__spinner) __spinner.stop();
-        });
-
-        $(document).ready(function () {
-
-            function _getReports() {
-                var sel = $("select#ReportGuid");
-                sel.find("option:gt(0)").remove();
-                $.ajax({
-                    type: "POST",
-                    url: "@Url.Action("reports", "powerbi")",
-                    data: { accountId: $('#AccountId').val() },
-                    datatype: "json",
-                    success: function (payload) {
-                        if (payload.success) {
-                            $(payload.data).each(function (i, p) {
-                                sel.append('<option value="' + p.Value + '" data-url="' + p.Url + '">' + p.Text + '</option>');
-                            });
-                            $(".report").show();
-                        } else {
-                            alert(payload.data);
-                        }
-                    },
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        alert(errorThrown);
-                    }
-                });
-            }
-
-            function _getDashboards() {
-                var sel = $("select#DashboardGuid");
-                sel.find("option:gt(0)").remove();
-                $.ajax({
-                    type: "POST",
-                    url: "@Url.Action("dashboards", "powerbi")",
-                    data: { accountId: $('#AccountId').val() },
-                    datatype: "json",
-                    success: function (payload) {
-                        if (payload.success) {
-                            $(payload.data).each(function (i, p) {
-                                sel.append('<option value="' + p.Value + '">' + p.Text + '</option>');
-                            });
-                            $(".dashboard").show();
-                        } else {
-                            alert(payload.data);
-                        }
-                    },
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        alert(errorThrown);
-                    }
-                });
-            }
-
-            function _getTiles() {
-                var sel = $("select#TileGuid");
-                sel.find("option:gt(0)").remove();
-                $.ajax({
-                    type: "POST",
-                    url: "@Url.Action("tiles", "powerbi")",
-                    data: { accountId: $('#AccountId').val(), dashboard: $("select#DashboardGuid").val() },
-                    datatype: "json",
-                    success: function (payload) {
-                        if (payload.success) {
-                            $(payload.data).each(function (i, p) {
-                                sel.append('<option value="' + p.Value + '" data-url="' + p.Url + '">' + p.Text + '</option>');
-                            });
-                            $(".tile").show();
-                        } else {
-                            alert(Payload.data);
-                        }
-                    },
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        alert(errorThrown);
-                    }
-                });
-            }
-
-            $("select#DashboardGuid").change(function () {
-                if ($(this).val() != "") {
-                    _getTiles();
-                }
-            });
-
-            $("select#ReportGuid, select#TileGuid").change(function () {
-                if ($(this).val() != "") {
-                    var opt = $('option:selected', this);
-                    if ($("input#Url").val(opt.attr('data-url')).val() != "") {
-                        var n = $("input#Name");
-                        if (n.val() == "")
-                            n.val(opt.text());
-                        $("input#submit").show();
-                    }
-                }
-            });
-
-            $("select#Type").change(function () {
-                $(".report").hide();
-                $(".dashboard").hide();
-                $(".tile").hide();
-                $("input#submit").hide();
-
-                if ($(this).val() == "0") {
-                    _getReports();
-                } else if ($(this).val() == "1") {
-                    _getDashboards();
-                }
-            }).change();
-        });
-</script>
+    <script type="text/javascript">
+        __urlReports = "@Url.Action("reports", "powerbi")";
+        __urlDashboards = "@Url.Action("dashboards", "powerbi")";
+        __urlTiles = "@Url.Action("tiles", "powerbi")";
+    </script>
