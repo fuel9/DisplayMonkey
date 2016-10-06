@@ -13,9 +13,10 @@
 
 ### Change log
 
-v1.2.0 (September 9, 2016)
+v1.2.0 (October 5, 2016)
 
-- Added ShowAs filter, redesigned HTML template and quick booking support for Outlook frames.
+- Outlook frame: added ShowAs filter and quick booking support, redesigned HTML template.
+- Power BI frame: new feature
 
 v1.1.0 (June 21, 2016)
 
