@@ -136,5 +136,25 @@ IF  EXISTS (SELECT * FROM sys.triggers WHERE object_id = OBJECT_ID(N'[dbo].[tr_M
 	DROP TRIGGER [dbo].[tr_Memo_Delete]
 ;
 
+IF  EXISTS (SELECT * FROM sys.triggers WHERE object_id = OBJECT_ID(N'[dbo].[tr_Clock_Delete]'))
+	DROP TRIGGER [dbo].[tr_Clock_Delete]
+;
+
+IF  EXISTS (SELECT * FROM sys.triggers WHERE object_id = OBJECT_ID(N'[dbo].[tr_Weather_Delete]'))
+	DROP TRIGGER [dbo].[tr_Weather_Delete]
+;
+
+IF  EXISTS (SELECT * FROM sys.triggers WHERE object_id = OBJECT_ID(N'[dbo].[tr_Youtube_Delete]'))
+	DROP TRIGGER [dbo].[tr_Youtube_Delete]
+;
+
+IF  EXISTS (SELECT * FROM sys.triggers WHERE object_id = OBJECT_ID(N'[dbo].[tr_Report_Delete]'))
+	DROP TRIGGER [dbo].[tr_Report_Delete]
+;
+
+IF  EXISTS (SELECT * FROM sys.triggers WHERE object_id = OBJECT_ID(N'[dbo].[tr_Picture_Delete]'))
+	DROP TRIGGER [dbo].[tr_Picture_Delete]
+;
+
 GO
 

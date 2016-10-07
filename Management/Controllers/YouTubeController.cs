@@ -32,7 +32,7 @@ namespace DisplayMonkey.Controllers
         {
             this.SaveReferrer(true);
 
-            Youtube youtube = db.Youtube.Find(id);
+            Youtube youtube = db.Frames.Find(id) as Youtube;
             if (youtube == null)
             {
                 return View("Missing", new MissingItem(id));
@@ -50,12 +50,8 @@ namespace DisplayMonkey.Controllers
                 return RedirectToAction("Create", "Frame");
             }
 
-            Youtube youtube = new Youtube()
-            {
-                Frame = frame,
-            };
+            Youtube youtube = new Youtube(frame, db);
 
-            youtube.init(db);
 
             this.FillTemplatesSelectList(db, FrameTypes.YouTube);
             FillAspectsSelectList();
@@ -70,7 +66,7 @@ namespace DisplayMonkey.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "FrameId,Name,YoutubeId,Volume,AutoLoop,Aspect,Quality,Rate,Start")] Youtube youtube, Frame frame)
+        public ActionResult Create(Youtube youtube)
         {
             if (ModelState.IsValid)
             {
@@ -78,19 +74,17 @@ namespace DisplayMonkey.Controllers
                 if (lnk.Success) 
                     youtube.YoutubeId = lnk.Value;
 
-                youtube.Frame = frame;
-                db.Youtube.Add(youtube);
+                db.Frames.Add(youtube);
                 db.SaveChanges();
 
                 return this.RestoreReferrer() ?? RedirectToAction("Index", "Frame");
             }
 
-            this.FillTemplatesSelectList(db, FrameTypes.YouTube, youtube.Frame.TemplateId);
+            this.FillTemplatesSelectList(db, FrameTypes.YouTube, youtube.TemplateId);
             FillAspectsSelectList();
             FillQualitySelectList();
             FillRatesSelectList();
 
-            youtube.Frame = frame;
 
             return View(youtube);
         }
@@ -98,13 +92,13 @@ namespace DisplayMonkey.Controllers
         // GET: /YouTube/Edit/5
         public ActionResult Edit(int id = 0)
         {
-            Youtube youtube = db.Youtube.Find(id);
+            Youtube youtube = db.Frames.Find(id) as Youtube;
             if (youtube == null)
             {
                 return View("Missing", new MissingItem(id));
             }
 
-            this.FillTemplatesSelectList(db, FrameTypes.YouTube, youtube.Frame.TemplateId);
+            this.FillTemplatesSelectList(db, FrameTypes.YouTube, youtube.TemplateId);
             FillAspectsSelectList(youtube.Aspect);
             FillQualitySelectList();
             FillRatesSelectList();
@@ -117,26 +111,24 @@ namespace DisplayMonkey.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "FrameId,Name,YoutubeId,Volume,AutoLoop,Aspect,Quality,Rate,Start")] Youtube youtube, Frame frame)
+        public ActionResult Edit(Youtube youtube)
         {
             if (ModelState.IsValid)
             {
                 Match lnk = _youTubeLink.Match(youtube.YoutubeId);
                 if (lnk.Success) youtube.YoutubeId = lnk.Value;
                 
-                db.Entry(frame).State = EntityState.Modified;
                 db.Entry(youtube).State = EntityState.Modified;
                 db.SaveChanges();
 
                 return this.RestoreReferrer() ?? RedirectToAction("Index", "Frame");
             }
 
-            this.FillTemplatesSelectList(db, FrameTypes.YouTube, youtube.Frame.TemplateId);
+            this.FillTemplatesSelectList(db, FrameTypes.YouTube, youtube.TemplateId);
             FillAspectsSelectList(youtube.Aspect);
             FillQualitySelectList();
             FillRatesSelectList();
 
-            youtube.Frame = frame;
 
             return View(youtube);
         }
@@ -144,7 +136,7 @@ namespace DisplayMonkey.Controllers
         // GET: /YouTube/Delete/5
         public ActionResult Delete(int id = 0)
         {
-            Youtube youtube = db.Youtube.Find(id);
+            Youtube youtube = db.Frames.Find(id) as Youtube;
             if (youtube == null)
             {
                 return View("Missing", new MissingItem(id));

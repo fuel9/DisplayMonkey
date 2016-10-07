@@ -12,11 +12,8 @@ namespace DisplayMonkey.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Weather
+    public partial class Weather : Frame
     {
-        public int FrameId { get; set; }
         public WeatherTypes Type { get; set; }
-    
-        public virtual Frame Frame { get; set; }
     }
 }

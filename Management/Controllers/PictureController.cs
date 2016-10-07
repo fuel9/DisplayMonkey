@@ -32,7 +32,7 @@ namespace DisplayMonkey.Controllers
         {
             this.SaveReferrer(true);
 
-            Picture picture = db.Pictures.Find(id);
+            Picture picture = db.Frames.Find(id) as Picture;
             if (picture == null)
             {
                 return View("Missing", new MissingItem(id));
@@ -52,12 +52,8 @@ namespace DisplayMonkey.Controllers
                 return RedirectToAction("Create", "Frame");
             }
 
-            Picture picture = new Picture()
-            {
-                Frame = frame,
-            };
+            Picture picture = new Picture(frame, db);
 
-            picture.init(db);
 
             this.FillTemplatesSelectList(db, FrameTypes.Picture);
             FillPicturesSelectList();
@@ -71,16 +67,14 @@ namespace DisplayMonkey.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Picture picture, Frame frame)
+        public ActionResult Create(Picture picture)
         {
-            picture.Frame = frame;
-
             if (ModelState.IsValid)
             {
                 if (picture.SavedContentId.HasValue)
                 {
                     picture.ContentId = picture.SavedContentId.Value;
-                    db.Pictures.Add(picture);
+                    db.Frames.Add(picture);
                     db.SaveChanges();
 
                     return this.RestoreReferrer() ?? RedirectToAction("Index", "Frame");
@@ -92,7 +86,7 @@ namespace DisplayMonkey.Controllers
                 }
             }
 
-            this.FillTemplatesSelectList(db, FrameTypes.Picture, picture.Frame.TemplateId);
+            this.FillTemplatesSelectList(db, FrameTypes.Picture, picture.TemplateId);
             FillPicturesSelectList();
             FillModesSelectList();
 
@@ -106,12 +100,12 @@ namespace DisplayMonkey.Controllers
         {
             Picture picture = TempData["_newPicture"] as Picture;
 
-            if (picture == null || picture.Frame.PanelId == 0)
+            if (picture == null || picture.PanelId == 0)
             {
                 return RedirectToAction("Create", "Frame");
             }
 
-            this.FillTemplatesSelectList(db, FrameTypes.Picture, picture.Frame.TemplateId);
+            this.FillTemplatesSelectList(db, FrameTypes.Picture, picture.TemplateId);
             FillPicturesSelectList();
             FillModesSelectList();
             ViewBag.MaxImageSize = Setting.GetSetting(db, Setting.Keys.MaxImageSize).IntValuePositive;
@@ -124,10 +118,8 @@ namespace DisplayMonkey.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Upload(Picture picture, Frame frame, HttpPostedFileBase file)
+        public ActionResult Upload(Picture picture, HttpPostedFileBase file)
         {
-            picture.Frame = frame;
-            
             if (ModelState.IsValid && 
                 file != null && 
                 file.ContentLength > 0)
@@ -150,14 +142,14 @@ namespace DisplayMonkey.Controllers
                         Data = buffer,
                     };
 
-                    db.Pictures.Add(picture);
+                    db.Frames.Add(picture);
                     db.SaveChanges();
 
                     return this.RestoreReferrer() ?? RedirectToAction("Index", "Frame");
                 }
             }
 
-            this.FillTemplatesSelectList(db, FrameTypes.Picture, picture.Frame.TemplateId);
+            this.FillTemplatesSelectList(db, FrameTypes.Picture, picture.TemplateId);
             FillPicturesSelectList();
             FillModesSelectList();
             ViewBag.MaxImageSize = Setting.GetSetting(db, Setting.Keys.MaxImageSize).IntValuePositive;
@@ -170,13 +162,13 @@ namespace DisplayMonkey.Controllers
 
         public ActionResult Edit(int id = 0)
         {
-            Picture picture = db.Pictures.Find(id);
+            Picture picture = db.Frames.Find(id) as Picture;
             if (picture == null)
             {
                 return View("Missing", new MissingItem(id));
             }
 
-            this.FillTemplatesSelectList(db, FrameTypes.Picture, picture.Frame.TemplateId);
+            this.FillTemplatesSelectList(db, FrameTypes.Picture, picture.TemplateId);
             FillPicturesSelectList(picture.ContentId);
             FillModesSelectList(picture.Mode);
 
@@ -188,22 +180,20 @@ namespace DisplayMonkey.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Picture picture, Frame frame)
+        public ActionResult Edit(Picture picture)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(frame).State = EntityState.Modified;
                 db.Entry(picture).State = EntityState.Modified;
                 db.SaveChanges();
 
                 return this.RestoreReferrer() ?? RedirectToAction("Index", "Frame");
             }
 
-            this.FillTemplatesSelectList(db, FrameTypes.Picture, picture.Frame.TemplateId);
+            this.FillTemplatesSelectList(db, FrameTypes.Picture, picture.TemplateId);
             FillPicturesSelectList(picture.ContentId);
             FillModesSelectList(picture.Mode);
 
-            picture.Frame = frame;
 
             return View(picture);
         }
@@ -213,7 +203,7 @@ namespace DisplayMonkey.Controllers
 
         public ActionResult Delete(int id = 0)
         {
-            Picture picture = db.Pictures.Find(id);
+            Picture picture = db.Frames.Find(id) as Picture;
             if (picture == null)
             {
                 return View("Missing", new MissingItem(id));

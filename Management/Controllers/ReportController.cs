@@ -34,7 +34,7 @@ namespace DisplayMonkey.Controllers
         {
             this.SaveReferrer(true);
 
-            Report report = db.Reports.Find(id);
+            Report report = db.Frames.Find(id) as Report;
             if (report == null)
             {
                 return View("Missing", new MissingItem(id));
@@ -54,12 +54,8 @@ namespace DisplayMonkey.Controllers
                 return RedirectToAction("Create", "Frame");
             }
 
-            Report report = new Report()
-            {
-                Frame = frame,
-            };
+            Report report = new Report(frame, db);
 
-            report.init(db);
 
             this.FillTemplatesSelectList(db, FrameTypes.Report);
             FillServersSelectList();
@@ -73,22 +69,20 @@ namespace DisplayMonkey.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Report report, Frame frame)
+        public ActionResult Create(Report report)
         {
             if (ModelState.IsValid)
             {
-                report.Frame = frame;
-                db.Reports.Add(report);
+                db.Frames.Add(report);
                 db.SaveChanges();
 
                 return this.RestoreReferrer() ?? RedirectToAction("Index", "Frame");
             }
 
-            this.FillTemplatesSelectList(db, FrameTypes.Report, report.Frame.TemplateId);
+            this.FillTemplatesSelectList(db, FrameTypes.Report, report.TemplateId);
             FillServersSelectList();
             FillModesSelectList();
             
-            report.Frame = frame;
             
             return View(report);
         }
@@ -98,13 +92,13 @@ namespace DisplayMonkey.Controllers
 
         public ActionResult Edit(int id = 0)
         {
-            Report report = db.Reports.Find(id);
+            Report report = db.Frames.Find(id) as Report;
             if (report == null)
             {
                 return View("Missing", new MissingItem(id));
             }
 
-            this.FillTemplatesSelectList(db, FrameTypes.Report, report.Frame.TemplateId);
+            this.FillTemplatesSelectList(db, FrameTypes.Report, report.TemplateId);
             FillServersSelectList(report.ServerId);
             FillModesSelectList(report.Mode);
             
@@ -116,22 +110,20 @@ namespace DisplayMonkey.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Report report, Frame frame)
+        public ActionResult Edit(Report report)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(frame).State = EntityState.Modified;
                 db.Entry(report).State = EntityState.Modified;
                 db.SaveChanges();
 
                 return this.RestoreReferrer() ?? RedirectToAction("Index", "Frame");
             }
 
-            this.FillTemplatesSelectList(db, FrameTypes.Report, report.Frame.TemplateId);
+            this.FillTemplatesSelectList(db, FrameTypes.Report, report.TemplateId);
             FillServersSelectList(report.ServerId);
             FillModesSelectList(report.Mode);
             
-            report.Frame = frame;
             
             return View(report);
         }
@@ -141,7 +133,7 @@ namespace DisplayMonkey.Controllers
 
         public ActionResult Delete(int id = 0)
         {
-            Report report = db.Reports.Find(id);
+            Report report = db.Frames.Find(id) as Report;
             if (report == null)
             {
                 return View("Missing", new MissingItem(id));
@@ -212,7 +204,7 @@ namespace DisplayMonkey.Controllers
 
                 if (trace > 1)
                 {
-                    Report report = db.Reports
+                    Report report = db.Frames.OfType<Report>()
                         .Include(r => r.ReportServer)
                         .FirstOrDefault(r => r.FrameId == id)
                         ;
@@ -241,7 +233,7 @@ namespace DisplayMonkey.Controllers
 
         private byte[] GetReportBytes(int id)
         {
-            Report report = db.Reports
+            Report report = db.Frames.OfType<Report>()
                 .Include(r => r.ReportServer)
                 .FirstOrDefault(r => r.FrameId == id)
                 ;

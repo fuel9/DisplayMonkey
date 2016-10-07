@@ -4,8 +4,8 @@
 
 @model DisplayMonkey.Models.Weather
 
-    @Html.Partial("_frameDetails", Model.Frame)
-    @Html.Partial("_frameCacheDetails", Model.Frame)
+    @Html.Partial("_frameDetails", Model as Frame)
+    @Html.Partial("_frameCacheDetails", Model as Frame)
 
     <fieldset>
         <legend>@Resources.Weather</legend>

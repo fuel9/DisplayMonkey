@@ -35,7 +35,7 @@ namespace DisplayMonkey.Controllers
         {
             this.SaveReferrer(true);
 
-            Clock clock = db.Clocks.Find(id);
+            Clock clock = db.Frames.Find(id) as Clock;
             if (clock == null)
             {
                 return View("Missing", new MissingItem(id));
@@ -55,12 +55,8 @@ namespace DisplayMonkey.Controllers
                 return RedirectToAction("Create", "Frame");
             }
 
-            Clock clock = new Clock()
-            {
-                Frame = frame,
-            };
+            Clock clock = new Clock(frame, db);
 
-            clock.init(db);
 
             this.FillTemplatesSelectList(db, FrameTypes.Clock);
             this.FillSystemTimeZoneSelectList();
@@ -74,22 +70,20 @@ namespace DisplayMonkey.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Clock clock, Frame frame)
+        public ActionResult Create(Clock clock)
         {
             if (ModelState.IsValid)
             {
-                clock.Frame = frame;
-                db.Clocks.Add(clock);
+                db.Frames.Add(clock);
                 db.SaveChanges();
 
                 return this.RestoreReferrer() ?? RedirectToAction("Index", "Frame");
             }
 
-            this.FillTemplatesSelectList(db, FrameTypes.Clock, clock.Frame.TemplateId);
+            this.FillTemplatesSelectList(db, FrameTypes.Clock, clock.TemplateId);
             this.FillSystemTimeZoneSelectList(clock.TimeZone);
             FillClockTypeSelectList();
 
-            clock.Frame = frame;
 
             return View(clock);
         }
@@ -99,13 +93,13 @@ namespace DisplayMonkey.Controllers
 
         public ActionResult Edit(int id = 0)
         {
-            Clock clock = db.Clocks.Find(id);
+            Clock clock = db.Frames.Find(id) as Clock;
             if (clock == null)
             {
                 return View("Missing", new MissingItem(id));
             }
 
-            this.FillTemplatesSelectList(db, FrameTypes.Clock, clock.Frame.TemplateId);
+            this.FillTemplatesSelectList(db, FrameTypes.Clock, clock.TemplateId);
             this.FillSystemTimeZoneSelectList(clock.TimeZone);
             FillClockTypeSelectList(clock.Type);
             
@@ -117,22 +111,20 @@ namespace DisplayMonkey.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Clock clock, Frame frame)
+        public ActionResult Edit(Clock clock)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(frame).State = EntityState.Modified;
                 db.Entry(clock).State = EntityState.Modified;
                 db.SaveChanges();
 
                 return this.RestoreReferrer() ?? RedirectToAction("Index", "Frame");
             }
 
-            this.FillTemplatesSelectList(db, FrameTypes.Clock, clock.Frame.TemplateId);
+            this.FillTemplatesSelectList(db, FrameTypes.Clock, clock.TemplateId);
             this.FillSystemTimeZoneSelectList(clock.TimeZone);
             FillClockTypeSelectList(clock.Type);
 
-            clock.Frame = frame;
 
             return View(clock);
         }
@@ -142,7 +134,7 @@ namespace DisplayMonkey.Controllers
 
         public ActionResult Delete(int id = 0)
         {
-            Clock clock = db.Clocks.Find(id);
+            Clock clock = db.Frames.Find(id) as Clock;
             if (clock == null)
             {
                 return View("Missing", new MissingItem(id));

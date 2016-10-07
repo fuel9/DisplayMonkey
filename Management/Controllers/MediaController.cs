@@ -89,7 +89,7 @@ namespace DisplayMonkey.Controllers
             else
             {
                 ViewBag.FrameList = content.Pictures
-                    .Select(f => f.Frame)
+                    //.Select(f => f.Frame)
                     .OrderBy(f => f.FrameId)
                     .AsEnumerable()
                     ;

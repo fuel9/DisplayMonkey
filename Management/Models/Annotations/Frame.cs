@@ -97,19 +97,24 @@ namespace DisplayMonkey.Models
             ]
             public int CacheInterval { get; set; }
 
-            /**** frames ****/
-
-            [
-               Display(ResourceType = typeof(Resources), Name = "Clock"),
-            ]
-            public virtual Clock Clock { get; set; }
-
             [
                Display(ResourceType = typeof(Resources), Name = "Panel"),
             ]
             public virtual Panel Panel { get; set; }
 
+            [
+               Display(ResourceType = typeof(Resources), Name = "Locations"),
+            ]
+            public virtual ICollection<Location> Locations { get; set; }
+
+            /**** frames ****/
+
             /*[
+               Display(ResourceType = typeof(Resources), Name = "Clock"),
+            ]
+            public virtual Clock Clock { get; set; }
+
+            [
                Display(ResourceType = typeof(Resources), Name = "Memo"),
             ]
             public virtual Memo Memo { get; set; }
@@ -117,7 +122,7 @@ namespace DisplayMonkey.Models
             [
                Display(ResourceType = typeof(Resources), Name = "News"), 
             ]
-            public virtual News News { get; set; }*/
+            public virtual News News { get; set; }
 
             [
                Display(ResourceType = typeof(Resources), Name = "Picture"),
@@ -127,19 +132,19 @@ namespace DisplayMonkey.Models
             [
                Display(ResourceType = typeof(Resources), Name = "Report"),
             ]
-            public virtual Report Report { get; set; }
+            public virtual Report Report { get; set; }*/
 
             [
                Display(ResourceType = typeof(Resources), Name = "Video"),
             ]
             public virtual Video Video { get; set; }
 
-            [
+            /*[
                Display(ResourceType = typeof(Resources), Name = "Weather"),
             ]
             public virtual Weather Weather { get; set; }
 
-            /*[
+            [
                Display(ResourceType = typeof(Resources), Name = "Html"),
             ]
             public virtual Html Html { get; set; }
@@ -148,11 +153,6 @@ namespace DisplayMonkey.Models
                Display(ResourceType = typeof(Resources), Name = "Outlook"),
             ]
             public virtual Outlook Outlook { get; set; }*/
-
-            [
-               Display(ResourceType = typeof(Resources), Name = "Locations"),
-            ]
-            public virtual ICollection<Location> Locations { get; set; }
         }
 
         public enum TimingOptions : int
@@ -169,27 +169,35 @@ namespace DisplayMonkey.Models
         public virtual FrameTypes? FrameType
         {
             get 
-            { 
-                //case FrameTypes.Clock: key = Keys.DefaultTemplateClock; break;
+            {
+                if (this is Clock) 
+                    return FrameTypes.Clock;
 
-                if (this is Html) 
+                else if (this is Html) 
                     return FrameTypes.Html;
 
-                if (this is Memo) 
+                else if (this is Memo) 
                     return FrameTypes.Memo;
-                
-                if (this is Outlook) 
+
+                else if (this is Outlook) 
                     return FrameTypes.Outlook;
 
-                //case FrameTypes.Picture: key = Keys.DefaultTemplatePicture; break;
+                else if (this is Picture) 
+                    return FrameTypes.Picture;
 
                 else if (this is Powerbi) 
                     return FrameTypes.Powerbi;
 
-                //case FrameTypes.Report: key = Keys.DefaultTemplateReport; break;
+                else if (this is Report) 
+                    return FrameTypes.Report;
+
                 //case FrameTypes.Video: key = Keys.DefaultTemplateVideo; break;
-                //case FrameTypes.Weather: key = Keys.DefaultTemplateWeather; break;
-                //case FrameTypes.YouTube: key = Keys.DefaultTemplateYouTube; break;
+
+                else if (this is Weather) 
+                    return FrameTypes.Weather;
+
+                else if (this is Youtube) 
+                    return FrameTypes.YouTube;
                 
                 else if (this.Template != null) 
                     return this.Template.FrameType;

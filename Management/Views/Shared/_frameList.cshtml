@@ -39,15 +39,16 @@
             @item.Panel.Name
         </td>
         <td>
-            @if (item.Clock != null)
+            @if (item is Clock)
             {
+                Clock i = item as Clock;
                 @(string.Format("{0}{1}{2}{3}{4}{5}",
-                    item.Clock.Type.Translate(),
-                    !string.IsNullOrWhiteSpace(item.Clock.Label) ? ", " + item.Clock.Label : "",
-                    item.Clock.TimeZone != null ? ", " + item.Clock.TimeZone : "",
-                    item.Clock.Type == ClockTypes.ClockType_Text && item.Clock.ShowDate ? ", " + Resources.ShowDate : "",
-                    item.Clock.Type == ClockTypes.ClockType_Text && item.Clock.ShowTime ? ", " + Resources.ShowTime : "",
-                    item.Clock.Type == ClockTypes.ClockType_Analog && item.Clock.ShowSeconds ? ", " + Resources.ShowSeconds : ""
+                    i.Type.Translate(),
+                    !string.IsNullOrWhiteSpace(i.Label) ? ", " + i.Label : "",
+                    i.TimeZone != null ? ", " + i.TimeZone : "",
+                    i.Type == ClockTypes.ClockType_Text && i.ShowDate ? ", " + Resources.ShowDate : "",
+                    i.Type == ClockTypes.ClockType_Text && i.ShowTime ? ", " + Resources.ShowTime : "",
+                    i.Type == ClockTypes.ClockType_Analog && i.ShowSeconds ? ", " + Resources.ShowSeconds : ""
                     ))
             }
             else if (item is Html)
@@ -71,33 +72,37 @@
                 Outlook i = item as Outlook;
                 <span>@i.NameOrMailboxOrAccount</span>
             }
-            else if (item.Picture != null)
+            else if (item is Picture)
             {
-                <img class="thumb1" src="@Url.Action("Thumb", "Media", new { id = item.Picture.ContentId, width = 50, height = 50, mode = (int)RenderModes.RenderMode_Stretch })" alt="" />
-                <span>@item.Picture.Content.Name</span>
+                Picture i = item as Picture;
+                <img class="thumb1" src="@Url.Action("Thumb", "Media", new { id = i.ContentId, width = 50, height = 50, mode = (int)RenderModes.RenderMode_Stretch })" alt="" />
+                <span>@i.Content.Name</span>
             }
             else if (item is Powerbi)
             {
                 Powerbi i = item as Powerbi;
                 <span>@i.Type.Translate()</span>@(": ")<span>@i.Name</span>
             }
-            else if (item.Report != null)
+            else if (item is Report)
             {
+                Report i = item as Report;
                 <img class="thumb1" src="@Url.Action("Thumb", "Report", new { id = item.FrameId, width = 50, height = 50, mode = (int)RenderModes.RenderMode_Stretch })" alt="" />
-                <span>@item.Report.Name</span>
+                <span>@i.Name</span>
             }
             else if (item.Video != null)
             {
                 <span>@(string.Format(Resources.VideoAlternatives, item.Video.Contents.Count()))</span>
             }
-            else if (item.Weather != null)
+            else if (item is Weather)
             {
-                @item.Weather.Type.Translate()
+                Weather i = item as Weather;
+                @i.Type.Translate()
             }
-            else if (item.Youtube != null)
+            else if (item is Youtube)
             {
-                <img class="thumb1" src="@Html.Raw(string.Format("http://i.ytimg.com/vi/{0}/0.jpg", item.Youtube.YoutubeId))" alt="" />
-                <span>@item.Youtube.Name</span>
+                Youtube i = item as Youtube;
+                <img class="thumb1" src="@Html.Raw(string.Format("http://i.ytimg.com/vi/{0}/0.jpg", i.YoutubeId))" alt="" />
+                <span>@i.Name</span>
             }
             else
             {

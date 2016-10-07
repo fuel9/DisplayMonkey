@@ -25,24 +25,19 @@
         <AssociationConnector Association="DisplayMonkey.Model.FK_Display_Canvas" ManuallyRouted="false" />
         <AssociationConnector Association="DisplayMonkey.Model.FK_FullScreen_Canvas" ManuallyRouted="false" />
         <AssociationConnector Association="DisplayMonkey.Model.FK_Panel_Canvas" ManuallyRouted="false" />
-        <AssociationConnector Association="DisplayMonkey.Model.FK_Clock_Frame" ManuallyRouted="false" />
         <AssociationConnector Association="DisplayMonkey.Model.FK_Picture_Content" ManuallyRouted="false" />
         <AssociationConnector Association="DisplayMonkey.Model.FK_Display_Location" ManuallyRouted="false" />
         <AssociationConnector Association="DisplayMonkey.Model.FK_Frame_Panel" ManuallyRouted="false" />
-        <AssociationConnector Association="DisplayMonkey.Model.FK_Picture_Frame" ManuallyRouted="false" />
-        <AssociationConnector Association="DisplayMonkey.Model.FK_Report_Frame" ManuallyRouted="false" />
         <AssociationConnector Association="DisplayMonkey.Model.FK_Video_Frame" ManuallyRouted="false" />
-        <AssociationConnector Association="DisplayMonkey.Model.FK_Weather_Frame" ManuallyRouted="false" />
         <AssociationConnector Association="DisplayMonkey.Model.FK_FullScreen_Panel" ManuallyRouted="false" />
         <AssociationConnector Association="DisplayMonkey.Model.FK_Location_Level" ManuallyRouted="false" />
-        <AssociationConnector Association="DisplayMonkey.Model.FrameLocation" ManuallyRouted="false" />
+        <AssociationConnector Association="DisplayMonkey.Model.FrameLocation" ManuallyRouted="false" ></AssociationConnector>
         <AssociationConnector Association="DisplayMonkey.Model.VideoAlternative" ManuallyRouted="false" />
         <AssociationConnector Association="DisplayMonkey.Model.FK_Location_Area" />
         <EntityTypeShape EntityType="DisplayMonkey.Model.ReportServer" Width="1.5" PointX="15.5" PointY="13.375" />
         <AssociationConnector Association="DisplayMonkey.Model.FK_Report_ReportServer" />
         <EntityTypeShape EntityType="DisplayMonkey.Model.Html" Width="1.5" PointX="13.5" PointY="17.5" />
         <EntityTypeShape EntityType="DisplayMonkey.Model.Youtube" Width="1.5" PointX="13.5" PointY="19.5" />
-        <AssociationConnector Association="DisplayMonkey.Model.FK_Youtube_Frame" />
         <EntityTypeShape EntityType="DisplayMonkey.Model.ExchangeAccount" Width="1.5" PointX="15.5" PointY="22.625" />
         <EntityTypeShape EntityType="DisplayMonkey.Model.Outlook" Width="1.5" PointX="13.5" PointY="22.625" />
         <AssociationConnector Association="DisplayMonkey.Model.FK_Outlook_ExchangeAccount" />
@@ -57,6 +52,12 @@
         <InheritanceConnector EntityType="DisplayMonkey.Model.Outlook" />
         <InheritanceConnector EntityType="DisplayMonkey.Model.Html" />
         <InheritanceConnector EntityType="DisplayMonkey.Model.Memo" />
+        <InheritanceConnector EntityType="DisplayMonkey.Model.Clock" />
+        <InheritanceConnector EntityType="DisplayMonkey.Model.Clock" />
+        <InheritanceConnector EntityType="DisplayMonkey.Model.Weather" />
+        <InheritanceConnector EntityType="DisplayMonkey.Model.Youtube" />
+        <InheritanceConnector EntityType="DisplayMonkey.Model.Report" />
+        <InheritanceConnector EntityType="DisplayMonkey.Model.Picture" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

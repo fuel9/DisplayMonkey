@@ -17,4 +17,5 @@
 <#@ parameter type="System.String" name="LayoutPageFile" #>
 <#@ parameter type="System.String" name="JQueryVersion" #>
 <#@ parameter type="Microsoft.AspNet.Scaffolding.Core.Metadata.ModelMetadata" name="ModelMetadata" #>
+@using DisplayMonkey.Models
 @using DisplayMonkey.Language

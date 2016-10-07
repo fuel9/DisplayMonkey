@@ -35,7 +35,7 @@ namespace DisplayMonkey.Controllers
         {
             this.SaveReferrer(true);
 
-            Weather weather = db.Weathers.Find(id);
+            Weather weather = db.Frames.Find(id) as Weather;
             if (weather == null)
             {
                 return View("Missing", new MissingItem(id));
@@ -55,12 +55,8 @@ namespace DisplayMonkey.Controllers
                 return RedirectToAction("Create", "Frame");
             }
 
-            Weather weather = new Weather()
-            {
-                Frame = frame,
-            };
+            Weather weather = new Weather(frame, db);
 
-            weather.init(db);
 
             this.FillTemplatesSelectList(db, FrameTypes.Weather);
             FillWeatherTypeSelectList();
@@ -73,21 +69,19 @@ namespace DisplayMonkey.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Weather weather, Frame frame)
+        public ActionResult Create(Weather weather)
         {
             if (ModelState.IsValid)
             {
-                weather.Frame = frame;
-                db.Weathers.Add(weather);
+                db.Frames.Add(weather);
                 db.SaveChanges();
 
                 return this.RestoreReferrer() ?? RedirectToAction("Index", "Frame");
             }
 
-            this.FillTemplatesSelectList(db, FrameTypes.Weather, weather.Frame.TemplateId);
+            this.FillTemplatesSelectList(db, FrameTypes.Weather, weather.TemplateId);
             FillWeatherTypeSelectList();
 
-            weather.Frame = frame;
 
             return View(weather);
         }
@@ -97,13 +91,13 @@ namespace DisplayMonkey.Controllers
 
         public ActionResult Edit(int id = 0)
         {
-            Weather weather = db.Weathers.Find(id);
+            Weather weather = db.Frames.Find(id) as Weather;
             if (weather == null)
             {
                 return View("Missing", new MissingItem(id));
             }
 
-            this.FillTemplatesSelectList(db, FrameTypes.Weather, weather.Frame.TemplateId);
+            this.FillTemplatesSelectList(db, FrameTypes.Weather, weather.TemplateId);
             FillWeatherTypeSelectList();
             
             return View(weather);
@@ -114,21 +108,19 @@ namespace DisplayMonkey.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Weather weather, Frame frame)
+        public ActionResult Edit(Weather weather)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(frame).State = EntityState.Modified;
                 db.Entry(weather).State = EntityState.Modified;
                 db.SaveChanges();
 
                 return this.RestoreReferrer() ?? RedirectToAction("Index", "Frame");
             }
 
-            this.FillTemplatesSelectList(db, FrameTypes.Weather, weather.Frame.TemplateId);
+            this.FillTemplatesSelectList(db, FrameTypes.Weather, weather.TemplateId);
             FillWeatherTypeSelectList();
 
-            weather.Frame = frame;
 
             return View(weather);
         }
@@ -138,7 +130,7 @@ namespace DisplayMonkey.Controllers
 
         public ActionResult Delete(int id = 0)
         {
-            Weather weather = db.Weathers.Find(id);
+            Weather weather = db.Frames.Find(id) as Weather;
             if (weather == null)
             {
                 return View("Missing", new MissingItem(id));
