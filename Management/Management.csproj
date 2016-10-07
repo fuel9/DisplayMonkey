@@ -198,6 +198,10 @@
     <Compile Include="HtmlExtensions.cs" />
     <Compile Include="Models\Annotations.cs" />
     <Compile Include="Models\Annotations\AzureAccount.cs" />
+    <Compile Include="Models\Annotations\Frame.cs" />
+    <Compile Include="Models\Annotations\Html.cs" />
+    <Compile Include="Models\Annotations\Memo.cs" />
+    <Compile Include="Models\Annotations\Outlook.cs" />
     <Compile Include="Models\Annotations\Powerbi.cs" />
     <Compile Include="Models\AzureAccount.cs">
       <DependentUpon>DMModel.tt</DependentUpon>

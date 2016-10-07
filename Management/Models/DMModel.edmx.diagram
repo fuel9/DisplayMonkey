@@ -29,8 +29,6 @@
         <AssociationConnector Association="DisplayMonkey.Model.FK_Picture_Content" ManuallyRouted="false" />
         <AssociationConnector Association="DisplayMonkey.Model.FK_Display_Location" ManuallyRouted="false" />
         <AssociationConnector Association="DisplayMonkey.Model.FK_Frame_Panel" ManuallyRouted="false" />
-        <AssociationConnector Association="DisplayMonkey.Model.FK_Memo_Frame" ManuallyRouted="false" />
-        <AssociationConnector Association="DisplayMonkey.Model.FK_News_Frame" ManuallyRouted="false" />
         <AssociationConnector Association="DisplayMonkey.Model.FK_Picture_Frame" ManuallyRouted="false" />
         <AssociationConnector Association="DisplayMonkey.Model.FK_Report_Frame" ManuallyRouted="false" />
         <AssociationConnector Association="DisplayMonkey.Model.FK_Video_Frame" ManuallyRouted="false" />
@@ -43,13 +41,11 @@
         <EntityTypeShape EntityType="DisplayMonkey.Model.ReportServer" Width="1.5" PointX="15.5" PointY="13.375" />
         <AssociationConnector Association="DisplayMonkey.Model.FK_Report_ReportServer" />
         <EntityTypeShape EntityType="DisplayMonkey.Model.Html" Width="1.5" PointX="13.5" PointY="17.5" />
-        <AssociationConnector Association="DisplayMonkey.Model.FK_Html_Frame" />
         <EntityTypeShape EntityType="DisplayMonkey.Model.Youtube" Width="1.5" PointX="13.5" PointY="19.5" />
         <AssociationConnector Association="DisplayMonkey.Model.FK_Youtube_Frame" />
         <EntityTypeShape EntityType="DisplayMonkey.Model.ExchangeAccount" Width="1.5" PointX="15.5" PointY="22.625" />
         <EntityTypeShape EntityType="DisplayMonkey.Model.Outlook" Width="1.5" PointX="13.5" PointY="22.625" />
         <AssociationConnector Association="DisplayMonkey.Model.FK_Outlook_ExchangeAccount" />
-        <AssociationConnector Association="DisplayMonkey.Model.FK_Outlook_Frame" />
         <EntityTypeShape EntityType="DisplayMonkey.Model.Template" Width="1.5" PointX="9" PointY="7.125" />
         <AssociationConnector Association="DisplayMonkey.Model.FK_Frame_Template" />
         <EntityTypeShape EntityType="DisplayMonkey.Model.Setting" Width="1.5" PointX="1.75" PointY="18.125" />
@@ -57,6 +53,10 @@
         <EntityTypeShape EntityType="DisplayMonkey.Model.Powerbi" Width="1.5" PointX="9" PointY="22.125" />
         <AssociationConnector Association="DisplayMonkey.Model.FK_Powerbi_AzureAccount" />
         <InheritanceConnector EntityType="DisplayMonkey.Model.Powerbi" />
+        <InheritanceConnector EntityType="DisplayMonkey.Model.News" />
+        <InheritanceConnector EntityType="DisplayMonkey.Model.Outlook" />
+        <InheritanceConnector EntityType="DisplayMonkey.Model.Html" />
+        <InheritanceConnector EntityType="DisplayMonkey.Model.Memo" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

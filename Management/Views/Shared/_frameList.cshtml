@@ -50,22 +50,26 @@
                     item.Clock.Type == ClockTypes.ClockType_Analog && item.Clock.ShowSeconds ? ", " + Resources.ShowSeconds : ""
                     ))
             }
-            else if (item.Html != null)
+            else if (item is Html)
             {
-                <text>Name: <span>@item.Html.Name</span></text>
+                Html i = item as Html;
+                <text>Name: <span>@i.Name</span></text>
             }
-            else if (item.News != null)
+            else if (item is News)
             {
-                @item.News.Source
+                News i = item as News;
+                @(i.Source)
             }
-            else if (item.Memo != null)
+            else if (item is Memo)
             {
-                <text>Subject: <span>@item.Memo.Subject</span></text>
-                <p>Body: <span>@item.Memo.ShortBody</span></p>
+                Memo i = item as Memo;
+                <text>Subject: <span>@i.Subject</span></text>
+                <p>Body: <span>@i.ShortBody</span></p>
             }
-            else if (item.Outlook != null)
+            else if (item is Outlook)
             {
-                <span>@item.Outlook.NameOrMailboxOrAccount</span>
+                Outlook i = item as Outlook;
+                <span>@i.NameOrMailboxOrAccount</span>
             }
             else if (item.Picture != null)
             {
@@ -74,7 +78,8 @@
             }
             else if (item is Powerbi)
             {
-                <span>@((item as Powerbi).Type.Translate())</span>@(": ")<span>@((item as Powerbi).Name)</span>
+                Powerbi i = item as Powerbi;
+                <span>@i.Type.Translate()</span>@(": ")<span>@i.Name</span>
             }
             else if (item.Report != null)
             {

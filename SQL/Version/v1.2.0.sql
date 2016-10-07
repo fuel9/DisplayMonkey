@@ -66,3 +66,75 @@ ALTER TABLE dbo.Outlook ADD
 ;
 
 GO
+
+CREATE TABLE [dbo].[AzureAccount](
+	[AccountId] [int] IDENTITY(1,1) NOT NULL
+		CONSTRAINT [PK_PowerbiAccount] PRIMARY KEY CLUSTERED ,
+	[Name] [nvarchar](100) NOT NULL,
+	[Resource] [int] NOT NULL 
+		CONSTRAINT [DF_AzureAccount_Application]  DEFAULT (0) ,
+	[ClientId] [varchar](36) NOT NULL,
+	[ClientSecret] [varchar](500) NOT NULL,
+	[TenantId] [varchar](100) NULL,
+	[User] [varchar](100) NOT NULL,
+	[Password] [varbinary](400) NULL,
+	[AccessToken] [varchar](2000) NULL,
+	[ExpiresOn] [datetime] NULL,
+	[RefreshToken] [varchar](1000) NULL,
+	[IdToken] [varchar](1000) NULL
+) ON [PRIMARY]
+;
+
+CREATE TABLE [dbo].[Powerbi](
+	[FrameId] [int] NOT NULL
+		CONSTRAINT [PK_Powerbi] PRIMARY KEY CLUSTERED ,
+	[AccountId] [int] NOT NULL,
+	[Type] [int] NULL,
+	[Name] [nvarchar](100) NULL,
+	[Dashboard] [uniqueidentifier] NULL,
+	[Tile] [uniqueidentifier] NULL,
+	[Report] [uniqueidentifier] NULL,
+	[Url] [varchar](200) NULL
+) ON [PRIMARY]
+;
+
+ALTER TABLE [dbo].[Powerbi] ADD CONSTRAINT [FK_Powerbi_AzureAccount] FOREIGN KEY([AccountId])
+	REFERENCES [dbo].[AzureAccount] ([AccountId])
+	ON UPDATE CASCADE
+	ON DELETE CASCADE
+;
+
+ALTER TABLE [dbo].[Powerbi] ADD CONSTRAINT [FK_Powerbi_Frame] FOREIGN KEY([FrameId])
+	REFERENCES [dbo].[Frame] ([FrameId])
+	ON UPDATE CASCADE
+	ON DELETE CASCADE
+;
+
+GO
+
+ALTER TABLE dbo.News DROP CONSTRAINT FK_News_Frame
+;
+ALTER TABLE dbo.News ADD CONSTRAINT FK_News_Frame FOREIGN KEY (FrameId)
+	REFERENCES dbo.Frame (FrameId)
+	ON UPDATE  CASCADE 
+	ON DELETE  CASCADE 
+;
+
+IF  EXISTS (SELECT * FROM sys.triggers WHERE object_id = OBJECT_ID(N'[dbo].[tr_News_Delete]'))
+	DROP TRIGGER [dbo].[tr_News_Delete]
+;
+
+IF  EXISTS (SELECT * FROM sys.triggers WHERE object_id = OBJECT_ID(N'[dbo].[tr_Outlook_Delete]'))
+	DROP TRIGGER [dbo].[tr_Outlook_Delete]
+;
+
+IF  EXISTS (SELECT * FROM sys.triggers WHERE object_id = OBJECT_ID(N'[dbo].[tr_Html_Delete]'))
+	DROP TRIGGER [dbo].[tr_Html_Delete]
+;
+
+IF  EXISTS (SELECT * FROM sys.triggers WHERE object_id = OBJECT_ID(N'[dbo].[tr_Memo_Delete]'))
+	DROP TRIGGER [dbo].[tr_Memo_Delete]
+;
+
+GO
+

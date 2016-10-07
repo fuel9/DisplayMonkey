@@ -839,8 +839,6 @@
           <EntitySet Name="FullScreens" EntityType="DisplayMonkey.Model.FullScreen" />
           <EntitySet Name="Levels" EntityType="DisplayMonkey.Model.Level" />
           <EntitySet Name="Locations" EntityType="DisplayMonkey.Model.Location" />
-          <EntitySet Name="Memos" EntityType="DisplayMonkey.Model.Memo" />
-          <EntitySet Name="News" EntityType="DisplayMonkey.Model.News" />
           <EntitySet Name="Panels" EntityType="DisplayMonkey.Model.Panel" />
           <EntitySet Name="Pictures" EntityType="DisplayMonkey.Model.Picture" />
           <EntitySet Name="Reports" EntityType="DisplayMonkey.Model.Report" />
@@ -877,14 +875,6 @@
           <AssociationSet Name="FK_Frame_Panel" Association="DisplayMonkey.Model.FK_Frame_Panel">
             <End Role="Panel" EntitySet="Panels" />
             <End Role="Frame" EntitySet="Frames" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Memo_Frame" Association="DisplayMonkey.Model.FK_Memo_Frame">
-            <End Role="Frame" EntitySet="Frames" />
-            <End Role="Memo" EntitySet="Memos" />
-          </AssociationSet>
-          <AssociationSet Name="FK_News_Frame" Association="DisplayMonkey.Model.FK_News_Frame">
-            <End Role="Frame" EntitySet="Frames" />
-            <End Role="News" EntitySet="News" />
           </AssociationSet>
           <AssociationSet Name="FK_Picture_Frame" Association="DisplayMonkey.Model.FK_Picture_Frame">
             <End Role="Frame" EntitySet="Frames" />
@@ -927,25 +917,15 @@
             <End Role="ReportServer" EntitySet="ReportServers" />
             <End Role="Report" EntitySet="Reports" />
           </AssociationSet>
-          <EntitySet Name="Html" EntityType="DisplayMonkey.Model.Html" />
-          <AssociationSet Name="FK_Html_Frame" Association="DisplayMonkey.Model.FK_Html_Frame">
-            <End Role="Frame" EntitySet="Frames" />
-            <End Role="Html" EntitySet="Html" />
-          </AssociationSet>
           <EntitySet Name="Youtube" EntityType="DisplayMonkey.Model.Youtube" />
           <AssociationSet Name="FK_Youtube_Frame" Association="DisplayMonkey.Model.FK_Youtube_Frame">
             <End Role="Frame" EntitySet="Frames" />
             <End Role="Youtube" EntitySet="Youtube" />
           </AssociationSet>
           <EntitySet Name="ExchangeAccounts" EntityType="DisplayMonkey.Model.ExchangeAccount" />
-          <EntitySet Name="Outlooks" EntityType="DisplayMonkey.Model.Outlook" />
           <AssociationSet Name="FK_Outlook_ExchangeAccount" Association="DisplayMonkey.Model.FK_Outlook_ExchangeAccount">
             <End Role="ExchangeAccount" EntitySet="ExchangeAccounts" />
-            <End Role="Outlook" EntitySet="Outlooks" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Outlook_Frame" Association="DisplayMonkey.Model.FK_Outlook_Frame">
-            <End Role="Frame" EntitySet="Frames" />
-            <End Role="Outlook" EntitySet="Outlooks" />
+            <End Role="Outlook" EntitySet="Frames" />
           </AssociationSet>
           <EntitySet Name="Templates" EntityType="DisplayMonkey.Model.Template" />
           <AssociationSet Name="FK_Frame_Template" Association="DisplayMonkey.Model.FK_Frame_Template">
@@ -1029,8 +1009,6 @@
           <Property Name="Duration" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Clock" Relationship="DisplayMonkey.Model.FK_Clock_Frame" FromRole="Frame" ToRole="Clock" />
           <NavigationProperty Name="Panel" Relationship="DisplayMonkey.Model.FK_Frame_Panel" FromRole="Frame" ToRole="Panel" />
-          <NavigationProperty Name="Memo" Relationship="DisplayMonkey.Model.FK_Memo_Frame" FromRole="Frame" ToRole="Memo" />
-          <NavigationProperty Name="News" Relationship="DisplayMonkey.Model.FK_News_Frame" FromRole="Frame" ToRole="News" />
           <NavigationProperty Name="Picture" Relationship="DisplayMonkey.Model.FK_Picture_Frame" FromRole="Frame" ToRole="Picture" />
           <NavigationProperty Name="Report" Relationship="DisplayMonkey.Model.FK_Report_Frame" FromRole="Frame" ToRole="Report" />
           <NavigationProperty Name="Video" Relationship="DisplayMonkey.Model.FK_Video_Frame" FromRole="Frame" ToRole="Video" />
@@ -1040,9 +1018,7 @@
           <Property Type="DateTime" Name="EndsOn" Precision="3" />
           <Property Type="Int32" Name="Sort" />
           <Property Type="DateTime" Name="DateCreated" Nullable="false" Precision="3" annotation:StoreGeneratedPattern="Computed" a:SetterAccess="Protected" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
-          <NavigationProperty Name="Html" Relationship="DisplayMonkey.Model.FK_Html_Frame" FromRole="Frame" ToRole="Html" />
           <NavigationProperty Name="Youtube" Relationship="DisplayMonkey.Model.FK_Youtube_Frame" FromRole="Frame" ToRole="Youtube" />
-          <NavigationProperty Name="Outlook" Relationship="DisplayMonkey.Model.FK_Outlook_Frame" FromRole="Frame" ToRole="Outlook" />
           <Property Type="Binary" Name="Version" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" a:SetterAccess="Protected" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
           <Property Type="Int32" Name="TemplateId" Nullable="false" />
           <Property Type="Int32" Name="CacheInterval" Nullable="false" />
@@ -1089,22 +1065,12 @@
           <Property Type="String" Name="Culture" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Type="String" Name="TimeZone" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
-        <EntityType Name="Memo">
-          <Key>
-            <PropertyRef Name="FrameId" />
-          </Key>
-          <Property Name="FrameId" Type="Int32" Nullable="false" />
+        <EntityType Name="Memo" BaseType="DisplayMonkey.Model.Frame">
           <Property Name="Subject" Type="String" MaxLength="200" Unicode="true" FixedLength="false" />
           <Property Name="Body" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
-          <NavigationProperty Name="Frame" Relationship="DisplayMonkey.Model.FK_Memo_Frame" FromRole="Memo" ToRole="Frame" />
         </EntityType>
-        <EntityType Name="News">
-          <Key>
-            <PropertyRef Name="FrameId" />
-          </Key>
-          <Property Name="FrameId" Type="Int32" Nullable="false" />
+        <EntityType Name="News" BaseType="DisplayMonkey.Model.Frame">
           <Property Name="Source" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Frame" Relationship="DisplayMonkey.Model.FK_News_Frame" FromRole="News" ToRole="Frame" />
         </EntityType>
         <EntityType Name="Panel">
           <Key>
@@ -1267,34 +1233,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Memo_Frame">
-          <End Role="Frame" Type="DisplayMonkey.Model.Frame" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="Memo" Type="DisplayMonkey.Model.Memo" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="Frame">
-              <PropertyRef Name="FrameId" />
-            </Principal>
-            <Dependent Role="Memo">
-              <PropertyRef Name="FrameId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_News_Frame">
-          <End Role="Frame" Type="DisplayMonkey.Model.Frame" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="News" Type="DisplayMonkey.Model.News" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="Frame">
-              <PropertyRef Name="FrameId" />
-            </Principal>
-            <Dependent Role="News">
-              <PropertyRef Name="FrameId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Picture_Frame">
           <End Role="Frame" Type="DisplayMonkey.Model.Frame" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -1448,29 +1386,10 @@
           <Member Name="SettingType_Int" Value="3" />
           <Member Name="SettingType_Decimal" Value="4" />
         </EnumType>
-        <EntityType Name="Html">
-          <Key>
-            <PropertyRef Name="FrameId" />
-          </Key>
-          <Property Type="Int32" Name="FrameId" Nullable="false" />
+        <EntityType Name="Html" BaseType="DisplayMonkey.Model.Frame">
           <Property Type="String" Name="Name" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Content" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Frame" Relationship="DisplayMonkey.Model.FK_Html_Frame" FromRole="Html" ToRole="Frame" />
         </EntityType>
-        <Association Name="FK_Html_Frame">
-          <End Type="DisplayMonkey.Model.Frame" Role="Frame" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="DisplayMonkey.Model.Html" Role="Html" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="Frame">
-              <PropertyRef Name="FrameId" />
-            </Principal>
-            <Dependent Role="Html">
-              <PropertyRef Name="FrameId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="Youtube">
           <Key>
             <PropertyRef Name="FrameId" />
@@ -1544,18 +1463,13 @@
           <Property Type="String" Name="Url" MaxLength="250" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Outlooks" Relationship="DisplayMonkey.Model.FK_Outlook_ExchangeAccount" FromRole="ExchangeAccount" ToRole="Outlook" />
         </EntityType>
-        <EntityType Name="Outlook">
-          <Key>
-            <PropertyRef Name="FrameId" />
-          </Key>
-          <Property Type="Int32" Name="FrameId" Nullable="false" />
+        <EntityType Name="Outlook" BaseType="DisplayMonkey.Model.Frame">
           <Property Type="DisplayMonkey.Model.OutlookModes" Name="Mode" Nullable="false" />
           <Property Type="String" Name="Name" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Mailbox" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Type="Int32" Name="ShowEvents" Nullable="false" />
           <Property Type="Int32" Name="AccountId" Nullable="false" />
           <NavigationProperty Name="ExchangeAccount" Relationship="DisplayMonkey.Model.FK_Outlook_ExchangeAccount" FromRole="Outlook" ToRole="ExchangeAccount" />
-          <NavigationProperty Name="Frame" Relationship="DisplayMonkey.Model.FK_Outlook_Frame" FromRole="Outlook" ToRole="Frame" />
           <Property Type="DisplayMonkey.Model.OutlookPrivacy" Name="Privacy" Nullable="false" />
           <Property Name="AllowReserve" Type="Boolean" Nullable="false" />
           <Property Name="ShowAsFlags" Type="Int32" Nullable="false" />
@@ -1571,20 +1485,6 @@
             </Principal>
             <Dependent Role="Outlook">
               <PropertyRef Name="AccountId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Outlook_Frame">
-          <End Type="DisplayMonkey.Model.Frame" Role="Frame" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="DisplayMonkey.Model.Outlook" Role="Outlook" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="Frame">
-              <PropertyRef Name="FrameId" />
-            </Principal>
-            <Dependent Role="Outlook">
-              <PropertyRef Name="FrameId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1764,6 +1664,39 @@
                 <ScalarProperty Name="Url" ColumnName="Url" />
               </MappingFragment>
             </EntityTypeMapping>
+            <EntityTypeMapping TypeName="IsTypeOf(DisplayMonkey.Model.News)">
+              <MappingFragment StoreEntitySet="News">
+                <ScalarProperty Name="Source" ColumnName="Source" />
+                <ScalarProperty Name="FrameId" ColumnName="FrameId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="IsTypeOf(DisplayMonkey.Model.Outlook)">
+              <MappingFragment StoreEntitySet="Outlook">
+                <ScalarProperty Name="FrameId" ColumnName="FrameId" />
+                <ScalarProperty Name="Mode" ColumnName="Mode" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Mailbox" ColumnName="Mailbox" />
+                <ScalarProperty Name="ShowEvents" ColumnName="ShowEvents" />
+                <ScalarProperty Name="AccountId" ColumnName="AccountId" />
+                <ScalarProperty Name="Privacy" ColumnName="Privacy" />
+                <ScalarProperty Name="AllowReserve" ColumnName="AllowReserve" />
+                <ScalarProperty Name="ShowAsFlags" ColumnName="ShowAsFlags" />
+              </MappingFragment>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="IsTypeOf(DisplayMonkey.Model.Html)">
+              <MappingFragment StoreEntitySet="Html">
+                <ScalarProperty Name="FrameId" ColumnName="FrameId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Content" ColumnName="Content" />
+              </MappingFragment>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="IsTypeOf(DisplayMonkey.Model.Memo)">
+              <MappingFragment StoreEntitySet="Memo">
+                <ScalarProperty Name="Body" ColumnName="Body" />
+                <ScalarProperty Name="Subject" ColumnName="Subject" />
+                <ScalarProperty Name="FrameId" ColumnName="FrameId" />
+              </MappingFragment>
+            </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="FullScreens">
             <EntityTypeMapping TypeName="DisplayMonkey.Model.FullScreen">
@@ -1798,23 +1731,6 @@
                 <ScalarProperty Name="Longitude" ColumnName="Longitude" />
                 <ScalarProperty Name="DateFormat" ColumnName="DateFormat" />
                 <ScalarProperty Name="TimeFormat" ColumnName="TimeFormat" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Memos">
-            <EntityTypeMapping TypeName="DisplayMonkey.Model.Memo">
-              <MappingFragment StoreEntitySet="Memo">
-                <ScalarProperty Name="FrameId" ColumnName="FrameId" />
-                <ScalarProperty Name="Subject" ColumnName="Subject" />
-                <ScalarProperty Name="Body" ColumnName="Body" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="News">
-            <EntityTypeMapping TypeName="DisplayMonkey.Model.News">
-              <MappingFragment StoreEntitySet="News">
-                <ScalarProperty Name="FrameId" ColumnName="FrameId" />
-                <ScalarProperty Name="Source" ColumnName="Source" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1898,15 +1814,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Html">
-            <EntityTypeMapping TypeName="DisplayMonkey.Model.Html">
-              <MappingFragment StoreEntitySet="Html">
-                <ScalarProperty Name="Content" ColumnName="Content" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="FrameId" ColumnName="FrameId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Youtube">
             <EntityTypeMapping TypeName="DisplayMonkey.Model.Youtube">
               <MappingFragment StoreEntitySet="Youtube">
@@ -1931,21 +1838,6 @@
                 <ScalarProperty Name="Account" ColumnName="Account" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="AccountId" ColumnName="AccountId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Outlooks">
-            <EntityTypeMapping TypeName="DisplayMonkey.Model.Outlook">
-              <MappingFragment StoreEntitySet="Outlook">
-                <ScalarProperty Name="ShowAsFlags" ColumnName="ShowAsFlags" />
-                <ScalarProperty Name="AllowReserve" ColumnName="AllowReserve" />
-                <ScalarProperty Name="Privacy" ColumnName="Privacy" />
-                <ScalarProperty Name="AccountId" ColumnName="AccountId" />
-                <ScalarProperty Name="ShowEvents" ColumnName="ShowEvents" />
-                <ScalarProperty Name="Mailbox" ColumnName="Mailbox" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Mode" ColumnName="Mode" />
-                <ScalarProperty Name="FrameId" ColumnName="FrameId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

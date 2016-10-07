@@ -1,8 +1,9 @@
-﻿@using DisplayMonkey.Language
+﻿@using DisplayMonkey.Models
+@using DisplayMonkey.Language
 
 @model DisplayMonkey.Models.Memo
 
-    @Html.Partial("_frameDetails", Model.Frame)
+    @Html.Partial("_frameDetails", Model as Frame)
 
     <fieldset>
         <legend>@Resources.Memo</legend>

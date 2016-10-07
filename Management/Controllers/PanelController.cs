@@ -229,10 +229,9 @@ namespace DisplayMonkey.Controllers
             var list = db.Frames
                 .Where(f => f.PanelId == id)
                 .Include(f => f.Panel.Canvas)
-                .Include(f => f.News)
                 .Include(f => f.Clock)
                 .Include(f => f.Weather)
-                .Include(f => f.Memo)
+                //.Include(f => f.Memo)
                 .Include(f => f.Report)
                 .Include(f => f.Picture)
                 .Include(f => f.Video)

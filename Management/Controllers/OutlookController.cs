@@ -32,7 +32,7 @@ namespace DisplayMonkey.Controllers
         {
             this.SaveReferrer(true);
             
-            Outlook outlook = db.Outlooks.Find(id);
+            Outlook outlook = db.Frames.Find(id) as Outlook;
             if (outlook == null)
             {
                 return View("Missing", new MissingItem(id));
@@ -50,12 +50,7 @@ namespace DisplayMonkey.Controllers
                 return RedirectToAction("Create", "Frame");
             }
 
-            Outlook outlook = new Outlook()
-            {
-                Frame = frame,
-            };
-
-            outlook.init(db);
+            Outlook outlook = new Outlook(frame, db);
 
             this.FillTemplatesSelectList(db, FrameTypes.Outlook);
             FillModesSelectList();
@@ -70,7 +65,7 @@ namespace DisplayMonkey.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Outlook outlook, Frame frame)
+        public ActionResult Create(Outlook outlook)
         {
             if (!string.IsNullOrWhiteSpace(outlook.Mailbox))
             {
@@ -80,19 +75,17 @@ namespace DisplayMonkey.Controllers
 
             if (ModelState.IsValid)
             {
-                outlook.Frame = frame;
-                db.Outlooks.Add(outlook);
+                db.Frames.Add(outlook);
                 db.SaveChanges();
 
                 return this.RestoreReferrer() ?? RedirectToAction("Index", "Frame");
             }
 
-            this.FillTemplatesSelectList(db, FrameTypes.Outlook, outlook.Frame.TemplateId);
+            this.FillTemplatesSelectList(db, FrameTypes.Outlook, outlook.TemplateId);
             FillModesSelectList(outlook.Mode);
             FillAccountsSelectList(outlook.AccountId);
             FillPrivacySelectList(outlook.Privacy);
 
-            outlook.Frame = frame;
             
             return View(outlook);
         }
@@ -100,13 +93,13 @@ namespace DisplayMonkey.Controllers
         // GET: /Outlook/Edit/5
         public ActionResult Edit(int id = 0)
         {
-            Outlook outlook = db.Outlooks.Find(id);
+            Outlook outlook = db.Frames.Find(id) as Outlook;
             if (outlook == null)
             {
                 return View("Missing", new MissingItem(id));
             }
 
-            this.FillTemplatesSelectList(db, FrameTypes.Outlook, outlook.Frame.TemplateId);
+            this.FillTemplatesSelectList(db, FrameTypes.Outlook, outlook.TemplateId);
             FillModesSelectList(outlook.Mode);
             FillAccountsSelectList(outlook.AccountId);
             FillPrivacySelectList(outlook.Privacy);
@@ -119,7 +112,7 @@ namespace DisplayMonkey.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Outlook outlook, Frame frame)
+        public ActionResult Edit(Outlook outlook)
         {
             if (!string.IsNullOrWhiteSpace(outlook.Mailbox))
             {
@@ -129,19 +122,17 @@ namespace DisplayMonkey.Controllers
 
             if (ModelState.IsValid)
             {
-                db.Entry(frame).State = EntityState.Modified;
                 db.Entry(outlook).State = EntityState.Modified;
                 db.SaveChanges();
 
                 return this.RestoreReferrer() ?? RedirectToAction("Index", "Frame");
             }
 
-            this.FillTemplatesSelectList(db, FrameTypes.Outlook, outlook.Frame.TemplateId);
+            this.FillTemplatesSelectList(db, FrameTypes.Outlook, outlook.TemplateId);
             FillModesSelectList(outlook.Mode);
             FillAccountsSelectList(outlook.AccountId);
             FillPrivacySelectList(outlook.Privacy);
 
-            outlook.Frame = frame;
             
             return View(outlook);
         }
@@ -149,7 +140,7 @@ namespace DisplayMonkey.Controllers
         // GET: /Outlook/Delete/5
         public ActionResult Delete(int id = 0)
         {
-            Outlook outlook = db.Outlooks.Find(id);
+            Outlook outlook = db.Frames.Find(id) as Outlook;
             if (outlook == null)
             {
                 return View("Missing", new MissingItem(id));

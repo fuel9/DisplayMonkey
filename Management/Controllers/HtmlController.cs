@@ -29,7 +29,7 @@ namespace DisplayMonkey.Controllers
         {
             this.SaveReferrer(true);
 
-            Html html = db.Html.Find(id);
+            Html html = db.Frames.Find(id) as Html;
             if (html == null)
             {
                 return View("Missing", new MissingItem(id));
@@ -47,12 +47,12 @@ namespace DisplayMonkey.Controllers
                 return RedirectToAction("Create", "Frame");
             }
 
-            Html html = new Html()
+            Html html = new Html(frame, db)
             {
-                Frame = frame,
+                Panel = db.Panels
+                    .Include(p => p.Canvas)
+                    .FirstOrDefault(p => p.PanelId == frame.PanelId),
             };
-
-            html.init(db);
 
             this.FillTemplatesSelectList(db, FrameTypes.Html);
             
@@ -65,20 +65,22 @@ namespace DisplayMonkey.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ValidateInput(false)]
-        public ActionResult Create([Bind(Include = "FrameId,Name,Content")] Html html, Frame frame)
+        public ActionResult Create(Html html)
         {
             if (ModelState.IsValid)
             {
-                html.Frame = frame;
-                db.Html.Add(html);
+                db.Frames.Add(html);
                 db.SaveChanges();
 
                 return this.RestoreReferrer() ?? RedirectToAction("Index", "Frame");
             }
 
-            html.Frame = frame;
+            html.Panel = db.Panels
+                .Include(p => p.Canvas)
+                .FirstOrDefault(p => p.PanelId == html.PanelId)
+                ;
 
-            this.FillTemplatesSelectList(db, FrameTypes.Html, frame.TemplateId);
+            this.FillTemplatesSelectList(db, FrameTypes.Html, html.TemplateId);
             
             return View(html);
         }
@@ -86,13 +88,13 @@ namespace DisplayMonkey.Controllers
         // GET: /Html/Edit/5
         public ActionResult Edit(int id = 0)
         {
-            Html html = db.Html.Find(id);
+            Html html = db.Frames.Find(id) as Html;
             if (html == null)
             {
                 return View("Missing", new MissingItem(id));
             }
 
-            this.FillTemplatesSelectList(db, FrameTypes.Html, html.Frame.TemplateId);
+            this.FillTemplatesSelectList(db, FrameTypes.Html, html.TemplateId);
 
             return View(html);
         }
@@ -103,20 +105,18 @@ namespace DisplayMonkey.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ValidateInput(false)]
-        public ActionResult Edit([Bind(Include="FrameId,Name,Content")] Html html, Frame frame)
+        public ActionResult Edit(Html html)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(frame).State = EntityState.Modified;
                 db.Entry(html).State = EntityState.Modified;
                 db.SaveChanges();
 
                 return this.RestoreReferrer() ?? RedirectToAction("Index", "Frame");
             }
 
-            html.Frame = frame;
 
-            this.FillTemplatesSelectList(db, FrameTypes.Html, html.Frame.TemplateId);
+            this.FillTemplatesSelectList(db, FrameTypes.Html, html.TemplateId);
             
             return View(html);
         }
@@ -124,7 +124,7 @@ namespace DisplayMonkey.Controllers
         // GET: /Html/Delete/5
         public ActionResult Delete(int id = 0)
         {
-            Html html = db.Html.Find(id);
+            Html html = db.Frames.Find(id) as Html;
             if (html == null)
             {
                 return View("Missing", new MissingItem(id));
@@ -140,7 +140,7 @@ namespace DisplayMonkey.Controllers
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult Preview(int id)
         {
-            Html html = db.Html.Find(id);
+            Html html = db.Frames.Find(id) as Html;
             if (html == null)
             {
                 return HttpNotFound();

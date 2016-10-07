@@ -1595,4 +1595,7 @@
   <data name="PowerbiTile" xml:space="preserve">
     <value>Tile</value>
   </data>
+  <data name="Settings_DefaultTemplatePowerbi" xml:space="preserve">
+    <value>Default template for new Power BI frames</value>
+  </data>
 </root>

@@ -20,7 +20,7 @@ namespace DisplayMonkey.Models
         }
 
         public Powerbi() : base() { }
-        
+
         internal class Annotations
         {
             [
