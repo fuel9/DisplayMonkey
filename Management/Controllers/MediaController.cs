@@ -80,7 +80,6 @@ namespace DisplayMonkey.Controllers
             if (content.Type == ContentTypes.ContentType_Video)
             {
                 ViewBag.FrameList = content.Videos
-                    .Select(f => f.Frame)
                     .OrderBy(f => f.FrameId)
                     .AsEnumerable()
                     ;
@@ -89,7 +88,6 @@ namespace DisplayMonkey.Controllers
             else
             {
                 ViewBag.FrameList = content.Pictures
-                    //.Select(f => f.Frame)
                     .OrderBy(f => f.FrameId)
                     .AsEnumerable()
                     ;

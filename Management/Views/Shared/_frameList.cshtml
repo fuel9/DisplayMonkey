@@ -89,9 +89,10 @@
                 <img class="thumb1" src="@Url.Action("Thumb", "Report", new { id = item.FrameId, width = 50, height = 50, mode = (int)RenderModes.RenderMode_Stretch })" alt="" />
                 <span>@i.Name</span>
             }
-            else if (item.Video != null)
+            else if (item is Video)
             {
-                <span>@(string.Format(Resources.VideoAlternatives, item.Video.Contents.Count()))</span>
+                Video i = item as Video;
+                <span>@(string.Format(Resources.VideoAlternatives, i.Contents.Count()))</span>
             }
             else if (item is Weather)
             {

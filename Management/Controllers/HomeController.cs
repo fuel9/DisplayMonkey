@@ -62,8 +62,8 @@ namespace DisplayMonkey.Controllers
             ViewBag.Count_Reports = db.Frames.OfType<Report>().Count();
             ViewBag.Count_Reports_7 = db.Frames.OfType<Report>().Count(t => t.DateCreated >= sevenDaysAgo);
 
-            ViewBag.Count_Videos = db.Videos.Count();
-            ViewBag.Count_Videos_7 = db.Videos.Count(t => t.Frame.DateCreated >= sevenDaysAgo);
+            ViewBag.Count_Videos = db.Frames.OfType<Video>().Count();
+            ViewBag.Count_Videos_7 = db.Frames.OfType<Video>().Count(t => t.DateCreated >= sevenDaysAgo);
 
             ViewBag.Count_Youtube = db.Frames.OfType<Youtube>().Count();
             ViewBag.Count_Youtube_7 = db.Frames.OfType<Youtube>().Count(t => t.DateCreated >= sevenDaysAgo);
@@ -90,7 +90,7 @@ namespace DisplayMonkey.Controllers
                         f is Picture ? (f as Picture).Content.Name :
                         f is Powerbi ? (f as Powerbi).Name :
                         f is Report ? (f as Report).Name :
-                        f.Video != null ? f.Video.Contents.FirstOrDefault().Name :
+                        f is Video ? (f as Video).Contents.FirstOrDefault().Name :
                         f is Weather ? DisplayMonkey.Language.Resources.Weather :
                         f is Youtube ? (f as Youtube).Name :
                         DisplayMonkey.Language.Resources.Unknown

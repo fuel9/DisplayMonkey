@@ -15,37 +15,6 @@ using System.Web;
 
 namespace DisplayMonkey.Models
 {
-    public partial class Video
-    {
-        public void init(DisplayMonkeyEntities _db)
-        {
-            if (Frame != null)
-            {
-                Setting defCacheInt = Setting.GetSetting(_db, Setting.Keys.DefaultCacheIntervalVideo);
-                if (defCacheInt != null)
-                {
-                    Frame.CacheInterval = defCacheInt.IntValuePositive;
-                }
-
-                Setting defTemplate = Setting.GetSetting(_db, Setting.Keys.DefaultTemplateVideo);
-                if (defTemplate != null)
-                {
-                    string templateName = defTemplate.StringValue;
-                    Frame.TemplateId = _db.Templates
-                        .Where(t => t.Name == templateName && t.FrameType == FrameTypes.Video)
-                        .FirstOrDefault()
-                        .TemplateId
-                        ;
-                }
-            }
-
-            PlayMuted = true;
-            AutoLoop = true;
-        }
-    }
-
-
-
     public partial class Panel
     {
         public void init(DisplayMonkeyEntities _db)

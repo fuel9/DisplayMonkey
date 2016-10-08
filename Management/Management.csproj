@@ -206,6 +206,7 @@
     <Compile Include="Models\Annotations\Picture.cs" />
     <Compile Include="Models\Annotations\Powerbi.cs" />
     <Compile Include="Models\Annotations\Report.cs" />
+    <Compile Include="Models\Annotations\Video.cs" />
     <Compile Include="Models\Annotations\Weather.cs" />
     <Compile Include="Models\Annotations\YouTube.cs" />
     <Compile Include="Models\AzureAccount.cs">

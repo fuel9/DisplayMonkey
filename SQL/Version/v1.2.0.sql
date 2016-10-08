@@ -57,16 +57,17 @@ update Template set html='
 where FrameType=4 and Name='default'
 ;
 
-ALTER TABLE dbo.Outlook ADD
-	AllowReserve bit NOT NULL CONSTRAINT DF_Outlook_AllowReserve DEFAULT 0
+if OBJECT_ID('DF_Outlook_AllowReserve','D') is null
+	ALTER TABLE dbo.Outlook ADD AllowReserve bit NOT NULL CONSTRAINT DF_Outlook_AllowReserve DEFAULT 0
 ;
 
-ALTER TABLE dbo.Outlook ADD
-	ShowAsFlags int NOT NULL CONSTRAINT DF_Outlook_ShowAsFlags DEFAULT -1
+if OBJECT_ID('DF_Outlook_ShowAsFlags','D') is null
+	ALTER TABLE dbo.Outlook ADD ShowAsFlags int NOT NULL CONSTRAINT DF_Outlook_ShowAsFlags DEFAULT -1
 ;
 
 GO
 
+if OBJECT_ID('AzureAccount','U') is null
 CREATE TABLE [dbo].[AzureAccount](
 	[AccountId] [int] IDENTITY(1,1) NOT NULL
 		CONSTRAINT [PK_PowerbiAccount] PRIMARY KEY CLUSTERED ,
@@ -85,6 +86,7 @@ CREATE TABLE [dbo].[AzureAccount](
 ) ON [PRIMARY]
 ;
 
+if OBJECT_ID('Powerbi','U') is null
 CREATE TABLE [dbo].[Powerbi](
 	[FrameId] [int] NOT NULL
 		CONSTRAINT [PK_Powerbi] PRIMARY KEY CLUSTERED ,
@@ -120,40 +122,44 @@ ALTER TABLE dbo.News ADD CONSTRAINT FK_News_Frame FOREIGN KEY (FrameId)
 	ON DELETE  CASCADE 
 ;
 
-IF  EXISTS (SELECT * FROM sys.triggers WHERE object_id = OBJECT_ID(N'[dbo].[tr_News_Delete]'))
+IF  not OBJECT_ID('tr_News_Delete','TR') is null
 	DROP TRIGGER [dbo].[tr_News_Delete]
 ;
 
-IF  EXISTS (SELECT * FROM sys.triggers WHERE object_id = OBJECT_ID(N'[dbo].[tr_Outlook_Delete]'))
+IF  not OBJECT_ID('tr_Outlook_Delete','TR') is null
 	DROP TRIGGER [dbo].[tr_Outlook_Delete]
 ;
 
-IF  EXISTS (SELECT * FROM sys.triggers WHERE object_id = OBJECT_ID(N'[dbo].[tr_Html_Delete]'))
+IF  not OBJECT_ID('tr_Html_Delete','TR') is null
 	DROP TRIGGER [dbo].[tr_Html_Delete]
 ;
 
-IF  EXISTS (SELECT * FROM sys.triggers WHERE object_id = OBJECT_ID(N'[dbo].[tr_Memo_Delete]'))
+IF  not OBJECT_ID('tr_Memo_Delete','TR') is null
 	DROP TRIGGER [dbo].[tr_Memo_Delete]
 ;
 
-IF  EXISTS (SELECT * FROM sys.triggers WHERE object_id = OBJECT_ID(N'[dbo].[tr_Clock_Delete]'))
+IF  not OBJECT_ID('tr_Clock_Delete','TR') is null
 	DROP TRIGGER [dbo].[tr_Clock_Delete]
 ;
 
-IF  EXISTS (SELECT * FROM sys.triggers WHERE object_id = OBJECT_ID(N'[dbo].[tr_Weather_Delete]'))
+IF  not OBJECT_ID('tr_Weather_Delete','TR') is null
 	DROP TRIGGER [dbo].[tr_Weather_Delete]
 ;
 
-IF  EXISTS (SELECT * FROM sys.triggers WHERE object_id = OBJECT_ID(N'[dbo].[tr_Youtube_Delete]'))
+IF  not OBJECT_ID('tr_Youtube_Delete','TR') is null
 	DROP TRIGGER [dbo].[tr_Youtube_Delete]
 ;
 
-IF  EXISTS (SELECT * FROM sys.triggers WHERE object_id = OBJECT_ID(N'[dbo].[tr_Report_Delete]'))
+IF  not OBJECT_ID('tr_Report_Delete','TR') is null
 	DROP TRIGGER [dbo].[tr_Report_Delete]
 ;
 
-IF  EXISTS (SELECT * FROM sys.triggers WHERE object_id = OBJECT_ID(N'[dbo].[tr_Picture_Delete]'))
+IF  not OBJECT_ID('tr_Picture_Delete','TR') is null
 	DROP TRIGGER [dbo].[tr_Picture_Delete]
+;
+
+IF  not OBJECT_ID('tr_Video_Delete','TR') is null
+	DROP TRIGGER [dbo].[tr_Video_Delete]
 ;
 
 GO

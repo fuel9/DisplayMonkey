@@ -841,7 +841,6 @@
           <EntitySet Name="Levels" EntityType="DisplayMonkey.Model.Level" />
           <EntitySet Name="Locations" EntityType="DisplayMonkey.Model.Location" />
           <EntitySet Name="Panels" EntityType="DisplayMonkey.Model.Panel" />
-          <EntitySet Name="Videos" EntityType="DisplayMonkey.Model.Video" />
           <AssociationSet Name="FK_Canvas_Content" Association="DisplayMonkey.Model.FK_Canvas_Content">
             <End Role="Content" EntitySet="Contents" />
             <End Role="Canvas" EntitySet="Canvases" />
@@ -870,10 +869,6 @@
             <End Role="Panel" EntitySet="Panels" />
             <End Role="Frame" EntitySet="Frames" />
           </AssociationSet>
-          <AssociationSet Name="FK_Video_Frame" Association="DisplayMonkey.Model.FK_Video_Frame">
-            <End Role="Frame" EntitySet="Frames" />
-            <End Role="Video" EntitySet="Videos" />
-          </AssociationSet>
           <AssociationSet Name="FK_FullScreen_Panel" Association="DisplayMonkey.Model.FK_FullScreen_Panel">
             <End Role="Panel" EntitySet="Panels" />
             <End Role="FullScreen" EntitySet="FullScreens" />
@@ -887,7 +882,7 @@
             <End Role="Frame" EntitySet="Frames" />
           </AssociationSet>
           <AssociationSet Name="VideoAlternative" Association="DisplayMonkey.Model.VideoAlternative">
-            <End Role="Video" EntitySet="Videos" />
+            <End Role="Video" EntitySet="Frames" />
             <End Role="Content" EntitySet="Contents" />
           </AssociationSet>
           <AssociationSet Name="FK_Location_Area" Association="DisplayMonkey.Model.FK_Location_Area">
@@ -980,7 +975,6 @@
           <Property Name="PanelId" Type="Int32" Nullable="false" />
           <Property Name="Duration" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Panel" Relationship="DisplayMonkey.Model.FK_Frame_Panel" FromRole="Frame" ToRole="Panel" />
-          <NavigationProperty Name="Video" Relationship="DisplayMonkey.Model.FK_Video_Frame" FromRole="Frame" ToRole="Video" />
           <NavigationProperty Name="Locations" Relationship="DisplayMonkey.Model.FrameLocation" FromRole="Frame" ToRole="Location" />
           <Property Type="DateTime" Name="BeginsOn" Precision="3" />
           <Property Type="DateTime" Name="EndsOn" Precision="3" />
@@ -1068,14 +1062,9 @@
           <Property Type="Int32" Name="ServerId" Nullable="false" />
           <NavigationProperty Name="ReportServer" Relationship="DisplayMonkey.Model.FK_Report_ReportServer" FromRole="Report" ToRole="ReportServer" />
         </EntityType>
-        <EntityType Name="Video">
-          <Key>
-            <PropertyRef Name="FrameId" />
-          </Key>
-          <Property Name="FrameId" Type="Int32" Nullable="false" />
+        <EntityType Name="Video" BaseType="DisplayMonkey.Model.Frame">
           <Property Name="PlayMuted" Type="Boolean" Nullable="false" />
           <Property Name="AutoLoop" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Frame" Relationship="DisplayMonkey.Model.FK_Video_Frame" FromRole="Video" ToRole="Frame" />
           <NavigationProperty Name="Contents" Relationship="DisplayMonkey.Model.VideoAlternative" FromRole="Video" ToRole="Content" />
         </EntityType>
         <EntityType Name="Weather" BaseType="DisplayMonkey.Model.Frame">
@@ -1168,20 +1157,6 @@
             </Principal>
             <Dependent Role="Frame">
               <PropertyRef Name="PanelId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Video_Frame">
-          <End Role="Frame" Type="DisplayMonkey.Model.Frame" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="Video" Type="DisplayMonkey.Model.Video" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="Frame">
-              <PropertyRef Name="FrameId" />
-            </Principal>
-            <Dependent Role="Video">
-              <PropertyRef Name="FrameId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1607,6 +1582,13 @@
                 <ScalarProperty Name="FrameId" ColumnName="FrameId" />
               </MappingFragment>
             </EntityTypeMapping>
+            <EntityTypeMapping TypeName="IsTypeOf(DisplayMonkey.Model.Video)">
+              <MappingFragment StoreEntitySet="Video">
+                <ScalarProperty Name="AutoLoop" ColumnName="AutoLoop" />
+                <ScalarProperty Name="PlayMuted" ColumnName="PlayMuted" />
+                <ScalarProperty Name="FrameId" ColumnName="FrameId" />
+              </MappingFragment>
+            </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="FullScreens">
             <EntityTypeMapping TypeName="DisplayMonkey.Model.FullScreen">
@@ -1659,29 +1641,12 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Videos">
-            <EntityTypeMapping TypeName="DisplayMonkey.Model.Video">
-              <MappingFragment StoreEntitySet="Video">
-                <ScalarProperty Name="FrameId" ColumnName="FrameId" />
-                <ScalarProperty Name="PlayMuted" ColumnName="PlayMuted" />
-                <ScalarProperty Name="AutoLoop" ColumnName="AutoLoop" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <AssociationSetMapping Name="FrameLocation" TypeName="DisplayMonkey.Model.FrameLocation" StoreEntitySet="FrameLocation">
             <EndProperty Name="Location">
               <ScalarProperty Name="LocationId" ColumnName="LocationId" />
             </EndProperty>
             <EndProperty Name="Frame">
               <ScalarProperty Name="FrameId" ColumnName="FrameId" />
-            </EndProperty>
-          </AssociationSetMapping>
-          <AssociationSetMapping Name="VideoAlternative" TypeName="DisplayMonkey.Model.VideoAlternative" StoreEntitySet="VideoAlternative">
-            <EndProperty Name="Video">
-              <ScalarProperty Name="FrameId" ColumnName="FrameId" />
-            </EndProperty>
-            <EndProperty Name="Content">
-              <ScalarProperty Name="ContentId" ColumnName="ContentId" />
             </EndProperty>
           </AssociationSetMapping>
           <EntitySetMapping Name="ReportServers">
@@ -1746,6 +1711,14 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <AssociationSetMapping Name="VideoAlternative" TypeName="DisplayMonkey.Model.VideoAlternative" StoreEntitySet="VideoAlternative">
+            <EndProperty Name="Video">
+              <ScalarProperty Name="FrameId" ColumnName="FrameId" />
+            </EndProperty>
+            <EndProperty Name="Content">
+              <ScalarProperty Name="ContentId" ColumnName="ContentId" />
+            </EndProperty>
+          </AssociationSetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

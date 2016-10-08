@@ -106,53 +106,6 @@ namespace DisplayMonkey.Models
                Display(ResourceType = typeof(Resources), Name = "Locations"),
             ]
             public virtual ICollection<Location> Locations { get; set; }
-
-            /**** frames ****/
-
-            /*[
-               Display(ResourceType = typeof(Resources), Name = "Clock"),
-            ]
-            public virtual Clock Clock { get; set; }
-
-            [
-               Display(ResourceType = typeof(Resources), Name = "Memo"),
-            ]
-            public virtual Memo Memo { get; set; }
-
-            [
-               Display(ResourceType = typeof(Resources), Name = "News"), 
-            ]
-            public virtual News News { get; set; }
-
-            [
-               Display(ResourceType = typeof(Resources), Name = "Picture"),
-            ]
-            public virtual Picture Picture { get; set; }
-
-            [
-               Display(ResourceType = typeof(Resources), Name = "Report"),
-            ]
-            public virtual Report Report { get; set; }*/
-
-            [
-               Display(ResourceType = typeof(Resources), Name = "Video"),
-            ]
-            public virtual Video Video { get; set; }
-
-            /*[
-               Display(ResourceType = typeof(Resources), Name = "Weather"),
-            ]
-            public virtual Weather Weather { get; set; }
-
-            [
-               Display(ResourceType = typeof(Resources), Name = "Html"),
-            ]
-            public virtual Html Html { get; set; }
-
-            [
-               Display(ResourceType = typeof(Resources), Name = "Outlook"),
-            ]
-            public virtual Outlook Outlook { get; set; }*/
         }
 
         public enum TimingOptions : int
@@ -191,7 +144,8 @@ namespace DisplayMonkey.Models
                 else if (this is Report) 
                     return FrameTypes.Report;
 
-                //case FrameTypes.Video: key = Keys.DefaultTemplateVideo; break;
+                else if (this is Video) 
+                    return FrameTypes.Video;
 
                 else if (this is Weather) 
                     return FrameTypes.Weather;

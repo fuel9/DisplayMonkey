@@ -28,7 +28,6 @@
         <AssociationConnector Association="DisplayMonkey.Model.FK_Picture_Content" ManuallyRouted="false" />
         <AssociationConnector Association="DisplayMonkey.Model.FK_Display_Location" ManuallyRouted="false" />
         <AssociationConnector Association="DisplayMonkey.Model.FK_Frame_Panel" ManuallyRouted="false" />
-        <AssociationConnector Association="DisplayMonkey.Model.FK_Video_Frame" ManuallyRouted="false" />
         <AssociationConnector Association="DisplayMonkey.Model.FK_FullScreen_Panel" ManuallyRouted="false" />
         <AssociationConnector Association="DisplayMonkey.Model.FK_Location_Level" ManuallyRouted="false" />
         <AssociationConnector Association="DisplayMonkey.Model.FrameLocation" ManuallyRouted="false" ></AssociationConnector>
@@ -58,6 +57,7 @@
         <InheritanceConnector EntityType="DisplayMonkey.Model.Youtube" />
         <InheritanceConnector EntityType="DisplayMonkey.Model.Report" />
         <InheritanceConnector EntityType="DisplayMonkey.Model.Picture" />
+        <InheritanceConnector EntityType="DisplayMonkey.Model.Video" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

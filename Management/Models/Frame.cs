@@ -31,7 +31,6 @@ namespace DisplayMonkey.Models
         public int CacheInterval { get; set; }
     
         public virtual Panel Panel { get; set; }
-        public virtual Video Video { get; set; }
         public virtual ICollection<Location> Locations { get; set; }
         public virtual Template Template { get; set; }
     }

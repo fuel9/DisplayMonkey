@@ -260,17 +260,7 @@ namespace DisplayMonkey.Controllers
                 {
                     canvasQ = canvasQ
                         .Include(c => c.Panels.Select(p => p.Frames))
-                        //.Include(c => c.Panels.Select(p => p.Frames.Select(f => f.Clock)))
-                        //.Include(c => c.Panels.Select(p => p.Frames.Select(f => f.Memo)))
-                        //.Include(c => c.Panels.Select(p => p.Frames.Select(f => f is News)))
-                        //.Include(c => c.Panels.Select(p => p.Frames.Select(f => f.Picture)))
-                        //.Include(c => c.Panels.Select(p => p.Frames.Where(f => f is Powerbi)))
-                        //.Include(c => c.Panels.Select(p => p.Frames.Select(f => f.Report)))
-                        .Include(c => c.Panels.Select(p => p.Frames.Select(f => f.Video).Select(v => v.Contents)))
-                        //.Include(c => c.Panels.Select(p => p.Frames.Select(f => f.Weather)))
-                        //.Include(c => c.Panels.Select(p => p.Frames.Select(f => f.Html)))
-                        //.Include(c => c.Panels.Select(p => p.Frames.Select(f => f.Youtube)))
-                        //.Include(c => c.Panels.Select(p => p.Frames.Select(f => f.Outlook)))
+                        //.Include(c => c.Panels.Select(p => p.Frames.OfType<Video>().Select(v => v.Contents)))
                         ;
 
                     if (canvasCopy.CopyFrameLocations)

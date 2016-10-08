@@ -33,7 +33,6 @@ namespace DisplayMonkey.Models
         public DbSet<Level> Levels { get; set; }
         public DbSet<Location> Locations { get; set; }
         public DbSet<Panel> Panels { get; set; }
-        public DbSet<Video> Videos { get; set; }
         public DbSet<ReportServer> ReportServers { get; set; }
         public DbSet<ExchangeAccount> ExchangeAccounts { get; set; }
         public DbSet<Template> Templates { get; set; }
