@@ -196,16 +196,26 @@
     </Compile>
     <Compile Include="Globalization.cs" />
     <Compile Include="HtmlExtensions.cs" />
-    <Compile Include="Models\Annotations.cs" />
     <Compile Include="Models\Annotations\AzureAccount.cs" />
+    <Compile Include="Models\Annotations\Canvas.cs" />
     <Compile Include="Models\Annotations\Clock.cs" />
+    <Compile Include="Models\Annotations\Content.cs" />
+    <Compile Include="Models\Annotations\Display.cs" />
+    <Compile Include="Models\Annotations\ExchangeAccount.cs" />
     <Compile Include="Models\Annotations\Frame.cs" />
+    <Compile Include="Models\Annotations\FullScreen.cs" />
     <Compile Include="Models\Annotations\Html.cs" />
+    <Compile Include="Models\Annotations\Level.cs" />
+    <Compile Include="Models\Annotations\Location.cs" />
     <Compile Include="Models\Annotations\Memo.cs" />
     <Compile Include="Models\Annotations\Outlook.cs" />
+    <Compile Include="Models\Annotations\Panel.cs" />
     <Compile Include="Models\Annotations\Picture.cs" />
     <Compile Include="Models\Annotations\Powerbi.cs" />
     <Compile Include="Models\Annotations\Report.cs" />
+    <Compile Include="Models\Annotations\ReportServer.cs" />
+    <Compile Include="Models\Annotations\Setting.cs" />
+    <Compile Include="Models\Annotations\Template.cs" />
     <Compile Include="Models\Annotations\Video.cs" />
     <Compile Include="Models\Annotations\Weather.cs" />
     <Compile Include="Models\Annotations\YouTube.cs" />
@@ -269,7 +279,6 @@
     <Compile Include="Models\Memo.cs">
       <DependentUpon>DMModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\ModelInitializers.cs" />
     <Compile Include="Models\ModelExtensions.cs" />
     <Compile Include="Models\News.cs">
       <DependentUpon>DMModel.tt</DependentUpon>
@@ -310,7 +319,6 @@
     <Compile Include="Models\Setting.cs">
       <DependentUpon>DMModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\SettingKeys.cs" />
     <Compile Include="Models\SettingTypes.cs">
       <DependentUpon>DMModel.tt</DependentUpon>
     </Compile>

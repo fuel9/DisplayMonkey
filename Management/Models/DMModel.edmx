@@ -109,10 +109,9 @@
         </EntityType>
         <EntityType Name="FullScreen">
           <Key>
-            <PropertyRef Name="CanvasId" />
+            <PropertyRef Name="PanelId" />
           </Key>
           <Property Name="PanelId" Type="int" Nullable="false" />
-          <Property Name="CanvasId" Type="int" Nullable="false" />
           <Property Name="MaxIdleInterval" Type="int" />
         </EntityType>
         <EntityType Name="Html">
@@ -394,23 +393,11 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_FullScreen_Canvas">
-          <End Role="Canvas" Type="Self.Canvas" Multiplicity="1" />
-          <End Role="FullScreen" Type="Self.FullScreen" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="Canvas">
-              <PropertyRef Name="CanvasId" />
-            </Principal>
-            <Dependent Role="FullScreen">
-              <PropertyRef Name="CanvasId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_FullScreen_Panel">
           <End Role="Panel" Type="Self.Panel" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="FullScreen" Type="Self.FullScreen" Multiplicity="*" />
+          <End Role="FullScreen" Type="Self.FullScreen" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="Panel">
               <PropertyRef Name="PanelId" />
@@ -743,10 +730,6 @@
             <End Role="Frame" EntitySet="Frame" />
             <End Role="FrameLocation" EntitySet="FrameLocation" />
           </AssociationSet>
-          <AssociationSet Name="FK_FullScreen_Canvas" Association="Self.FK_FullScreen_Canvas">
-            <End Role="Canvas" EntitySet="Canvas" />
-            <End Role="FullScreen" EntitySet="FullScreen" />
-          </AssociationSet>
           <AssociationSet Name="FK_FullScreen_Panel" Association="Self.FK_FullScreen_Panel">
             <End Role="Panel" EntitySet="Panel" />
             <End Role="FullScreen" EntitySet="FullScreen" />
@@ -837,7 +820,6 @@
           <EntitySet Name="Contents" EntityType="DisplayMonkey.Model.Content" />
           <EntitySet Name="Displays" EntityType="DisplayMonkey.Model.Display" />
           <EntitySet Name="Frames" EntityType="DisplayMonkey.Model.Frame" />
-          <EntitySet Name="FullScreens" EntityType="DisplayMonkey.Model.FullScreen" />
           <EntitySet Name="Levels" EntityType="DisplayMonkey.Model.Level" />
           <EntitySet Name="Locations" EntityType="DisplayMonkey.Model.Location" />
           <EntitySet Name="Panels" EntityType="DisplayMonkey.Model.Panel" />
@@ -848,10 +830,6 @@
           <AssociationSet Name="FK_Display_Canvas" Association="DisplayMonkey.Model.FK_Display_Canvas">
             <End Role="Canvas" EntitySet="Canvases" />
             <End Role="Display" EntitySet="Displays" />
-          </AssociationSet>
-          <AssociationSet Name="FK_FullScreen_Canvas" Association="DisplayMonkey.Model.FK_FullScreen_Canvas">
-            <End Role="Canvas" EntitySet="Canvases" />
-            <End Role="FullScreen" EntitySet="FullScreens" />
           </AssociationSet>
           <AssociationSet Name="FK_Panel_Canvas" Association="DisplayMonkey.Model.FK_Panel_Canvas">
             <End Role="Canvas" EntitySet="Canvases" />
@@ -868,10 +846,6 @@
           <AssociationSet Name="FK_Frame_Panel" Association="DisplayMonkey.Model.FK_Frame_Panel">
             <End Role="Panel" EntitySet="Panels" />
             <End Role="Frame" EntitySet="Frames" />
-          </AssociationSet>
-          <AssociationSet Name="FK_FullScreen_Panel" Association="DisplayMonkey.Model.FK_FullScreen_Panel">
-            <End Role="Panel" EntitySet="Panels" />
-            <End Role="FullScreen" EntitySet="FullScreens" />
           </AssociationSet>
           <AssociationSet Name="FK_Location_Level" Association="DisplayMonkey.Model.FK_Location_Level">
             <End Role="Level" EntitySet="Levels" />
@@ -923,7 +897,6 @@
           <Property Name="BackgroundColor" Type="String" MaxLength="20" Unicode="false" FixedLength="false" />
           <NavigationProperty Name="Content" Relationship="DisplayMonkey.Model.FK_Canvas_Content" FromRole="Canvas" ToRole="Content" />
           <NavigationProperty Name="Displays" Relationship="DisplayMonkey.Model.FK_Display_Canvas" FromRole="Canvas" ToRole="Display" />
-          <NavigationProperty Name="FullScreen" Relationship="DisplayMonkey.Model.FK_FullScreen_Canvas" FromRole="Canvas" ToRole="FullScreen" />
           <NavigationProperty Name="Panels" Relationship="DisplayMonkey.Model.FK_Panel_Canvas" FromRole="Canvas" ToRole="Panel" />
           <Property Type="Binary" Name="Version" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
         </EntityType>
@@ -985,15 +958,8 @@
           <Property Type="Int32" Name="CacheInterval" Nullable="false" />
           <NavigationProperty Name="Template" Relationship="DisplayMonkey.Model.FK_Frame_Template" FromRole="Frame" ToRole="Template" />
         </EntityType>
-        <EntityType Name="FullScreen">
-          <Key>
-            <PropertyRef Name="CanvasId" />
-          </Key>
-          <Property Name="PanelId" Type="Int32" Nullable="false" />
-          <Property Name="CanvasId" Type="Int32" Nullable="false" />
+        <EntityType Name="FullScreen" BaseType="DisplayMonkey.Model.Panel">
           <Property Name="MaxIdleInterval" Type="Int32" />
-          <NavigationProperty Name="Canvas" Relationship="DisplayMonkey.Model.FK_FullScreen_Canvas" FromRole="FullScreen" ToRole="Canvas" />
-          <NavigationProperty Name="Panel" Relationship="DisplayMonkey.Model.FK_FullScreen_Panel" FromRole="FullScreen" ToRole="Panel" />
         </EntityType>
         <EntityType Name="Level">
           <Key>
@@ -1046,7 +1012,6 @@
           <Property Name="Name" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="Canvas" Relationship="DisplayMonkey.Model.FK_Panel_Canvas" FromRole="Panel" ToRole="Canvas" />
           <NavigationProperty Name="Frames" Relationship="DisplayMonkey.Model.FK_Frame_Panel" FromRole="Panel" ToRole="Frame" />
-          <NavigationProperty Name="FullScreens" Relationship="DisplayMonkey.Model.FK_FullScreen_Panel" FromRole="Panel" ToRole="FullScreen" />
           <Property Type="Binary" Name="Version" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
           <Property Type="Double" Name="FadeLength" Nullable="false" />
         </EntityType>
@@ -1090,18 +1055,6 @@
               <PropertyRef Name="CanvasId" />
             </Principal>
             <Dependent Role="Display">
-              <PropertyRef Name="CanvasId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_FullScreen_Canvas">
-          <End Role="Canvas" Type="DisplayMonkey.Model.Canvas" Multiplicity="1" />
-          <End Role="FullScreen" Type="DisplayMonkey.Model.FullScreen" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="Canvas">
-              <PropertyRef Name="CanvasId" />
-            </Principal>
-            <Dependent Role="FullScreen">
               <PropertyRef Name="CanvasId" />
             </Dependent>
           </ReferentialConstraint>
@@ -1156,20 +1109,6 @@
               <PropertyRef Name="PanelId" />
             </Principal>
             <Dependent Role="Frame">
-              <PropertyRef Name="PanelId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_FullScreen_Panel">
-          <End Role="Panel" Type="DisplayMonkey.Model.Panel" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="FullScreen" Type="DisplayMonkey.Model.FullScreen" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Panel">
-              <PropertyRef Name="PanelId" />
-            </Principal>
-            <Dependent Role="FullScreen">
               <PropertyRef Name="PanelId" />
             </Dependent>
           </ReferentialConstraint>
@@ -1590,15 +1529,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="FullScreens">
-            <EntityTypeMapping TypeName="DisplayMonkey.Model.FullScreen">
-              <MappingFragment StoreEntitySet="FullScreen">
-                <ScalarProperty Name="PanelId" ColumnName="PanelId" />
-                <ScalarProperty Name="CanvasId" ColumnName="CanvasId" />
-                <ScalarProperty Name="MaxIdleInterval" ColumnName="MaxIdleInterval" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Levels">
             <EntityTypeMapping TypeName="DisplayMonkey.Model.Level">
               <MappingFragment StoreEntitySet="Level">
@@ -1627,17 +1557,23 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Panels">
-            <EntityTypeMapping TypeName="DisplayMonkey.Model.Panel">
+            <EntityTypeMapping TypeName="IsTypeOf(DisplayMonkey.Model.Panel)">
               <MappingFragment StoreEntitySet="Panel">
-                <ScalarProperty Name="FadeLength" ColumnName="FadeLength" />
-                <ScalarProperty Name="Version" ColumnName="Version" />
                 <ScalarProperty Name="PanelId" ColumnName="PanelId" />
-                <ScalarProperty Name="CanvasId" ColumnName="CanvasId" />
-                <ScalarProperty Name="Top" ColumnName="Top" />
-                <ScalarProperty Name="Left" ColumnName="Left" />
-                <ScalarProperty Name="Height" ColumnName="Height" />
-                <ScalarProperty Name="Width" ColumnName="Width" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Width" ColumnName="Width" />
+                <ScalarProperty Name="Height" ColumnName="Height" />
+                <ScalarProperty Name="Left" ColumnName="Left" />
+                <ScalarProperty Name="Top" ColumnName="Top" />
+                <ScalarProperty Name="CanvasId" ColumnName="CanvasId" />
+                <ScalarProperty Name="Version" ColumnName="Version" />
+                <ScalarProperty Name="FadeLength" ColumnName="FadeLength" />
+              </MappingFragment>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="IsTypeOf(DisplayMonkey.Model.FullScreen)">
+              <MappingFragment StoreEntitySet="FullScreen">
+                <ScalarProperty Name="MaxIdleInterval" ColumnName="MaxIdleInterval" />
+                <ScalarProperty Name="PanelId" ColumnName="PanelId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

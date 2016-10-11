@@ -78,22 +78,22 @@ namespace DisplayMonkey
 		{
 			List<Panel> list = new List<Panel>();
 			string sql = string.Format(
-				"SELECT * FROM Panel WHERE CanvasId={0} ORDER BY 1;" +
-				"SELECT TOP 1 c.*, PanelId FROM FullScreen s INNER JOIN Canvas c ON c.CanvasId=s.CanvasId WHERE s.CanvasId={0};",
+                "SELECT p.*, f.PanelId FsPanelId, c.Height CanvasHeight, c.Width CanvasWidth FROM Panel p INNER JOIN Canvas c on c.CanvasId=p.CanvasId LEFT JOIN FullScreen f on f.PanelId=p.PanelId WHERE p.CanvasId={0} ORDER BY p.PanelId;",
 				canvasId
 				);
 			using (DataSet ds = DataAccess.RunSql(sql))
 			{
 				list.Capacity = ds.Tables[0].Rows.Count;
 
-				DataRow fs = ds.Tables[1].Rows[0];
-				int fullScreenPanelId = fs.IntOrZero("PanelId");
+				//DataRow fs = ds.Tables[1].Rows[0];
+				//int fullScreenPanelId = fs.IntOrZero("PanelId");
 
 				// list canvas panels
 				foreach (DataRow r in ds.Tables[0].Rows)
 				{
 					Panel panel = null;
 					int panelId = r.IntOrZero("PanelId");
+                    int fullScreenPanelId = r.IntOrZero("FsPanelId");
 
 					if (panelId == fullScreenPanelId)
 						panel = new FullScreenPanel()
@@ -101,8 +101,8 @@ namespace DisplayMonkey
 							PanelId = panelId,
 							Top = 0,
 							Left = 0,
-							Height = fs.IntOrZero("Height"),
-							Width = fs.IntOrZero("Width"),
+							Height = r.IntOrZero("CanvasHeight"),
+							Width = r.IntOrZero("CanvasWidth"),
 							Name = r.StringOrBlank("Name"),
                             FadeLength = r.DoubleOrZero("FadeLength"),
 						};

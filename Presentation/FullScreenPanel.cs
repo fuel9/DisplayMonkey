@@ -26,32 +26,6 @@ namespace DisplayMonkey
 		{
 		}
 
-		public FullScreenPanel(int panelId)
-            : base(panelId)
-		{
-            Top = Left = 0;
-            
-            string sql = string.Format(
-				"SELECT TOP 1 c.* FROM FullScreen s INNER JOIN Canvas c ON c.CanvasId=s.CanvasId WHERE PanelId={0};",
-			    PanelId
-				);
-
-			using (DataSet ds = DataAccess.RunSql(sql))
-			{
-				if (ds.Tables[0].Rows.Count > 0)
-				{
-					DataRow r = ds.Tables[0].Rows[0];
-                    _initFromRow(r);
-				}
-			}
-		}
-
-		private void _initFromRow(DataRow r)
-		{
-			Width = r.IntOrZero("Width");
-			Height = r.IntOrZero("Height");
-		}
-
 		public override string Style
 		{
 			get

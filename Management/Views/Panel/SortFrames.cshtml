@@ -27,105 +27,126 @@
     <li data-frame-id="@item.FrameId" data-old-sort="@((i++).ToString())">
         @{frameContent = item.FrameType + ": ";}
 
-        @if (item.Clock != null)
+        @if (item is Clock)
         {
+            Clock f = item as Clock;
             <div class="d1">
                 <div><img src="~/images/clock.png" alt="" /></div>
                 <div>@item.FrameType</div>
             </div>
             <div>
-                @item.Clock.Type.Translate()
+                @f.Type.Translate()
             </div>
         }
-        else if (item.Html != null)
+        else if (item is Html)
         {
+            Html f = item as Html;
             <div class="d1">
                 <div><img src="~/images/html.png" alt="" /></div>
                 <div>@(string.Format("{0}, {1} {2}", item.FrameType, item.Duration, Resources.Sec))</div>
             </div>
             <div>
-                @Short(item.Html.Name)
+                @Short(f.Name)
             </div>
         }
-        else if (item.Memo != null)
+        else if (item is Memo)
         {
+            Memo f = item as Memo;
             <div class="d1">
                 <div><img src="~/images/memo.png" alt="" /></div>
                 <div>@(string.Format("{0}, {1} {2}", item.FrameType, item.Duration, Resources.Sec))</div>
             </div>
             <div>
-                @Short(item.Memo.Subject)
+                @Short(f.Subject)
             </div>
         }
-        else if (item.News != null)
+        else if (item is News)
         {
+            News f = item as News;
             <div class="d1">
                 <div></div>
                 <div>@(string.Format("{0}, {1} {2}", item.FrameType, item.Duration, Resources.Sec))</div>
             </div>
             <div>
-                @item.News.Source
+                @f.Source
             </div>
         }
-        else if (item.Outlook != null)
+        else if (item is Outlook)
         {
+            Outlook f = item as Outlook;
             <div class="d1">
                 <div><img src="~/images/calendar.png" alt="" /></div>
                 <div>@(string.Format("{0}, {1} {2}", item.FrameType, item.Duration, Resources.Sec))</div>
             </div>
             <div>
-                @item.Outlook.NameOrMailboxOrAccount
+                @f.NameOrMailboxOrAccount
             </div>
         }
-        else if (item.Picture != null)
+        else if (item is Picture)
         {
+            Picture f = item as Picture;
             <div class="d1">
-                <div><img src="@Url.Action("Thumb", "Media", new { id = item.Picture.ContentId, width = 50, height = 50, mode = (int)RenderModes.RenderMode_Stretch })" alt="" /></div>
+                <div><img src="@Url.Action("Thumb", "Media", new { id = f.ContentId, width = 50, height = 50, mode = (int)RenderModes.RenderMode_Stretch })" alt="" /></div>
                 <div>@(string.Format("{0}, {1} {2}", item.FrameType, item.Duration, Resources.Sec))</div>
             </div>
             <div>
-                @item.Picture.Content.Name
+                @f.Content.Name
             </div>
         }
-        else if (item.Report != null)
+        else if (item is Powerbi)
         {
+            Powerbi f = item as Powerbi;
+            <div class="d1">
+                <div><img src="~/images/powerbi.png" alt="" /></div>
+                <div>@(string.Format("{0}, {1} {2}", item.FrameType, item.Duration, Resources.Sec))</div>
+            </div>
+            <div>
+                @f.Name
+            </div>
+        }
+        else if (item is Report)
+        {
+            Report f = item as Report;
             <div class="d1">
                 <div><img src="@Url.Action("Thumb", "Report", new { id = item.FrameId, width = 50, height = 50, mode = (int)RenderModes.RenderMode_Stretch })" alt="" /></div>
                 <div>@(string.Format("{0}, {1} {2}", item.FrameType, item.Duration, Resources.Sec))</div>
             </div>
             <div>
-                @Short(item.Report.Name)
+                @Short(f.Name)
             </div>
         }
-        else if (item.Video != null)
+        else if (item is Video)
         {
+            Video f = item as Video;
             <div class="d1">
                 <div><img src="~/images/video_thmb.png" alt="" /></div>
                 <div>@(string.Format("{0}, {1} {2}", item.FrameType, item.Duration, Resources.Sec))</div>
             </div>
             <div>
-                @Short(item.Video.Contents.FirstOrDefault().Name)
+                @Short(f.Contents.FirstOrDefault().Name)
             </div>
             //frameContent += item.Video.Contents.FirstOrDefault().Name;
         }
-        else if (item.Weather != null)
+        else if (item is Weather)
         {
+            Weather f = item as Weather;
             <div class="d1">
                 <div><img src="~/images/weather.png" alt="" /></div>
                 <div>@(string.Format("{0}, {1} {2}", item.FrameType, item.Duration, Resources.Sec))</div>
             </div>
             <div>
-                @item.Weather.Type.Translate()
+                @f.Type.Translate()
             </div>
         }
-        else if (item.Youtube != null)
+        else if (item is Youtube)
         {
+            Youtube f = item as Youtube;
             <div class="d1">
-                <div><img src="@Html.Raw(string.Format("http://i.ytimg.com/vi/{0}/0.jpg", item.Youtube.YoutubeId))" alt="" /></div>
+                <div><img src="@Html.Raw(string.Format("http://i.ytimg.com/vi/{0}/0.jpg", f.YoutubeId))" alt="" /></div>
                 <div>@(string.Format("{0}, {1} {2}", item.FrameType, item.Duration, Resources.Sec))</div>
             </div>
             <div>
-                @Short(item.Youtube.Name)
+                @Short(f.Name)
             </div>
         }
         else

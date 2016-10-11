@@ -16,6 +16,12 @@ using System.Web;
 
 namespace DisplayMonkey.Models
 {
+    public static class Constants
+    {
+        public const string PasswordMask = "****************";
+        public const string EmailMask = @"\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*";
+    }
+
     #region Sundry
 
 

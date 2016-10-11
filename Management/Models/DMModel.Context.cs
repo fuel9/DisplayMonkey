@@ -29,7 +29,6 @@ namespace DisplayMonkey.Models
         public DbSet<Content> Contents { get; set; }
         public DbSet<Display> Displays { get; set; }
         public DbSet<Frame> Frames { get; set; }
-        public DbSet<FullScreen> FullScreens { get; set; }
         public DbSet<Level> Levels { get; set; }
         public DbSet<Location> Locations { get; set; }
         public DbSet<Panel> Panels { get; set; }

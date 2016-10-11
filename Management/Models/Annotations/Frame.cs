@@ -259,4 +259,16 @@ namespace DisplayMonkey.Models
         public string LocationName { get; set; }
     }
 
+    public class TopContent
+    {
+        [
+            Display(ResourceType = typeof(Resources), Name = "Count"),
+        ]
+        public int Count { get; set; }
+
+        [
+            Display(ResourceType = typeof(Resources), Name = "Name"),
+        ]
+        public string Name { get; set; }
+    }
 }

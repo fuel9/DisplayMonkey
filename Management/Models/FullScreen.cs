@@ -12,13 +12,8 @@ namespace DisplayMonkey.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class FullScreen
+    public partial class FullScreen : Panel
     {
-        public int PanelId { get; set; }
-        public int CanvasId { get; set; }
         public Nullable<int> MaxIdleInterval { get; set; }
-    
-        public virtual Canvas Canvas { get; set; }
-        public virtual Panel Panel { get; set; }
     }
 }

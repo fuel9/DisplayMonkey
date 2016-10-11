@@ -1,22 +1,159 @@
-/*!
-* DisplayMonkey source file
-* http://displaymonkey.org
-*
-* Copyright (c) 2015 Fuel9 LLC and contributors
-*
-* Released under the MIT license:
-* http://opensource.org/licenses/MIT
-*/
-
-using DisplayMonkey.Language;
+﻿using DisplayMonkey.Language;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Web;
 
 namespace DisplayMonkey.Models
 {
+    [
+        MetadataType(typeof(Setting.Annotations))
+    ]
     public partial class Setting
     {
+        internal class Annotations
+        {
+            [
+                Display(ResourceType = typeof(Resources), Name = "Key"),
+            ]
+            public System.Guid Key { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "Value"),
+            ]
+            public byte[] RawValue { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "Type"),
+            ]
+            public SettingTypes Type { get; set; }
+        }
+
+        #region -----  Value Management  -----
+
+        [
+            Display(ResourceType = typeof(Resources), Name = "Setting"),
+        ]
+        public string Name
+        {
+            get
+            {
+                return Resources.ResourceManager.GetString(ResourceId) ?? this.Key.ToString();
+            }
+        }
+
+        public string ResourceId
+        {
+            get { return _keyRes[this.Key]; }
+        }
+
+        [
+            Display(ResourceType = typeof(Resources), Name = "Value"),
+            Required(ErrorMessageResourceType = typeof(Resources),
+                ErrorMessageResourceName = "IntegerRequired"),
+            DisplayFormat(ApplyFormatInEditMode = false,
+                DataFormatString = "{0:N0}"),
+        ]
+        public int IntValue
+        {
+            get { return this.RawValue == null ? 0 : BitConverter.ToInt32(this.RawValue.Reverse().ToArray(), 0); }
+            set { this.RawValue = BitConverter.GetBytes(value).Reverse().ToArray(); }
+        }
+
+        [
+            Display(ResourceType = typeof(Resources), Name = "Value"),
+            Required(ErrorMessageResourceType = typeof(Resources),
+                ErrorMessageResourceName = "PositiveIntegerRequired"),
+            Range(0, Int32.MaxValue,
+                ErrorMessageResourceType = typeof(Resources),
+                ErrorMessageResourceName = "PositiveIntegerRequired"),
+            DisplayFormat(ApplyFormatInEditMode = false,
+                DataFormatString = "{0:N0}"),
+        ]
+        public int IntValuePositive
+        {
+            get { return this.IntValue; }
+            set { this.IntValue = value; }
+        }
+
+        [
+            Display(ResourceType = typeof(Resources), Name = "Value"),
+            Required(ErrorMessageResourceType = typeof(Resources),
+                ErrorMessageResourceName = "DecimalRequired"),
+            DisplayFormat(ApplyFormatInEditMode = false,
+                DataFormatString = "{0:F}"),
+        ]
+        public double DecimalValue
+        {
+            get
+            {
+                byte[] v = new byte[8];
+                if (this.RawValue != null)
+                    Array.Copy(this.RawValue.Reverse().ToArray(), v, 8);
+                return BitConverter.ToDouble(v, 0);
+            }
+            set
+            {
+                this.RawValue = BitConverter.GetBytes(value).Reverse().ToArray();
+            }
+        }
+
+        [
+            Display(ResourceType = typeof(Resources), Name = "Value"),
+            Required(ErrorMessageResourceType = typeof(Resources),
+                ErrorMessageResourceName = "PositiveDecimalRequired"),
+            Range(0, Double.MaxValue,
+                ErrorMessageResourceType = typeof(Resources),
+                ErrorMessageResourceName = "PositiveDecimalRequired"),
+            DisplayFormat(ApplyFormatInEditMode = false,
+                DataFormatString = "{0:F}"),
+        ]
+        public double DecimalValuePositive
+        {
+            get { return this.DecimalValue; }
+            set { this.DecimalValue = value; }
+        }
+
+        [
+            Display(ResourceType = typeof(Resources), Name = "Value"),
+            StringLength(255, ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "MaxLengthExceeded"),
+        ]
+        public string StringValue
+        {
+            get
+            {
+                if (this.RawValue == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    return System.Text.Encoding.Unicode.GetString(this.RawValue).TrimEnd('\0');
+                }
+            }
+            set
+            {
+                if (value == null)
+                {
+                    this.RawValue = null;
+                }
+                else
+                {
+                    byte[] buf = System.Text.Encoding.Unicode.GetBytes(value);
+                    if (buf.Length < 8)
+                    {
+                        byte[] buf2 = new byte[8];
+                        buf.CopyTo(buf2, 0);
+                        buf = buf2;
+                    }
+                    this.RawValue = buf;
+                }
+            }
+        }
+
+        #endregion
+
         #region -----  Key Identification  -----
 
         public enum Keys : int
@@ -24,11 +161,11 @@ namespace DisplayMonkey.Models
             MaxImageSize = 0,                       // max allowed size of uploaded image, Bytes
             MaxVideoSize,                           // max allowed size of uploaded video, Bytes
             PresentationSite,                       // URL root of the nearest DMP site when navigating to displays from DMM
-            
+
             DefaultDisplayReadyEventTimeout,        // timeout interval to wait till a frame reports itself "ready" so as to smoothly continue presentation, sec, RC10
             DefaultDisplayPollInterval,             // display poll interval for hash sum check and panel idle length, sec, RC13
             DefaultDisplayErrorLength,              // default length for display errors, sec, RC13
-            
+
             DefaultPanelFadeLength,                 // default panel frame fade/transition length, sec, RC13
             DefaultFullPanelFadeLength,             // default full screen panel frame fade/transition length, sec, RC13
 
@@ -56,7 +193,7 @@ namespace DisplayMonkey.Models
             DefaultCacheIntervalVideo,
             DefaultCacheIntervalWeather,
             //DefaultCacheIntervalYouTube,
-            
+
 
             /// <summary>
             /// end with Count
@@ -270,4 +407,3 @@ namespace DisplayMonkey.Models
         #endregion
     }
 }
-

@@ -19,6 +19,7 @@ go
   2015-07-30 [LTL] - supersedes sp_GetIdleInterval and fn_GetDisplayHash, RC13
   2015-08-17 [LTL] - fixed hash, RC14
   2015-09-03 [LTL] - added RecycleTime, RC15
+  2016-10-10 [LTL] - handle canvasId in FS, 1.2.0
 *******************************************************************/
 alter procedure dbo.sp_GetDisplayData
 	@displayId int
@@ -64,7 +65,8 @@ as begin
 		,	f.PanelId
 		,	MaxDuration	= isnull(MaxIdleInterval,0)
 		from Display d with(nolock)
-		inner join FullScreen f with(nolock) on f.CanvasId=d.CanvasId
+		inner join Panel p with(nolock) on p.CanvasId=d.CanvasId
+		inner join FullScreen f with(nolock) on f.PanelId=p.PanelId
 		where d.DisplayId = @displayId
 	)
 	, _p as (

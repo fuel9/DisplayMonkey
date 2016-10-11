@@ -10,7 +10,7 @@
         <EntityTypeShape EntityType="DisplayMonkey.Model.Content" Width="1.5" PointX="4.625" PointY="17.625" IsExpanded="true" />
         <EntityTypeShape EntityType="DisplayMonkey.Model.Display" Width="1.5" PointX="1.75" PointY="14.25" IsExpanded="true" />
         <EntityTypeShape EntityType="DisplayMonkey.Model.Frame" Width="2" PointX="10.375" PointY="11.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="DisplayMonkey.Model.FullScreen" Width="1.5" PointX="6.125" PointY="10.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DisplayMonkey.Model.FullScreen" Width="1.5" PointX="6.125" PointY="10.25" IsExpanded="true" />
         <EntityTypeShape EntityType="DisplayMonkey.Model.Level" Width="1.5" PointX="6" PointY="7.875" IsExpanded="true" />
         <EntityTypeShape EntityType="DisplayMonkey.Model.Location" Width="1.5" PointX="2.875" PointY="8.375" IsExpanded="true" />
         <EntityTypeShape EntityType="DisplayMonkey.Model.Memo" Width="1.5" PointX="13.5" PointY="9.25" IsExpanded="true" />
@@ -23,12 +23,10 @@
         <AssociationConnector Association="DisplayMonkey.Model.FK_Canvas_Content" ManuallyRouted="false" >
         </AssociationConnector>
         <AssociationConnector Association="DisplayMonkey.Model.FK_Display_Canvas" ManuallyRouted="false" />
-        <AssociationConnector Association="DisplayMonkey.Model.FK_FullScreen_Canvas" ManuallyRouted="false" />
         <AssociationConnector Association="DisplayMonkey.Model.FK_Panel_Canvas" ManuallyRouted="false" />
         <AssociationConnector Association="DisplayMonkey.Model.FK_Picture_Content" ManuallyRouted="false" />
         <AssociationConnector Association="DisplayMonkey.Model.FK_Display_Location" ManuallyRouted="false" />
         <AssociationConnector Association="DisplayMonkey.Model.FK_Frame_Panel" ManuallyRouted="false" />
-        <AssociationConnector Association="DisplayMonkey.Model.FK_FullScreen_Panel" ManuallyRouted="false" />
         <AssociationConnector Association="DisplayMonkey.Model.FK_Location_Level" ManuallyRouted="false" />
         <AssociationConnector Association="DisplayMonkey.Model.FrameLocation" ManuallyRouted="false" ></AssociationConnector>
         <AssociationConnector Association="DisplayMonkey.Model.VideoAlternative" ManuallyRouted="false" />
@@ -58,6 +56,7 @@
         <InheritanceConnector EntityType="DisplayMonkey.Model.Report" />
         <InheritanceConnector EntityType="DisplayMonkey.Model.Picture" />
         <InheritanceConnector EntityType="DisplayMonkey.Model.Video" />
+        <InheritanceConnector EntityType="DisplayMonkey.Model.FullScreen" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

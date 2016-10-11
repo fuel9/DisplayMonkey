@@ -116,7 +116,7 @@ namespace DisplayMonkey
 		public int Width = 0;
 		public int DisplayId = 0;
         public string Name = "";
-        public int FullScreenPanelId = 0;
+        //public int FullScreenPanelId = 0;
 
         public Display Display { get; private set; }
         public Location Location { get; private set; }

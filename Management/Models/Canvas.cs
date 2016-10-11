@@ -30,7 +30,6 @@ namespace DisplayMonkey.Models
     
         public virtual Content Content { get; set; }
         public virtual ICollection<Display> Displays { get; set; }
-        public virtual FullScreen FullScreen { get; set; }
         public virtual ICollection<Panel> Panels { get; set; }
     }
 }

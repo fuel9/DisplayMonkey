@@ -17,7 +17,6 @@ namespace DisplayMonkey.Models
         public Panel()
         {
             this.Frames = new HashSet<Frame>();
-            this.FullScreens = new HashSet<FullScreen>();
         }
     
         public int PanelId { get; set; }
@@ -32,6 +31,5 @@ namespace DisplayMonkey.Models
     
         public virtual Canvas Canvas { get; set; }
         public virtual ICollection<Frame> Frames { get; set; }
-        public virtual ICollection<FullScreen> FullScreens { get; set; }
     }
 }

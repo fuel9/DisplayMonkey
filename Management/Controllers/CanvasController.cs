@@ -110,26 +110,7 @@ namespace DisplayMonkey.Controllers
 
         private void makeFullscreenPanel(Canvas canvas)
         {
-            Panel panel = new Panel()
-            {
-                Left = 0,
-                Top = 0,
-                Height = canvas.Height,
-                Width = canvas.Width,
-                Name = "Full-screen",   // TODO: resource
-                Canvas = canvas,
-            };
-
-            FullScreen fullScreen = new FullScreen()
-            {
-                Canvas = canvas,
-                Panel = panel,
-            };
-
-            fullScreen.init(db);
-
-            panel.FullScreens.Add(fullScreen);
-            canvas.Panels.Add(panel);
+            canvas.Panels.Add(new FullScreen(db, canvas));
         }
         
         //
@@ -252,9 +233,9 @@ namespace DisplayMonkey.Controllers
 
             if (canvasCopy.CopyPanels)
             {
-                canvasQ = canvasQ
-                    .Include(c => c.Panels.Select(p => p.FullScreens))
-                    ;
+                //canvasQ = canvasQ
+                //    .Include(c => c.Panels.Select(p => p.FullScreens))
+                //    ;
 
                 if (canvasCopy.CopyFrames)
                 {
