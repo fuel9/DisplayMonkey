@@ -1,0 +1,13 @@
+﻿@using DisplayMonkey.Models
+@using DisplayMonkey.Language
+
+@model DisplayMonkey.Models.Clock
+
+@(string.Format("{0}{1}{2}{3}{4}{5}",
+    Model.Type.Translate(),
+    !string.IsNullOrWhiteSpace(Model.Label) ? ", " + Model.Label : "",
+    Model.TimeZone != null ? ", " + Model.TimeZone : "",
+    Model.Type == ClockTypes.ClockType_Text && Model.ShowDate ? ", " + Resources.ShowDate : "",
+    Model.Type == ClockTypes.ClockType_Text && Model.ShowTime ? ", " + Resources.ShowTime : "",
+    Model.Type == ClockTypes.ClockType_Analog && Model.ShowSeconds ? ", " + Resources.ShowSeconds : ""
+    ))

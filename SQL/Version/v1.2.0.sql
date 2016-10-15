@@ -12,6 +12,7 @@ use DisplayMonkey	-- TODO: change if DisplayMonkey database name is different
 GO
 
 -- changes for v1.2.0
+-- Outlook
 update Template set html='
 <div class="outlook">
 	<div class="progress">
@@ -67,6 +68,8 @@ if OBJECT_ID('DF_Outlook_ShowAsFlags','D') is null
 
 GO
 
+-- Powerbi
+
 if OBJECT_ID('AzureAccount','U') is null
 CREATE TABLE [dbo].[AzureAccount](
 	[AccountId] [int] IDENTITY(1,1) NOT NULL
@@ -86,41 +89,34 @@ CREATE TABLE [dbo].[AzureAccount](
 ) ON [PRIMARY]
 ;
 
-if OBJECT_ID('Powerbi','U') is null
-CREATE TABLE [dbo].[Powerbi](
-	[FrameId] [int] NOT NULL
-		CONSTRAINT [PK_Powerbi] PRIMARY KEY CLUSTERED ,
-	[AccountId] [int] NOT NULL,
-	[Type] [int] NULL,
-	[Name] [nvarchar](100) NULL,
-	[Dashboard] [uniqueidentifier] NULL,
-	[Tile] [uniqueidentifier] NULL,
-	[Report] [uniqueidentifier] NULL,
-	[Url] [varchar](200) NULL
-) ON [PRIMARY]
-;
+if OBJECT_ID('Powerbi','U') is null begin
+	CREATE TABLE [dbo].[Powerbi](
+		[FrameId] [int] NOT NULL
+			CONSTRAINT [PK_Powerbi] PRIMARY KEY CLUSTERED ,
+		[AccountId] [int] NOT NULL,
+		[Type] [int] NULL,
+		[Name] [nvarchar](100) NULL,
+		[Dashboard] [uniqueidentifier] NULL,
+		[Tile] [uniqueidentifier] NULL,
+		[Report] [uniqueidentifier] NULL,
+		[Url] [varchar](200) NULL
+	) ON [PRIMARY]
+	;
 
-ALTER TABLE [dbo].[Powerbi] ADD CONSTRAINT [FK_Powerbi_AzureAccount] FOREIGN KEY([AccountId])
-	REFERENCES [dbo].[AzureAccount] ([AccountId])
-	ON UPDATE CASCADE
-	ON DELETE CASCADE
-;
+	ALTER TABLE [dbo].[Powerbi] ADD CONSTRAINT [FK_Powerbi_AzureAccount] FOREIGN KEY([AccountId])
+		REFERENCES [dbo].[AzureAccount] ([AccountId])
+		ON UPDATE CASCADE
+		ON DELETE CASCADE
+	;
 
-ALTER TABLE [dbo].[Powerbi] ADD CONSTRAINT [FK_Powerbi_Frame] FOREIGN KEY([FrameId])
-	REFERENCES [dbo].[Frame] ([FrameId])
-	ON UPDATE CASCADE
-	ON DELETE CASCADE
-;
+	ALTER TABLE [dbo].[Powerbi] ADD CONSTRAINT [FK_Powerbi_Frame] FOREIGN KEY([FrameId])
+		REFERENCES [dbo].[Frame] ([FrameId])
+		ON UPDATE CASCADE
+		ON DELETE CASCADE
+	;
+end
 
 GO
-
-ALTER TABLE dbo.News DROP CONSTRAINT FK_News_Frame
-;
-ALTER TABLE dbo.News ADD CONSTRAINT FK_News_Frame FOREIGN KEY (FrameId)
-	REFERENCES dbo.Frame (FrameId)
-	ON UPDATE  CASCADE 
-	ON DELETE  CASCADE 
-;
 
 IF  not OBJECT_ID('tr_News_Delete','TR') is null
 	DROP TRIGGER [dbo].[tr_News_Delete]
@@ -181,6 +177,10 @@ IF  EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[
 
 IF	not object_id('PK_FULL_SCREEN','PK') is null
 	ALTER TABLE dbo.FullScreen DROP CONSTRAINT PK_FULL_SCREEN
+;
+
+IF	not object_id('PK_FullScreen','PK') is null
+	ALTER TABLE dbo.FullScreen DROP CONSTRAINT PK_FullScreen
 ;
 
 ALTER TABLE dbo.FullScreen 

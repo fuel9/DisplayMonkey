@@ -1,0 +1,12 @@
+﻿@using DisplayMonkey.Models
+@using DisplayMonkey.Language
+
+@model DisplayMonkey.Models.Clock
+
+<div class="d1">
+    <div><img src="~/images/clock.png" alt="" /></div>
+    <div>@Model.FrameType</div>
+</div>
+<div>
+    @Model.Type.Translate()
+</div>

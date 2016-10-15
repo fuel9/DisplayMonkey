@@ -41,69 +41,43 @@
         <td>
             @if (item is Clock)
             {
-                Clock i = item as Clock;
-                @(string.Format("{0}{1}{2}{3}{4}{5}",
-                    i.Type.Translate(),
-                    !string.IsNullOrWhiteSpace(i.Label) ? ", " + i.Label : "",
-                    i.TimeZone != null ? ", " + i.TimeZone : "",
-                    i.Type == ClockTypes.ClockType_Text && i.ShowDate ? ", " + Resources.ShowDate : "",
-                    i.Type == ClockTypes.ClockType_Text && i.ShowTime ? ", " + Resources.ShowTime : "",
-                    i.Type == ClockTypes.ClockType_Analog && i.ShowSeconds ? ", " + Resources.ShowSeconds : ""
-                    ))
+                @Html.Partial("../Clock/_Summary", item)
             }
             else if (item is Html)
             {
-                Html i = item as Html;
-                <text>Name: <span>@i.Name</span></text>
-            }
-            else if (item is News)
-            {
-                News i = item as News;
-                @(i.Source)
+                @Html.Partial("../Html/_Summary", item)
             }
             else if (item is Memo)
             {
-                Memo i = item as Memo;
-                <text>Subject: <span>@i.Subject</span></text>
-                <p>Body: <span>@i.ShortBody</span></p>
+                @Html.Partial("../Memo/_Summary", item)
             }
             else if (item is Outlook)
             {
-                Outlook i = item as Outlook;
-                <span>@i.NameOrMailboxOrAccount</span>
+                @Html.Partial("../Outlook/_Summary", item)
             }
             else if (item is Picture)
             {
-                Picture i = item as Picture;
-                <img class="thumb1" src="@Url.Action("Thumb", "Media", new { id = i.ContentId, width = 50, height = 50, mode = (int)RenderModes.RenderMode_Stretch })" alt="" />
-                <span>@i.Content.Name</span>
+                @Html.Partial("../Picture/_Summary", item)
             }
             else if (item is Powerbi)
             {
-                Powerbi i = item as Powerbi;
-                <span>@i.Type.Translate()</span>@(": ")<span>@i.Name</span>
+                @Html.Partial("../Powerbi/_Summary", item)
             }
             else if (item is Report)
             {
-                Report i = item as Report;
-                <img class="thumb1" src="@Url.Action("Thumb", "Report", new { id = item.FrameId, width = 50, height = 50, mode = (int)RenderModes.RenderMode_Stretch })" alt="" />
-                <span>@i.Name</span>
+                @Html.Partial("../Report/_Summary", item)
             }
             else if (item is Video)
             {
-                Video i = item as Video;
-                <span>@(string.Format(Resources.VideoAlternatives, i.Contents.Count()))</span>
+                @Html.Partial("../Video/_Summary", item)
             }
             else if (item is Weather)
             {
-                Weather i = item as Weather;
-                @i.Type.Translate()
+                @Html.Partial("../Weather/_Summary", item)
             }
             else if (item is Youtube)
             {
-                Youtube i = item as Youtube;
-                <img class="thumb1" src="@Html.Raw(string.Format("http://i.ytimg.com/vi/{0}/0.jpg", i.YoutubeId))" alt="" />
-                <span>@i.Name</span>
+                @Html.Partial("../Youtube/_Summary", item)
             }
             else
             {

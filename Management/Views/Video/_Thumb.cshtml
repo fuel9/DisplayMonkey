@@ -1,0 +1,12 @@
+﻿@using DisplayMonkey.Models
+@using DisplayMonkey.Language
+
+@model DisplayMonkey.Models.Video
+
+<div class="d1">
+    <div><img src="~/images/video_thmb.png" alt="" /></div>
+    <div>@(string.Format("{0}, {1} {2}", Model.FrameType, Model.Duration, Resources.Sec))</div>
+</div>
+<div>
+    @Html.ShortSpan(Model.Contents.FirstOrDefault().Name, 17)
+</div>

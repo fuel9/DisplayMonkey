@@ -1,0 +1,7 @@
+﻿@using DisplayMonkey.Models
+@using DisplayMonkey.Language
+
+@model DisplayMonkey.Models.Youtube
+
+<img class="thumb1" src="@Html.Raw(string.Format("http://i.ytimg.com/vi/{0}/0.jpg", Model.YoutubeId))" alt="" />
+<span>@Model.Name</span>

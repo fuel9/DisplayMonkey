@@ -1,0 +1,7 @@
+﻿@using DisplayMonkey.Models
+@using DisplayMonkey.Language
+
+@model DisplayMonkey.Models.Report
+
+<img class="thumb1" src="@Url.Action("Thumb", "Report", new { id = Model.FrameId, width = 50, height = 50, mode = (int)RenderModes.RenderMode_Stretch })" alt="" />
+<span>@Model.Name</span>

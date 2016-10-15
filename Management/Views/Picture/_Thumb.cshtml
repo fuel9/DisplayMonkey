@@ -1,0 +1,12 @@
+﻿@using DisplayMonkey.Models
+@using DisplayMonkey.Language
+
+@model DisplayMonkey.Models.Picture
+
+<div class="d1">
+    <div><img src="@Url.Action("Thumb", "Media", new { id = Model.ContentId, width = 50, height = 50, mode = (int)RenderModes.RenderMode_Stretch })" alt="" /></div>
+    <div>@(string.Format("{0}, {1} {2}", Model.FrameType, Model.Duration, Resources.Sec))</div>
+</div>
+<div>
+    @Html.ShortSpan(Model.Content.Name, 17)
+</div>

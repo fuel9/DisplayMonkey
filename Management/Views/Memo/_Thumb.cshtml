@@ -1,0 +1,12 @@
+﻿@using DisplayMonkey.Models
+@using DisplayMonkey.Language
+
+@model DisplayMonkey.Models.Memo
+
+<div class="d1">
+    <div><img src="~/images/memo.png" alt="" /></div>
+    <div>@(string.Format("{0}, {1} {2}", Model.FrameType, Model.Duration, Resources.Sec))</div>
+</div>
+<div>
+    @Html.ShortSpan(Model.Subject, 17)
+</div>
