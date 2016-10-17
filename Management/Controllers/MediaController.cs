@@ -22,6 +22,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Data.Entity.Validation;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace DisplayMonkey.Controllers
 {
@@ -234,10 +235,11 @@ namespace DisplayMonkey.Controllers
         // GET: /Media/Playback/5
 
         //[Authorize]
+        [HttpGet, ActionName("Playback")]
         [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult Playback(int id)
+        public async Task<ActionResult> PlaybackAsync(int id)
         {
-            Content content = db.Contents.Find(id);
+            Content content = await db.Contents.FindAsync(id);
             if (content.Data != null)
             {
                 string contentType = string.Format(
@@ -253,8 +255,9 @@ namespace DisplayMonkey.Controllers
         //
         // GET: /Media/Thumb/5
         //[Authorize]
+        [HttpGet, ActionName("Thumb")]
         [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult Thumb(int id, int width = 0, int height = 0, RenderModes mode = RenderModes.RenderMode_Fit, int trace = 0)
+        public async Task<ActionResult> ThumbAsync(int id, int width = 0, int height = 0, RenderModes mode = RenderModes.RenderMode_Fit, int trace = 0)
         {
             StringBuilder message = new StringBuilder();
 
@@ -262,12 +265,12 @@ namespace DisplayMonkey.Controllers
             {
                 if (width <= 120 && height <= 120)
                 {
-                    byte[] cache = HttpRuntime.Cache.GetOrAddSliding(
+                    byte[] cache = await HttpRuntime.Cache.GetOrAddSlidingAsync(
                         string.Format("thumb_image_{0}_{1}x{2}_{3}", id, width, height, (int)mode),
-                        () => {
-                            byte [] img = db.Contents.Find(id).Data;
+                        async () => {
+                            var data = await db.Contents.FindAsync(id);
                             using (MemoryStream trg = new MemoryStream())
-                            using (MemoryStream src = new MemoryStream(img))
+                            using (MemoryStream src = new MemoryStream(data.Data))
                             {
                                 MediaController.WriteImage(src, trg, width, height, mode);
                                 return trg.GetBuffer();
@@ -281,8 +284,8 @@ namespace DisplayMonkey.Controllers
 
                 else
                 {
-                    byte [] img = db.Contents.Find(id).Data;
-                    using (MemoryStream src = new MemoryStream(img))
+                    var data = await db.Contents.FindAsync(id);
+                    using (MemoryStream src = new MemoryStream(data.Data))
                     {
                         MemoryStream trg = new MemoryStream();
                         MediaController.WriteImage(src, trg, width, height, mode);

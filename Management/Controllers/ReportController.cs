@@ -20,6 +20,9 @@ using DisplayMonkey.Models;
 using System.IO;
 using System.Net;
 using System.Text;
+using System.Threading.Tasks;
+using System.Threading;
+using System.Diagnostics;
 
 namespace DisplayMonkey.Controllers
 {
@@ -159,19 +162,25 @@ namespace DisplayMonkey.Controllers
         // GET: /Content/Thumb/5
 
         //[Authorize]
+        [HttpGet, ActionName("Thumb")]
         [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult Thumb(int id, int width = 0, int height = 0, RenderModes mode = RenderModes.RenderMode_Fit, int trace = 0)
+        public async Task<ActionResult> ThumbAsync(int id, int width = 0, int height = 0, RenderModes mode = RenderModes.RenderMode_Fit, int trace = 0)
         {
             StringBuilder message = new StringBuilder();
 
             try
             {
+                Report report = db.Frames.OfType<Report>()
+                    .Include(r => r.ReportServer)
+                    .FirstOrDefault(r => r.FrameId == id)
+                    ;
+
                 if (width <= 120 && height <= 120)
                 {
-                    byte[] cache = HttpRuntime.Cache.GetOrAddSliding(
-                        string.Format("thumb_report_{0}_{1}x{2}_{3}", id, width, height, (int)mode),
-                        () => {
-                            byte[] img = GetReportBytes(id);
+                    byte[] cache = await HttpRuntime.Cache.GetOrAddSlidingAsync(
+                        string.Format("thumb_report_{0}_{1}x{2}_{3}", report.FullPath, width, height, (int)mode),
+                        async () => {
+                            byte[] img = await GetReportBytesAsync(report);
                             using (MemoryStream trg = new MemoryStream())
                             using (MemoryStream src = new MemoryStream(img))
                             {
@@ -187,7 +196,7 @@ namespace DisplayMonkey.Controllers
 
                 else
                 {
-                    byte[] img = GetReportBytes(id);
+                    byte[] img = await GetReportBytesAsync(report);
                     using (MemoryStream src = new MemoryStream(img))
                     {
                         MemoryStream trg = new MemoryStream();
@@ -231,27 +240,12 @@ namespace DisplayMonkey.Controllers
                 return Content(message.Length == 0 ? "OK" : message.ToString());
         }
 
-        private byte[] GetReportBytes(int id)
+        /*private byte[] GetReportBytes(int id)
         {
             Report report = db.Frames.OfType<Report>()
                 .Include(r => r.ReportServer)
                 .FirstOrDefault(r => r.FrameId == id)
                 ;
-
-            string baseUrl = (report.ReportServer.BaseUrl ?? "").Trim()
-                , url = (report.Path ?? "").Trim();
-
-            if (baseUrl.EndsWith("/"))
-                baseUrl = baseUrl.Substring(0, baseUrl.Length - 1);
-
-            if (!url.StartsWith("/"))
-                url = "/" + url;
-
-            url = string.Format(
-                "{0}?{1}&rs:format=IMAGE",
-                baseUrl,
-                HttpUtility.UrlEncode(url)
-                );
 
             WebClient client = new WebClient();
             string
@@ -268,7 +262,27 @@ namespace DisplayMonkey.Controllers
                     );
             }
 
-            return client.DownloadData(url);
+            return client.DownloadData(report.FullPath);
+        }*/
+
+        private async Task<byte[]> GetReportBytesAsync(Report report)
+        {
+            var client = new WebClient();
+            string
+                user = (report.ReportServer.User ?? "").Trim(),
+                domain = (report.ReportServer.Domain ?? "").Trim()
+                ;
+
+            if (!string.IsNullOrWhiteSpace(user))
+            {
+                client.Credentials = new NetworkCredential(
+                    user,
+                    RsaUtil.Decrypt(report.ReportServer.Password),
+                    domain
+                    );
+            }
+
+            return await client.DownloadDataTaskAsync(report.FullPath);
         }
 
         private void FillServersSelectList(object selected = null)

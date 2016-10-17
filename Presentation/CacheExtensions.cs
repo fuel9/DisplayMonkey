@@ -12,6 +12,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Caching;
 
@@ -43,7 +45,9 @@ namespace DisplayMonkey
 
             if (data == null)
             {
-                lock (_cacheLock)
+                _sem.Wait();
+                
+                try //lock (_cacheLock)
                 {
                     data = cache[key] as CacheItem<T>;
 
@@ -68,6 +72,11 @@ namespace DisplayMonkey
                     else
                         result = (T)data.Data;
                 }
+
+                finally
+                {
+                    _sem.Release();
+                }
             }
             else
                 result = (T)data.Data;
@@ -84,7 +93,9 @@ namespace DisplayMonkey
 
             if (data == null)
             {
-                lock (_cacheLock)
+                _sem.Wait();
+                
+                try //lock (_cacheLock)
                 {
                     data = cache[key] as CacheItem<T>;
 
@@ -110,6 +121,11 @@ namespace DisplayMonkey
                     else
                         result = (T)data.Data;
                 }
+
+                finally
+                {
+                    _sem.Release();
+                }
             }
             else
                 result = (T)data.Data;
@@ -129,7 +145,9 @@ namespace DisplayMonkey
 
             if (data == null)
             {
-                lock (_cacheLock)
+                _sem.Wait();
+                
+                try //lock (_cacheLock)
                 {
                     data = cache[key] as CacheItem<T>;
 
@@ -154,6 +172,62 @@ namespace DisplayMonkey
                     else
                         result = (T)data.Data;
                 }
+
+                finally
+                {
+                    _sem.Release();
+                }
+            }
+            else
+                result = (T)data.Data;
+
+            return result;
+        }
+
+        public static async Task<T> GetOrAddSlidingAsync<T>(this Cache cache, string key, Func<Task<T>> actionAsync, TimeSpan after)
+        {
+            if (after.TotalSeconds <= 0)
+            {
+                return await actionAsync();
+            }
+
+            T result;
+            CacheItem<T> data = cache[key] as CacheItem<T>;
+
+            if (data == null)
+            {
+                await _sem.WaitAsync();
+
+                try
+                {
+                    data = cache[key] as CacheItem<T>;
+
+                    if (data == null)
+                    {
+                        result = await actionAsync();
+
+                        if (result == null)
+                            return result;
+
+                        Debug.Print(string.Format("+++: key={0}, time={1}", key, DateTime.Now));
+
+                        cache.Insert(
+                            key,
+                            new CacheItem<T>(result),
+                            null,
+                            Cache.NoAbsoluteExpiration,
+                            after,
+                            new CacheItemUpdateCallback(DMCacheItemUpdateCallback)
+                            );
+                    }
+                    else
+                        result = (T)data.Data;
+                }
+
+                finally
+                {
+                    _sem.Release();
+                }
             }
             else
                 result = (T)data.Data;
@@ -170,7 +244,9 @@ namespace DisplayMonkey
 
             if (data == null)
             {
-                lock (_cacheLock)
+                _sem.Wait();
+                
+                try //lock (_cacheLock)
                 {
                     data = cache[key] as CacheItem<T>;
 
@@ -195,6 +271,11 @@ namespace DisplayMonkey
                     }
                     else
                         result = (T)data.Data;
+                }
+
+                finally
+                {
+                    _sem.Release();
                 }
             }
             else
@@ -229,7 +310,8 @@ namespace DisplayMonkey
             public T Data { get; private set; }
         }
 
-        private static readonly object _cacheLock = new object();
+        //private static readonly object _cacheLock = new object();
+        private static readonly SemaphoreSlim _sem = new SemaphoreSlim(1, 1);
 
         private static void DMCacheItemUpdateCallback(
             string key, 
