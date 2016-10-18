@@ -48,9 +48,10 @@ Display Monkey comprises Management (a.k.a. DMM) and Presentation (a.k.a. DMP) a
   - YouTube videos
   - Your own HTML
   - Simple memos
-  - MSO Outlook calendar
+  - MSO Outlook calendar with quick booking
   - Text and graphical face clock
   - Yahoo weather
+  - Power BI
 - WYSIWYG Editor to design presentation layouts
 - Management of Displays
 - Management of Media (images and videos)

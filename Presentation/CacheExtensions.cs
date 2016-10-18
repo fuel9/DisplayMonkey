@@ -84,6 +84,57 @@ namespace DisplayMonkey
             return result;
         }
 
+        public static async Task<T> GetOrAddAbsoluteAsync<T>(this Cache cache, string key, Func<Task<T>> actionAsync, DateTime when)
+        {
+            if (when <= DateTime.Now)
+            {
+                return await actionAsync();
+            }
+
+            T result;
+            CacheItem<T> data = cache[key] as CacheItem<T>;
+
+            if (data == null)
+            {
+                _sem.Wait();
+
+                try //lock (_cacheLock)
+                {
+                    data = cache[key] as CacheItem<T>;
+
+                    if (data == null)
+                    {
+                        result = await actionAsync();
+
+                        if (result == null)
+                            return result;
+
+                        //Debug.Print(string.Format("+++: key={0}, time={1}", key, DateTime.Now));
+
+                        cache.Insert(
+                            key,
+                            new CacheItem<T>(result),
+                            null,
+                            when,
+                            Cache.NoSlidingExpiration,
+                            new CacheItemUpdateCallback(DMCacheItemUpdateCallback)
+                            );
+                    }
+                    else
+                        result = (T)data.Data;
+                }
+
+                finally
+                {
+                    _sem.Release();
+                }
+            }
+            else
+                result = (T)data.Data;
+
+            return result;
+        }
+
         public delegate T FuncWithExpiration<out T>(ref DateTime _expireDate);
         public static T GetOrAddAbsolute<T>(this Cache cache, string key, FuncWithExpiration<T> action)
         {

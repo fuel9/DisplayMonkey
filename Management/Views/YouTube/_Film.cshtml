@@ -4,7 +4,7 @@
 @model DisplayMonkey.Models.Youtube
 
 <div class="d1">
-    <div><img src="@Html.Raw(string.Format("http://i.ytimg.com/vi/{0}/0.jpg", f.YoutubeId))" alt="" /></div>
+    <div><img src="@Html.Raw(string.Format("http://i.ytimg.com/vi/{0}/0.jpg", Model.YoutubeId))" alt="" /></div>
     <div>@(string.Format("{0}, {1} {2}", Model.FrameType, Model.Duration, Resources.Sec))</div>
 </div>
 <div>

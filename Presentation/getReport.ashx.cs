@@ -17,6 +17,7 @@ using System.IO;
 using System.Configuration;
 using System.Net;
 using DisplayMonkey.Models;
+using System.Threading.Tasks;
 //using System.Drawing;
 //using System.Drawing.Imaging;
 
@@ -25,9 +26,9 @@ namespace DisplayMonkey
 	/// <summary>
 	/// Summary description for getReport
 	/// </summary>
-	public class getReport : IHttpHandler
+    public class getReport : HttpTaskAsyncHandler
 	{
-		public void ProcessRequest(HttpContext context)
+		public override async Task ProcessRequestAsync(HttpContext context)
 		{
 			HttpRequest Request = context.Request;
 			HttpResponse Response = context.Response;
@@ -63,9 +64,9 @@ namespace DisplayMonkey
                     //TiffBitmapDecoder decoder = new TiffBitmapDecoder(imageStreamSource, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.Default);
                     //BitmapSource bitmapSource = decoder.Frames[0];
 
-                    data = HttpRuntime.Cache.GetOrAddAbsolute(
+                    data = await HttpRuntime.Cache.GetOrAddAbsoluteAsync(
                         report.CacheKey,
-                        () =>
+                        async () =>
                         {
                             // get response from report server
                             WebClient client = new WebClient();
@@ -78,7 +79,7 @@ namespace DisplayMonkey
                                     );
                             }
 
-                            byte[] repBytes = client.DownloadData(report.Url);
+                            byte[] repBytes = await client.DownloadDataTaskAsync(report.Url);
 
                             if (repBytes == null)
                                 return null;

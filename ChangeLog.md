@@ -13,10 +13,12 @@
 
 ### Change log
 
-v1.2.0 (October 5, 2016)
+v1.2.0 (October 15, 2016)
 
 - Outlook frame: added ShowAs filter and quick booking support, redesigned HTML template.
 - Power BI frame: new feature
+- Refactored frame classes
+- Asynchronous report and media rendering in DMM
 
 v1.1.0 (June 21, 2016)
 
