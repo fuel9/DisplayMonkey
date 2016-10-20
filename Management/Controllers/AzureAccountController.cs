@@ -32,7 +32,7 @@ namespace DisplayMonkey.Controllers
 
         private static Regex _emailRgx = new Regex(Models.Constants.EmailMask);
 
-        private async Task GetToken(AzureAccount az)
+        private async Task GetTokenAsync(AzureAccount az)
         {
             try
             {
@@ -103,7 +103,7 @@ namespace DisplayMonkey.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> CreateAsync([Bind(Include = "Name,Resource,ClientId,ClientSecret,TenantId,User,PasswordUnmasked")] AzureAccount az)
         {
-            await GetToken(az);
+            await GetTokenAsync(az);
 
             if (ModelState.IsValid)
             {
@@ -134,11 +134,11 @@ namespace DisplayMonkey.Controllers
         //
         // POST: /AzureAccount/Edit/5
 
-        [HttpPost]
+        [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "AccountId,Name,Resource,ClientId,ClientSecret,TenantId,User,PasswordUnmasked")] AzureAccount az)
+        public async Task<ActionResult> EditAsync([Bind(Include = "AccountId,Name,Resource,ClientId,ClientSecret,TenantId,User,PasswordUnmasked")] AzureAccount az)
         {
-            GetToken(az);
+            await GetTokenAsync(az);
 
             if (ModelState.IsValid)
             {
