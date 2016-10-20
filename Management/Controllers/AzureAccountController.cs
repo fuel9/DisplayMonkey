@@ -20,6 +20,7 @@ using System.Text.RegularExpressions;
 using System.Net;
 using DisplayMonkey.Language;
 using DisplayMonkey.AzureUtil;
+using System.Threading.Tasks;
 
 namespace DisplayMonkey.Controllers
 {
@@ -31,7 +32,7 @@ namespace DisplayMonkey.Controllers
 
         private static Regex _emailRgx = new Regex(Models.Constants.EmailMask);
 
-        private void GetToken(AzureAccount az)
+        private async Task GetToken(AzureAccount az)
         {
             try
             {
@@ -41,7 +42,7 @@ namespace DisplayMonkey.Controllers
                 if (!az.PasswordSet)
                     throw new ApplicationException(Resources.ProvideAccountPassword);
                 
-                TokenInfo ti = Token.GetGrantTypePassword(
+                TokenInfo ti = await Token.GetGrantTypePasswordAsync(
                     az.Resource, 
                     az.ClientId, 
                     az.ClientSecret, 
@@ -98,11 +99,11 @@ namespace DisplayMonkey.Controllers
         //
         // POST: /AzureAccount/Create
 
-        [HttpPost]
+        [HttpPost, ActionName("Create")]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Name,Resource,ClientId,ClientSecret,TenantId,User,PasswordUnmasked")] AzureAccount az)
+        public async Task<ActionResult> CreateAsync([Bind(Include = "Name,Resource,ClientId,ClientSecret,TenantId,User,PasswordUnmasked")] AzureAccount az)
         {
-            GetToken(az);
+            await GetToken(az);
 
             if (ModelState.IsValid)
             {

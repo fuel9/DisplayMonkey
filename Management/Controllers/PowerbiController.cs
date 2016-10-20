@@ -22,6 +22,7 @@ using DisplayMonkey.Language;
 using System.IO;
 using System.Web.Script.Serialization;
 using DisplayMonkey.AzureUtil;
+using System.Threading.Tasks;
 
 namespace DisplayMonkey.Controllers
 {
@@ -152,13 +153,13 @@ namespace DisplayMonkey.Controllers
 
         //
         // POST: /Powerbi/reports/5
-        [HttpPost]
-        public JsonResult Reports(int accountId)
+        [HttpPost, ActionName("Reports")]
+        public async Task<JsonResult> ReportsAsync(int accountId)
         {
             try {
                 var x = new List<SelectListItemWithUrl>();
 
-                AzureAccount acc = AzureAccountRefreshToken(accountId);
+                AzureAccount acc = await AzureAccountRefreshTokenAsync(accountId);
                 if (acc != null)
                 {
                     WebRequest request = WebRequest.Create(String.Format("{0}/{1}/reports", _baseUrl, acc.TenantId ?? "myorg")) as System.Net.HttpWebRequest;
@@ -166,10 +167,10 @@ namespace DisplayMonkey.Controllers
                     request.ContentLength = 0;
                     request.Headers.Add("Authorization", String.Format("Bearer {0}", acc.AccessToken));
 
-                    using (var response = request.GetResponse() as HttpWebResponse)
+                    using (var response = await request.GetResponseAsync() as HttpWebResponse)
                     using (var reader = new StreamReader(response.GetResponseStream()))
                     {
-                        string responseContent = reader.ReadToEnd();
+                        string responseContent = await reader.ReadToEndAsync();
                         PBIReports reports = new JavaScriptSerializer().Deserialize<PBIReports>(responseContent);
                         foreach (PBIReport i in reports.value.Where(j => j.embedUrl != ""))
                         {
@@ -213,14 +214,14 @@ namespace DisplayMonkey.Controllers
 
         //
         // POST: /Powerbi/dashboards/5
-        [HttpPost]
-        public JsonResult Dashboards(int accountId)
+        [HttpPost, ActionName("Dashboards")]
+        public async Task<JsonResult> DashboardsAsync(int accountId)
         {
             try
             {
                 var x = new List<SelectListItem>();
 
-                AzureAccount acc = AzureAccountRefreshToken(accountId);
+                AzureAccount acc = await AzureAccountRefreshTokenAsync(accountId);
                 if (acc != null)
                 {
                     WebRequest request = WebRequest.Create(String.Format("{0}/{1}/dashboards", _baseUrl, acc.TenantId ?? "myorg")) as System.Net.HttpWebRequest;
@@ -228,10 +229,10 @@ namespace DisplayMonkey.Controllers
                     request.ContentLength = 0;
                     request.Headers.Add("Authorization", String.Format("Bearer {0}", acc.AccessToken));
 
-                    using (var response = request.GetResponse() as HttpWebResponse)
+                    using (var response = await request.GetResponseAsync() as HttpWebResponse)
                     using (var reader = new StreamReader(response.GetResponseStream()))
                     {
-                        string responseContent = reader.ReadToEnd();
+                        string responseContent = await reader.ReadToEndAsync();
                         PBIDashboards reports = new JavaScriptSerializer().Deserialize<PBIDashboards>(responseContent);
                         foreach (PBIDashboard i in reports.value)
                         {
@@ -269,14 +270,14 @@ namespace DisplayMonkey.Controllers
 
         //
         // POST: /Powerbi/tiles/5
-        [HttpPost]
-        public JsonResult Tiles(int accountId, string dashboard)
+        [HttpPost, ActionName("Tiles")]
+        public async Task<JsonResult> TilesAsync(int accountId, string dashboard)
         {
             try
             {
                 var x = new List<SelectListItemWithUrl>();
 
-                AzureAccount acc = AzureAccountRefreshToken(accountId);
+                AzureAccount acc = await AzureAccountRefreshTokenAsync(accountId);
                 if (acc != null)
                 {
                     WebRequest request = WebRequest.Create(String.Format("{0}/{1}/dashboards/{2}/tiles", _baseUrl, acc.TenantId ?? "myorg", dashboard)) as System.Net.HttpWebRequest;
@@ -284,10 +285,10 @@ namespace DisplayMonkey.Controllers
                     request.ContentLength = 0;
                     request.Headers.Add("Authorization", String.Format("Bearer {0}", acc.AccessToken));
 
-                    using (var response = request.GetResponse() as HttpWebResponse)
+                    using (var response = await request.GetResponseAsync() as HttpWebResponse)
                     using (var reader = new StreamReader(response.GetResponseStream()))
                     {
-                        string responseContent = reader.ReadToEnd();
+                        string responseContent = await reader.ReadToEndAsync();
                         PBITiles reports = new JavaScriptSerializer().Deserialize<PBITiles>(responseContent);
                         foreach (PBITile i in reports.value.Where(j => j.embedUrl != ""))
                         {
@@ -325,12 +326,12 @@ namespace DisplayMonkey.Controllers
 
         #region Misc members
 
-        private AzureAccount AzureAccountRefreshToken(int accountId)
+        private async Task<AzureAccount> AzureAccountRefreshTokenAsync(int accountId)
         {
             AzureAccount az = db.AzureAccounts.Find(accountId);
             if (az != null && string.IsNullOrWhiteSpace(az.AccessToken) || !az.ExpiresOn.HasValue || az.ExpiresOn.Value < DateTime.UtcNow)
             {
-                TokenInfo ti = Token.GetGrantTypePassword(
+                TokenInfo ti = await Token.GetGrantTypePasswordAsync(
                     az.Resource,
                     az.ClientId,
                     az.ClientSecret,

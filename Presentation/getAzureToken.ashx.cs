@@ -22,11 +22,9 @@ using DisplayMonkey.AzureUtil;
 
 namespace DisplayMonkey
 {
-    public partial class getAzureToken : IHttpHandler
+    public partial class getAzureToken : HttpTaskAsyncHandler
     {
-        public bool IsReusable { get { return false; } }
-
-        public void ProcessRequest(HttpContext context)
+        public override async System.Threading.Tasks.Task ProcessRequestAsync(HttpContext context)
 		{
 			HttpRequest request = context.Request;
 			HttpResponse response = context.Response;
@@ -57,7 +55,7 @@ namespace DisplayMonkey
                 JavaScriptSerializer jss = new JavaScriptSerializer();
                 json = jss.Serialize(new
                 {
-                    accessToken = powerbi.AccessToken,
+                    accessToken = await powerbi.GetAccessTokenAsync(),
                 });
 			}
 

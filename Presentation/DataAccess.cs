@@ -94,7 +94,7 @@ namespace DisplayMonkey
 			}
 		}
 
-        public static void ExecuteTransaction(Action<SqlConnection,SqlTransaction> batch)
+        public static async Task ExecuteTransactionAsync(Func<SqlConnection,SqlTransaction,Task> batch)
         {
             // borrow new connection from the pool
             using (SqlConnection cnn = new SqlConnection(ConnectionString))
@@ -103,9 +103,9 @@ namespace DisplayMonkey
 
                 try
                 {
-                    cnn.Open();
+                    await cnn.OpenAsync();
                     transaction = cnn.BeginTransaction();
-                    batch(cnn, transaction);
+                    await batch(cnn, transaction);
                     transaction.Commit();
                 }
 
@@ -116,7 +116,6 @@ namespace DisplayMonkey
                 }
             }
         }
-
 
         #region Value helper extensions  //////////////////////////////////////////////
 

@@ -16,6 +16,7 @@ using System.Net.Http;
 using System.Collections.Generic;
 using System.Web.Script.Serialization;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace DisplayMonkey.AzureUtil
 {
@@ -52,20 +53,20 @@ namespace DisplayMonkey.AzureUtil
 
     public class Token
     {
-        public static TokenInfo GetGrantTypePassword(
+        public static async Task<TokenInfo> GetGrantTypePasswordAsync(
             Models.AzureResources _resource,
-            string _clientId, 
-            string _clientSecret, 
-            string _user, 
-            string _password, 
+            string _clientId,
+            string _clientSecret,
+            string _user,
+            string _password,
             string _tenantId = null
             )
         {
             TokenInfo token = null;
-            
+
             List<KeyValuePair<string, string>> vals = new List<KeyValuePair<string, string>>();
             vals.Add(new KeyValuePair<string, string>("scope", "openid"));
-            
+
             switch (_resource)
             {
                 case Models.AzureResources.AzureResource_PowerBi:
@@ -90,12 +91,12 @@ namespace DisplayMonkey.AzureUtil
             string url = string.Format("https://login.windows.net/{0}/oauth2/token", (_tenantId ?? "common").Trim());     // TODO: move URL to config file
 
             HttpClient client = new HttpClient();
-            HttpResponseMessage response = client.PostAsync(url, new FormUrlEncodedContent(vals)).Result;
+            HttpResponseMessage response = await client.PostAsync(url, new FormUrlEncodedContent(vals));
             string responseData = "";
-            using (Stream data = response.Content.ReadAsStreamAsync().Result)
+            using (Stream data = await response.Content.ReadAsStreamAsync())
             using (StreamReader reader = new StreamReader(data, System.Text.Encoding.UTF8))
             {
-                responseData = reader.ReadToEnd();
+                responseData = await reader.ReadToEndAsync();
             }
 
             if (!string.IsNullOrWhiteSpace(responseData))

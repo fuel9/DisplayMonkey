@@ -120,13 +120,5 @@ namespace DisplayMonkey
                 Response.OutputStream.Flush();
             }
         }
-
-		public bool IsReusable
-		{
-			get
-			{
-				return false;
-			}
-		}
 	}
 }

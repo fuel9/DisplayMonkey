@@ -135,7 +135,7 @@ namespace DisplayMonkey
             return result;
         }
 
-        public delegate T FuncWithExpiration<out T>(ref DateTime _expireDate);
+        /*public delegate T FuncWithExpiration<out T>(ref DateTime _expireDate);
         public static T GetOrAddAbsolute<T>(this Cache cache, string key, FuncWithExpiration<T> action)
         {
             T result;
@@ -182,7 +182,7 @@ namespace DisplayMonkey
                 result = (T)data.Data;
 
             return result;
-        }
+        }*/
 
         public static T GetOrAddSliding<T>(this Cache cache, string key, Func<T> action, TimeSpan after)
         {
@@ -286,7 +286,7 @@ namespace DisplayMonkey
             return result;
         }
 
-        public delegate T FuncWithTimeout<out T>(ref TimeSpan _timeout);
+        /*public delegate T FuncWithTimeout<out T>(ref TimeSpan _timeout);
         public static T GetOrAddSliding<T>(this Cache cache, string key, FuncWithTimeout<T> action)
         {
             T result;
@@ -333,7 +333,7 @@ namespace DisplayMonkey
                 result = (T)data.Data;
 
             return result;
-        }
+        }*/
 
         #region Internal Implementation
 
