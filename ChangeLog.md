@@ -13,13 +13,16 @@
 
 ### Change log
 
-v1.2.0 (October 15, 2016)
+v1.3.0 (October 21, 2016)
 
-- Outlook frame: added ShowAs filter and quick booking support, redesigned HTML template.
 - Power BI frame: new feature
 - Refactored all frame classes for inheritance
 - Asynchronous report, media and weather rendering
 - Improved report frames thumbnail caching
+
+v1.2.0 (September 15, 2016)
+
+- Outlook frame: added ShowAs filter and quick booking support, redesigned HTML template.
 
 v1.1.0 (June 21, 2016)
 
