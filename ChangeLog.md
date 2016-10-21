@@ -17,7 +17,7 @@ v1.2.0 (October 15, 2016)
 
 - Outlook frame: added ShowAs filter and quick booking support, redesigned HTML template.
 - Power BI frame: new feature
-- Refactored all frame classes for easier maintenance
+- Refactored all frame classes for inheritance
 - Asynchronous report, media and weather rendering
 - Improved report frames thumbnail caching
 
