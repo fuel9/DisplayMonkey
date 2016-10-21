@@ -2,7 +2,7 @@
 * DisplayMonkey source file
 * http://displaymonkey.org
 *
-* Copyright (c) 2015 Fuel9 LLC and contributors
+* Copyright (c) 2016 Fuel9 LLC and contributors
 *
 * Released under the MIT license:
 * http://opensource.org/licenses/MIT
@@ -108,12 +108,9 @@ IF  not OBJECT_ID(N'[dbo].[tr_FullScreen_Delete]') is null
 	DROP TRIGGER [dbo].[tr_FullScreen_Delete]
 ;
 
-IF  EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_FullScreen_Canvas]') AND parent_object_id = OBJECT_ID(N'[dbo].[FullScreen]')) begin
+IF  EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_FullScreen_Canvas]') AND parent_object_id = OBJECT_ID(N'[dbo].[FullScreen]'))
 	ALTER TABLE [dbo].[FullScreen] DROP CONSTRAINT [FK_FullScreen_Canvas]
-	;
-	ALTER TABLE dbo.FullScreen DROP COLUMN CanvasId
-	;
-end
+;
 
 IF  EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_FullScreen_Panel]') AND parent_object_id = OBJECT_ID(N'[dbo].[FullScreen]'))
 	ALTER TABLE [dbo].[FullScreen] DROP CONSTRAINT [FK_FullScreen_Panel]
@@ -125,6 +122,10 @@ IF	not object_id('PK_FULL_SCREEN','PK') is null
 
 IF	not object_id('PK_FullScreen','PK') is null
 	ALTER TABLE dbo.FullScreen DROP CONSTRAINT PK_FullScreen
+;
+
+IF  EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID(N'[dbo].[FullScreen]') AND name = N'CanvasId')
+	ALTER TABLE dbo.FullScreen DROP COLUMN CanvasId
 ;
 
 ALTER TABLE dbo.FullScreen 
@@ -144,7 +145,7 @@ go
   2015-07-30 [LTL] - supersedes sp_GetIdleInterval and fn_GetDisplayHash, RC13
   2015-08-17 [LTL] - fixed hash, RC14
   2015-09-03 [LTL] - added RecycleTime, RC15
-  2016-10-10 [LTL] - handle canvasId in FS, 1.2.0
+  2016-10-10 [LTL] - handle canvasId in FS, 1.3.0
 *******************************************************************/
 ALTER procedure [dbo].[sp_GetDisplayData]
 	@displayId int
