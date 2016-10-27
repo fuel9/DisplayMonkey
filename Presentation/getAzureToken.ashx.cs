@@ -29,10 +29,10 @@ namespace DisplayMonkey
 			HttpRequest request = context.Request;
 			HttpResponse response = context.Response;
 
-            int frameId = DataAccess.IntOrZero(request.QueryString["frame"]);
-            int panelId = DataAccess.IntOrZero(request.QueryString["panel"]);
-            int displayId = DataAccess.IntOrZero(request.QueryString["display"]);
-            string culture = DataAccess.StringOrBlank(request.QueryString["culture"]);
+            int frameId = request.IntOrZero("frame");
+            int panelId = request.IntOrZero("panel");
+            int displayId = request.IntOrZero("display");
+            string culture = request.StringOrBlank("culture");
 
 			string json = "";
 				

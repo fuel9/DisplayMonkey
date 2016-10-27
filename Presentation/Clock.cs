@@ -60,7 +60,7 @@ namespace DisplayMonkey
             })
             {
                 cmd.Parameters.AddWithValue("@frameId", this.FrameId);
-                cmd.ExecuteReader((dr) =>
+                cmd.ExecuteReaderExt((dr) =>
                 {
                     this.ShowDate = dr.Boolean("ShowDate");
                     this.ShowTime = dr.Boolean("ShowTime");

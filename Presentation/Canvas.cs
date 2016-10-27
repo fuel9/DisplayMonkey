@@ -34,7 +34,7 @@ namespace DisplayMonkey
             })
             {
                 cmd.Parameters.AddWithValue("@canvasId", canvasId);
-                cmd.ExecuteReader((r) =>
+                cmd.ExecuteReaderExt((r) =>
                 {
                     _initFromRow(r);
                     return false;
@@ -56,7 +56,7 @@ namespace DisplayMonkey
             })
             {
                 cmd.Parameters.AddWithValue("@displayId", displayId);
-                cmd.ExecuteReader((r) =>
+                cmd.ExecuteReaderExt((r) =>
                 {
                     canvas = new Canvas()
                     {
@@ -104,7 +104,7 @@ namespace DisplayMonkey
                     CommandText = "SELECT * FROM Canvas ORDER BY Name",
                 })
                 {
-                    cmd.ExecuteReader((r) =>
+                    cmd.ExecuteReaderExt((r) =>
                     {
                         Canvas canvas = new Canvas(r.IntOrZero("CanvasId"));
                         list.Add(canvas);

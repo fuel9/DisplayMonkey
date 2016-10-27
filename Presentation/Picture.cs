@@ -79,7 +79,7 @@ namespace DisplayMonkey
             })
             {
                 cmd.Parameters.AddWithValue("@frameId", FrameId);
-                cmd.ExecuteReader((dr) =>
+                cmd.ExecuteReaderExt((dr) =>
                 {
                     ContentId = dr.IntOrZero("ContentId");
                     Mode = (RenderModes)dr.IntOrZero("Mode");

@@ -32,8 +32,8 @@ namespace DisplayMonkey
 			byte[] data = null;
 			string mediaName = "";
 
-            int frameId = DataAccess.IntOrZero(Request.QueryString["frame"]);
-            int contentId = DataAccess.IntOrZero(Request.QueryString["content"]);
+            int frameId = Request.IntOrZero("frame");
+            int contentId = Request.IntOrZero("content");
             
             try
 			{

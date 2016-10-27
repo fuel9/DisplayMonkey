@@ -44,7 +44,7 @@ namespace DisplayMonkey
             })
             {
                 cmd.Parameters.AddWithValue("@frameId", this.FrameId);
-                cmd.ExecuteReader((dr) =>
+                cmd.ExecuteReaderExt((dr) =>
                 {
                     YoutubeId = dr.StringOrBlank("YoutubeId").Trim();
                     AutoLoop = dr.Boolean("AutoLoop");

@@ -35,9 +35,9 @@ namespace DisplayMonkey
 			HttpRequest Request = context.Request;
 			HttpResponse Response = context.Response;
 
-            int frameId = DataAccess.IntOrZero(Request.QueryString["frame"]);
-            int woeid = DataAccess.IntOrZero(Request.QueryString["woeid"]);
-            string tempUnit = DataAccess.StringOrBlank(Request.QueryString["tempU"]);
+            int frameId = Request.IntOrZero("frame");
+            int woeid = Request.IntOrZero("woeid");
+            string tempUnit = Request.StringOrBlank("tempU");
             string json = "";
 
             try

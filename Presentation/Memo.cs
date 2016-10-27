@@ -39,7 +39,7 @@ namespace DisplayMonkey
             })
             {
                 cmd.Parameters.AddWithValue("@frameId", FrameId);
-                cmd.ExecuteReader((dr) =>
+                cmd.ExecuteReaderExt((dr) =>
                 {
                     Subject = dr.StringOrBlank("Subject");
                     Body = dr.StringOrBlank("Body");

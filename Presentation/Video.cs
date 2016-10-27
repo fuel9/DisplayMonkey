@@ -48,7 +48,7 @@ namespace DisplayMonkey
             })
             {
                 cmd.Parameters.AddWithValue("@frameId", FrameId);
-                cmd.ExecuteReader((dr) =>
+                cmd.ExecuteReaderExt((dr) =>
                 {
                     PlayMuted = dr.Boolean("PlayMuted");
                     AutoLoop = dr.Boolean("AutoLoop");
@@ -130,7 +130,7 @@ namespace DisplayMonkey
             {
                 cmd.Parameters.AddWithValue("@frameId", _video.FrameId);
                 cmd.Parameters.AddWithValue("@contentId", _contentId);
-                cmd.ExecuteReader((dr) =>
+                cmd.ExecuteReaderExt((dr) =>
                 {
                     _initFromRow(dr);
                     return false;
@@ -151,7 +151,7 @@ namespace DisplayMonkey
             })
             {
                 cmd.Parameters.AddWithValue("@frameId", frameId);
-                cmd.ExecuteReader((dr) =>
+                cmd.ExecuteReaderExt((dr) =>
                 {
                     VideoAlternative va = new VideoAlternative();
                     va._initFromRow(dr);

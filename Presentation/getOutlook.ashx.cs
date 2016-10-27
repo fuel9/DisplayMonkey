@@ -28,11 +28,11 @@ namespace DisplayMonkey
 			HttpRequest request = context.Request;
 			HttpResponse response = context.Response;
 
-            int frameId = DataAccess.IntOrZero(request.QueryString["frame"]);
-            int panelId = DataAccess.IntOrZero(request.QueryString["panel"]);
-            int displayId = DataAccess.IntOrZero(request.QueryString["display"]);
-            string culture = DataAccess.StringOrBlank(request.QueryString["culture"]);
-            int reserveMinutes = DataAccess.IntOrZero(request.QueryString["reserveMinutes"]);
+            int frameId = request.IntOrZero("frame");
+            int panelId = request.IntOrZero("panel");
+            int displayId = request.IntOrZero("display");
+            string culture = request.StringOrBlank("culture");
+            int reserveMinutes = request.IntOrZero("reserveMinutes");
 
 			string json = "";
 				
@@ -362,8 +362,8 @@ namespace DisplayMonkey
                     .Select(a => new EventEntry
                     {
                         Subject =
-                            outlook.Privacy == Models.OutlookPrivacy.OutlookPrivacy_All || a.Sensitivity == Sensitivity.Normal ? a.Subject : 
-                            DataAccess.ResourceManager.GetString(string.Format("EWS_Sensitivity_{0}", a.Sensitivity.ToString())),
+                            outlook.Privacy == Models.OutlookPrivacy.OutlookPrivacy_All || a.Sensitivity == Sensitivity.Normal ? a.Subject :
+                            DataAccess.StringResource(string.Format("EWS_Sensitivity_{0}", a.Sensitivity.ToString())),
                         CreatedOn = a.DateTimeCreated,
                         Starts = a.Start,
                         Ends = a.End,
@@ -503,13 +503,13 @@ namespace DisplayMonkey
                     foreach (var x in _sens.Where(e => e.Key == evt.Sensitivity))   // one and only
                     {
                         flags.Add(x.Value.Flag);
-                        serialized["sensitivity"] = DataAccess.ResourceManager.GetString(x.Value.Resource);
+                        serialized["sensitivity"] = DataAccess.StringResource(x.Value.Resource);
                         break;
                     }
                     foreach (var x in _showAs.Where(e => e.Key == evt.ShowAs))   // one and only
                     {
                         flags.Add(x.Value.Flag);
-                        serialized["showAs"] = DataAccess.ResourceManager.GetString(x.Value.Resource);
+                        serialized["showAs"] = DataAccess.StringResource(x.Value.Resource);
                         break;
                     }
                     serialized["flags"] = flags.ToArray();

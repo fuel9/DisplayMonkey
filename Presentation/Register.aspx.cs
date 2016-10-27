@@ -88,48 +88,25 @@ namespace DisplayMonkey
                 listLocation.SelectedIndex >= 0
                 )
 			{
-				/*try
-				{
-					Display display = new Display()
-					{
-						Host = labelHost.Text,
-						Name = textName.Text,
-						CanvasId = DataAccess.IntOrZero(listCanvas.SelectedValue),
-						LocationId = DataAccess.IntOrZero(listLocation.SelectedValue),
-					};
-
-					display.Register();
-
-					HttpContext.Current.Response.Redirect("default.aspx");
-				}
-
-				catch (Exception ex)
-				{
-					Response.Write(ex.Message);	// TODO: error label
-				}*/
-
-                RegisterAsyncTask(new PageAsyncTask(async () =>
+                try
                 {
-                    try
+                    Display display = new Display()
                     {
-                        Display display = new Display()
-                        {
-                            Host = labelHost.Text,
-                            Name = textName.Text,
-                            CanvasId = DataAccess.IntOrZero(listCanvas.SelectedValue),
-                            LocationId = DataAccess.IntOrZero(listLocation.SelectedValue),
-                        };
+                        Host = labelHost.Text,
+                        Name = textName.Text,
+                        CanvasId = Convert.ToInt32(listCanvas.SelectedValue),
+                        LocationId = Convert.ToInt32(listLocation.SelectedValue),
+                    };
 
-                        await display.Register();
+                    display.Register();
 
-                        HttpContext.Current.Response.Redirect("default.aspx");
-                    }
+                    HttpContext.Current.Response.Redirect("default.aspx");
+                }
 
-                    catch (Exception ex)
-                    {
-                        Response.Write(ex.Message);	// TODO: error label
-                    }
-                }));
+                catch (Exception ex)
+                {
+                    Response.Write(ex.Message);	// TODO: error label
+                }
 			}
 		}
 	}

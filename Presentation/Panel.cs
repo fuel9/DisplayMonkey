@@ -34,7 +34,7 @@ namespace DisplayMonkey
             })
             {
                 cmd.Parameters.AddWithValue("@panelId", panelId);
-                cmd.ExecuteReader((dr) =>
+                cmd.ExecuteReaderExt((dr) =>
                 {
                     _initFromRow(dr);
                     return false;
@@ -66,7 +66,7 @@ namespace DisplayMonkey
             })
             {
                 cmd.Parameters.AddWithValue("@panelId", panelId);
-                cmd.ExecuteReader((dr) =>
+                cmd.ExecuteReaderExt((dr) =>
                 {
                     isFullScreen = true;
                     return false;
@@ -90,7 +90,7 @@ namespace DisplayMonkey
             })
             {
                 cmd.Parameters.AddWithValue("@canvasId", canvasId);
-                cmd.ExecuteReader((r) =>
+                cmd.ExecuteReaderExt((r) =>
                 {
                     Panel panel = null;
                     int panelId = r.IntOrZero("PanelId");

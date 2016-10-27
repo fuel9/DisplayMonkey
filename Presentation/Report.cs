@@ -110,7 +110,7 @@ namespace DisplayMonkey
             })
             {
                 cmd.Parameters.AddWithValue("@frameId", FrameId);
-                cmd.ExecuteReader((dr) =>
+                cmd.ExecuteReaderExt((dr) =>
                 {
                     Path = dr.StringOrBlank("Path").Trim();
                     Mode = (RenderModes)dr.IntOrZero("Mode");

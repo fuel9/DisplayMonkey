@@ -105,7 +105,7 @@ namespace DisplayMonkey
             })
             {
                 cmd.Parameters.AddWithValue("@frameId", this.FrameId);
-                cmd.ExecuteReader((dr) =>
+                cmd.ExecuteReaderExt((dr) =>
                 {
                     this._initfromRow(dr);
                     return false;
@@ -128,7 +128,7 @@ namespace DisplayMonkey
                 cmd.Parameters.Add("@displayId", SqlDbType.Int).Value = displayId;
                 cmd.Parameters.Add("@lastFrameId", SqlDbType.Int).Value = previousFrameId;
 
-                await DataAccess.ExecuteReaderAsync(cmd, (dr) =>
+                await cmd.ExecuteReaderExtAsync((dr) =>
                 {
                     nci._initfromRow(dr);
                     return false;

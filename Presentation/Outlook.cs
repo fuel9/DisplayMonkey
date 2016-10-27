@@ -72,7 +72,7 @@ namespace DisplayMonkey
             })
             {
                 cmd.Parameters.AddWithValue("@frameId", FrameId);
-                cmd.ExecuteReader((dr) =>
+                cmd.ExecuteReaderExt((dr) =>
                 {
                     Account = dr.StringOrBlank("Account").Trim();
                     Password = (byte[])dr["Password"];

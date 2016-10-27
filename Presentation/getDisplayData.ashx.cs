@@ -24,7 +24,7 @@ namespace DisplayMonkey
 			HttpRequest Request = context.Request;
 			HttpResponse Response = context.Response;
 
-            int displayId = DataAccess.IntOrZero(Request.QueryString["display"]);
+            int displayId = Request.IntOrZero("display");
 
 			string json = "";
 				

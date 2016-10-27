@@ -50,7 +50,7 @@ namespace DisplayMonkey
                     DateTime? expiresOn = null;
                     string clientId = null, clientSecret = null, user = null, password = null, tenantId = null;
                     Models.AzureResources resource = Models.AzureResources.AzureResource_PowerBi;
-                    await DataAccess.ExecuteReaderAsync(cmd, (reader) =>
+                    await cmd.ExecuteReaderExtAsync((reader) =>
                     {
                         expiresOn = reader.AsNullable<DateTime>("ExpiresOn");
                         accessToken = reader.StringOrBlank("AccessToken").Trim();
@@ -58,7 +58,7 @@ namespace DisplayMonkey
                         clientId = reader.StringOrBlank("ClientId");
                         clientSecret = reader.StringOrBlank("ClientSecret");
                         user = reader.StringOrBlank("User");
-                        password = RsaUtil.Decrypt(reader.ValueOrNull<byte[]>("Password"));
+                        password = RsaUtil.Decrypt(reader.BytesOrNull("Password"));
                         tenantId = reader.StringOrDefault("TenantId", null);
                         return false;
                     });
@@ -118,7 +118,7 @@ namespace DisplayMonkey
             })
             {
                 cmd.Parameters.AddWithValue("@frameId", FrameId);
-                cmd.ExecuteReader((dr) =>
+                cmd.ExecuteReaderExt((dr) =>
                 {
                     TargetUrl = dr.StringOrBlank("Url").Trim();
                     Action = (Models.PowerbiTypes)dr.IntOrZero("Type") == Models.PowerbiTypes.PowerbiType_Report ? "loadReport" : "loadTile";

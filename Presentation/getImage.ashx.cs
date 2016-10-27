@@ -49,8 +49,8 @@ namespace DisplayMonkey
 
                 Response.ContentType = "image/png";
 
-                int contentId = DataAccess.IntOrZero(Request.QueryString["content"]);
-                int frameId = DataAccess.IntOrZero(Request.QueryString["frame"]);
+                int contentId = Request.IntOrZero("content");
+                int frameId = Request.IntOrZero("frame");
 
                 byte[] data = null;
 

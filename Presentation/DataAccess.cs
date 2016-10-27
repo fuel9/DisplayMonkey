@@ -29,6 +29,8 @@ namespace DisplayMonkey
     /// </summary>
     public static class DataAccess
     {
+        #region Resource helper extensions  //////////////////////////////////////////////
+
         private static System.Resources.ResourceManager _rm = null;
 
         public static System.Resources.ResourceManager ResourceManager 
@@ -40,74 +42,84 @@ namespace DisplayMonkey
                 return _rm;
             }
         }
-        
-        public static async Task ExecuteNonQueryAsync(this SqlCommand cmd)
+
+        public static string StringResource(string key)
+        {
+            return ResourceManager.GetString(key);
+        }
+
+        #endregion
+
+        #region SqlCommand helper extensions  //////////////////////////////////////////////
+
+        private static void ConnectionWrap(SqlCommand cmd, Action action)
         {
             if (cmd.Connection == null)
             {
                 using (cmd.Connection = new SqlConnection(ConnectionString))
                 {
-                    await cmd.Connection.OpenAsync();
-                    await cmd.ExecuteNonQueryAsync();
+                    cmd.Connection.Open();
+                    action();
                 }
             }
             else
             {
                 if (cmd.Connection.State == ConnectionState.Broken || cmd.Connection.State == ConnectionState.Closed)
-                    await cmd.Connection.OpenAsync();
+                    cmd.Connection.Open();
 
-                await cmd.ExecuteNonQueryAsync();
+                action();
             }
         }
 
-        public static void ExecuteReader(this SqlCommand cmd, Func<SqlDataReader, bool> callback)
+        private static async Task ConnectionWrapAsync(SqlCommand cmd, Func<Task> funcAsync)
         {
             if (cmd.Connection == null)
             {
                 using (cmd.Connection = new SqlConnection(ConnectionString))
                 {
-                    cmd.Connection.Open();
-                    using (SqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read() && callback(reader)) ;
-                    }
+                    await cmd.Connection.OpenAsync();
+                    await funcAsync();
                 }
             }
             else
             {
                 if (cmd.Connection.State == ConnectionState.Broken || cmd.Connection.State == ConnectionState.Closed)
-                    cmd.Connection.Open();
+                    await cmd.Connection.OpenAsync();
 
+                await funcAsync();
+            }
+        }
+
+        public static void ExecuteNonQueryExt(this SqlCommand cmd)
+        {
+            ConnectionWrap(cmd, () => cmd.ExecuteNonQuery());
+        }
+
+        public static void ExecuteReaderExt(this SqlCommand cmd, Func<SqlDataReader, bool> callback)
+        {
+            ConnectionWrap(cmd, () =>
+            {
                 using (SqlDataReader reader = cmd.ExecuteReader())
                 {
                     while (reader.Read() && callback(reader)) ;
                 }
-            }
+            });
         }
 
-        public static async Task ExecuteReaderAsync(this SqlCommand cmd, Func<SqlDataReader, bool> callback)
+        public static async Task ExecuteNonQueryExtAsync(this SqlCommand cmd)
         {
-            if (cmd.Connection == null)
-            {
-                using (cmd.Connection = new SqlConnection(ConnectionString))
-                {
-                    await cmd.Connection.OpenAsync();
-                    using (SqlDataReader reader = await Task<SqlDataReader>.Factory.FromAsync(cmd.BeginExecuteReader, cmd.EndExecuteReader, null))
-                    {
-                        while (await reader.ReadAsync() && callback(reader)) ;
-                    }
-                }
-            }
-            else
-            {
-                if (cmd.Connection.State == ConnectionState.Broken || cmd.Connection.State == ConnectionState.Closed)
-                    await cmd.Connection.OpenAsync();
+            await ConnectionWrapAsync(cmd, async () => await cmd.ExecuteNonQueryAsync());
+        }
 
+        public static async Task ExecuteReaderExtAsync(this SqlCommand cmd, Func<SqlDataReader, bool> callback)
+        {
+            await ConnectionWrapAsync(cmd, async () =>
+            {
                 using (SqlDataReader reader = await Task<SqlDataReader>.Factory.FromAsync(cmd.BeginExecuteReader, cmd.EndExecuteReader, null))
                 {
                     while (await reader.ReadAsync() && callback(reader)) ;
                 }
-            }
+            });
         }
 
         public static async Task ExecuteTransactionAsync(Func<SqlConnection,SqlTransaction,Task> batch)
@@ -132,110 +144,95 @@ namespace DisplayMonkey
             }
         }
 
+        #endregion
+
         #region Value helper extensions  //////////////////////////////////////////////
 
-        public static T ValueOrDefault<T>(this SqlDataReader r, string column, T _default)
+        private static T DbValueOrDefault<T>(object o, T _default)
         {
-            var t = r[column];
-            if (t == DBNull.Value) 
+            var t = o;
+            if (t == DBNull.Value)
                 return _default;
             return (T)t;
         }
 
-        public static T ValueOrNull<T>(this SqlDataReader r, string column) where T : class
+        private static T DbValueOrNull<T>(object o) where T : class
         {
-            return ValueOrDefault<T>(r, column, default(T));
+            return DbValueOrDefault<T>(o, default(T));
         }
 
-        public static T? AsNullable<T>(this SqlDataReader r, string column) where T : struct
+        private static T? DbAsNullable<T>(object o) where T : struct
         {
-            var t = r[column];
+            var t = o;
             if (t == DBNull.Value) return (T?)null;
             return new Nullable<T>((T)t);
         }
 
+        public static T ValueOrDefault<T>(this SqlDataReader reader, string column, T _default)
+        {
+            return DbValueOrDefault<T>(reader[column], _default);
+        }
+
+        public static T ValueOrNull<T>(this SqlDataReader reader, string column) where T : class
+        {
+            return DbValueOrDefault<T>(reader[column], default(T));
+        }
+
+        public static T? AsNullable<T>(this SqlDataReader reader, string column) where T : struct
+        {
+            return DbAsNullable<T>(reader[column]);
+        }
+
         public static string StringOrBlank(this SqlDataReader reader, string column)
         {
-            return ValueOrDefault<string>(reader, column, "");
+            return DbValueOrDefault<string>(reader[column], "");
         }
 
         public static string StringOrDefault(this SqlDataReader reader, string column, string _default)
         {
-            return ValueOrDefault<string>(reader, column, _default);
+            return DbValueOrDefault<string>(reader[column], _default);
         }
 
         public static int IntOrZero(this SqlDataReader reader, string column)
         {
-            return ValueOrDefault<int>(reader, column, 0);
+            return DbValueOrDefault<int>(reader[column], 0);
         }
 
         public static int IntOrDefault(this SqlDataReader reader, string column, int _default)
         {
-            return ValueOrDefault<int>(reader, column, _default);
+            return DbValueOrDefault<int>(reader[column], _default);
         }
 
         public static bool Boolean(this SqlDataReader reader, string column)
         {
-            return ValueOrDefault<bool>(reader, column, false);
+            return DbValueOrDefault<bool>(reader[column], false);
         }
 
         public static double DoubleOrZero(this SqlDataReader reader, string column)
         {
-            return ValueOrDefault<double>(reader, column, 0);
+            return DbValueOrDefault<double>(reader[column], 0);
         }
 
-
-
-
-
-
-
-
-        public static int IntOrDefault(object o, int _default)
+        public static byte[] BytesOrNull(this SqlDataReader reader, string column)
         {
-            int ret = _default;
-            try
-            {
-                if (o != DBNull.Value)
-                    ret = Convert.ToInt32(o);
-            }
-            catch (FormatException)
-            {
-            }
-            return ret;
-        }
-
-        public static int IntOrZero(object o)
-        {
-            return IntOrDefault(o, 0);
+            return DbValueOrNull<byte[]>(reader[column]);
         }
 
         public static int IntOrZero(this SqlParameter param)
         {
-            return IntOrZero(param.Value);
+            return DbValueOrDefault<int>(param.Value, 0);
         }
 
-
-
-
-
-        public static string StringOrDefault(object o, string _default)
+        public static int IntOrZero(this HttpRequest request, string key)
         {
-            string ret = _default;
-            try
-            {
-                if (o != DBNull.Value)
-                    ret = Convert.ToString(o);
-            }
-            catch (FormatException)
-            {
-            }
-            return ret;
+            int i = 0;
+            Int32.TryParse(request.QueryString[key], out i);
+            return i;
         }
 
-        public static string StringOrBlank(object o)
+        public static string StringOrBlank(this HttpRequest request, string key)
         {
-            return StringOrDefault(o, "");
+            return request.QueryString[key] ?? "";
         }
 
         #endregion // Value helper extensions  //////////////////////////////////////////////

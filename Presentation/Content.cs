@@ -27,27 +27,6 @@ namespace DisplayMonkey
         public string Name { get; private set; }
         public ContentTypes Type { get; private set; }
 
-        /*public Content(int contentId)
-        {
-			string sql = string.Format(
-				"SELECT TOP 1 * FROM Content WHERE ContentId={0}; ",
-                contentId
-				);
-
-			using (DataSet ds = DataAccess.RunSql(sql))
-			{
-				if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
-				{
-					DataRow dr = ds.Tables[0].Rows[0];
-                    ContentId = dr.IntOrZero("ContentId");
-					Name = dr.StringOrBlank("Name");
-                    Type = (ContentTypes)dr.IntOrZero("Type");
-                    if (dr["Data"] != DBNull.Value)
-                        Data = (byte[])dr["Data"];
-                }
-			}
-        }*/
-
         private Content()
         {
         }
@@ -56,17 +35,21 @@ namespace DisplayMonkey
         {
             Content content = null;
 
-            using (SqlCommand cmd = new SqlCommand(_sql))
+            using (SqlCommand cmd = new SqlCommand() 
+            {
+                CommandType = CommandType.Text,
+                CommandText = "SELECT TOP 1 * FROM Content WHERE ContentId=@contentId",
+            })
             {
                 cmd.Parameters.AddWithValue("@contentId", contentId);
-                await cmd.ExecuteReaderAsync((reader) =>
+                await cmd.ExecuteReaderExtAsync((reader) =>
                 {
                     content = new Content()
                     {
                         ContentId = reader.IntOrZero("ContentId"),
                         Name = reader.StringOrBlank("Name"),
                         Type = reader.ValueOrDefault<ContentTypes>("Type", ContentTypes.ContentType_Picture),
-                        Data = reader.ValueOrNull<byte[]>("Data"),
+                        Data = reader.BytesOrNull("Data"),
                     };
                     return false;
                 });
@@ -84,14 +67,12 @@ namespace DisplayMonkey
                 {
                     ContentId = 0,
                     Type = ContentTypes.ContentType_Picture,
-                    Name = "Missing",
+                    Name = DataAccess.StringResource("Missing"),
                     Data = new byte[fs.Length],
                 };
                 await fs.ReadAsync(content.Data, 0, content.Data.Length);
                 return content;
             }
         }
-
-        private static readonly string _sql = "SELECT TOP 1 * FROM Content WHERE ContentId=@contentId;";
     }
 }

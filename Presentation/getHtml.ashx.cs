@@ -36,7 +36,7 @@ namespace DisplayMonkey
 
 			try
 			{
-                int frameId = Convert.ToInt32(Request.QueryString["frame"]);
+                int frameId = Request.IntOrZero("frame");
 
                 Html html = new Html(frameId);
 

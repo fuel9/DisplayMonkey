@@ -43,7 +43,7 @@ namespace DisplayMonkey
                 Response.Cache.SetNoStore();
                 Response.ContentType = "image/png";
 
-                int frameId = Convert.ToInt32(Request.QueryString["frame"]);
+                int frameId = Request.IntOrZero("frame");
 
                 byte[] data = null;
                 int panelHeight = -1, panelWidth = -1;

@@ -72,7 +72,7 @@ namespace DisplayMonkey
             })
             {
                 cmd.Parameters.AddWithValue("@displayId", displayId);
-                cmd.ExecuteReader((r) =>
+                cmd.ExecuteReaderExt((r) =>
                 {
                     _initFromRow(r);
                     return false;
@@ -93,7 +93,7 @@ namespace DisplayMonkey
             })
             {
                 cmd.Parameters.AddWithValue("@levelId", levelId);
-                cmd.ExecuteReader((r) =>
+                cmd.ExecuteReaderExt((r) =>
                 {
                     Location loc = new Location();
                     loc._initFromRow(r);

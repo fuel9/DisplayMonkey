@@ -44,7 +44,7 @@ namespace DisplayMonkey
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@displayId", displayId);
 
-                await DataAccess.ExecuteReaderAsync(cmd, (reader) =>
+                await cmd.ExecuteReaderExtAsync((reader) =>
                 {
                     data.DisplayId = reader.IntOrZero("DisplayId");
                     data.IdleInterval = reader.IntOrZero("IdleInterval");
@@ -90,7 +90,7 @@ namespace DisplayMonkey
             })
             {
                 cmd.Parameters.AddWithValue("@displayId", displayId);
-                cmd.ExecuteReader((r) =>
+                cmd.ExecuteReaderExt((r) =>
                 {
                     _initFromRow(r);
                     return false;
@@ -107,7 +107,7 @@ namespace DisplayMonkey
             })
             {
                 cmd.Parameters.AddWithValue("@host", host);
-                cmd.ExecuteReader((r) =>
+                cmd.ExecuteReaderExt((r) =>
                 {
                     _initFromRow(r);
                     return false;
@@ -149,7 +149,7 @@ namespace DisplayMonkey
                     CommandText = "SELECT * FROM Display ORDER BY Name",
                 })
                 {
-                    cmd.ExecuteReader((r) =>
+                    cmd.ExecuteReaderExt((r) =>
                     {
                         Display display = new Display();
                         display._initFromRow(r);
@@ -162,7 +162,7 @@ namespace DisplayMonkey
 			}
 		}
 
-		public async Task Register()
+		public void Register()
 		{
 			if (Host == "" || Name == "" || CanvasId == 0)
 				return;
@@ -180,7 +180,7 @@ namespace DisplayMonkey
 				cmd.Parameters.Add("@locationId", SqlDbType.Int).Value = LocationId;
 				cmd.Parameters.Add("@displayId", SqlDbType.Int).Direction = ParameterDirection.Output;
 
-                await DataAccess.ExecuteNonQueryAsync(cmd);
+                cmd.ExecuteNonQueryExt();
 
 				//DataAccess.ExecuteNonQuery(cmd);
 				DisplayId = cmd.Parameters["@displayId"].IntOrZero();
