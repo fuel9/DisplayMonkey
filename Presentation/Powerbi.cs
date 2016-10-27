@@ -29,6 +29,11 @@ namespace DisplayMonkey
 
         public async Task<string> GetAccessTokenAsync()
         {
+            return await GetAccessTokenAsync(this.AccountId);
+        }
+
+        public static async Task<string> GetAccessTokenAsync(int accountId)
+        {
             string accessToken = null;
 
             await DataAccess.ExecuteTransactionAsync(async (cnn, trn) => {
@@ -39,44 +44,50 @@ namespace DisplayMonkey
                     Connection = cnn,
                     Transaction = trn,
                 })
-                using (SqlDataAdapter da = new SqlDataAdapter(cmd))
-                using (DataSet ds = new DataSet())
                 {
-                    cmd.Parameters.AddWithValue("@accountId", this.AccountId);
-                    da.Fill(ds);
-                    if (ds.Tables[0].Rows.Count > 0)
-                    {
-                        DataRow dr = ds.Tables[0].Rows[0];
-                            
-                        DateTime? expiresOn = dr.Field<DateTime?>("ExpiresOn");
-                        accessToken = dr.StringOrBlank("AccessToken").Trim();
+                    cmd.Parameters.AddWithValue("@accountId", accountId);
 
-                        if (string.IsNullOrWhiteSpace(accessToken) || !expiresOn.HasValue || expiresOn.Value < DateTime.UtcNow)
+                    DateTime? expiresOn = null;
+                    string clientId = null, clientSecret = null, user = null, password = null, tenantId = null;
+                    Models.AzureResources resource = Models.AzureResources.AzureResource_PowerBi;
+                    await DataAccess.ExecuteReaderAsync(cmd, (reader) =>
+                    {
+                        expiresOn = reader.AsNullable<DateTime>("ExpiresOn");
+                        accessToken = reader.StringOrBlank("AccessToken").Trim();
+                        resource = reader.ValueOrDefault<Models.AzureResources>("Resource", Models.AzureResources.AzureResource_PowerBi);
+                        clientId = reader.StringOrBlank("ClientId");
+                        clientSecret = reader.StringOrBlank("ClientSecret");
+                        user = reader.StringOrBlank("User");
+                        password = RsaUtil.Decrypt(reader.ValueOrNull<byte[]>("Password"));
+                        tenantId = reader.StringOrDefault("TenantId", null);
+                        return false;
+                    });
+
+                    if (string.IsNullOrWhiteSpace(accessToken) || !expiresOn.HasValue || expiresOn.Value < DateTime.UtcNow)
+                    {
+                        TokenInfo token = await Token.GetGrantTypePasswordAsync(
+                            resource,
+                            clientId,
+                            clientSecret,
+                            user,
+                            password,
+                            tenantId
+                            );
+                        using (SqlCommand cmdu = new SqlCommand()
                         {
-                            TokenInfo token = await Token.GetGrantTypePasswordAsync(
-                                (Models.AzureResources)dr.IntOrZero("Resource"),
-                                dr.StringOrBlank("ClientId"), 
-                                dr.StringOrBlank("ClientSecret"),
-                                dr.StringOrBlank("User"),
-                                RsaUtil.Decrypt(dr.Field<byte[]>("Password")),
-                                dr.Field<string>("TenantId")
-                                );
-                            using (SqlCommand cmdu = new SqlCommand()
-                            {
-                                CommandType = CommandType.Text,
-                                CommandText = "update AzureAccount set AccessToken=@accessToken, ExpiresOn=@expiresOn where AccountId=@accountId",
-                                Connection = cnn,
-                                Transaction = trn,
-                            })
-                            {
-                                cmdu.Parameters.AddWithValue("@accountId", this.AccountId);
-                                cmdu.Parameters.AddWithValue("@accessToken", token.AccessToken);
-                                cmdu.Parameters.AddWithValue("@expiresOn", token.ExpiresOn.AddMinutes(-1)); // allow 1 minute to avoid issues
-                                cmdu.ExecuteNonQuery();
-                            }
-                            accessToken = token.AccessToken;
+                            CommandType = CommandType.Text,
+                            CommandText = "update AzureAccount set AccessToken=@accessToken, ExpiresOn=@expiresOn where AccountId=@accountId",
+                            Connection = cnn,
+                            Transaction = trn,
+                        })
+                        {
+                            cmdu.Parameters.AddWithValue("@accountId", accountId);
+                            cmdu.Parameters.AddWithValue("@accessToken", token.AccessToken);
+                            cmdu.Parameters.AddWithValue("@expiresOn", token.ExpiresOn.AddMinutes(-1)); // allow 1 minute to avoid issues
+                            cmdu.ExecuteNonQuery();
                         }
-                    }                        
+                        accessToken = token.AccessToken;
+                    }
                 }
             });
 
@@ -100,17 +111,20 @@ namespace DisplayMonkey
 
         private void _init()
         {
-            string sql = string.Format("SELECT TOP 1 * FROM Powerbi WHERE FrameId={0}", FrameId);
-
-            using (DataSet ds = DataAccess.RunSql(sql))
+            using (SqlCommand cmd = new SqlCommand()
             {
-                if (ds.Tables[0].Rows.Count > 0)
+                CommandType = CommandType.Text,
+                CommandText = "SELECT TOP 1 * FROM Powerbi WHERE FrameId=@frameId",
+            })
+            {
+                cmd.Parameters.AddWithValue("@frameId", FrameId);
+                cmd.ExecuteReader((dr) =>
                 {
-                    DataRow dr = ds.Tables[0].Rows[0];
-                    this.TargetUrl = dr.StringOrBlank("Url").Trim();
-                    this.Action = (Models.PowerbiTypes)dr.IntOrZero("Type") == Models.PowerbiTypes.PowerbiType_Report ? "loadReport" : "loadTile";
-                    this.AccountId = dr.IntOrZero("AccountId");
-                }
+                    TargetUrl = dr.StringOrBlank("Url").Trim();
+                    Action = (Models.PowerbiTypes)dr.IntOrZero("Type") == Models.PowerbiTypes.PowerbiType_Report ? "loadReport" : "loadTile";
+                    AccountId = dr.IntOrZero("AccountId");
+                    return false;
+                });
             }
         }
     }

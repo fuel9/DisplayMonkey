@@ -19,6 +19,16 @@ using System.Web.Caching;
 
 namespace DisplayMonkey
 {
+    public class AbsoluteExpiration
+    {
+        public DateTime When { get; set; }
+    }
+
+    public class SlidingExpiration
+    {
+        public TimeSpan After { get; set; }
+    }
+
     public static class CacheExtensions
     {
         public static Guid GetItemGuid(this Cache cache, string key)
@@ -33,19 +43,15 @@ namespace DisplayMonkey
             return (data == null) ? 0 : data.Crc32;
         }
 
-        public static T GetOrAddAbsolute<T>(this Cache cache, string key, Func<T> action, DateTime when)
+        public static async Task<T> GetOrAddAbsoluteAsync<T>(this Cache cache, string key, Func<AbsoluteExpiration,Task<T>> funcAsync)
         {
-            if (when <= DateTime.Now)
-            {
-                return action();
-            }
-
             T result;
+            AbsoluteExpiration expire = new AbsoluteExpiration();
             CacheItem<T> data = cache[key] as CacheItem<T>;
 
             if (data == null)
             {
-                _sem.Wait();
+                await _sem.WaitAsync();
                 
                 try //lock (_cacheLock)
                 {
@@ -53,118 +59,19 @@ namespace DisplayMonkey
 
                     if (data == null)
                     {
-                        result = action();
+                        result = await funcAsync(expire);
 
                         if (result == null)
                             return result;
 
                         //Debug.Print(string.Format("+++: key={0}, time={1}", key, DateTime.Now));
 
-                        cache.Insert(
-                            key, 
-                            new CacheItem<T>(result), 
-                            null, 
-                            when,
-                            Cache.NoSlidingExpiration, 
-                            new CacheItemUpdateCallback(DMCacheItemUpdateCallback)
-                            );
-                    }
-                    else
-                        result = (T)data.Data;
-                }
-
-                finally
-                {
-                    _sem.Release();
-                }
-            }
-            else
-                result = (T)data.Data;
-
-            return result;
-        }
-
-        public static async Task<T> GetOrAddAbsoluteAsync<T>(this Cache cache, string key, Func<Task<T>> actionAsync, DateTime when)
-        {
-            if (when <= DateTime.Now)
-            {
-                return await actionAsync();
-            }
-
-            T result;
-            CacheItem<T> data = cache[key] as CacheItem<T>;
-
-            if (data == null)
-            {
-                _sem.Wait();
-
-                try //lock (_cacheLock)
-                {
-                    data = cache[key] as CacheItem<T>;
-
-                    if (data == null)
-                    {
-                        result = await actionAsync();
-
-                        if (result == null)
-                            return result;
-
-                        //Debug.Print(string.Format("+++: key={0}, time={1}", key, DateTime.Now));
-
-                        cache.Insert(
-                            key,
-                            new CacheItem<T>(result),
-                            null,
-                            when,
-                            Cache.NoSlidingExpiration,
-                            new CacheItemUpdateCallback(DMCacheItemUpdateCallback)
-                            );
-                    }
-                    else
-                        result = (T)data.Data;
-                }
-
-                finally
-                {
-                    _sem.Release();
-                }
-            }
-            else
-                result = (T)data.Data;
-
-            return result;
-        }
-
-        /*public delegate T FuncWithExpiration<out T>(ref DateTime _expireDate);
-        public static T GetOrAddAbsolute<T>(this Cache cache, string key, FuncWithExpiration<T> action)
-        {
-            T result;
-            DateTime when = DateTime.Now;
-            CacheItem<T> data = cache[key] as CacheItem<T>;
-
-            if (data == null)
-            {
-                _sem.Wait();
-                
-                try //lock (_cacheLock)
-                {
-                    data = cache[key] as CacheItem<T>;
-
-                    if (data == null)
-                    {
-                        result = action(ref when);
-
-                        if (result == null)
-                            return result;
-
-                        //Debug.Print(string.Format("+++: key={0}, time={1}", key, DateTime.Now));
-
-                        if (when > DateTime.Now)
+                        if (expire.When > DateTime.Now)
                             cache.Insert(
                                 key,
                                 new CacheItem<T>(result),
                                 null,
-                                when,
+                                expire.When,
                                 Cache.NoSlidingExpiration,
                                 new CacheItemUpdateCallback(DMCacheItemUpdateCallback)
                                 );
@@ -182,141 +89,38 @@ namespace DisplayMonkey
                 result = (T)data.Data;
 
             return result;
-        }*/
-
-        public static T GetOrAddSliding<T>(this Cache cache, string key, Func<T> action, TimeSpan after)
-        {
-            if (after.TotalSeconds <= 0)
-            {
-                return action();
-            }
-
-            T result;
-            CacheItem<T> data = cache[key] as CacheItem<T>;
-
-            if (data == null)
-            {
-                _sem.Wait();
-                
-                try //lock (_cacheLock)
-                {
-                    data = cache[key] as CacheItem<T>;
-
-                    if (data == null)
-                    {
-                        result = action();
-
-                        if (result == null)
-                            return result;
-
-                        //Debug.Print(string.Format("+++: key={0}, time={1}", key, DateTime.Now));
-
-                        cache.Insert(
-                            key,
-                            new CacheItem<T>(result), 
-                            null, 
-                            Cache.NoAbsoluteExpiration, 
-                            after,
-                            new CacheItemUpdateCallback(DMCacheItemUpdateCallback)
-                            );
-                    }
-                    else
-                        result = (T)data.Data;
-                }
-
-                finally
-                {
-                    _sem.Release();
-                }
-            }
-            else
-                result = (T)data.Data;
-
-            return result;
         }
 
-        public static async Task<T> GetOrAddSlidingAsync<T>(this Cache cache, string key, Func<Task<T>> actionAsync, TimeSpan after)
+        public static async Task<T> GetOrAddSlidingAsync<T>(this Cache cache, string key, Func<SlidingExpiration,Task<T>> funcAsync)
         {
-            if (after.TotalSeconds <= 0)
-            {
-                return await actionAsync();
-            }
-
             T result;
+            SlidingExpiration expire = new SlidingExpiration();
             CacheItem<T> data = cache[key] as CacheItem<T>;
 
             if (data == null)
             {
                 await _sem.WaitAsync();
-
+                
                 try
                 {
                     data = cache[key] as CacheItem<T>;
 
                     if (data == null)
                     {
-                        result = await actionAsync();
-
-                        if (result == null)
-                            return result;
-
-                        Debug.Print(string.Format("+++: key={0}, time={1}", key, DateTime.Now));
-
-                        cache.Insert(
-                            key,
-                            new CacheItem<T>(result),
-                            null,
-                            Cache.NoAbsoluteExpiration,
-                            after,
-                            new CacheItemUpdateCallback(DMCacheItemUpdateCallback)
-                            );
-                    }
-                    else
-                        result = (T)data.Data;
-                }
-
-                finally
-                {
-                    _sem.Release();
-                }
-            }
-            else
-                result = (T)data.Data;
-
-            return result;
-        }
-
-        /*public delegate T FuncWithTimeout<out T>(ref TimeSpan _timeout);
-        public static T GetOrAddSliding<T>(this Cache cache, string key, FuncWithTimeout<T> action)
-        {
-            T result;
-            TimeSpan after = new TimeSpan(0);
-            CacheItem<T> data = cache[key] as CacheItem<T>;
-
-            if (data == null)
-            {
-                _sem.Wait();
-                
-                try //lock (_cacheLock)
-                {
-                    data = cache[key] as CacheItem<T>;
-
-                    if (data == null)
-                    {
-                        result = action(ref after);
+                        result = await funcAsync(expire);
 
                         if (result == null)
                             return result;
 
                         //Debug.Print(string.Format("+++: key={0}, time={1}", key, DateTime.Now));
 
-                        if (after.TotalSeconds > 0)
+                        if (expire.After.TotalSeconds > 0)
                             cache.Insert(
                                 key,
                                 new CacheItem<T>(result),
                                 null,
                                 Cache.NoAbsoluteExpiration,
-                                after,
+                                expire.After,
                                 new CacheItemUpdateCallback(DMCacheItemUpdateCallback)
                                 );
                     }
@@ -333,7 +137,7 @@ namespace DisplayMonkey
                 result = (T)data.Data;
 
             return result;
-        }*/
+        }
 
         #region Internal Implementation
 
@@ -361,7 +165,6 @@ namespace DisplayMonkey
             public T Data { get; private set; }
         }
 
-        //private static readonly object _cacheLock = new object();
         private static readonly SemaphoreSlim _sem = new SemaphoreSlim(1, 1);
 
         private static void DMCacheItemUpdateCallback(

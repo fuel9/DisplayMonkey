@@ -37,16 +37,15 @@ namespace DisplayMonkey
 
         private void _init()
         {
-            string sql = string.Format(
-                "SELECT TOP 1 * FROM Youtube WHERE FrameId={0};",
-                FrameId
-                );
-
-            using (DataSet ds = DataAccess.RunSql(sql))
+            using (SqlCommand cmd = new SqlCommand()
             {
-                if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                CommandType = CommandType.Text,
+                CommandText = "SELECT TOP 1 * FROM Youtube WHERE FrameId=@frameId",
+            })
+            {
+                cmd.Parameters.AddWithValue("@frameId", this.FrameId);
+                cmd.ExecuteReader((dr) =>
                 {
-                    DataRow dr = ds.Tables[0].Rows[0];
                     YoutubeId = dr.StringOrBlank("YoutubeId").Trim();
                     AutoLoop = dr.Boolean("AutoLoop");
                     Volume = dr.IntOrZero("Volume");
@@ -54,7 +53,8 @@ namespace DisplayMonkey
                     Quality = dr.IntOrZero("Quality");
                     Start = dr.IntOrZero("Start");
                     Rate = dr.IntOrZero("Rate");
-                }
+                    return false;
+                });
             }
         }
     }

@@ -18,6 +18,7 @@ using System.Configuration;
 using System.Net;
 using DisplayMonkey.Models;
 using System.Threading.Tasks;
+using System.Diagnostics;
 //using System.Drawing;
 //using System.Drawing.Imaging;
 
@@ -66,8 +67,10 @@ namespace DisplayMonkey
 
                     data = await HttpRuntime.Cache.GetOrAddAbsoluteAsync(
                         report.CacheKey,
-                        async () =>
+                        async (expire) =>
                         {
+                            expire.When = DateTime.Now.AddMinutes(report.CacheInterval);
+
                             // get response from report server
                             WebClient client = new WebClient();
                             if (!string.IsNullOrWhiteSpace(report.User))
@@ -87,38 +90,39 @@ namespace DisplayMonkey
                             using (MemoryStream trg = new MemoryStream())
                             using (MemoryStream src = new MemoryStream(repBytes))
                             {
-                                Picture.WriteImage(src, trg, panelWidth, panelHeight, mode);
+                                await Task.Run(() => Picture.WriteImage(src, trg, panelWidth, panelHeight, mode));
                                 return trg.GetBuffer();
                             }
-                        },
-                        DateTime.Now.AddMinutes(report.CacheInterval)
-                        );
+                        });
                 }
 
                 if (data != null)
                 {
-                    Response.OutputStream.Write(data, 0, data.Length);
+                    await Response.OutputStream.WriteAsync(data, 0, data.Length);
                 }
 
                 else
                 {
-                    data = File.ReadAllBytes("~/files/404.png");
-                    using (MemoryStream ms = new MemoryStream(data))
+                    Content missingContent = await Content.GetMissingContentAsync();
+                    using (MemoryStream ms = new MemoryStream(missingContent.Data))
                     {
-                        Picture.WriteImage(ms, Response.OutputStream, panelWidth, panelHeight, mode);
+                        await Task.Run(() => Picture.WriteImage(ms, Response.OutputStream, -1, -1, RenderModes.RenderMode_Crop));
                     }
                 }
+
+                await Response.OutputStream.FlushAsync();
             }
 
 			catch (Exception ex)
 			{
-				Response.Write(ex.Message);
+                Debug.Print(string.Format("getReport error: {0}", ex.Message));
+                Response.Write(ex.Message);
 			}
 
-            finally
+            /*finally
             {
                 Response.OutputStream.Flush();
-            }
+            }*/
         }
 	}
 }

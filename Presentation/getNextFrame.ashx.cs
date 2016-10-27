@@ -18,20 +18,13 @@ using System.Web.Script.Serialization;
 using DisplayMonkey.Language;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace DisplayMonkey
 {
-    public partial class getNextFrame : IHttpHandler
+    public partial class getNextFrame : HttpTaskAsyncHandler
     {
-        public bool IsReusable
-        {
-            get
-            {
-                return false;
-            }
-        }
-
-        public void ProcessRequest(HttpContext context)
+        public override async Task ProcessRequestAsync(HttpContext context)
         {
             HttpRequest Request = context.Request;
             HttpResponse Response = context.Response;
@@ -53,7 +46,7 @@ namespace DisplayMonkey
                 }
 
                 JavaScriptSerializer s = new JavaScriptSerializer();
-                Frame nci = Frame.GetNextFrame(panelId, displayId, frameId);
+                Frame nci = await Frame.GetNextFrameAsync(panelId, displayId, frameId);
                 json = s.Serialize(nci);
 			}
 

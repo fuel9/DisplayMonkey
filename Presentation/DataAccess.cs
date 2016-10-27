@@ -20,6 +20,7 @@ using System.Threading;
 using System.Globalization;
 using System.Configuration;
 using System.Threading.Tasks;
+using System.Data.SqlTypes;
 
 namespace DisplayMonkey
 {
@@ -40,63 +41,77 @@ namespace DisplayMonkey
             }
         }
         
-        public static SqlConnection Connection
+        public static async Task ExecuteNonQueryAsync(this SqlCommand cmd)
         {
-            get
+            if (cmd.Connection == null)
             {
-                if (_cnn == null)
-                    _cnn = new SqlConnection(ConnectionString);
-                if (_cnn.State == ConnectionState.Broken || _cnn.State == ConnectionState.Closed)
-                    _cnn.Open();
-                return _cnn;
+                using (cmd.Connection = new SqlConnection(ConnectionString))
+                {
+                    await cmd.Connection.OpenAsync();
+                    await cmd.ExecuteNonQueryAsync();
+                }
+            }
+            else
+            {
+                if (cmd.Connection.State == ConnectionState.Broken || cmd.Connection.State == ConnectionState.Closed)
+                    await cmd.Connection.OpenAsync();
+
+                await cmd.ExecuteNonQueryAsync();
             }
         }
 
-        public static void ExecuteNonQuery(SqlCommand cmd)
-		{
-			try
-			{
-				_mutex.WaitOne();
-				cmd.Connection = DataAccess.Connection;
-				cmd.ExecuteNonQuery();
-			}
+        public static void ExecuteReader(this SqlCommand cmd, Func<SqlDataReader, bool> callback)
+        {
+            if (cmd.Connection == null)
+            {
+                using (cmd.Connection = new SqlConnection(ConnectionString))
+                {
+                    cmd.Connection.Open();
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read() && callback(reader)) ;
+                    }
+                }
+            }
+            else
+            {
+                if (cmd.Connection.State == ConnectionState.Broken || cmd.Connection.State == ConnectionState.Closed)
+                    cmd.Connection.Open();
 
-			finally
-			{
-				_mutex.ReleaseMutex();
-			}
-		}
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read() && callback(reader)) ;
+                }
+            }
+        }
 
-		public static DataSet RunSql(SqlCommand cmd)
-		{
-			DataSet ds = new DataSet();
-			
-			try
-			{
-				_mutex.WaitOne();
-				cmd.Connection = DataAccess.Connection;
-				new SqlDataAdapter(cmd).Fill(ds);
-			}
+        public static async Task ExecuteReaderAsync(this SqlCommand cmd, Func<SqlDataReader, bool> callback)
+        {
+            if (cmd.Connection == null)
+            {
+                using (cmd.Connection = new SqlConnection(ConnectionString))
+                {
+                    await cmd.Connection.OpenAsync();
+                    using (SqlDataReader reader = await Task<SqlDataReader>.Factory.FromAsync(cmd.BeginExecuteReader, cmd.EndExecuteReader, null))
+                    {
+                        while (await reader.ReadAsync() && callback(reader)) ;
+                    }
+                }
+            }
+            else
+            {
+                if (cmd.Connection.State == ConnectionState.Broken || cmd.Connection.State == ConnectionState.Closed)
+                    await cmd.Connection.OpenAsync();
 
-			finally
-			{
-				_mutex.ReleaseMutex();
-			}
-
-			return ds;
-		}
-
-		public static DataSet RunSql(string sql)
-		{
-			using (SqlCommand cmd = new SqlCommand(sql))
-			{
-				return RunSql(cmd);
-			}
-		}
+                using (SqlDataReader reader = await Task<SqlDataReader>.Factory.FromAsync(cmd.BeginExecuteReader, cmd.EndExecuteReader, null))
+                {
+                    while (await reader.ReadAsync() && callback(reader)) ;
+                }
+            }
+        }
 
         public static async Task ExecuteTransactionAsync(Func<SqlConnection,SqlTransaction,Task> batch)
         {
-            // borrow new connection from the pool
             using (SqlConnection cnn = new SqlConnection(ConnectionString))
             {
                 SqlTransaction transaction = null;
@@ -119,44 +134,62 @@ namespace DisplayMonkey
 
         #region Value helper extensions  //////////////////////////////////////////////
 
-        public static bool BooleanOrDefault(object o, bool _default)
+        public static T ValueOrDefault<T>(this SqlDataReader r, string column, T _default)
         {
-            bool ret = _default;
-            try
-            {
-                if (o != DBNull.Value)
-                    ret = Convert.ToBoolean(o);
-            }
-            catch (FormatException)
-            {
-            }
-            return ret;
+            var t = r[column];
+            if (t == DBNull.Value) 
+                return _default;
+            return (T)t;
         }
 
-        public static bool Boolean(object o)
+        public static T ValueOrNull<T>(this SqlDataReader r, string column) where T : class
         {
-            return BooleanOrDefault(o, false);
+            return ValueOrDefault<T>(r, column, default(T));
         }
 
-        public static bool BooleanOrDefault(this SqlParameter param, bool _default)
+        public static T? AsNullable<T>(this SqlDataReader r, string column) where T : struct
         {
-            return BooleanOrDefault(param.Value, _default);
+            var t = r[column];
+            if (t == DBNull.Value) return (T?)null;
+            return new Nullable<T>((T)t);
         }
 
-        public static bool Boolean(this SqlParameter param)
+        public static string StringOrBlank(this SqlDataReader reader, string column)
         {
-            return Boolean(param.Value);
+            return ValueOrDefault<string>(reader, column, "");
         }
 
-        public static bool BooleanOrDefault(this DataRow row, string column, bool _default)
+        public static string StringOrDefault(this SqlDataReader reader, string column, string _default)
         {
-            return BooleanOrDefault(row[column], _default);
+            return ValueOrDefault<string>(reader, column, _default);
         }
 
-        public static bool Boolean(this DataRow row, string column)
+        public static int IntOrZero(this SqlDataReader reader, string column)
         {
-            return Boolean(row[column]);
+            return ValueOrDefault<int>(reader, column, 0);
         }
+
+        public static int IntOrDefault(this SqlDataReader reader, string column, int _default)
+        {
+            return ValueOrDefault<int>(reader, column, _default);
+        }
+
+        public static bool Boolean(this SqlDataReader reader, string column)
+        {
+            return ValueOrDefault<bool>(reader, column, false);
+        }
+
+        public static double DoubleOrZero(this SqlDataReader reader, string column)
+        {
+            return ValueOrDefault<double>(reader, column, 0);
+        }
+
+
+
+
+
+
+
 
         public static int IntOrDefault(object o, int _default)
         {
@@ -177,64 +210,14 @@ namespace DisplayMonkey
             return IntOrDefault(o, 0);
         }
 
-        public static int IntOrDefault(this SqlParameter param, int _default)
-        {
-            return IntOrDefault(param.Value, _default);
-        }
-
         public static int IntOrZero(this SqlParameter param)
         {
             return IntOrZero(param.Value);
         }
 
-        public static int IntOrDefault(this DataRow row, string column, int _default)
-        {
-            return IntOrDefault(row[column], _default);
-        }
 
-        public static int IntOrZero(this DataRow row, string column)
-        {
-            return IntOrZero(row[column]);
-        }
 
-        public static double DoubleOrDefault(object o, double _default)
-        {
-            double ret = _default;
-            try
-            {
-                if (o != DBNull.Value)
-                    ret = Convert.ToDouble(o, CultureInfo.InvariantCulture);
-            }
-            catch (FormatException)
-            {
-            }
-            return ret;
-        }
 
-        public static double DoubleOrZero(object o)
-        {
-            return DoubleOrDefault(o, 0);
-        }
-
-        public static double DoubleOrDefault(this SqlParameter param, double _default)
-        {
-            return DoubleOrDefault(param.Value, _default);
-        }
-
-        public static double DoubleOrZero(this SqlParameter param)
-        {
-            return DoubleOrZero(param.Value);
-        }
-
-        public static double DoubleOrDefault(this DataRow row, string column, double _default)
-        {
-            return DoubleOrDefault(row[column], _default);
-        }
-
-        public static double DoubleOrZero(this DataRow row, string column)
-        {
-            return DoubleOrZero(row[column]);
-        }
 
         public static string StringOrDefault(object o, string _default)
         {
@@ -255,26 +238,6 @@ namespace DisplayMonkey
             return StringOrDefault(o, "");
         }
 
-        public static string StringOrBlank(this SqlParameter param)
-        {
-            return StringOrBlank(param.Value);
-        }
-
-        public static string StringOrDefault(this SqlParameter param, string _default)
-        {
-            return StringOrDefault(param.Value, _default);
-        }
-
-        public static string StringOrBlank(this DataRow row, string column)
-        {
-            return StringOrBlank(row[column]);
-        }
-
-        public static string StringOrDefault(this DataRow row, string column, string _default)
-        {
-            return StringOrDefault(row[column], _default);
-        }
-
         #endregion // Value helper extensions  //////////////////////////////////////////////
 
         #region Private Members //////////////////////////////////////////////
@@ -291,9 +254,6 @@ namespace DisplayMonkey
                 ;
 			}
 		}
-
-		private static Mutex _mutex = new Mutex(false);
-		private static SqlConnection _cnn = null;
 
 		#endregion // Private Members ////////////////////////////////////////
     }

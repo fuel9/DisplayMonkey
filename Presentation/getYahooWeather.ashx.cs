@@ -49,11 +49,11 @@ namespace DisplayMonkey
                     // get RSS feed
                     Dictionary<string, object> map = await HttpRuntime.Cache.GetOrAddAbsoluteAsync(
                         string.Format("weather_{0}_{1}_{2}_{3}", weather.FrameId, weather.Version, tempUnit, woeid),
-                        async () => { 
+                        async (expire) => 
+                        {
+                            expire.When = DateTime.Now.AddMinutes(weather.CacheInterval);
                             return await GetYahooWeatherAsync(tempUnit, woeid); 
-                        },
-                        DateTime.Now.AddMinutes(weather.CacheInterval)
-                        );
+                        });
 
                     JavaScriptSerializer oSerializer = new JavaScriptSerializer();
                     json = oSerializer.Serialize(map);

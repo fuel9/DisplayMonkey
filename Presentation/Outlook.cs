@@ -65,32 +65,32 @@ namespace DisplayMonkey
 
         private void _init()
         {
-            string sql = string.Format(
-                "SELECT TOP 1 o.*, Account, Password, Url, EwsVersion FROM Outlook o inner join ExchangeAccount x on x.AccountId=o.AccountId WHERE o.FrameId={0}", 
-                this.FrameId
-                );
-
-            using (DataSet ds = DataAccess.RunSql(sql))
+            using (SqlCommand cmd = new SqlCommand()
             {
-                if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                CommandType = CommandType.Text,
+                CommandText = "SELECT TOP 1 o.*, Account, Password, Url, EwsVersion FROM Outlook o inner join ExchangeAccount x on x.AccountId=o.AccountId WHERE o.FrameId=@frameId",
+            })
+            {
+                cmd.Parameters.AddWithValue("@frameId", FrameId);
+                cmd.ExecuteReader((dr) =>
                 {
-                    DataRow dr = ds.Tables[0].Rows[0];
-                    this.Account = dr.StringOrBlank("Account").Trim();
-                    this.Password = (byte[])dr["Password"];
-                    this.Mode = dr.IntOrZero("Mode");
-                    this.EwsVersion = (ExchangeVersion)dr.IntOrZero("EwsVersion");
-                    this.ShowEvents = dr.IntOrZero("ShowEvents");
-                    if (this.ShowEvents < 0)
-                        this.ShowEvents = 0;
-                    this.Mailbox = dr.StringOrBlank("Mailbox").Trim();
+                    Account = dr.StringOrBlank("Account").Trim();
+                    Password = (byte[])dr["Password"];
+                    Mode = dr.IntOrZero("Mode");
+                    EwsVersion = (ExchangeVersion)dr.IntOrZero("EwsVersion");
+                    ShowEvents = dr.IntOrZero("ShowEvents");
+                    if (ShowEvents < 0)
+                        ShowEvents = 0;
+                    Mailbox = dr.StringOrBlank("Mailbox").Trim();
                     if (string.IsNullOrWhiteSpace(Mailbox))
-                        this.Mailbox = this.Account;
-                    this.Name = dr.StringOrBlank("Name").Trim();
-                    this.URL = dr.StringOrBlank("Url").Trim();
-                    this.Privacy = (DisplayMonkey.Models.OutlookPrivacy)dr.IntOrZero("Privacy");
-                    this.AllowReserve = dr.Boolean("AllowReserve");
-                    this.ShowAsFlags = dr.IntOrZero("ShowAsFlags");
-                }
+                        Mailbox = Account;
+                    Name = dr.StringOrBlank("Name").Trim();
+                    URL = dr.StringOrBlank("Url").Trim();
+                    Privacy = (DisplayMonkey.Models.OutlookPrivacy)dr.IntOrZero("Privacy");
+                    AllowReserve = dr.Boolean("AllowReserve");
+                    ShowAsFlags = dr.IntOrZero("ShowAsFlags");
+                    return false;
+                });
             }
         }
     }

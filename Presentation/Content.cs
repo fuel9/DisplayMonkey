@@ -12,7 +12,10 @@ using DisplayMonkey.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 
 namespace DisplayMonkey
@@ -24,7 +27,7 @@ namespace DisplayMonkey
         public string Name { get; private set; }
         public ContentTypes Type { get; private set; }
 
-        public Content(int contentId)
+        /*public Content(int contentId)
         {
 			string sql = string.Format(
 				"SELECT TOP 1 * FROM Content WHERE ContentId={0}; ",
@@ -43,6 +46,52 @@ namespace DisplayMonkey
                         Data = (byte[])dr["Data"];
                 }
 			}
+        }*/
+
+        private Content()
+        {
         }
+
+        public static async Task<Content> GetDataAsync(int contentId)
+        {
+            Content content = null;
+
+            using (SqlCommand cmd = new SqlCommand(_sql))
+            {
+                cmd.Parameters.AddWithValue("@contentId", contentId);
+                await cmd.ExecuteReaderAsync((reader) =>
+                {
+                    content = new Content()
+                    {
+                        ContentId = reader.IntOrZero("ContentId"),
+                        Name = reader.StringOrBlank("Name"),
+                        Type = reader.ValueOrDefault<ContentTypes>("Type", ContentTypes.ContentType_Picture),
+                        Data = reader.ValueOrNull<byte[]>("Data"),
+                    };
+                    return false;
+                });
+            }
+
+            return content;
+        }
+
+        public static async Task<Content> GetMissingContentAsync()
+        {
+            //data = File.ReadAllBytes("~/files/404.png");
+            using (FileStream fs = File.Open("~/files/404.png", FileMode.Open))
+            {
+                Content content = new Content()
+                {
+                    ContentId = 0,
+                    Type = ContentTypes.ContentType_Picture,
+                    Name = "Missing",
+                    Data = new byte[fs.Length],
+                };
+                await fs.ReadAsync(content.Data, 0, content.Data.Length);
+                return content;
+            }
+        }
+
+        private static readonly string _sql = "SELECT TOP 1 * FROM Content WHERE ContentId=@contentId;";
     }
 }

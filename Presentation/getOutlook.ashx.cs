@@ -21,11 +21,9 @@ using DisplayMonkey.Language;
 
 namespace DisplayMonkey
 {
-    public partial class getOutlook : IHttpHandler
+    public partial class getOutlook : HttpTaskAsyncHandler
     {
-        public bool IsReusable { get { return false; } }
-
-        public void ProcessRequest(HttpContext context)
+        public override async System.Threading.Tasks.Task ProcessRequestAsync(HttpContext context)
 		{
 			HttpRequest request = context.Request;
 			HttpResponse response = context.Response;
@@ -55,13 +53,13 @@ namespace DisplayMonkey
                 }
 
                 // EWS: get data
-                OutlookData data = HttpRuntime.Cache.GetOrAddAbsolute(
+                OutlookData data = await HttpRuntime.Cache.GetOrAddAbsoluteAsync(
                     string.Format("outlook_{0}_{1}_{2}", location.LocationId, outlook.FrameId, outlook.Version),
-                    () => {
-                        return new OutlookData(outlook, location, reserveMinutes);
-                    },
-                    DateTime.Now.AddMinutes(outlook.CacheInterval)
-                    );
+                    async (expire) => 
+                    {
+                        expire.When = DateTime.Now.AddMinutes(outlook.CacheInterval);
+                        return await OutlookData.FromFrameAsync(outlook, location, reserveMinutes);
+                    });
 
                 // ---------------------- culture-specific starts here --------------------- //
                 DateTime
@@ -219,7 +217,7 @@ namespace DisplayMonkey
 
             public OutlookData(Outlook outlook, Location location, int reserveMinutes)
             {
-                OutlookData.initFromFrame(this, outlook, location, reserveMinutes);
+                //OutlookData.initFromFrame(this, outlook, location, reserveMinutes);
             }
 
             #region -------- EWS Data Call --------f
@@ -227,8 +225,13 @@ namespace DisplayMonkey
             private static ExtendedPropertyDefinition PR_TextBody = new ExtendedPropertyDefinition(0x1000, MapiPropertyType.String);
             private static ExtendedPropertyDefinition PR_Sensitivity = new ExtendedPropertyDefinition(0x0036, MapiPropertyType.Integer);
 
-            private static void initFromFrame(OutlookData data, Outlook outlook, Location location, int reserveMinutes)
+            private OutlookData()
             {
+            }
+
+            public static async System.Threading.Tasks.Task<OutlookData> FromFrameAsync(Outlook outlook, Location location, int reserveMinutes)
+            {
+                OutlookData data = new OutlookData();
                 DateTime
                     locationTime = location.LocationTime,
                     locationToday = new DateTime(locationTime.Year, locationTime.Month, locationTime.Day),
@@ -254,22 +257,21 @@ namespace DisplayMonkey
                 }
                 else
                 {
-                    service.Url = HttpRuntime.Cache.GetOrAddSliding(
+                    service.Url = await HttpRuntime.Cache.GetOrAddSlidingAsync(
                         string.Format("exchange_account_{0}", outlook.Account),
-                        () =>
+                        async (expire) =>
                         {
-                            service.AutodiscoverUrl(outlook.Account, RedirectionUrlValidationCallback);
+                            expire.After = TimeSpan.FromMinutes(60);
+                            await System.Threading.Tasks.Task.Run(() => service.AutodiscoverUrl(outlook.Account, RedirectionUrlValidationCallback));
                             return service.Url;
-                        },
-                        TimeSpan.FromMinutes(60)
-                        );
+                        });
                 }
 
                 // mailbox: get display name
                 data.DisplayName = outlook.Name;
                 if (string.IsNullOrWhiteSpace(data.DisplayName))
                 {
-                    var match = service.ResolveName(outlook.Mailbox);
+                    var match = await System.Threading.Tasks.Task.Run(() => service.ResolveName(outlook.Mailbox));
                     if (match.Count > 0)
                     {
                         if (match[0].Contact != null)
@@ -294,11 +296,11 @@ namespace DisplayMonkey
                 }
 
                 // mailbox: get availability
-                GetUserAvailabilityResults uars = service.GetUserAvailability(
+                GetUserAvailabilityResults uars = await System.Threading.Tasks.Task.Run(() => service.GetUserAvailability(
                     new AttendeeInfo[] { new AttendeeInfo(outlook.Mailbox, MeetingAttendeeType.Required, true) },
                     new TimeWindow(locationToday, locationToday.AddDays(1)),
                     AvailabilityData.FreeBusy
-                    );
+                    ));
                 var u = uars.AttendeesAvailability[0];
                 if (u.WorkingHours != null)
                 {
@@ -319,18 +321,18 @@ namespace DisplayMonkey
 
                     if (outlook.Mailbox == outlook.Account)
                     {
-                        appointment.Save(SendInvitationsMode.SendToNone);
+                        await System.Threading.Tasks.Task.Run(() => appointment.Save(SendInvitationsMode.SendToNone));
                     }
                     else
                     {
                         appointment.Resources.Add(outlook.Mailbox);
-                        appointment.Save(SendInvitationsMode.SendOnlyToAll);
+                        await System.Threading.Tasks.Task.Run(() => appointment.Save(SendInvitationsMode.SendOnlyToAll));
                     }
                 }
 
                 // events: prep filter
                 FolderId folderId = new FolderId(WellKnownFolderName.Calendar, new Mailbox(outlook.Mailbox));
-                CalendarFolder calendar = CalendarFolder.Bind(service, folderId, new PropertySet());
+                CalendarFolder calendar = await System.Threading.Tasks.Task.Run(() => CalendarFolder.Bind(service, folderId, new PropertySet()));
                 CalendarView cView = new CalendarView(windowBeg, windowEnd)
                 {
                     PropertySet = new PropertySet(
@@ -346,8 +348,9 @@ namespace DisplayMonkey
                 };
 
                 // events: get list
-                data.events = calendar
-                    .FindAppointments(cView)
+                var appointments = await System.Threading.Tasks.Task.Run(() => calendar.FindAppointments(cView));
+                data.events = appointments
+                    //.FindAppointments(cView)
                     .Where(a => 
                         (outlook.Privacy != Models.OutlookPrivacy.OutlookPrivacy_NoClassified || a.Sensitivity == Sensitivity.Normal) && 
                         (outlook.IsShowAsAllowed(a.LegacyFreeBusyStatus))
@@ -371,6 +374,8 @@ namespace DisplayMonkey
                     })
                     .ToList()
                     ;
+
+                return data;
             }
 
             #endregion

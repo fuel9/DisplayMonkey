@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.IO;
+using System.Threading.Tasks;
 //using System.Drawing;
 //using System.Drawing.Imaging;
 
@@ -21,9 +22,9 @@ namespace DisplayMonkey
 	/// <summary>
 	/// Summary description for Image
 	/// </summary>
-	public class getVideo : IHttpHandler
+	public class getVideo : HttpTaskAsyncHandler
 	{
-		public void ProcessRequest(HttpContext context)
+		public override async Task ProcessRequestAsync(HttpContext context)
 		{
 			HttpRequest Request = context.Request;
 			HttpResponse Response = context.Response;
@@ -41,18 +42,18 @@ namespace DisplayMonkey
 
                 if (va.ContentId != 0)
                 {
-                    data = HttpRuntime.Cache.GetOrAddAbsolute(
+                    data = await HttpRuntime.Cache.GetOrAddAbsoluteAsync(
                         va.CacheKey,
-                        () => 
-                        { 
-                            Content content = new Content(va.ContentId);
-                            if (content.ContentId == 0)
+                        async (expire) => 
+                        {
+                            expire.When = DateTime.Now.AddMinutes(video.CacheInterval);
+                            
+                            Content content = await Content.GetDataAsync(va.ContentId);
+                            if (content == null)
                                 return null;
                             mediaName = content.Name;
                             return content.Data;
-                        },
-                        DateTime.Now.AddMinutes(video.CacheInterval)
-                        );
+                        });
                 }
 			}
 
@@ -100,14 +101,6 @@ namespace DisplayMonkey
 
 			Response.BinaryWrite(data);
             Response.Flush();
-		}
-
-		public bool IsReusable
-		{
-			get
-			{
-				return false;
-			}
 		}
 	}
 }

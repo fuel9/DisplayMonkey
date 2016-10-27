@@ -32,16 +32,19 @@ namespace DisplayMonkey
 
         private void _init()
         {
-            string sql = string.Format("SELECT TOP 1 * FROM Memo WHERE FrameId={0}", FrameId);
-
-            using (DataSet ds = DataAccess.RunSql(sql))
+            using (SqlCommand cmd = new SqlCommand()
             {
-                if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                CommandType = CommandType.Text,
+                CommandText = "SELECT TOP 1 * FROM Memo WHERE FrameId=@frameId",
+            })
+            {
+                cmd.Parameters.AddWithValue("@frameId", FrameId);
+                cmd.ExecuteReader((dr) =>
                 {
-                    DataRow dr = ds.Tables[0].Rows[0];
                     Subject = dr.StringOrBlank("Subject");
                     Body = dr.StringOrBlank("Body");
-                }
+                    return false;
+                });
             }
         }
 	}

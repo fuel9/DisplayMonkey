@@ -15,16 +15,16 @@ using System.Web;
 //using System.Web.UI;
 //using System.Web.UI.WebControls;
 using System.Web.Script.Serialization;
-using Microsoft.Exchange.WebServices.Data;
 using System.Net;
 using DisplayMonkey.Language;
 using DisplayMonkey.AzureUtil;
+using System.Threading.Tasks;
 
 namespace DisplayMonkey
 {
     public partial class getAzureToken : HttpTaskAsyncHandler
     {
-        public override async System.Threading.Tasks.Task ProcessRequestAsync(HttpContext context)
+        public override async Task ProcessRequestAsync(HttpContext context)
 		{
 			HttpRequest request = context.Request;
 			HttpResponse response = context.Response;

@@ -179,7 +179,9 @@ namespace DisplayMonkey.Controllers
                 {
                     byte[] cache = await HttpRuntime.Cache.GetOrAddSlidingAsync(
                         string.Format("thumb_report_{0}_{1}x{2}_{3}", report.FullPath, width, height, (int)mode),
-                        async () => {
+                        async (expire) => 
+                        {
+                            expire.After = TimeSpan.FromHours(1);
                             byte[] img = await GetReportBytesAsync(report);
                             using (MemoryStream trg = new MemoryStream())
                             using (MemoryStream src = new MemoryStream(img))
@@ -187,9 +189,7 @@ namespace DisplayMonkey.Controllers
                                 MediaController.WriteImage(src, trg, width, height, mode);
                                 return trg.GetBuffer();
                             }
-                        },
-                        TimeSpan.FromMinutes(10)
-                        );
+                        });
 
                     return new FileStreamResult(new MemoryStream(cache), "image/png");
                 }

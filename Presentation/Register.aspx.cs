@@ -16,6 +16,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace DisplayMonkey
 {
@@ -87,7 +88,7 @@ namespace DisplayMonkey
                 listLocation.SelectedIndex >= 0
                 )
 			{
-				try
+				/*try
 				{
 					Display display = new Display()
 					{
@@ -105,7 +106,30 @@ namespace DisplayMonkey
 				catch (Exception ex)
 				{
 					Response.Write(ex.Message);	// TODO: error label
-				}
+				}*/
+
+                RegisterAsyncTask(new PageAsyncTask(async () =>
+                {
+                    try
+                    {
+                        Display display = new Display()
+                        {
+                            Host = labelHost.Text,
+                            Name = textName.Text,
+                            CanvasId = DataAccess.IntOrZero(listCanvas.SelectedValue),
+                            LocationId = DataAccess.IntOrZero(listLocation.SelectedValue),
+                        };
+
+                        await display.Register();
+
+                        HttpContext.Current.Response.Redirect("default.aspx");
+                    }
+
+                    catch (Exception ex)
+                    {
+                        Response.Write(ex.Message);	// TODO: error label
+                    }
+                }));
 			}
 		}
 	}
