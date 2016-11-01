@@ -227,5 +227,14 @@ as begin
 	from _f outer apply _m
 	;
 end
-GO
+go
+
+declare @html varchar(100); set @html = '<div class="powerbi"><iframe></iframe></div>';
+update Template set html=@html
+	where FrameType=10 and Name='default'
+;
+if (@@ROWCOUNT = 0)
+	insert Template (Name,Html,FrameType) select 'default',@html,10
+;
+go
 
