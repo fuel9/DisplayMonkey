@@ -172,7 +172,7 @@ namespace DisplayMonkey.Controllers
                     {
                         string responseContent = await reader.ReadToEndAsync();
                         PBIReports reports = new JavaScriptSerializer().Deserialize<PBIReports>(responseContent);
-                        foreach (PBIReport i in reports.value.Where(j => j.embedUrl != ""))
+                        foreach (PBIReport i in reports.value.Where(j => j.embedUrl != "").OrderBy(j => j.name))
                         {
                             x.Add(new SelectListItemWithUrl()
                             {
@@ -234,7 +234,7 @@ namespace DisplayMonkey.Controllers
                     {
                         string responseContent = await reader.ReadToEndAsync();
                         PBIDashboards reports = new JavaScriptSerializer().Deserialize<PBIDashboards>(responseContent);
-                        foreach (PBIDashboard i in reports.value)
+                        foreach (PBIDashboard i in reports.value.OrderBy(j => j.displayName))
                         {
                             x.Add(new SelectListItem()
                             {
@@ -290,7 +290,7 @@ namespace DisplayMonkey.Controllers
                     {
                         string responseContent = await reader.ReadToEndAsync();
                         PBITiles reports = new JavaScriptSerializer().Deserialize<PBITiles>(responseContent);
-                        foreach (PBITile i in reports.value.Where(j => j.embedUrl != ""))
+                        foreach (PBITile i in reports.value.Where(j => j.embedUrl != "").OrderBy(j => j.title))
                         {
                             x.Add(new SelectListItemWithUrl()
                             {
