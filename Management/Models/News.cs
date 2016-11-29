@@ -22,11 +22,8 @@ namespace DisplayMonkey.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class News
+    public partial class News : Frame
     {
-        public int FrameId { get; set; }
         public int Source { get; set; }
-    
-        public virtual Frame Frame { get; set; }
     }
 }

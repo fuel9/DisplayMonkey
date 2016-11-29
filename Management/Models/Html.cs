@@ -22,12 +22,9 @@ namespace DisplayMonkey.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Html
+    public partial class Html : Frame
     {
-        public int FrameId { get; set; }
         public string Name { get; set; }
         public string Content { get; set; }
-    
-        public virtual Frame Frame { get; set; }
     }
 }

@@ -19,15 +19,16 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using DisplayMonkey.Models;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace DisplayMonkey
 {
 	/// <summary>
 	/// Summary description for Image
 	/// </summary>
-	public class getImage : IHttpHandler
+	public class getImage : HttpTaskAsyncHandler
 	{
-		public void ProcessRequest(HttpContext context)
+		public override async Task ProcessRequestAsync(HttpContext context)
 		{
 			HttpRequest Request = context.Request;
 			HttpResponse Response = context.Response;
@@ -48,8 +49,8 @@ namespace DisplayMonkey
 
                 Response.ContentType = "image/png";
 
-                int contentId = DataAccess.IntOrZero(Request.QueryString["content"]);
-                int frameId = DataAccess.IntOrZero(Request.QueryString["frame"]);
+                int contentId = Request.IntOrZero("content");
+                int frameId = Request.IntOrZero("frame");
 
                 byte[] data = null;
 
@@ -65,11 +66,12 @@ namespace DisplayMonkey
                     {
                         Panel panel = new Panel(picture.PanelId);
 
-                        data = HttpRuntime.Cache.GetOrAddAbsolute(
+                        data = await HttpRuntime.Cache.GetOrAddAbsoluteAsync(
                             picture.CacheKey,
-                            () =>
+                            async (expire) =>
                             {
-                                Content content = new Content(picture.ContentId);
+                                expire.When = DateTime.Now.AddMinutes(picture.CacheInterval);
+                                Content content = await Content.GetDataAsync(picture.ContentId); // new Content(picture.ContentId);
                                 if (content.Data == null)
                                     return null;
                                 using (MemoryStream trg = new MemoryStream())
@@ -78,46 +80,44 @@ namespace DisplayMonkey
                                     Picture.WriteImage(src, trg, panel.Width, panel.Height, picture.Mode);
                                     return trg.GetBuffer();
                                 }
-                            },
-                            DateTime.Now.AddMinutes(picture.CacheInterval)
-                            );
+                            });
                     }
                 }
 
                 else if (contentId != 0)
                 {
-                    data = HttpRuntime.Cache.GetOrAddSliding(
+                    data = await HttpRuntime.Cache.GetOrAddSlidingAsync(
                         string.Format("image_{0}_{1}x{2}_{3}", contentId, -1, -1, (int)RenderModes.RenderMode_Crop),
-                        () =>
+                        async (expire) =>
                         {
-                            Content content = new Content(contentId);
+                            expire.After = TimeSpan.FromMinutes(60);
+                            Content content = await Content.GetDataAsync(contentId); // new Content(contentId);
                             if (content.Data == null)
                                 return null;
                             using (MemoryStream trg = new MemoryStream())
                             using (MemoryStream src = new MemoryStream(content.Data))
                             {
-                                Picture.WriteImage(src, trg, -1, -1, RenderModes.RenderMode_Crop);
+                                await Task.Run(() => Picture.WriteImage(src, trg, -1, -1, RenderModes.RenderMode_Crop));
                                 return trg.GetBuffer();
                             }
-                        },
-                        TimeSpan.FromMinutes(60)
-                        );
+                        });
                 }
 
                 if (data != null)
                 {
-                    //Debug.Print(string.Format("image {0}, {1} bytes", frameId, data.Length));
-                    Response.OutputStream.Write(data, 0, data.Length);
+                    await Response.OutputStream.WriteAsync(data, 0, data.Length);
                 }
 
                 else
                 {
-                    data = File.ReadAllBytes("~/files/404.png");
-                    using (MemoryStream ms = new MemoryStream(data))
+                    Content missingContent = await Content.GetMissingContentAsync();
+                    using (MemoryStream ms = new MemoryStream(missingContent.Data))
                     {
-                        Picture.WriteImage(ms, Response.OutputStream, -1, -1, RenderModes.RenderMode_Crop);
+                        await Task.Run(() => Picture.WriteImage(ms, Response.OutputStream, -1, -1, RenderModes.RenderMode_Crop));
                     }
                 }
+
+                await Response.OutputStream.FlushAsync();
             }
 
             catch (Exception ex)
@@ -126,12 +126,10 @@ namespace DisplayMonkey
                 Response.Write(ex.Message);
             }
 
-            finally
+            /*finally
             {
-                Response.OutputStream.Flush();
-            }
+                await Response.OutputStream.FlushAsync();
+            }*/
 		}
-
-		public bool IsReusable { get { return false; } }
 	}
 }

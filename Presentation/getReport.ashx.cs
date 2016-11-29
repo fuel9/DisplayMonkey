@@ -17,6 +17,8 @@ using System.IO;
 using System.Configuration;
 using System.Net;
 using DisplayMonkey.Models;
+using System.Threading.Tasks;
+using System.Diagnostics;
 //using System.Drawing;
 //using System.Drawing.Imaging;
 
@@ -25,9 +27,9 @@ namespace DisplayMonkey
 	/// <summary>
 	/// Summary description for getReport
 	/// </summary>
-	public class getReport : IHttpHandler
+    public class getReport : HttpTaskAsyncHandler
 	{
-		public void ProcessRequest(HttpContext context)
+		public override async Task ProcessRequestAsync(HttpContext context)
 		{
 			HttpRequest Request = context.Request;
 			HttpResponse Response = context.Response;
@@ -41,7 +43,7 @@ namespace DisplayMonkey
                 Response.Cache.SetNoStore();
                 Response.ContentType = "image/png";
 
-                int frameId = Convert.ToInt32(Request.QueryString["frame"]);
+                int frameId = Request.IntOrZero("frame");
 
                 byte[] data = null;
                 int panelHeight = -1, panelWidth = -1;
@@ -63,10 +65,12 @@ namespace DisplayMonkey
                     //TiffBitmapDecoder decoder = new TiffBitmapDecoder(imageStreamSource, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.Default);
                     //BitmapSource bitmapSource = decoder.Frames[0];
 
-                    data = HttpRuntime.Cache.GetOrAddAbsolute(
+                    data = await HttpRuntime.Cache.GetOrAddAbsoluteAsync(
                         report.CacheKey,
-                        () =>
+                        async (expire) =>
                         {
+                            expire.When = DateTime.Now.AddMinutes(report.CacheInterval);
+
                             // get response from report server
                             WebClient client = new WebClient();
                             if (!string.IsNullOrWhiteSpace(report.User))
@@ -78,7 +82,7 @@ namespace DisplayMonkey
                                     );
                             }
 
-                            byte[] repBytes = client.DownloadData(report.Url);
+                            byte[] repBytes = await client.DownloadDataTaskAsync(report.Url);
 
                             if (repBytes == null)
                                 return null;
@@ -86,46 +90,39 @@ namespace DisplayMonkey
                             using (MemoryStream trg = new MemoryStream())
                             using (MemoryStream src = new MemoryStream(repBytes))
                             {
-                                Picture.WriteImage(src, trg, panelWidth, panelHeight, mode);
+                                await Task.Run(() => Picture.WriteImage(src, trg, panelWidth, panelHeight, mode));
                                 return trg.GetBuffer();
                             }
-                        },
-                        DateTime.Now.AddMinutes(report.CacheInterval)
-                        );
+                        });
                 }
 
                 if (data != null)
                 {
-                    Response.OutputStream.Write(data, 0, data.Length);
+                    await Response.OutputStream.WriteAsync(data, 0, data.Length);
                 }
 
                 else
                 {
-                    data = File.ReadAllBytes("~/files/404.png");
-                    using (MemoryStream ms = new MemoryStream(data))
+                    Content missingContent = await Content.GetMissingContentAsync();
+                    using (MemoryStream ms = new MemoryStream(missingContent.Data))
                     {
-                        Picture.WriteImage(ms, Response.OutputStream, panelWidth, panelHeight, mode);
+                        await Task.Run(() => Picture.WriteImage(ms, Response.OutputStream, -1, -1, RenderModes.RenderMode_Crop));
                     }
                 }
+
+                await Response.OutputStream.FlushAsync();
             }
 
 			catch (Exception ex)
 			{
-				Response.Write(ex.Message);
+                Debug.Print(string.Format("getReport error: {0}", ex.Message));
+                Response.Write(ex.Message);
 			}
 
-            finally
+            /*finally
             {
                 Response.OutputStream.Flush();
-            }
+            }*/
         }
-
-		public bool IsReusable
-		{
-			get
-			{
-				return false;
-			}
-		}
 	}
 }

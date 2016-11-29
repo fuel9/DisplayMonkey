@@ -12,6 +12,7 @@
 // 2015-02-06 [LTL] - added isReady method
 // 2015-03-08 [LTL] - using data
 // 2015-05-08 [LTL] - ready callback
+// 2016-09-04 [LTL] - more robust HTML and frame data implementation + reserve time
 
 DM.Outlook = Class.create(/*PeriodicalExecuter*/ DM.FrameBase, {
     initialize: function ($super, options) {
@@ -19,12 +20,182 @@ DM.Outlook = Class.create(/*PeriodicalExecuter*/ DM.FrameBase, {
         $super(options, 'div.outlook');
         var data = options.panel.data;
 
-        this.div.select("div.busy")[0].hide();
-        this.div.select("div.plan")[0].hide();
-        this.div.select("div.free")[0].hide();
-        this.div.select("div.progress")[0].show();
+        this.availableMinutes = 0;
+        this.reserveMinutes = 0;
+        this.allowReserve = data.AllowReserve || false;
+        this.showEvents = data.ShowEvents || 0;
+
+        this.summary = this.div.select(".summary")[0];
+        this.events = this.div.select(".events")[0];
+        this.actions = this.div.select(".actions")[0];
+        this.progress = this.div.select(".progress")[0];
+
+        this.bookingImpossible = "";
+        this.bookingSent = "";
+
+        if (this.summary) this.summary.hide();
+        if (this.events) this.events.hide();
+        if (this.progress) this.progress.show();
+
+        if (this.actions) {
+            this.actions
+                .hide()
+                .select(".book").each(function (a) {
+                    $(a).observe('click', this._book.bind(this), true);
+                }, this)
+            ;
+            if (this.allowReserve) {
+                this.div.observe('click', function () {
+                    if (this.actions.visible())
+                        this.actions.hide();
+                    else
+                        this._showBook();
+                }.bind(this), true);
+            }
+        }
+
+        this.timer = setInterval(this._onTimer.bind(this), 60 * 1000);
 
         this._callback();
+    },
+
+    uninit: function ($super) {
+        "use strict";
+        if (this.timer) {
+            clearInterval(this.timer);
+            this.timer = 0;
+        }
+        $super();
+    },
+
+
+    _onTimer: function () {
+        "use strict";
+        if (this.availableMinutes > 0)
+            this.availableMinutes--;
+    },
+
+    _showBook: function () {
+        "use strict";
+        if (this.allowReserve && this.actions) {
+            var am = this.availableMinutes;
+            if (!am) {
+                this.actions.setAll(".message", this.bookingImpossible);
+            }
+            this.actions
+                .show()
+                .select(".book").each(function (c) {
+                    if (am) {
+                        var dm = $(c).getAttribute("data-minutes");
+                        if (!dm || isNaN(dm)) {
+                            if (!c.getAttribute("value") || c.getAttribute("data-value") == "*") {
+                                var dur = moment.duration(am, "m");
+                                c.writeAttribute("value", dur.hours().pad(0) + ":" + dur.minutes().pad(2));
+                                c.writeAttribute("data-value", "*");
+                            }
+                            c.writeAttribute("data-minutes", null);
+                            c.show();
+                        } else {
+                            if (am >= parseInt(dm))
+                                c.show();
+                            else
+                                c.hide();
+                        }
+                    } else
+                        c.hide();
+                });
+        }
+    },
+
+    _book: function (event) {
+        "use strict";
+        var e = $(event.target);
+        if (e && e.hasClassName("book")) {
+            this.reserveMinutes = e.getAttribute("data-minutes") || this.availableMinutes;
+            if (this.reserveMinutes) {
+                this._callback.bind(this).delay(0);
+                this.actions.setAll(".message", this.bookingSent);
+            }
+            this.actions.select(".book").each(function (c) {
+                $(c).hide();
+            });
+            Event.stop(event);
+        }
+    },
+
+    _dismiss: function () {
+        "use strict";
+        if (this.actions.visible())
+            this.actions.hide();
+    },
+
+    _update: function (json) {
+        "use strict";
+
+        if (this.allowReserve && this.actions) {
+            this.availableMinutes = json.available.minutes || 0;
+        }
+
+        if (this.summary)
+            this.summary
+                .addClassName(json.currentEvent !== "" ? "busy" : "free")
+                .setAll(".mailbox", json.mailbox)
+                .setAll(".current.status", json.currentStatus)
+                .setAll(".current.event", json.currentEvent)
+                .show()
+            ;
+
+        if (this.events) {
+            var items=this.events.select(".item"), i=items.length;
+            if (i) {
+                if (this.showEvents) {
+                    for (; i<this.showEvents; i++) {
+                        items[0].insert({ after: items[0].clone(true) });
+                    }
+                    for (; i>this.showEvents; i--) {
+                        Element.remove(0);
+                    }
+                    var i=0;
+                    this.events.select(".item").each(function (c) {
+                        var ev, subj;
+                        if (!i && !json.events.items.length) {
+                            json.labels.forEach(function (l) {
+                                if (l.key == "noEvents") subj = l.value;
+                            });
+                        }
+                        else if (i < json.events.items.length) {
+                            ev = json.events.items[i];
+                            subj = ev.subject;
+                            ev.flags.forEach(function (f) {
+                                c.addClassName(f);
+                            });
+                        }
+                        c   .setAll(".subject", subj)
+                            .setAll(".starts", ev ? ev.starts : null)
+                            .setAll(".ends", ev ? ev.ends : null)
+                            .setAll(".sensitivity", ev ? ev.sensitivity : null)
+                            .setAll(".showAs", ev ? ev.showAs : null)
+                            .setAll(".duration", ev ? ev.duration : null)
+                        ;
+                        i++;
+                    });
+                    this.events.show();
+                } else {
+                    this.events.hide();
+                }
+            } else {
+                this.events.hide();
+            }
+        }
+
+        json.labels.forEach(function (l) {
+            this.div.setAll(".label." + l.key, l.value);
+            if (l.key == "bookingSent") this.bookingSent = l.value;
+            if (l.key == "bookingImpossible") this.bookingImpossible = l.value;
+        }, this);
+
+        if (this.progress)
+            this.progress.hide();
     },
 
     _callback: function () {
@@ -39,7 +210,8 @@ DM.Outlook = Class.create(/*PeriodicalExecuter*/ DM.FrameBase, {
                 frame: this.frameId,
                 panel: this.panelId,
                 display: _canvas.displayId,
-                culture: _canvas.culture
+                culture: _canvas.culture,
+                reserveMinutes: this.reserveMinutes,
             })
             , evalJSON: false
             , outlook: this
@@ -59,43 +231,7 @@ DM.Outlook = Class.create(/*PeriodicalExecuter*/ DM.FrameBase, {
                     if (json.Error)
                         throw new Error("Server error");
 
-                    var o = outlook.div,
-                        free = o.select("div.free")[0],
-                        busy = o.select("div.busy")[0],
-                        plan = o.select("div.plan")[0]
-                    ;
-                    o.select("div.progress")[0].hide();
-                    o.select(".mailbox").each(function (e) { e.update(json.mailbox); });
-                    o.select(".status").each(function (e) { e.update(json.currentStatus); });
-                    if (json.currentEvent === "") {
-                        busy.hide();
-                        free.show();
-                    } else {
-                        free.hide();
-                        busy.select(".event")[0].update(json.currentEvent);
-                        busy.show();
-                    }
-
-                    if (!json.events.showEvents) {
-                        plan.update('');
-                    }
-                    else {
-                        plan.update('<table><tr></tr></table>');
-                        var rows = plan.down(1);
-                        json.events.head.forEach(function (e) {
-                            rows.insert(new Element('th', { 'class': e.cls }).update(e.name));
-                        });
-                        for (var i = 0, j = json.events.items.length; i < json.events.showEvents; i++) {
-                            var r = rows.insert(new Element('tr')), k = 0;
-                            json.events.head.forEach(function (e) {
-                                r.insert(new Element('td', { class: e.cls }).update(
-                                    !i && !j && !(k++) ? json.events.noEvents : i < j ? json.events.items[i][e.cls] : "&nbsp;"
-                                    ));
-                            });
-                        }
-                        plan.show();
-                    }
-                    o.show();
+                    outlook._update.call(outlook, json);
                 }
                 catch (e) {
                     new DM.ErrorReport({ exception: e, data: resp.responseText, source: "Outlook::callBack::onSuccess" });
@@ -114,6 +250,8 @@ DM.Outlook = Class.create(/*PeriodicalExecuter*/ DM.FrameBase, {
                 outlook.ready();
             }
         });
+
+        this.reserveMinutes = 0;
     },
 });
 

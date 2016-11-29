@@ -110,26 +110,7 @@ namespace DisplayMonkey.Controllers
 
         private void makeFullscreenPanel(Canvas canvas)
         {
-            Panel panel = new Panel()
-            {
-                Left = 0,
-                Top = 0,
-                Height = canvas.Height,
-                Width = canvas.Width,
-                Name = "Full-screen",   // TODO: resource
-                Canvas = canvas,
-            };
-
-            FullScreen fullScreen = new FullScreen()
-            {
-                Canvas = canvas,
-                Panel = panel,
-            };
-
-            fullScreen.init(db);
-
-            panel.FullScreens.Add(fullScreen);
-            canvas.Panels.Add(panel);
+            canvas.Panels.Add(new FullScreen(db, canvas));
         }
         
         //
@@ -252,23 +233,15 @@ namespace DisplayMonkey.Controllers
 
             if (canvasCopy.CopyPanels)
             {
-                canvasQ = canvasQ
-                    .Include(c => c.Panels.Select(p => p.FullScreens))
-                    ;
+                //canvasQ = canvasQ
+                //    .Include(c => c.Panels.Select(p => p.FullScreens))
+                //    ;
 
                 if (canvasCopy.CopyFrames)
                 {
                     canvasQ = canvasQ
-                        .Include(c => c.Panels.Select(p => p.Frames.Select(f => f.Clock)))
-                        .Include(c => c.Panels.Select(p => p.Frames.Select(f => f.Memo)))
-                        .Include(c => c.Panels.Select(p => p.Frames.Select(f => f.News)))
-                        .Include(c => c.Panels.Select(p => p.Frames.Select(f => f.Picture)))
-                        .Include(c => c.Panels.Select(p => p.Frames.Select(f => f.Report)))
-                        .Include(c => c.Panels.Select(p => p.Frames.Select(f => f.Video).Select(v => v.Contents)))
-                        .Include(c => c.Panels.Select(p => p.Frames.Select(f => f.Weather)))
-                        .Include(c => c.Panels.Select(p => p.Frames.Select(f => f.Html)))
-                        .Include(c => c.Panels.Select(p => p.Frames.Select(f => f.Youtube)))
-                        .Include(c => c.Panels.Select(p => p.Frames.Select(f => f.Outlook)))
+                        .Include(c => c.Panels.Select(p => p.Frames))
+                        //.Include(c => c.Panels.Select(p => p.Frames.OfType<Video>().Select(v => v.Contents)))
                         ;
 
                     if (canvasCopy.CopyFrameLocations)

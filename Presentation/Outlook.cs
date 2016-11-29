@@ -24,6 +24,9 @@ namespace DisplayMonkey
 	public class Outlook : Frame
 	{
         public string Name { get; private set; }
+
+        public bool AllowReserve { get; private set; }
+        public int ShowEvents { get; private set; }
         
         [ScriptIgnore]
         public int Mode { get; private set; }   // Reserved
@@ -34,11 +37,16 @@ namespace DisplayMonkey
         [ScriptIgnore]
         public string Mailbox { get; private set; }
         [ScriptIgnore]
-        public int ShowEvents { get; private set; }
-        [ScriptIgnore]
         public ExchangeVersion EwsVersion { get; private set; }
         [ScriptIgnore]
         public string URL { get; private set; } // e.g. https://outlook.office365.com/EWS/Exchange.asmx
+
+        private int ShowAsFlags { get; set; }
+
+        public bool IsShowAsAllowed(LegacyFreeBusyStatus flag)
+        {
+            return (ShowAsFlags & (1 << (int)flag)) != 0;
+        }
 
         [ScriptIgnore]
         public DisplayMonkey.Models.OutlookPrivacy Privacy { get; private set; }   // TODO: 0 = show everything, 1 = normal only, 2 = sensitivity as subject
@@ -57,30 +65,32 @@ namespace DisplayMonkey
 
         private void _init()
         {
-            string sql = string.Format(
-                "SELECT TOP 1 o.*, Account, Password, Url, EwsVersion FROM Outlook o inner join ExchangeAccount x on x.AccountId=o.AccountId WHERE o.FrameId={0}", 
-                this.FrameId
-                );
-
-            using (DataSet ds = DataAccess.RunSql(sql))
+            using (SqlCommand cmd = new SqlCommand()
             {
-                if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                CommandType = CommandType.Text,
+                CommandText = "SELECT TOP 1 o.*, Account, Password, Url, EwsVersion FROM Outlook o inner join ExchangeAccount x on x.AccountId=o.AccountId WHERE o.FrameId=@frameId",
+            })
+            {
+                cmd.Parameters.AddWithValue("@frameId", FrameId);
+                cmd.ExecuteReaderExt((dr) =>
                 {
-                    DataRow dr = ds.Tables[0].Rows[0];
-                    this.Account = dr.StringOrBlank("Account").Trim();
-                    this.Password = (byte[])dr["Password"];
-                    this.Mode = dr.IntOrZero("Mode");
-                    this.EwsVersion = (ExchangeVersion)dr.IntOrZero("EwsVersion");
-                    this.ShowEvents = dr.IntOrZero("ShowEvents");
-                    if (this.ShowEvents < 0)
-                        this.ShowEvents = 0;
-                    this.Mailbox = dr.StringOrBlank("Mailbox").Trim();
+                    Account = dr.StringOrBlank("Account").Trim();
+                    Password = (byte[])dr["Password"];
+                    Mode = dr.IntOrZero("Mode");
+                    EwsVersion = (ExchangeVersion)dr.IntOrZero("EwsVersion");
+                    ShowEvents = dr.IntOrZero("ShowEvents");
+                    if (ShowEvents < 0)
+                        ShowEvents = 0;
+                    Mailbox = dr.StringOrBlank("Mailbox").Trim();
                     if (string.IsNullOrWhiteSpace(Mailbox))
-                        this.Mailbox = Account;
-                    this.Name = dr.StringOrBlank("Name").Trim();
-                    this.URL = dr.StringOrBlank("Url").Trim();
-                    this.Privacy = (DisplayMonkey.Models.OutlookPrivacy)dr.IntOrZero("Privacy");
-                }
+                        Mailbox = Account;
+                    Name = dr.StringOrBlank("Name").Trim();
+                    URL = dr.StringOrBlank("Url").Trim();
+                    Privacy = (DisplayMonkey.Models.OutlookPrivacy)dr.IntOrZero("Privacy");
+                    AllowReserve = dr.Boolean("AllowReserve");
+                    ShowAsFlags = dr.IntOrZero("ShowAsFlags");
+                    return false;
+                });
             }
         }
     }

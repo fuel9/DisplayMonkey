@@ -1,0 +1,85 @@
+﻿@using DisplayMonkey
+@using DisplayMonkey.Models
+@using DisplayMonkey.Language
+
+@model DisplayMonkey.Models.AzureAccount
+
+@{
+    ViewBag.Title = Resources.DeleteAzureAccount;
+}
+
+<h2>@ViewBag.Title</h2>
+
+<h3>@Resources.DeletingAzureAccountWillCauseDeletionOfAllRelatedContentAreYouSureYouWantToContinue</h3>
+
+@Html.HiddenFor(model => model.AccountId)
+    
+<fieldset>
+    <legend>@Resources.AzureAccount</legend>
+
+    <div class="divTable">
+
+    <div class="divRow">
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Name)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Name)
+    </div>
+    </div>
+
+        <div class="divRow">
+            <div class="display-label">
+                @Html.DisplayNameFor(model => model.Resource)
+            </div>
+            <div class="display-field">
+                @Html.DisplayFor(model => model.Resource)
+            </div>
+        </div>
+
+        <div class="divRow">
+            <div class="display-label">
+                @Html.DisplayNameFor(model => model.TenantId)
+            </div>
+            <div class="display-field">
+                @Html.DisplayFor(model => model.TenantId)
+            </div>
+        </div>
+
+        <div class="divRow">
+            <div class="display-label">
+                @Html.DisplayNameFor(model => model.ClientId)
+            </div>
+            <div class="display-field">
+                @Html.DisplayFor(model => model.ClientId)
+            </div>
+        </div>
+
+        <div class="divRow">
+            <div class="display-label">
+                @Html.DisplayNameFor(model => model.ClientSecret)
+            </div>
+            <div class="display-field">
+                @Html.DisplayFor(model => model.ClientSecret)
+            </div>
+        </div>
+
+    <div class="divRow">
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.User)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.User)
+    </div>
+    </div>
+
+    </div>
+</fieldset>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    <p>
+        <input type="submit" value="@Resources.Delete" /> |
+        @Html.ActionLink(Resources.AzureAccounts, "Index")
+    </p>
+}

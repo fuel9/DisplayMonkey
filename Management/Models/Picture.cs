@@ -22,13 +22,11 @@ namespace DisplayMonkey.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Picture
+    public partial class Picture : Frame
     {
-        public int FrameId { get; set; }
         public int ContentId { get; set; }
         public RenderModes Mode { get; set; }
     
         public virtual Content Content { get; set; }
-        public virtual Frame Frame { get; set; }
     }
 }

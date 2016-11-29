@@ -5,7 +5,6 @@
 @model IEnumerable<DisplayMonkey.Models.Frame>
 
 @{
-    string icon = "";
 }
 
 <table class="grid">
@@ -31,67 +30,56 @@
 @foreach (var item in Model) {
     <tr>
         <td class="nw">
-            @Html.ActionImgLink(item.Icon, "Details", "Frame", new { id = item.FrameId }, new { @class = "thumb1", title =item.TranslatedType })
+            @Html.ActionImgLink(item.Icon, "Details", "Frame", new { id = item.FrameId }, new { @class = "thumb1", title = item.TranslatedType })
         </td>
         <td class="nw">
-            @Html.DisplayFor(m => item.Panel.Canvas.Name)
+            @item.Panel.Canvas.Name
         </td>
         <td class="nw">
-            @Html.DisplayFor(m => item.Panel.Name)
+            @item.Panel.Name
         </td>
         <td>
-            @if (item.Clock != null)
+            @if (item is Clock)
             {
-                @(string.Format("{0}{1}{2}{3}{4}{5}",
-                    item.Clock.Type.Translate(),
-                    !string.IsNullOrWhiteSpace(item.Clock.Label) ? ", " + item.Clock.Label : "",
-                    item.Clock.TimeZone != null ? ", " + item.Clock.TimeZone : "",
-                    item.Clock.Type == ClockTypes.ClockType_Text && item.Clock.ShowDate ? ", " + Resources.ShowDate : "",
-                    item.Clock.Type == ClockTypes.ClockType_Text && item.Clock.ShowTime ? ", " + Resources.ShowTime : "",
-                    item.Clock.Type == ClockTypes.ClockType_Analog && item.Clock.ShowSeconds ? ", " + Resources.ShowSeconds : ""
-                    ))
+                @Html.Partial("../Clock/_Summary", item)
             }
-            else if (item.Html != null)    
+            else if (item is Html)
             {
-                <text>Name: <span>@Html.DisplayFor(m => item.Html.Name)</span></text>
+                @Html.Partial("../Html/_Summary", item)
             }
-            else if (item.News != null)
+            else if (item is Memo)
             {
-                @Html.DisplayFor(m => item.News.Source)
+                @Html.Partial("../Memo/_Summary", item)
             }
-            else if (item.Memo != null)
+            else if (item is Outlook)
             {
-                <text>Subject: <span>@Html.DisplayFor(m => item.Memo.Subject)</span></text>
-                <p>Body: <span>@Html.DisplayFor(m => item.Memo.ShortBody)</span></p>
+                @Html.Partial("../Outlook/_Summary", item)
             }
-            else if (item.Outlook != null)
+            else if (item is Picture)
             {
-                <span>@Html.DisplayFor(m => item.Outlook.NameOrMailboxOrAccount)</span>
+                @Html.Partial("../Picture/_Summary", item)
             }
-            else if (item.Picture != null)
+            else if (item is Powerbi)
             {
-                <img class="thumb1" src="@Url.Action("Thumb", "Media", new { id = item.Picture.ContentId, width = 50, height = 50, mode = (int)RenderModes.RenderMode_Stretch })" alt="" />
-                <span>@Html.DisplayFor(m => item.Picture.Content.Name)</span>
+                @Html.Partial("../Powerbi/_Summary", item)
             }
-            else if (item.Report != null)
+            else if (item is Report)
             {
-                <img class="thumb1" src="@Url.Action("Thumb", "Report", new { id = item.FrameId, width = 50, height = 50, mode = (int)RenderModes.RenderMode_Stretch })" alt="" />
-                <span>@Html.DisplayFor(m => item.Report.Name)</span>
+                @Html.Partial("../Report/_Summary", item)
             }
-            else if (item.Video != null)    
+            else if (item is Video)
             {
-                <span>@(string.Format(Resources.VideoAlternatives, item.Video.Contents.Count()))</span>
+                @Html.Partial("../Video/_Summary", item)
             }
-            else if (item.Weather != null)
+            else if (item is Weather)
             {
-                @item.Weather.Type.Translate()
+                @Html.Partial("../Weather/_Summary", item)
             }
-            else if (item.Youtube != null)    
+            else if (item is Youtube)
             {
-                <img class="thumb1" src="@Html.Raw(string.Format("http://i.ytimg.com/vi/{0}/0.jpg", item.Youtube.YoutubeId))" alt="" />
-                <span>@Html.DisplayFor(m => item.Youtube.Name)</span>
+                @Html.Partial("../Youtube/_Summary", item)
             }
-            else   
+            else
             {
                 <text>@Resources.UnsupportedFrame</text>
             }

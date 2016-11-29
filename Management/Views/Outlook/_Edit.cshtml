@@ -44,11 +44,33 @@
         </div>
 
         <div class="editor-label">
+            @Html.LabelFor(model => model.AllowReserve)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.AllowReserve)
+            @Html.ValidationMessageFor(model => model.AllowReserve)
+        </div>
+
+        <div class="editor-label">
             @Html.LabelFor(model => model.Privacy)
         </div>
         <div class="editor-field select">
             @Html.DropDownListFor(model => model.Privacy, privacies)
             @Html.ValidationMessageFor(model => model.Privacy)
+        </div>
+
+        <div class="editor-label">
+            @Html.Label(Resources.OutlookShowAs)
+        </div>
+        <div class="display-field">
+            <ul class="options">
+                <li>@Html.EditorFor(model => model.ShowAsFree) @Html.DisplayNameFor(model => model.ShowAsFree)</li>
+                <li>@Html.EditorFor(model => model.ShowAsTentative) @Html.DisplayNameFor(model => model.ShowAsTentative)</li>
+                <li>@Html.EditorFor(model => model.ShowAsBusy) @Html.DisplayNameFor(model => model.ShowAsBusy)</li>
+                <li>@Html.EditorFor(model => model.ShowAsOof) @Html.DisplayNameFor(model => model.ShowAsOof)</li>
+                <li>@Html.EditorFor(model => model.ShowAsWew) @Html.DisplayNameFor(model => model.ShowAsWew)</li>
+                <li>@Html.EditorFor(model => model.ShowAsNoData) @Html.DisplayNameFor(model => model.ShowAsNoData)</li>
+            </ul>
         </div>
 
     </fieldset>

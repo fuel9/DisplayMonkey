@@ -22,17 +22,17 @@ namespace DisplayMonkey.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Outlook
+    public partial class Outlook : Frame
     {
-        public int FrameId { get; set; }
         public OutlookModes Mode { get; set; }
         public string Name { get; set; }
         public string Mailbox { get; set; }
         public int ShowEvents { get; set; }
         public int AccountId { get; set; }
         public OutlookPrivacy Privacy { get; set; }
+        public bool AllowReserve { get; set; }
+        public int ShowAsFlags { get; set; }
     
         public virtual ExchangeAccount ExchangeAccount { get; set; }
-        public virtual Frame Frame { get; set; }
     }
 }

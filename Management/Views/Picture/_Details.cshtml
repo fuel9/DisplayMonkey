@@ -7,8 +7,8 @@
     <table class="divTable"><tr>
         <td>
         
-            @Html.Partial("_frameDetails", Model.Frame)
-            @Html.Partial("_frameCacheDetails", Model.Frame)
+            @Html.Partial("_frameDetails", Model as Frame)
+            @Html.Partial("_frameCacheDetails", Model as Frame)
 
             <fieldset>
                 <legend>@Resources.Picture</legend>

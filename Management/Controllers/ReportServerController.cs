@@ -83,7 +83,7 @@ namespace DisplayMonkey.Controllers
             if (ModelState.IsValid)
             {
                 db.Entry(reportserver).State = EntityState.Modified;
-                db.Entry(reportserver).Property(l => l.Password).IsModified = reportserver._passwordSet;
+                db.Entry(reportserver).Property(l => l.Password).IsModified = reportserver.PasswordSet;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

@@ -1197,3 +1197,12 @@ table.dashboard
 			height: 10px;
         }
 
+ul.options {
+    list-style: none; 
+    margin: 0px; 
+    padding: 0px;
+}
+
+    ul.options input[type=checkbox] {
+        height: 16px;
+    }

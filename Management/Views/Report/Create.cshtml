@@ -1,4 +1,5 @@
-﻿@using DisplayMonkey.Language
+﻿@using DisplayMonkey.Models
+@using DisplayMonkey.Language
 
 @model DisplayMonkey.Models.Report
 
@@ -12,8 +13,8 @@
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
 
-    @Html.Partial("_frameData", Model.Frame)
-    @Html.Partial("_frameCacheData", Model.Frame)
+    @Html.Partial("_frameData", Model as Frame)
+    @Html.Partial("_frameCacheData", Model as Frame)
     @Html.Partial("_Edit")
         
     <p>

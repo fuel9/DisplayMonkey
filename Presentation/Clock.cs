@@ -53,16 +53,15 @@ namespace DisplayMonkey
 
         private void _init()
         {
-            string sql = string.Format(
-                "SELECT TOP 1 * FROM Clock WHERE FrameId={0};",
-                this.FrameId
-                );
-
-            using (DataSet ds = DataAccess.RunSql(sql))
+            using (SqlCommand cmd = new SqlCommand() 
             {
-                if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                CommandType = CommandType.Text,
+                CommandText = "SELECT TOP 1 * FROM Clock WHERE FrameId=@frameId",
+            })
+            {
+                cmd.Parameters.AddWithValue("@frameId", this.FrameId);
+                cmd.ExecuteReaderExt((dr) =>
                 {
-                    DataRow dr = ds.Tables[0].Rows[0];
                     this.ShowDate = dr.Boolean("ShowDate");
                     this.ShowTime = dr.Boolean("ShowTime");
                     this.ShowSeconds = dr.Boolean("ShowSeconds");
@@ -72,7 +71,9 @@ namespace DisplayMonkey
                     string szTimeZoneId = dr.StringOrDefault("TimeZone", null);
                     if (szTimeZoneId != null)
                         this.TimeZone = TimeZoneInfo.FindSystemTimeZoneById(szTimeZoneId);
-                }
+
+                    return false;
+                });
             }
         }
     }

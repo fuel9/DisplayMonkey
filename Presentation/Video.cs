@@ -41,22 +41,22 @@ namespace DisplayMonkey
 
         private void _init()
         {
-            string sql = string.Format(
-                "SELECT TOP 1 * FROM Video WHERE FrameId={0};",
-                FrameId
-                );
-
-            using (DataSet ds = DataAccess.RunSql(sql))
+            using (SqlCommand cmd = new SqlCommand()
             {
-                if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                CommandType = CommandType.Text,
+                CommandText = "SELECT TOP 1 * FROM Video WHERE FrameId=@frameId",
+            })
+            {
+                cmd.Parameters.AddWithValue("@frameId", FrameId);
+                cmd.ExecuteReaderExt((dr) =>
                 {
-                    DataRow dr = ds.Tables[0].Rows[0];
                     PlayMuted = dr.Boolean("PlayMuted");
                     AutoLoop = dr.Boolean("AutoLoop");
-                    VideoAlternatives = VideoAlternative.List(FrameId);
-                }
+                    return false;
+                });
             }
 
+            VideoAlternatives = VideoAlternative.List(FrameId);
             NoVideoSupport = DisplayMonkey.Language.Resources.BrowserNoVideoSupport;
         }
 	}
@@ -109,7 +109,10 @@ namespace DisplayMonkey
         public UInt64 Version { get; private set; }
 
         [ScriptIgnore]
-        public string CacheKey { get; private set; }
+        public string CacheKey 
+        {
+            get { return string.Format("video_{0}_{1}_{2}", this.FrameId, this.Version, this.ContentId); }
+        }
 
         private VideoAlternative()
         {
@@ -117,67 +120,59 @@ namespace DisplayMonkey
 
         public VideoAlternative(Video _video, int _contentId)
         {
-            string sql = string.Format(
-                "SELECT top 1 c.ContentId, Name, convert(varbinary(256),Data) Chunk, c.Version FROM VideoAlternative a INNER JOIN Content c ON c.ContentId=a.ContentId WHERE a.FrameId={0} and a.ContentId={1};",
-                _video.FrameId, _contentId
-                );
-
-            using (DataSet ds = DataAccess.RunSql(sql))
+            using (SqlCommand cmd = new SqlCommand()
             {
-                DataRowCollection rows = ds.Tables[0].Rows;
-                if (rows.Count > 0)
+                CommandType = CommandType.Text,
+                CommandText = 
+                    "SELECT top 1 a.FrameId, c.ContentId, Name, convert(varbinary(256),Data) Chunk, c.Version FROM VideoAlternative a " +
+                    "INNER JOIN Content c ON c.ContentId=a.ContentId WHERE a.FrameId=@frameId and a.ContentId=@contentId",
+            })
+            {
+                cmd.Parameters.AddWithValue("@frameId", _video.FrameId);
+                cmd.Parameters.AddWithValue("@contentId", _contentId);
+                cmd.ExecuteReaderExt((dr) =>
                 {
-                    this._initFromRow(rows[0]);
-                    this.CacheKey = this.cacheKeyForVideoId(_video.FrameId);
-                }
+                    _initFromRow(dr);
+                    return false;
+                });
             }
         }
 
-        public string cacheKeyForVideoId(int _frameId)
+        public static List<VideoAlternative> List(int frameId)
         {
-            return string.Format("video_{0}_{1}_{2}", _frameId, this.Version, this.ContentId);
+            List<VideoAlternative> list = new List<VideoAlternative>();
+
+            using (SqlCommand cmd = new SqlCommand()
+            {
+                CommandType = CommandType.Text,
+                CommandText =
+                    "SELECT a.FrameId, c.ContentId, Name, convert(varbinary(256),Data) Chunk, c.Version FROM VideoAlternative a " +
+                    "INNER JOIN Content c ON c.ContentId=a.ContentId WHERE a.FrameId=@frameId",
+            })
+            {
+                cmd.Parameters.AddWithValue("@frameId", frameId);
+                cmd.ExecuteReaderExt((dr) =>
+                {
+                    VideoAlternative va = new VideoAlternative();
+                    va._initFromRow(dr);
+                    list.Add(va);
+                    return true;
+                });
+            }
+
+            return list;
         }
 
-        private void _initFromRow(DataRow _dr)
+        private void _initFromRow(SqlDataReader _dr)
         {
+            FrameId = _dr.IntOrZero("FrameId");
             ContentId = _dr.IntOrZero("ContentId");
             Name = _dr.StringOrBlank("Name").Trim();
             Chunk = (byte[])_dr["Chunk"];
             Version = BitConverter.ToUInt64((byte[])_dr["Version"], 0);       // is never a null
         }
 
-        public static List<VideoAlternative> List(int frameId)
-        {
-            List<VideoAlternative> list = null;
-
-            string sql = string.Format(
-                "SELECT c.ContentId, Name, convert(varbinary(256),Data) Chunk, c.Version FROM VideoAlternative a INNER JOIN Content c ON c.ContentId=a.ContentId WHERE a.FrameId={0};",
-                frameId
-                );
-
-            using (DataSet ds = DataAccess.RunSql(sql))
-            {
-                int count = ds.Tables[0].Rows.Count;
-                list = new List<VideoAlternative>(count);
-                if (count > 0)
-                {
-                    list.Capacity = count;
-                    foreach (DataRow dr in ds.Tables[0].Rows)
-                    {
-                        if (dr["Chunk"] != DBNull.Value)
-                        {
-                            VideoAlternative va = new VideoAlternative();
-                            va._initFromRow(dr);
-                            va.CacheKey = va.cacheKeyForVideoId(frameId);
-                            list.Add(va);
-                        }
-                    }
-                }
-            }
-
-            return list;
-        }
-
         private byte[] Chunk = null;
+        private int FrameId = 0;
     }
 }

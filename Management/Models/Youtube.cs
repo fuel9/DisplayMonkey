@@ -22,9 +22,8 @@ namespace DisplayMonkey.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Youtube
+    public partial class Youtube : Frame
     {
-        public int FrameId { get; set; }
         public string Name { get; set; }
         public string YoutubeId { get; set; }
         public int Volume { get; set; }
@@ -33,7 +32,5 @@ namespace DisplayMonkey.Models
         public YTQuality Quality { get; set; }
         public int Start { get; set; }
         public YTRate Rate { get; set; }
-    
-        public virtual Frame Frame { get; set; }
     }
 }

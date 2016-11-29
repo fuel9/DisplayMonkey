@@ -105,14 +105,6 @@ namespace DisplayMonkey.Controllers
             IQueryable<Frame> list = db.Frames
                 .Include(f => f.Panel)
                 .Include(f => f.Panel.Canvas)
-                .Include(f => f.News)
-                .Include(f => f.Clock)
-                .Include(f => f.Weather)
-                .Include(f => f.Memo)
-                .Include(f => f.Report)
-                .Include(f => f.Picture)
-                .Include(f => f.Video)
-                .Include(f => f.Html)
                 ;
 
             if (canvasId > 0)
@@ -314,14 +306,14 @@ namespace DisplayMonkey.Controllers
                 .Where( f => f.FrameId == id)
                 .Include(f => f.Panel)
                 .Include(f => f.Panel.Canvas)
-                .Include(f => f.News)
+                /*.Include(f => f.News)
                 .Include(f => f.Clock)
                 .Include(f => f.Weather)
                 .Include(f => f.Memo)
                 .Include(f => f.Report)
                 .Include(f => f.Picture)
                 .Include(f => f.Video)
-                .Include(f => f.Html)
+                .Include(f => f.Html)*/
                 .FirstOrDefault()
                 ;
 
@@ -362,14 +354,6 @@ namespace DisplayMonkey.Controllers
                 .Where(f => f.FrameId == id)
                 .Include(f => f.Panel)
                 .Include(f => f.Panel.Canvas)
-                .Include(f => f.News)
-                .Include(f => f.Clock)
-                .Include(f => f.Weather)
-                .Include(f => f.Memo)
-                .Include(f => f.Report)
-                .Include(f => f.Picture)
-                .Include(f => f.Video)
-                .Include(f => f.Html)
                 .FirstOrDefault()
                 ;
 

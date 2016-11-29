@@ -30,7 +30,7 @@ namespace DisplayMonkey.Controllers
         {
             this.SaveReferrer(true);
 
-            Memo memo = db.Memos.Find(id);
+            Memo memo = db.Frames.Find(id) as Memo;
             if (memo == null)
             {
                 return View("Missing", new MissingItem(id));
@@ -50,12 +50,8 @@ namespace DisplayMonkey.Controllers
                 return RedirectToAction("Create", "Frame");
             }
 
-            Memo memo = new Memo()
-            {
-                Frame = frame,
-            };
+            Memo memo = new Memo(frame, db);
 
-            memo.init(db);
 
             this.FillTemplatesSelectList(db, FrameTypes.Memo);
             
@@ -67,20 +63,18 @@ namespace DisplayMonkey.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Memo memo, Frame frame)
+        public ActionResult Create(Memo memo)
         {
             if (ModelState.IsValid)
             {
-                memo.Frame = frame;
-                db.Memos.Add(memo);
+                db.Frames.Add(memo);
                 db.SaveChanges();
 
                 return this.RestoreReferrer() ?? RedirectToAction("Index", "Frame");
             }
 
-            memo.Frame = frame;
 
-            this.FillTemplatesSelectList(db, FrameTypes.Memo, memo.Frame.TemplateId);
+            this.FillTemplatesSelectList(db, FrameTypes.Memo, memo.TemplateId);
 
             return View(memo);
         }
@@ -90,13 +84,13 @@ namespace DisplayMonkey.Controllers
 
         public ActionResult Edit(int id = 0)
         {
-            Memo memo = db.Memos.Find(id);
+            Memo memo = db.Frames.Find(id) as Memo;
             if (memo == null)
             {
                 return View("Missing", new MissingItem(id));
             }
 
-            this.FillTemplatesSelectList(db, FrameTypes.Memo, memo.Frame.TemplateId);
+            this.FillTemplatesSelectList(db, FrameTypes.Memo, memo.TemplateId);
             
             return View(memo);
         }
@@ -106,20 +100,18 @@ namespace DisplayMonkey.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Memo memo, Frame frame)
+        public ActionResult Edit(Memo memo)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(frame).State = EntityState.Modified;
                 db.Entry(memo).State = EntityState.Modified;
                 db.SaveChanges();
 
                 return this.RestoreReferrer() ?? RedirectToAction("Index", "Frame");
             }
 
-            memo.Frame = frame;
 
-            this.FillTemplatesSelectList(db, FrameTypes.Memo, memo.Frame.TemplateId);
+            this.FillTemplatesSelectList(db, FrameTypes.Memo, memo.TemplateId);
             
             return View(memo);
         }
@@ -129,7 +121,7 @@ namespace DisplayMonkey.Controllers
 
         public ActionResult Delete(int id = 0)
         {
-            Memo memo = db.Memos.Find(id);
+            Memo memo = db.Frames.Find(id) as Memo;
             if (memo == null)
             {
                 return View("Missing", new MissingItem(id));

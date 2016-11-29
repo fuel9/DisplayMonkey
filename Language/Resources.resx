@@ -1460,4 +1460,142 @@
   <data name="PrivacyRequired" xml:space="preserve">
     <value>Privacy is required</value>
   </data>
+  <data name="OutlookAllowReserve" xml:space="preserve">
+    <value>Allow quick booking</value>
+  </data>
+  <data name="OutlookShowAs" xml:space="preserve">
+    <value>Show as</value>
+  </data>
+  <data name="EWS_ShowAs_Busy" xml:space="preserve">
+    <value>Busy</value>
+  </data>
+  <data name="EWS_ShowAs_Free" xml:space="preserve">
+    <value>Free</value>
+  </data>
+  <data name="EWS_ShowAs_Oof" xml:space="preserve">
+    <value>Out of office</value>
+  </data>
+  <data name="EWS_ShowAs_Tentative" xml:space="preserve">
+    <value>Tentative</value>
+  </data>
+  <data name="EWS_ShowAs_Wew" xml:space="preserve">
+    <value>Working elsewhere</value>
+  </data>
+  <data name="EWS_ShowAs_NoData" xml:space="preserve">
+    <value>Not specified</value>
+  </data>
+  <data name="Outlook_Sensitivity" xml:space="preserve">
+    <value>Sensitivity</value>
+  </data>
+  <data name="Outlook_BookingImpossible" xml:space="preserve">
+    <value>The resource is not available for booking right now</value>
+  </data>
+  <data name="Outlook_BookingSent" xml:space="preserve">
+    <value>Booking request has been sent</value>
+  </data>
+  <data name="AzureAccounts" xml:space="preserve">
+    <value>Microsoft Azure accounts</value>
+  </data>
+  <data name="AzureClientId" xml:space="preserve">
+    <value>Client id</value>
+  </data>
+  <data name="AzureClientIdRequired" xml:space="preserve">
+    <value>Client id is required</value>
+  </data>
+  <data name="AzureClientSecret" xml:space="preserve">
+    <value>Client secret</value>
+  </data>
+  <data name="AzureClientSecretRequired" xml:space="preserve">
+    <value>Client secret is required</value>
+  </data>
+  <data name="AzureResource" xml:space="preserve">
+    <value>Azure resource</value>
+  </data>
+  <data name="AzureResourceRequired" xml:space="preserve">
+    <value>Azure resource is required</value>
+  </data>
+  <data name="AzureTenantId" xml:space="preserve">
+    <value>Tenant id</value>
+  </data>
+  <data name="AzureTenantIdRequired" xml:space="preserve">
+    <value>Tenant id is required</value>
+  </data>
+  <data name="CreateNewAzureAccount" xml:space="preserve">
+    <value>Create new Microsoft Azure account</value>
+  </data>
+  <data name="AzureAccount" xml:space="preserve">
+    <value>Microsoft Azure account</value>
+  </data>
+  <data name="AzureResource_PowerBi" xml:space="preserve">
+    <value>Power BI</value>
+  </data>
+  <data name="DeleteAzureAccount" xml:space="preserve">
+    <value>Delete Microsoft Azure account</value>
+  </data>
+  <data name="DeletingAzureAccountWillCauseDeletionOfAllRelatedContentAreYouSureYouWantToContinue" xml:space="preserve">
+    <value>Deleting Microsoft Azure account will cause deletion of all related content. Would you like to continue?</value>
+  </data>
+  <data name="EditAzureAccount" xml:space="preserve">
+    <value>Edit Microsoft Azure account</value>
+  </data>
+  <data name="ProvideAccountPassword" xml:space="preserve">
+    <value>Please enter the account password</value>
+  </data>
+  <data name="Powerbi" xml:space="preserve">
+    <value>Power BI</value>
+  </data>
+  <data name="PowerbiType_Report" xml:space="preserve">
+    <value>Report</value>
+  </data>
+  <data name="PowerbiType_Tile" xml:space="preserve">
+    <value>Tile</value>
+  </data>
+  <data name="AzureAccountRequired" xml:space="preserve">
+    <value>Azure account is required</value>
+  </data>
+  <data name="PowerbiType" xml:space="preserve">
+    <value>Resource type</value>
+  </data>
+  <data name="PowerbiTypeRequired" xml:space="preserve">
+    <value>Resource type is required</value>
+  </data>
+  <data name="PowerbiUrl" xml:space="preserve">
+    <value>Resource URL</value>
+  </data>
+  <data name="CreatePowerbiFrame" xml:space="preserve">
+    <value>Create Microsoft Power BI frame</value>
+  </data>
+  <data name="DeletePowerbiFrame" xml:space="preserve">
+    <value>Delete Microsoft Power BI frame</value>
+  </data>
+  <data name="EditPowerbiFrame" xml:space="preserve">
+    <value>Edit Microsoft Power BI frame</value>
+  </data>
+  <data name="PowerbiDashboard" xml:space="preserve">
+    <value>Dashboard</value>
+  </data>
+  <data name="PowerBiFrameDetails" xml:space="preserve">
+    <value>Microsoft Power BI frame details</value>
+  </data>
+  <data name="PowerbiReport" xml:space="preserve">
+    <value>Report</value>
+  </data>
+  <data name="PowerbiSelectDashboard" xml:space="preserve">
+    <value>- Select dashboard -</value>
+  </data>
+  <data name="PowerbiSelectReport" xml:space="preserve">
+    <value>- Select report -</value>
+  </data>
+  <data name="PowerbiSelectTile" xml:space="preserve">
+    <value>- Select tile -</value>
+  </data>
+  <data name="PowerbiSelectType" xml:space="preserve">
+    <value>- Select type -</value>
+  </data>
+  <data name="PowerbiTile" xml:space="preserve">
+    <value>Tile</value>
+  </data>
+  <data name="Settings_DefaultTemplatePowerbi" xml:space="preserve">
+    <value>Default template for new Power BI frames</value>
+  </data>
 </root>

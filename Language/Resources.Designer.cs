@@ -305,6 +305,114 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Microsoft Azure account.
+        /// </summary>
+        public static string AzureAccount {
+            get {
+                return ResourceManager.GetString("AzureAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Azure account is required.
+        /// </summary>
+        public static string AzureAccountRequired {
+            get {
+                return ResourceManager.GetString("AzureAccountRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Microsoft Azure accounts.
+        /// </summary>
+        public static string AzureAccounts {
+            get {
+                return ResourceManager.GetString("AzureAccounts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Client id.
+        /// </summary>
+        public static string AzureClientId {
+            get {
+                return ResourceManager.GetString("AzureClientId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Client id is required.
+        /// </summary>
+        public static string AzureClientIdRequired {
+            get {
+                return ResourceManager.GetString("AzureClientIdRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Client secret.
+        /// </summary>
+        public static string AzureClientSecret {
+            get {
+                return ResourceManager.GetString("AzureClientSecret", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Client secret is required.
+        /// </summary>
+        public static string AzureClientSecretRequired {
+            get {
+                return ResourceManager.GetString("AzureClientSecretRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Azure resource.
+        /// </summary>
+        public static string AzureResource {
+            get {
+                return ResourceManager.GetString("AzureResource", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Power BI.
+        /// </summary>
+        public static string AzureResource_PowerBi {
+            get {
+                return ResourceManager.GetString("AzureResource_PowerBi", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Azure resource is required.
+        /// </summary>
+        public static string AzureResourceRequired {
+            get {
+                return ResourceManager.GetString("AzureResourceRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tenant id.
+        /// </summary>
+        public static string AzureTenantId {
+            get {
+                return ResourceManager.GetString("AzureTenantId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tenant id is required.
+        /// </summary>
+        public static string AzureTenantIdRequired {
+            get {
+                return ResourceManager.GetString("AzureTenantIdRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Background.
         /// </summary>
         public static string Background {
@@ -719,6 +827,15 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Create new Microsoft Azure account.
+        /// </summary>
+        public static string CreateNewAzureAccount {
+            get {
+                return ResourceManager.GetString("CreateNewAzureAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create new canvas.
         /// </summary>
         public static string CreateNewCanvas {
@@ -890,6 +1007,15 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Create Microsoft Power BI frame.
+        /// </summary>
+        public static string CreatePowerbiFrame {
+            get {
+                return ResourceManager.GetString("CreatePowerbiFrame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Culture.
         /// </summary>
         public static string Cultre {
@@ -1052,6 +1178,15 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Delete Microsoft Azure account.
+        /// </summary>
+        public static string DeleteAzureAccount {
+            get {
+                return ResourceManager.GetString("DeleteAzureAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Delete canvas.
         /// </summary>
         public static string DeleteCanvas {
@@ -1151,6 +1286,15 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Delete Microsoft Power BI frame.
+        /// </summary>
+        public static string DeletePowerbiFrame {
+            get {
+                return ResourceManager.GetString("DeletePowerbiFrame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Delete report frame.
         /// </summary>
         public static string DeleteReportFrame {
@@ -1201,6 +1345,16 @@ namespace DisplayMonkey.Language {
         public static string DeleteYoutubeFrame {
             get {
                 return ResourceManager.GetString("DeleteYoutubeFrame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deleting Microsoft Azure account will cause deletion of all related content. Would you like to continue?.
+        /// </summary>
+        public static string DeletingAzureAccountWillCauseDeletionOfAllRelatedContentAreYouSureYouWantToContinue {
+            get {
+                return ResourceManager.GetString("DeletingAzureAccountWillCauseDeletionOfAllRelatedContentAreYouSureYouWantToContin" +
+                        "ue", resourceCulture);
             }
         }
         
@@ -1333,6 +1487,15 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Edit Microsoft Azure account.
+        /// </summary>
+        public static string EditAzureAccount {
+            get {
+                return ResourceManager.GetString("EditAzureAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Edit canvas.
         /// </summary>
         public static string EditCanvas {
@@ -1446,6 +1609,15 @@ namespace DisplayMonkey.Language {
         public static string EditPictureFrame {
             get {
                 return ResourceManager.GetString("EditPictureFrame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit Microsoft Power BI frame.
+        /// </summary>
+        public static string EditPowerbiFrame {
+            get {
+                return ResourceManager.GetString("EditPowerbiFrame", resourceCulture);
             }
         }
         
@@ -1626,6 +1798,60 @@ namespace DisplayMonkey.Language {
         public static string EWS_Sensitivity_Private {
             get {
                 return ResourceManager.GetString("EWS_Sensitivity_Private", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Busy.
+        /// </summary>
+        public static string EWS_ShowAs_Busy {
+            get {
+                return ResourceManager.GetString("EWS_ShowAs_Busy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Free.
+        /// </summary>
+        public static string EWS_ShowAs_Free {
+            get {
+                return ResourceManager.GetString("EWS_ShowAs_Free", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not specified.
+        /// </summary>
+        public static string EWS_ShowAs_NoData {
+            get {
+                return ResourceManager.GetString("EWS_ShowAs_NoData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Out of office.
+        /// </summary>
+        public static string EWS_ShowAs_Oof {
+            get {
+                return ResourceManager.GetString("EWS_ShowAs_Oof", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tentative.
+        /// </summary>
+        public static string EWS_ShowAs_Tentative {
+            get {
+                return ResourceManager.GetString("EWS_ShowAs_Tentative", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Working elsewhere.
+        /// </summary>
+        public static string EWS_ShowAs_Wew {
+            get {
+                return ResourceManager.GetString("EWS_ShowAs_Wew", resourceCulture);
             }
         }
         
@@ -2423,6 +2649,24 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The resource is not available for booking right now.
+        /// </summary>
+        public static string Outlook_BookingImpossible {
+            get {
+                return ResourceManager.GetString("Outlook_BookingImpossible", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Booking request has been sent.
+        /// </summary>
+        public static string Outlook_BookingSent {
+            get {
+                return ResourceManager.GetString("Outlook_BookingSent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Duration.
         /// </summary>
         public static string Outlook_Duration {
@@ -2495,11 +2739,29 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sensitivity.
+        /// </summary>
+        public static string Outlook_Sensitivity {
+            get {
+                return ResourceManager.GetString("Outlook_Sensitivity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Starts.
         /// </summary>
         public static string Outlook_Starts {
             get {
                 return ResourceManager.GetString("Outlook_Starts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Allow quick booking.
+        /// </summary>
+        public static string OutlookAllowReserve {
+            get {
+                return ResourceManager.GetString("OutlookAllowReserve", resourceCulture);
             }
         }
         
@@ -2599,6 +2861,15 @@ namespace DisplayMonkey.Language {
         public static string OutlookPrivacy_ProtectSubject {
             get {
                 return ResourceManager.GetString("OutlookPrivacy_ProtectSubject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show as.
+        /// </summary>
+        public static string OutlookShowAs {
+            get {
+                return ResourceManager.GetString("OutlookShowAs", resourceCulture);
             }
         }
         
@@ -2756,6 +3027,132 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Power BI.
+        /// </summary>
+        public static string Powerbi {
+            get {
+                return ResourceManager.GetString("Powerbi", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dashboard.
+        /// </summary>
+        public static string PowerbiDashboard {
+            get {
+                return ResourceManager.GetString("PowerbiDashboard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Microsoft Power BI frame details.
+        /// </summary>
+        public static string PowerBiFrameDetails {
+            get {
+                return ResourceManager.GetString("PowerBiFrameDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Report.
+        /// </summary>
+        public static string PowerbiReport {
+            get {
+                return ResourceManager.GetString("PowerbiReport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to - Select dashboard -.
+        /// </summary>
+        public static string PowerbiSelectDashboard {
+            get {
+                return ResourceManager.GetString("PowerbiSelectDashboard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to - Select report -.
+        /// </summary>
+        public static string PowerbiSelectReport {
+            get {
+                return ResourceManager.GetString("PowerbiSelectReport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to - Select tile -.
+        /// </summary>
+        public static string PowerbiSelectTile {
+            get {
+                return ResourceManager.GetString("PowerbiSelectTile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to - Select type -.
+        /// </summary>
+        public static string PowerbiSelectType {
+            get {
+                return ResourceManager.GetString("PowerbiSelectType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tile.
+        /// </summary>
+        public static string PowerbiTile {
+            get {
+                return ResourceManager.GetString("PowerbiTile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Resource type.
+        /// </summary>
+        public static string PowerbiType {
+            get {
+                return ResourceManager.GetString("PowerbiType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Report.
+        /// </summary>
+        public static string PowerbiType_Report {
+            get {
+                return ResourceManager.GetString("PowerbiType_Report", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tile.
+        /// </summary>
+        public static string PowerbiType_Tile {
+            get {
+                return ResourceManager.GetString("PowerbiType_Tile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Resource type is required.
+        /// </summary>
+        public static string PowerbiTypeRequired {
+            get {
+                return ResourceManager.GetString("PowerbiTypeRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Resource URL.
+        /// </summary>
+        public static string PowerbiUrl {
+            get {
+                return ResourceManager.GetString("PowerbiUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Privacy.
         /// </summary>
         public static string Privacy {
@@ -2770,6 +3167,15 @@ namespace DisplayMonkey.Language {
         public static string PrivacyRequired {
             get {
                 return ResourceManager.GetString("PrivacyRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter the account password.
+        /// </summary>
+        public static string ProvideAccountPassword {
+            get {
+                return ResourceManager.GetString("ProvideAccountPassword", resourceCulture);
             }
         }
         
@@ -3193,6 +3599,15 @@ namespace DisplayMonkey.Language {
         public static string Settings_DefaultTemplatePicture {
             get {
                 return ResourceManager.GetString("Settings_DefaultTemplatePicture", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Default template for new Power BI frames.
+        /// </summary>
+        public static string Settings_DefaultTemplatePowerbi {
+            get {
+                return ResourceManager.GetString("Settings_DefaultTemplatePowerbi", resourceCulture);
             }
         }
         

@@ -43,18 +43,17 @@ namespace DisplayMonkey
 
         private void _init()
         {
-            string sql = string.Format(
-                "SELECT TOP 1 * FROM Weather WHERE FrameId={0};",
-                FrameId
-                );
-
-            using (DataSet ds = DataAccess.RunSql(sql))
+            using (SqlCommand cmd = new SqlCommand()
             {
-                if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                CommandType = CommandType.Text,
+                CommandText = "SELECT TOP 1 * FROM Weather WHERE FrameId=@frameId",
+            })
+            {
+                cmd.Parameters.AddWithValue("@frameId", this.FrameId);
+                cmd.ExecuteReaderExt((dr) =>
                 {
-                    DataRow dr = ds.Tables[0].Rows[0];
-                    //FrameId = dr.IntOrZero("FrameId");
-                }
+                    return false;
+                });
             }
 
             // TODO: add own Woeid to Weather model

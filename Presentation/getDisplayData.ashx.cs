@@ -11,27 +11,26 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Script.Serialization;
 
 namespace DisplayMonkey
 {
-    public partial class getDisplayData : IHttpHandler
+    public partial class getDisplayData : HttpTaskAsyncHandler
     {
-        public bool IsReusable { get { return false; } }
-
-		public void ProcessRequest(HttpContext context)
+		public override async Task ProcessRequestAsync(HttpContext context)
 		{
 			HttpRequest Request = context.Request;
 			HttpResponse Response = context.Response;
 
-            int displayId = DataAccess.IntOrZero(Request.QueryString["display"]);
+            int displayId = Request.IntOrZero("display");
 
 			string json = "";
 				
 			try
 			{
-                DisplayData data = DisplayData.Refresh(displayId);
+                DisplayData data = await DisplayData.RefreshAsync(displayId);
 				JavaScriptSerializer oSerializer = new JavaScriptSerializer();
                 json = oSerializer.Serialize(data);
 			}

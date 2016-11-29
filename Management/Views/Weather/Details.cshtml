@@ -1,4 +1,5 @@
-﻿@using DisplayMonkey.Language
+﻿@using DisplayMonkey.Models
+@using DisplayMonkey.Language
 
 @model DisplayMonkey.Models.Weather
 
@@ -15,4 +16,4 @@
     @Html.ActionLink(Resources.ViewFrames, "Index", "Frame")
 </p>
 
-@Html.Partial("_frameLocations", Model.Frame)
+@Html.Partial("_frameLocations", Model as Frame)

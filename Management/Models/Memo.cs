@@ -22,12 +22,9 @@ namespace DisplayMonkey.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Memo
+    public partial class Memo : Frame
     {
-        public int FrameId { get; set; }
         public string Subject { get; set; }
         public string Body { get; set; }
-    
-        public virtual Frame Frame { get; set; }
     }
 }

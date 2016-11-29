@@ -22,18 +22,16 @@ namespace DisplayMonkey.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Video
+    public partial class Video : Frame
     {
         public Video()
         {
             this.Contents = new HashSet<Content>();
         }
     
-        public int FrameId { get; set; }
         public bool PlayMuted { get; set; }
         public bool AutoLoop { get; set; }
     
-        public virtual Frame Frame { get; set; }
         public virtual ICollection<Content> Contents { get; set; }
     }
 }

@@ -43,33 +43,36 @@ namespace DisplayMonkey.Controllers
             ViewBag.Count_Canvases = db.Canvases.Count();
             ViewBag.Count_Panels = db.Panels.Count();
             ViewBag.Count_Displays = db.Displays.Count();
-            
-            ViewBag.Count_Html = db.Html.Count();
-            ViewBag.Count_Html_7 = db.Html.Count(t => t.Frame.DateCreated >= sevenDaysAgo);
 
-            ViewBag.Count_Memos = db.Memos.Count();
-            ViewBag.Count_Memos_7 = db.Memos.Count(t => t.Frame.DateCreated >= sevenDaysAgo);
+            ViewBag.Count_Html = db.Frames.OfType<Html>().Count();
+            ViewBag.Count_Html_7 = db.Frames.OfType<Html>().Count(t => t.DateCreated >= sevenDaysAgo);
 
-            ViewBag.Count_Outlook = db.Outlooks.Count();
-            ViewBag.Count_Outlook_7 = db.Outlooks.Count(t => t.Frame.DateCreated >= sevenDaysAgo);
+            ViewBag.Count_Memos = db.Frames.OfType<Memo>().Count();
+            ViewBag.Count_Memos_7 = db.Frames.OfType<Memo>().Count(t => t.DateCreated >= sevenDaysAgo);
 
-            ViewBag.Count_Pictures = db.Pictures.Count();
-            ViewBag.Count_Pictures_7 = db.Pictures.Count(t => t.Frame.DateCreated >= sevenDaysAgo);
+            ViewBag.Count_Outlook = db.Frames.OfType<Outlook>().Count();
+            ViewBag.Count_Outlook_7 = db.Frames.OfType<Outlook>().Count(t => t.DateCreated >= sevenDaysAgo);
 
-            ViewBag.Count_Reports = db.Reports.Count();
-            ViewBag.Count_Reports_7 = db.Reports.Count(t => t.Frame.DateCreated >= sevenDaysAgo);
+            ViewBag.Count_Pictures = db.Frames.OfType<Picture>().Count();
+            ViewBag.Count_Pictures_7 = db.Frames.OfType<Picture>().Count(t => t.DateCreated >= sevenDaysAgo);
 
-            ViewBag.Count_Videos = db.Videos.Count();
-            ViewBag.Count_Videos_7 = db.Videos.Count(t => t.Frame.DateCreated >= sevenDaysAgo);
+            ViewBag.Count_Powerbi = db.Frames.OfType<Powerbi>().Count();
+            ViewBag.Count_Powerbi_7 = db.Frames.OfType<Powerbi>().Count(t => t.DateCreated >= sevenDaysAgo);
 
-            ViewBag.Count_Youtube = db.Youtube.Count();
-            ViewBag.Count_Youtube_7 = db.Youtube.Count(t => t.Frame.DateCreated >= sevenDaysAgo);
+            ViewBag.Count_Reports = db.Frames.OfType<Report>().Count();
+            ViewBag.Count_Reports_7 = db.Frames.OfType<Report>().Count(t => t.DateCreated >= sevenDaysAgo);
 
-            ViewBag.Count_Clock = db.Clocks.Count();
-            ViewBag.Count_Clock_7 = db.Clocks.Count(t => t.Frame.DateCreated >= sevenDaysAgo);
+            ViewBag.Count_Videos = db.Frames.OfType<Video>().Count();
+            ViewBag.Count_Videos_7 = db.Frames.OfType<Video>().Count(t => t.DateCreated >= sevenDaysAgo);
 
-            ViewBag.Count_Weather = db.Weathers.Count();
-            ViewBag.Count_Weather_7 = db.Weathers.Count(t => t.Frame.DateCreated >= sevenDaysAgo);
+            ViewBag.Count_Youtube = db.Frames.OfType<Youtube>().Count();
+            ViewBag.Count_Youtube_7 = db.Frames.OfType<Youtube>().Count(t => t.DateCreated >= sevenDaysAgo);
+
+            ViewBag.Count_Clock = db.Frames.OfType<Clock>().Count();
+            ViewBag.Count_Clock_7 = db.Frames.OfType<Clock>().Count(t => t.DateCreated >= sevenDaysAgo);
+
+            ViewBag.Count_Weather = db.Frames.OfType<Weather>().Count();
+            ViewBag.Count_Weather_7 = db.Frames.OfType<Weather>().Count(t => t.DateCreated >= sevenDaysAgo);
 
             TopContent [] topFiveContent = db.Frames
                 .Where(f => 
@@ -79,16 +82,17 @@ namespace DisplayMonkey.Controllers
                 .Select(f => new
                 {
                     Name =
-                        f.Clock != null ? DisplayMonkey.Language.Resources.Clock :
-                        f.Html != null ? f.Html.Name :
-                        f.Memo != null ? f.Memo.Subject :
-                        f.News != null ? DisplayMonkey.Language.Resources.News :
-                        f.Outlook != null ? f.Outlook.Name :
-                        f.Picture != null ? f.Picture.Content.Name :
-                        f.Report != null ? f.Report.Name :
-                        f.Video != null ? f.Video.Contents.FirstOrDefault().Name :
-                        f.Weather != null ? DisplayMonkey.Language.Resources.Weather :
-                        f.Youtube != null ? f.Youtube.Name :
+                        f is Clock ? DisplayMonkey.Language.Resources.Clock :
+                        f is Html ? (f as Html).Name :
+                        f is Memo != null ? (f as Memo).Subject :
+                        //f is News ? DisplayMonkey.Language.Resources.News :
+                        f is Outlook ? (f as Outlook).Name :
+                        f is Picture ? (f as Picture).Content.Name :
+                        f is Powerbi ? (f as Powerbi).Name :
+                        f is Report ? (f as Report).Name :
+                        f is Video ? (f as Video).Contents.FirstOrDefault().Name :
+                        f is Weather ? DisplayMonkey.Language.Resources.Weather :
+                        f is Youtube ? (f as Youtube).Name :
                         DisplayMonkey.Language.Resources.Unknown
                 })
                 .GroupBy(f => f.Name)

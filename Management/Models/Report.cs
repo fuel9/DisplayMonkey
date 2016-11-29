@@ -22,15 +22,13 @@ namespace DisplayMonkey.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Report
+    public partial class Report : Frame
     {
-        public int FrameId { get; set; }
         public string Path { get; set; }
         public string Name { get; set; }
         public RenderModes Mode { get; set; }
         public int ServerId { get; set; }
     
-        public virtual Frame Frame { get; set; }
         public virtual ReportServer ReportServer { get; set; }
     }
 }

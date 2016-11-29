@@ -15,6 +15,7 @@ using System.Web;
 using System.Data;
 using System.Text;
 using System.Globalization;
+using System.Data.SqlClient;
 
 namespace DisplayMonkey
 {
@@ -26,31 +27,29 @@ namespace DisplayMonkey
 
 		public Panel(int panelId)
 		{
-			PanelId = panelId;
+            using (SqlCommand cmd = new SqlCommand()
+            {
+                CommandType = CommandType.Text,
+                CommandText = "SELECT TOP 1 * FROM Panel WHERE PanelId=@panelId",
+            })
+            {
+                cmd.Parameters.AddWithValue("@panelId", panelId);
+                cmd.ExecuteReaderExt((dr) =>
+                {
+                    _initFromRow(dr);
+                    return false;
+                });
+            }
+        }
 
-			string sql = string.Format(
-				"SELECT TOP 1 * FROM Panel WHERE PanelId={0};",
-				panelId
-				);
-
-			using (DataSet ds = DataAccess.RunSql(sql))
-			{
-				if (ds.Tables[0].Rows.Count > 0)
-				{
-					DataRow r = ds.Tables[0].Rows[0];
-                    _initFromRow(r);
-				}
-			}
-		}
-
-		private void _initFromRow(DataRow r)
+		private void _initFromRow(SqlDataReader r)
 		{
 			PanelId = r.IntOrZero("PanelId");
 			Top = r.IntOrZero("Top");
 			Left = r.IntOrZero("Left");
 			Width = r.IntOrZero("Width");
 			Height = r.IntOrZero("Height");
-            FadeLength = r.DoubleOrZero("FadeLength");
+            FadeLength = r.ValueOrDefault<double>("FadeLength", 0);
 			Name = r.StringOrBlank("Name").Trim();
 			if (Name == "")
 				Name = string.Format("Panel {0}", PanelId);
@@ -58,73 +57,77 @@ namespace DisplayMonkey
 
         public static bool IsFullScreen(int panelId)
         {
-            string sql = string.Format(
-                "SELECT 1 FROM FullScreen WHERE PanelId={0};",
-                panelId
-                );
-
-            using (DataSet ds = DataAccess.RunSql(sql))
+            bool isFullScreen = false;
+            
+            using (SqlCommand cmd = new SqlCommand()
             {
-                if (ds.Tables[0].Rows.Count > 0)
+                CommandType = CommandType.Text,
+                CommandText = "SELECT TOP 1 * FROM Panel WHERE PanelId=@panelId",
+            })
+            {
+                cmd.Parameters.AddWithValue("@panelId", panelId);
+                cmd.ExecuteReaderExt((dr) =>
                 {
-                    return true;
-                }
+                    isFullScreen = true;
+                    return false;
+                });
             }
 
-            return false;
+            return isFullScreen;
         }
 
         public static List<Panel> List(int canvasId)
 		{
 			List<Panel> list = new List<Panel>();
-			string sql = string.Format(
-				"SELECT * FROM Panel WHERE CanvasId={0} ORDER BY 1;" +
-				"SELECT TOP 1 c.*, PanelId FROM FullScreen s INNER JOIN Canvas c ON c.CanvasId=s.CanvasId WHERE s.CanvasId={0};",
-				canvasId
-				);
-			using (DataSet ds = DataAccess.RunSql(sql))
-			{
-				list.Capacity = ds.Tables[0].Rows.Count;
 
-				DataRow fs = ds.Tables[1].Rows[0];
-				int fullScreenPanelId = fs.IntOrZero("PanelId");
+            using (SqlCommand cmd = new SqlCommand()
+            {
+                CommandType = CommandType.Text,
+                CommandText = 
+                    "SELECT p.*, f.PanelId FsPanelId, c.Height CanvasHeight, c.Width CanvasWidth FROM Panel p " +
+                    "INNER JOIN Canvas c on c.CanvasId=p.CanvasId " +
+                    "LEFT JOIN FullScreen f on f.PanelId=p.PanelId WHERE p.CanvasId=@canvasId ORDER BY p.PanelId",
+            })
+            {
+                cmd.Parameters.AddWithValue("@canvasId", canvasId);
+                cmd.ExecuteReaderExt((r) =>
+                {
+                    Panel panel = null;
+                    int panelId = r.IntOrZero("PanelId");
+                    int fullScreenPanelId = r.IntOrZero("FsPanelId");
 
-				// list canvas panels
-				foreach (DataRow r in ds.Tables[0].Rows)
-				{
-					Panel panel = null;
-					int panelId = r.IntOrZero("PanelId");
-
-					if (panelId == fullScreenPanelId)
-						panel = new FullScreenPanel()
-						{
-							PanelId = panelId,
-							Top = 0,
-							Left = 0,
-							Height = fs.IntOrZero("Height"),
-							Width = fs.IntOrZero("Width"),
-							Name = r.StringOrBlank("Name"),
-                            FadeLength = r.DoubleOrZero("FadeLength"),
-						};
-					else
-						panel = new Panel()
-						{
-							PanelId = panelId,
-							Top = r.IntOrZero("Top"),
-							Left = r.IntOrZero("Left"),
-							Height = r.IntOrZero("Height"),
-							Width = r.IntOrZero("Width"),
-							Name = r.StringOrBlank("Name"),
-                            FadeLength = r.DoubleOrZero("FadeLength"),
+                    if (panelId == fullScreenPanelId)
+                        panel = new FullScreenPanel()
+                        {
+                            PanelId = panelId,
+                            Top = 0,
+                            Left = 0,
+                            Height = r.IntOrZero("CanvasHeight"),
+                            Width = r.IntOrZero("CanvasWidth"),
+                            Name = r.StringOrBlank("Name"),
+                            FadeLength = r.ValueOrDefault<double>("FadeLength", 0),
+                        };
+                    else
+                        panel = new Panel()
+                        {
+                            PanelId = panelId,
+                            Top = r.IntOrZero("Top"),
+                            Left = r.IntOrZero("Left"),
+                            Height = r.IntOrZero("Height"),
+                            Width = r.IntOrZero("Width"),
+                            Name = r.StringOrBlank("Name"),
+                            FadeLength = r.ValueOrDefault<double>("FadeLength", 0),
                         };
 
-					if (panel.Name == "")
-						panel.Name = string.Format("Panel {0}", panelId);
+                    if (panel.Name == "")
+                        panel.Name = string.Format("Panel {0}", panelId);
 
-					list.Add(panel);
-				}
-			}
-			return list;
+                    list.Add(panel);
+                    return true;
+                });
+            }
+
+            return list;
 		}
 
         public int PanelId { get; private set; }

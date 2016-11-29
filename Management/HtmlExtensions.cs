@@ -24,6 +24,12 @@ namespace System.Web.Mvc.Html
 {
     public static class HtmlExtensions
     {
+        public static MvcHtmlString ShortSpan(this HtmlHelper htmlHelper, string txt, int len)
+        {
+            txt = txt ?? "";
+            return MvcHtmlString.Create((txt.Length > len) ? txt.Substring(0, len) + "..." : txt);
+        }
+        
         #region Image link
 
         [SuppressMessage("Microsoft.Design", "CA1026:DefaultParametersShouldNotBeUsed", Justification = "The purpose of these helpers is to use default parameters to simplify common usage.")]

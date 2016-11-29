@@ -19,6 +19,7 @@ using System.IO;
 using System.Web.Script.Serialization;
 using System.Runtime.Serialization;
 using DisplayMonkey.Models;
+using System.Threading.Tasks;
 
 namespace DisplayMonkey
 {
@@ -49,7 +50,7 @@ namespace DisplayMonkey
         [ScriptIgnore]
         public int CacheInterval { get; private set; }
 
-        private Frame()
+        protected Frame()
         {
         }
 
@@ -78,41 +79,41 @@ namespace DisplayMonkey
             this.Version = rhs.Version;
         }
 
-        private void _initfromRow(DataRow dr)
+        private void _initfromRow(SqlDataReader dr)
         {
             FrameId = dr.IntOrZero("FrameId");
             PanelId = dr.IntOrZero("PanelId");
             Duration = dr.IntOrDefault("Duration", 60);
             Sort = dr.IntOrZero("Sort");
-            BeginsOn = dr["BeginsOn"] == DBNull.Value ? null : (DateTime?)dr["BeginsOn"];
-            EndsOn = dr["EndsOn"] == DBNull.Value ? null : (DateTime?)dr["EndsOn"];
-            DateCreated = dr["DateCreated"] == DBNull.Value ? null : (DateTime?)dr["DateCreated"];
+            BeginsOn = dr.AsNullable<DateTime>("BeginsOn");
+            EndsOn = dr.AsNullable<DateTime>("EndsOn");
+            DateCreated = dr.AsNullable<DateTime>("DateCreated");
             TemplateName = dr.StringOrDefault("TemplateName", "default");
             Html = dr.StringOrBlank("Html");
             FrameType = (FrameTypes)dr.IntOrZero("FrameType");
             CacheInterval = dr.IntOrZero("CacheInterval");
             CacheInterval = CacheInterval < 0 ? 0 : CacheInterval;
-            Version = BitConverter.ToUInt64((byte[])dr["Version"], 0);       // is never a null
+            Version = BitConverter.ToUInt64(dr.ValueOrNull<byte[]>("Version"), 0);       // is never a null
         }
 
         private void _init()
         {
-            string sql = string.Format(
-                "SELECT TOP 1 f.*, t.FrameType, t.Html, t.Name TemplateName FROM Frame f inner join Template t on t.TemplateId=f.TemplateId WHERE FrameId={0}", 
-                FrameId
-                );
-
-            using (DataSet ds = DataAccess.RunSql(sql))
+            using (SqlCommand cmd = new SqlCommand()
             {
-                if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                CommandType = CommandType.Text,
+                CommandText = "SELECT TOP 1 f.*, t.FrameType, t.Html, t.Name TemplateName FROM Frame f inner join Template t on t.TemplateId=f.TemplateId WHERE FrameId=@frameId",
+            })
+            {
+                cmd.Parameters.AddWithValue("@frameId", this.FrameId);
+                cmd.ExecuteReaderExt((dr) =>
                 {
-                    DataRow dr = ds.Tables[0].Rows[0];
-                    _initfromRow(dr);
-                }
+                    this._initfromRow(dr);
+                    return false;
+                });
             }
         }
 
-        public static Frame GetNextFrame(int panelId, int displayId, int previousFrameId)
+        public static async Task<Frame> GetNextFrameAsync(int panelId, int displayId, int previousFrameId)
 		{
             Frame nci = new Frame()
             {
@@ -127,14 +128,11 @@ namespace DisplayMonkey
                 cmd.Parameters.Add("@displayId", SqlDbType.Int).Value = displayId;
                 cmd.Parameters.Add("@lastFrameId", SqlDbType.Int).Value = previousFrameId;
 
-                using (DataSet ds = DataAccess.RunSql(cmd))
+                await cmd.ExecuteReaderExtAsync((dr) =>
                 {
-                    if (ds.Tables[0].Rows.Count > 0)
-                    {
-                        DataRow r = ds.Tables[0].Rows[0];
-                        nci._initfromRow(r);
-                    }
-                }
+                    nci._initfromRow(dr);
+                    return false;
+                });
             }
 
             if (nci.FrameId > 0)
@@ -154,12 +152,17 @@ namespace DisplayMonkey
                         break;
 
                     //case FrameTypes.News:
+
                     case FrameTypes.Outlook:
                         nci = new Outlook(nci);
                         break;
 
                     case FrameTypes.Picture:
                         nci = new Picture(nci);
+                        break;
+
+                    case FrameTypes.Powerbi:
+                        nci = new Powerbi(nci);
                         break;
 
                     case FrameTypes.Report:

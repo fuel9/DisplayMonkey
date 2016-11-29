@@ -1,0 +1,50 @@
+﻿@using DisplayMonkey.Models
+@using DisplayMonkey.Language
+
+@model DisplayMonkey.Models.Powerbi
+
+    <table class="divTable"><tr>
+        <td>
+
+            @Html.Partial("_frameDetails", Model as Frame)
+
+            <fieldset>
+                <legend>@Resources.Powerbi</legend>
+
+                <div class="divTable">
+
+                    <div class="divRow">
+                        <div class="display-label">
+                            @Html.DisplayNameFor(model => model.Type)
+                        </div>
+                        <div class="display-field">
+                            @Model.Type.Translate()
+                        </div>
+                    </div>
+
+                    <div class="divRow">
+                        <div class="display-label">
+                            @Html.DisplayNameFor(model => model.Name)
+                        </div>
+                        <div class="display-field">
+                            @Html.DisplayFor(model => model.Name)
+                        </div>
+                    </div>
+
+                    <div class="divRow">
+                        <div class="display-label">
+                            @Html.DisplayNameFor(model => model.AzureAccount)
+                        </div>
+                        <div class="display-field">
+                            @Html.DisplayFor(model => model.AzureAccount.Name)
+                        </div>
+                    </div>
+
+                </div>
+            
+            </fieldset>
+        
+        </td>
+
+    </tr></table>
+

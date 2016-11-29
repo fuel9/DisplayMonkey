@@ -20,6 +20,9 @@ using DisplayMonkey.Models;
 using System.IO;
 using System.Net;
 using System.Text;
+using System.Threading.Tasks;
+using System.Threading;
+using System.Diagnostics;
 
 namespace DisplayMonkey.Controllers
 {
@@ -34,7 +37,7 @@ namespace DisplayMonkey.Controllers
         {
             this.SaveReferrer(true);
 
-            Report report = db.Reports.Find(id);
+            Report report = db.Frames.Find(id) as Report;
             if (report == null)
             {
                 return View("Missing", new MissingItem(id));
@@ -54,12 +57,8 @@ namespace DisplayMonkey.Controllers
                 return RedirectToAction("Create", "Frame");
             }
 
-            Report report = new Report()
-            {
-                Frame = frame,
-            };
+            Report report = new Report(frame, db);
 
-            report.init(db);
 
             this.FillTemplatesSelectList(db, FrameTypes.Report);
             FillServersSelectList();
@@ -73,22 +72,20 @@ namespace DisplayMonkey.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Report report, Frame frame)
+        public ActionResult Create(Report report)
         {
             if (ModelState.IsValid)
             {
-                report.Frame = frame;
-                db.Reports.Add(report);
+                db.Frames.Add(report);
                 db.SaveChanges();
 
                 return this.RestoreReferrer() ?? RedirectToAction("Index", "Frame");
             }
 
-            this.FillTemplatesSelectList(db, FrameTypes.Report, report.Frame.TemplateId);
+            this.FillTemplatesSelectList(db, FrameTypes.Report, report.TemplateId);
             FillServersSelectList();
             FillModesSelectList();
             
-            report.Frame = frame;
             
             return View(report);
         }
@@ -98,13 +95,13 @@ namespace DisplayMonkey.Controllers
 
         public ActionResult Edit(int id = 0)
         {
-            Report report = db.Reports.Find(id);
+            Report report = db.Frames.Find(id) as Report;
             if (report == null)
             {
                 return View("Missing", new MissingItem(id));
             }
 
-            this.FillTemplatesSelectList(db, FrameTypes.Report, report.Frame.TemplateId);
+            this.FillTemplatesSelectList(db, FrameTypes.Report, report.TemplateId);
             FillServersSelectList(report.ServerId);
             FillModesSelectList(report.Mode);
             
@@ -116,22 +113,20 @@ namespace DisplayMonkey.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Report report, Frame frame)
+        public ActionResult Edit(Report report)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(frame).State = EntityState.Modified;
                 db.Entry(report).State = EntityState.Modified;
                 db.SaveChanges();
 
                 return this.RestoreReferrer() ?? RedirectToAction("Index", "Frame");
             }
 
-            this.FillTemplatesSelectList(db, FrameTypes.Report, report.Frame.TemplateId);
+            this.FillTemplatesSelectList(db, FrameTypes.Report, report.TemplateId);
             FillServersSelectList(report.ServerId);
             FillModesSelectList(report.Mode);
             
-            report.Frame = frame;
             
             return View(report);
         }
@@ -141,7 +136,7 @@ namespace DisplayMonkey.Controllers
 
         public ActionResult Delete(int id = 0)
         {
-            Report report = db.Reports.Find(id);
+            Report report = db.Frames.Find(id) as Report;
             if (report == null)
             {
                 return View("Missing", new MissingItem(id));
@@ -167,35 +162,41 @@ namespace DisplayMonkey.Controllers
         // GET: /Content/Thumb/5
 
         //[Authorize]
+        [HttpGet, ActionName("Thumb")]
         [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult Thumb(int id, int width = 0, int height = 0, RenderModes mode = RenderModes.RenderMode_Fit, int trace = 0)
+        public async Task<ActionResult> ThumbAsync(int id, int width = 0, int height = 0, RenderModes mode = RenderModes.RenderMode_Fit, int trace = 0)
         {
             StringBuilder message = new StringBuilder();
 
             try
             {
+                Report report = db.Frames.OfType<Report>()
+                    .Include(r => r.ReportServer)
+                    .FirstOrDefault(r => r.FrameId == id)
+                    ;
+
                 if (width <= 120 && height <= 120)
                 {
-                    byte[] cache = HttpRuntime.Cache.GetOrAddSliding(
-                        string.Format("thumb_report_{0}_{1}x{2}_{3}", id, width, height, (int)mode),
-                        () => {
-                            byte[] img = GetReportBytes(id);
+                    byte[] cache = await HttpRuntime.Cache.GetOrAddSlidingAsync(
+                        string.Format("thumb_report_{0}_{1}x{2}_{3}", report.FullPath, width, height, (int)mode),
+                        async (expire) => 
+                        {
+                            expire.After = TimeSpan.FromHours(1);
+                            byte[] img = await GetReportBytesAsync(report);
                             using (MemoryStream trg = new MemoryStream())
                             using (MemoryStream src = new MemoryStream(img))
                             {
                                 MediaController.WriteImage(src, trg, width, height, mode);
                                 return trg.GetBuffer();
                             }
-                        },
-                        TimeSpan.FromMinutes(10)
-                        );
+                        });
 
                     return new FileStreamResult(new MemoryStream(cache), "image/png");
                 }
 
                 else
                 {
-                    byte[] img = GetReportBytes(id);
+                    byte[] img = await GetReportBytesAsync(report);
                     using (MemoryStream src = new MemoryStream(img))
                     {
                         MemoryStream trg = new MemoryStream();
@@ -212,7 +213,7 @@ namespace DisplayMonkey.Controllers
 
                 if (trace > 1)
                 {
-                    Report report = db.Reports
+                    Report report = db.Frames.OfType<Report>()
                         .Include(r => r.ReportServer)
                         .FirstOrDefault(r => r.FrameId == id)
                         ;
@@ -239,27 +240,12 @@ namespace DisplayMonkey.Controllers
                 return Content(message.Length == 0 ? "OK" : message.ToString());
         }
 
-        private byte[] GetReportBytes(int id)
+        /*private byte[] GetReportBytes(int id)
         {
-            Report report = db.Reports
+            Report report = db.Frames.OfType<Report>()
                 .Include(r => r.ReportServer)
                 .FirstOrDefault(r => r.FrameId == id)
                 ;
-
-            string baseUrl = (report.ReportServer.BaseUrl ?? "").Trim()
-                , url = (report.Path ?? "").Trim();
-
-            if (baseUrl.EndsWith("/"))
-                baseUrl = baseUrl.Substring(0, baseUrl.Length - 1);
-
-            if (!url.StartsWith("/"))
-                url = "/" + url;
-
-            url = string.Format(
-                "{0}?{1}&rs:format=IMAGE",
-                baseUrl,
-                HttpUtility.UrlEncode(url)
-                );
 
             WebClient client = new WebClient();
             string
@@ -276,7 +262,27 @@ namespace DisplayMonkey.Controllers
                     );
             }
 
-            return client.DownloadData(url);
+            return client.DownloadData(report.FullPath);
+        }*/
+
+        private async Task<byte[]> GetReportBytesAsync(Report report)
+        {
+            var client = new WebClient();
+            string
+                user = (report.ReportServer.User ?? "").Trim(),
+                domain = (report.ReportServer.Domain ?? "").Trim()
+                ;
+
+            if (!string.IsNullOrWhiteSpace(user))
+            {
+                client.Credentials = new NetworkCredential(
+                    user,
+                    RsaUtil.Decrypt(report.ReportServer.Password),
+                    domain
+                    );
+            }
+
+            return await client.DownloadDataTaskAsync(report.FullPath);
         }
 
         private void FillServersSelectList(object selected = null)

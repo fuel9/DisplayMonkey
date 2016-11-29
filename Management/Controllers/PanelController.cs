@@ -91,8 +91,7 @@ namespace DisplayMonkey.Controllers
 
         public ActionResult Create(int canvasId = 0)
         {
-            Panel panel = new Panel();
-            panel.init(db);
+            Panel panel = new Panel(db);
 
             FillCanvasSelectList(canvasId);
 
@@ -157,9 +156,10 @@ namespace DisplayMonkey.Controllers
         public ActionResult EditFS(int id = 0)
         {
             FullScreen fs = db.Panels
-                .Find(id)
-                .FullScreens
-                .FirstOrDefault()
+                .OfType<FullScreen>()
+                //.Find(id)
+                //.FullScreens
+                .FirstOrDefault(f => f.PanelId == id)
                 ;
 
             if (fs == null)
@@ -167,7 +167,7 @@ namespace DisplayMonkey.Controllers
                 return View("Missing", new MissingItem(id));
             }
 
-            fs.FadeLength = fs.Panel.FadeLength;
+            //fs.FadeLength = fs.Panel.FadeLength;
 
             return View(fs);
         }
@@ -184,7 +184,7 @@ namespace DisplayMonkey.Controllers
                 Panel panel = db.Panels.Find(fs.PanelId);
                 panel.FadeLength = fs.FadeLength;
                 db.Entry(panel).State = EntityState.Modified;
-                db.Entry(fs).State = EntityState.Modified;
+                //db.Entry(fs).State = EntityState.Modified;
                 db.SaveChanges();
 
                 return this.RestoreReferrer() ?? RedirectToAction("Index");
@@ -215,8 +215,12 @@ namespace DisplayMonkey.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Panel panel = db.Panels.Find(id);
-            db.Panels.Remove(panel);
-            db.SaveChanges();
+
+            if (!panel.IsFullscreen)
+            {
+                db.Panels.Remove(panel);
+                db.SaveChanges();
+            }
 
             return this.RestoreReferrer(true) ?? RedirectToAction("Index");
         }
@@ -229,13 +233,6 @@ namespace DisplayMonkey.Controllers
             var list = db.Frames
                 .Where(f => f.PanelId == id)
                 .Include(f => f.Panel.Canvas)
-                .Include(f => f.News)
-                .Include(f => f.Clock)
-                .Include(f => f.Weather)
-                .Include(f => f.Memo)
-                .Include(f => f.Report)
-                .Include(f => f.Picture)
-                .Include(f => f.Video)
                 .AsEnumerable()             // sort in controller
                 .OrderBy(f => f.Sort == null ? (float)f.FrameId : (float)f.Sort)
                 .ThenBy(f => f.FrameId)

@@ -27,7 +27,7 @@ namespace DisplayMonkey.Controllers
     {
         private DisplayMonkeyEntities db = new DisplayMonkeyEntities();
 
-        private static Regex _emailRgx = new Regex(Models.ExchangeAccount._emailMsk);
+        private static Regex _emailRgx = new Regex(Models.Constants.EmailMask);
 
         #region -------- EWS Validation --------
 
@@ -214,7 +214,7 @@ namespace DisplayMonkey.Controllers
             if (ModelState.IsValid)
             {
                 db.Entry(ews).State = EntityState.Modified;
-                db.Entry(ews).Property(l => l.Password).IsModified = ews._passwordSet;
+                db.Entry(ews).Property(l => l.Password).IsModified = ews.PasswordSet;
                 //db.Entry(ews).Property(l => l.Url).IsModified = false;
                 db.SaveChanges();
                 return RedirectToAction("Index");

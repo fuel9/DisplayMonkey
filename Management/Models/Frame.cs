@@ -40,18 +40,8 @@ namespace DisplayMonkey.Models
         public int TemplateId { get; set; }
         public int CacheInterval { get; set; }
     
-        public virtual Clock Clock { get; set; }
         public virtual Panel Panel { get; set; }
-        public virtual Memo Memo { get; set; }
-        public virtual News News { get; set; }
-        public virtual Picture Picture { get; set; }
-        public virtual Report Report { get; set; }
-        public virtual Video Video { get; set; }
-        public virtual Weather Weather { get; set; }
         public virtual ICollection<Location> Locations { get; set; }
-        public virtual Html Html { get; set; }
-        public virtual Youtube Youtube { get; set; }
-        public virtual Outlook Outlook { get; set; }
         public virtual Template Template { get; set; }
     }
 }

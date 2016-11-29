@@ -1,0 +1,88 @@
+﻿@using DisplayMonkey
+@using DisplayMonkey.Models
+@using DisplayMonkey.Language
+
+@model DisplayMonkey.Models.Powerbi
+
+@{
+    SelectList types = ViewBag.Types as SelectList;
+    SelectList accounts = ViewBag.Accounts as SelectList;
+    bool isCreate = this.ViewContext.RouteData.Values["action"].ToString().ToLower() == "create";
+    var emptyList = Enumerable.Empty<SelectListItem>();
+}
+
+    <fieldset>
+        <legend>@Resources.Powerbi</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(m => m.Name)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(m => m.Name)
+            @Html.ValidationMessageFor(m => m.Name)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(m => m.AccountId)
+        </div>
+        @if (accounts.Count() == 0)
+        {
+            <div class="editor-field">
+                @Html.ActionLink(Resources.CreateNewAzureAccount, "Create", "AzureAccount")
+            </div>
+        }
+        else
+        {
+            <div class="editor-field select">
+                @Html.DropDownListFor(m => m.AccountId, accounts)
+                @Html.ValidationMessageFor(m => m.AccountId)
+            </div>
+
+            <div class="editor-label">
+                @Html.LabelFor(m => m.Type)
+            </div>
+            <div class="editor-field select">
+                @Html.DropDownListFor(m => m.Type, ViewBag.Types as SelectList, Resources.PowerbiSelectType)
+                @Html.ValidationMessageFor(m => m.Type)
+            </div>
+
+            <div class="editor-label dashboard">
+                @Html.LabelFor(m => m.DashboardGuid)
+            </div>
+            <div class="editor-field select dashboard">
+                @Html.DropDownListFor(m => m.DashboardGuid, emptyList, Resources.PowerbiSelectDashboard)
+                @Html.ValidationMessageFor(m => m.DashboardGuid)
+                @Html.HiddenFor(m => m.DashboardGuid, new { id = "oldDashboardGuid" })
+            </div>
+
+            <div class="editor-label tile">
+                @Html.LabelFor(m => m.TileGuid)
+            </div>
+            <div class="editor-field select tile">
+                @Html.DropDownListFor(m => m.TileGuid, emptyList, Resources.PowerbiSelectTile)
+                @Html.ValidationMessageFor(m => m.TileGuid)
+                @Html.HiddenFor(m => m.TileGuid, new { id = "oldTileGuid" })
+            </div>
+
+            <div class="editor-label report">
+                @Html.LabelFor(m => m.ReportGuid)
+            </div>
+            <div class="editor-field select report">
+                @Html.DropDownListFor(m => m.ReportGuid, emptyList, Resources.PowerbiSelectReport)
+                @Html.ValidationMessageFor(m => m.ReportGuid)
+                @Html.HiddenFor(m => m.ReportGuid, new { id = "oldReportGuid" })
+            </div>
+
+            @Html.HiddenFor(m => m.Url)
+
+        }
+
+        <span id="spinholder"></span>
+
+    </fieldset>
+
+    <script type="text/javascript">
+        __urlReports = "@Url.Action("reports", "powerbi")";
+        __urlDashboards = "@Url.Action("dashboards", "powerbi")";
+        __urlTiles = "@Url.Action("tiles", "powerbi")";
+    </script>

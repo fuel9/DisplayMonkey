@@ -32,7 +32,7 @@ namespace DisplayMonkey.Controllers
         {
             this.SaveReferrer(true);
             
-            Video video = db.Videos.Find(id);
+            Video video = db.Frames.Find(id) as Video;
             if (video == null)
             {
                 return View("Missing", new MissingItem(id));
@@ -52,12 +52,8 @@ namespace DisplayMonkey.Controllers
                 return RedirectToAction("Create", "Frame");
             }
 
-            Video video = new Video()
-            {
-                Frame = frame,
-            };
+            Video video = new Video(frame, db);
 
-            video.init(db);
 
             this.FillTemplatesSelectList(db, FrameTypes.Video);
             FillVideosSelectList();
@@ -70,17 +66,15 @@ namespace DisplayMonkey.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Video video, Frame frame)
+        public ActionResult Create(Video video)
         {
-            video.Frame = frame;
-
             if (ModelState.IsValid)
             {
                 if (video.SavedContentId.HasValue)
                 {
                     Content content = db.Contents.Find(video.SavedContentId.Value);
                     video.Contents.Add(content);
-                    db.Videos.Add(video);
+                    db.Frames.Add(video);
                     db.SaveChanges();
 
                     return this.RestoreReferrer() ?? RedirectToAction("Index", "Frame");
@@ -92,7 +86,7 @@ namespace DisplayMonkey.Controllers
                 }
             }
 
-            this.FillTemplatesSelectList(db, FrameTypes.Video, video.Frame.TemplateId);
+            this.FillTemplatesSelectList(db, FrameTypes.Video, video.TemplateId);
             FillVideosSelectList();
 
             return View(video);
@@ -105,12 +99,12 @@ namespace DisplayMonkey.Controllers
         {
             Video video = TempData["_newVideo"] as Video;
 
-            if (video == null || video.Frame.PanelId == 0)
+            if (video == null || video.PanelId == 0)
             {
                 return RedirectToAction("Create", "Frame");
             }
 
-            this.FillTemplatesSelectList(db, FrameTypes.Video, video.Frame.TemplateId);
+            this.FillTemplatesSelectList(db, FrameTypes.Video, video.TemplateId);
             FillVideosSelectList();
             ViewBag.MaxVideoSize = Setting.GetSetting(db, Setting.Keys.MaxVideoSize).IntValuePositive;
 
@@ -122,10 +116,8 @@ namespace DisplayMonkey.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Upload(Video video, Frame frame, IEnumerable<HttpPostedFileBase> files)
+        public ActionResult Upload(Video video, IEnumerable<HttpPostedFileBase> files)
         {
-            video.Frame = frame;
-            
             // TODO: EditorFor
 
             bool hasFiles = false, addedFiles = false;
@@ -162,7 +154,7 @@ namespace DisplayMonkey.Controllers
 
             if (addedFiles)
             {
-                db.Videos.Add(video);
+                db.Frames.Add(video);
                 db.SaveChanges();
 
                 return this.RestoreReferrer() ?? RedirectToAction("Index", "Frame");
@@ -173,7 +165,7 @@ namespace DisplayMonkey.Controllers
                 // TODO: validator for wrong file types
             }
 
-            this.FillTemplatesSelectList(db, FrameTypes.Video, video.Frame.TemplateId);
+            this.FillTemplatesSelectList(db, FrameTypes.Video, video.TemplateId);
             FillVideosSelectList();
             ViewBag.MaxVideoSize = Setting.GetSetting(db, Setting.Keys.MaxVideoSize).IntValuePositive;
 
@@ -185,13 +177,13 @@ namespace DisplayMonkey.Controllers
 
         public ActionResult Link(int id = 0)
         {
-            Video video = db.Videos.Find(id);
+            Video video = db.Frames.Find(id) as Video;
             if (video == null)
             {
                 return View("Missing", new MissingItem(id));
             }
 
-            this.FillTemplatesSelectList(db, FrameTypes.Video, video.Frame.TemplateId);
+            this.FillTemplatesSelectList(db, FrameTypes.Video, video.TemplateId);
             FillAvailableVideosSelectList(id);
 
             return View(video);
@@ -207,7 +199,7 @@ namespace DisplayMonkey.Controllers
             if (video.SavedContentId > 0)
             {
                 DisplayMonkey.Models.Content content = db.Contents.Find(video.SavedContentId);
-                video = db.Videos.Find(video.FrameId);
+                video = db.Frames.Find(video.FrameId) as Video;
                 video.Contents.Add(content);
                 db.SaveChanges();
                 
@@ -227,7 +219,7 @@ namespace DisplayMonkey.Controllers
 
         public ActionResult Uplink(int id = 0)
         {
-            Video video = db.Videos.Find(id);
+            Video video = db.Frames.Find(id) as Video;
             if (video == null)
             {
                 return View("Missing", new MissingItem(id));
@@ -243,7 +235,7 @@ namespace DisplayMonkey.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Uplink(Video video, IEnumerable<HttpPostedFileBase> files)
         {
-            video = db.Videos.Find(video.FrameId);
+            video = db.Frames.Find(video.FrameId) as Video;
             if (video == null)
             {
                 return RedirectToAction("Index", "Frame");
@@ -303,7 +295,7 @@ namespace DisplayMonkey.Controllers
 
         public ActionResult Unlink(int id = 0, int contentId = 0)
         {
-            Video video = db.Videos.Find(id);
+            Video video = db.Frames.Find(id) as Video;
             if (video == null)
             {
                 return View("Missing", new MissingItem(id));
@@ -332,7 +324,7 @@ namespace DisplayMonkey.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult UnlinkConfirmed(int id, int contentId)
         {
-            Video video = db.Videos.Find(id);
+            Video video = db.Frames.Find(id) as Video;
             Content content = db.Contents.Find(contentId);
             video.Contents.Remove(content);
             db.SaveChanges();
@@ -344,13 +336,13 @@ namespace DisplayMonkey.Controllers
 
         public ActionResult Edit(int id = 0)
         {
-            Video video = db.Videos.Find(id);
+            Video video = db.Frames.Find(id) as Video;
             if (video == null)
             {
                 return View("Missing", new MissingItem(id));
             }
 
-            this.FillTemplatesSelectList(db, FrameTypes.Video, video.Frame.TemplateId);
+            this.FillTemplatesSelectList(db, FrameTypes.Video, video.TemplateId);
 
             return View(video);
         }
@@ -360,20 +352,18 @@ namespace DisplayMonkey.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Video video, Frame frame)
+        public ActionResult Edit(Video video)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(frame).State = EntityState.Modified;
                 db.Entry(video).State = EntityState.Modified;
                 db.SaveChanges();
 
                 return this.RestoreReferrer() ?? RedirectToAction("Index", "Frame");
             }
 
-            video.Frame = frame;
 
-            this.FillTemplatesSelectList(db, FrameTypes.Video, video.Frame.TemplateId);
+            this.FillTemplatesSelectList(db, FrameTypes.Video, video.TemplateId);
 
             return View(video);
         }
@@ -383,7 +373,7 @@ namespace DisplayMonkey.Controllers
 
         public ActionResult Delete(int id = 0)
         {
-            Video video = db.Videos.Find(id);
+            Video video = db.Frames.Find(id) as Video;
             if (video == null)
             {
                 return View("Missing", new MissingItem(id));
@@ -419,7 +409,7 @@ namespace DisplayMonkey.Controllers
         {
             var savedVideos = from m in db.Contents
                               where m.Type == ContentTypes.ContentType_Video
-                              && !db.Videos.Any(v => v.FrameId == id && v.Contents.Contains(m)) // exclude videos already linked
+                              && !db.Frames.OfType<Video>().Any(v => v.FrameId == id && v.Contents.Contains(m)) // exclude videos already linked
                               orderby m.Name
                               select m;
 

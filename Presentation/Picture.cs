@@ -72,20 +72,20 @@ namespace DisplayMonkey
 
         private void _init()
         {
-            string sql = string.Format(
-                "SELECT TOP 1 i.*, Name FROM Picture i INNER JOIN Content c ON c.ContentId=i.ContentId WHERE i.FrameId={0};",
-                FrameId
-                );
-
-            using (DataSet ds = DataAccess.RunSql(sql))
+            using (SqlCommand cmd = new SqlCommand()
             {
-                if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                CommandType = CommandType.Text,
+                CommandText = "SELECT TOP 1 i.*, Name FROM Picture i INNER JOIN Content c ON c.ContentId=i.ContentId WHERE i.FrameId=@frameId",
+            })
+            {
+                cmd.Parameters.AddWithValue("@frameId", FrameId);
+                cmd.ExecuteReaderExt((dr) =>
                 {
-                    DataRow dr = ds.Tables[0].Rows[0];
                     ContentId = dr.IntOrZero("ContentId");
                     Mode = (RenderModes)dr.IntOrZero("Mode");
                     Name = dr.StringOrBlank("Name");
-                }
+                    return false;
+                });
             }
         }
 

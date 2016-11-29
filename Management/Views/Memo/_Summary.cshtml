@@ -1,0 +1,7 @@
+﻿@using DisplayMonkey.Models
+@using DisplayMonkey.Language
+
+@model DisplayMonkey.Models.Memo
+
+@Resources.Subject@(": ")<span>@Model.Subject</span>
+<p>@Resources.Body@(": ")<span>@Model.ShortBody</span></p>

@@ -15,6 +15,7 @@ using System.Web;
 using System.Text;
 using System.Data;
 using System.Globalization;
+using System.Data.SqlClient;
 
 namespace DisplayMonkey
 {
@@ -26,15 +27,19 @@ namespace DisplayMonkey
 		
 		public Canvas(int canvasId)
 		{
-			string sql = string.Format("SELECT TOP 1 * FROM Canvas WHERE CanvasId={0}", canvasId);
-			using (DataSet ds = DataAccess.RunSql(sql))
-			{
-				if (ds.Tables.Count > 0)
-				{
-					DataRow r = ds.Tables[0].Rows[0];
+            using (SqlCommand cmd = new SqlCommand()
+            {
+                CommandType = CommandType.Text,
+                CommandText = "SELECT TOP 1 * FROM Canvas WHERE CanvasId=@canvasId",
+            })
+            {
+                cmd.Parameters.AddWithValue("@canvasId", canvasId);
+                cmd.ExecuteReaderExt((r) =>
+                {
                     _initFromRow(r);
-				}
-			}
+                    return false;
+                });
+            }
 
             if (this.DisplayId != 0)
                 this.Display = new Display(this.DisplayId);
@@ -42,25 +47,29 @@ namespace DisplayMonkey
 
 		public static Canvas InitFromDisplay(int displayId)
 		{
-			Canvas canvas = null;
+            Canvas canvas = null;
 
-			string sql = string.Format(
-                "SELECT c.* FROM Display d INNER JOIN Canvas c on c.CanvasId=d.CanvasId WHERE DisplayId={0};",
-				displayId
-				);
+            using (SqlCommand cmd = new SqlCommand()
+            {
+                CommandType = CommandType.Text,
+                CommandText = "SELECT c.* FROM Display d INNER JOIN Canvas c on c.CanvasId=d.CanvasId WHERE DisplayId=@displayId",
+            })
+            {
+                cmd.Parameters.AddWithValue("@displayId", displayId);
+                cmd.ExecuteReaderExt((r) =>
+                {
+                    canvas = new Canvas()
+                    {
+                        DisplayId = displayId,
+                    };
+                    canvas._initFromRow(r);
+                    return false;
+                });
+            }
 
-			using (DataSet ds = DataAccess.RunSql(sql))
-			{
-				if (0 == ds.Tables[0].Rows.Count)
-					throw new Exception("Canvas not found");
+            if (canvas == null)
+                throw new Exception("Canvas not found");
 
-				canvas = new Canvas()
-				{
-					DisplayId = displayId,
-				}
-                ._initFromRow(ds.Tables[0].Rows[0])
-                ;
-			}
 
             canvas.Display = new Display(displayId);
             canvas.Location = new Location(displayId);
@@ -69,7 +78,7 @@ namespace DisplayMonkey
 			return canvas;
 		}
 		
-		private Canvas _initFromRow(DataRow r)
+		private void _initFromRow(SqlDataReader r)
 		{
 			CanvasId = r.IntOrZero("CanvasId");
 			Height = r.IntOrZero("Height");
@@ -81,8 +90,6 @@ namespace DisplayMonkey
 			Name = r.StringOrBlank("Name");
 			if (Name == "")
 				Name = string.Format("Canvas {0}", CanvasId);
-
-            return this;
 		}
 
 		public static List<Canvas> List
@@ -90,18 +97,21 @@ namespace DisplayMonkey
 			get
 			{
 				List<Canvas> list = new List<Canvas>();
-				string sql = "SELECT * FROM Canvas ORDER BY Name";
-				using (DataSet ds = DataAccess.RunSql(sql))
-				{
-					list.Capacity = ds.Tables[0].Rows.Count;
 
-					// list registered canvases
-					foreach (DataRow r in ds.Tables[0].Rows)
-					{
-						Canvas canvas = new Canvas(r.IntOrZero("CanvasId"));
-						list.Add(canvas);
-					}
-				}
+                using (SqlCommand cmd = new SqlCommand()
+                {
+                    CommandType = CommandType.Text,
+                    CommandText = "SELECT * FROM Canvas ORDER BY Name",
+                })
+                {
+                    cmd.ExecuteReaderExt((r) =>
+                    {
+                        Canvas canvas = new Canvas(r.IntOrZero("CanvasId"));
+                        list.Add(canvas);
+                        return true;
+                    });
+                }
+
 				return list;
 			}
 		}
@@ -116,7 +126,7 @@ namespace DisplayMonkey
 		public int Width = 0;
 		public int DisplayId = 0;
         public string Name = "";
-        public int FullScreenPanelId = 0;
+        //public int FullScreenPanelId = 0;
 
         public Display Display { get; private set; }
         public Location Location { get; private set; }
@@ -232,6 +242,7 @@ namespace DisplayMonkey
             , "files/js/video.js"
             , "files/js/weather.js"
             , "files/js/youtube.js"
+            , "files/js/powerbi.js"
 
             // add new frame js code here
 #else
@@ -257,6 +268,7 @@ namespace DisplayMonkey
             , "files/js/video.js"
             , "files/js/weather.js"
             , "files/js/youtube.js"
+            , "files/js/powerbi.js"
 
             // add new frame js code here
 #endif

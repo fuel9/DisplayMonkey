@@ -21,22 +21,23 @@ using System.Net;
 using System.Xml;
 using System.Web.Script.Serialization;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace DisplayMonkey
 {
 	/// <summary>
     /// Summary description for YahooWeather
 	/// </summary>
-    public class getYahooWeather : IHttpHandler
+    public class getYahooWeather : HttpTaskAsyncHandler
 	{
-        public void ProcessRequest(HttpContext context)
+        public override async Task ProcessRequestAsync(HttpContext context)
 		{
 			HttpRequest Request = context.Request;
 			HttpResponse Response = context.Response;
 
-            int frameId = DataAccess.IntOrZero(Request.QueryString["frame"]);
-            int woeid = DataAccess.IntOrZero(Request.QueryString["woeid"]);
-            string tempUnit = DataAccess.StringOrBlank(Request.QueryString["tempU"]);
+            int frameId = Request.IntOrZero("frame");
+            int woeid = Request.IntOrZero("woeid");
+            string tempUnit = Request.StringOrBlank("tempU");
             string json = "";
 
             try
@@ -46,13 +47,13 @@ namespace DisplayMonkey
                 if (weather.FrameId != 0)
                 {
                     // get RSS feed
-                    Dictionary<string, object> map = HttpRuntime.Cache.GetOrAddAbsolute(
+                    Dictionary<string, object> map = await HttpRuntime.Cache.GetOrAddAbsoluteAsync(
                         string.Format("weather_{0}_{1}_{2}_{3}", weather.FrameId, weather.Version, tempUnit, woeid),
-                        () => { 
-                            return GetYahooWeather(tempUnit, woeid); 
-                        },
-                        DateTime.Now.AddMinutes(weather.CacheInterval)
-                        );
+                        async (expire) => 
+                        {
+                            expire.When = DateTime.Now.AddMinutes(weather.CacheInterval);
+                            return await GetYahooWeatherAsync(tempUnit, woeid); 
+                        });
 
                     JavaScriptSerializer oSerializer = new JavaScriptSerializer();
                     json = oSerializer.Serialize(map);
@@ -86,7 +87,7 @@ namespace DisplayMonkey
             Response.Flush();
 		}
 
-        private Dictionary<string, object> GetYahooWeather(string temperatureUnit, int woeid)
+        private async Task<Dictionary<string, object>> GetYahooWeatherAsync(string temperatureUnit, int woeid)
         {
             // get repsonse from yahoo
             string response = "", url = string.Format(
@@ -96,7 +97,7 @@ namespace DisplayMonkey
                 );
             using (WebClient client = new WebClient())
             {
-                response = Encoding.ASCII.GetString(client.DownloadData(url));
+                response = Encoding.ASCII.GetString(await client.DownloadDataTaskAsync(url));
             }
 
             Dictionary<string, object> map = new Dictionary<string, object>();
@@ -106,7 +107,7 @@ namespace DisplayMonkey
             if (channel != null)
             {
                 XmlElement e = null;
-                
+
                 // wind
                 e = channel.SelectSingleNode(@"*[local-name()='wind']") as XmlElement;
                 if (e != null)
@@ -203,7 +204,5 @@ namespace DisplayMonkey
 
             return map;
         }
-
-        public bool IsReusable { get { return false; } }
 	}
 }

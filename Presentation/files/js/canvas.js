@@ -39,7 +39,7 @@ DM.ErrorReport = Class.create({
             Error: ((options.exception instanceof Error ? options.exception.message : options.exception) || "unspecified"),
             Where: (options.source || "unspecified"),
             When: moment().format(),
-            Data: (JSON.stringify(options.data) || "none")
+            Data: (JSON.stringify(options.data) || "none").replace(/\\"|"/g, ''),
         };
         console.error("!Display Monkey error: " + JSON.stringify(this.info));
         this.length = options.length || _canvas.errorLength || 0;
@@ -56,7 +56,7 @@ DM.ErrorReport = Class.create({
             "<tr><td>Error:</td><td>#{Error}</td></tr>",
             "<tr><td>Where:</td><td>#{Where}</td></tr>",
             "<tr><td>When:</td><td>#{When}</td></tr>",
-            "<tr><td>Data:</td><td>#{Data}</td></tr>",
+            _canvas.errorInfo ? "<tr><td>Info:</td><td>#{Data}</td></tr>" : "",
             "</table>"
             ).interpolate(this.info)
         );
@@ -97,6 +97,7 @@ DM.Canvas = Class.create({
 		this.fsIdleInterval = (options.initialIdleInterval || 0);   // !!!
 		this.pollInterval = (options.pollInterval || 0);
 		this.errorLength = (options.errorLength || 0);
+		this.errorInfo = (options.errorInfo || true);
 		this.width = (options.width || 0);
 		this.height = (options.height || 0);
 		this.backImage = (options.backImage || 0);
@@ -108,6 +109,8 @@ DM.Canvas = Class.create({
 
 		this.panels = [];
 		this.fullPanel = {};
+
+		window.addEventListener('message', this._postback.bind(this));
 	},
 
 	initPanels: function () {
@@ -178,7 +181,7 @@ DM.Canvas = Class.create({
 	    _canvas.fullScreenActive = false;
 	    _canvas.panels.forEach(function (p) {
 	        try {
-	            if (p.object && p.object.play)
+	            if (p.object && typeof p.object.play === "function")
 	                p.object.play();
 	        } catch (e) { }
 	    });
@@ -190,6 +193,19 @@ DM.Canvas = Class.create({
 		var scr = $('screen').style;
 		scr.height = body.clientHeight + 'px';
 		scr.width = body.clientWidth + 'px';
+	},
+
+	_postback: function (evt) {
+	    "use strict";
+	    try {
+	        if (evt.data) {
+	            var msg = JSON.parse(evt.data);
+	            if (msg.error) {
+	                new DM.ErrorReport({ exception: msg.error, data: msg, source: "DM.Canvas::_postback" });
+	            }
+	        }
+	    }
+	    catch (e) { }
 	},
 });
 
@@ -431,37 +447,37 @@ DM.PanelBase = Class.create(Ajax.Base, {
 	    var obj = null;
         try {
             switch (this.newType) {
-                //Clock = 0,
+                //Clock
                 case 0:
                     obj = new DM.Clock({
                         panel: this
                     });
                     break;
                     
-                //Html = 1,
+                //Html
                 case 1:
                     obj = new DM.Iframe({
                         panel: this
                     });
                     break;
 
-                //Memo = 2,
+                //Memo
                 case 2:
                     obj = new DM.Memo({
                         panel: this
                     });
                     break;
                     
-                ////News = 3,
-                //Outlook = 4,
+                //News = 3
+                //Outlook = 4
                 case 4:
                     obj = new DM.Outlook({
                         panel: this
                     });
                     break;
                     
-                //Picture = 5,
-                //Report = 6,
+                //Picture = 5
+                //Report = 6
                 case 5:
                 case 6:
                     obj = new DM.Picture({
@@ -469,7 +485,7 @@ DM.PanelBase = Class.create(Ajax.Base, {
                     });
                     break;
                     
-                //Video = 7,
+                //Video
                 case 7:
                     obj = new DM.Video({
                         panel: this,
@@ -477,16 +493,23 @@ DM.PanelBase = Class.create(Ajax.Base, {
                     });
                     break;
                     
-                //Weather = 8,
+                //Weather
                 case 8:
                     obj = new DM.Weather({
                         panel: this
                     });
                     break;
-                    
-                //YouTube = 9
+
+                //YouTube
                 case 9:
                     obj = new DM.YtPlayer({
+                        panel: this
+                    });
+                    break;
+
+                //Power BI
+                case 10:
+                    obj = new DM.Powerbi({
                         panel: this
                     });
                     break;
@@ -612,7 +635,8 @@ DM.FullScreenPanel = Class.create(DM.PanelBase, {
 	    "use strict";
 	    $super(options);
 	    this.screen = $('screen');
-		this._onFrameExpire();
+	    this.screen.setStyle({ display: 'none' });
+	    this._onFrameExpire();
 	},
 
 	_onFrameExpire: function (/*$super*/) {
@@ -642,10 +666,9 @@ DM.FullScreenPanel = Class.create(DM.PanelBase, {
 	    // fade out old container and remove it
 	    (function (id, screen, l) {
 	        var done = function () {
-	            screen.setStyle({ opacity: 0 });
+	            screen.setStyle({ opacity: 0, display: 'none' });
 	            _canvas.resumePanels();
 	            DM.FrameBase.Reclaim(id);
-
 	        };
 
 	        if (l)
@@ -702,6 +725,7 @@ DM.FullScreenPanel = Class.create(DM.PanelBase, {
 	            screen.setStyle({ opacity: 1 });
 	        };
 
+	        screen.setStyle({ display: '' });
 	        if (l)
 	            screen.appear({ duration: l, afterFinish: done });
 	        else
@@ -723,6 +747,17 @@ DM.FullScreenPanel = Class.create(DM.PanelBase, {
 document.observe("dom:loaded", function () {
     "use strict";
 	try {
+	    Element.addMethods({
+	        setAll: function (ctx, filter, value, def) {
+	            $(ctx).select(filter).each(function (_ea) { _ea.update(value || def || ""); });
+	            return ctx;
+	        },
+	    });
+	    Number.prototype.pad = function (size) {
+	        var s = String(this);
+	        while (s.length < (size || 0)) { s = "0" + s; }
+	        return s;
+	    };
 	    setInterval(DM.Canvas.Collector, 60000);
 	    DM.Canvas.CheckDisplay();
 	}

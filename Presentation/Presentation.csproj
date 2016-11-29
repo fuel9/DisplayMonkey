@@ -56,6 +56,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
@@ -69,6 +70,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="files\js\powerbi.js" />
     <Content Include="Images\button_blue.png" />
     <Content Include="Images\button_blue_red.png" />
     <Content Include="files\js\weather.js" />
@@ -271,11 +273,17 @@
     <Compile Include="..\Management\FrameTypes.cs">
       <Link>FrameTypes.cs</Link>
     </Compile>
+    <Compile Include="..\Management\Models\AzureResources.cs">
+      <Link>AzureResources.cs</Link>
+    </Compile>
     <Compile Include="..\Management\Models\ContentTypes.cs">
       <Link>ContentTypes.cs</Link>
     </Compile>
     <Compile Include="..\Management\Models\OutlookPrivacy.cs">
       <Link>OutlookPrivacy.cs</Link>
+    </Compile>
+    <Compile Include="..\Management\Models\PowerbiTypes.cs">
+      <Link>PowerbiTypes.cs</Link>
     </Compile>
     <Compile Include="..\Management\Models\RenderModes.cs">
       <Link>RenderModes.cs</Link>
@@ -290,9 +298,14 @@
     <Compile Include="getDisplayData.ashx.cs">
       <DependentUpon>getDisplayData.ashx</DependentUpon>
     </Compile>
+    <Compile Include="getAzureToken.ashx.cs">
+      <DependentUpon>getAzureToken.ashx</DependentUpon>
+    </Compile>
     <Compile Include="getYahooWeather.ashx.cs">
       <DependentUpon>getYahooWeather.ashx</DependentUpon>
     </Compile>
+    <Compile Include="Powerbi.cs" />
+    <Compile Include="AzureUtil.cs" />
     <Compile Include="Register.aspx.cs">
       <DependentUpon>Register.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -377,8 +390,8 @@
   <ItemGroup>
     <Content Include="getVideo.ashx" />
     <Content Include="getDisplayData.ashx" />
-    <None Include="Properties\PublishProfiles\Debug.pubxml" />
-    <None Include="Properties\PublishProfiles\Release.pubxml" />
+    <Content Include="getAzureToken.ashx" />
+    <None Include="Properties\PublishProfiles\Local.pubxml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

@@ -14,6 +14,7 @@ using System.Linq;
 using System.Web;
 using System.Data;
 using System.Data.SqlClient;
+using System.Threading.Tasks;
 
 namespace DisplayMonkey
 {
@@ -28,7 +29,7 @@ namespace DisplayMonkey
         {
         }
 
-        public static DisplayData Refresh(int displayId)
+        public static async Task<DisplayData> RefreshAsync(int displayId)
         {
             DisplayData data = new DisplayData()
             {
@@ -42,21 +43,20 @@ namespace DisplayMonkey
             {
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@displayId", displayId);
-                using (DataSet ds = DataAccess.RunSql(cmd))
-                {
-                    if (ds.Tables.Count > 0)
-                    {
-                        DataRow r = ds.Tables[0].Rows[0];
-                        data.DisplayId = r.IntOrZero("DisplayId");
-                        data.IdleInterval = r.IntOrZero("IdleInterval");
-                        data.Hash = r.IntOrZero("Hash");
 
-                        if (r["RecycleTime"] != DBNull.Value)
-                        {
-                            data.RecycleTime = (TimeSpan)r["RecycleTime"];
-                        }
+                await cmd.ExecuteReaderExtAsync((reader) =>
+                {
+                    data.DisplayId = reader.IntOrZero("DisplayId");
+                    data.IdleInterval = reader.IntOrZero("IdleInterval");
+                    data.Hash = reader.IntOrZero("Hash");
+
+                    if (reader["RecycleTime"] != DBNull.Value)
+                    {
+                        data.RecycleTime = (TimeSpan)reader["RecycleTime"];
                     }
-                }
+
+                    return false;
+                });
             }
             
             return data;
@@ -83,31 +83,39 @@ namespace DisplayMonkey
 		
 		public Display(int displayId)
 		{
-			string sql = string.Format("SELECT TOP 1 * FROM Display WHERE displayId={0}", displayId);
-			using (DataSet ds = DataAccess.RunSql(sql))
-			{
-				if (ds.Tables.Count > 0)
-				{
-					DataRow r = ds.Tables[0].Rows[0];
+            using (SqlCommand cmd = new SqlCommand()
+            {
+                CommandType = CommandType.Text,
+                CommandText = "SELECT TOP 1 * FROM Display WHERE displayId=@displayId",
+            })
+            {
+                cmd.Parameters.AddWithValue("@displayId", displayId);
+                cmd.ExecuteReaderExt((r) =>
+                {
                     _initFromRow(r);
-				}
-			}
-		}
+                    return false;
+                });
+            }
+        }
 
 		public Display(string host)
 		{
-			string sql = string.Format("SELECT TOP 1 * FROM Display WHERE Host='{0}'", host);
-			using (DataSet ds = DataAccess.RunSql(sql))
-			{
-				if (ds.Tables.Count > 0)
-				{
-					DataRow r = ds.Tables[0].Rows[0];
+            using (SqlCommand cmd = new SqlCommand()
+            {
+                CommandType = CommandType.Text,
+                CommandText = "SELECT TOP 1 * FROM Display WHERE Host=@host",
+            })
+            {
+                cmd.Parameters.AddWithValue("@host", host);
+                cmd.ExecuteReaderExt((r) =>
+                {
                     _initFromRow(r);
-				}
-			}
-		}
+                    return false;
+                });
+            }
+        }
 
-		private void _initFromRow(DataRow r)
+		private void _initFromRow(SqlDataReader r)
 		{
 			DisplayId = r.IntOrZero("DisplayId");
 			CanvasId = r.IntOrZero("CanvasId");
@@ -134,18 +142,22 @@ namespace DisplayMonkey
 			get
 			{
                 List<Display> list = new List<Display>();
-                string sql = "SELECT * FROM Display ORDER BY Name";
-                using (DataSet ds = DataAccess.RunSql(sql))
-                {
-                    list.Capacity = ds.Tables[0].Rows.Count;
 
-                    // list registered displays
-                    foreach (DataRow r in ds.Tables[0].Rows)
+                using (SqlCommand cmd = new SqlCommand()
+                {
+                    CommandType = CommandType.Text,
+                    CommandText = "SELECT * FROM Display ORDER BY Name",
+                })
+                {
+                    cmd.ExecuteReaderExt((r) =>
                     {
-                        Display display = new Display(r.IntOrZero("DisplayId"));
+                        Display display = new Display();
+                        display._initFromRow(r);
                         list.Add(display);
-                    }
+                        return true;
+                    });
                 }
+
                 return list;
 			}
 		}
@@ -155,15 +167,22 @@ namespace DisplayMonkey
 			if (Host == "" || Name == "" || CanvasId == 0)
 				return;
 
-			using (SqlCommand cmd = new SqlCommand("sp_RegisterDisplay"))
-			{
+            using (SqlCommand cmd = new SqlCommand()
+            {
+                CommandType = CommandType.StoredProcedure,
+                CommandText = "sp_RegisterDisplay",
+            })
+            {
 				cmd.CommandType = CommandType.StoredProcedure;
 				cmd.Parameters.Add("@name", SqlDbType.NVarChar, 100).Value = Name;
 				cmd.Parameters.Add("@host", SqlDbType.VarChar, 100).Value = Host;
 				cmd.Parameters.Add("@canvasId", SqlDbType.Int).Value = CanvasId;
 				cmd.Parameters.Add("@locationId", SqlDbType.Int).Value = LocationId;
 				cmd.Parameters.Add("@displayId", SqlDbType.Int).Direction = ParameterDirection.Output;
-				DataAccess.ExecuteNonQuery(cmd);
+
+                cmd.ExecuteNonQueryExt();
+
+				//DataAccess.ExecuteNonQuery(cmd);
 				DisplayId = cmd.Parameters["@displayId"].IntOrZero();
 			}
 		}

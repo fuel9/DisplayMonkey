@@ -26,7 +26,7 @@ namespace DisplayMonkey
 			if (!IsPostBack)
 			{
 				// get host from URL first
-				int displayId = DataAccess.IntOrZero(Request.QueryString["display"]);
+				int displayId = Request.IntOrZero("display");
 
 				try
 				{

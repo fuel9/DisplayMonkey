@@ -22,16 +22,13 @@ namespace DisplayMonkey.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Clock
+    public partial class Clock : Frame
     {
-        public int FrameId { get; set; }
         public ClockTypes Type { get; set; }
         public bool ShowDate { get; set; }
         public bool ShowTime { get; set; }
         public string Label { get; set; }
         public string TimeZone { get; set; }
         public bool ShowSeconds { get; set; }
-    
-        public virtual Frame Frame { get; set; }
     }
 }

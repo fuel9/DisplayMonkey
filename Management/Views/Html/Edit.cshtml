@@ -1,17 +1,18 @@
-﻿@using DisplayMonkey.Language
+﻿@using DisplayMonkey.Models
+@using DisplayMonkey.Language
 
 @model DisplayMonkey.Models.Html
 
 @{
-    ViewBag.Title = Resources.CreateNewHtmlFrame;
-    DisplayMonkey.Models.Canvas cvs = Model.Frame.Panel.Canvas;
+    ViewBag.Title = Resources.EditHtmlFrame;
+    DisplayMonkey.Models.Canvas cvs = Model.Panel.Canvas;
     string bg = string.Format("background-color:{0};", cvs.BackgroundColor);
     if (cvs.BackgroundImage != null)
     {
         bg += string.Format("background-image:url('{0}');background-position:{1}px {2}px;",
             Html.Raw(Url.Action("Thumb", "Media", new { id = cvs.BackgroundImage, width = cvs.Width, height = cvs.Height })),
-            -Model.Frame.Panel.Left,
-            -Model.Frame.Panel.Top
+            -Model.Panel.Left,
+            -Model.Panel.Top
             );
     }
 }
@@ -23,7 +24,7 @@
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
 
-    @Html.Partial("_frameData", Model.Frame)
+    @Html.Partial("_frameData", Model as Frame)
     @Html.Partial("_Edit")
 
     <p>

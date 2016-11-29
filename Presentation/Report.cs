@@ -101,14 +101,17 @@ namespace DisplayMonkey
 
         private void _init()
         {
-            string sql = string.Format("SELECT TOP 1 r.*, s.BaseUrl, s.[User], s.Domain, s.Password FROM Report r INNER JOIN ReportServer s on s.ServerId=r.ServerId WHERE FrameId={0}", FrameId);
-
-            using (DataSet ds = DataAccess.RunSql(sql))
+            using (SqlCommand cmd = new SqlCommand()
             {
-                if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                CommandType = CommandType.Text,
+                CommandText = 
+                    "SELECT TOP 1 r.*, s.BaseUrl, s.[User], s.Domain, s.Password FROM Report r " +
+                    "INNER JOIN ReportServer s on s.ServerId=r.ServerId WHERE FrameId=@frameId",
+            })
+            {
+                cmd.Parameters.AddWithValue("@frameId", FrameId);
+                cmd.ExecuteReaderExt((dr) =>
                 {
-                    DataRow dr = ds.Tables[0].Rows[0];
-                    
                     Path = dr.StringOrBlank("Path").Trim();
                     Mode = (RenderModes)dr.IntOrZero("Mode");
                     Name = dr.StringOrBlank("Name");
@@ -117,7 +120,8 @@ namespace DisplayMonkey
                     User = dr.StringOrBlank("User").Trim();
                     Domain = dr.StringOrBlank("Domain").Trim();
                     Password = (byte[])dr["Password"];
-                }
+                    return false;
+                });
             }
         }
 	}

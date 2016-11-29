@@ -19,6 +19,7 @@ using System.Text;
 using System.Xml;
 using System.Globalization;
 using System.Web.Script.Serialization;
+using System.Threading.Tasks;
 
 namespace DisplayMonkey
 {
@@ -64,83 +65,74 @@ namespace DisplayMonkey
         
 		public Location(int displayId)
 		{
-			string sql = string.Format(
-				"exec dbo.sp_GetLocationDetails @displayId={0};",
-				displayId
-				);
-			using (DataSet ds = DataAccess.RunSql(sql))
-			{
-				if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
-				{
-					DataRow dr = ds.Tables[0].Rows[0];
-                    _initFromRow(dr);
-				}
-			}
-		}
+            using (SqlCommand cmd = new SqlCommand()
+            {
+                CommandType = CommandType.Text,
+                CommandText = "exec dbo.sp_GetLocationDetails @displayId",
+            })
+            {
+                cmd.Parameters.AddWithValue("@displayId", displayId);
+                cmd.ExecuteReaderExt((r) =>
+                {
+                    _initFromRow(r);
+                    return false;
+                });
+            }
+        }
 
-        private Location()
+        public static List<Location> List(int levelId = 0)
         {
-        }
+            List<Location> list = new List<Location>();
 
-        private void _initFromRow(DataRow r)
-		{
-            this.LocationId = r.IntOrZero("LocationId");
-            this.LevelId = r.IntOrZero("LevelId");
-            this.TemperatureUnit = r.StringOrDefault("TemperatureUnit", "C").ToLower();
-            this.DateFormat = r.StringOrDefault("DateFormat", "LL");
-            this.TimeFormat = r.StringOrDefault("TimeFormat", "LT");
-            this.Name = r.StringOrBlank("Name");
-            if (this.Name == "")
-                this.Name = string.Format("Location {0}", this.LocationId);
-
-            this.TimeZone = TimeZoneInfo.FindSystemTimeZoneById(
-                r.StringOrDefault("TimeZone", ServerGeoData.TimeZone.Id)
-                );
-
-            double? latitude = r["Latitude"] as Nullable<double>;
-            if (latitude != null)
-                this.Latitude = latitude.Value;
-            else
-                this.Latitude = ServerGeoData.Latitude;
-
-            double? longitude = r["Longitude"] as Nullable<double>;
-            if (longitude != null)
-                this.Longitude = longitude.Value;
-            else
-                this.Longitude = ServerGeoData.Longitude;
-
-            int? woeid = r["Woeid"] as Nullable<int>;
-            this.Woeid = woeid ?? 0;
-
-            this.Culture = r.StringOrBlank("Culture");
-        }
-
-		public static List<Location> List(int levelId = 0)
-		{
-			List<Location> list = new List<Location>();
-			string sql = string.Format(
-				"select l.*, v.Name Name2 from Location l inner join Level v on v.LevelId=l.LevelId " +
-                "WHERE {0}=0 or l.LevelId={0} order by v.Name, l.Name;",
-				levelId
-				);
-			using (DataSet ds = DataAccess.RunSql(sql))
-			{
-				list.Capacity = ds.Tables[0].Rows.Count;
-
-				// list level locations
-				foreach (DataRow r in ds.Tables[0].Rows)
-				{
-					Location loc = new Location();
-					loc._initFromRow(r);
+            using (SqlCommand cmd = new SqlCommand()
+            {
+                CommandType = CommandType.Text,
+                CommandText =
+                    "select l.*, v.Name Name2 from Location l inner join Level v on v.LevelId=l.LevelId " +
+                    "where @levelId=0 or l.LevelId=@levelId order by v.Name, l.Name;",
+            })
+            {
+                cmd.Parameters.AddWithValue("@levelId", levelId);
+                cmd.ExecuteReaderExt((r) =>
+                {
+                    Location loc = new Location();
+                    loc._initFromRow(r);
                     string name2 = r.StringOrBlank("Name2").Trim();
                     loc.Name = string.Format("{0} : {1}",
                         name2 == "" ? string.Format("Level {0}", loc.LevelId) : name2,
                         loc.Name
                         );
                     list.Add(loc);
-				}
-			}
-			return list;
-		}
+                    return true;
+                });
+            }
+
+            return list;
+        }
+
+        private Location()
+        {
+        }
+
+        private void _initFromRow(SqlDataReader r)
+		{
+            LocationId = r.IntOrZero("LocationId");
+            LevelId = r.IntOrZero("LevelId");
+            TemperatureUnit = r.StringOrDefault("TemperatureUnit", "C").ToLower();
+            DateFormat = r.StringOrDefault("DateFormat", "LL");
+            TimeFormat = r.StringOrDefault("TimeFormat", "LT");
+            Latitude = r.ValueOrDefault<double>("Latitude", ServerGeoData.Latitude);
+            Longitude = r.ValueOrDefault<double>("Longitude", ServerGeoData.Longitude);
+            Woeid = r.IntOrZero("Woeid");
+            Culture = r.StringOrBlank("Culture");
+
+            Name = r.StringOrBlank("Name");
+            if (Name == "")
+                Name = string.Format("Location {0}", LocationId);
+
+            TimeZone = TimeZoneInfo.FindSystemTimeZoneById(
+                r.StringOrDefault("TimeZone", ServerGeoData.TimeZone.Id)
+                );
+        }
     }
 }
