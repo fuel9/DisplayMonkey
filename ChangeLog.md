@@ -13,6 +13,12 @@
 
 ### Change log
 
+v1.3.1 (December 08, 2016)
+
+- Fixed minor database issue related to canvas/display foreign key
+- Fixed dashboard error for blank DM database
+- Fixed integer-type application settings
+
 v1.3.0 (October 21, 2016)
 
 - Power BI frame: new feature
