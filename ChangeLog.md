@@ -31,5 +31,5 @@ v1.1.0 (June 21, 2016)
 
 Changes to SQL database are [found here](https://github.com/fuel9/DisplayMonkey/blob/master/SQL/Version). 
 
-Check the [ReadMe](https://github.com/fuel9/DisplayMonkey/blob/master/ReadMe.md) document for more details.
+Check the [ReadMe](https://github.com/fuel9/DisplayMonkey/blob/master/README.md) document for more details.
 
