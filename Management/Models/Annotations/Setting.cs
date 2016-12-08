@@ -90,7 +90,7 @@ namespace DisplayMonkey.Models
             {
                 byte[] v = new byte[8];
                 if (this.RawValue != null)
-                    Array.Copy(this.RawValue.Reverse().ToArray(), v, 8);
+                    Array.Copy(this.RawValue.Reverse().ToArray(), v, Math.Min(8, this.RawValue.Length));
                 return BitConverter.ToDouble(v, 0);
             }
             set
