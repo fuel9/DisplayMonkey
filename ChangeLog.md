@@ -13,6 +13,12 @@
 
 ### Change log
 
+v1.3.1 (December 08, 2016)
+
+- Fixed minor database issue related to canvas/display foreign key
+- Fixed dashboard error for blank DM database
+- Fixed integer-type application settings
+
 v1.3.0 (October 21, 2016)
 
 - Power BI frame: new feature
@@ -31,5 +37,5 @@ v1.1.0 (June 21, 2016)
 
 Changes to SQL database are [found here](https://github.com/fuel9/DisplayMonkey/blob/master/SQL/Version). 
 
-Check the [ReadMe](https://github.com/fuel9/DisplayMonkey/blob/master/ReadMe.md) document for more details.
+Check the [ReadMe](https://github.com/fuel9/DisplayMonkey/blob/master/README.md) document for more details.
 
