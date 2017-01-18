@@ -33,6 +33,7 @@ namespace DisplayMonkey
             int panelId = request.IntOrZero("panel");
             int displayId = request.IntOrZero("display");
             string culture = request.StringOrBlank("culture");
+            int trace = request.IntOrZero("trace");
 
 			string json = "";
 				
@@ -62,20 +63,34 @@ namespace DisplayMonkey
             catch (Exception ex)
 			{
                 JavaScriptSerializer s = new JavaScriptSerializer();
-                json = s.Serialize(new
-                {
-                    Error = ex.Message,
-                    //Stack = ex.StackTrace,
-                    Data = new
+                if (trace == 0)
+                    json = s.Serialize(new
                     {
-                        FrameId = frameId,
-                        PanelId = panelId,
-                        DisplayId = displayId,
-                        Culture = culture,
-                        Details = ex.GetType() == typeof(AzureTokenException) ? (ex as AzureTokenException).Details : null,
-                    },
-                });
-			}
+                        Error = ex.Message,
+                        Data = new
+                        {
+                            FrameId = frameId,
+                            PanelId = panelId,
+                            DisplayId = displayId,
+                            Culture = culture,
+                            Details = ex.GetType() == typeof(AzureTokenException) ? (ex as AzureTokenException).Details : null,
+                        },
+                    });
+                else
+                    json = s.Serialize(new
+                    {
+                        Error = ex.Message,
+                        Stack = ex.StackTrace,
+                        Data = new
+                        {
+                            FrameId = frameId,
+                            PanelId = panelId,
+                            DisplayId = displayId,
+                            Culture = culture,
+                            Details = ex.GetType() == typeof(AzureTokenException) ? (ex as AzureTokenException).Details : null,
+                        },
+                    });
+            }
 
             response.Clear();
             response.Cache.SetCacheability(HttpCacheability.NoCache);

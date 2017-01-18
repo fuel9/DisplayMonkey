@@ -32,12 +32,14 @@ namespace DisplayMonkey
 	{
         public override async Task ProcessRequestAsync(HttpContext context)
 		{
-			HttpRequest Request = context.Request;
-			HttpResponse Response = context.Response;
+			HttpRequest request = context.Request;
+			HttpResponse response = context.Response;
 
-            int frameId = Request.IntOrZero("frame");
-            int woeid = Request.IntOrZero("woeid");
-            string tempUnit = Request.StringOrBlank("tempU");
+            int frameId = request.IntOrZero("frame");
+            int woeid = request.IntOrZero("woeid");
+            string tempUnit = request.StringOrBlank("tempU");
+            int trace = request.IntOrZero("trace");
+
             string json = "";
 
             try
@@ -66,25 +68,36 @@ namespace DisplayMonkey
             catch (Exception ex)
             {
                 JavaScriptSerializer s = new JavaScriptSerializer();
-                json = s.Serialize(new
-                {
-                    Error = ex.Message,
-                    //Stack = ex.StackTrace,
-                    Data = new
+                if (trace == 0)
+                    json = s.Serialize(new
                     {
-                        WoeId = woeid,
-                        TemperatureUnit = tempUnit,
-                    },
-                });
+                        Error = ex.Message,
+                        Data = new
+                        {
+                            WoeId = woeid,
+                            TemperatureUnit = tempUnit,
+                        },
+                    });
+                else
+                    json = s.Serialize(new
+                    {
+                        Error = ex.Message,
+                        Stack = ex.StackTrace,
+                        Data = new
+                        {
+                            WoeId = woeid,
+                            TemperatureUnit = tempUnit,
+                        },
+                    });
             }
 
-            Response.Clear();
-            Response.Cache.SetCacheability(HttpCacheability.NoCache);
-            Response.Cache.SetSlidingExpiration(true);
-            Response.Cache.SetNoStore();
-            Response.ContentType = "application/json";
-            Response.Write(json);
-            Response.Flush();
+            response.Clear();
+            response.Cache.SetCacheability(HttpCacheability.NoCache);
+            response.Cache.SetSlidingExpiration(true);
+            response.Cache.SetNoStore();
+            response.ContentType = "application/json";
+            response.Write(json);
+            response.Flush();
 		}
 
         private async Task<Dictionary<string, object>> GetYahooWeatherAsync(string temperatureUnit, int woeid)

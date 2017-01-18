@@ -26,14 +26,15 @@ namespace DisplayMonkey
 	{
 		public override async Task ProcessRequestAsync(HttpContext context)
 		{
-			HttpRequest Request = context.Request;
-			HttpResponse Response = context.Response;
+			HttpRequest request = context.Request;
+			HttpResponse response = context.Response;
 
 			byte[] data = null;
 			string mediaName = "";
 
-            int frameId = Request.IntOrZero("frame");
-            int contentId = Request.IntOrZero("content");
+            int frameId = request.IntOrZero("frame");
+            int contentId = request.IntOrZero("content");
+            int trace = request.IntOrZero("trace");
             
             try
 			{
@@ -59,7 +60,10 @@ namespace DisplayMonkey
 
 			catch (Exception ex)
 			{
-				throw new HttpException(500, ex.Message);
+                if (trace == 0)
+                    throw new HttpException(500, ex.Message);
+                else
+                    throw new HttpException(500, ex.ToString());
 			}
 
 
@@ -91,16 +95,16 @@ namespace DisplayMonkey
 					mimeType = "application/octet-stream";
 				}
 
-				Response.ContentType = mimeType;
-				Response.AddHeader("Content-Disposition", string.Format(
+				response.ContentType = mimeType;
+				response.AddHeader("Content-Disposition", string.Format(
 					"attachment; filename=\"{0}\"",
 					mediaName
 					));
-				Response.AddHeader("Content-Length", data.Length.ToString());
+				response.AddHeader("Content-Length", data.Length.ToString());
 			}
 
-			Response.BinaryWrite(data);
-            Response.Flush();
+			response.BinaryWrite(data);
+            response.Flush();
 		}
 	}
 }

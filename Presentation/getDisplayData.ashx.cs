@@ -21,10 +21,11 @@ namespace DisplayMonkey
     {
 		public override async Task ProcessRequestAsync(HttpContext context)
 		{
-			HttpRequest Request = context.Request;
-			HttpResponse Response = context.Response;
+			HttpRequest request = context.Request;
+			HttpResponse response = context.Response;
 
-            int displayId = Request.IntOrZero("display");
+            int displayId = request.IntOrZero("display");
+            int trace = request.IntOrZero("trace");
 
 			string json = "";
 				
@@ -38,23 +39,34 @@ namespace DisplayMonkey
             catch (Exception ex)
             {
                 JavaScriptSerializer s = new JavaScriptSerializer();
-                json = s.Serialize(new
-                {
-                    Error = ex.Message,
-                    Data = new
+                if (trace == 0)
+                    json = s.Serialize(new
                     {
-                        DisplayId = displayId,
-                    },
-                });
+                        Error = ex.Message,
+                        Data = new
+                        {
+                            DisplayId = displayId,
+                        },
+                    });
+                else
+                    json = s.Serialize(new
+                    {
+                        Error = ex.Message,
+                        Stack = ex.StackTrace,
+                        Data = new
+                        {
+                            DisplayId = displayId,
+                        },
+                    });
             }
 
-            Response.Clear();
-            Response.Cache.SetCacheability(HttpCacheability.NoCache);
-            Response.Cache.SetSlidingExpiration(true);
-            Response.Cache.SetNoStore();
-            Response.ContentType = "application/json";
-            Response.Write(json);
-            Response.Flush();
+            response.Clear();
+            response.Cache.SetCacheability(HttpCacheability.NoCache);
+            response.Cache.SetSlidingExpiration(true);
+            response.Cache.SetNoStore();
+            response.ContentType = "application/json";
+            response.Write(json);
+            response.Flush();
         }
     }
 }
