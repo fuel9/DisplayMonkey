@@ -13,6 +13,11 @@
 
 ### Change log
 
+v1.3.2 (January 17, 2017)
+
+- Added tracing parameters to HTTP handlers
+- Auto-populate URL when creating EWS account
+
 v1.3.1 (December 08, 2016)
 
 - Fixed minor database issue related to canvas/display foreign key

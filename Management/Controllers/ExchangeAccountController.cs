@@ -100,7 +100,7 @@ namespace DisplayMonkey.Controllers
             return false;
         }
 
-        private void resolveAccount(ExchangeAccount account)
+        private Uri resolveAccount(ExchangeAccount account)
         {
             ServicePointManager.ServerCertificateValidationCallback = CertificateValidationCallBack;
 
@@ -134,6 +134,8 @@ namespace DisplayMonkey.Controllers
             {
                 ModelState.AddModelError("Account", Resources.CouldNotBeResolved);
             }
+
+            return service.Url;
         }
 
         #endregion
@@ -171,7 +173,7 @@ namespace DisplayMonkey.Controllers
             Match lnk = _emailRgx.Match(ews.Account);
             ews.Account = lnk.Success ? lnk.Value : "";
 
-            resolveAccount(ews);
+            ews.Url = resolveAccount(ews).OriginalString;   // only at creation
 
             if (ModelState.IsValid)
             {
