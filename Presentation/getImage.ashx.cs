@@ -30,16 +30,20 @@ namespace DisplayMonkey
 	{
 		public override async Task ProcessRequestAsync(HttpContext context)
 		{
-			HttpRequest Request = context.Request;
-			HttpResponse Response = context.Response;
+			HttpRequest request = context.Request;
+			HttpResponse response = context.Response;
+
+            int contentId = request.IntOrZero("content");
+            int frameId = request.IntOrZero("frame");
+            int trace = request.IntOrZero("trace");
 
             try
             {
                 // set headers, prevent client caching, return PNG
-                Response.Clear();
-                Response.Cache.SetCacheability(HttpCacheability.NoCache);
-                Response.Cache.SetSlidingExpiration(true);
-                Response.Cache.SetNoStore();
+                response.Clear();
+                response.Cache.SetCacheability(HttpCacheability.NoCache);
+                response.Cache.SetSlidingExpiration(true);
+                response.Cache.SetNoStore();
 
                 //Response.Headers.Add("Pragma-directive", "no-cache");
                 //Response.Headers.Add("Cache-directive", "no-cache");
@@ -47,10 +51,7 @@ namespace DisplayMonkey
                 //Response.Headers.Add("Pragma", "no-cache");
                 //Response.Headers.Add("Expires", "0");
 
-                Response.ContentType = "image/png";
-
-                int contentId = Request.IntOrZero("content");
-                int frameId = Request.IntOrZero("frame");
+                response.ContentType = "image/png";
 
                 byte[] data = null;
 
@@ -105,7 +106,7 @@ namespace DisplayMonkey
 
                 if (data != null)
                 {
-                    await Response.OutputStream.WriteAsync(data, 0, data.Length);
+                    await response.OutputStream.WriteAsync(data, 0, data.Length);
                 }
 
                 else
@@ -113,17 +114,20 @@ namespace DisplayMonkey
                     Content missingContent = await Content.GetMissingContentAsync();
                     using (MemoryStream ms = new MemoryStream(missingContent.Data))
                     {
-                        await Task.Run(() => Picture.WriteImage(ms, Response.OutputStream, -1, -1, RenderModes.RenderMode_Crop));
+                        await Task.Run(() => Picture.WriteImage(ms, response.OutputStream, -1, -1, RenderModes.RenderMode_Crop));
                     }
                 }
 
-                await Response.OutputStream.FlushAsync();
+                await response.OutputStream.FlushAsync();
             }
 
             catch (Exception ex)
             {
                 Debug.Print(string.Format("getImage error: {0}", ex.Message));
-                Response.Write(ex.Message);
+                if (trace == 0)
+                    response.Write(ex.Message);
+                else
+                    response.Write(ex.ToString());
             }
 
             /*finally

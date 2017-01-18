@@ -33,6 +33,7 @@ namespace DisplayMonkey
             int displayId = request.IntOrZero("display");
             string culture = request.StringOrBlank("culture");
             int reserveMinutes = request.IntOrZero("reserveMinutes");
+            int trace = request.IntOrZero("trace");
 
 			string json = "";
 				
@@ -182,19 +183,32 @@ namespace DisplayMonkey
 			catch (Exception ex)
 			{
                 JavaScriptSerializer s = new JavaScriptSerializer();
-                json = s.Serialize(new
-                {
-                    Error = ex.Message,
-                    //Stack = ex.StackTrace,
-                    Data = new
+                if (trace == 0)
+                    json = s.Serialize(new
                     {
-                        FrameId = frameId,
-                        PanelId = panelId,
-                        DisplayId = displayId,
-                        Culture = culture
-                    },
-                });
-			}
+                        Error = ex.Message,
+                        Data = new
+                        {
+                            FrameId = frameId,
+                            PanelId = panelId,
+                            DisplayId = displayId,
+                            Culture = culture
+                        },
+                    });
+                else
+                    json = s.Serialize(new
+                    {
+                        Error = ex.Message,
+                        Stack = ex.StackTrace,
+                        Data = new
+                        {
+                            FrameId = frameId,
+                            PanelId = panelId,
+                            DisplayId = displayId,
+                            Culture = culture
+                        },
+                    });
+            }
 
             response.Clear();
             response.Cache.SetCacheability(HttpCacheability.NoCache);
@@ -472,16 +486,14 @@ namespace DisplayMonkey
             public int CompareTo(EventEntry rhs)
             {
                 int startsCheck = this.Starts.CompareTo(rhs.Starts);
-                if (startsCheck == 0)
-                {
-                    int createdCheck = this.CreatedOn.CompareTo(rhs.CreatedOn);
-                    if (createdCheck == 0)
-                        return this.Subject.CompareTo(rhs.Subject);
-                    else
-                        return createdCheck;
-                }
-                else
+                if (startsCheck != 0)
                     return startsCheck;
+
+                int createdCheck = this.CreatedOn.CompareTo(rhs.CreatedOn);
+                if (createdCheck != 0)
+                    return createdCheck;
+                
+                return this.Subject.CompareTo(rhs.Subject);
             }
         }
 

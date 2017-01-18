@@ -31,19 +31,20 @@ namespace DisplayMonkey
 	{
 		public override async Task ProcessRequestAsync(HttpContext context)
 		{
-			HttpRequest Request = context.Request;
-			HttpResponse Response = context.Response;
+			HttpRequest request = context.Request;
+			HttpResponse response = context.Response;
 
-			try
+            int frameId = request.IntOrZero("frame");
+            int trace = request.IntOrZero("trace");
+
+            try
 			{
                 // set headers, prevent client caching, return PNG
-                Response.Clear();
-                Response.Cache.SetCacheability(HttpCacheability.NoCache);
-                Response.Cache.SetSlidingExpiration(true);
-                Response.Cache.SetNoStore();
-                Response.ContentType = "image/png";
-
-                int frameId = Request.IntOrZero("frame");
+                response.Clear();
+                response.Cache.SetCacheability(HttpCacheability.NoCache);
+                response.Cache.SetSlidingExpiration(true);
+                response.Cache.SetNoStore();
+                response.ContentType = "image/png";
 
                 byte[] data = null;
                 int panelHeight = -1, panelWidth = -1;
@@ -98,7 +99,7 @@ namespace DisplayMonkey
 
                 if (data != null)
                 {
-                    await Response.OutputStream.WriteAsync(data, 0, data.Length);
+                    await response.OutputStream.WriteAsync(data, 0, data.Length);
                 }
 
                 else
@@ -106,17 +107,20 @@ namespace DisplayMonkey
                     Content missingContent = await Content.GetMissingContentAsync();
                     using (MemoryStream ms = new MemoryStream(missingContent.Data))
                     {
-                        await Task.Run(() => Picture.WriteImage(ms, Response.OutputStream, -1, -1, RenderModes.RenderMode_Crop));
+                        await Task.Run(() => Picture.WriteImage(ms, response.OutputStream, -1, -1, RenderModes.RenderMode_Crop));
                     }
                 }
 
-                await Response.OutputStream.FlushAsync();
+                await response.OutputStream.FlushAsync();
             }
 
 			catch (Exception ex)
 			{
                 Debug.Print(string.Format("getReport error: {0}", ex.Message));
-                Response.Write(ex.Message);
+                if (trace == 0)
+                    response.Write(ex.Message);
+                else
+                    response.Write(ex.ToString());
 			}
 
             /*finally

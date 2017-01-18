@@ -31,28 +31,32 @@ namespace DisplayMonkey
 	{
 		public override async Task ProcessRequestAsync(HttpContext context)
 		{
-			HttpRequest Request = context.Request;
-			HttpResponse Response = context.Response;
+			HttpRequest request = context.Request;
+			HttpResponse response = context.Response;
 
-			try
+            int frameId = request.IntOrZero("frame");
+            int trace = request.IntOrZero("trace");
+
+            try
 			{
-                int frameId = Request.IntOrZero("frame");
-
                 Html html = new Html(frameId);
 
-                Response.Clear();
-                Response.Cache.SetCacheability(HttpCacheability.NoCache);
-                Response.Cache.SetSlidingExpiration(true);
-                Response.Cache.SetNoStore();
-                Response.ContentType = "text/html";
-                await Response.Output.WriteAsync(html.Content);
-                await Response.Output.FlushAsync();
+                response.Clear();
+                response.Cache.SetCacheability(HttpCacheability.NoCache);
+                response.Cache.SetSlidingExpiration(true);
+                response.Cache.SetNoStore();
+                response.ContentType = "text/html";
+                await response.Output.WriteAsync(html.Content);
+                await response.Output.FlushAsync();
             }
 
 			catch (Exception ex)
 			{
-				Response.Write(ex.Message);
-			}
+                if (trace == 0)
+                    response.Write(ex.Message);
+                else
+                    response.Write(ex.ToString());
+            }
 		}
 	}
 }
