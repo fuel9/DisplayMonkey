@@ -16,6 +16,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using DisplayMonkey.Models;
+using DisplayMonkey.Language;
 
 namespace DisplayMonkey.Controllers
 {
@@ -50,6 +51,11 @@ namespace DisplayMonkey.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(ReportServer reportserver)
         {
+            if (!reportserver.PasswordSet)
+            {
+                ModelState.AddModelError("PasswordUnmasked", Resources.ProvideAccountPassword);
+            }
+
             if (ModelState.IsValid)
             {
                 db.ReportServers.Add(reportserver);
@@ -80,6 +86,11 @@ namespace DisplayMonkey.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(ReportServer reportserver)
         {
+            if (!reportserver.PasswordSet)
+            {
+                ModelState.AddModelError("PasswordUnmasked", Resources.ProvideAccountPassword);
+            }
+
             if (ModelState.IsValid)
             {
                 db.Entry(reportserver).State = EntityState.Modified;

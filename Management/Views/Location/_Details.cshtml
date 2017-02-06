@@ -70,6 +70,15 @@
     </div>
 
     <div class="divRow">
+        <div class="display-label">
+            <a href="https://en.wikipedia.org/wiki/WOEID" target="_blank">@Html.DisplayNameFor(model => model.Woeid)</a>
+        </div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.WoeidOrDefault)
+        </div>
+    </div>
+
+    <div class="divRow">
     <div class="display-label">
          @Html.DisplayNameFor(model => model.DateFormat)
     </div>

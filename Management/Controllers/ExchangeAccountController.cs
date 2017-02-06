@@ -23,6 +23,42 @@ using DisplayMonkey.Language;
 
 namespace DisplayMonkey.Controllers
 {
+    internal class TraceListener : ITraceListener
+    {
+        #region ITraceListener Members
+        public void Trace(string traceType, string traceMessage)
+        {
+            CreateXMLTextFile(traceType, traceMessage.ToString());
+        }
+        #endregion
+
+        private string _path = null;
+
+        public TraceListener(string path)
+        {
+            _path = path;
+            if (!_path.EndsWith("\\"))
+                _path += "\\";
+        }
+
+        private void CreateXMLTextFile(string fileName, string traceContent)
+        {
+            // Create a new XML file for the trace information.
+            try
+            {
+                // If the trace data is valid XML, create an XmlDocument object and save.
+                System.Xml.XmlDocument xmlDoc = new System.Xml.XmlDocument();
+                xmlDoc.Load(traceContent);
+                xmlDoc.Save(_path + "ews_trace.xml");
+            }
+            catch
+            {
+                // If the trace data is not valid XML, save it as a text document.
+                System.IO.File.WriteAllText(_path + "ews_trace.txt", traceContent);
+            }
+        }
+    }    
+    
     public class ExchangeAccountController : BaseController
     {
         private DisplayMonkeyEntities db = new DisplayMonkeyEntities();
@@ -100,20 +136,40 @@ namespace DisplayMonkey.Controllers
             return false;
         }
 
-        private Uri resolveAccount(ExchangeAccount account)
+        private string resolveAccount(ExchangeAccount account)
         {
-            ServicePointManager.ServerCertificateValidationCallback = CertificateValidationCallBack;
-
-            ExchangeService service = new ExchangeService((ExchangeVersion)account.EwsVersion)
+            if (!account.PasswordSet)
             {
-                Credentials = new WebCredentials(
-                    account.Account,
-                    RsaUtil.Decrypt(account.Password)
-                    ),
-            };
+                ModelState.AddModelError("PasswordUnmasked", Resources.ProvideAccountPassword);
+                return null;
+            }
+
+            ExchangeService service = null;
+            ServicePointManager.ServerCertificateValidationCallback = CertificateValidationCallBack;
 
             try
             {
+                // create service
+                service = new ExchangeService((ExchangeVersion)account.EwsVersion)
+                {
+                    Credentials = new WebCredentials(
+                        account.Account,
+                        RsaUtil.Decrypt(account.Password)
+                        ),
+                    CookieContainer = new CookieContainer(),
+                };
+
+                // activate trace
+                string tracePath = Setting.GetEwsTrackingPath(db);
+                if (!string.IsNullOrWhiteSpace(tracePath))
+                {
+                    service.TraceListener = new TraceListener(tracePath);
+                    service.TraceFlags = TraceFlags.All;
+                    service.TraceEnabled = true;
+                    service.TraceEnablePrettyPrinting = true;
+                }
+
+                // discover URL
                 if (!string.IsNullOrWhiteSpace(account.Url))
                 {
                     service.Url = new Uri(account.Url);
@@ -123,19 +179,21 @@ namespace DisplayMonkey.Controllers
                     service.AutodiscoverUrl(account.Account, RedirectionUrlValidationCallback);
                 }
 
+                // resolve name
                 var match = service.ResolveName(account.Account);
                 if (match.Count == 0)
                 {
-                    throw new Exception();
+                    throw new ApplicationException(Resources.CouldNotBeResolved);
                 }
             }
 
-            catch (Exception)
+            catch (Exception ex)
             {
-                ModelState.AddModelError("Account", Resources.CouldNotBeResolved);
+                System.Diagnostics.Debug.Print(ex.Message);
+                ModelState.AddModelError("Account", ex.Message);
             }
 
-            return service.Url;
+            return service == null || service.Url == null ? null : service.Url.OriginalString;
         }
 
         #endregion
@@ -173,7 +231,7 @@ namespace DisplayMonkey.Controllers
             Match lnk = _emailRgx.Match(ews.Account);
             ews.Account = lnk.Success ? lnk.Value : "";
 
-            ews.Url = resolveAccount(ews).OriginalString;   // only at creation
+            ews.Url = resolveAccount(ews);   // only at creation
 
             if (ModelState.IsValid)
             {
