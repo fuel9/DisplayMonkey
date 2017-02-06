@@ -2,7 +2,7 @@
 * DisplayMonkey source file
 * http://displaymonkey.org
 *
-* Copyright (c) 2015 Fuel9 LLC and contributors
+* Copyright (c) 2017 Fuel9 LLC and contributors
 *
 * Released under the MIT license:
 * http://opensource.org/licenses/MIT
@@ -3644,6 +3644,15 @@ namespace DisplayMonkey.Language {
         public static string Settings_DefaultTemplateYouTube {
             get {
                 return ResourceManager.GetString("Settings_DefaultTemplateYouTube", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to EWS tracing path.
+        /// </summary>
+        public static string Settings_EWSTracingPath {
+            get {
+                return ResourceManager.GetString("Settings_EWSTracingPath", resourceCulture);
             }
         }
         

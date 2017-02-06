@@ -314,7 +314,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Display_Canvas">
-          <End Role="Canvas" Type="Self.Canvas" Multiplicity="1" />
+          <End Role="Canvas" Type="Self.Canvas" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="Display" Type="Self.Display" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Canvas">

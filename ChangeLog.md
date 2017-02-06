@@ -13,6 +13,14 @@
 
 ### Change log
 
+v1.3.3 (February 6, 2017)
+
+- Added EWS tracing path to save diagnostics information during EWS account setup 
+- Added frame count to panel list under canvas detils page
+- Fixed WOEID lookup and added WOEID control to location edit page, issue #9
+- Added extra CSS styles to DMP error popup
+- Fixed temperature unit on location edit page, issue #10
+
 v1.3.2 (January 17, 2017)
 
 - Added tracing parameters to HTTP handlers

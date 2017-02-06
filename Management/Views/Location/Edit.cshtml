@@ -59,7 +59,7 @@
             @Html.LabelFor(model => model.TemperatureUnit)
         </div>
         <div class="editor-field select">
-            @Html.DropDownListFor(m => m.TemperatureUnit, ViewBag.TemperatureUnit as SelectList, Resources.FromArea)
+            @Html.DropDownListFor(m => m.TemperatureUnit, ViewBag.TempUnits as SelectList, Resources.FromArea)
             @Html.ValidationMessageFor(model => model.TemperatureUnit)
         </div>
 
@@ -93,6 +93,14 @@
         <div class="editor-field">
             @Html.EditorFor(model => model.Longitude)
             @Html.ValidationMessageFor(model => model.Longitude)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Woeid)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Woeid)
+            @Html.ValidationMessageFor(model => model.Woeid)
         </div>
 
         <p>

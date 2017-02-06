@@ -66,7 +66,6 @@ namespace DisplayMonkey.Controllers
             }
 
             FillLevelsSelectList();
-            FillTemperatureUnitSelectList();
             FillAreaSelectList(0);
 
             return View(list.ToList());
@@ -179,7 +178,8 @@ namespace DisplayMonkey.Controllers
             if (ModelState.IsValid)
             {
                 // compute Woeid & GMT offset
-                location.Woeid = GetDefaultWoeid(location.Latitude, location.Longitude);
+                if (!location.Woeid.HasValue)
+                    location.Woeid = GetDefaultWoeid(location.Latitude, location.Longitude);
                 if (location.TimeZone == null)
                     location.TimeZone = TimeZoneInfo.Local.Id; // GetDefaultTimeZone(location.Latitude, location.Longitude);
 
@@ -246,14 +246,14 @@ namespace DisplayMonkey.Controllers
 
         private void FillTemperatureUnitSelectList(object selected = null)
         {
-            ViewBag.TemperatureUnit = new SelectList(
+            ViewBag.TempUnits = new SelectList(
                 new []
                 {
-                    new {Unit = "C", Name = Resources.C},
-                    new {Unit = "F", Name = Resources.F},
+                    new SelectListItem() {Value = "C", Text = Resources.C},
+                    new SelectListItem() {Value = "F", Text = Resources.F},
                 },
-                "Unit", 
-                "Name", 
+                "Value", 
+                "Text", 
                 selected
             );
         }
@@ -270,37 +270,42 @@ namespace DisplayMonkey.Controllers
         private int? GetDefaultWoeid(double? latitude, double? longitude)
         {
             // translate LAT/LNG to WOEID
-            string url, xml = "";
-
             if ((latitude ?? 0) == 0 || (longitude ?? 0) == 0)
                 return null;
 
             // get GEO data
-            url = string.Format(System.Globalization.CultureInfo.InvariantCulture,
-                @"http://query.yahooapis.com/v1/public/yql?q=select+*+from+geo.placefinder+where+text%3D%22{0}%2C{1}%22+and+gflags%3D%22R%22",
+            // https://github.com/fuel9/DisplayMonkey/issues/9
+            string url = string.Format(System.Globalization.CultureInfo.InvariantCulture,
+                @"https://query.yahooapis.com/v1/public/yql?q=select+*+from+geo.places+where+text%3D%22({0}%2C{1})%22",
                 latitude.Value,
                 longitude.Value
                 );
 
             try
             {
+                string xml = "";
                 using (WebClient client = new WebClient())
                 {
                     xml = Encoding.ASCII.GetString(client.DownloadData(url));
+                }
+
+                XmlDocument doc = new XmlDocument();
+                using (System.IO.StringReader sreader = new System.IO.StringReader(xml))
+                using (XmlReader xmlreader = new XmlTextReader(sreader) { Namespaces = false })
+                {
+                    doc.Load(xmlreader);
+                }
+
+                XmlNode nWoeid = doc.SelectSingleNode("//woeid");
+                if (nWoeid != null)
+                {
+                    return Convert.ToInt32(nWoeid.InnerText);
                 }
             }
 
             catch (WebException ex)
             {
                 throw new Exception(Resources.GeoTranslationHasFailed, ex);
-            }
-
-            XmlDocument doc = new XmlDocument();
-            doc.LoadXml(xml);
-            XmlNode nWoeid = doc.SelectSingleNode("//woeid");
-            if (nWoeid != null)
-            {
-                return Convert.ToInt32(nWoeid.InnerText);
             }
 
             return null;

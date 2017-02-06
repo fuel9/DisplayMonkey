@@ -24,6 +24,7 @@
 // 2015-07-28 [LTL] - minor improvements
 // 2015-07-29 [LTL] - RC13: performance and memory management improvements
 // 2015-09-03 [LTL] - RC15: added canvas recycleTime handling
+// 2017-02-06 [LTL] - #11: added error CSS
 
 var $j = {};
 if (typeof jQuery === 'object') {
@@ -53,10 +54,10 @@ DM.ErrorReport = Class.create({
         var div = /*$('error') ||*/ new Element('div', { id: 'error' });
         div.update(div.innerHTML.concat(
             "<table>",
-            "<tr><td>Error:</td><td>#{Error}</td></tr>",
-            "<tr><td>Where:</td><td>#{Where}</td></tr>",
-            "<tr><td>When:</td><td>#{When}</td></tr>",
-            _canvas.errorInfo ? "<tr><td>Info:</td><td>#{Data}</td></tr>" : "",
+            "<tr><td class='errorMsg'>Error:</td><td>#{Error}</td></tr>",
+            "<tr><td class='errorWhere'>Where:</td><td>#{Where}</td></tr>",
+            "<tr><td class='errorWhen'>When:</td><td>#{When}</td></tr>",
+            _canvas.errorInfo ? "<tr><td class='errorInfo'>Info:</td><td>#{Data}</td></tr>" : "",
             "</table>"
             ).interpolate(this.info)
         );

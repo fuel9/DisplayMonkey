@@ -66,17 +66,23 @@
 	#error {
 		position:absolute;
 		padding:20px;
-    text-align:left;
-    font-size:1em;
-    font-family:'Lucida Console';
+        text-align:left;
+        font-size:1em;
+        font-family:'Lucida Console';
 		background-color:red;
-    color:white;
+        color:white;
 		top:10px;
 		left:10px;
 		width:auto;
 		height:auto;
 		z-index:100000;
 	}
+
+        #error td.errorWhen, 
+        #error td.errorWhere, 
+        #error td.errorInfo {
+            font-size: 0.6em;
+        }
 
 	#screen {
 		position:absolute;
@@ -88,7 +94,7 @@
 		height:100px;
 		z-index:10000;
 		/*display:none;*/
-    overflow: hidden;
+        overflow: hidden;
 	}
 
 	#full, #x_full {

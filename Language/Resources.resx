@@ -1598,4 +1598,7 @@
   <data name="Settings_DefaultTemplatePowerbi" xml:space="preserve">
     <value>Default template for new Power BI frames</value>
   </data>
+  <data name="Settings_EWSTracingPath" xml:space="preserve">
+    <value>EWS tracing path</value>
+  </data>
 </root>

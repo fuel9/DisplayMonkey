@@ -48,7 +48,6 @@ namespace DisplayMonkey
 
                 if (weather.FrameId != 0)
                 {
-                    // get RSS feed
                     Dictionary<string, object> map = await HttpRuntime.Cache.GetOrAddAbsoluteAsync(
                         string.Format("weather_{0}_{1}_{2}_{3}", weather.FrameId, weather.Version, tempUnit, woeid),
                         async (expire) => 
@@ -57,8 +56,11 @@ namespace DisplayMonkey
                             return await GetYahooWeatherAsync(tempUnit, woeid); 
                         });
 
-                    JavaScriptSerializer oSerializer = new JavaScriptSerializer();
-                    json = oSerializer.Serialize(map);
+                    if (map != null)
+                    {
+                        JavaScriptSerializer oSerializer = new JavaScriptSerializer();
+                        json = oSerializer.Serialize(map);
+                    }
                 }
 
                 else
@@ -102,116 +104,124 @@ namespace DisplayMonkey
 
         private async Task<Dictionary<string, object>> GetYahooWeatherAsync(string temperatureUnit, int woeid)
         {
-            // get repsonse from yahoo
-            string response = "", url = string.Format(
-                @"http://query.yahooapis.com/v1/public/yql?q=select+*+from+weather.forecast+where+woeid%3D{1}+and+u%3D%22{0}%22",
-                temperatureUnit,
-                woeid
+            string url = string.Format(
+                @"https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%3D{0}%20and%20u%3D'{1}'",
+                woeid,
+                temperatureUnit
                 );
+
+            string response = "";
             using (WebClient client = new WebClient())
             {
                 response = Encoding.ASCII.GetString(await client.DownloadDataTaskAsync(url));
             }
 
-            Dictionary<string, object> map = new Dictionary<string, object>();
-            XmlDocument xml = new XmlDocument();
-            xml.LoadXml(response);
-            XmlElement channel = xml.SelectSingleNode(@"//channel[1]") as XmlElement;
-            if (channel != null)
+            XmlDocument doc = new XmlDocument();
+            using (System.IO.StringReader sreader = new System.IO.StringReader(response))
+            using (XmlReader xmlreader = new XmlTextReader(sreader) /*{ Namespaces = false }*/)
             {
-                XmlElement e = null;
+                doc.Load(xmlreader);
+            }
 
-                // wind
-                e = channel.SelectSingleNode(@"*[local-name()='wind']") as XmlElement;
+            XmlElement channel = doc.SelectSingleNode(@"//channel[1]") as XmlElement;
+            if (channel == null)
+            {
+                return null;
+            }
+
+            Dictionary<string, object> map = new Dictionary<string, object>();
+            XmlElement e = null;
+
+            // wind
+            e = channel.SelectSingleNode(@"*[local-name()='wind']") as XmlElement;
+            if (e != null)
+            {
+                Dictionary<string, object> o = new Dictionary<string, object>();
+                o.Add("chill", e.GetAttribute("chill"));
+                o.Add("direction", e.GetAttribute("direction"));
+                o.Add("speed", e.GetAttribute("speed"));
+                map.Add(e.LocalName, o);
+            }
+
+            // location
+            e = channel.SelectSingleNode(@"*[local-name()='location']") as XmlElement;
+            if (e != null)
+            {
+                Dictionary<string, object> o = new Dictionary<string, object>();
+                o.Add("city", e.GetAttribute("city"));
+                o.Add("region", e.GetAttribute("region"));
+                o.Add("country", e.GetAttribute("country"));
+                map.Add(e.LocalName, o);
+            }
+
+            // units
+            e = channel.SelectSingleNode(@"*[local-name()='units']") as XmlElement;
+            if (e != null)
+            {
+                Dictionary<string, object> o = new Dictionary<string, object>();
+                o.Add("temperature", e.GetAttribute("temperature"));
+                o.Add("distance", e.GetAttribute("distance"));
+                o.Add("pressure", e.GetAttribute("pressure"));
+                o.Add("speed", e.GetAttribute("speed"));
+                map.Add(e.LocalName, o);
+            }
+
+            // atmosphere
+            e = channel.SelectSingleNode(@"*[local-name()='atmosphere']") as XmlElement;
+            if (e != null)
+            {
+                Dictionary<string, object> o = new Dictionary<string, object>();
+                o.Add("humidity", e.GetAttribute("humidity"));
+                o.Add("visibility", e.GetAttribute("visibility"));
+                o.Add("pressure", e.GetAttribute("pressure"));
+                o.Add("rising", e.GetAttribute("rising"));
+                map.Add(e.LocalName, o);
+            }
+
+            // astronomy
+            e = channel.SelectSingleNode(@"*[local-name()='astronomy']") as XmlElement;
+            if (e != null)
+            {
+                Dictionary<string, object> o = new Dictionary<string, object>();
+                o.Add("sunrise", e.GetAttribute("sunrise"));
+                o.Add("sunset", e.GetAttribute("sunset"));
+                map.Add(e.LocalName, o);
+            }
+
+            // item
+            XmlElement item = channel.SelectSingleNode(@"item[1]") as XmlElement;
+            if (item != null)
+            {
+                // condition
+                e = item.SelectSingleNode(@"*[local-name()='condition']") as XmlElement;
                 if (e != null)
                 {
                     Dictionary<string, object> o = new Dictionary<string, object>();
-                    o.Add("chill", e.GetAttribute("chill"));
-                    o.Add("direction", e.GetAttribute("direction"));
-                    o.Add("speed", e.GetAttribute("speed"));
+                    o.Add("text", e.GetAttribute("text"));
+                    o.Add("code", e.GetAttribute("code"));
+                    o.Add("temp", e.GetAttribute("temp"));
+                    o.Add("date", e.GetAttribute("date"));
                     map.Add(e.LocalName, o);
                 }
 
-                // location
-                e = channel.SelectSingleNode(@"*[local-name()='location']") as XmlElement;
-                if (e != null)
+                // forecast
+                XmlNodeList forecastList = item.SelectNodes(@"*[local-name()='forecast']");
+                if (forecastList.Count > 0)
                 {
-                    Dictionary<string, object> o = new Dictionary<string, object>();
-                    o.Add("city", e.GetAttribute("city"));
-                    o.Add("region", e.GetAttribute("region"));
-                    o.Add("country", e.GetAttribute("country"));
-                    map.Add(e.LocalName, o);
-                }
-
-                // units
-                e = channel.SelectSingleNode(@"*[local-name()='units']") as XmlElement;
-                if (e != null)
-                {
-                    Dictionary<string, object> o = new Dictionary<string, object>();
-                    o.Add("temperature", e.GetAttribute("temperature"));
-                    o.Add("distance", e.GetAttribute("distance"));
-                    o.Add("pressure", e.GetAttribute("pressure"));
-                    o.Add("speed", e.GetAttribute("speed"));
-                    map.Add(e.LocalName, o);
-                }
-
-                // atmosphere
-                e = channel.SelectSingleNode(@"*[local-name()='atmosphere']") as XmlElement;
-                if (e != null)
-                {
-                    Dictionary<string, object> o = new Dictionary<string, object>();
-                    o.Add("humidity", e.GetAttribute("humidity"));
-                    o.Add("visibility", e.GetAttribute("visibility"));
-                    o.Add("pressure", e.GetAttribute("pressure"));
-                    o.Add("rising", e.GetAttribute("rising"));
-                    map.Add(e.LocalName, o);
-                }
-
-                // astronomy
-                e = channel.SelectSingleNode(@"*[local-name()='astronomy']") as XmlElement;
-                if (e != null)
-                {
-                    Dictionary<string, object> o = new Dictionary<string, object>();
-                    o.Add("sunrise", e.GetAttribute("sunrise"));
-                    o.Add("sunset", e.GetAttribute("sunset"));
-                    map.Add(e.LocalName, o);
-                }
-
-                // item
-                XmlElement item = channel.SelectSingleNode(@"item[1]") as XmlElement;
-                if (item != null)
-                {
-                    // condition
-                    e = item.SelectSingleNode(@"*[local-name()='condition']") as XmlElement;
-                    if (e != null)
+                    List<object> fmap = new List<object>(forecastList.Count);
+                    foreach (XmlNode n in forecastList)
                     {
                         Dictionary<string, object> o = new Dictionary<string, object>();
-                        o.Add("text", e.GetAttribute("text"));
-                        o.Add("code", e.GetAttribute("code"));
-                        o.Add("temp", e.GetAttribute("temp"));
-                        o.Add("date", e.GetAttribute("date"));
-                        map.Add(e.LocalName, o);
+                        XmlElement f = n as XmlElement;
+                        o.Add("day", f.GetAttribute("day"));
+                        o.Add("date", f.GetAttribute("date"));
+                        o.Add("low", f.GetAttribute("low"));
+                        o.Add("high", f.GetAttribute("high"));
+                        o.Add("text", f.GetAttribute("text"));
+                        o.Add("code", f.GetAttribute("code"));
+                        fmap.Add(o);
                     }
-
-                    // forecast
-                    XmlNodeList forecastList = item.SelectNodes(@"*[local-name()='forecast']");
-                    if (forecastList.Count > 0)
-                    {
-                        List<object> fmap = new List<object>(forecastList.Count);
-                        foreach (XmlNode n in forecastList)
-                        {
-                            Dictionary<string, object> o = new Dictionary<string, object>();
-                            XmlElement f = n as XmlElement;
-                            o.Add("day", f.GetAttribute("day"));
-                            o.Add("date", f.GetAttribute("date"));
-                            o.Add("low", f.GetAttribute("low"));
-                            o.Add("high", f.GetAttribute("high"));
-                            o.Add("text", f.GetAttribute("text"));
-                            o.Add("code", f.GetAttribute("code"));
-                            fmap.Add(o);
-                        }
-                        map.Add("forecast", fmap);
-                    }
+                    map.Add("forecast", fmap);
                 }
             }
 

@@ -161,6 +161,7 @@ namespace DisplayMonkey.Models
             MaxImageSize = 0,                       // max allowed size of uploaded image, Bytes
             MaxVideoSize,                           // max allowed size of uploaded video, Bytes
             PresentationSite,                       // URL root of the nearest DMP site when navigating to displays from DMM
+            EWSTracingPath,                         // EWS tracing path 1.3.2
 
             DefaultDisplayReadyEventTimeout,        // timeout interval to wait till a frame reports itself "ready" so as to smoothly continue presentation, sec, RC10
             DefaultDisplayPollInterval,             // display poll interval for hash sum check and panel idle length, sec, RC13
@@ -226,6 +227,11 @@ namespace DisplayMonkey.Models
             _keyRes.Add(
                 _keyGuids[(int)Keys.PresentationSite] = new Guid("417D856B-7EC4-4CBD-A5EA-47BFC0F7B1F9"),
                 "Settings_PresentationSite"
+                );
+
+            _keyRes.Add(
+                _keyGuids[(int)Keys.EWSTracingPath] = new Guid("9E31F16D-6974-4083-B2A9-CC25DECF7B16"),
+                "Settings_EWSTracingPath"
                 );
 
             // ---- Display defaults
@@ -402,6 +408,17 @@ namespace DisplayMonkey.Models
             }
 
             return ret;
+        }
+
+        public static string GetEwsTrackingPath(DisplayMonkeyEntities _db)
+        {
+            Setting s = Setting.GetSetting(_db, Keys.EWSTracingPath);
+            if (s != null)
+            {
+                return s.StringValue;
+            }
+
+            return null;
         }
 
         #endregion
