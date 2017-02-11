@@ -17,10 +17,10 @@
           <Property Name="TenantId" Type="varchar" MaxLength="100" />
           <Property Name="User" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="Password" Type="varbinary" MaxLength="400" />
-          <Property Name="AccessToken" Type="varchar" MaxLength="2000" />
+          <Property Name="AccessToken" Type="varchar" MaxLength="8000" />
           <Property Name="ExpiresOn" Type="datetime" />
-          <Property Name="RefreshToken" Type="varchar" MaxLength="1000" />
-          <Property Name="IdToken" Type="varchar" MaxLength="1000" />
+          <Property Name="RefreshToken" Type="varchar" MaxLength="8000" />
+          <Property Name="IdToken" Type="varchar" MaxLength="8000" />
         </EntityType>
         <EntityType Name="Canvas">
           <Key>
@@ -1330,10 +1330,10 @@
           <Property Name="TenantId" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="User" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="Password" Type="Binary" MaxLength="400" FixedLength="false" />
-          <Property Name="AccessToken" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="AccessToken" Type="String" MaxLength="8000" FixedLength="false" Unicode="false" />
           <Property Name="ExpiresOn" Type="DateTime" Precision="3" />
-          <Property Name="RefreshToken" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
-          <Property Name="IdToken" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="RefreshToken" Type="String" MaxLength="8000" FixedLength="false" Unicode="false" />
+          <Property Name="IdToken" Type="String" MaxLength="8000" FixedLength="false" Unicode="false" />
           <Property Name="Resource" Type="DisplayMonkey.Model.AzureResources" Nullable="false" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Powerbis" Relationship="DisplayMonkey.Model.FK_Powerbi_AzureAccount" FromRole="AzureAccount" ToRole="Powerbi" />
