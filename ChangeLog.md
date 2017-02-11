@@ -13,6 +13,10 @@
 
 ### Change log
 
+v1.3.4 (February 9, 2017)
+
+- Addressed the token size for Azure accounts, issue #8
+
 v1.3.3 (February 6, 2017)
 
 - Added EWS tracing path to save diagnostics information during EWS account setup 
