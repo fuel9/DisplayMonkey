@@ -149,6 +149,64 @@ namespace DisplayMonkey.Controllers
             return this.RestoreReferrer(true) ?? RedirectToAction("Index", "Frame");
         }
 
+        #region Workspace helper
+
+        //
+        // POST: /Powerbi/groups/5
+        [HttpPost, ActionName("Groups")]
+        public async Task<JsonResult> GroupsAsync(int accountId)
+        {
+            try
+            {
+                var x = new List<SelectListItem>();
+
+                AzureAccount acc = await AzureAccountRefreshTokenAsync(accountId);
+                if (acc != null)
+                {
+                    WebRequest request = WebRequest.Create(String.Format("{0}/{1}/groups", _baseUrl, acc.TenantId ?? "myorg")) as System.Net.HttpWebRequest;
+                    request.Method = "GET";
+                    request.ContentLength = 0;
+                    request.Headers.Add("Authorization", String.Format("Bearer {0}", acc.AccessToken));
+
+                    using (var response = await request.GetResponseAsync() as HttpWebResponse)
+                    using (var reader = new StreamReader(response.GetResponseStream()))
+                    {
+                        string responseContent = await reader.ReadToEndAsync();
+                        PBIGroups groups = new JavaScriptSerializer().Deserialize<PBIGroups>(responseContent);
+                        foreach (PBIGroup i in groups.value.OrderBy(j => j.name))
+                        {
+                            x.Add(new SelectListItem()
+                            {
+                                Value = i.id,
+                                Text = i.name,
+                            });
+                        }
+                    }
+                }
+
+                return Json(new { success = true, data = x.ToList() }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, data = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        private class PBIGroups
+        {
+            public PBIGroup[] value { get; set; }
+        }
+        private class PBIGroup
+        {
+            public string id { get; set; }
+
+            public string name { get; set; }
+
+            public bool isReadOnly { get; set; }
+        }
+
+        #endregion  // Workspace helper
+
         #region Reports helper
 
         //
