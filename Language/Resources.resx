@@ -1601,4 +1601,13 @@
   <data name="Settings_EWSTracingPath" xml:space="preserve">
     <value>EWS tracing path</value>
   </data>
+  <data name="Settings_EncryptionIV" xml:space="preserve">
+    <value>Encryption initialization vector</value>
+  </data>
+  <data name="Settings_EncryptionKey" xml:space="preserve">
+    <value>Encryption key</value>
+  </data>
+  <data name="Settings_EncryptionMode" xml:space="preserve">
+    <value>Encryption mode</value>
+  </data>
 </root>

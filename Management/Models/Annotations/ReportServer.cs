@@ -54,6 +54,8 @@ namespace DisplayMonkey.Models
             public virtual ICollection<Report> Reports { get; set; }
         }
 
+        #region Password fields
+
         [
             Display(ResourceType = typeof(Resources), Name = "Password"),
             DataType(DataType.Password),
@@ -63,22 +65,13 @@ namespace DisplayMonkey.Models
         {
             get
             {
-                //if (this.Password == null)
-                //    return null;
-                //else
-                //    return RsaUtil.Decrypt(this.Password);
                 return Constants.PasswordMask;
             }
 
             set
             {
-                PasswordSet = true;
-                if (value == null)
-                    this.Password = null;
-                else if (value != Constants.PasswordMask)
-                    this.Password = RsaUtil.Encrypt(value);
-                else
-                    PasswordSet = false;
+                _passwordUnmasked = value;
+                PasswordSet = (_passwordUnmasked != Constants.PasswordMask);
             }
         }
 
@@ -86,5 +79,17 @@ namespace DisplayMonkey.Models
             NotMapped,
         ]
         public bool PasswordSet { get; private set; }
+
+        public void UpdatePassword(DisplayMonkeyEntities _db)
+        {
+            if (PasswordSet)
+            {
+                this.Password = Setting.GetEncryptor(_db).Encrypt(_passwordUnmasked);
+            }
+        }
+
+        private string _passwordUnmasked;
+
+        #endregion
     }
 }

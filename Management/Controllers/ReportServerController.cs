@@ -56,6 +56,8 @@ namespace DisplayMonkey.Controllers
                 ModelState.AddModelError("PasswordUnmasked", Resources.ProvideAccountPassword);
             }
 
+            reportserver.UpdatePassword(db);
+
             if (ModelState.IsValid)
             {
                 db.ReportServers.Add(reportserver);
@@ -90,6 +92,8 @@ namespace DisplayMonkey.Controllers
             {
                 ModelState.AddModelError("PasswordUnmasked", Resources.ProvideAccountPassword);
             }
+
+            reportserver.UpdatePassword(db);
 
             if (ModelState.IsValid)
             {

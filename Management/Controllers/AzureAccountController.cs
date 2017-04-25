@@ -41,13 +41,15 @@ namespace DisplayMonkey.Controllers
 
                 if (!az.PasswordSet)
                     throw new ApplicationException(Resources.ProvideAccountPassword);
-                
+
+                az.UpdatePassword(db);
+
                 TokenInfo ti = await Token.GetGrantTypePasswordAsync(
                     az.Resource, 
                     az.ClientId, 
                     az.ClientSecret, 
                     az.User,
-                    RsaUtil.Decrypt(az.Password), 
+                    Setting.GetEncryptor(db).Decrypt(az.Password), 
                     az.TenantId
                     );
 

@@ -264,6 +264,10 @@ namespace DisplayMonkey
                         ),
                 };
 
+                // https://msdn.microsoft.com/en-us/library/office/dn458789%28v=exchg.150%29.aspx?f=255&MSPPError=-2147217396#bk_howmaintained
+                // https://social.msdn.microsoft.com/Forums/lync/en-US/bd032e3d-2501-40ba-a2b0-29a404685c35/error-exchange-web-services-are-not-currently-available?forum=exchangesvrdevelopment
+                service.HttpHeaders.Add("X-AnchorMailbox", outlook.Account);
+
                 // EWS: get URL
                 if (!string.IsNullOrWhiteSpace(outlook.URL))
                 {

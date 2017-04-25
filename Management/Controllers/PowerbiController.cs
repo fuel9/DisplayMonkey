@@ -336,7 +336,7 @@ namespace DisplayMonkey.Controllers
                     az.ClientId,
                     az.ClientSecret,
                     az.User,
-                    RsaUtil.Decrypt(az.Password),
+                    Setting.GetEncryptor(db).Decrypt(az.Password),
                     az.TenantId
                     );
 

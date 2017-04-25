@@ -29,8 +29,11 @@ namespace DisplayMonkey.Controllers
         {
             this.SaveReferrer();
 
+            Setting.Initialize(db);
+            
             var list = db.Settings
                 .ToList()
+                .Where(s => !s.Hidden)          // 1.4.0
                 .OrderBy(s => s.ResourceId)     // <-- must be behind .ToList() call
                 ;
 

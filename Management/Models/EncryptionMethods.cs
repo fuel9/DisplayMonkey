@@ -11,13 +11,9 @@ namespace DisplayMonkey.Models
 {
     using System;
     
-    public enum OutlookEwsVersions : int
+    public enum EncryptionMethods : int
     {
-        OutlookEwsVersion_Exchange2007_SP1 = 0,
-        OutlookEwsVersion_Exchange2010 = 1,
-        OutlookEwsVersion_Exchange2010_SP1 = 2,
-        OutlookEwsVersion_Exchange2010_SP2 = 3,
-        OutlookEwsVersion_Exchange2013 = 4,
-        OutlookEwsVersion_Exchange2013_SP1 = 5
+        RsaContainer = 0,
+        Aes = 1
     }
 }
