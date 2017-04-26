@@ -1610,4 +1610,7 @@
   <data name="Settings_EncryptionMode" xml:space="preserve">
     <value>Encryption mode</value>
   </data>
+  <data name="Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
 </root>

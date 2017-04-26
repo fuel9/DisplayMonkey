@@ -58,7 +58,8 @@ namespace DisplayMonkey
                         clientId = reader.StringOrBlank("ClientId");
                         clientSecret = reader.StringOrBlank("ClientSecret");
                         user = reader.StringOrBlank("User");
-                        password = RsaUtil.Decrypt(reader.BytesOrNull("Password"));
+                        //password = RsaUtil.Decrypt(reader.BytesOrNull("Password"));
+                        password = Encryptor.Current.Decrypt(reader.BytesOrNull("Password"));
                         tenantId = reader.StringOrDefault("TenantId", null);
                         return false;
                     });

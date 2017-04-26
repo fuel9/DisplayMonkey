@@ -26,6 +26,8 @@ namespace DisplayMonkey.Models
             public byte[] RawValue { get; set; }
         }
 
+        #region Public members
+
         [
             Display(ResourceType = typeof(Resources), Name = "Setting"),
             NotMapped,
@@ -34,7 +36,22 @@ namespace DisplayMonkey.Models
         {
             get
             {
-                return Resources.ResourceManager.GetString(ResourceId) ?? this.Key.ToString();
+                return Resources.ResourceManager.GetString(_keyRes[this.Key].ResourceId) ?? this.Key.ToString();
+            }
+        }
+
+        [
+            Display(ResourceType = typeof(Resources), Name = "Description"),
+            NotMapped,
+        ]
+        public string Description
+        {
+            get
+            {
+                string res = _keyRes[this.Key].ResourceId_Descr;
+                if (res == null)
+                    return "";
+                return Resources.ResourceManager.GetString(res) ?? "";
             }
         }
 
@@ -66,14 +83,17 @@ namespace DisplayMonkey.Models
             }
         }
 
+        #endregion
+
         #region -----  Value Management  -----
 
         [
             Display(ResourceType = typeof(Resources), Name = "Value"),
-            Required(ErrorMessageResourceType = typeof(Resources),
-                ErrorMessageResourceName = "IntegerRequired"),
+            //Required(ErrorMessageResourceType = typeof(Resources),
+            //    ErrorMessageResourceName = "IntegerRequired"),
             DisplayFormat(ApplyFormatInEditMode = false,
                 DataFormatString = "{0:N0}"),
+            NotMapped,
         ]
         public int IntValue
         {
@@ -83,26 +103,28 @@ namespace DisplayMonkey.Models
 
         [
             Display(ResourceType = typeof(Resources), Name = "Value"),
-            Required(ErrorMessageResourceType = typeof(Resources),
-                ErrorMessageResourceName = "PositiveIntegerRequired"),
-            Range(0, Int32.MaxValue,
-                ErrorMessageResourceType = typeof(Resources),
-                ErrorMessageResourceName = "PositiveIntegerRequired"),
+            //Required(ErrorMessageResourceType = typeof(Resources),
+            //    ErrorMessageResourceName = "PositiveIntegerRequired"),
+            //(0, Int32.MaxValue,
+            //    ErrorMessageResourceType = typeof(Resources),
+            //    ErrorMessageResourceName = "PositiveIntegerRequired"),
             DisplayFormat(ApplyFormatInEditMode = false,
                 DataFormatString = "{0:N0}"),
+            NotMapped,
         ]
         public int IntValuePositive
         {
             get { return this.IntValue; }
-            set { this.IntValue = value; }
+            set { this.IntValue = value < 0 ? 0 : value; }
         }
 
         [
             Display(ResourceType = typeof(Resources), Name = "Value"),
-            Required(ErrorMessageResourceType = typeof(Resources),
-                ErrorMessageResourceName = "DecimalRequired"),
+            //Required(ErrorMessageResourceType = typeof(Resources),
+            //    ErrorMessageResourceName = "DecimalRequired"),
             DisplayFormat(ApplyFormatInEditMode = false,
                 DataFormatString = "{0:F}"),
+            NotMapped,
         ]
         public double DecimalValue
         {
@@ -121,23 +143,25 @@ namespace DisplayMonkey.Models
 
         [
             Display(ResourceType = typeof(Resources), Name = "Value"),
-            Required(ErrorMessageResourceType = typeof(Resources),
-                ErrorMessageResourceName = "PositiveDecimalRequired"),
-            Range(0, Double.MaxValue,
-                ErrorMessageResourceType = typeof(Resources),
-                ErrorMessageResourceName = "PositiveDecimalRequired"),
+            //Required(ErrorMessageResourceType = typeof(Resources),
+            //    ErrorMessageResourceName = "PositiveDecimalRequired"),
+            //Range(0, Double.MaxValue,
+            //    ErrorMessageResourceType = typeof(Resources),
+            //    ErrorMessageResourceName = "PositiveDecimalRequired"),
             DisplayFormat(ApplyFormatInEditMode = false,
                 DataFormatString = "{0:F}"),
+            NotMapped,
         ]
         public double DecimalValuePositive
         {
             get { return this.DecimalValue; }
-            set { this.DecimalValue = value; }
+            set { this.DecimalValue = value < 0.0 ? 0.0 : value ; }
         }
 
         [
             Display(ResourceType = typeof(Resources), Name = "Value"),
             StringLength(255, ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "MaxLengthExceeded"),
+            NotMapped,
         ]
         public string StringValue
         {
@@ -225,15 +249,18 @@ namespace DisplayMonkey.Models
 
             if (setting == null)
             {
-                setting = new Setting() { Key = key };
+                setting = new Setting() 
+                { 
+                    Key = key,
+                    AnyValue = _value,
+                };
                 _db.Settings.Add(setting);
             }
             else
             {
+                setting.AnyValue = _value;
                 _db.Entry(setting).State = System.Data.Entity.EntityState.Modified;
             }
-
-            setting.AnyValue = _value;
 
             _db.SaveChanges();
         }
@@ -349,7 +376,16 @@ namespace DisplayMonkey.Models
 
         #endregion
 
-        #region -----  Key Identification  -----
+        #region -----  Properties  -----
+
+        private class SettingProperties // 1.4.0
+        {
+            public SettingTypes Type { get; set; }
+            public bool Hidden { get; set; }
+            public string ResourceId { get; set; }
+            public string ResourceId_Descr { get; set; }
+            public object DefaultValue { get; set; }
+        }
 
         public enum Keys : int
         {
@@ -403,14 +439,6 @@ namespace DisplayMonkey.Models
 
         private static Guid[] _keyGuids = new Guid[(int)Keys.Count];
         private static Dictionary<Guid, SettingProperties> _keyRes = new Dictionary<Guid, SettingProperties>((int)Keys.Count);
-
-        private class SettingProperties // 1.4.0
-        {
-            public SettingTypes Type { get; set; }
-            public bool Hidden { get; set; }
-            public string ResourceId { get; set; }
-            public object DefaultValue { get; set; }
-        }
 
         static Setting()
         {
@@ -691,17 +719,26 @@ namespace DisplayMonkey.Models
 
         public static void Initialize(DisplayMonkeyEntities _db)
         {
-            var savedKeys = _db.Settings
+            // refresh settings context
+            ((System.Data.Entity.Infrastructure.IObjectContextAdapter)_db)
+                .ObjectContext
+                .Refresh(System.Data.Entity.Core.Objects.RefreshMode.StoreWins, _db.Settings)
+                ;
+
+            var inDb = _db.Settings
                 .Select(s => s.Key)
                 .ToList()
                 ;
-            
+
             foreach (var k in _keyRes)
             {
-                if (savedKeys.FirstOrDefault(s => s == k.Key) == null)
+                if (!inDb.Exists(s => s == k.Key))
                 {
-                    Setting setting = new Setting() { Key = k.Key };
-                    setting.AnyValue = (k.Value as SettingProperties).DefaultValue;
+                    Setting setting = new Setting()
+                    { 
+                        Key = k.Key,
+                        AnyValue = (k.Value as SettingProperties).DefaultValue,
+                    };
                     _db.Settings.Add(setting);
                     _db.SaveChanges();
                 }

@@ -78,7 +78,8 @@ namespace DisplayMonkey
                             {
                                 client.Credentials = new NetworkCredential(
                                     report.User.Trim(),
-                                    RsaUtil.Decrypt(report.Password),
+                                    //RsaUtil.Decrypt(report.Password),
+                                    Encryptor.Current.Decrypt(report.Password),
                                     report.Domain.Trim()
                                     );
                             }

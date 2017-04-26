@@ -104,7 +104,12 @@ namespace DisplayMonkey
     {
         #region Private Members
 
-        private SymmetricAlgorithm _sa = new RijndaelManaged();
+        private SymmetricAlgorithm _sa = new AesManaged() 
+        { 
+            Padding = PaddingMode.PKCS7, 
+            //BlockSize = 128, 
+            //KeySize = 256 
+        };
 
         #endregion
 
@@ -127,8 +132,9 @@ namespace DisplayMonkey
 
             set
             {
-                _sa.Key = new byte[value.Length];
-                value.CopyTo(_sa.Key, 0);
+                byte[] x = new byte[value.Length];
+                value.CopyTo(x, 0);
+                _sa.Key = x;
             }
         }
 
@@ -149,8 +155,9 @@ namespace DisplayMonkey
 
             set
             {
-                _sa.IV = new byte[value.Length];
-                value.CopyTo(_sa.IV, 0);
+                byte[] x = new byte[value.Length];
+                value.CopyTo(x, 0);
+                _sa.IV = x;
             }
         }
 
@@ -166,14 +173,12 @@ namespace DisplayMonkey
             ICryptoTransform encryptor = _sa.CreateEncryptor(Key, IV);
 
             using (MemoryStream msEncrypt = new MemoryStream())
+            using (CryptoStream csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
+            using (StreamWriter swEncrypt = new StreamWriter(csEncrypt))
             {
-                using (CryptoStream csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
-                using (StreamWriter swEncrypt = new StreamWriter(csEncrypt))
-                {
-                    swEncrypt.Write(_value);
-                    swEncrypt.Flush();
-                }
-
+                swEncrypt.Write(_value);
+                swEncrypt.Flush();
+                csEncrypt.FlushFinalBlock();
                 ret = msEncrypt.ToArray();
             }
 

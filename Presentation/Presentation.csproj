@@ -279,6 +279,9 @@
     <Compile Include="..\Management\Models\ContentTypes.cs">
       <Link>ContentTypes.cs</Link>
     </Compile>
+    <Compile Include="..\Management\Models\EncryptionMethods.cs">
+      <Link>EncryptionMethods.cs</Link>
+    </Compile>
     <Compile Include="..\Management\Models\OutlookPrivacy.cs">
       <Link>OutlookPrivacy.cs</Link>
     </Compile>
@@ -295,6 +298,7 @@
     <Compile Include="Canvas.cs" />
     <Compile Include="Clock.cs" />
     <Compile Include="Content.cs" />
+    <Compile Include="Encryptor.cs" />
     <Compile Include="getDisplayData.ashx.cs">
       <DependentUpon>getDisplayData.ashx</DependentUpon>
     </Compile>

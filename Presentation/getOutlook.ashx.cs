@@ -260,7 +260,8 @@ namespace DisplayMonkey
                 {
                     Credentials = new WebCredentials(
                         outlook.Account,
-                        RsaUtil.Decrypt(outlook.Password)
+                        //RsaUtil.Decrypt(outlook.Password)
+                        Encryptor.Current.Decrypt(outlook.Password) // 1.4.0
                         ),
                 };
 
