@@ -33,8 +33,11 @@ namespace DisplayMonkey.Controllers
             
             var list = db.Settings
                 .ToList()
-                .Where(s => !s.Hidden)          // 1.4.0
-                .OrderBy(s => s.ResourceId)     // <-- must be behind .ToList() call
+
+                .Where(s => !s.Hidden)                 // 1.4.0
+                .OrderBy(s => s.GroupOrder)            // 1.4.0
+                .ThenBy(s => s.GroupResourceId)        // 1.4.0
+                .ThenBy(s => s.ResourceId)
                 ;
 
             return View(list);

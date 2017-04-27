@@ -25,6 +25,8 @@ namespace DisplayMonkey
             new Guid("8CA22FD4-2A2B-47D1-87A3-2B3E277E9DED"),   // IV
             new Guid("538D9121-5698-42D5-BA32-CD4548A100B3"),   // Key
         };
+
+        private static string _sql = "SELECT TOP 1 * FROM Settings WHERE [Key]=@k;";
         
         public static IEncryptor Current 
         {
@@ -35,13 +37,13 @@ namespace DisplayMonkey
                 using (SqlCommand cmd = new SqlCommand()
                 {
                     CommandType = CommandType.Text,
-                    CommandText = "SELECT TOP 1 * FROM Settings WHERE [Key]=@k;",
+                    CommandText = _sql,
                 })
                 {
-                    cmd.Parameters.Add("@k", SqlDbType.UniqueIdentifier);
-
                     EncryptionMethods method = EncryptionMethods.RsaContainer;
-                    cmd.Parameters[0].Value = _keys[0];
+
+                    // get method first
+                    cmd.Parameters.AddWithValue("@k", _keys[0]);
                     cmd.ExecuteReaderExt((dr) =>
                     {
                         byte [] v = dr.BytesOrNull("Value");
@@ -57,7 +59,7 @@ namespace DisplayMonkey
 
                         case EncryptionMethods.Aes:
                             encryptor = new AesEncryptor();
-                            
+
                             // IV
                             cmd.Parameters[0].Value = _keys[1];
                             cmd.ExecuteReaderExt((dr) =>

@@ -56,6 +56,21 @@ namespace DisplayMonkey.Models
         }
 
         [
+            Display(ResourceType = typeof(Resources), Name = "Group"),
+            NotMapped,
+        ]
+        public string Group
+        {
+            get
+            {
+                string res = _keyRes[this.Key].ResourceId_Group;
+                if (res == null)
+                    return "";
+                return Resources.ResourceManager.GetString(res) ?? "";
+            }
+        }
+
+        [
             Display(ResourceType = typeof(Resources), Name = "Type"),
             NotMapped,
         ]
@@ -70,6 +85,37 @@ namespace DisplayMonkey.Models
         public string ResourceId
         {
             get { return _keyRes[this.Key].ResourceId; }
+        }
+
+        [
+            NotMapped,
+        ]
+        public string GroupResourceId
+        {
+            get { return _keyRes[this.Key].ResourceId_Group; }
+        }
+
+        [
+            NotMapped,
+        ]
+        public int GroupOrder
+        {
+            get 
+            { 
+                switch (_keyRes[this.Key].ResourceId_Group)
+                {
+                    case "Settings_Group_General":
+                        return 0;
+                    case "Settings_Group_DisplayDefaults":
+                        return 1;
+                    case "Settings_Group_PanelDefaults":
+                        return 2;
+                    case "Settings_Group_FrameDefaults":
+                        return 3;
+                }
+
+                return 100;
+            }
         }
 
         [
@@ -380,11 +426,12 @@ namespace DisplayMonkey.Models
 
         private class SettingProperties // 1.4.0
         {
-            public SettingTypes Type { get; set; }
-            public bool Hidden { get; set; }
             public string ResourceId { get; set; }
-            public string ResourceId_Descr { get; set; }
-            public object DefaultValue { get; set; }
+            public string ResourceId_Descr { get; set; }    // 1.4.0
+            public string ResourceId_Group { get; set; }    // 1.4.0
+            public SettingTypes Type { get; set; }          // 1.4.0
+            public object DefaultValue { get; set; }        // 1.4.0
+            public bool Hidden { get; set; }                // 1.4.0
         }
 
         public enum Keys : int
@@ -456,6 +503,7 @@ namespace DisplayMonkey.Models
                     ResourceId = "Settings_MaxImageSize",
                     Type = SettingTypes.SettingType_IntPositive,
                     DefaultValue = 0,
+                    ResourceId_Group = "Settings_Group_General",
                 });
 
             _keyRes.Add(
@@ -465,6 +513,7 @@ namespace DisplayMonkey.Models
                     ResourceId = "Settings_MaxVideoSize",
                     Type = SettingTypes.SettingType_IntPositive,
                     DefaultValue = 0,
+                    ResourceId_Group = "Settings_Group_General",
                 });
 
             _keyRes.Add(
@@ -474,6 +523,8 @@ namespace DisplayMonkey.Models
                     ResourceId = "Settings_PresentationSite",
                     Type = SettingTypes.SettingType_String,
                     DefaultValue = null,
+                    ResourceId_Group = "Settings_Group_General",
+                    ResourceId_Descr = "Settings_PresentationSite_Descr",
                 });
 
             _keyRes.Add(
@@ -483,6 +534,8 @@ namespace DisplayMonkey.Models
                     ResourceId = "Settings_EWSTracingPath",
                     Type = SettingTypes.SettingType_String,
                     DefaultValue = null,
+                    ResourceId_Group = "Settings_Group_Advanced",
+                    ResourceId_Descr = "Settings_EWSTracingPath_Descr",
                 });
 
             #endregion
@@ -496,6 +549,8 @@ namespace DisplayMonkey.Models
                     ResourceId = "Settings_EncryptionMode",
                     Type = SettingTypes.SettingType_IntPositive,
                     DefaultValue = 0,
+                    ResourceId_Descr = "Settings_EncryptionMode_Descr",
+                    ResourceId_Group = "Settings_Group_Advanced",
                 });
 
             _keyRes.Add(
@@ -529,6 +584,8 @@ namespace DisplayMonkey.Models
                     ResourceId = "Settings_DefaultDisplayReadyEventTimeout",
                     Type = SettingTypes.SettingType_IntPositive,
                     DefaultValue = 10,
+                    ResourceId_Group = "Settings_Group_DisplayDefaults",
+                    ResourceId_Descr = "Settings_DefaultDisplayReadyEventTimeout_Descr",
                 });
 
             _keyRes.Add(
@@ -538,6 +595,8 @@ namespace DisplayMonkey.Models
                     ResourceId = "Settings_DefaultDisplayPollInterval",
                     Type = SettingTypes.SettingType_IntPositive,
                     DefaultValue = 60,
+                    ResourceId_Group = "Settings_Group_DisplayDefaults",
+                    ResourceId_Descr = "Settings_DefaultDisplayPollInterval_Descr",
                 });
 
             _keyRes.Add(
@@ -547,6 +606,8 @@ namespace DisplayMonkey.Models
                     ResourceId = "Settings_DefaultDisplayErrorLength",
                     Type = SettingTypes.SettingType_IntPositive,
                     DefaultValue = 60,
+                    ResourceId_Group = "Settings_Group_DisplayDefaults",
+                    ResourceId_Descr = "Settings_DefaultDisplayErrorLength_Descr",
                 });
 
             #endregion
@@ -560,6 +621,8 @@ namespace DisplayMonkey.Models
                     ResourceId = "Settings_DefaultPanelFadeLength",
                     Type = SettingTypes.SettingType_DecimalPositive,
                     DefaultValue = 0.25,
+                    ResourceId_Group = "Settings_Group_PanelDefaults",
+                    ResourceId_Descr = "Settings_DefaultPanelFadeLength_Descr",
                 });
 
             _keyRes.Add(
@@ -569,6 +632,8 @@ namespace DisplayMonkey.Models
                     ResourceId = "Settings_DefaultFullPanelFadeLength",
                     Type = SettingTypes.SettingType_DecimalPositive,
                     DefaultValue = 1,
+                    ResourceId_Group = "Settings_Group_PanelDefaults",
+                    ResourceId_Descr = "Settings_DefaultPanelFadeLength_Descr",
                 });
 
             #endregion
@@ -582,6 +647,8 @@ namespace DisplayMonkey.Models
                     ResourceId = "Settings_DefaultTemplateClock",
                     Type = SettingTypes.SettingType_String,
                     DefaultValue = "default",
+                    ResourceId_Group = "Settings_Group_FrameDefaults",
+                    ResourceId_Descr = "Settings_DefaultTemplate_Descr",
                 });
 
             _keyRes.Add(
@@ -591,6 +658,8 @@ namespace DisplayMonkey.Models
                     ResourceId = "Settings_DefaultTemplateHtml",
                     Type = SettingTypes.SettingType_String,
                     DefaultValue = "default",
+                    ResourceId_Group = "Settings_Group_FrameDefaults",
+                    ResourceId_Descr = "Settings_DefaultTemplate_Descr",
                 });
 
             _keyRes.Add(
@@ -600,6 +669,8 @@ namespace DisplayMonkey.Models
                     ResourceId = "Settings_DefaultTemplateMemo",
                     Type = SettingTypes.SettingType_String,
                     DefaultValue = "default",
+                    ResourceId_Group = "Settings_Group_FrameDefaults",
+                    ResourceId_Descr = "Settings_DefaultTemplate_Descr",
                 });
 
             _keyRes.Add(
@@ -609,6 +680,8 @@ namespace DisplayMonkey.Models
                     ResourceId = "Settings_DefaultTemplateOutlook",
                     Type = SettingTypes.SettingType_String,
                     DefaultValue = "default",
+                    ResourceId_Group = "Settings_Group_FrameDefaults",
+                    ResourceId_Descr = "Settings_DefaultTemplate_Descr",
                 });
 
             _keyRes.Add(
@@ -618,6 +691,8 @@ namespace DisplayMonkey.Models
                     ResourceId = "Settings_DefaultTemplatePicture",
                     Type = SettingTypes.SettingType_String,
                     DefaultValue = "default",
+                    ResourceId_Group = "Settings_Group_FrameDefaults",
+                    ResourceId_Descr = "Settings_DefaultTemplate_Descr",
                 });
 
             _keyRes.Add(
@@ -627,6 +702,8 @@ namespace DisplayMonkey.Models
                     ResourceId = "Settings_DefaultTemplatePowerbi",
                     Type = SettingTypes.SettingType_String,
                     DefaultValue = "default",
+                    ResourceId_Group = "Settings_Group_FrameDefaults",
+                    ResourceId_Descr = "Settings_DefaultTemplate_Descr",
                 });
 
             _keyRes.Add(
@@ -636,6 +713,8 @@ namespace DisplayMonkey.Models
                     ResourceId = "Settings_DefaultTemplateReport",
                     Type = SettingTypes.SettingType_String,
                     DefaultValue = "default",
+                    ResourceId_Group = "Settings_Group_FrameDefaults",
+                    ResourceId_Descr = "Settings_DefaultTemplate_Descr",
                 });
 
             _keyRes.Add(
@@ -645,6 +724,8 @@ namespace DisplayMonkey.Models
                     ResourceId = "Settings_DefaultTemplateVideo",
                     Type = SettingTypes.SettingType_String,
                     DefaultValue = "default",
+                    ResourceId_Group = "Settings_Group_FrameDefaults",
+                    ResourceId_Descr = "Settings_DefaultTemplate_Descr",
                 });
 
             _keyRes.Add(
@@ -654,6 +735,8 @@ namespace DisplayMonkey.Models
                     ResourceId = "Settings_DefaultTemplateWeather",
                     Type = SettingTypes.SettingType_String,
                     DefaultValue = "default",
+                    ResourceId_Group = "Settings_Group_FrameDefaults",
+                    ResourceId_Descr = "Settings_DefaultTemplate_Descr",
                 });
 
             _keyRes.Add(
@@ -663,6 +746,8 @@ namespace DisplayMonkey.Models
                     ResourceId = "Settings_DefaultTemplateYouTube",
                     Type = SettingTypes.SettingType_String,
                     DefaultValue = "default",
+                    ResourceId_Group = "Settings_Group_FrameDefaults",
+                    ResourceId_Descr = "Settings_DefaultTemplate_Descr",
                 });
 
             #endregion
@@ -676,6 +761,8 @@ namespace DisplayMonkey.Models
                     ResourceId = "Settings_DefaultCacheIntervalOutlook",
                     Type = SettingTypes.SettingType_IntPositive,
                     DefaultValue = 0,
+                    ResourceId_Group = "Settings_Group_FrameDefaults",
+                    ResourceId_Descr = "Settings_DefaultCacheInterval_Descr",
                 });
 
             _keyRes.Add(
@@ -685,6 +772,8 @@ namespace DisplayMonkey.Models
                     ResourceId = "Settings_DefaultCacheIntervalPicture",
                     Type = SettingTypes.SettingType_IntPositive,
                     DefaultValue = 0,
+                    ResourceId_Group = "Settings_Group_FrameDefaults",
+                    ResourceId_Descr = "Settings_DefaultCacheInterval_Descr",
                 });
 
             _keyRes.Add(
@@ -694,6 +783,8 @@ namespace DisplayMonkey.Models
                     ResourceId = "Settings_DefaultCacheIntervalReport",
                     Type = SettingTypes.SettingType_IntPositive,
                     DefaultValue = 0,
+                    ResourceId_Group = "Settings_Group_FrameDefaults",
+                    ResourceId_Descr = "Settings_DefaultCacheInterval_Descr",
                 });
 
             _keyRes.Add(
@@ -703,6 +794,8 @@ namespace DisplayMonkey.Models
                     ResourceId = "Settings_DefaultCacheIntervalVideo",
                     Type = SettingTypes.SettingType_IntPositive,
                     DefaultValue = 0,
+                    ResourceId_Group = "Settings_Group_FrameDefaults",
+                    ResourceId_Descr = "Settings_DefaultCacheInterval_Descr",
                 });
 
             _keyRes.Add(
@@ -712,6 +805,8 @@ namespace DisplayMonkey.Models
                     ResourceId = "Settings_DefaultCacheIntervalWeather",
                     Type = SettingTypes.SettingType_IntPositive,
                     DefaultValue = 0,
+                    ResourceId_Group = "Settings_Group_FrameDefaults",
+                    ResourceId_Descr = "Settings_DefaultCacheInterval_Descr",
                 });
 
             #endregion

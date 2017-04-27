@@ -203,8 +203,8 @@ namespace DisplayMonkey
         #endregion
     }
 
-    // obsolete
-    public static class RsaUtil
+    // obsolete 1.4.0
+    /*public static class RsaUtil
     {
         #region Private Members
 
@@ -277,5 +277,5 @@ namespace DisplayMonkey
         }
 
         #endregion
-    }
+    }*/
 }
