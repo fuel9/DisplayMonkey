@@ -24,6 +24,8 @@ namespace DisplayMonkey.Controllers
 
         public ActionResult Index()
         {
+            
+            
             DateTime sevenDaysAgo = DateTime.Now.AddDays(-7);
 
             ViewBag.Count_Frames = db.Frames.Count();

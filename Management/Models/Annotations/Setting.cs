@@ -264,11 +264,11 @@ namespace DisplayMonkey.Models
                         break;
 
                     case SettingTypes.SettingType_Decimal:
-                        this.DecimalValue = (double)(value ?? 0);
+                        this.DecimalValue = (double)(value ?? 0.0);
                         break;
 
                     case SettingTypes.SettingType_DecimalPositive:
-                        this.DecimalValuePositive = (double)(value ?? 0);
+                        this.DecimalValuePositive = (double)(value ?? 0.0);
                         break;
 
                     case SettingTypes.SettingType_Binary:
@@ -631,7 +631,7 @@ namespace DisplayMonkey.Models
                 {
                     ResourceId = "Settings_DefaultFullPanelFadeLength",
                     Type = SettingTypes.SettingType_DecimalPositive,
-                    DefaultValue = 1,
+                    DefaultValue = 1.0,
                     ResourceId_Group = "Settings_Group_PanelDefaults",
                     ResourceId_Descr = "Settings_DefaultPanelFadeLength_Descr",
                 });
