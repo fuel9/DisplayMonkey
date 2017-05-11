@@ -254,6 +254,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DMModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\EncryptionMethods.cs">
+      <DependentUpon>DMModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ExchangeAccount.cs">
       <DependentUpon>DMModel.tt</DependentUpon>
     </Compile>

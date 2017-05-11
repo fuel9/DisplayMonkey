@@ -20,11 +20,10 @@
 namespace DisplayMonkey.Models
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class Setting
+    public enum EncryptionMethods : int
     {
-        public System.Guid Key { get; set; }
-        public byte[] RawValue { get; set; }
+        RsaContainer = 0,
+        Aes = 1
     }
 }

@@ -27,6 +27,7 @@ namespace DisplayMonkey.Models
         SettingType_String = 1,
         SettingType_DecimalPositive = 2,
         SettingType_Int = 3,
-        SettingType_Decimal = 4
+        SettingType_Decimal = 4,
+        SettingType_Binary = 5
     }
 }

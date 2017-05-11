@@ -13,6 +13,11 @@
 
 ### Change log
 
+v1.4.0 (April 30, 2017)
+
+- Added AES encryption mode
+- Improved application settings UI by adding extended descriptions and grouping
+
 v1.3.4 (February 9, 2017)
 
 - Addressed the token size for Azure accounts, issue #8

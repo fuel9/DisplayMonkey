@@ -24,6 +24,8 @@ namespace DisplayMonkey.Controllers
 
         public ActionResult Index()
         {
+            
+            
             DateTime sevenDaysAgo = DateTime.Now.AddDays(-7);
 
             ViewBag.Count_Frames = db.Frames.Count();
@@ -84,16 +86,16 @@ namespace DisplayMonkey.Controllers
                 {
                     Name =
                         f is Clock ? DisplayMonkey.Language.Resources.Clock :
-                        f is Html ? (f as Html).Name :
-                        f is Memo != null ? (f as Memo).Subject :
+                        f is Html ? ((f as Html).Name ?? DisplayMonkey.Language.Resources.Html) :
+                        f is Memo ? ((f as Memo).Subject ?? DisplayMonkey.Language.Resources.Memo) :
                         //f is News ? DisplayMonkey.Language.Resources.News :
-                        f is Outlook ? (f as Outlook).Name :
-                        f is Picture ? (f as Picture).Content.Name :
-                        f is Powerbi ? (f as Powerbi).Name :
-                        f is Report ? (f as Report).Name :
-                        f is Video ? (f as Video).Contents.FirstOrDefault().Name :
+                        f is Outlook ? ((f as Outlook).Name ?? DisplayMonkey.Language.Resources.Outlook) :
+                        f is Picture ? ((f as Picture).Content.Name ?? DisplayMonkey.Language.Resources.Picture) :
+                        f is Powerbi ? ((f as Powerbi).Name ?? DisplayMonkey.Language.Resources.Powerbi) :
+                        f is Report ? ((f as Report).Name ?? DisplayMonkey.Language.Resources.Report) :
+                        f is Video ? ((f as Video).Contents.FirstOrDefault().Name ?? DisplayMonkey.Language.Resources.Video) :
                         f is Weather ? DisplayMonkey.Language.Resources.Weather :
-                        f is Youtube ? (f as Youtube).Name :
+                        f is Youtube ? ((f as Youtube).Name ?? DisplayMonkey.Language.Resources.YouTube) :
                         DisplayMonkey.Language.Resources.Unknown
                 })
                 .GroupBy(f => f.Name)

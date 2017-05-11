@@ -65,7 +65,10 @@ namespace DisplayMonkey
             else
             {
                 if (cmd.Connection.State == ConnectionState.Broken || cmd.Connection.State == ConnectionState.Closed)
+                {
+                    cmd.Connection.ConnectionString = ConnectionString;
                     cmd.Connection.Open();
+                }
 
                 action();
             }

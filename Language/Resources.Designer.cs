@@ -1379,6 +1379,15 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Description.
+        /// </summary>
+        public static string Description {
+            get {
+                return ResourceManager.GetString("Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Designate.
         /// </summary>
         public static string Designate {
@@ -2032,6 +2041,15 @@ namespace DisplayMonkey.Language {
         public static string GeoTranslationHasFailed {
             get {
                 return ResourceManager.GetString("GeoTranslationHasFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Group.
+        /// </summary>
+        public static string Group {
+            get {
+                return ResourceManager.GetString("Group", resourceCulture);
             }
         }
         
@@ -3468,6 +3486,15 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Certain frame types allow caching of the information they present in the DMP application local cache provider in order to avoid excessive network traffic and reduce the amount of CPU time taken to render such frames. This represents a default cache interval for a given type of frame when new frame is created. The value can be overriden for every frame..
+        /// </summary>
+        public static string Settings_DefaultCacheInterval_Descr {
+            get {
+                return ResourceManager.GetString("Settings_DefaultCacheInterval_Descr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Default cache expiration for new Outlook frames, minutes.
         /// </summary>
         public static string Settings_DefaultCacheIntervalOutlook {
@@ -3522,6 +3549,15 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Whenever errors occur in the frame content, displays will pop up a box with error message and additional details. Enter a positive integer number to tell DMP application displays how long to keep the error box visible. Enter zero value to suppress errors on a display. This is a default which can be overriden on individual displays..
+        /// </summary>
+        public static string Settings_DefaultDisplayErrorLength_Descr {
+            get {
+                return ResourceManager.GetString("Settings_DefaultDisplayErrorLength_Descr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Default display data poll interval, sec.
         /// </summary>
         public static string Settings_DefaultDisplayPollInterval {
@@ -3531,11 +3567,29 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Displays will poll their settings regularly following this time interval. When settings change the displays will automatically reload themselves. Enter a positive integer number. This is a default which can be overriden on individual displays..
+        /// </summary>
+        public static string Settings_DefaultDisplayPollInterval_Descr {
+            get {
+                return ResourceManager.GetString("Settings_DefaultDisplayPollInterval_Descr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Frame ready event timeout, seconds.
         /// </summary>
         public static string Settings_DefaultDisplayReadyEventTimeout {
             get {
                 return ResourceManager.GetString("Settings_DefaultDisplayReadyEventTimeout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Certain types of frames require additional initialization before they complete their rendering process on a display. They may either show blank or feature a loading indicator. DMP application will wait the above time period and, when exceeded, will leave the frame unrendered. This is a default which can be overriden on individual displays..
+        /// </summary>
+        public static string Settings_DefaultDisplayReadyEventTimeout_Descr {
+            get {
+                return ResourceManager.GetString("Settings_DefaultDisplayReadyEventTimeout_Descr", resourceCulture);
             }
         }
         
@@ -3554,6 +3608,24 @@ namespace DisplayMonkey.Language {
         public static string Settings_DefaultPanelFadeLength {
             get {
                 return ResourceManager.GetString("Settings_DefaultPanelFadeLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Transition time between frames in a given panel can be augmented by entering a positive decimal number. Enter zero value for instant frame change without transition effects. This is a default which can be overriden on individual panels..
+        /// </summary>
+        public static string Settings_DefaultPanelFadeLength_Descr {
+            get {
+                return ResourceManager.GetString("Settings_DefaultPanelFadeLength_Descr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Frames use HTML templates to render their content in. This represents a default template for a given type of frame when new frame is created. The value can be overriden for every frame..
+        /// </summary>
+        public static string Settings_DefaultTemplate_Descr {
+            get {
+                return ResourceManager.GetString("Settings_DefaultTemplate_Descr", resourceCulture);
             }
         }
         
@@ -3648,11 +3720,101 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Encryption initialization vector.
+        /// </summary>
+        public static string Settings_EncryptionIV {
+            get {
+                return ResourceManager.GetString("Settings_EncryptionIV", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Encryption key.
+        /// </summary>
+        public static string Settings_EncryptionKey {
+            get {
+                return ResourceManager.GetString("Settings_EncryptionKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Encryption mode.
+        /// </summary>
+        public static string Settings_EncryptionMode {
+            get {
+                return ResourceManager.GetString("Settings_EncryptionMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter a positive integer value for encryption mode. Use &quot;0&quot; for machine-level RSA cryptoservice provider. Use &quot;1&quot; for AES provider with database stored private key..
+        /// </summary>
+        public static string Settings_EncryptionMode_Descr {
+            get {
+                return ResourceManager.GetString("Settings_EncryptionMode_Descr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to EWS tracing path.
         /// </summary>
         public static string Settings_EWSTracingPath {
             get {
                 return ResourceManager.GetString("Settings_EWSTracingPath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to When you are experincing issues while registering EWS accounts in DMM application, enable EWS communication tracing by entering network path to the file which will receive the event log. Clear this setting to disable EWS tracing..
+        /// </summary>
+        public static string Settings_EWSTracingPath_Descr {
+            get {
+                return ResourceManager.GetString("Settings_EWSTracingPath_Descr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Advanced settings.
+        /// </summary>
+        public static string Settings_Group_Advanced {
+            get {
+                return ResourceManager.GetString("Settings_Group_Advanced", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Display defaults.
+        /// </summary>
+        public static string Settings_Group_DisplayDefaults {
+            get {
+                return ResourceManager.GetString("Settings_Group_DisplayDefaults", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Frame defaults.
+        /// </summary>
+        public static string Settings_Group_FrameDefaults {
+            get {
+                return ResourceManager.GetString("Settings_Group_FrameDefaults", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to General settings.
+        /// </summary>
+        public static string Settings_Group_General {
+            get {
+                return ResourceManager.GetString("Settings_Group_General", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Panel defaults.
+        /// </summary>
+        public static string Settings_Group_PanelDefaults {
+            get {
+                return ResourceManager.GetString("Settings_Group_PanelDefaults", resourceCulture);
             }
         }
         
@@ -3689,6 +3851,15 @@ namespace DisplayMonkey.Language {
         public static string Settings_PresentationSite {
             get {
                 return ResourceManager.GetString("Settings_PresentationSite", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use this setting in cases when DMP application is installed on a different web site than DMM application..
+        /// </summary>
+        public static string Settings_PresentationSite_Descr {
+            get {
+                return ResourceManager.GetString("Settings_PresentationSite_Descr", resourceCulture);
             }
         }
         
