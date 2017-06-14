@@ -238,7 +238,6 @@
           </Key>
           <Property Name="Key" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Value" Type="varbinary" MaxLength="512" />
-          <Property Name="Type" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Template">
           <Key>
@@ -1197,6 +1196,7 @@
           <Member Name="SettingType_DecimalPositive" Value="2" />
           <Member Name="SettingType_Int" Value="3" />
           <Member Name="SettingType_Decimal" Value="4" />
+          <Member Name="SettingType_Binary" Value="5" />
         </EnumType>
         <EntityType Name="Html" BaseType="DisplayMonkey.Model.Frame">
           <Property Type="String" Name="Name" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
@@ -1313,7 +1313,6 @@
           </Key>
           <Property Type="Guid" Name="Key" Nullable="false" />
           <Property Type="Binary" Name="RawValue" MaxLength="512" FixedLength="false" />
-          <Property Type="DisplayMonkey.Model.SettingTypes" Name="Type" Nullable="false" />
         </EntityType>
         <EnumType Name="OutlookPrivacy">
           <Member Name="OutlookPrivacy_All" Value="0" />
@@ -1368,6 +1367,10 @@
         <EnumType Name="PowerbiTypes">
         <Member Name="PowerbiType_Report" Value="0" />
           <Member Name="PowerbiType_Tile" Value="1" />
+        </EnumType>
+        <EnumType Name="EncryptionMethods">
+          <Member Name="RsaContainer" Value="0" />
+          <Member Name="Aes" Value="1" />
         </EnumType>
         </Schema>
     </edmx:ConceptualModels>
@@ -1625,7 +1628,6 @@
           <EntitySetMapping Name="Settings">
             <EntityTypeMapping TypeName="DisplayMonkey.Model.Setting">
               <MappingFragment StoreEntitySet="Settings">
-                <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="RawValue" ColumnName="Value" />
                 <ScalarProperty Name="Key" ColumnName="Key" />
               </MappingFragment>

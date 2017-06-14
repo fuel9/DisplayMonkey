@@ -16,6 +16,7 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using DisplayMonkey.Models;
 
 namespace DisplayMonkey
 {
@@ -32,6 +33,9 @@ namespace DisplayMonkey
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            // init application settings
+            Setting.Initialize(new DisplayMonkeyEntities());
         }
 
         //

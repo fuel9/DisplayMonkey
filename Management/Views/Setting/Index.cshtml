@@ -6,13 +6,25 @@
 
 @{
     ViewBag.Title = Resources.ApplicationSettings;
+    string currentGroupName = "";
 }
 
 <h2>@ViewBag.Title</h2>
 
 <table class="grid">
 
-@foreach (var item in Model) {
+@foreach (var item in Model)
+{
+    if (currentGroupName != item.Group)
+    {
+        currentGroupName = item.Group;
+        <tr>
+            <th>
+                @Html.DisplayFor(m => item.Group)
+            </th>
+            <th></th>
+        </tr>
+    }
     <tr>
         <td class="nw">
             @Html.ActionLink(item.Name, "Edit", new { id=item.Key })

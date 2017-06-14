@@ -149,12 +149,14 @@ namespace DisplayMonkey.Controllers
 
             try
             {
+                account.UpdatePassword(db);
+                
                 // create service
                 service = new ExchangeService((ExchangeVersion)account.EwsVersion)
                 {
                     Credentials = new WebCredentials(
                         account.Account,
-                        RsaUtil.Decrypt(account.Password)
+                        Setting.GetEncryptor(db).Decrypt(account.Password)
                         ),
                     CookieContainer = new CookieContainer(),
                 };

@@ -277,7 +277,7 @@ namespace DisplayMonkey.Controllers
             {
                 client.Credentials = new NetworkCredential(
                     user,
-                    RsaUtil.Decrypt(report.ReportServer.Password),
+                    Setting.GetEncryptor(db).Decrypt(report.ReportServer.Password),
                     domain
                     );
             }
