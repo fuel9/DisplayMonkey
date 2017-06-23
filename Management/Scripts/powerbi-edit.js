@@ -13,6 +13,11 @@ $(document).ajaxComplete(function () {
 });
 
 function _getGroups() {
+    $(".report").hide();
+    $(".dashboard").hide();
+    $(".tile").hide();
+    $("input#submit").hide();
+
     var sel = $("select#GroupGuid");
     sel.find("option:gt(0)").remove();
     $.ajax({
@@ -27,6 +32,7 @@ function _getGroups() {
                     sel.append('<option value="' + p.Value + '"' + selected + '>' + p.Text + '</option>');
                 });
                 $("input#oldGroupGuid").val("");
+                $("select#Type").change();
             } else {
                 alert(payload.data);
             }
@@ -127,8 +133,6 @@ function _getTiles() {
 
 $(document).ready(function () {
 
-    _getGroups();
-
     $("select#DashboardGuid").change(function () {
         $("input#submit").hide();
         if ($(this).val() != "") {
@@ -162,11 +166,11 @@ $(document).ready(function () {
     });
 
     $("select#GroupGuid").change(function () {
-        $(".report").hide();
-        $(".dashboard").hide();
-        $(".tile").hide();
-        $("input#submit").hide();
         $("select#Type").change();
+    });
+
+    $("select#AccountId").change(function () {
+        _getGroups();
     }).change();
 
 });
