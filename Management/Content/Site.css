@@ -555,6 +555,13 @@ input.duration, input.pixels
     height: 600px;
 }
 
+#powerbi_preview {
+    border: 1px solid grey;
+    box-shadow: 10px 10px 5px #AAA;
+    width: 600px;
+    height: 300px;
+}
+
 textarea {
     font-family: inherit;
     width: 500px;

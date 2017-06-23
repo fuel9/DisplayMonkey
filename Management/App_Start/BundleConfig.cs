@@ -56,19 +56,28 @@ namespace DisplayMonkey
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
-                        "~/Scripts/modernizr-*"));
+                        "~/Scripts/modernizr-*"
+                        ));
 
             bundles.Add(new ScriptBundle("~/bundles/canvas").Include(
-                        "~/Scripts/canvas-preview.js"));
+                        "~/Scripts/canvas-preview.js"
+                        ));
 
             bundles.Add(new ScriptBundle("~/bundles/panel").Include(
-                        "~/Scripts/panel-preview.js"));
+                        "~/Scripts/panel-preview.js"
+                        ));
 
-            bundles.Add(new ScriptBundle("~/bundles/powerbi").Include(
-                        "~/Scripts/powerbi-edit.js"));
+            bundles.Add(new ScriptBundle("~/bundles/powerbi-edit").Include(
+                        "~/Scripts/powerbi-edit.js"
+                        ));
+
+            bundles.Add(new ScriptBundle("~/bundles/powerbi-preview").Include(
+                        "~/Scripts/powerbi-preview.js"
+                        ));
 
             bundles.Add(new ScriptBundle("~/bundles/spin").Include(             // DPA: simple spinner
-                        "~/Scripts/spin.js"));
+                        "~/Scripts/spin.js"
+                        ));
 
             
             // Styles ==========================================================================================

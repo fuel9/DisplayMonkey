@@ -38,6 +38,7 @@
         <div class="editor-field">
             @Html.EditorFor(model => model.ClientId)
             @Html.ValidationMessageFor(model => model.ClientId)
+            <a href="https://dev.powerbi.com/apps" target="_blank" id="linkPowerBi">@Resources.AzureRegisterPowerBi</a>
         </div>
 
         <div class="editor-label">
@@ -63,3 +64,14 @@
             @Html.EditorFor(model => model.PasswordUnmasked)
             @Html.ValidationMessageFor(model => model.PasswordUnmasked)
         </div>
+
+        <script type="text/javascript">
+            function _toggleLinks() {
+                $("#linkPowerBi").toggle($("#ClientId").val() === "" && $("select#Resource").val() == 0);
+            }
+            $(document).ready(function () {
+                $("select#Resource").on("change", function () { _toggleLinks(); });
+                $("#ClientId").on("keyup input", function () { _toggleLinks(); });
+                _toggleLinks();
+            });
+        </script>

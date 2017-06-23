@@ -163,7 +163,11 @@ namespace DisplayMonkey.Controllers
                 AzureAccount acc = await AzureAccountRefreshTokenAsync(accountId);
                 if (acc != null)
                 {
-                    WebRequest request = WebRequest.Create(String.Format("{0}/{1}/groups", _baseUrl, acc.TenantId ?? "myorg")) as System.Net.HttpWebRequest;
+                    WebRequest request = WebRequest.Create(String.Format(
+                        "{0}/groups", 
+                        _baseUrl
+                        )) as System.Net.HttpWebRequest;
+
                     request.Method = "GET";
                     request.ContentLength = 0;
                     request.Headers.Add("Authorization", String.Format("Bearer {0}", acc.AccessToken));
@@ -212,15 +216,23 @@ namespace DisplayMonkey.Controllers
         //
         // POST: /Powerbi/reports/5
         [HttpPost, ActionName("Reports")]
-        public async Task<JsonResult> ReportsAsync(int accountId)
+        public async Task<JsonResult> ReportsAsync(int accountId, string group = null)
         {
-            try {
+            try 
+            {
+                JsonResult xx = await GroupsAsync(accountId);
+                
                 var x = new List<SelectListItemWithUrl>();
 
                 AzureAccount acc = await AzureAccountRefreshTokenAsync(accountId);
                 if (acc != null)
                 {
-                    WebRequest request = WebRequest.Create(String.Format("{0}/{1}/reports", _baseUrl, acc.TenantId ?? "myorg")) as System.Net.HttpWebRequest;
+                    WebRequest request = WebRequest.Create(String.Format(
+                        "{0}{1}/reports", 
+                        _baseUrl,
+                        String.IsNullOrWhiteSpace(group) ? "" : String.Format("/groups/{0}", group)
+                        )) as System.Net.HttpWebRequest;
+
                     request.Method = "GET";
                     request.ContentLength = 0;
                     request.Headers.Add("Authorization", String.Format("Bearer {0}", acc.AccessToken));
@@ -273,7 +285,7 @@ namespace DisplayMonkey.Controllers
         //
         // POST: /Powerbi/dashboards/5
         [HttpPost, ActionName("Dashboards")]
-        public async Task<JsonResult> DashboardsAsync(int accountId)
+        public async Task<JsonResult> DashboardsAsync(int accountId, string group = null)
         {
             try
             {
@@ -282,7 +294,13 @@ namespace DisplayMonkey.Controllers
                 AzureAccount acc = await AzureAccountRefreshTokenAsync(accountId);
                 if (acc != null)
                 {
-                    WebRequest request = WebRequest.Create(String.Format("{0}/{1}/dashboards", _baseUrl, acc.TenantId ?? "myorg")) as System.Net.HttpWebRequest;
+                    WebRequest request = WebRequest.Create(String.Format(
+                        "{0}{1}/dashboards", 
+                        _baseUrl,
+                        String.IsNullOrWhiteSpace(group) ? "" : String.Format("/groups/{0}", group)
+                        )) as System.Net.HttpWebRequest;
+
+                    System.Diagnostics.Debug.Print(request.RequestUri.OriginalString);
                     request.Method = "GET";
                     request.ContentLength = 0;
                     request.Headers.Add("Authorization", String.Format("Bearer {0}", acc.AccessToken));
@@ -329,7 +347,7 @@ namespace DisplayMonkey.Controllers
         //
         // POST: /Powerbi/tiles/5
         [HttpPost, ActionName("Tiles")]
-        public async Task<JsonResult> TilesAsync(int accountId, string dashboard)
+        public async Task<JsonResult> TilesAsync(int accountId, string dashboard, string group = null)
         {
             try
             {
@@ -338,7 +356,13 @@ namespace DisplayMonkey.Controllers
                 AzureAccount acc = await AzureAccountRefreshTokenAsync(accountId);
                 if (acc != null)
                 {
-                    WebRequest request = WebRequest.Create(String.Format("{0}/{1}/dashboards/{2}/tiles", _baseUrl, acc.TenantId ?? "myorg", dashboard)) as System.Net.HttpWebRequest;
+                    WebRequest request = WebRequest.Create(String.Format(
+                        "{0}{1}/dashboards/{2}/tiles", 
+                        _baseUrl,
+                        String.IsNullOrWhiteSpace(group) ? "" : String.Format("/groups/{0}", group), 
+                        dashboard
+                        )) as System.Net.HttpWebRequest;
+
                     request.Method = "GET";
                     request.ContentLength = 0;
                     request.Headers.Add("Authorization", String.Format("Bearer {0}", acc.AccessToken));
@@ -384,6 +408,27 @@ namespace DisplayMonkey.Controllers
 
         #region Misc members
 
+        //
+        // POST: /Powerbi/token/5
+        [HttpPost, ActionName("Token")]
+        public async Task<JsonResult> TokenAsync(int accountId)
+        {
+            try
+            {
+                AzureAccount acc = await AzureAccountRefreshTokenAsync(accountId);
+                if (acc == null)
+                {
+                    throw new ApplicationException(Resources.FailedToObtainToken);
+                }
+
+                return Json(new { success = true, data = acc.AccessToken }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, data = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
         private async Task<AzureAccount> AzureAccountRefreshTokenAsync(int accountId)
         {
             AzureAccount az = db.AzureAccounts.Find(accountId);
@@ -410,7 +455,7 @@ namespace DisplayMonkey.Controllers
             return az;
         }
 
-        private const string _baseUrl = "https://api.powerbi.com/v1.0";
+        private const string _baseUrl = "https://api.powerbi.com/v1.0/myorg";
 
         private void FillTypesSelectList(PowerbiTypes? selected = null)
         {

@@ -1,5 +1,5 @@
 ﻿var __spinner;
-var __urlReports, __urlDashboards, __urlTiles;
+var __urlReports, __urlDashboards, __urlTiles, __urlGroups;
 
 $(document).ajaxStart(function () {
     if (Spinner) {
@@ -12,13 +12,38 @@ $(document).ajaxComplete(function () {
     if (__spinner) __spinner.stop();
 });
 
+function _getGroups() {
+    var sel = $("select#GroupGuid");
+    sel.find("option:gt(0)").remove();
+    $.ajax({
+        type: "POST",
+        url: __urlGroups,
+        data: { accountId: $('#AccountId').val() },
+        datatype: "json",
+        success: function (payload) {
+            if (payload.success) {
+                $(payload.data).each(function (i, p) {
+                    var selected = (p.Value != "" && $("input#oldGroupGuid").val() == p.Value) ? ' selected=""' : "";
+                    sel.append('<option value="' + p.Value + '"' + selected + '>' + p.Text + '</option>');
+                });
+                $("input#oldGroupGuid").val("");
+            } else {
+                alert(payload.data);
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            alert(errorThrown);
+        }
+    });
+}
+
 function _getReports() {
     var sel = $("select#ReportGuid");
     sel.find("option:gt(0)").remove();
     $.ajax({
         type: "POST",
         url: __urlReports,
-        data: { accountId: $('#AccountId').val() },
+        data: { accountId: $('#AccountId').val(), group: $("select#GroupGuid").val() },
         datatype: "json",
         success: function (payload) {
             if (payload.success) {
@@ -48,7 +73,7 @@ function _getDashboards() {
     $.ajax({
         type: "POST",
         url: __urlDashboards,
-        data: { accountId: $('#AccountId').val() },
+        data: { accountId: $('#AccountId').val(), group: $("select#GroupGuid").val() },
         datatype: "json",
         success: function (payload) {
             if (payload.success) {
@@ -76,7 +101,7 @@ function _getTiles() {
     $.ajax({
         type: "POST",
         url: __urlTiles,
-        data: { accountId: $('#AccountId').val(), dashboard: $("select#DashboardGuid").val() },
+        data: { accountId: $('#AccountId').val(), dashboard: $("select#DashboardGuid").val(), group: $("select#GroupGuid").val() },
         datatype: "json",
         success: function (payload) {
             if (payload.success) {
@@ -102,7 +127,10 @@ function _getTiles() {
 
 $(document).ready(function () {
 
+    _getGroups();
+
     $("select#DashboardGuid").change(function () {
+        $("input#submit").hide();
         if ($(this).val() != "") {
             _getTiles();
         }
@@ -131,6 +159,14 @@ $(document).ready(function () {
         } else if ($(this).val() == "1") {
             _getDashboards();
         }
+    });
+
+    $("select#GroupGuid").change(function () {
+        $(".report").hide();
+        $(".dashboard").hide();
+        $(".tile").hide();
+        $("input#submit").hide();
+        $("select#Type").change();
     }).change();
 
 });
