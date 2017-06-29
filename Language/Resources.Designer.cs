@@ -368,7 +368,7 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Register a Power BI application.
+        ///   Looks up a localized string similar to Register Power BI application.
         /// </summary>
         public static string AzureRegisterPowerBi {
             get {

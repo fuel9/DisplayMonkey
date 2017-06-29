@@ -1665,7 +1665,7 @@
     <value>Default workspace</value>
   </data>
   <data name="AzureRegisterPowerBi" xml:space="preserve">
-    <value>Register a Power BI application</value>
+    <value>Register Power BI application</value>
   </data>
   <data name="FailedToObtainToken" xml:space="preserve">
     <value>Failed to obtain token</value>
