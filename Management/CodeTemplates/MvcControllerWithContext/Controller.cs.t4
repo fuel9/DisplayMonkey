@@ -156,7 +156,7 @@ namespace <#= Namespace #>
 <# } else { #>
                 db.SaveChanges();
 <# } #>
-                return this.RestoreReferrer() ?? RedirectToAction("Index");
+                return RestoreReferrer("Index");
             }
 
 <# foreach (var property in relatedProperties.Values) { #>
@@ -209,7 +209,7 @@ namespace <#= Namespace #>
 <# } else { #>
                 db.SaveChanges();
 <# } #>
-                return this.RestoreReferrer() ?? RedirectToAction("Index");
+                return RestoreReferrer("Index");
             }
 <# foreach (var property in relatedProperties.Values) { #>
             ViewBag.<#= property.ForeignKeyPropertyNames[0] #> = new SelectList(db.<#= property.EntitySetName #>, "<#= property.PrimaryKeyNames[0] #>", "<#= property.DisplayPropertyName #>", <#= ModelVariable #>.<#= property.ForeignKeyPropertyNames[0] #>);

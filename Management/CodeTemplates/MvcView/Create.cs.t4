@@ -75,6 +75,7 @@ if (ReferenceScriptLibraries) {
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
+    @Html.Referrer()
 
     <fieldset>
         <legend>@Resources.<#= controllerName#></legend>

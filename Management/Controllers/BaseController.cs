@@ -17,7 +17,7 @@ using System.Web.Mvc;
 
 namespace DisplayMonkey.Controllers
 {
-    public class BaseController : Controller
+    public partial class BaseController : Controller
     {
         protected override IAsyncResult BeginExecuteCore(AsyncCallback callback, object state)
         {

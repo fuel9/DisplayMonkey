@@ -11,10 +11,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using DisplayMonkey.Controllers;
 
-namespace DisplayMonkey.Controllers
+
+namespace DisplayMonkey
 {
     /*public static class Navigation
     {
@@ -84,14 +87,6 @@ namespace DisplayMonkey.Controllers
 
     public static class Navigation
     {
-        private const string _cameFrom = "_cameFrom";
-
-        private class ReferrerData
-        {
-            public string ReferrerUrl { get; set; }
-            public bool NotForDelete { get; set; }
-        }
-
         // call this method before entering CRUD action
         public static void SaveReferrer(
             this BaseController _this, 
@@ -101,15 +96,19 @@ namespace DisplayMonkey.Controllers
             Uri fromUrl = _this.Request.Url;
             if (fromUrl == null)
             {
-                _this.Session[_cameFrom] = null;
+                //_this.Session[_cameFrom] = null;
+                _this.ViewData[_cameFrom] = null;
             }
             else
             {
-                _this.Session[_cameFrom] = new ReferrerData()
+                var referer = new ReferrerData()
                 {
                     ReferrerUrl = fromUrl.PathAndQuery,
                     NotForDelete = _notForDelete,
                 };
+
+                _this.ViewData[_cameFrom] = referer;
+                //_this.Session[_cameFrom] = referer;
             }
         }
 
@@ -121,7 +120,12 @@ namespace DisplayMonkey.Controllers
         {
             try
             {
-                ReferrerData data = _this.Session[_cameFrom] as ReferrerData;
+                //ReferrerData data = _this.Session[_cameFrom] as ReferrerData;
+                ReferrerData data = new ReferrerData()
+                {
+                    ReferrerUrl = _this.HttpContext.Request[_cameFrom],
+                    NotForDelete = _this.HttpContext.Request[_notForDelete] == "true",
+                };
 
                 if (data != null &&
                     !(_hasDeleted && data.NotForDelete) && 
@@ -137,6 +141,66 @@ namespace DisplayMonkey.Controllers
             {
                 _this.Session[_cameFrom] = null;
             }
+        }
+
+        public static IHtmlString Referrer(this HtmlHelper _this)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            try
+            {
+                string prevUrl = _this.ViewContext.HttpContext.Request.Form[_cameFrom];
+                if (!string.IsNullOrWhiteSpace(prevUrl))
+                {
+                    sb.AppendFormat(_template, _cameFrom, prevUrl);
+                }
+                else
+                {
+                    Uri fromUrl = _this.ViewContext.HttpContext.Request.UrlReferrer;
+                    if (fromUrl != null)
+                    {
+                        sb.AppendFormat(_template, _cameFrom, fromUrl.PathAndQuery);
+                    }
+                }
+            }
+
+            catch { }
+
+            return _this.Raw(sb.ToString());
+        }
+
+        internal const string _cameFrom = "_cameFrom", _notForDelete = "_notForDelete";
+        private const string _template = "<input type='hidden' id='{0}' name='{0}' value='{1}' />";
+
+        private class ReferrerData
+        {
+            public string ReferrerUrl { get; set; }
+            public bool NotForDelete { get; set; }
+        }
+    }
+}
+
+namespace DisplayMonkey.Controllers
+{
+    public partial class BaseController : Controller
+    {
+        public ActionResult RestoreReferrer(
+            string _defaultAction
+            )
+        {
+            try
+            {
+                string referrer = Request.Form[Navigation._cameFrom];
+
+                if (!string.IsNullOrWhiteSpace(referrer))
+                {
+                    return new RedirectResult(referrer);
+                }
+            }
+
+            catch { }
+
+            return RedirectToAction(_defaultAction);
         }
     }
 }
