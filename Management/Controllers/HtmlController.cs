@@ -27,8 +27,6 @@ namespace DisplayMonkey.Controllers
         // GET: /Html/Details/5
         public ActionResult Details(int id = 0)
         {
-            this.SaveReferrer(true);
-
             Html html = db.Frames.Find(id) as Html;
             if (html == null)
             {
@@ -72,7 +70,7 @@ namespace DisplayMonkey.Controllers
                 db.Frames.Add(html);
                 db.SaveChanges();
 
-                return this.RestoreReferrer() ?? RedirectToAction("Index", "Frame");
+                return RedirectToAction("Index", "Frame");
             }
 
             html.Panel = db.Panels
@@ -112,7 +110,7 @@ namespace DisplayMonkey.Controllers
                 db.Entry(html).State = EntityState.Modified;
                 db.SaveChanges();
 
-                return this.RestoreReferrer() ?? RedirectToAction("Index", "Frame");
+                return RedirectToAction("Index", "Frame");
             }
 
 
@@ -158,7 +156,7 @@ namespace DisplayMonkey.Controllers
             db.Frames.Remove(frame);
             db.SaveChanges();
 
-            return this.RestoreReferrer(true) ?? RedirectToAction("Index", "Frame");
+            return RedirectToAction("Index", "Frame");
         }
 
         protected override void Dispose(bool disposing)

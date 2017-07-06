@@ -177,7 +177,6 @@
     <Compile Include="Controllers\PowerbiController.cs" />
     <Compile Include="Controllers\OutlookController.cs" />
     <Compile Include="Controllers\PanelController.cs" />
-    <Compile Include="Controllers\Navigation.cs" />
     <Compile Include="Controllers\PictureController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\ReportServerController.cs" />
@@ -352,7 +351,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="RsaUtil.cs" />
-    <Compile Include="Views\CustomControls.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\custom.css" />

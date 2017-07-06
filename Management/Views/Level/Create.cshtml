@@ -1,6 +1,4 @@
-﻿@using DisplayMonkey.Language
-
-@model DisplayMonkey.Models.Level
+﻿@model DisplayMonkey.Models.Level
 
 @{
     ViewBag.Title = Resources.CreateOrganizationLevel;
@@ -11,6 +9,7 @@
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
+    @Html.Referrer()
 
     <fieldset>
         <legend>@Resources.Level</legend>

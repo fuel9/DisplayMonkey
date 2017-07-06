@@ -33,8 +33,6 @@ namespace DisplayMonkey.Controllers
 
         public ActionResult Details(int id = 0)
         {
-            this.SaveReferrer(true);
-
             Clock clock = db.Frames.Find(id) as Clock;
             if (clock == null)
             {
@@ -77,7 +75,7 @@ namespace DisplayMonkey.Controllers
                 db.Frames.Add(clock);
                 db.SaveChanges();
 
-                return this.RestoreReferrer() ?? RedirectToAction("Index", "Frame");
+                return RedirectToAction("Index", "Frame");
             }
 
             this.FillTemplatesSelectList(db, FrameTypes.Clock, clock.TemplateId);
@@ -118,7 +116,7 @@ namespace DisplayMonkey.Controllers
                 db.Entry(clock).State = EntityState.Modified;
                 db.SaveChanges();
 
-                return this.RestoreReferrer() ?? RedirectToAction("Index", "Frame");
+                return RedirectToAction("Index", "Frame");
             }
 
             this.FillTemplatesSelectList(db, FrameTypes.Clock, clock.TemplateId);
@@ -153,7 +151,7 @@ namespace DisplayMonkey.Controllers
             db.Frames.Remove(frame);
             db.SaveChanges();
 
-            return this.RestoreReferrer(true) ?? RedirectToAction("Index", "Frame");
+            return RedirectToAction("Index", "Frame");
         }
 
         protected override void Dispose(bool disposing)

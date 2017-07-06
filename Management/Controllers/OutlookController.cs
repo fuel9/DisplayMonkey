@@ -30,8 +30,6 @@ namespace DisplayMonkey.Controllers
         // GET: /Outlook/Details/5
         public ActionResult Details(int id = 0)
         {
-            this.SaveReferrer(true);
-            
             Outlook outlook = db.Frames.Find(id) as Outlook;
             if (outlook == null)
             {
@@ -78,7 +76,7 @@ namespace DisplayMonkey.Controllers
                 db.Frames.Add(outlook);
                 db.SaveChanges();
 
-                return this.RestoreReferrer() ?? RedirectToAction("Index", "Frame");
+                return RedirectToAction("Index", "Frame");
             }
 
             this.FillTemplatesSelectList(db, FrameTypes.Outlook, outlook.TemplateId);
@@ -125,7 +123,7 @@ namespace DisplayMonkey.Controllers
                 db.Entry(outlook).State = EntityState.Modified;
                 db.SaveChanges();
 
-                return this.RestoreReferrer() ?? RedirectToAction("Index", "Frame");
+                return RedirectToAction("Index", "Frame");
             }
 
             this.FillTemplatesSelectList(db, FrameTypes.Outlook, outlook.TemplateId);
@@ -157,7 +155,7 @@ namespace DisplayMonkey.Controllers
             db.Frames.Remove(frame);
             db.SaveChanges();
 
-            return this.RestoreReferrer(true) ?? RedirectToAction("Index", "Frame");
+            return RedirectToAction("Index", "Frame");
         }
 
         private void FillPrivacySelectList(OutlookPrivacy? selected = null)

@@ -36,8 +36,6 @@ namespace DisplayMonkey.Controllers
 
         public ActionResult Index(int levelId = 0, int areaId = 0, string name = null)
         {
-            this.SaveReferrer();
-            
             IQueryable<Location> list = db.Locations
                 .OrderBy(l => l.Level.Name)
                 .ThenBy(l => l.Area.Name)
@@ -77,8 +75,6 @@ namespace DisplayMonkey.Controllers
 
         public ActionResult Details(int id = 0)
         {
-            this.SaveReferrer(true);
-
             Location location = db.Locations.Find(id);
             if (location == null)
             {
@@ -137,7 +133,7 @@ namespace DisplayMonkey.Controllers
                 db.Locations.Add(location);
                 db.SaveChanges();
 
-                return this.RestoreReferrer() ?? RedirectToAction("Index");
+                return RedirectToAction("Index");
             }
 
             FillLevelsSelectList(location.LevelId);
@@ -188,7 +184,7 @@ namespace DisplayMonkey.Controllers
                 db.Entry(location).Property(l => l.AreaId).IsModified = false;
                 db.SaveChanges();
 
-                return this.RestoreReferrer() ?? RedirectToAction("Index");
+                return RedirectToAction("Index");
             }
             //FillLevelsSelectList(location.LevelId);
             FillTemperatureUnitSelectList(location.TemperatureUnit);
@@ -224,7 +220,7 @@ namespace DisplayMonkey.Controllers
             db.Locations.Remove(location);
             db.SaveChanges();
 
-            return this.RestoreReferrer(true) ?? RedirectToAction("Index");
+            return RedirectToAction("Index");
         }
 
         private void FillLevelsSelectList(object selected = null)

@@ -1,6 +1,4 @@
-﻿@using DisplayMonkey.Language
-
-@model DisplayMonkey.Models.Content
+﻿@model DisplayMonkey.Models.Content
 
 @{
     ViewBag.Title = Resources.UploadNewMedia;
@@ -14,6 +12,8 @@
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
+    @Html.Referrer()
+    
     @Html.Hidden("maxImageSize", (object)ViewBag.MaxImageSize)
     @Html.Hidden("maxVideoSize", (object)ViewBag.MaxVideoSize)
     @Html.Hidden("imageExt", (object)supportedImages)

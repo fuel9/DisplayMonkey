@@ -33,8 +33,6 @@ namespace DisplayMonkey.Controllers
 
         public ActionResult Details(int id = 0)
         {
-            this.SaveReferrer(true);
-
             Weather weather = db.Frames.Find(id) as Weather;
             if (weather == null)
             {
@@ -76,7 +74,7 @@ namespace DisplayMonkey.Controllers
                 db.Frames.Add(weather);
                 db.SaveChanges();
 
-                return this.RestoreReferrer() ?? RedirectToAction("Index", "Frame");
+                return RedirectToAction("Index", "Frame");
             }
 
             this.FillTemplatesSelectList(db, FrameTypes.Weather, weather.TemplateId);
@@ -115,7 +113,7 @@ namespace DisplayMonkey.Controllers
                 db.Entry(weather).State = EntityState.Modified;
                 db.SaveChanges();
 
-                return this.RestoreReferrer() ?? RedirectToAction("Index", "Frame");
+                return RedirectToAction("Index", "Frame");
             }
 
             this.FillTemplatesSelectList(db, FrameTypes.Weather, weather.TemplateId);
@@ -149,7 +147,7 @@ namespace DisplayMonkey.Controllers
             db.Frames.Remove(frame);
             db.SaveChanges();
 
-            return this.RestoreReferrer(true) ?? RedirectToAction("Index", "Frame");
+            return RedirectToAction("Index", "Frame");
         }
 
         protected override void Dispose(bool disposing)

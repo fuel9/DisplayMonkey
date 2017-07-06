@@ -1670,4 +1670,7 @@
   <data name="FailedToObtainToken" xml:space="preserve">
     <value>Failed to obtain token</value>
   </data>
+  <data name="NotSupported" xml:space="preserve">
+    <value>Not supported</value>
+  </data>
 </root>

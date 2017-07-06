@@ -1,6 +1,4 @@
-﻿@using DisplayMonkey.Language
-
-@model DisplayMonkey.Models.Video
+﻿@model DisplayMonkey.Models.Video
 
 @{
     ViewBag.Title = Resources.LinkMediaAlternative;
@@ -12,6 +10,7 @@
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
+    @Html.Referrer()
 
     <fieldset>
         <legend>@Resources.Video</legend>

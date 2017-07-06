@@ -1,7 +1,4 @@
-﻿@using DisplayMonkey.Models
-@using DisplayMonkey.Language
-
-@model DisplayMonkey.Models.Html
+﻿@model DisplayMonkey.Models.Html
 
 @{
     ViewBag.Title = Resources.EditHtmlFrame;
@@ -23,6 +20,7 @@
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
+    @Html.Referrer()
 
     @Html.Partial("_frameData", Model as Frame)
     @Html.Partial("_Edit")

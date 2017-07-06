@@ -111,7 +111,7 @@ namespace DisplayMonkey.Controllers
             {
                 db.AzureAccounts.Add(az);
                 db.SaveChanges();
-                return RestoreReferrer("Index");
+                return RedirectToAction("Index");
             }
 
             FillResourceSelectList(az.Resource);
@@ -148,7 +148,7 @@ namespace DisplayMonkey.Controllers
                 db.Entry(az).Property(l => l.Password).IsModified = az.PasswordSet;
                 //db.Entry(az).Property(l => l.Url).IsModified = false;
                 db.SaveChanges();
-                return RestoreReferrer("Index");
+                return RedirectToAction("Index");
             }
 
             FillResourceSelectList(az.Resource);
@@ -178,7 +178,7 @@ namespace DisplayMonkey.Controllers
             AzureAccount az = db.AzureAccounts.Find(id);
             db.AzureAccounts.Remove(az);
             db.SaveChanges();
-            return RestoreReferrer("Index");
+            return RedirectToAction("Index");
         }
 
         private void FillResourceSelectList(AzureResources? selected = null)

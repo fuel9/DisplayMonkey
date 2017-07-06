@@ -41,8 +41,6 @@ namespace DisplayMonkey.Controllers
 
         public ActionResult Index(int canvasId = 0, string name = "")
         {
-            this.SaveReferrer();
-
             IQueryable<Panel> list = db.Panels
                 .OrderBy(p => p.Canvas.Name)
                 .ThenBy(p => p.Name)
@@ -68,8 +66,6 @@ namespace DisplayMonkey.Controllers
 
         public ActionResult Details(int id = 0)
         {
-            this.SaveReferrer(true);
-
             Panel panel = db.Panels.Find(id);
             if (panel == null)
             {
@@ -110,7 +106,7 @@ namespace DisplayMonkey.Controllers
                 db.Panels.Add(panel);
                 db.SaveChanges();
 
-                return this.RestoreReferrer() ?? RedirectToAction("Index");
+                return RedirectToAction("Index");
             }
 
             FillCanvasSelectList(panel.CanvasId);
@@ -144,7 +140,7 @@ namespace DisplayMonkey.Controllers
                 db.Entry(panel).State = EntityState.Modified;
                 db.SaveChanges();
 
-                return this.RestoreReferrer() ?? RedirectToAction("Index");
+                return RedirectToAction("Index");
             }
 
             return View(panel);
@@ -187,7 +183,7 @@ namespace DisplayMonkey.Controllers
                 //db.Entry(fs).State = EntityState.Modified;
                 db.SaveChanges();
 
-                return this.RestoreReferrer() ?? RedirectToAction("Index");
+                return RedirectToAction("Index");
             }
             
             return View(fs);
@@ -222,7 +218,7 @@ namespace DisplayMonkey.Controllers
                 db.SaveChanges();
             }
 
-            return this.RestoreReferrer(true) ?? RedirectToAction("Index");
+            return RedirectToAction("Index");
         }
 
         //

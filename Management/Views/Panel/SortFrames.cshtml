@@ -1,8 +1,4 @@
-﻿@using DisplayMonkey
-@using DisplayMonkey.Models
-@using DisplayMonkey.Language
-
-@model IEnumerable<DisplayMonkey.Models.Frame>
+﻿@model IEnumerable<DisplayMonkey.Models.Frame>
 
 @{
     ViewBag.Title = Resources.ReOrderPanelFrames;
@@ -76,6 +72,8 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
+    @Html.Referrer()
+    
     @Html.HiddenFor(m => Model.FirstOrDefault().PanelId)
     @Html.Hidden("json")
     <p>

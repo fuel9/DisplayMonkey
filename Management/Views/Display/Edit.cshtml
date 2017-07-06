@@ -1,6 +1,4 @@
-﻿@using DisplayMonkey.Language
-
-@model DisplayMonkey.Models.Display
+﻿@model DisplayMonkey.Models.Display
 
 @{
     ViewBag.Title = Resources.EditDisplay;
@@ -11,6 +9,7 @@
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
+    @Html.Referrer()
 
     <fieldset>
         <legend>@Resources.Display</legend>

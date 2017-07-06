@@ -39,8 +39,6 @@ namespace DisplayMonkey.Controllers
 
         public ActionResult Index()
         {
-            this.SaveReferrer();
-
             var canvas = db.Canvases
                 .OrderBy(c => c.Name)
                 ;
@@ -83,8 +81,6 @@ namespace DisplayMonkey.Controllers
 
         public ActionResult Details(int id = 0)
         {
-            this.SaveReferrer(true);
-            
             Canvas canvas = db.Canvases.Find(id);
             if (canvas == null)
             {
@@ -126,7 +122,7 @@ namespace DisplayMonkey.Controllers
                 db.Canvases.Add(canvas);
                 db.SaveChanges();
 
-                return this.RestoreReferrer() ?? RedirectToAction("Index");
+                return RedirectToAction("Index");
             }
 
             fillSelectBackgroundImage(canvas.BackgroundImage);
@@ -159,7 +155,7 @@ namespace DisplayMonkey.Controllers
                 db.Entry(canvas).State = EntityState.Modified;
                 db.SaveChanges();
 
-                return this.RestoreReferrer() ?? RedirectToAction("Index");
+                return RedirectToAction("Index");
             }
             fillSelectBackgroundImage(canvas.BackgroundImage);
             return View(canvas);
@@ -189,7 +185,7 @@ namespace DisplayMonkey.Controllers
             db.Canvases.Remove(canvas);
             db.SaveChanges();
 
-            return this.RestoreReferrer(true) ?? RedirectToAction("Index");
+            return RedirectToAction("Index");
         }
 
 

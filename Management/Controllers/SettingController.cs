@@ -27,8 +27,6 @@ namespace DisplayMonkey.Controllers
         // GET: /Setting/
         public ActionResult Index()
         {
-            this.SaveReferrer();
-
             Setting.Initialize(db);
             
             var list = db.Settings
@@ -71,7 +69,7 @@ namespace DisplayMonkey.Controllers
                 db.Entry(setting).Property(p => p.RawValue).IsModified = true;
                 db.SaveChanges();
 
-                return this.RestoreReferrer() ?? RedirectToAction("Index");
+                return RedirectToAction("Index");
             }
             return View(setting);
         }

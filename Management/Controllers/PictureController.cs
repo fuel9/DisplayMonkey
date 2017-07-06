@@ -30,8 +30,6 @@ namespace DisplayMonkey.Controllers
 
         public ActionResult Details(int id = 0)
         {
-            this.SaveReferrer(true);
-
             Picture picture = db.Frames.Find(id) as Picture;
             if (picture == null)
             {
@@ -53,7 +51,6 @@ namespace DisplayMonkey.Controllers
             }
 
             Picture picture = new Picture(frame, db);
-
 
             this.FillTemplatesSelectList(db, FrameTypes.Picture);
             FillPicturesSelectList();
@@ -77,10 +74,12 @@ namespace DisplayMonkey.Controllers
                     db.Frames.Add(picture);
                     db.SaveChanges();
 
-                    return this.RestoreReferrer() ?? RedirectToAction("Index", "Frame");
+                    return RedirectToAction("Index", "Frame");
                 }
                 else
                 {
+                    PushReferrer();
+
                     TempData["_newPicture"] = picture;
                     return RedirectToAction("Upload", "Picture");
                 }
@@ -145,7 +144,7 @@ namespace DisplayMonkey.Controllers
                     db.Frames.Add(picture);
                     db.SaveChanges();
 
-                    return this.RestoreReferrer() ?? RedirectToAction("Index", "Frame");
+                    return RedirectToAction("Index", "Frame");
                 }
             }
 
@@ -187,7 +186,7 @@ namespace DisplayMonkey.Controllers
                 db.Entry(picture).State = EntityState.Modified;
                 db.SaveChanges();
 
-                return this.RestoreReferrer() ?? RedirectToAction("Index", "Frame");
+                return RedirectToAction("Index", "Frame");
             }
 
             this.FillTemplatesSelectList(db, FrameTypes.Picture, picture.TemplateId);
@@ -222,7 +221,7 @@ namespace DisplayMonkey.Controllers
             db.Frames.Remove(frame);
             db.SaveChanges();
 
-            return this.RestoreReferrer(true) ?? RedirectToAction("Index", "Frame");
+            return RedirectToAction("Index", "Frame");
         }
 
         private void FillPicturesSelectList(object selected = null)

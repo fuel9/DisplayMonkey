@@ -23,6 +23,7 @@ using System.Drawing.Imaging;
 using System.Data.Entity.Validation;
 using System.Text;
 using System.Threading.Tasks;
+using DisplayMonkey.Language;
 
 namespace DisplayMonkey.Controllers
 {
@@ -40,8 +41,6 @@ namespace DisplayMonkey.Controllers
 
         public ActionResult Index(ContentTypes? mediaType = null)
         {
-            this.SaveReferrer();
-
             var list = db.Contents
                 .Select(m => new ContentWithSize
                 { 
@@ -69,8 +68,6 @@ namespace DisplayMonkey.Controllers
 
         public ActionResult Details(int id = 0)
         {
-            this.SaveReferrer(true);
-            
             // TODO: video player in the view
             Content content = db.Contents.Find(id);
             if (content == null)
@@ -152,7 +149,7 @@ namespace DisplayMonkey.Controllers
             {
                 db.SaveChanges();
 
-                return this.RestoreReferrer() ?? RedirectToAction("Index");
+                return RedirectToAction("Index");
             }
 
             else if (hasFiles)
@@ -190,7 +187,7 @@ namespace DisplayMonkey.Controllers
                 db.Entry(content).Property(m => m.Name).IsModified = true;
                 db.SaveChanges();
 
-                return this.RestoreReferrer() ?? RedirectToAction("Index");
+                return RedirectToAction("Index");
             }
 
             return View(content);
@@ -220,7 +217,7 @@ namespace DisplayMonkey.Controllers
             db.Contents.Remove(content);
             db.SaveChanges();
 
-            return this.RestoreReferrer(true) ?? RedirectToAction("Index");
+            return RedirectToAction("Index");
         }
 
         //
@@ -249,7 +246,7 @@ namespace DisplayMonkey.Controllers
                 return File(content.Data, contentType);
             }
 
-            return Content("Not supported");
+            return Content(Resources.NotSupported);
         }
 
         //

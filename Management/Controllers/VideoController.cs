@@ -30,8 +30,6 @@ namespace DisplayMonkey.Controllers
 
         public ActionResult Details(int id = 0)
         {
-            this.SaveReferrer(true);
-            
             Video video = db.Frames.Find(id) as Video;
             if (video == null)
             {
@@ -77,10 +75,12 @@ namespace DisplayMonkey.Controllers
                     db.Frames.Add(video);
                     db.SaveChanges();
 
-                    return this.RestoreReferrer() ?? RedirectToAction("Index", "Frame");
+                    return RedirectToAction("Index", "Frame");
                 }
                 else
                 {
+                    PushReferrer();
+
                     TempData["_newVideo"] = video;
                     return RedirectToAction("Upload", "Video");
                 }
@@ -93,7 +93,7 @@ namespace DisplayMonkey.Controllers
         }
 
         //
-        // GET: /Picture/Upload
+        // GET: /Video/Upload
 
         public ActionResult Upload()
         {
@@ -112,7 +112,7 @@ namespace DisplayMonkey.Controllers
         }
 
         //
-        // POST: /Picture/Upload
+        // POST: /Video/Upload
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -157,7 +157,7 @@ namespace DisplayMonkey.Controllers
                 db.Frames.Add(video);
                 db.SaveChanges();
 
-                return this.RestoreReferrer() ?? RedirectToAction("Index", "Frame");
+                return RedirectToAction("Index", "Frame");
             }
 
             else if (hasFiles)
@@ -190,7 +190,7 @@ namespace DisplayMonkey.Controllers
         }
 
         //
-        // POST: /Picture/Upload
+        // POST: /Video/Link
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -203,11 +203,13 @@ namespace DisplayMonkey.Controllers
                 video.Contents.Add(content);
                 db.SaveChanges();
                 
-                return this.RestoreReferrer() ?? RedirectToAction("Details", new { id = video.FrameId });
+                return RedirectToAction("Details", new { id = video.FrameId });
             }
 
             if (video.FrameId > 0)
             {
+                PushReferrer();
+                
                 return RedirectToAction("Uplink", new { id = video.FrameId });
             }
                 
@@ -229,7 +231,7 @@ namespace DisplayMonkey.Controllers
         }
 
         //
-        // POST: /Picture/Upload
+        // POST: /Video/Uplink
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -279,7 +281,7 @@ namespace DisplayMonkey.Controllers
             {
                 db.SaveChanges();
                 
-                return this.RestoreReferrer() ?? RedirectToAction("Details", new { id = video.FrameId });
+                return RedirectToAction("Details", new { id = video.FrameId });
             }
 
             else if (hasFiles)
@@ -359,7 +361,7 @@ namespace DisplayMonkey.Controllers
                 db.Entry(video).State = EntityState.Modified;
                 db.SaveChanges();
 
-                return this.RestoreReferrer() ?? RedirectToAction("Index", "Frame");
+                return RedirectToAction("Index", "Frame");
             }
 
 
@@ -392,7 +394,7 @@ namespace DisplayMonkey.Controllers
             db.Frames.Remove(frame);
             db.SaveChanges();
 
-            return this.RestoreReferrer(true) ?? RedirectToAction("Index", "Frame");
+            return RedirectToAction("Index", "Frame");
         }
 
         private void FillVideosSelectList(object selected = null)

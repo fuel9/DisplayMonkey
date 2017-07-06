@@ -1,6 +1,4 @@
-﻿@using DisplayMonkey.Language
-
-@model DisplayMonkey.Models.LocationSelector
+﻿@model DisplayMonkey.Models.LocationSelector
 
 @{
     ViewBag.Title = Resources.RemoveLocation;
@@ -24,6 +22,7 @@
 </fieldset>
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
+    @Html.Referrer()
     <p>
         <input type="submit" value="@Resources.Remove" /> |
         @Html.ActionLink(Resources.ViewFrames, "Index")

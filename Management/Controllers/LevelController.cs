@@ -29,8 +29,6 @@ namespace DisplayMonkey.Controllers
 
         public ActionResult Index()
         {
-            this.SaveReferrer();
-
             return View(
                 db.Levels
                     .OrderBy(l => l.Name)
@@ -43,8 +41,6 @@ namespace DisplayMonkey.Controllers
 
         public ActionResult Details(int id = 0)
         {
-            this.SaveReferrer(true);
-            
             Level level = db.Levels.Find(id);
             if (level == null)
             {
@@ -78,7 +74,7 @@ namespace DisplayMonkey.Controllers
                 db.Levels.Add(level);
                 db.SaveChanges();
 
-                return this.RestoreReferrer() ?? RedirectToAction("Index");
+                return RedirectToAction("Index");
             }
 
             return View(level);
@@ -109,7 +105,7 @@ namespace DisplayMonkey.Controllers
                 db.Entry(level).State = EntityState.Modified;
                 db.SaveChanges();
 
-                return this.RestoreReferrer() ?? RedirectToAction("Index");
+                return RedirectToAction("Index");
             }
             return View(level);
         }
@@ -142,7 +138,7 @@ namespace DisplayMonkey.Controllers
             db.Levels.Remove(level);
             db.SaveChanges();
 
-            return this.RestoreReferrer(true) ?? RedirectToAction("Index");
+            return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)

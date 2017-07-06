@@ -1,6 +1,4 @@
-﻿@using DisplayMonkey.Language
-
-@model DisplayMonkey.Models.Canvas
+﻿@model DisplayMonkey.Models.Canvas
 
 @{
     ViewBag.Title = Resources.EditCanvas;
@@ -12,6 +10,7 @@
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
+    @Html.Referrer()
 
     <fieldset>
     <legend>@Resources.Canvas</legend>

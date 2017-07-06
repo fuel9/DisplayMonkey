@@ -98,8 +98,6 @@ namespace DisplayMonkey.Controllers
 
         public ActionResult Index(int canvasId = 0, int panelId = 0, FrameTypes? frameType = null, int? timingOption = null /*, int page = 1*/)
         {
-            this.SaveReferrer();
-
             //if (page <= 0) page = 1;
 
             IQueryable<Frame> list = db.Frames
@@ -200,52 +198,6 @@ namespace DisplayMonkey.Controllers
             return RedirectToAction("Create", frameType.ToString());
         }
 
-        /*public ActionResult ForCanvas()
-        {
-            FillCanvasesSelectList();
-            return View();
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult ForCanvas(Canvas canvas)
-        {
-            if (canvas.CanvasId > 0)
-            {
-                return RedirectToAction("ForPanel", new { canvasId = canvas.CanvasId });
-            }
-
-            return RedirectToAction("ForCanvas");
-        }*/
-
-        /*public ActionResult ForPanel(int canvasId)
-        {
-            Panel panel = db.Panels
-                .Include(p => p.Canvas)
-                .FirstOrDefault(p => p.CanvasId == canvasId)
-                ;
-
-            if (panel.PanelId == 0)
-            {
-                return RedirectToAction("ForCanvas");
-            }
-
-            FillPanelsSelectList(canvasId: canvasId);
-            return View(panel);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult ForPanel(Panel panel)
-        {
-            if (panel.PanelId > 0)
-            {
-                return RedirectToAction("ForFrameType", new { panelId = panel.PanelId });
-            }
-
-            return RedirectToAction("ForPanel", new { canvasId = panel.Canvas.CanvasId });
-        }*/
-
         public ActionResult ForFrameType(int canvasId = 0, int panelId = 0, FrameTypes? frameType = null)
         {
             if (canvasId == 0)
@@ -276,6 +228,8 @@ namespace DisplayMonkey.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ForFrameType([Bind(Include = "CanvasId,PanelId,FrameType")] FrameSelector selector)
         {
+            PushReferrer();
+
             if (selector.PanelId != 0 && selector.FrameType != null)
             {
                 Panel panel = db.Panels
@@ -306,14 +260,6 @@ namespace DisplayMonkey.Controllers
                 .Where( f => f.FrameId == id)
                 .Include(f => f.Panel)
                 .Include(f => f.Panel.Canvas)
-                /*.Include(f => f.News)
-                .Include(f => f.Clock)
-                .Include(f => f.Weather)
-                .Include(f => f.Memo)
-                .Include(f => f.Report)
-                .Include(f => f.Picture)
-                .Include(f => f.Video)
-                .Include(f => f.Html)*/
                 .FirstOrDefault()
                 ;
 
@@ -419,7 +365,7 @@ namespace DisplayMonkey.Controllers
                 frame.Locations.Add(location);
                 db.SaveChanges();
 
-                return this.RestoreReferrer() ?? RedirectToAction("Index");
+                return RedirectToAction("Index");
             }
 
             IEnumerable<Location> locations = db.Locations
@@ -462,7 +408,7 @@ namespace DisplayMonkey.Controllers
             frame.Locations.Remove(location);
             db.SaveChanges();
 
-            return this.RestoreReferrer() ?? RedirectToAction("Index");
+            return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)

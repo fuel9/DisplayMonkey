@@ -1,6 +1,4 @@
-﻿@using DisplayMonkey.Language
-
-@model DisplayMonkey.Models.Panel
+﻿@model DisplayMonkey.Models.Panel
 
 @{
     ViewBag.Title = Resources.CreateNewFrame;
@@ -11,6 +9,7 @@
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
+    @Html.Referrer()
 
     <fieldset>
         <legend>@Resources.NewFrame</legend>

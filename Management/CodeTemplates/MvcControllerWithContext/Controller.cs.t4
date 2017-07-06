@@ -43,6 +43,7 @@ using System.Web;
 using System.Web.Mvc;
 <# foreach (var namespaceName in RequiredNamespaces) { #>
 using <#= namespaceName #>;
+using DisplayMonkey.Language;
 <# } #>
 
 namespace <#= Namespace #>
@@ -80,7 +81,6 @@ namespace <#= Namespace #>
         public ActionResult Index()
 <# } #>
         {
-			this.SaveReferrer();
 <#  var includeExpressions = "";
         includeExpressions = String.Join("", relatedProperties.Values.Select(property => String.Format(".Include({0} => {0}.{1})", lambdaVar, property.AssociationPropertyName)));
 #>
@@ -107,8 +107,6 @@ namespace <#= Namespace #>
         public ActionResult Details(<#= primaryKeyType #> id = 0)
 <# } #>
         {
-            this.SaveReferrer(true);
-			
 <# if (UseAsync) { #>
             <#= ModelTypeName #> <#= ModelVariable #> = await db.<#= entitySetName #>.FindAsync(id);
 <# } else { #>
@@ -156,7 +154,7 @@ namespace <#= Namespace #>
 <# } else { #>
                 db.SaveChanges();
 <# } #>
-                return RestoreReferrer("Index");
+                return RedirectToAction("Index");
             }
 
 <# foreach (var property in relatedProperties.Values) { #>
@@ -209,7 +207,7 @@ namespace <#= Namespace #>
 <# } else { #>
                 db.SaveChanges();
 <# } #>
-                return RestoreReferrer("Index");
+                return RedirectToAction("Index");
             }
 <# foreach (var property in relatedProperties.Values) { #>
             ViewBag.<#= property.ForeignKeyPropertyNames[0] #> = new SelectList(db.<#= property.EntitySetName #>, "<#= property.PrimaryKeyNames[0] #>", "<#= property.DisplayPropertyName #>", <#= ModelVariable #>.<#= property.ForeignKeyPropertyNames[0] #>);
@@ -256,7 +254,7 @@ namespace <#= Namespace #>
 <# } else { #>
             db.SaveChanges();
 <# } #>
-            return this.RestoreReferrer(true) ?? RedirectToAction("Index");
+            return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)

@@ -14,13 +14,14 @@ using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 //using System.Web.Mvc.Html;
 
-namespace System.Web.Mvc.Html
+namespace DisplayMonkey //System.Web.Mvc.Html
 {
     public static class HtmlExtensions
     {
@@ -29,7 +30,106 @@ namespace System.Web.Mvc.Html
             txt = txt ?? "";
             return MvcHtmlString.Create((txt.Length > len) ? txt.Substring(0, len) + "..." : txt);
         }
-        
+
+        public static MvcHtmlString ReadOnlyTextFor<TModel, TValue>(this HtmlHelper<TModel> html, System.Linq.Expressions.Expression<Func<TModel, TValue>> expression)
+        {
+            string name = ExpressionHelper.GetExpressionText(expression);
+            ModelMetadata metadata = ModelMetadata.FromLambdaExpression(expression, html.ViewData);
+            string fullName = html.ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldName(name);
+            var value = metadata.Model == null
+                    ? ""
+                    : string.IsNullOrEmpty(metadata.DisplayFormatString)
+                        ? metadata.Model.ToString()
+                        : string.Format(metadata.DisplayFormatString, metadata.Model);
+            TagBuilder tag;
+            if (metadata.DataTypeName == "MultilineText")
+            {
+                tag = new TagBuilder("textarea");
+                tag.GenerateId(fullName);
+                tag.Attributes.Add("name", fullName);
+                tag.Attributes.Add("readonly", "readonly");
+                tag.InnerHtml = value;
+            }
+            else
+            {
+                tag = new TagBuilder("input");
+                tag.GenerateId(fullName);
+                tag.Attributes.Add("name", fullName);
+                tag.Attributes.Add("type", "text");
+                tag.Attributes.Add("readonly", "readonly");
+                tag.Attributes.Add("value", value);
+            }
+            tag.MergeAttributes(html.GetUnobtrusiveValidationAttributes(name, metadata));
+            return MvcHtmlString.Create(tag.ToString(TagRenderMode.Normal));
+        }
+
+        public static MvcHtmlString ColorPickerFor<TModel, TValue>(
+            this HtmlHelper<TModel> html,
+            System.Linq.Expressions.Expression<Func<TModel, TValue>> expression
+            )
+        {
+            ModelMetadata metadata = ModelMetadata.FromLambdaExpression(expression, html.ViewData);
+            string name = ExpressionHelper.GetExpressionText(expression);
+            string fullName = html.ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldName(name);
+            var value = metadata.Model == null
+                    ? ""
+                    : string.IsNullOrEmpty(metadata.DisplayFormatString)
+                        ? metadata.Model.ToString()
+                        : string.Format(metadata.DisplayFormatString, metadata.Model);
+            TagBuilder tag;
+            tag = new TagBuilder("input");
+            tag.GenerateId(fullName);
+            tag.Attributes.Add("name", fullName);
+            tag.Attributes.Add("type", "color");
+            tag.Attributes.Add("value", value);
+            tag.MergeAttributes(html.GetUnobtrusiveValidationAttributes(name, metadata));
+            return MvcHtmlString.Create(tag.ToString(TagRenderMode.SelfClosing));
+        }
+
+        #region Referrer // 1.5
+
+        public static IHtmlString Referrer(this HtmlHelper _this)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            try
+            {
+                string prevUrl = _this.ViewContext.Controller.TempData[CameFrom] as string;
+
+                if (!string.IsNullOrWhiteSpace(prevUrl))
+                {
+                    _this.ViewContext.Controller.TempData[CameFrom] = null;
+                }
+                else
+                {
+                    prevUrl = _this.ViewContext.HttpContext.Request.Form[CameFrom];
+
+                    if (string.IsNullOrWhiteSpace(prevUrl))
+                    {
+                        Uri fromUrl = _this.ViewContext.HttpContext.Request.UrlReferrer;
+
+                        if (fromUrl != null)
+                        {
+                            prevUrl = fromUrl.PathAndQuery;
+                        }
+                    }
+                }
+
+                if (!string.IsNullOrWhiteSpace(prevUrl))
+                {
+                    sb.AppendFormat("<input type='hidden' id='{0}' name='{0}' value='{1}' />", CameFrom, prevUrl);
+                }
+            }
+
+            catch { }
+
+            return _this.Raw(sb.ToString());
+        }
+
+        internal const string CameFrom = "_cameFrom";
+
+        #endregion
+
         #region Image link
 
         [SuppressMessage("Microsoft.Design", "CA1026:DefaultParametersShouldNotBeUsed", Justification = "The purpose of these helpers is to use default parameters to simplify common usage.")]

@@ -1,7 +1,4 @@
-﻿@using DisplayMonkey.Models
-@using DisplayMonkey.Language
-
-@model DisplayMonkey.Models.Video
+﻿@model DisplayMonkey.Models.Video
 
 @{
     ViewBag.Title = Resources.CreateNewVideoFrame;
@@ -13,6 +10,7 @@
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
+    @Html.Referrer()
 
     @Html.Partial("_frameData", Model as Frame)
     @Html.Partial("_frameCacheData", Model as Frame)

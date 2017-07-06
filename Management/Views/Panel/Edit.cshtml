@@ -1,6 +1,4 @@
-﻿@using DisplayMonkey.Language
-
-@model DisplayMonkey.Models.Panel
+﻿@model DisplayMonkey.Models.Panel
 
 @{
     ViewBag.Title = Resources.EditPanel;
@@ -12,6 +10,7 @@
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
+    @Html.Referrer()
 
     <fieldset>
         <legend>@Resources.Panel</legend>
