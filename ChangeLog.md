@@ -13,13 +13,16 @@
 
 ### Change log
 
-v1.5.0 (July 06, 2017)
+v1.5.1 (July 06, 2017)
+
+- Fixed erratic navigation in CRUD actions
+
+v1.5.0 (June 22, 2017)
 
 - Power BI improvements: added workspace selection
 - Power BI improvements: fixed issue #19 related to tenant id
 - Power BI improvements: preview Power BI frames in DMM
 - Power BI improvements: added a helper link to Azure account screen to register Power BI application
-- Fixed erratic navigation in CRUD actions
 
 v1.4.0 (April 30, 2017)
 
