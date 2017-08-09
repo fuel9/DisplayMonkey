@@ -1,6 +1,4 @@
-﻿@using DisplayMonkey.Language
-
-@model DisplayMonkey.Models.ReportServer
+﻿@model DisplayMonkey.Models.ReportServer
 
 @{
     ViewBag.Title = Resources.DeleteReportServerAccount;
@@ -45,6 +43,7 @@
 </fieldset>
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
+    @Html.Referrer()
     <p>
         <input type="submit" value="@Resources.Delete" /> |
         @Html.ActionLink(Resources.ReportServerAccounts, "Index")

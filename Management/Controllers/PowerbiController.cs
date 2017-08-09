@@ -33,8 +33,6 @@ namespace DisplayMonkey.Controllers
         // GET: /Powerbi/Details/5
         public ActionResult Details(int id = 0)
         {
-            this.SaveReferrer(true);
-            
             Powerbi powerbi = db.Frames.Find(id) as Powerbi;
             if (powerbi == null)
             {
@@ -75,7 +73,7 @@ namespace DisplayMonkey.Controllers
                 db.Frames.Add(powerbi);
                 db.SaveChanges();
 
-                return this.RestoreReferrer() ?? RedirectToAction("Index", "Frame");
+                return RedirectToAction("Index", "Frame");
             }
 
             this.FillTemplatesSelectList(db, FrameTypes.Powerbi, powerbi.TemplateId);
@@ -115,7 +113,7 @@ namespace DisplayMonkey.Controllers
                 db.Entry(powerbi).State = EntityState.Modified;
                 db.SaveChanges();
 
-                return this.RestoreReferrer() ?? RedirectToAction("Index", "Frame");
+                return RedirectToAction("Index", "Frame");
             }
 
             this.FillTemplatesSelectList(db, FrameTypes.Powerbi, powerbi.TemplateId);
@@ -146,7 +144,7 @@ namespace DisplayMonkey.Controllers
             db.Frames.Remove(frame);
             db.SaveChanges();
 
-            return this.RestoreReferrer(true) ?? RedirectToAction("Index", "Frame");
+            return RedirectToAction("Index", "Frame");
         }
 
         #region Workspace helper

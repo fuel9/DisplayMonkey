@@ -1,8 +1,4 @@
-﻿@using DisplayMonkey
-@using DisplayMonkey.Models
-@using DisplayMonkey.Language
-
-@model DisplayMonkey.Models.Setting
+﻿@model DisplayMonkey.Models.Setting
 
 @{
     ViewBag.Title = Resources.EditApplicationSetting;
@@ -14,7 +10,8 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+    @Html.Referrer()
+
     <div class="form-horizontal">
         @Html.ValidationSummary(true)
         @Html.HiddenFor(model => model.Key)

@@ -1,6 +1,4 @@
-﻿@using DisplayMonkey.Language
-
-@model DisplayMonkey.Models.AzureAccount
+﻿@model DisplayMonkey.Models.AzureAccount
 
 @{
     ViewBag.Title = Resources.CreateNewAzureAccount;
@@ -11,6 +9,7 @@
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
+    @Html.Referrer()
 
     <fieldset>
         <legend>@Resources.AzureAccount</legend>

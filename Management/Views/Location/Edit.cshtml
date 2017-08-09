@@ -1,6 +1,4 @@
-﻿@using DisplayMonkey.Language
-
-@model DisplayMonkey.Models.Location
+﻿@model DisplayMonkey.Models.Location
 
 @{
     ViewBag.Title = Resources.EditOrganizationLocation;
@@ -11,6 +9,7 @@
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
+    @Html.Referrer()
 
     <fieldset>
         <legend>@Resources.Location</legend>

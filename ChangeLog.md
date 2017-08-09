@@ -13,6 +13,10 @@
 
 ### Change log
 
+v1.5.1 (July 06, 2017)
+
+- Fixed erratic navigation in CRUD actions
+
 v1.5.0 (June 22, 2017)
 
 - Power BI improvements: added workspace selection

@@ -17,7 +17,7 @@ using System.Web.Mvc;
 
 namespace DisplayMonkey.Controllers
 {
-    public class BaseController : Controller
+    public partial class BaseController : Controller
     {
         protected override IAsyncResult BeginExecuteCore(AsyncCallback callback, object state)
         {
@@ -79,6 +79,54 @@ namespace DisplayMonkey.Controllers
             Response.Cookies.Add(cookie);
             
             return RedirectToAction("Index");
+        }
+
+        private RedirectResult RestoreReferrer()
+        {
+            try
+            {
+                if (TempData[HtmlExtensions.CameFrom] != null)
+                {
+                    return null;
+                }
+
+                string referrer = Request.Form[HtmlExtensions.CameFrom];
+
+                if (!string.IsNullOrWhiteSpace(referrer))
+                {
+                    return new RedirectResult(referrer);
+                }
+            }
+
+            catch { }
+
+            return null;
+        }
+
+        /// <summary>
+        /// This will carry over referrer URL between chained POST actions
+        /// Use this in POST actions prior to redirecting to any further CRUD action
+        /// </summary>
+        protected void PushReferrer()
+        {
+            if (TempData[HtmlExtensions.CameFrom] == null)
+            {
+                TempData[HtmlExtensions.CameFrom] = Request.Form[HtmlExtensions.CameFrom];
+            }
+        }
+
+        protected override void OnActionExecuted(ActionExecutedContext filterContext)
+        {
+            if (filterContext.Result is RedirectToRouteResult)
+            {
+                RedirectResult referrer = RestoreReferrer();
+                if (referrer != null)
+                {
+                    filterContext.Result = referrer;
+                }
+            }
+
+            base.OnActionExecuted(filterContext);
         }
     }
 

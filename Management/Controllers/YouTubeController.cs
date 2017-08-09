@@ -30,8 +30,6 @@ namespace DisplayMonkey.Controllers
         // GET: /YouTube/Details/5
         public ActionResult Details(int id = 0)
         {
-            this.SaveReferrer(true);
-
             Youtube youtube = db.Frames.Find(id) as Youtube;
             if (youtube == null)
             {
@@ -51,7 +49,6 @@ namespace DisplayMonkey.Controllers
             }
 
             Youtube youtube = new Youtube(frame, db);
-
 
             this.FillTemplatesSelectList(db, FrameTypes.YouTube);
             FillAspectsSelectList();
@@ -77,7 +74,7 @@ namespace DisplayMonkey.Controllers
                 db.Frames.Add(youtube);
                 db.SaveChanges();
 
-                return this.RestoreReferrer() ?? RedirectToAction("Index", "Frame");
+                return RedirectToAction("Index", "Frame");
             }
 
             this.FillTemplatesSelectList(db, FrameTypes.YouTube, youtube.TemplateId);
@@ -121,7 +118,7 @@ namespace DisplayMonkey.Controllers
                 db.Entry(youtube).State = EntityState.Modified;
                 db.SaveChanges();
 
-                return this.RestoreReferrer() ?? RedirectToAction("Index", "Frame");
+                return RedirectToAction("Index", "Frame");
             }
 
             this.FillTemplatesSelectList(db, FrameTypes.YouTube, youtube.TemplateId);
@@ -153,7 +150,7 @@ namespace DisplayMonkey.Controllers
             db.Frames.Remove(frame);
             db.SaveChanges();
 
-            return this.RestoreReferrer(true) ?? RedirectToAction("Index", "Frame");
+            return RedirectToAction("Index", "Frame");
         }
 
         private void FillAspectsSelectList(YTAspect? selected = null)

@@ -78,6 +78,7 @@ foreach (PropertyMetadata property in ModelMetadata.Properties) {
 
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
+    @Html.Referrer()
     <p>
         <input type="submit" value="@Resources.Delete" /> |
         @Html.ActionLink(Resources.View<#= controllerName #>s, "Index")

@@ -1,7 +1,4 @@
-﻿@using DisplayMonkey.Models
-@using DisplayMonkey.Language
-
-@model DisplayMonkey.Models.Picture
+﻿@model DisplayMonkey.Models.Picture
 
 <img class="thumb1" src="@Url.Action("Thumb", "Media", new { id = Model.ContentId, width = 50, height = 50, mode = (int)RenderModes.RenderMode_Stretch })" alt="" />
 <span>@Model.Content.Name</span>

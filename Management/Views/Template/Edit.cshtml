@@ -1,6 +1,4 @@
-﻿@using DisplayMonkey.Language
-
-@model DisplayMonkey.Models.Template
+﻿@model DisplayMonkey.Models.Template
 
 @{
     ViewBag.Title = Resources.EditTemplate;
@@ -11,6 +9,7 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
+    @Html.Referrer()
 
 	@Html.HiddenFor(model => model.TemplateId)
     @Html.HiddenFor(model => model.FrameType)

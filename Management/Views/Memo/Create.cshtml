@@ -1,7 +1,4 @@
-﻿@using DisplayMonkey.Models
-@using DisplayMonkey.Language
-
-@model DisplayMonkey.Models.Memo
+﻿@model DisplayMonkey.Models.Memo
 
 @{
     ViewBag.Title = Resources.CreateNewMemoFrame;
@@ -12,6 +9,7 @@
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
+    @Html.Referrer()
 
     @Html.Partial("_frameData", Model as Frame)
     @Html.Partial("_Edit")

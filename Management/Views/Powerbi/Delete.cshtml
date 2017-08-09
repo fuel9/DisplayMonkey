@@ -1,6 +1,4 @@
-﻿@using DisplayMonkey.Language
-
-@model DisplayMonkey.Models.Powerbi
+﻿@model DisplayMonkey.Models.Powerbi
 
 @{
     ViewBag.Title = Resources.DeletePowerbiFrame;
@@ -15,6 +13,7 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
+    @Html.Referrer()
     <p>
         <input type="submit" value="@Resources.Delete" /> |
         @Html.ActionLink(Resources.ViewFrames, "Index", "Frame")

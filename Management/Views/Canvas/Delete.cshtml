@@ -1,6 +1,4 @@
-﻿@using DisplayMonkey.Language
-
-@model DisplayMonkey.Models.Canvas
+﻿@model DisplayMonkey.Models.Canvas
 
 @{
     ViewBag.Title = Resources.DeleteCanvas;
@@ -14,6 +12,7 @@
 
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
+    @Html.Referrer()
     <p>
         <input type="submit" value="@Resources.Delete" /> |
         @Html.ActionLink(Resources.ViewCanvases, "Index")

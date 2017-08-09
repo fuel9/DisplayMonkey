@@ -1,6 +1,4 @@
-﻿@using DisplayMonkey.Language
-
-@model DisplayMonkey.Models.ExchangeAccount
+﻿@model DisplayMonkey.Models.ExchangeAccount
 
 @{
     ViewBag.Title = Resources.DeleteExchangeAccount;
@@ -57,6 +55,7 @@
 
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
+    @Html.Referrer()
     <p>
         <input type="submit" value="@Resources.Delete" /> |
         @Html.ActionLink(Resources.ExchangeAccounts, "Index")

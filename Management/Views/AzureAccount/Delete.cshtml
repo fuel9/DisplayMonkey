@@ -1,8 +1,4 @@
-﻿@using DisplayMonkey
-@using DisplayMonkey.Models
-@using DisplayMonkey.Language
-
-@model DisplayMonkey.Models.AzureAccount
+﻿@model DisplayMonkey.Models.AzureAccount
 
 @{
     ViewBag.Title = Resources.DeleteAzureAccount;
@@ -78,6 +74,7 @@
 
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
+    @Html.Referrer()
     <p>
         <input type="submit" value="@Resources.Delete" /> |
         @Html.ActionLink(Resources.AzureAccounts, "Index")

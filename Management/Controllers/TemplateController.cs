@@ -27,8 +27,6 @@ namespace DisplayMonkey.Controllers
         // GET: /Template/
         public ActionResult Index(FrameTypes? frameType)
         {
-			this.SaveReferrer();
-
             IQueryable<Template> list = db.Templates;
 
             if (frameType.HasValue)
@@ -67,7 +65,7 @@ namespace DisplayMonkey.Controllers
             {
                 db.Templates.Add(template);
                 db.SaveChanges();
-                return this.RestoreReferrer() ?? RedirectToAction("Index");
+                return RedirectToAction("Index");
             }
 
             FillFrameTypesSelectList(template.FrameType);
@@ -99,7 +97,7 @@ namespace DisplayMonkey.Controllers
             {
                 db.Entry(template).State = EntityState.Modified;
                 db.SaveChanges();
-                return this.RestoreReferrer() ?? RedirectToAction("Index");
+                return RedirectToAction("Index");
             }
 
             FillFrameTypesSelectList(template.FrameType);
@@ -125,7 +123,7 @@ namespace DisplayMonkey.Controllers
             Template template = db.Templates.Find(id);
             db.Templates.Remove(template);
             db.SaveChanges();
-            return this.RestoreReferrer(true) ?? RedirectToAction("Index");
+            return RedirectToAction("Index");
         }
 
         private void FillFrameTypesSelectList(FrameTypes? selected = null)

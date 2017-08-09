@@ -1,6 +1,4 @@
-﻿@using DisplayMonkey.Language
-
-@model DisplayMonkey.Models.Template
+﻿@model DisplayMonkey.Models.Template
 
 @{
     ViewBag.Title = Resources.DeleteTemplate;
@@ -37,6 +35,7 @@
 
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
+    @Html.Referrer()
     <p>
         <input type="submit" value="@Resources.Delete" /> |
         @Html.ActionLink(Resources.ViewTemplates, "Index")

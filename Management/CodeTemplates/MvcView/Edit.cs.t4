@@ -74,6 +74,7 @@ if (ReferenceScriptLibraries) {
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
+    @Html.Referrer()
 
 
     <fieldset>

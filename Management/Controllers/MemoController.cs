@@ -28,8 +28,6 @@ namespace DisplayMonkey.Controllers
 
         public ActionResult Details(int id = 0)
         {
-            this.SaveReferrer(true);
-
             Memo memo = db.Frames.Find(id) as Memo;
             if (memo == null)
             {
@@ -70,7 +68,7 @@ namespace DisplayMonkey.Controllers
                 db.Frames.Add(memo);
                 db.SaveChanges();
 
-                return this.RestoreReferrer() ?? RedirectToAction("Index", "Frame");
+                return RedirectToAction("Index", "Frame");
             }
 
 
@@ -107,7 +105,7 @@ namespace DisplayMonkey.Controllers
                 db.Entry(memo).State = EntityState.Modified;
                 db.SaveChanges();
 
-                return this.RestoreReferrer() ?? RedirectToAction("Index", "Frame");
+                return RedirectToAction("Index", "Frame");
             }
 
 
@@ -141,7 +139,7 @@ namespace DisplayMonkey.Controllers
             db.Frames.Remove(frame);
             db.SaveChanges();
 
-            return this.RestoreReferrer(true) ?? RedirectToAction("Index", "Frame");
+            return RedirectToAction("Index", "Frame");
         }
 
         protected override void Dispose(bool disposing)

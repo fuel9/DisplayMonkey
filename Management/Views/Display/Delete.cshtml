@@ -1,6 +1,4 @@
-﻿@using DisplayMonkey.Language
-
-@model DisplayMonkey.Models.Display
+﻿@model DisplayMonkey.Models.Display
 
 @{
     ViewBag.Title = Resources.RemoveDisplay;
@@ -107,6 +105,7 @@
 </fieldset>
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
+    @Html.Referrer()
     <p>
         <input type="submit" value="@Resources.Remove" /> |
         @Html.ActionLink(Resources.ViewDisplays , "Index")

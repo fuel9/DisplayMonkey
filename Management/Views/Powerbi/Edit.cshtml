@@ -1,7 +1,4 @@
-﻿@using DisplayMonkey.Models
-@using DisplayMonkey.Language
-
-@model DisplayMonkey.Models.Powerbi
+﻿@model DisplayMonkey.Models.Powerbi
 
 @{
     ViewBag.Title = Resources.EditPowerbiFrame;
@@ -13,6 +10,7 @@
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
+    @Html.Referrer()
 
     @Html.Partial("_frameData", Model as Frame)
     @Html.Partial("_Edit")

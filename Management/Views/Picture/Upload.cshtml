@@ -1,7 +1,4 @@
-﻿@using DisplayMonkey.Models
-@using DisplayMonkey.Language
-
-@model DisplayMonkey.Models.Picture
+﻿@model DisplayMonkey.Models.Picture
 
 @{
     ViewBag.Title = Resources.CreateNewPictureFrame;
@@ -13,6 +10,8 @@
 @using (Html.BeginForm("Upload", "Picture", FormMethod.Post, new { enctype = "multipart/form-data" })) {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
+    @Html.Referrer()
+    
     @Html.Hidden("maxImageSize", (object)ViewBag.MaxImageSize)
     @Html.Hidden("imageExt", (object)supportedImages)
 
