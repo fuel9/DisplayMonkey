@@ -31,6 +31,7 @@ namespace DisplayMonkey.Models
         public Nullable<System.Guid> DashboardGuid { get; set; }
         public Nullable<System.Guid> TileGuid { get; set; }
         public Nullable<System.Guid> ReportGuid { get; set; }
+        public Nullable<System.Guid> GroupGuid { get; set; }
     
         public virtual AzureAccount AzureAccount { get; set; }
     }

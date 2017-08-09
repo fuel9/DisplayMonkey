@@ -38,6 +38,15 @@
                 @Html.ValidationMessageFor(m => m.AccountId)
             </div>
 
+            <div class="editor-label group">
+                @Html.LabelFor(m => m.GroupGuid)
+            </div>
+            <div class="editor-field select group">
+                @Html.DropDownListFor(m => m.GroupGuid, ViewBag.Types as SelectList, Resources.PowerbiDefaultGroup)
+                @Html.ValidationMessageFor(m => m.GroupGuid)
+                @Html.HiddenFor(m => m.GroupGuid, new { id = "oldGroupGuid" })
+            </div>
+
             <div class="editor-label">
                 @Html.LabelFor(m => m.Type)
             </div>
@@ -85,4 +94,5 @@
         __urlReports = "@Url.Action("reports", "powerbi")";
         __urlDashboards = "@Url.Action("dashboards", "powerbi")";
         __urlTiles = "@Url.Action("tiles", "powerbi")";
+        __urlGroups = "@Url.Action("groups", "powerbi")";
     </script>

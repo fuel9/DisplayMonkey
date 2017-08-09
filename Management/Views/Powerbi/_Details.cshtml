@@ -3,6 +3,10 @@
 
 @model DisplayMonkey.Models.Powerbi
 
+@{
+    var action = Model.Type == PowerbiTypes.PowerbiType_Report ? "loadReport" : "loadTile";
+}
+
     <table class="divTable"><tr>
         <td>
 
@@ -19,6 +23,7 @@
                         </div>
                         <div class="display-field">
                             @Model.Type.Translate()
+                            @Html.HiddenFor(model => model.Type)
                         </div>
                     </div>
 
@@ -37,6 +42,7 @@
                         </div>
                         <div class="display-field">
                             @Html.DisplayFor(model => model.AzureAccount.Name)
+                            @Html.HiddenFor(model => model.AccountId)
                         </div>
                     </div>
 
@@ -45,6 +51,14 @@
             </fieldset>
         
         </td>
+        <td>
+            <div class="preview">
+                <iframe src="@Html.Raw(Model.Url)" id="powerbi_preview"></iframe>
+            </div>
+        </td>
 
     </tr></table>
 
+    <script type="text/javascript">
+        __urlToken = "@Url.Action("token", "powerbi")";
+    </script>

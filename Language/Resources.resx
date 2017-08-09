@@ -1554,13 +1554,13 @@
     <value>Azure account is required</value>
   </data>
   <data name="PowerbiType" xml:space="preserve">
-    <value>Resource type</value>
+    <value>Visualization type</value>
   </data>
   <data name="PowerbiTypeRequired" xml:space="preserve">
-    <value>Resource type is required</value>
+    <value>Visualization type is required</value>
   </data>
   <data name="PowerbiUrl" xml:space="preserve">
-    <value>Resource URL</value>
+    <value>Visualization URL</value>
   </data>
   <data name="CreatePowerbiFrame" xml:space="preserve">
     <value>Create Microsoft Power BI frame</value>
@@ -1657,5 +1657,17 @@
   </data>
   <data name="Settings_PresentationSite_Descr" xml:space="preserve">
     <value>Use this setting in cases when DMP application is installed on a different web site than DMM application.</value>
+  </data>
+  <data name="PowerbiGroup" xml:space="preserve">
+    <value>Workspace</value>
+  </data>
+  <data name="PowerbiDefaultGroup" xml:space="preserve">
+    <value>Default workspace</value>
+  </data>
+  <data name="AzureRegisterPowerBi" xml:space="preserve">
+    <value>Register Power BI application</value>
+  </data>
+  <data name="FailedToObtainToken" xml:space="preserve">
+    <value>Failed to obtain token</value>
   </data>
 </root>

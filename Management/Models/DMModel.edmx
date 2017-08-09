@@ -210,6 +210,7 @@
           <Property Name="Tile" Type="uniqueidentifier" />
           <Property Name="Report" Type="uniqueidentifier" />
           <Property Name="Url" Type="varchar" MaxLength="200" />
+          <Property Name="Group" Type="uniqueidentifier" />
         </EntityType>
         <EntityType Name="Report">
           <Key>
@@ -1349,6 +1350,7 @@
           <Property Name="DashboardGuid" Type="Guid" Nullable="true" />
           <Property Name="TileGuid" Type="Guid" Nullable="true" />
           <Property Name="ReportGuid" Type="Guid" Nullable="true" />
+          <Property Name="GroupGuid" Type="Guid" />
         </EntityType>
         <Association Name="FK_Powerbi_AzureAccount">
           <End Type="DisplayMonkey.Model.AzureAccount" Role="AzureAccount" Multiplicity="1">
@@ -1437,6 +1439,7 @@
             </EntityTypeMapping>
             <EntityTypeMapping TypeName="IsTypeOf(DisplayMonkey.Model.Powerbi)">
               <MappingFragment StoreEntitySet="Powerbi">
+                <ScalarProperty Name="GroupGuid" ColumnName="Group" />
                 <ScalarProperty Name="ReportGuid" ColumnName="Report" />
                 <ScalarProperty Name="TileGuid" ColumnName="Tile" />
                 <ScalarProperty Name="DashboardGuid" ColumnName="Dashboard" />

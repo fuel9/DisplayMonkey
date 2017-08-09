@@ -66,6 +66,11 @@ namespace DisplayMonkey.Models
                 Display(ResourceType = typeof(Resources), Name = "PowerbiReport"),
             ]
             public Nullable<System.Guid> ReportGuid { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "PowerbiGroup"),
+            ]
+            public Nullable<System.Guid> GroupGuid { get; set; }
         }
     }
 }

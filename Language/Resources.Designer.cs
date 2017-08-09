@@ -368,6 +368,15 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Register Power BI application.
+        /// </summary>
+        public static string AzureRegisterPowerBi {
+            get {
+                return ResourceManager.GetString("AzureRegisterPowerBi", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Azure resource.
         /// </summary>
         public static string AzureResource {
@@ -1928,6 +1937,15 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to obtain token.
+        /// </summary>
+        public static string FailedToObtainToken {
+            get {
+                return ResourceManager.GetString("FailedToObtainToken", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to File format.
         /// </summary>
         public static string FileFormat {
@@ -3063,11 +3081,29 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Default workspace.
+        /// </summary>
+        public static string PowerbiDefaultGroup {
+            get {
+                return ResourceManager.GetString("PowerbiDefaultGroup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Microsoft Power BI frame details.
         /// </summary>
         public static string PowerBiFrameDetails {
             get {
                 return ResourceManager.GetString("PowerBiFrameDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Workspace.
+        /// </summary>
+        public static string PowerbiGroup {
+            get {
+                return ResourceManager.GetString("PowerbiGroup", resourceCulture);
             }
         }
         
@@ -3126,7 +3162,7 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Resource type.
+        ///   Looks up a localized string similar to Visualization type.
         /// </summary>
         public static string PowerbiType {
             get {
@@ -3153,7 +3189,7 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Resource type is required.
+        ///   Looks up a localized string similar to Visualization type is required.
         /// </summary>
         public static string PowerbiTypeRequired {
             get {
@@ -3162,7 +3198,7 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Resource URL.
+        ///   Looks up a localized string similar to Visualization URL.
         /// </summary>
         public static string PowerbiUrl {
             get {
