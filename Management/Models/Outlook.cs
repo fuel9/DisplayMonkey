@@ -32,6 +32,7 @@ namespace DisplayMonkey.Models
         public OutlookPrivacy Privacy { get; set; }
         public bool AllowReserve { get; set; }
         public int ShowAsFlags { get; set; }
+        public string BookingSubject { get; set; }
     
         public virtual ExchangeAccount ExchangeAccount { get; set; }
     }

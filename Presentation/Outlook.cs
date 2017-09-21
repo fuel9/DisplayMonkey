@@ -18,6 +18,7 @@ using System.IO;
 using System.Net;
 using Microsoft.Exchange.WebServices.Data;
 using System.Web.Script.Serialization;
+using DisplayMonkey.Language;
 
 namespace DisplayMonkey
 {
@@ -50,6 +51,9 @@ namespace DisplayMonkey
 
         [ScriptIgnore]
         public DisplayMonkey.Models.OutlookPrivacy Privacy { get; private set; }   // TODO: 0 = show everything, 1 = normal only, 2 = sensitivity as subject
+
+        [ScriptIgnore]
+        public string BookingSubject { get; private set; }  // 1.5.2
 
         public Outlook(int frameId)
             : base(frameId)
@@ -89,6 +93,7 @@ namespace DisplayMonkey
                     Privacy = (DisplayMonkey.Models.OutlookPrivacy)dr.IntOrZero("Privacy");
                     AllowReserve = dr.Boolean("AllowReserve");
                     ShowAsFlags = dr.IntOrZero("ShowAsFlags");
+                    BookingSubject = dr.StringOrDefault("BookingSubject", Resources.Outlook_BookingOnDemand);
                     return false;
                 });
             }

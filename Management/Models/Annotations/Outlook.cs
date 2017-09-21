@@ -94,6 +94,12 @@ namespace DisplayMonkey.Models
                 Display(ResourceType = typeof(Resources), Name = "ExchangeAccount"),
             ]
             public virtual ExchangeAccount ExchangeAccount { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "BookingSubject"),
+                StringLength(100, ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "MaxLengthExceeded"),
+            ]
+            public string BookingSubject { get; set; }
         }
 
         [

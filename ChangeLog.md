@@ -13,6 +13,10 @@
 
 ### Change log
 
+v1.5.2 (September 21, 2017)
+
+- Subject for quick booking
+
 v1.5.1 (July 06, 2017)
 
 - Fixed erratic navigation in CRUD actions

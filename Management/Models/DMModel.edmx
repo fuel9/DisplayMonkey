@@ -175,6 +175,7 @@
           <Property Name="Privacy" Type="int" Nullable="false" />
           <Property Name="AllowReserve" Type="bit" Nullable="false" />
           <Property Name="ShowAsFlags" Type="int" Nullable="false" />
+          <Property Name="BookingSubject" Type="nvarchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="Panel">
           <Key>
@@ -1267,6 +1268,7 @@
           <Property Type="DisplayMonkey.Model.OutlookPrivacy" Name="Privacy" Nullable="false" />
           <Property Name="AllowReserve" Type="Boolean" Nullable="false" />
           <Property Name="ShowAsFlags" Type="Int32" Nullable="false" />
+          <Property Name="BookingSubject" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_Outlook_ExchangeAccount">
           <End Type="DisplayMonkey.Model.ExchangeAccount" Role="ExchangeAccount" Multiplicity="1">
@@ -1458,6 +1460,7 @@
             </EntityTypeMapping>
             <EntityTypeMapping TypeName="IsTypeOf(DisplayMonkey.Model.Outlook)">
               <MappingFragment StoreEntitySet="Outlook">
+                <ScalarProperty Name="BookingSubject" ColumnName="BookingSubject" />
                 <ScalarProperty Name="FrameId" ColumnName="FrameId" />
                 <ScalarProperty Name="Mode" ColumnName="Mode" />
                 <ScalarProperty Name="Name" ColumnName="Name" />

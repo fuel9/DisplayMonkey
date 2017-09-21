@@ -1673,4 +1673,10 @@
   <data name="NotSupported" xml:space="preserve">
     <value>Not supported</value>
   </data>
+  <data name="BookingSubject" xml:space="preserve">
+    <value>Booking subject</value>
+  </data>
+  <data name="Outlook_BookingOnDemand" xml:space="preserve">
+    <value>On-Demand Booking</value>
+  </data>
 </root>
