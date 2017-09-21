@@ -50,6 +50,14 @@
         </div>
 
         <div class="editor-label">
+            @Html.LabelFor(model => model.BookingSubject)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.BookingSubject)
+            @Html.ValidationMessageFor(model => model.BookingSubject)
+        </div>
+
+        <div class="editor-label">
             @Html.LabelFor(model => model.Privacy)
         </div>
         <div class="editor-field select">

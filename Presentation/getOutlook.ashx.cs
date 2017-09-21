@@ -280,8 +280,11 @@ namespace DisplayMonkey
                         async (expire) =>
                         {
                             expire.After = TimeSpan.FromMinutes(60);
-                            await System.Threading.Tasks.Task.Run(() => service.AutodiscoverUrl(outlook.Account, RedirectionUrlValidationCallback));
-                            return service.Url;
+                            return await System.Threading.Tasks.Task.Run(() => 
+                            {
+                                service.AutodiscoverUrl(outlook.Account, RedirectionUrlValidationCallback);
+                                return service.Url;
+                            });
                         });
                 }
 
@@ -314,11 +317,14 @@ namespace DisplayMonkey
                 }
 
                 // mailbox: get availability
-                GetUserAvailabilityResults uars = await System.Threading.Tasks.Task.Run(() => service.GetUserAvailability(
-                    new AttendeeInfo[] { new AttendeeInfo(outlook.Mailbox, MeetingAttendeeType.Required, true) },
-                    new TimeWindow(locationToday, locationToday.AddDays(1)),
-                    AvailabilityData.FreeBusy
-                    ));
+                GetUserAvailabilityResults uars = await System.Threading.Tasks.Task.Run(() =>
+                {
+                    return service.GetUserAvailability(
+                        new AttendeeInfo[] { new AttendeeInfo(outlook.Mailbox, MeetingAttendeeType.Required, true) },
+                        new TimeWindow(locationToday, locationToday.AddDays(1)),
+                        AvailabilityData.FreeBusy
+                        );
+                });
                 var u = uars.AttendeesAvailability[0];
                 if (u.WorkingHours != null)
                 {
@@ -331,20 +337,28 @@ namespace DisplayMonkey
                 {
                     Appointment appointment = new Appointment(service)
                     {
-                        Body = "Test",
-                        Subject = "Test",
+                        Subject = outlook.BookingSubject,
+                        Body = string.Format("{0} | {1}", Resources.Outlook_BookingOnDemand, Resources.DisplayMonkey),
                         Start = DateTime.Now,
                         End = DateTime.Now.AddMinutes(reserveMinutes),
                     };
 
                     if (outlook.Mailbox == outlook.Account)
                     {
-                        await System.Threading.Tasks.Task.Run(() => appointment.Save(SendInvitationsMode.SendToNone));
+                        await System.Threading.Tasks.Task.Run(() =>
+                        {
+                            appointment.Save(SendInvitationsMode.SendToNone);
+                            return true;
+                        });
                     }
                     else
                     {
                         appointment.Resources.Add(outlook.Mailbox);
-                        await System.Threading.Tasks.Task.Run(() => appointment.Save(SendInvitationsMode.SendOnlyToAll));
+                        await System.Threading.Tasks.Task.Run(() => 
+                        {
+                            appointment.Save(SendInvitationsMode.SendOnlyToAll);
+                            return true;
+                        });
                     }
                 }
 
