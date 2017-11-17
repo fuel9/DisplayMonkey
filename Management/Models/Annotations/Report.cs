@@ -75,7 +75,18 @@ namespace DisplayMonkey.Models
 
                 string
                     baseUrl = (this.ReportServer.BaseUrl ?? "").Trim(),
-                    url = (this.Path ?? "").Trim();
+                    url = (this.Path ?? "").Trim(),
+                    parameters = string.Empty;
+
+                if (url.Contains("&"))
+                {
+                    int index = url.IndexOf("&");
+                    if (index >= 0)
+                    {
+                        parameters = url.Substring(index);
+                        url = url.Substring(0, index);
+                    }
+                }
 
                 if (baseUrl.EndsWith("/"))
                     baseUrl = baseUrl.Substring(0, baseUrl.Length - 1);
@@ -83,11 +94,15 @@ namespace DisplayMonkey.Models
                 if (!url.StartsWith("/"))
                     url = "/" + url;
 
-                return string.Format(
-                    "{0}?{1}&rs:format=IMAGE",
-                    baseUrl,
-                    HttpUtility.UrlEncode(url)
-                    );
+
+                //return string.Format(
+                //    "{0}?{1}&rs:format=IMAGE",
+                //    baseUrl,
+                //    HttpUtility.UrlEncode(url)
+                //    );
+
+                url = $"{baseUrl}?{System.Net.WebUtility.UrlEncode(url)}{parameters}&rs:format=IMAGE";
+                return url;
             }
         }
     }
