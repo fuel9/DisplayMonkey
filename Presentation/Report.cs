@@ -87,14 +87,12 @@ namespace DisplayMonkey
                 if (!url.StartsWith("/"))
                     url = "/" + url;
 
-                //url = string.Format(
-                //    "{0}?{1}&rs:format=IMAGE",
-                //    baseUrl,
-                //    HttpUtility.UrlEncode(url)
-                //    );
-
-                url = $"{baseUrl}?{System.Net.WebUtility.UrlEncode(url)}{parameters}&rs:format=IMAGE"; // include the parameters Afetr the URL has been encoded
-
+                url = string.Format(
+                    "{0}?{1}{2}&rs:format=IMAGE",
+                    baseUrl,
+                    HttpUtility.UrlEncode(url),
+                    parameters
+                    );
                 return url;
             }
         }

@@ -95,13 +95,12 @@ namespace DisplayMonkey.Models
                     url = "/" + url;
 
 
-                //return string.Format(
-                //    "{0}?{1}&rs:format=IMAGE",
-                //    baseUrl,
-                //    HttpUtility.UrlEncode(url)
-                //    );
-
-                url = $"{baseUrl}?{System.Net.WebUtility.UrlEncode(url)}{parameters}&rs:format=IMAGE";
+                url = string.Format(
+                    "{0}?{1}{2}&rs:format=IMAGE",
+                    baseUrl,
+                    HttpUtility.UrlEncode(url), 
+                    parameters
+                    );
                 return url;
             }
         }
