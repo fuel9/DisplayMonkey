@@ -1058,9 +1058,9 @@ div.select {
         margin: 0px 0px 0px 0px; 
         padding: 5px 35px 5px 35px; 
         font-size: 0.8em; 
-        width: 130px;
+        width: 400px;
         height: 90px;
-        background: url("../images/film.png") no-repeat #fff;
+        background: url("../images/film_large.png") no-repeat #fff;
         cursor: ns-resize;
     }
 

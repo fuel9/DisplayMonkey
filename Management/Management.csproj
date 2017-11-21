@@ -432,6 +432,7 @@
     <Content Include="Images\favicon-32x32.png" />
     <Content Include="Images\favicon-96x96.png" />
     <Content Include="Images\film.png" />
+    <Content Include="Images\film_large.png" />
     <Content Include="Images\full.png" />
     <Content Include="Images\html.png" />
     <Content Include="Images\image.png" />

@@ -4,6 +4,6 @@
     <div><img src="~/images/video_thmb.png" alt="" /></div>
     <div>@(string.Format("{0}, {1} {2}", Model.FrameType, Model.Duration, Resources.Sec))</div>
 </div>
-<div>
-    @Html.ShortSpan(Model.Contents.FirstOrDefault().Name, 17)
+<div title=@Model.Contents.FirstOrDefault().Name>
+    @Html.ShortSpan(Model.Contents.FirstOrDefault().Name, 50)
 </div>

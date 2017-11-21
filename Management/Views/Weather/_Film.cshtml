@@ -4,6 +4,6 @@
     <div><img src="~/images/weather.png" alt="" /></div>
     <div>@(string.Format("{0}, {1} {2}", Model.FrameType, Model.Duration, Resources.Sec))</div>
 </div>
-<div>
+<div title=@Model.Type.Translate()>
     @Html.ShortSpan(Model.Type.Translate(), 17)
 </div>
