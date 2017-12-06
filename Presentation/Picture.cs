@@ -92,8 +92,9 @@ namespace DisplayMonkey
 		public static void WriteImage(Stream inStream, Stream outStream, int boundWidth, int boundHeight, RenderModes mode)
 		{
 			Bitmap bmpSrc = null, bmpTrg = null;
+            float scale = 1F;
 
-			try
+            try
 			{
 				bmpSrc = new Bitmap(inStream);
 
@@ -118,7 +119,7 @@ namespace DisplayMonkey
 						case RenderModes.RenderMode_Fit:
 							targetWidth = imageWidth;
                             targetHeight = imageHeight;
-							float scale = 1F;
+
 							// a. panel is greater than image: grow
 							if (boundHeight > imageHeight && boundWidth > imageWidth)
 							{
@@ -144,7 +145,28 @@ namespace DisplayMonkey
 								bmpSrc.PixelFormat
 								);
 							break;
-					}
+
+                        case RenderModes.RenderMode_Fill:
+                            targetWidth = imageWidth;
+                            targetHeight = imageHeight;
+                            
+                            // a. panel is greater than image: grow
+                            if (boundHeight > imageHeight && boundWidth > imageWidth)
+                            {
+                                scale = Math.Max((float)boundWidth / imageWidth, (float)boundHeight / imageHeight);
+                                targetHeight = (int)((float)imageHeight * scale);
+                                targetWidth = (int)((float)imageWidth * scale);
+                            }
+                            // b. image is greater than panel: shrink
+                            else
+                            {
+                                scale = Math.Min((float)imageWidth / boundWidth, (float)imageHeight / boundHeight);
+                                targetWidth = (int)((float)imageWidth / scale);
+                                targetHeight = (int)((float)imageHeight / scale);
+                            }
+                            bmpTrg = new Bitmap(bmpSrc, new Size(targetWidth, targetHeight));
+                            break;
+                    }
 
 					bmpTrg.Save(outStream, ImageFormat.Png);
 				}

@@ -25,6 +25,7 @@ namespace DisplayMonkey.Models
     {
         RenderMode_Crop = 0,
         RenderMode_Stretch = 1,
-        RenderMode_Fit = 2
+        RenderMode_Fit = 2,
+        RenderMode_Fill = 3
     }
 }
