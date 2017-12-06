@@ -1679,4 +1679,7 @@
   <data name="Outlook_BookingOnDemand" xml:space="preserve">
     <value>On-Demand Booking</value>
   </data>
+  <data name="RenderMode_Fill" xml:space="preserve">
+    <value>Fill</value>
+  </data>
 </root>
