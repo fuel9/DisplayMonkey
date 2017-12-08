@@ -86,6 +86,12 @@ Yahoo weather JSON sample: {
 }
 *********************************************************/
 
+function degToCompass(num) {
+    var val = Math.floor((num / 22.5) + 0.5);
+    var arr = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"];
+    return arr[(val % 16)];
+}
+
 DM.Weather = Class.create(/*PeriodicalExecuter*/ DM.FrameBase, {
     initialize: function ($super, options) {
         "use strict";
@@ -142,8 +148,14 @@ DM.Weather = Class.create(/*PeriodicalExecuter*/ DM.FrameBase, {
                         weather.div.select('.condition_temp').each(function (e) { e.update(json.condition.temp); });
                     }
 
+                    if (json.wind) {
+                        weather.div.select('.wind_speed').each(function (e) { e.update(Math.round(json.wind.speed)); });
+                        weather.div.select('.wind_direction').each(function (e) { e.update(degToCompass(json.wind.direction)); });
+                    }
+
                     if (json.units) {
                         weather.div.select('.units_temperature').each(function (e) { e.update(json.units.temperature); });
+                        weather.div.select('.units_speed').each(function (e) { e.update(json.units.speed); });
                     }
                 }
                 catch (e) {
