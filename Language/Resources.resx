@@ -1682,4 +1682,7 @@
   <data name="RenderMode_Fill" xml:space="preserve">
     <value>Fill</value>
   </data>
+  <data name="WeatherType_ForeCast" xml:space="preserve">
+    <value>Forecast</value>
+  </data>
 </root>

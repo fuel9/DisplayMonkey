@@ -39,6 +39,13 @@ namespace DisplayMonkey.Models
                 Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "WeatherTypeRequired"),
             ]
             public WeatherTypes Type { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "Location"),
+            ]
+            public string Location { get; set; }
+
+
         }
     }
 }

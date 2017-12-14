@@ -20,7 +20,7 @@ using System.Text.RegularExpressions;
 using System.Net;
 using System.Xml;
 using DisplayMonkey.Language;
-
+using DisplayMonkey.Models;
 
 namespace DisplayMonkey
 {
@@ -28,6 +28,8 @@ namespace DisplayMonkey
 	{
         public int Woeid  { get; private set; }
         public string TemperatureUnit { get; private set; }
+        public WeatherTypes Type { get; protected set; }
+        public string Location { get; protected set; }
 
         public Weather(int frameId)
             : base(frameId)
@@ -52,6 +54,8 @@ namespace DisplayMonkey
                 cmd.Parameters.AddWithValue("@frameId", this.FrameId);
                 cmd.ExecuteReaderExt((dr) =>
                 {
+                    Type = (WeatherTypes)dr.IntOrZero("Type");
+                    Location = dr.StringOrBlank("Location");
                     return false;
                 });
             }

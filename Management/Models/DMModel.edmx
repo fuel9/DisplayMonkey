@@ -172,9 +172,9 @@
           <Property Name="Mailbox" Type="varchar" MaxLength="100" />
           <Property Name="ShowEvents" Type="int" Nullable="false" />
           <Property Name="AccountId" Type="int" Nullable="false" />
-          <Property Name="Privacy" Type="int" Nullable="false" />
           <Property Name="AllowReserve" Type="bit" Nullable="false" />
           <Property Name="ShowAsFlags" Type="int" Nullable="false" />
+          <Property Name="Privacy" Type="int" Nullable="false" />
           <Property Name="BookingSubject" Type="nvarchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="Panel">
@@ -210,8 +210,8 @@
           <Property Name="Dashboard" Type="uniqueidentifier" />
           <Property Name="Tile" Type="uniqueidentifier" />
           <Property Name="Report" Type="uniqueidentifier" />
-          <Property Name="Url" Type="varchar" MaxLength="200" />
           <Property Name="Group" Type="uniqueidentifier" />
+          <Property Name="Url" Type="varchar" MaxLength="200" />
         </EntityType>
         <EntityType Name="Report">
           <Key>
@@ -273,6 +273,7 @@
           </Key>
           <Property Name="FrameId" Type="int" Nullable="false" />
           <Property Name="Type" Type="int" Nullable="false" />
+          <Property Name="Location" Type="nvarchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="Youtube">
           <Key>
@@ -646,20 +647,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Weather_Frame">
-          <End Role="Frame" Type="Self.Frame" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="Weather" Type="Self.Weather" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="Frame">
-              <PropertyRef Name="FrameId" />
-            </Principal>
-            <Dependent Role="Weather">
-              <PropertyRef Name="FrameId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Youtube_Frame">
           <End Role="Frame" Type="Self.Frame" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -804,10 +791,6 @@
           <AssociationSet Name="FK_VideoAlternative_Content" Association="Self.FK_VideoAlternative_Content">
             <End Role="Content" EntitySet="Content" />
             <End Role="VideoAlternative" EntitySet="VideoAlternative" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Weather_Frame" Association="Self.FK_Weather_Frame">
-            <End Role="Frame" EntitySet="Frame" />
-            <End Role="Weather" EntitySet="Weather" />
           </AssociationSet>
           <AssociationSet Name="FK_Youtube_Frame" Association="Self.FK_Youtube_Frame">
             <End Role="Frame" EntitySet="Frame" />
@@ -1037,6 +1020,7 @@
         </EntityType>
         <EntityType Name="Weather" BaseType="DisplayMonkey.Model.Frame">
           <Property Type="DisplayMonkey.Model.WeatherTypes" Name="Type" Nullable="false" />
+          <Property Name="Location" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_Canvas_Content">
           <End Role="Content" Type="DisplayMonkey.Model.Content" Multiplicity="0..1" />
@@ -1184,13 +1168,15 @@
           <Member Name="RenderMode_Crop" Value="0" />
           <Member Name="RenderMode_Stretch" Value="1" />
           <Member Name="RenderMode_Fit" Value="2" />
+          <Member Name="RenderMode_Fill" Value="3" />
         </EnumType>
         <EnumType Name="ClockTypes">
           <Member Name="ClockType_Text" Value="0" />
           <Member Name="ClockType_Analog" Value="1" />
         </EnumType>
         <EnumType Name="WeatherTypes">
-          <Member Name="WeatherType_Current" Value="0" />
+        <Member Name="WeatherType_Current" Value="0" />
+          <Member Name="WeatherType_Forecast" Value="1" />
         </EnumType>
         <EnumType Name="SettingTypes">
           <Member Name="SettingType_IntPositive" Value="0" />
@@ -1499,6 +1485,7 @@
             </EntityTypeMapping>
             <EntityTypeMapping TypeName="IsTypeOf(DisplayMonkey.Model.Weather)">
               <MappingFragment StoreEntitySet="Weather">
+                <ScalarProperty Name="Location" ColumnName="Location" />
                 <ScalarProperty Name="FrameId" ColumnName="FrameId" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
               </MappingFragment>

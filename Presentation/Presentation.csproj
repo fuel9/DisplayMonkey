@@ -208,7 +208,7 @@
     <Content Include="Styles\fonts\futura.ttf" />
     <Content Include="getHtml.ashx" />
     <Content Include="Images\manifest.json" />
-    <Content Include="getYahooWeather.ashx" />
+    <Content Include="getWeather.ashx" />
     <Content Include="files\windowsZones.xml" />
     <Content Include="Styles\custom.css" />
     <Content Include="Styles\jqsimplemenu.css" />
@@ -278,7 +278,9 @@
     <Content Include="Styles\themes\base\minified\jquery.ui.tabs.min.css" />
     <Content Include="Styles\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="Styles\themes\base\minified\jquery.ui.tooltip.min.css" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -309,6 +311,9 @@
     <Compile Include="..\Management\Models\RenderModes.cs">
       <Link>RenderModes.cs</Link>
     </Compile>
+    <Compile Include="..\Management\Models\WeatherTypes.cs">
+      <Link>WeatherTypes.cs</Link>
+    </Compile>
     <Compile Include="..\Management\RsaUtil.cs">
       <Link>RsaUtil.cs</Link>
     </Compile>
@@ -323,8 +328,8 @@
     <Compile Include="getAzureToken.ashx.cs">
       <DependentUpon>getAzureToken.ashx</DependentUpon>
     </Compile>
-    <Compile Include="getYahooWeather.ashx.cs">
-      <DependentUpon>getYahooWeather.ashx</DependentUpon>
+    <Compile Include="getWeather.ashx.cs">
+      <DependentUpon>getWeather.ashx</DependentUpon>
     </Compile>
     <Compile Include="Powerbi.cs" />
     <Compile Include="AzureUtil.cs" />

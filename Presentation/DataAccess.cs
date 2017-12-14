@@ -216,6 +216,13 @@ namespace DisplayMonkey
             return DbValueOrDefault<double>(reader[column], 0);
         }
 
+        public static double DoubleOrZero(this HttpRequest request, string key)
+        {
+            double d = 0.0;
+            Double.TryParse(request.QueryString[key], out d);
+            return d;
+        }
+
         public static byte[] BytesOrNull(this SqlDataReader reader, string column)
         {
             return DbValueOrNull<byte[]>(reader[column]);

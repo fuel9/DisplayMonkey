@@ -4485,6 +4485,15 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Forecast.
+        /// </summary>
+        public static string WeatherType_ForeCast {
+            get {
+                return ResourceManager.GetString("WeatherType_ForeCast", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to One week forecast.
         /// </summary>
         public static string WeatherType_Week {

@@ -8,4 +8,4 @@
 * http://opensource.org/licenses/MIT
 --%>
 
-<%@ WebHandler Language="C#" CodeBehind="getYahooWeather.ashx.cs" Class="DisplayMonkey.getYahooWeather" %>
+<%@ WebHandler Language="C#" CodeBehind="getWeather.ashx.cs" Class="DisplayMonkey.getWeather" %>

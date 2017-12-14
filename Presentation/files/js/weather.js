@@ -12,86 +12,6 @@
 // 2015-05-08 [LTL] - ready callback
 // 2016-03-27 [LTL] - fixed onSuccess
 
-/*********************************************************
-Yahoo weather JSON sample: {
-	"forecast" : [{
-			"day" : "Mon",
-			"date" : "9 Mar 2015",
-			"low" : "49",
-			"high" : "59",
-			"text" : "Rain",
-			"code" : "12"
-		}, {
-			"day" : "Tue",
-			"date" : "10 Mar 2015",
-			"low" : "56",
-			"high" : "70",
-			"text" : "Rain",
-			"code" : "12"
-		}, {
-			"day" : "Wed",
-			"date" : "11 Mar 2015",
-			"low" : "52",
-			"high" : "66",
-			"text" : "Rain",
-			"code" : "12"
-		}, {
-			"day" : "Thu",
-			"date" : "12 Mar 2015",
-			"low" : "57",
-			"high" : "70",
-			"text" : "Rain",
-			"code" : "12"
-		}, {
-			"day" : "Fri",
-			"date" : "13 Mar 2015",
-			"low" : "54",
-			"high" : "64",
-			"text" : "Rain",
-			"code" : "12"
-		}
-	],
-	"location" : {
-		"city" : "Lebanon",
-		"region" : "TN",
-		"country" : "United States"
-	},
-	"units" : {
-		"temperature" : "F",
-		"distance" : "mi",
-		"pressure" : "in",
-		"speed" : "mph"
-	},
-	"wind" : {
-		"chill" : "57",
-		"direction" : "140",
-		"speed" : "5"
-	},
-	"atmosphere" : {
-		"humidity" : "69",
-		"visibility" : "10",
-		"pressure" : "30.14",
-		"rising" : "2"
-	},
-	"astronomy" : {
-		"sunrise" : "7:05 am",
-		"sunset" : "6:47 pm"
-	},
-	"condition" : {
-		"text" : "Light Rain",
-		"code" : "11",
-		"temp" : "57",
-		"date" : "Mon, 09 Mar 2015 5:51 pm CDT"
-	}
-}
-*********************************************************/
-
-function degToCompass(num) {
-    var val = Math.floor((num / 22.5) + 0.5);
-    var arr = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"];
-    return arr[(val % 16)];
-}
-
 DM.Weather = Class.create(/*PeriodicalExecuter*/ DM.FrameBase, {
     initialize: function ($super, options) {
         "use strict";
@@ -99,6 +19,9 @@ DM.Weather = Class.create(/*PeriodicalExecuter*/ DM.FrameBase, {
         var data = options.panel.data;
         this.tempU = data.TemperatureUnit || _canvas.temperatureUnit;
         this.woeid = data.Woeid || _canvas.woeid;
+
+        this.culture = _canvas.culture;
+        this.location = data.Location;
 
         this._callback();
     },
@@ -109,14 +32,18 @@ DM.Weather = Class.create(/*PeriodicalExecuter*/ DM.FrameBase, {
             return;
 
         this.updating = true;
-        new Ajax.Request("getYahooWeather.ashx", {
+        new Ajax.Request("getWeather.ashx", {
             method: 'get',
             parameters: $H({
                 frame: this.frameId,
                 panel: this.panelId,
                 display: _canvas.displayId,
                 woeid: this.woeid,
-                tempU: this.tempU
+                tempU: this.tempU,
+                culture: this.culture,
+                location: this.location,
+                latitude: _canvas.latitude,
+                longitude: _canvas.longitude
             }),
             evalJSON: false,
             weather: this,
@@ -136,26 +63,17 @@ DM.Weather = Class.create(/*PeriodicalExecuter*/ DM.FrameBase, {
                     if (json.Error)
                         throw new Error(json.Error);
 
-                    if (json.location) {
-                        weather.div.select('.location_city').each(function (e) { e.update(json.location.city); });
-                        weather.div.select('.location_region').each(function (e) { e.update(json.location.region); });
-                        weather.div.select('.location_country').each(function (e) { e.update(json.location.country); });
-                    }
-
-                    if (json.condition) {
-                        weather.div.select('.condition_code').each(function (e) { e.src = "files/weather/" + json.condition.code + ".gif"; });
-                        weather.div.select('.condition_text').each(function (e) { e.update(json.condition.text); });
-                        weather.div.select('.condition_temp').each(function (e) { e.update(json.condition.temp); });
-                    }
-
-                    if (json.wind) {
-                        weather.div.select('.wind_speed').each(function (e) { e.update(Math.round(json.wind.speed)); });
-                        weather.div.select('.wind_direction').each(function (e) { e.update(degToCompass(json.wind.direction)); });
-                    }
-
-                    if (json.units) {
-                        weather.div.select('.units_temperature').each(function (e) { e.update(json.units.temperature); });
-                        weather.div.select('.units_speed').each(function (e) { e.update(json.units.speed); });
+                    if (json.current_observation) {
+                        weather.div.select('.location_city').each(function (e) { e.update(json.current_observation.display_location.city); });
+                        weather.div.select('.location_region').each(function (e) { e.update(json.current_observation.display_location.state); });
+                        weather.div.select('.location_country').each(function (e) { e.update(json.current_observation.display_location.country); });
+                        weather.div.select('.condition_code').each(function (e) { e.src = json.current_observation.icon_url; });
+                        weather.div.select('.condition_text').each(function (e) { e.update(json.current_observation.weather); });
+                        weather.div.select('.condition_temp').each(function (e) { e.update(json.current_observation.temp_c); });
+                        weather.div.select('.wind_speed').each(function (e) { e.update(json.current_observation.wind_kph); });
+                        weather.div.select('.wind_direction').each(function (e) { e.update(json.current_observation.wind_dir); });
+                        weather.div.select('.units_temperature').each(function (e) { e.update("&#8451"); });
+                        weather.div.select('.units_speed').each(function (e) { e.update("km/u"); });
                     }
                 }
                 catch (e) {
