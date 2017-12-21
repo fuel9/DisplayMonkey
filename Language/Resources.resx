@@ -337,13 +337,10 @@
     <value>Subject</value>
   </data>
   <data name="WeatherType" xml:space="preserve">
-    <value>Weather type</value>
+    <value>Weather API</value>
   </data>
-  <data name="WeatherType_Current" xml:space="preserve">
-    <value>Current conditions</value>
-  </data>
-  <data name="WeatherType_Week" xml:space="preserve">
-    <value>One week forecast</value>
+  <data name="WeatherType_Yahoo" xml:space="preserve">
+    <value>Yahoo weather</value>
   </data>
   <data name="ContentType_Picture" xml:space="preserve">
     <value>Picture</value>
@@ -439,7 +436,7 @@
     <value>Server</value>
   </data>
   <data name="WeatherTypeRequired" xml:space="preserve">
-    <value>Weather type is required</value>
+    <value>Weather API is required</value>
   </data>
   <data name="AreYouSureDeleteCanvas" xml:space="preserve">
     <value>Are you sure you want to delete this canvas?</value>
@@ -1682,7 +1679,7 @@
   <data name="RenderMode_Fill" xml:space="preserve">
     <value>Fill</value>
   </data>
-  <data name="WeatherType_ForeCast" xml:space="preserve">
-    <value>Forecast</value>
+  <data name="WeatherType_Wunderground" xml:space="preserve">
+    <value>Wunderground weather</value>
   </data>
 </root>

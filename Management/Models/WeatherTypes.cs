@@ -13,7 +13,7 @@ namespace DisplayMonkey.Models
     
     public enum WeatherTypes : int
     {
-        WeatherType_Current = 0,
-        WeatherType_Forecast = 1
+        WeatherType_Yahoo = 0,
+        WeatherType_Wunderground = 1
     }
 }

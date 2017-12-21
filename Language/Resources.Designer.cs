@@ -4467,7 +4467,7 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Weather type.
+        ///   Looks up a localized string similar to Weather API.
         /// </summary>
         public static string WeatherType {
             get {
@@ -4476,34 +4476,25 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Current conditions.
+        ///   Looks up a localized string similar to Wunderground weather.
         /// </summary>
-        public static string WeatherType_Current {
+        public static string WeatherType_Wunderground {
             get {
-                return ResourceManager.GetString("WeatherType_Current", resourceCulture);
+                return ResourceManager.GetString("WeatherType_Wunderground", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Forecast.
+        ///   Looks up a localized string similar to Yahoo weather.
         /// </summary>
-        public static string WeatherType_ForeCast {
+        public static string WeatherType_Yahoo {
             get {
-                return ResourceManager.GetString("WeatherType_ForeCast", resourceCulture);
+                return ResourceManager.GetString("WeatherType_Yahoo", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to One week forecast.
-        /// </summary>
-        public static string WeatherType_Week {
-            get {
-                return ResourceManager.GetString("WeatherType_Week", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Weather type is required.
+        ///   Looks up a localized string similar to Weather API is required.
         /// </summary>
         public static string WeatherTypeRequired {
             get {

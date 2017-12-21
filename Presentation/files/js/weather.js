@@ -12,11 +12,18 @@
 // 2015-05-08 [LTL] - ready callback
 // 2016-03-27 [LTL] - fixed onSuccess
 
+function degToCompass(num) {
+    var val = Math.floor((num / 22.5) + 0.5);
+    var arr = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"];
+    return arr[(val % 16)];
+}
+
 DM.Weather = Class.create(/*PeriodicalExecuter*/ DM.FrameBase, {
     initialize: function ($super, options) {
         "use strict";
         $super(options, 'div.weather');
         var data = options.panel.data;
+        this.weatherType = data.Type || 0;
         this.tempU = data.TemperatureUnit || _canvas.temperatureUnit;
         this.woeid = data.Woeid || _canvas.woeid;
 
@@ -62,6 +69,29 @@ DM.Weather = Class.create(/*PeriodicalExecuter*/ DM.FrameBase, {
 
                     if (json.Error)
                         throw new Error(json.Error);
+
+                    if (json.location) {
+                        weather.div.select('.location_city').each(function (e) { e.update(json.location.city); });
+                        weather.div.select('.location_region').each(function (e) { e.update(json.location.region); });
+                        weather.div.select('.location_country').each(function (e) { e.update(json.location.country); });
+                    }
+                    
+                    if (json.condition) {
+                        weather.div.select('.condition_code').each(function (e) { e.src = "files/weather/" + json.condition.code + ".gif"; });
+                        weather.div.select('.condition_text').each(function (e) { e.update(json.condition.text); });
+                        weather.div.select('.condition_temp').each(function (e) { e.update(json.condition.temp); });
+                    }
+                    
+                    if (json.wind) {
+                        weather.div.select('.wind_speed').each(function (e) { e.update(Math.round(json.wind.speed)); });
+                        weather.div.select('.wind_direction').each(function (e) { e.update(degToCompass(json.wind.direction)); });
+                    }
+                    
+                    if (json.units) {
+                        weather.div.select('.units_temperature').each(function (e) { e.update(json.units.temperature); });
+                        weather.div.select('.units_speed').each(function (e) { e.update(json.units.speed); });
+                    }
+
 
                     if (json.current_observation) {
                         var iconname = json.current_observation.icon;

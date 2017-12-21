@@ -1175,8 +1175,8 @@
           <Member Name="ClockType_Analog" Value="1" />
         </EnumType>
         <EnumType Name="WeatherTypes">
-        <Member Name="WeatherType_Current" Value="0" />
-          <Member Name="WeatherType_Forecast" Value="1" />
+          <Member Name="WeatherType_Yahoo" Value="0" />
+          <Member Name="WeatherType_Wunderground" Value="1" />
         </EnumType>
         <EnumType Name="SettingTypes">
           <Member Name="SettingType_IntPositive" Value="0" />
