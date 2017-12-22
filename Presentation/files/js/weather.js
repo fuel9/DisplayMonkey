@@ -118,25 +118,28 @@ DM.Weather = Class.create(/*PeriodicalExecuter*/ DM.FrameBase, {
                         weather.div.select('.wind_direction').each(function (e) { e.update(json.current_observation.wind_dir); });
                     }
 
-                    if (json.forecast.txt_forecast) {
-                        var icon;
-                        for (var i = 0; i < 4; i++) {
-                            icon = json.forecast.txt_forecast.forecastday[i].icon
-                            if (icon.startsWith("nt_")) {
-                                icon = icon.substring(3) + " wu-night";
+                    if (json.forecast)
+                    {
+                        if (json.forecast.txt_forecast) {
+                            var icon;
+                            for (var i = 0; i < 4; i++) {
+                                icon = json.forecast.txt_forecast.forecastday[i].icon
+                                if (icon.startsWith("nt_")) {
+                                    icon = icon.substring(3) + " wu-night";
+                                }
+                                weather.div.select('.forecast_icon_' + i).each(function (e) { e.update("<span class='wu wu-black wu-128 wu-" + icon + "'></span>"); });
+                                weather.div.select('.forecast_title_' + i).each(function (e) { e.update(json.forecast.txt_forecast.forecastday[i].title); });
+                                weather.div.select('.forecast_text_' + i).each(function (e) { e.update(json.forecast.txt_forecast.forecastday[i].fcttext); });
+                                weather.div.select('.forecast_text_metric_' + i).each(function (e) { e.update(json.forecast.txt_forecast.forecastday[i].fcttext_metric); });
                             }
-                            weather.div.select('.forecast_icon_' + i).each(function (e) { e.update("<span class='wu wu-black wu-128 wu-" + icon + "'></span>"); });
-                            weather.div.select('.forecast_title_' + i).each(function (e) { e.update(json.forecast.txt_forecast.forecastday[i].title); });
-                            weather.div.select('.forecast_text_' + i).each(function (e) { e.update(json.forecast.txt_forecast.forecastday[i].fcttext); });
-                            weather.div.select('.forecast_text_metric_' + i).each(function (e) { e.update(json.forecast.txt_forecast.forecastday[i].fcttext_metric); });
                         }
-                    }
-                    if (json.forecast.simpleforecast) {
-                        for (var i = 0; i < 4; i++) {
-                            weather.div.select('.forecast_low_f_' + i).each(function (e) { e.update(json.forecast.simpleforecast.forecastday[i].low.fahrenheit); });
-                            weather.div.select('.forecast_low_c_' + i).each(function (e) { e.update(json.forecast.simpleforecast.forecastday[i].low.celsius); });
-                            weather.div.select('.forecast_high_f_' + i).each(function (e) { e.update(json.forecast.simpleforecast.forecastday[i].high.fahrenheit); });
-                            weather.div.select('.forecast_high_c_' + i).each(function (e) { e.update(json.forecast.simpleforecast.forecastday[i].high.celsius); });
+                        if (json.forecast.simpleforecast) {
+                            for (var i = 0; i < 4; i++) {
+                                weather.div.select('.forecast_low_f_' + i).each(function (e) { e.update(json.forecast.simpleforecast.forecastday[i].low.fahrenheit); });
+                                weather.div.select('.forecast_low_c_' + i).each(function (e) { e.update(json.forecast.simpleforecast.forecastday[i].low.celsius); });
+                                weather.div.select('.forecast_high_f_' + i).each(function (e) { e.update(json.forecast.simpleforecast.forecastday[i].high.fahrenheit); });
+                                weather.div.select('.forecast_high_c_' + i).each(function (e) { e.update(json.forecast.simpleforecast.forecastday[i].high.celsius); });
+                            }
                         }
                     }
                 }

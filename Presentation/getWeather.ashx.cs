@@ -23,6 +23,7 @@ using System.Web.Script.Serialization;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Web.Configuration;
+using System.Globalization;
 
 namespace DisplayMonkey
 {
@@ -52,8 +53,8 @@ namespace DisplayMonkey
                 language = "EN"; 
             }
             string location = request.StringOrBlank("location");
-            double latitude = request.DoubleOrZero("latitude");
-            double longitude = request.DoubleOrZero("longitude");
+            string latitude = request.StringOrBlank("latitude").Replace(",", ".").Replace("(", "-").Replace(")", "");
+            string longitude = request.StringOrBlank("longitude").Replace(",", ".").Replace("(", "-").Replace(")", "");
             if (location.Length == 0)
             {
                 location = $"{latitude},{longitude}";
