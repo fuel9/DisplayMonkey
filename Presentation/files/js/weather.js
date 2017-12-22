@@ -95,13 +95,27 @@ DM.Weather = Class.create(/*PeriodicalExecuter*/ DM.FrameBase, {
 
                     if (json.current_observation) {
                         var iconname = json.current_observation.icon;
-                        if (iconname.startsWith("nt_")) //nt_ is missing at current_observation.icon but might be added like in the forecast in the future
+                        if (iconname.length == 0) //weather station hasn't got weather info, pick todays forecast icon if available
                         {
-                            iconname = iconname.substring(3);
-                        }
-                        if (json.current_observation.icon_url.indexOf("/nt_") !== -1)
+                            if (json.forecast)
+                            {
+                                if (json.forecast.txt_forecast)
+                                {
+                                    iconname = json.forecast.txt_forecast.forecastday[0].icon
+                                    if (iconname.startsWith("nt_")) {
+                                        iconname = icon.substring(3) + " wu-night";
+                                    }
+                                }
+                            }
+                        } else
                         {
-                            iconname = iconname + " wu-night";
+                            if (iconname.startsWith("nt_")) //nt_ is missing at current_observation.icon but might be added like in the forecast in the future
+                            {
+                                iconname = iconname.substring(3);
+                            }
+                            if (json.current_observation.icon_url.indexOf("/nt_") !== -1) {
+                                iconname = iconname + " wu-night";
+                            }
                         }
 
                         weather.div.select('.location_city').each(function (e) { e.update(json.current_observation.display_location.city); });
@@ -113,32 +127,46 @@ DM.Weather = Class.create(/*PeriodicalExecuter*/ DM.FrameBase, {
                         weather.div.select('.condition_text').each(function (e) { e.update(json.current_observation.weather); });
                         weather.div.select('.condition_temp_f').each(function (e) { e.update(json.current_observation.temp_f); });
                         weather.div.select('.condition_temp_c').each(function (e) { e.update(json.current_observation.temp_c); });
+                        weather.div.select('.feelslike_f').each(function (e) { e.update(json.current_observation.feelslike_f); });
+                        weather.div.select('.feelslike_c').each(function (e) { e.update(json.current_observation.feelslike_c); });
                         weather.div.select('.wind_speed_mph').each(function (e) { e.update(json.current_observation.wind_mph); });
                         weather.div.select('.wind_speed_kph').each(function (e) { e.update(json.current_observation.wind_kph); });
+                        weather.div.select('.wind_gust_mph').each(function (e) { e.update(json.current_observation.wind_gust_mph); });
+                        weather.div.select('.wind_gust_kph').each(function (e) { e.update(json.current_observation.wind_gust_kph); });
                         weather.div.select('.wind_direction').each(function (e) { e.update(json.current_observation.wind_dir); });
+                        weather.div.select('.visibility_m').each(function (e) { e.update(json.current_observation.visibility_mi); });
+                        weather.div.select('.visibility_k').each(function (e) { e.update(json.current_observation.visibility_km); });
+                        weather.div.select('.uv').each(function (e) { e.update(json.current_observation.UV); });
                     }
 
                     if (json.forecast)
                     {
                         if (json.forecast.txt_forecast) {
                             var icon;
-                            for (var i = 0; i < 4; i++) {
-                                icon = json.forecast.txt_forecast.forecastday[i].icon
-                                if (icon.startsWith("nt_")) {
-                                    icon = icon.substring(3) + " wu-night";
+                            for (var i = 0; i < 20; i++) {
+                                if (json.forecast.txt_forecast.forecastday[i])
+                                {
+                                    icon = json.forecast.txt_forecast.forecastday[i].icon
+                                    if (icon.startsWith("nt_")) {
+                                        icon = icon.substring(3) + " wu-night";
+                                    }
+                                    weather.div.select('.forecast_icon_' + i).each(function (e) { e.update("<span class='wu wu-black wu-128 wu-" + icon + "'></span>"); });
+                                    weather.div.select('.forecast_title_' + i).each(function (e) { e.update(json.forecast.txt_forecast.forecastday[i].title); });
+                                    weather.div.select('.forecast_text_' + i).each(function (e) { e.update(json.forecast.txt_forecast.forecastday[i].fcttext); });
+                                    weather.div.select('.forecast_text_metric_' + i).each(function (e) { e.update(json.forecast.txt_forecast.forecastday[i].fcttext_metric); });
+                                    weather.div.select('.forecast_pop_' + i).each(function (e) { e.update(json.forecast.txt_forecast.forecastday[i].pop); });
                                 }
-                                weather.div.select('.forecast_icon_' + i).each(function (e) { e.update("<span class='wu wu-black wu-128 wu-" + icon + "'></span>"); });
-                                weather.div.select('.forecast_title_' + i).each(function (e) { e.update(json.forecast.txt_forecast.forecastday[i].title); });
-                                weather.div.select('.forecast_text_' + i).each(function (e) { e.update(json.forecast.txt_forecast.forecastday[i].fcttext); });
-                                weather.div.select('.forecast_text_metric_' + i).each(function (e) { e.update(json.forecast.txt_forecast.forecastday[i].fcttext_metric); });
                             }
                         }
                         if (json.forecast.simpleforecast) {
-                            for (var i = 0; i < 4; i++) {
-                                weather.div.select('.forecast_low_f_' + i).each(function (e) { e.update(json.forecast.simpleforecast.forecastday[i].low.fahrenheit); });
-                                weather.div.select('.forecast_low_c_' + i).each(function (e) { e.update(json.forecast.simpleforecast.forecastday[i].low.celsius); });
-                                weather.div.select('.forecast_high_f_' + i).each(function (e) { e.update(json.forecast.simpleforecast.forecastday[i].high.fahrenheit); });
-                                weather.div.select('.forecast_high_c_' + i).each(function (e) { e.update(json.forecast.simpleforecast.forecastday[i].high.celsius); });
+                            for (var i = 0; i < 10; i++) {
+                                if (json.forecast.simpleforecast.forecastday[i])
+                                {
+                                    weather.div.select('.forecast_low_f_' + i).each(function (e) { e.update(json.forecast.simpleforecast.forecastday[i].low.fahrenheit); });
+                                    weather.div.select('.forecast_low_c_' + i).each(function (e) { e.update(json.forecast.simpleforecast.forecastday[i].low.celsius); });
+                                    weather.div.select('.forecast_high_f_' + i).each(function (e) { e.update(json.forecast.simpleforecast.forecastday[i].high.fahrenheit); });
+                                    weather.div.select('.forecast_high_c_' + i).each(function (e) { e.update(json.forecast.simpleforecast.forecastday[i].high.celsius); });
+                                }
                             }
                         }
                     }

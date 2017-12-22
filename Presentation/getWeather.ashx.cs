@@ -136,7 +136,7 @@ namespace DisplayMonkey
 
         private async Task<string> GetWeatherAsync(string key, string language, string location)
         {
-            string url = $"http://api.wunderground.com/api/{key}/conditions/forecast/lang:{language}/q/{location}.json";
+            string url = $"http://api.wunderground.com/api/{key}/conditions/forecast10day/lang:{language}/q/{location}.json";
 
             string response = "";
             using (WebClient client = new WebClient())
