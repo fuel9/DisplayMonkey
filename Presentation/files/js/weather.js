@@ -151,6 +151,7 @@ DM.Weather = Class.create(/*PeriodicalExecuter*/ DM.FrameBase, {
                                         icon = icon.substring(3) + " wu-night";
                                     }
                                     weather.div.select('.forecast_icon_' + i).each(function (e) { e.update("<span class='wu wu-black wu-128 wu-" + icon + "'></span>"); });
+                                    weather.div.select('.forecast_icon_white_' + i).each(function (e) { e.update("<span class='wu wu-white wu-128 wu-" + icon + "'></span>"); });
                                     weather.div.select('.forecast_title_' + i).each(function (e) { e.update(json.forecast.txt_forecast.forecastday[i].title); });
                                     weather.div.select('.forecast_text_' + i).each(function (e) { e.update(json.forecast.txt_forecast.forecastday[i].fcttext); });
                                     weather.div.select('.forecast_text_metric_' + i).each(function (e) { e.update(json.forecast.txt_forecast.forecastday[i].fcttext_metric); });

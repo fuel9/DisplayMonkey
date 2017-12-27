@@ -56,3 +56,64 @@ iframe.html {
 .youtube {
 }
 
+.memo h1.subject {
+    text-transform: none;
+}
+
+
+.scrollingtext .subject {
+    -moz-transform: translateX(100%);
+    -webkit-transform: translateX(100%);
+    transform: translateX(100%);
+    /* Apply animation to this element */
+    -moz-animation: scrollingtext 15s linear infinite;
+    -webkit-animation: scrollingtext 15s linear infinite;
+    animation: scrollingtext 15s linear infinite;
+}
+
+.scrollingtext .body {
+    -moz-transform: translateX(100%);
+    -webkit-transform: translateX(100%);
+    transform: translateX(100%);
+    /* Apply animation to this element */
+    -moz-animation: scrollingtext 15s linear infinite;
+    -webkit-animation: scrollingtext 15s linear infinite;
+    animation: scrollingtext 15s linear infinite;
+}
+
+/* Move it (define the animation) */
+@-moz-keyframes scrollingtext {
+    0% {
+        -moz-transform: translateX(100%);
+    }
+
+    100% {
+        -moz-transform: translateX(-100%);
+    }
+}
+
+@-webkit-keyframes scrollingtext {
+    0% {
+        -webkit-transform: translateX(100%);
+    }
+
+    100% {
+        -webkit-transform: translateX(-100%);
+    }
+}
+
+@keyframes scrollingtext {
+    0% {
+        -moz-transform: translateX(100%); /* Firefox bug fix */
+        -webkit-transform: translateX(100%); /* Firefox bug fix */
+        transform: translateX(100%);
+    }
+
+    100% {
+        -moz-transform: translateX(-100%); /* Firefox bug fix */
+        -webkit-transform: translateX(-100%); /* Firefox bug fix */
+        transform: translateX(-100%);
+    }
+}
+
+
