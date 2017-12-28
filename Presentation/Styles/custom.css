@@ -56,10 +56,19 @@ iframe.html {
 .youtube {
 }
 
-.memo h1.subject {
-    text-transform: none;
+
+:root {
+    --tronox-blue: rgb(45, 63, 136);
+    --tronox-chart-red: rgb(243,108,49);
+    --tronox-chart-green: rgb(148,201,71);
 }
 
+
+.memo h1.subject {
+    text-transform: none;
+    padding: 5px;
+    margin: 5px;
+}
 
 .scrollingtext .subject {
     -moz-transform: translateX(100%);
@@ -72,6 +81,7 @@ iframe.html {
 }
 
 .scrollingtext .body {
+    display: block;
     -moz-transform: translateX(100%);
     -webkit-transform: translateX(100%);
     transform: translateX(100%);
