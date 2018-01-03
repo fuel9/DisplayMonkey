@@ -123,7 +123,11 @@ DM.Weather = Class.create(/*PeriodicalExecuter*/ DM.FrameBase, {
                         weather.div.select('.location_country').each(function (e) { e.update(json.current_observation.display_location.country); });
                         weather.div.select('.condition_code').each(function (e) { e.src = json.current_observation.icon_url; });
                         weather.div.select('.weather_icon').each(function (e) { e.update("<span class='wu wu-black wu-64 wu-" + iconname + "'></span>"); });
-                        weather.div.select('.weather_icon_big').each(function (e) { e.update("<span class='wu wu-black wu-256 wu-" + iconname + "'></span>"); });
+                        weather.div.select('.weather_icon_l').each(function (e) { e.update("<span class='wu wu-black wu-128 wu-" + iconname + "'></span>"); });
+                        weather.div.select('.weather_icon_xl').each(function (e) { e.update("<span class='wu wu-black wu-256 wu-" + iconname + "'></span>"); });
+                        weather.div.select('.weather_icon_inv').each(function (e) { e.update("<span class='wu wu-white wu-64 wu-" + iconname + "'></span>"); });
+                        weather.div.select('.weather_icon_inv_l').each(function (e) { e.update("<span class='wu wu-white wu-128 wu-" + iconname + "'></span>"); });
+                        weather.div.select('.weather_icon_inv_xl').each(function (e) { e.update("<span class='wu wu-white wu-256 wu-" + iconname + "'></span>"); });
                         weather.div.select('.condition_text').each(function (e) { e.update(json.current_observation.weather); });
                         weather.div.select('.condition_temp_f').each(function (e) { e.update(json.current_observation.temp_f); });
                         weather.div.select('.condition_temp_c').each(function (e) { e.update(json.current_observation.temp_c); });
@@ -150,8 +154,12 @@ DM.Weather = Class.create(/*PeriodicalExecuter*/ DM.FrameBase, {
                                     if (icon.startsWith("nt_")) {
                                         icon = icon.substring(3) + " wu-night";
                                     }
-                                    weather.div.select('.forecast_icon_' + i).each(function (e) { e.update("<span class='wu wu-black wu-128 wu-" + icon + "'></span>"); });
-                                    weather.div.select('.forecast_icon_white_' + i).each(function (e) { e.update("<span class='wu wu-white wu-128 wu-" + icon + "'></span>"); });
+                                    weather.div.select('.forecast_icon_' + i).each(function (e) { e.update("<span class='wu wu-black wu-64 wu-" + icon + "'></span>"); });
+                                    weather.div.select('.forecast_icon_inv_' + i).each(function (e) { e.update("<span class='wu wu-white wu-64 wu-" + icon + "'></span>"); });
+                                    weather.div.select('.forecast_icon_l_' + i).each(function (e) { e.update("<span class='wu wu-black wu-128 wu-" + icon + "'></span>"); });
+                                    weather.div.select('.forecast_icon_inv_l_' + i).each(function (e) { e.update("<span class='wu wu-white wu-128 wu-" + icon + "'></span>"); });
+                                    weather.div.select('.forecast_icon_xl_' + i).each(function (e) { e.update("<span class='wu wu-black wu-256 wu-" + icon + "'></span>"); });
+                                    weather.div.select('.forecast_icon_inv_xl_' + i).each(function (e) { e.update("<span class='wu wu-white wu-256 wu-" + icon + "'></span>"); });
                                     weather.div.select('.forecast_title_' + i).each(function (e) { e.update(json.forecast.txt_forecast.forecastday[i].title); });
                                     weather.div.select('.forecast_text_' + i).each(function (e) { e.update(json.forecast.txt_forecast.forecastday[i].fcttext); });
                                     weather.div.select('.forecast_text_metric_' + i).each(function (e) { e.update(json.forecast.txt_forecast.forecastday[i].fcttext_metric); });
