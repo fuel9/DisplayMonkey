@@ -49,9 +49,7 @@
             "~/bundles/modernizr",
             "~/bundles/jquery",
             "~/bundles/jqueryui",
-            "~/bundles/jqueryval",
-            String.Format("~/Scripts/localization/messages_{0}.js", CultureHelpers.GetCurrentNeutralCulture()),
-            String.Format("~/Scripts/localization/methods_{0}.js", CultureHelpers.GetCurrentNeutralCulture())
+            "~/bundles/jqueryval"
             )
 
         @RenderSection("Scripts", required: false)
@@ -128,6 +126,7 @@
                 $('.menu').jqsimplemenu();
                 var culture = $("meta[name='culture']").attr("content");
                 $.datepicker.setDefaults($.datepicker.regional[culture]);
+                jQuery.validator.methods["date"] = function (value, element) { return true; } //disable date validation (Chrome forces US format validation while IE only checks digit and seperator character regex)
                 //$('input[type=datetime]').datepicker();
             });
         </script>
