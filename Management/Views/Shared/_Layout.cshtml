@@ -46,11 +46,14 @@
         @RenderSection("Styles", required: false)
 
         @Scripts.Render(
-            "~/bundles/modernizr", 
-            "~/bundles/jquery", 
-            "~/bundles/jqueryui", 
-            "~/bundles/jqueryval"
+            "~/bundles/modernizr",
+            "~/bundles/jquery",
+            "~/bundles/jqueryui",
+            "~/bundles/jqueryval",
+            String.Format("~/Scripts/localization/messages_{0}.js", CultureHelpers.GetCurrentNeutralCulture()),
+            String.Format("~/Scripts/localization/methods_{0}.js", CultureHelpers.GetCurrentNeutralCulture())
             )
+
         @RenderSection("Scripts", required: false)
 
     </head>
