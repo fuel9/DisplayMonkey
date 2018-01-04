@@ -41,8 +41,8 @@ namespace DisplayMonkey.Controllers
                 foreach (string lang in Request.UserLanguages)
                 {
                     if (culture == null && CultureHelpers.IsValid(lang))
-                        culture = lang;
-                    
+                        culture = CultureHelpers.GetNeutralCulture(lang); //neutralize culture for jquery ui datepicker, IE passes long culturename, Chrome is already neutralized
+
                     if (uiCulture == null)
                         uiCulture = CultureHelpers.GetSupported(lang);
                     
