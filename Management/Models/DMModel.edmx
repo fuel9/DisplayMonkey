@@ -647,6 +647,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Weather_Frame">
+          <End Role="Frame" Type="Self.Frame" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Weather" Type="Self.Weather" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Frame">
+              <PropertyRef Name="FrameId" />
+            </Principal>
+            <Dependent Role="Weather">
+              <PropertyRef Name="FrameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Youtube_Frame">
           <End Role="Frame" Type="Self.Frame" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -791,6 +805,10 @@
           <AssociationSet Name="FK_VideoAlternative_Content" Association="Self.FK_VideoAlternative_Content">
             <End Role="Content" EntitySet="Content" />
             <End Role="VideoAlternative" EntitySet="VideoAlternative" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Weather_Frame" Association="Self.FK_Weather_Frame">
+            <End Role="Frame" EntitySet="Frame" />
+            <End Role="Weather" EntitySet="Weather" />
           </AssociationSet>
           <AssociationSet Name="FK_Youtube_Frame" Association="Self.FK_Youtube_Frame">
             <End Role="Frame" EntitySet="Frame" />
