@@ -113,5 +113,5 @@
 </div>
 
 @section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render(String.Format("~/Scripts/localization/methods_{0}.js", CultureHelpers.GetCurrentNeutralCulture()))
 }
