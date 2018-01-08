@@ -47,7 +47,8 @@ namespace DisplayMonkey.Controllers
                     ContentId = m.ContentId,
                     Name = m.Name,
                     Type = (ContentTypes)m.Type,
-                    Size = System.Data.Entity.SqlServer.SqlFunctions.DataLength(m.Data) / 1024
+                    Size = System.Data.Entity.SqlServer.SqlFunctions.DataLength(m.Data) / 1024,
+                    Version = m.Version
                 })
                 .OrderBy(m => m.Name)
                 .AsQueryable()
@@ -130,13 +131,23 @@ namespace DisplayMonkey.Controllers
                             buffer = reader.ReadBytes(file.ContentLength);
                         }
 
-                        Content content = new Content {
-                            Type = isPicture ? ContentTypes.ContentType_Picture : ContentTypes.ContentType_Video,
-                            Name = Path.GetFileName(file.FileName),
-                            Data = buffer,
-                        };
+                        string filename = Path.GetFileName(file.FileName);
+                        Content existing = db.Contents.Where(c => c.Name == filename).FirstOrDefault();
 
-                        db.Contents.Add(content);
+                        if (existing == null)
+                        {
+                            Content content = new Content
+                            {
+                                Type = isPicture ? ContentTypes.ContentType_Picture : ContentTypes.ContentType_Video,
+                                Name = Path.GetFileName(file.FileName),
+                                Data = buffer,
+                            };
+
+                            db.Contents.Add(content);
+                        } else
+                        {
+                            existing.Data = buffer;
+                        }
 
                         addedFiles = true;
                     }
@@ -254,7 +265,7 @@ namespace DisplayMonkey.Controllers
         //[Authorize]
         [HttpGet, ActionName("Thumb")]
         [AcceptVerbs(HttpVerbs.Get)]
-        public async Task<ActionResult> ThumbAsync(int id, int width = 0, int height = 0, RenderModes mode = RenderModes.RenderMode_Fit, int trace = 0)
+        public async Task<ActionResult> ThumbAsync(int id, int width = 0, int height = 0, RenderModes mode = RenderModes.RenderMode_Fit, string version = "", int trace = 0)
         {
             StringBuilder message = new StringBuilder();
 
@@ -263,7 +274,7 @@ namespace DisplayMonkey.Controllers
                 if (width <= 120 && height <= 120)
                 {
                     byte[] cache = await HttpRuntime.Cache.GetOrAddSlidingAsync(
-                        string.Format("thumb_image_{0}_{1}x{2}_{3}", id, width, height, (int)mode),
+                        string.Format("thumb_image_{0}_{1}x{2}_{3}_{4}", id, width, height, (int)mode, version),
                         async (expire) => 
                         {
                             expire.After = TimeSpan.FromHours(1);
@@ -365,6 +376,27 @@ namespace DisplayMonkey.Controllers
                                 new Rectangle(0, 0, targetWidth, targetHeight),
                                 bmpSrc.PixelFormat
                                 );
+                            break;
+
+                        case RenderModes.RenderMode_Fill:
+                            targetWidth = imageWidth;
+                            targetHeight = imageHeight;
+
+                            // a. panel is greater than image: grow
+                            if (panelHeight > imageHeight && panelWidth > imageWidth)
+                            {
+                                scale = Math.Max((float)panelWidth / imageWidth, (float)panelHeight / imageHeight);
+                                targetHeight = (int)((float)imageHeight * scale);
+                                targetWidth = (int)((float)imageWidth * scale);
+                            }
+                            // b. image is greater than panel: shrink
+                            else
+                            {
+                                scale = Math.Min((float)imageWidth / panelWidth, (float)imageHeight / panelHeight);
+                                targetWidth = (int)((float)imageWidth / scale);
+                                targetHeight = (int)((float)imageHeight / scale);
+                            }
+                            bmpTrg = new Bitmap(bmpSrc, new Size(targetWidth, targetHeight));
                             break;
                     }
 

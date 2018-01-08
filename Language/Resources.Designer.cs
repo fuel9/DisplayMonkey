@@ -4025,7 +4025,7 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Supported image formats include {0}. All other content will be ignored..
+        ///   Looks up a localized string similar to Supported image formats include {0}. All other content will be ignored. If the file name already exists, the media will be overwritten..
         /// </summary>
         public static string SupportedImageFormatsIncludeAllOtherContentWillBeIgnored {
             get {
@@ -4034,7 +4034,7 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Supported media formats include {0} for images and {1} for video. All other content will be ignored..
+        ///   Looks up a localized string similar to Supported media formats include {0} for images and {1} for video. All other content will be ignored. If the file name already exists, the media will be overwritten..
         /// </summary>
         public static string SupportedMediaFormatsIncludeForImagesAndForVideoAllOtherContentWillBeIgnored {
             get {
@@ -4282,6 +4282,15 @@ namespace DisplayMonkey.Language {
         public static string ValueNotSet {
             get {
                 return ResourceManager.GetString("ValueNotSet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Version.
+        /// </summary>
+        public static string Version {
+            get {
+                return ResourceManager.GetString("Version", resourceCulture);
             }
         }
         

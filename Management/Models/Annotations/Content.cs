@@ -52,6 +52,11 @@ namespace DisplayMonkey.Models
                Display(ResourceType = typeof(Resources), Name = "Videos"),
             ]
             public virtual ICollection<Video> Videos { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "Version"),
+            ]
+            public byte[] Version { get; set; }
         }
 
         [
@@ -79,5 +84,10 @@ namespace DisplayMonkey.Models
             Display(ResourceType = typeof(Resources), Name = "Name"),
         ]
         public string Name { get; set; }
+
+        [
+            Display(ResourceType = typeof(Resources), Name = "Version"),
+        ]
+        public byte[] Version { get; set; }
     }
 }
