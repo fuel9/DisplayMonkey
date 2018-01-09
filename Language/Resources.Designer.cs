@@ -646,7 +646,7 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Change Displayed.
+        ///   Looks up a localized string similar to All frames.
         /// </summary>
         public static string ChangeDisplayed {
             get {
@@ -1033,7 +1033,7 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Currently Displayed.
+        ///   Looks up a localized string similar to All displays.
         /// </summary>
         public static string CurrentlyDisplayed {
             get {

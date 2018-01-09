@@ -514,7 +514,7 @@
     <value>Canvases</value>
   </data>
   <data name="ChangeDisplayed" xml:space="preserve">
-    <value>Change Displayed</value>
+    <value>All frames</value>
   </data>
   <data name="ClockFrameDetails" xml:space="preserve">
     <value>Clock frame details</value>
@@ -565,7 +565,7 @@
     <value>Create organization location</value>
   </data>
   <data name="CurrentlyDisplayed" xml:space="preserve">
-    <value>Currently Displayed</value>
+    <value>All displays</value>
   </data>
   <data name="CurrentMaximumAllowedSizeForImageFilesIsSetTo" xml:space="preserve">
     <value>Current maximum allowed size for image files is set to</value>

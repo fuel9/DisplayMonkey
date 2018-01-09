@@ -84,6 +84,24 @@ namespace DisplayMonkey.Controllers
             ViewBag.TimingOption = selected.TranslatedSelectList(valueAsText: false);
         }
 
+        private void FillLocationsSelectList(object selected = null, int frameId = 0)
+        {
+            var locations = db.Locations
+                .Where(l => !db.Frames
+                    .FirstOrDefault(f => f.FrameId == frameId)
+                    .Locations.Any(fl => fl.LocationId == l.LocationId))
+                    .Include(l => l.Level)
+                    .Select(l => new
+                    {
+                        LocationId = l.LocationId,
+                        Name = l.Level.Name + " : " + l.Name
+                    })
+                    .OrderBy(l => l.Name)
+                    .ToList()
+                ;
+            ViewBag.LocationId = new SelectList(locations, "LocationId", "Name", selected);
+        }
+
 
         //
         // GET: /PanelsForCanvas/5
@@ -96,13 +114,14 @@ namespace DisplayMonkey.Controllers
         //
         // GET: /Frame/
 
-        public ActionResult Index(int canvasId = 0, int panelId = 0, FrameTypes? frameType = null, int? timingOption = null /*, int page = 1*/)
+        public ActionResult Index(int canvasId = 0, int panelId = 0, int locationId = 0, FrameTypes? frameType = null, int? timingOption = null /*, int page = 1*/)
         {
             //if (page <= 0) page = 1;
 
             IQueryable<Frame> list = db.Frames
                 .Include(f => f.Panel)
                 .Include(f => f.Panel.Canvas)
+                .Include(f => f.Locations)
                 ;
 
             if (canvasId > 0)
@@ -113,6 +132,27 @@ namespace DisplayMonkey.Controllers
             if (panelId > 0)
             {
                 list = list.Where(f => f.PanelId == panelId);
+            }
+
+            if (locationId > 0)
+            {
+                List<int> locations = new List<int>();
+
+                int? id = locationId;
+                while (id != null)
+                {
+                    locations.Add(id.Value);
+                    Location location = db.Locations.Where(l => l.LocationId == id).FirstOrDefault();
+                    if (location != null && location.AreaId.HasValue)
+                    {
+                        id = location.AreaId.Value;
+                    } else
+                    {
+                        id = null;
+                    }  
+                }
+
+                list = list.Where(f => f.Locations.Select(l => l.LocationId).Intersect(locations).Any() || f.Locations.Count() == 0);
             }
 
             if (frameType != null)
@@ -155,7 +195,8 @@ namespace DisplayMonkey.Controllers
             FillPanelsSelectList(panelId, canvasId);
             FillFrameTypeSelectList(frameType);
             FillTimingOptionsSelectList((Frame.TimingOptions?)timingOption);
-             
+            FillLocationsSelectList(locationId);
+
             return View(list.ToList());
         }
 
@@ -327,20 +368,7 @@ namespace DisplayMonkey.Controllers
                 FrameId = id,
             };
 
-            var locations = db.Locations
-                .Where(l => !db.Frames
-                    .FirstOrDefault(f => f.FrameId == selector.FrameId)
-                    .Locations.Any(fl => fl.LocationId == l.LocationId))
-                    .Include(l => l.Level)
-                    .Select(l => new
-                    {
-                        LocationId = l.LocationId,
-                        Name = l.Level.Name + " : " + l.Name
-                    })
-                    .OrderBy(l => l.Name)
-                    .ToList()
-                ;
-            ViewBag.Locations = new SelectList(locations, "LocationId", "Name");
+            FillLocationsSelectList(frameId: selector.FrameId);
 
             return View(selector);
         }
