@@ -19,6 +19,8 @@
     </p>
 }
 
+@if (Model.FrameId > 0) { @Html.Partial("_frameLocations", Model as Frame) }
+
 <div>
     @Html.ActionLink(Resources.ViewFrames, "Index", "Frame")
 </div>
