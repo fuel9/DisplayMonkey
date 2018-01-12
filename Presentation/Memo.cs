@@ -42,7 +42,7 @@ namespace DisplayMonkey
                 cmd.ExecuteReaderExt((dr) =>
                 {
                     Subject = dr.StringOrBlank("Subject");
-                    Body = dr.StringOrBlank("Body");
+                    Body = dr.StringOrBlank("Body").Replace(System.Environment.NewLine, "<br/>");
                     return false;
                 });
             }
