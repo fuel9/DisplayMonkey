@@ -16,6 +16,11 @@
         <legend>@Resources.Panel</legend>
 
         @Html.HiddenFor(model => model.PanelId)
+        @Html.HiddenFor(model => model.Name)
+        @Html.HiddenFor(model => model.Top)
+        @Html.HiddenFor(model => model.Left)
+        @Html.HiddenFor(model => model.Height)
+        @Html.HiddenFor(model => model.Width)
 
         <div class="editor-label">
             @Html.LabelFor(model => model.Canvas)

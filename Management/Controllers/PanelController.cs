@@ -177,10 +177,7 @@ namespace DisplayMonkey.Controllers
         {
             if (ModelState.IsValid)
             {
-                Panel panel = db.Panels.Find(fs.PanelId);
-                panel.FadeLength = fs.FadeLength;
-                db.Entry(panel).State = EntityState.Modified;
-                //db.Entry(fs).State = EntityState.Modified;
+                db.Entry(fs).State = EntityState.Modified;
                 db.SaveChanges();
 
                 return RedirectToAction("Index");
