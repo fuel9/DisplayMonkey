@@ -393,6 +393,10 @@ namespace DisplayMonkey.Controllers
                 frame.Locations.Add(location);
                 db.SaveChanges();
 
+                //temporary workaround to prevent frame edit > attach > save > return to attach
+                //downsides: with frame filters or when referer is the panel page still returns to default frame page. Use browser history.
+                TempData[HtmlExtensions.CameFrom] = "/Frame/Index";
+
                 return RedirectToAction("Index");
             }
 
@@ -435,6 +439,10 @@ namespace DisplayMonkey.Controllers
             Location location = db.Locations.Find(locationId);
             frame.Locations.Remove(location);
             db.SaveChanges();
+
+            //temporary workaround to prevent frame edit > detach > save > return to detach
+            //downsides: with frame filters or when referer is the panel page still returns to default frame page. Use browser history.
+            TempData[HtmlExtensions.CameFrom] = "/Frame/Index";
 
             return RedirectToAction("Index");
         }
