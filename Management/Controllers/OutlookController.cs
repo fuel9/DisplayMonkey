@@ -97,6 +97,7 @@ namespace DisplayMonkey.Controllers
                 return View("Missing", new MissingItem(id));
             }
 
+            this.FillPanelsSelectList(db, outlook.Panel.CanvasId, outlook.PanelId);
             this.FillTemplatesSelectList(db, FrameTypes.Outlook, outlook.TemplateId);
             FillModesSelectList(outlook.Mode);
             FillAccountsSelectList(outlook.AccountId);

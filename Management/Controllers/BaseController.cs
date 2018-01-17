@@ -154,6 +154,28 @@ namespace DisplayMonkey.Controllers
                 new SelectList(query, "TemplateId", "Name", _selected);
         }
 
+        public static void FillPanelsSelectList(
+            this BaseController _controller,
+            DisplayMonkeyEntities _db,
+            int canvasId,
+            object _selected = null
+            )
+        {
+            var query = _db.Panels
+                    .Where(p => p.CanvasId == canvasId)
+                    .Select(p => new 
+                    {
+                        PanelId = p.PanelId,
+                        Name = p.Name
+                    })
+                    .OrderBy(p => p.Name)
+                    .ToList()
+                    ;
+
+            _controller.ViewBag.Panels =
+                new SelectList(query, "PanelId", "Name", _selected);
+        }
+
         public static void FillSystemTimeZoneSelectList(
             this BaseController _controller,
             string _selected = null

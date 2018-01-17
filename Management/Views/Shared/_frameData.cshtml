@@ -2,13 +2,13 @@
 
 @{
     SelectList templates = ViewBag.Templates as SelectList;
+    SelectList panels = ViewBag.Panels as SelectList;
 }
 
     <fieldset>
         <legend>@Resources.GeneralOptions</legend>
 
         @Html.HiddenFor(m => m.FrameId)
-        @Html.HiddenFor(m => m.PanelId)
         @Html.HiddenFor(m => m.Sort)
 
         <div class="editor-label">
@@ -17,6 +17,14 @@
         <div class="editor-field">
             @Html.EditorFor(model => model.Duration, new { htmlAttributes = new { @class = "duration" } }) @Resources.Sec
             @Html.ValidationMessageFor(model => model.Duration)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.PanelId)
+        </div>
+        <div class="editor-field select">
+            @Html.DropDownListFor(model => model.PanelId, panels)
+            @Html.ValidationMessageFor(model => model.PanelId)
         </div>
 
         <div class="editor-label">

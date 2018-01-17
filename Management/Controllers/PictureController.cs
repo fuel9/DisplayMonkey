@@ -189,6 +189,7 @@ namespace DisplayMonkey.Controllers
                 return RedirectToAction("Index", "Frame");
             }
 
+            this.FillPanelsSelectList(db, picture.Panel.CanvasId, picture.PanelId);
             this.FillTemplatesSelectList(db, FrameTypes.Picture, picture.TemplateId);
             FillPicturesSelectList(picture.ContentId);
             FillModesSelectList(picture.Mode);

@@ -97,6 +97,7 @@ namespace DisplayMonkey.Controllers
                 return View("Missing", new MissingItem(id));
             }
 
+            this.FillPanelsSelectList(db, clock.Panel.CanvasId, clock.PanelId);
             this.FillTemplatesSelectList(db, FrameTypes.Clock, clock.TemplateId);
             this.FillSystemTimeZoneSelectList(clock.TimeZone);
             FillClockTypeSelectList(clock.Type);

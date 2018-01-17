@@ -95,6 +95,7 @@ namespace DisplayMonkey.Controllers
                 return View("Missing", new MissingItem(id));
             }
 
+            this.FillPanelsSelectList(db, youtube.Panel.CanvasId, youtube.PanelId);
             this.FillTemplatesSelectList(db, FrameTypes.YouTube, youtube.TemplateId);
             FillAspectsSelectList(youtube.Aspect);
             FillQualitySelectList();

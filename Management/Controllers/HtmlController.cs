@@ -92,6 +92,7 @@ namespace DisplayMonkey.Controllers
                 return View("Missing", new MissingItem(id));
             }
 
+            this.FillPanelsSelectList(db, html.Panel.CanvasId, html.PanelId);
             this.FillTemplatesSelectList(db, FrameTypes.Html, html.TemplateId);
 
             return View(html);

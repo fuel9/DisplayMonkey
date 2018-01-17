@@ -344,6 +344,7 @@ namespace DisplayMonkey.Controllers
                 return View("Missing", new MissingItem(id));
             }
 
+            this.FillPanelsSelectList(db, video.Panel.CanvasId, video.PanelId);
             this.FillTemplatesSelectList(db, FrameTypes.Video, video.TemplateId);
 
             return View(video);

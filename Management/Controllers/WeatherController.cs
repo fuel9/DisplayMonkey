@@ -95,6 +95,7 @@ namespace DisplayMonkey.Controllers
                 return View("Missing", new MissingItem(id));
             }
 
+            this.FillPanelsSelectList(db, weather.Panel.CanvasId, weather.PanelId);
             this.FillTemplatesSelectList(db, FrameTypes.Weather, weather.TemplateId);
             FillWeatherTypeSelectList();
             

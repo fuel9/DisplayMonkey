@@ -88,6 +88,7 @@ namespace DisplayMonkey.Controllers
                 return View("Missing", new MissingItem(id));
             }
 
+            this.FillPanelsSelectList(db, memo.Panel.CanvasId, memo.PanelId);
             this.FillTemplatesSelectList(db, FrameTypes.Memo, memo.TemplateId);
             
             return View(memo);

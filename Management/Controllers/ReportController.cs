@@ -99,6 +99,7 @@ namespace DisplayMonkey.Controllers
                 return View("Missing", new MissingItem(id));
             }
 
+            this.FillPanelsSelectList(db, report.Panel.CanvasId, report.PanelId);
             this.FillTemplatesSelectList(db, FrameTypes.Report, report.TemplateId);
             FillServersSelectList(report.ServerId);
             FillModesSelectList(report.Mode);

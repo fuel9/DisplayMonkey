@@ -93,6 +93,7 @@ namespace DisplayMonkey.Controllers
                 return View("Missing", new MissingItem(id));
             }
 
+            this.FillPanelsSelectList(db, powerbi.Panel.CanvasId, powerbi.PanelId);
             this.FillTemplatesSelectList(db, FrameTypes.Powerbi, powerbi.TemplateId);
             FillTypesSelectList(powerbi.Type);
             FillAccountsSelectList(powerbi.AccountId);
