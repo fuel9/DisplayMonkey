@@ -48,8 +48,13 @@ namespace DisplayMonkey.Controllers
                 return RedirectToAction("Create", "Frame");
             }
 
-            Youtube youtube = new Youtube(frame, db);
+            Youtube youtube = new Youtube(frame, db)
+            {
+                Panel = db.Panels
+                    .FirstOrDefault(p => p.PanelId == frame.PanelId),
+            };
 
+            this.FillPanelsSelectList(db, youtube.Panel.CanvasId, youtube.PanelId);
             this.FillTemplatesSelectList(db, FrameTypes.YouTube);
             FillAspectsSelectList();
             FillQualitySelectList();
@@ -77,6 +82,7 @@ namespace DisplayMonkey.Controllers
                 return RedirectToAction("Index", "Frame");
             }
 
+            this.FillPanelsSelectList(db, youtube.Panel.CanvasId, youtube.PanelId);
             this.FillTemplatesSelectList(db, FrameTypes.YouTube, youtube.TemplateId);
             FillAspectsSelectList();
             FillQualitySelectList();
@@ -122,6 +128,7 @@ namespace DisplayMonkey.Controllers
                 return RedirectToAction("Index", "Frame");
             }
 
+            this.FillPanelsSelectList(db, youtube.Panel.CanvasId, youtube.PanelId);
             this.FillTemplatesSelectList(db, FrameTypes.YouTube, youtube.TemplateId);
             FillAspectsSelectList(youtube.Aspect);
             FillQualitySelectList();

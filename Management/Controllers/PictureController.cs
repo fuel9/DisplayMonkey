@@ -50,8 +50,13 @@ namespace DisplayMonkey.Controllers
                 return RedirectToAction("Create", "Frame");
             }
 
-            Picture picture = new Picture(frame, db);
+            Picture picture = new Picture(frame, db)
+            {
+                Panel = db.Panels
+                    .FirstOrDefault(p => p.PanelId == frame.PanelId),
+            };
 
+            this.FillPanelsSelectList(db, picture.Panel.CanvasId, picture.PanelId);
             this.FillTemplatesSelectList(db, FrameTypes.Picture);
             FillPicturesSelectList();
             FillModesSelectList();
@@ -85,6 +90,7 @@ namespace DisplayMonkey.Controllers
                 }
             }
 
+            this.FillPanelsSelectList(db, picture.Panel.CanvasId, picture.PanelId);
             this.FillTemplatesSelectList(db, FrameTypes.Picture, picture.TemplateId);
             FillPicturesSelectList();
             FillModesSelectList();
@@ -167,6 +173,7 @@ namespace DisplayMonkey.Controllers
                 return View("Missing", new MissingItem(id));
             }
 
+            this.FillPanelsSelectList(db, picture.Panel.CanvasId, picture.PanelId);
             this.FillTemplatesSelectList(db, FrameTypes.Picture, picture.TemplateId);
             FillPicturesSelectList(picture.ContentId);
             FillModesSelectList(picture.Mode);

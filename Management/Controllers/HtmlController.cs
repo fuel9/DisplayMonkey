@@ -52,6 +52,7 @@ namespace DisplayMonkey.Controllers
                     .FirstOrDefault(p => p.PanelId == frame.PanelId),
             };
 
+            this.FillPanelsSelectList(db, html.Panel.CanvasId, html.PanelId);
             this.FillTemplatesSelectList(db, FrameTypes.Html);
             
             return View(html);
@@ -78,6 +79,7 @@ namespace DisplayMonkey.Controllers
                 .FirstOrDefault(p => p.PanelId == html.PanelId)
                 ;
 
+            this.FillPanelsSelectList(db, html.Panel.CanvasId, html.PanelId);
             this.FillTemplatesSelectList(db, FrameTypes.Html, html.TemplateId);
             
             return View(html);
@@ -114,7 +116,7 @@ namespace DisplayMonkey.Controllers
                 return RedirectToAction("Index", "Frame");
             }
 
-
+            this.FillPanelsSelectList(db, html.Panel.CanvasId, html.PanelId);
             this.FillTemplatesSelectList(db, FrameTypes.Html, html.TemplateId);
             
             return View(html);

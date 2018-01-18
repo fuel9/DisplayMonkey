@@ -50,9 +50,13 @@ namespace DisplayMonkey.Controllers
                 return RedirectToAction("Create", "Frame");
             }
 
-            Video video = new Video(frame, db);
+            Video video = new Video(frame, db)
+            {
+                Panel = db.Panels
+                    .FirstOrDefault(p => p.PanelId == frame.PanelId),
+            };
 
-
+            this.FillPanelsSelectList(db, video.Panel.CanvasId, video.PanelId);
             this.FillTemplatesSelectList(db, FrameTypes.Video);
             FillVideosSelectList();
 
@@ -86,6 +90,7 @@ namespace DisplayMonkey.Controllers
                 }
             }
 
+            this.FillPanelsSelectList(db, video.Panel.CanvasId, video.PanelId);
             this.FillTemplatesSelectList(db, FrameTypes.Video, video.TemplateId);
             FillVideosSelectList();
 
@@ -365,7 +370,7 @@ namespace DisplayMonkey.Controllers
                 return RedirectToAction("Index", "Frame");
             }
 
-
+            this.FillPanelsSelectList(db, video.Panel.CanvasId, video.PanelId);
             this.FillTemplatesSelectList(db, FrameTypes.Video, video.TemplateId);
 
             return View(video);

@@ -55,9 +55,13 @@ namespace DisplayMonkey.Controllers
                 return RedirectToAction("Create", "Frame");
             }
 
-            Report report = new Report(frame, db);
+            Report report = new Report(frame, db)
+            {
+                Panel = db.Panels
+                    .FirstOrDefault(p => p.PanelId == frame.PanelId),
+            };
 
-
+            this.FillPanelsSelectList(db, report.Panel.CanvasId, report.PanelId);
             this.FillTemplatesSelectList(db, FrameTypes.Report);
             FillServersSelectList();
             FillModesSelectList();
@@ -80,6 +84,7 @@ namespace DisplayMonkey.Controllers
                 return RedirectToAction("Index", "Frame");
             }
 
+            this.FillPanelsSelectList(db, report.Panel.CanvasId, report.PanelId);
             this.FillTemplatesSelectList(db, FrameTypes.Report, report.TemplateId);
             FillServersSelectList();
             FillModesSelectList();
@@ -122,6 +127,7 @@ namespace DisplayMonkey.Controllers
                 return RedirectToAction("Index", "Frame");
             }
 
+            this.FillPanelsSelectList(db, report.Panel.CanvasId, report.PanelId);
             this.FillTemplatesSelectList(db, FrameTypes.Report, report.TemplateId);
             FillServersSelectList(report.ServerId);
             FillModesSelectList(report.Mode);

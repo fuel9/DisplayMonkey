@@ -53,9 +53,13 @@ namespace DisplayMonkey.Controllers
                 return RedirectToAction("Create", "Frame");
             }
 
-            Clock clock = new Clock(frame, db);
+            Clock clock = new Clock(frame, db)
+            {
+                Panel = db.Panels
+                    .FirstOrDefault(p => p.PanelId == frame.PanelId),
+            };
 
-
+            this.FillPanelsSelectList(db, clock.Panel.CanvasId, clock.PanelId);
             this.FillTemplatesSelectList(db, FrameTypes.Clock);
             this.FillSystemTimeZoneSelectList();
             FillClockTypeSelectList();
@@ -78,6 +82,7 @@ namespace DisplayMonkey.Controllers
                 return RedirectToAction("Index", "Frame");
             }
 
+            this.FillPanelsSelectList(db, clock.Panel.CanvasId, clock.PanelId);
             this.FillTemplatesSelectList(db, FrameTypes.Clock, clock.TemplateId);
             this.FillSystemTimeZoneSelectList(clock.TimeZone);
             FillClockTypeSelectList();
@@ -120,6 +125,7 @@ namespace DisplayMonkey.Controllers
                 return RedirectToAction("Index", "Frame");
             }
 
+            this.FillPanelsSelectList(db, clock.Panel.CanvasId, clock.PanelId);
             this.FillTemplatesSelectList(db, FrameTypes.Clock, clock.TemplateId);
             this.FillSystemTimeZoneSelectList(clock.TimeZone);
             FillClockTypeSelectList(clock.Type);

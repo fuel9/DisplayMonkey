@@ -51,8 +51,13 @@ namespace DisplayMonkey.Controllers
                 return RedirectToAction("Create", "Frame");
             }
 
-            Powerbi powerbi = new Powerbi(frame, db);
+            Powerbi powerbi = new Powerbi(frame, db)
+            {
+                Panel = db.Panels
+                    .FirstOrDefault(p => p.PanelId == frame.PanelId),
+            };
 
+            this.FillPanelsSelectList(db, powerbi.Panel.CanvasId, powerbi.PanelId);
             this.FillTemplatesSelectList(db, FrameTypes.Powerbi);
             FillTypesSelectList();
             FillAccountsSelectList();
@@ -76,6 +81,7 @@ namespace DisplayMonkey.Controllers
                 return RedirectToAction("Index", "Frame");
             }
 
+            this.FillPanelsSelectList(db, powerbi.Panel.CanvasId, powerbi.PanelId);
             this.FillTemplatesSelectList(db, FrameTypes.Powerbi, powerbi.TemplateId);
             FillTypesSelectList(powerbi.Type);
             FillAccountsSelectList(powerbi.AccountId);
@@ -117,6 +123,7 @@ namespace DisplayMonkey.Controllers
                 return RedirectToAction("Index", "Frame");
             }
 
+            this.FillPanelsSelectList(db, powerbi.Panel.CanvasId, powerbi.PanelId);
             this.FillTemplatesSelectList(db, FrameTypes.Powerbi, powerbi.TemplateId);
             FillTypesSelectList(powerbi.Type);
             FillAccountsSelectList(powerbi.AccountId);
