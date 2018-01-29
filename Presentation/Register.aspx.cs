@@ -88,8 +88,10 @@ namespace DisplayMonkey
 
 		protected void Register_Click(object sender, EventArgs e)
 		{
-			if (textName.Text != "" && 
-                labelHost.Text != "::1" &&
+			if (textName.Text != "" &&
+#if !DEBUG
+				labelHost.Text != "::1" &&
+#endif
                 listCanvas.SelectedIndex >= 0 && 
                 listLocation.SelectedIndex >= 0
                 )
@@ -106,7 +108,10 @@ namespace DisplayMonkey
 
                     display.Register();
 
-                    HttpContext.Current.Response.Redirect("default.aspx");
+					Response.Cookies["DisplayMonkey"]["DisplayID"] = display.DisplayId.ToString();
+					Response.Cookies["DisplayMonkey"].Expires = DateTime.Now.AddDays(365);
+
+					HttpContext.Current.Response.Redirect("default.aspx");
                 }
 
                 catch (Exception ex)

@@ -27,7 +27,7 @@ namespace DisplayMonkey
 			{
 				// get host from URL first
 				string theHost = Request.QueryString["host"];
-				
+
 				// otherwise, get display address
 				if (string.IsNullOrEmpty(theHost))
 				{
@@ -38,22 +38,42 @@ namespace DisplayMonkey
 					}
 				}
 
+				if (Request.Cookies["DisplayMonkey"] != null)
+				{
+					int displayID = Int32.MinValue;
+					if (Request.Cookies["DisplayMonkey"]["DisplayID"] != null)
+					{
+						if (Int32.TryParse(Request.Cookies["DisplayMonkey"]["DisplayID"], out displayID))
+						{
+							Display theDisplay = new Display(displayID)
+							{
+								Host = theHost
+							};
+							if (theDisplay.Register())
+							{
+								RedirectToDisplay(theDisplay);
+							}
+						}
+					}
+				}
+
 				try
 				{
 					// list registered displays
 					int i = 0;
 					StringBuilder html = new StringBuilder();
+
 					foreach (Display display in Display.List)
 					{
 						string url = string.Format("getCanvas.aspx?display={0}", display.DisplayId);
 
-                        if (theHost != "::1" && display.Host == theHost && display.CanvasId > 0)
+#if !DEBUG
+						if (theHost != "::1" && display.Host == theHost && display.CanvasId > 0)
+#else
+						if (display.Host == theHost && display.CanvasId > 0)
+#endif
 						{
-							// this host is already registered -> take us to it
-							HttpContext.Current.Response.Redirect(string.Format(
-								url,
-								display.DisplayId
-								));
+							RedirectToDisplay(display);
 						}
 
 						html.AppendFormat(
@@ -71,9 +91,20 @@ namespace DisplayMonkey
 
 				catch (Exception ex)
 				{
-					Response.Write(ex.Message);	// TODO: error label
+					Response.Write(ex.Message); // TODO: error label
 				}
 			}
+		}
+
+		private static void RedirectToDisplay(Display display)
+		{
+			string url = string.Format("getCanvas.aspx?display={0}", display.DisplayId);
+
+			// this host is already registered -> take us to it
+			HttpContext.Current.Response.Redirect(string.Format(
+				url,
+				display.DisplayId
+				));
 		}
 	}
 }

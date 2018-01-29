@@ -162,10 +162,10 @@ namespace DisplayMonkey
 			}
 		}
 
-		public void Register()
+		public bool Register()
 		{
 			if (Host == "" || Name == "" || CanvasId == 0)
-				return;
+				return false;
 
             using (SqlCommand cmd = new SqlCommand()
             {
@@ -178,13 +178,15 @@ namespace DisplayMonkey
 				cmd.Parameters.Add("@host", SqlDbType.VarChar, 100).Value = Host;
 				cmd.Parameters.Add("@canvasId", SqlDbType.Int).Value = CanvasId;
 				cmd.Parameters.Add("@locationId", SqlDbType.Int).Value = LocationId;
-				cmd.Parameters.Add("@displayId", SqlDbType.Int).Direction = ParameterDirection.Output;
+				cmd.Parameters.Add("@displayId", SqlDbType.Int).Value = DisplayId;
+				cmd.Parameters.Add("@displayIdReturn", SqlDbType.Int).Direction = ParameterDirection.Output;
 
                 cmd.ExecuteNonQueryExt();
 
 				//DataAccess.ExecuteNonQuery(cmd);
-				DisplayId = cmd.Parameters["@displayId"].IntOrZero();
+				DisplayId = cmd.Parameters["@displayIdReturn"].IntOrZero();
 			}
+			return true;
 		}
     }
 }
