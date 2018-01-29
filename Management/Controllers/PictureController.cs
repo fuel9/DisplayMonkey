@@ -110,7 +110,8 @@ namespace DisplayMonkey.Controllers
                 return RedirectToAction("Create", "Frame");
             }
 
-            this.FillPanelsSelectList(db, picture.Panel.CanvasId, picture.PanelId);
+            Panel panel = db.Panels.FirstOrDefault(p => p.PanelId == picture.PanelId);
+            this.FillPanelsSelectList(db, panel.CanvasId, picture.PanelId);
             this.FillTemplatesSelectList(db, FrameTypes.Picture, picture.TemplateId);
             FillPicturesSelectList();
             FillModesSelectList();
