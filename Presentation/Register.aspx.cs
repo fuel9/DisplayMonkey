@@ -17,6 +17,7 @@ using System.Web.UI.WebControls;
 using System.Data;
 using System.Text;
 using System.Threading.Tasks;
+using DisplayMonkey.Language;
 
 namespace DisplayMonkey
 {
@@ -26,6 +27,10 @@ namespace DisplayMonkey
 		{
 			if (!IsPostBack)
 			{
+				labelHost.Text = Resources.Register_NoneFound;
+				textName.ToolTip = Resources.Register_EnterNameForThisDisplay;
+				buttonRegister.Text = Resources.Register_Register;
+
 				// get host from URL first
 				string theHost = Request.QueryString["host"];
 				
@@ -42,6 +47,7 @@ namespace DisplayMonkey
 				if (theHost != null)
 				{
 					labelHost.Text = theHost;
+					buttonRegister.Enabled = true;
 				}
 				else
 				{

@@ -228,7 +228,7 @@ namespace DisplayMonkey
             //"scripts/jquery-2.1.4.js",
 
             // moment.js
-            "scripts/moment.js",
+            "scripts/moment-with-locales.js",
 
             // canvas:
 			"files/js/canvas.js"
@@ -254,7 +254,7 @@ namespace DisplayMonkey
             //"scripts/jquery-2.1.4.min.js",
 
             // moment.js
-            "scripts/moment.min.js",
+            "scripts/moment-with-locales.min.js",
 
             // canvas:
 			"files/js/canvas.js"

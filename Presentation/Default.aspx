@@ -12,11 +12,11 @@
 
 <asp:Content ID="content1" runat="server" ContentPlaceHolderID="ContentPlaceHolder1">
         <form id="form1" runat="server">
-            <h2>Select registered display</h2>
+            <h2><%=DisplayMonkey.Language.Resources.SelectRegisteredDisplay%></h2>
 
             <div id="WebPageLinks">
                 <fieldset>
-                    <legend>Registered Displays</legend>
+                    <legend><%=DisplayMonkey.Language.Resources.RegisteredDisplays%></legend>
                     <ul>
                         <asp:Label ID="labelDisplays" runat="server"></asp:Label>
                     </ul>
