@@ -1,5 +1,9 @@
 ﻿@model DisplayMonkey.Models.Display
 
+@{
+    SelectList autoLoadModes = ViewBag.AutoLoadModes as SelectList;
+}
+
         <div class="editor-label">
             @Html.LabelFor(model => model.Name)
         </div>

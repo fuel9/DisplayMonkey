@@ -1,3 +1,4 @@
+<%@ Register src="ErrorControl.ascx" tagname="ErrorControl" tagprefix="uc1" %>
 <%--
 * DisplayMonkey source file
 * http://displaymonkey.org
@@ -12,6 +13,7 @@
 
 <asp:Content ID="content1" runat="server" ContentPlaceHolderID="ContentPlaceHolder1">
         <form id="form1" runat="server">
+            
             <h2><%=DisplayMonkey.Language.Resources.RegisterThisDisplay%></h2>
 
             <div id="RegisterDisplay">
@@ -51,5 +53,8 @@
                 </p>
                 </fieldset>
             </div>
+
+            <uc1:ErrorControl ID="ctrError" runat="server" />
+
         </form>
 </asp:Content>

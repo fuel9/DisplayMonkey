@@ -27,34 +27,30 @@ namespace DisplayMonkey
 		{
 			if (!IsPostBack)
 			{
-				labelHost.Text = Resources.Register_NoneFound;
+                ctrError.Visible = false;
+
+                labelHost.Text = Resources.Register_NoneFound;
 				textName.ToolTip = Resources.Register_EnterNameForThisDisplay;
 				buttonRegister.Text = Resources.Register_Register;
 
-				// get host from URL first
-				string theHost = Request.QueryString["host"];
-				
-				// otherwise, get display address
-				if (string.IsNullOrEmpty(theHost))
+                // get host from URL first
+                string host = Request.ServerVariables["REMOTE_HOST"];
+				if (string.IsNullOrWhiteSpace(host))
 				{
-					theHost = Request.ServerVariables["REMOTE_HOST"];
-					if (string.IsNullOrEmpty(theHost))
-					{
-						theHost = Request.ServerVariables["REMOTE_ADDR"];
-					}
+                    host = Request.ServerVariables["REMOTE_ADDR"];
 				}
 
-				if (theHost != null)
+				if (string.IsNullOrWhiteSpace(host))
 				{
-					labelHost.Text = theHost;
-					buttonRegister.Enabled = true;
+                    buttonRegister.Enabled = false;
 				}
 				else
 				{
-					buttonRegister.Enabled = false;
-				}
+                    labelHost.Text = host;
+                    buttonRegister.Enabled = true;
+                }
 
-				try
+                try
 				{
 					// list canvases
 					listCanvas.AutoPostBack = false;
@@ -81,44 +77,64 @@ namespace DisplayMonkey
 
 				catch (Exception ex)
 				{
-					Response.Write(ex.Message);	// TODO: error label
+                    ctrError.Title = Resources.Error;
+                    ctrError.Message = ex.Message;
+                    ctrError.Visible = true;
 				}
 			}
 		}
 
 		protected void Register_Click(object sender, EventArgs e)
 		{
-			if (textName.Text != "" &&
-#if !DEBUG
-				labelHost.Text != "::1" &&
-#endif
-                listCanvas.SelectedIndex >= 0 && 
-                listLocation.SelectedIndex >= 0
-                )
-			{
-                try
+            try
+            {
+                ctrError.Visible = false;
+
+                if (string.IsNullOrWhiteSpace(textName.Text))
                 {
-                    Display display = new Display()
-                    {
-                        Host = labelHost.Text,
-                        Name = textName.Text,
-                        CanvasId = Convert.ToInt32(listCanvas.SelectedValue),
-                        LocationId = Convert.ToInt32(listLocation.SelectedValue),
-                    };
-
-                    display.Register();
-
-					Response.Cookies["DisplayMonkey"]["DisplayID"] = display.DisplayId.ToString();
-					Response.Cookies["DisplayMonkey"].Expires = DateTime.Now.AddDays(365);
-
-					HttpContext.Current.Response.Redirect("default.aspx");
+                    throw new Exception(Resources.NameRequired);
                 }
 
-                catch (Exception ex)
+                int canvas = 0;
+                Int32.TryParse(listCanvas.SelectedValue, out canvas);
+                if (canvas <= 0)
                 {
-                    Response.Write(ex.Message);	// TODO: error label
+                    throw new Exception(Resources.CanvasRequired);
                 }
-			}
+
+                int location = 0;
+                Int32.TryParse(listLocation.SelectedValue, out location);
+                if (location <= 0)
+                {
+                    throw new Exception(Resources.LocationRequired);
+                }
+
+                Display display = new Display()
+                {
+                    Host = labelHost.Text,
+                    Name = textName.Text,
+                    CanvasId = canvas,
+                    LocationId = location,
+                };
+
+                display.Register();
+
+                if (Display.AutoLoadMode == Models.DisplayAutoLoadModes.DisplayAutoLoadMode_Cookie)
+                {
+                    Response.Cookies["DisplayMonkey"]["DisplayId"] = display.DisplayId.ToString();
+                    Response.Cookies["DisplayMonkey"].Expires = new DateTime(2038, 1, 1);
+                }
+
+				Response.Redirect("default.aspx");
+            }
+
+            catch (Exception ex)
+            {
+                ctrError.Title = Resources.Error;
+                ctrError.Message = ex.Message;
+                ctrError.DataBind();
+                ctrError.Visible = true;
+            }
 		}
 	}
 }

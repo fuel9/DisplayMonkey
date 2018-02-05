@@ -142,8 +142,8 @@ namespace DisplayMonkey.Controllers
         {
             Display display = new Display(db, canvasId, locationId);
 
-            FillCanvasSelectList(canvasId);
-            FillLocationSelectList(locationId);
+            FillCanvasSelectList(display.CanvasId);
+            FillLocationSelectList(display.LocationId);
 
             return View(display);
         }

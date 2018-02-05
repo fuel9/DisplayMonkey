@@ -16,6 +16,8 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
 using System.Text;
+using DisplayMonkey.Models;
+using DisplayMonkey.Language;
 
 namespace DisplayMonkey
 {
@@ -25,86 +27,72 @@ namespace DisplayMonkey
 		{
 			if (!IsPostBack)
 			{
-				// get host from URL first
-				string theHost = Request.QueryString["host"];
+                this.ctrError.Visible = false;
 
-				// otherwise, get display address
-				if (string.IsNullOrEmpty(theHost))
-				{
-					theHost = Request.ServerVariables["REMOTE_HOST"];
-					if (string.IsNullOrEmpty(theHost))
-					{
-						theHost = Request.ServerVariables["REMOTE_ADDR"];
-					}
-				}
+                string theHost = "";
+                int displayId = Int32.MinValue;
+                DisplayAutoLoadModes mode = Display.AutoLoadMode;
 
-				if (Request.Cookies["DisplayMonkey"] != null)
-				{
-					int displayID = Int32.MinValue;
-					if (Request.Cookies["DisplayMonkey"]["DisplayID"] != null)
-					{
-						if (Int32.TryParse(Request.Cookies["DisplayMonkey"]["DisplayID"], out displayID))
-						{
-							Display theDisplay = new Display(displayID)
-							{
-								Host = theHost
-							};
-							if (theDisplay.Register())
-							{
-								RedirectToDisplay(theDisplay);
-							}
-						}
-					}
-				}
+                switch (mode)
+                {
+                    case DisplayAutoLoadModes.DisplayAutoLoadMode_IP:
+                        theHost = Request.ServerVariables["REMOTE_HOST"];
+                        if (string.IsNullOrEmpty(theHost))
+                        {
+                            theHost = Request.ServerVariables["REMOTE_ADDR"];
+                        }
+                        break;
+
+                    case DisplayAutoLoadModes.DisplayAutoLoadMode_Cookie:
+                        var cookie = Request.Cookies["DisplayMonkey"];
+                        if (cookie != null && cookie["DisplayId"] != null)
+                        {
+                            Int32.TryParse(cookie["DisplayId"], out displayId);
+                        }
+                        break;
+                }
 
 				try
 				{
-					// list registered displays
-					int i = 0;
+                    // list registered displays
 					StringBuilder html = new StringBuilder();
 
 					foreach (Display display in Display.List)
 					{
-						string url = string.Format("getCanvas.aspx?display={0}", display.DisplayId);
+                        switch (mode)
+                        {
+                            case DisplayAutoLoadModes.DisplayAutoLoadMode_IP:
+                                if (theHost != "::1" && theHost == display.Host)
+                                {
+                                    Response.Redirect(display.Url);
+                                }
+                                break;
 
-#if !DEBUG
-						if (theHost != "::1" && display.Host == theHost && display.CanvasId > 0)
-#else
-						if (display.Host == theHost && display.CanvasId > 0)
-#endif
-						{
-							RedirectToDisplay(display);
-						}
+                            case DisplayAutoLoadModes.DisplayAutoLoadMode_Cookie:
+                                if (displayId == display.DisplayId)
+                                {
+                                    Response.Redirect(display.Url);
+                                }
+                                break;
+                        }
 
-						html.AppendFormat(
-							"<li><a href=\"{0}\">{1}</a></li>",
-							url,
-							Server.HtmlEncode(display.Name)
-							);
-
-						if (i % 4 != 0)
-							html.Append("<br>");
+                        html.AppendFormat(
+						    "<li><a href=\"{0}\">{1}</a></li>",
+						    display.Url,
+						    Server.HtmlEncode(display.Name)
+						    );
 					}
 
 					labelDisplays.Text = html.ToString();
-				}
+                }
 
-				catch (Exception ex)
+                catch (Exception ex)
 				{
-					Response.Write(ex.Message); // TODO: error label
+                    this.ctrError.Title = Resources.Error;
+                    this.ctrError.Message = ex.Message;
+                    this.ctrError.Visible = true;
 				}
 			}
-		}
-
-		private static void RedirectToDisplay(Display display)
-		{
-			string url = string.Format("getCanvas.aspx?display={0}", display.DisplayId);
-
-			// this host is already registered -> take us to it
-			HttpContext.Current.Response.Redirect(string.Format(
-				url,
-				display.DisplayId
-				));
 		}
 	}
 }

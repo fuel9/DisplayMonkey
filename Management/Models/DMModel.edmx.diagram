@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="bc7e2af02eae42709a76a4c4f1b15942" Name="Diagram1" ZoomLevel="95">
+      <Diagram DiagramId="bc7e2af02eae42709a76a4c4f1b15942" Name="Diagram1" ZoomLevel="94">
         <EntityTypeShape EntityType="DisplayMonkey.Model.Canvas" Width="1.5" PointX="4.625" PointY="13.375" IsExpanded="true" />
         <EntityTypeShape EntityType="DisplayMonkey.Model.Clock" Width="1.5" PointX="13.5" PointY="6.75" IsExpanded="true" />
         <EntityTypeShape EntityType="DisplayMonkey.Model.Content" Width="1.5" PointX="4.625" PointY="17.625" IsExpanded="true" />
