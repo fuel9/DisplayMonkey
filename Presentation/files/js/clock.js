@@ -126,7 +126,7 @@ DM.Clock = Class.create(DM.FrameBase, {
         if (!this.timer || this.exiting)
             return;
 
-        var time = moment().add('ms', this.offsetMilliseconds);
+        var time = moment().add(this.offsetMilliseconds, 'ms');
 
         switch (this.faceType) {
             case 0:
