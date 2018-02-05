@@ -173,8 +173,8 @@ namespace DisplayMonkey
 				head.AppendFormat(CultureInfo.InvariantCulture, "longitude:{0},\n", this.Location.Longitude);
                 head.AppendFormat(CultureInfo.InvariantCulture, "woeid:{0},\n", this.Location.Woeid);
                 head.AppendFormat(CultureInfo.InvariantCulture, "culture:'{0}',\n", this.Location.Culture);
-                head.AppendFormat(CultureInfo.InvariantCulture, "locationTime:'{0}',\n", this.Location.LocationTime.ToString("yyyy/MM/dd HH:mm:ss"));
-                head.AppendFormat(CultureInfo.InvariantCulture, "utcTime:'{0}',\n", DateTime.UtcNow.ToString("yyyy/MM/dd HH:mm:ss"));
+                head.AppendFormat(CultureInfo.InvariantCulture, "locationTime:'{0}',\n", this.Location.LocationTime.ToString("yyyy-MM-dd HH:mm:ss"));
+                head.AppendFormat(CultureInfo.InvariantCulture, "utcTime:'{0}',\n", DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss"));
 				head.AppendFormat(CultureInfo.InvariantCulture, "width:{0},\n", this.Width);
                 head.AppendFormat(CultureInfo.InvariantCulture, "height:{0},\n", this.Height);
                 if (this.BackgroundImage > 0) 
