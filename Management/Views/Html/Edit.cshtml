@@ -48,7 +48,17 @@
             //var x = jHtmlArea.defaultOptions;
             //x.toolbar.push(["forecolor"]);
             //$("textarea").htmlarea(x);
-            $("textarea").cleditor({ bodyStyle: "@bg" });
+            $("textarea").cleditor({
+                bodyStyle: "@bg",
+                height: "700px",
+                controls:
+                "bold italic underline strikethrough | font size " +
+                "style | color highlight removeformat | bullets numbering | outdent " +
+                "indent | alignleft center alignright justify | undo redo | " +
+                "rule link unlink | cut copy paste pastetext | source",
+                fonts:
+                "Arial,Arial Black,Impact,Sans Serif,Serif,Tahoma,Trebuchet MS,Verdana",
+            });
         });
     </script>
 }
