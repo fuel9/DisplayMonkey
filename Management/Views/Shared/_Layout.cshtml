@@ -39,11 +39,12 @@
         <meta name="viewport" content="width=device-width" />
         @Html.MetaAcceptLanguage()
         
+        @RenderSection("Styles", required: false)
+
         @Styles.Render(
             "~/Content/themes/base/css", 
             "~/Content/css"
             )
-        @RenderSection("Styles", required: false)
 
         @Scripts.Render(
             "~/bundles/modernizr",
