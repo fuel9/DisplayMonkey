@@ -69,7 +69,17 @@ namespace DisplayMonkey
         {
             get
             {
-                string baseUrl = this.BaseUrl, url = this.Path;
+                string baseUrl = this.BaseUrl, url = this.Path, parameters = string.Empty;
+
+                if (url.Contains("&")) // if url contains Parameters
+                {
+                    int index = url.IndexOf("&"); 
+                    if (index >= 0)
+                    {
+                        parameters = url.Substring(index); // select the parameters
+                        url = url.Substring(0, index);      // strip parametrs away from the original url
+                    }
+                }
 
                 if (baseUrl.EndsWith("/"))
                     baseUrl = baseUrl.Substring(0, baseUrl.Length - 1);
@@ -78,11 +88,11 @@ namespace DisplayMonkey
                     url = "/" + url;
 
                 url = string.Format(
-                    "{0}?{1}&rs:format=IMAGE",
+                    "{0}?{1}{2}&rs:format=IMAGE",
                     baseUrl,
-                    HttpUtility.UrlEncode(url)
+                    HttpUtility.UrlEncode(url),
+                    parameters
                     );
-
                 return url;
             }
         }

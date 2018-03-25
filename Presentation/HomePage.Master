@@ -37,10 +37,10 @@
         <meta name="theme-color" content="#ffffff"/>
         <meta name="viewport" content="width=device-width" />
         
-        <link href="~/Styles/themes/base/jquery-ui.css" rel="stylesheet" />
-        <link href="~/styles/jqsimplemenu.css" rel="stylesheet" />
-        <link rel="Stylesheet" href="~/styles/site.css" />
-        <link rel="Stylesheet" href="~/files/custom.css" />
+        <link rel="stylesheet" href="~/Styles/themes/base/jquery-ui.css" />
+        <link rel="stylesheet" href="~/Styles/jqsimplemenu.css" />
+        <link rel="stylesheet" href="~/Styles/site.css" />
+        <link rel="stylesheet" href="~/files/custom.css" />
 
         <!-- script src="~/Scripts/modernizr-2.6.2.js"></!-->
         <!-- script src="~/Scripts/jquery-2.1.4.js"></!-->

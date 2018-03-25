@@ -32,8 +32,24 @@ namespace DisplayMonkey
 				{
 					Canvas canvas = Canvas.InitFromDisplay(displayId);
 
-					// assemble page
-					this.lTitle.Text = canvas.Name;
+                    if (canvas.CanvasId == 0 || canvas.Display.DisplayId == 0)
+                    {
+                        if (Request.Cookies["DisplayMonkey"] != null)
+                        {
+                            Response.Cookies["DisplayMonkey"].Expires = DateTime.Today.AddDays(-1);
+                        }
+
+                        Response.Redirect("default.aspx");
+                    }
+
+                    if (Display.AutoLoadMode == Models.DisplayAutoLoadModes.DisplayAutoLoadMode_Cookie)
+                    {
+                        Response.Cookies["DisplayMonkey"]["DisplayId"] = canvas.DisplayId.ToString();
+                        Response.Cookies["DisplayMonkey"].Expires = new DateTime(2038, 1, 1);
+                    }
+
+                    // assemble page
+                    this.lTitle.Text = canvas.Name;
 					this.lHead.Text = canvas.Head;
 					this.lContent.Text = canvas.Body;
 				}

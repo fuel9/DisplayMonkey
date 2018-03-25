@@ -25,6 +25,8 @@
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
     <TargetFrameworkProfile />
+    <Use64BitIISExpress />
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -70,6 +72,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ErrorControl.ascx" />
     <Content Include="files\js\powerbi.js" />
     <Content Include="Images\button_blue.png" />
     <Content Include="Images\button_blue_red.png" />
@@ -279,6 +282,9 @@
     <Compile Include="..\Management\Models\ContentTypes.cs">
       <Link>ContentTypes.cs</Link>
     </Compile>
+    <Compile Include="..\Management\Models\DisplayAutoLoadModes.cs">
+      <Link>DisplayAutoLoadModes.cs</Link>
+    </Compile>
     <Compile Include="..\Management\Models\EncryptionMethods.cs">
       <Link>EncryptionMethods.cs</Link>
     </Compile>
@@ -299,6 +305,13 @@
     <Compile Include="Clock.cs" />
     <Compile Include="Content.cs" />
     <Compile Include="Encryptor.cs" />
+    <Compile Include="ErrorControl.ascx.cs">
+      <DependentUpon>ErrorControl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ErrorControl.ascx.designer.cs">
+      <DependentUpon>ErrorControl.ascx</DependentUpon>
+    </Compile>
     <Compile Include="getDisplayData.ashx.cs">
       <DependentUpon>getDisplayData.ashx</DependentUpon>
     </Compile>

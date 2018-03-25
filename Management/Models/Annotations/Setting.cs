@@ -448,6 +448,7 @@ namespace DisplayMonkey.Models
             DefaultDisplayReadyEventTimeout,        // timeout interval to wait till a frame reports itself "ready" so as to smoothly continue presentation, sec, RC10
             DefaultDisplayPollInterval,             // display poll interval for hash sum check and panel idle length, sec, RC13
             DefaultDisplayErrorLength,              // default length for display errors, sec, RC13
+            DisplayAutoLoadMode,                    // auto load mode 1.6.0
 
             DefaultPanelFadeLength,                 // default panel frame fade/transition length, sec, RC13
             DefaultFullPanelFadeLength,             // default full screen panel frame fade/transition length, sec, RC13
@@ -608,6 +609,17 @@ namespace DisplayMonkey.Models
                     DefaultValue = 60,
                     ResourceId_Group = "Settings_Group_DisplayDefaults",
                     ResourceId_Descr = "Settings_DefaultDisplayErrorLength_Descr",
+                });
+
+            _keyRes.Add(
+                _keyGuids[(int)Keys.DisplayAutoLoadMode] = new Guid("AE1B2F10-9EC3-4429-97B5-C12D64575C41"),
+                new SettingProperties
+                {
+                    ResourceId = "Settings_DisplayAutoLoadMode",
+                    Type = SettingTypes.SettingType_IntPositive,
+                    DefaultValue = 0,
+                    ResourceId_Group = "Settings_Group_DisplayDefaults",
+                    ResourceId_Descr = "Settings_DisplayAutoLoadMode_Descr",
                 });
 
             #endregion

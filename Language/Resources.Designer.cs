@@ -1,8 +1,9 @@
+
 /*!
 * DisplayMonkey source file
 * http://displaymonkey.org
 *
-* Copyright (c) 2017 Fuel9 LLC and contributors
+* Copyright (c) 2018 Fuel9 LLC and contributors
 *
 * Released under the MIT license:
 * http://opensource.org/licenses/MIT
@@ -29,7 +30,7 @@ namespace DisplayMonkey.Language {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Resources {
@@ -1451,6 +1452,24 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Tracking cookie.
+        /// </summary>
+        public static string DisplayAutoLoadMode_Cookie {
+            get {
+                return ResourceManager.GetString("DisplayAutoLoadMode_Cookie", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Static IP address.
+        /// </summary>
+        public static string DisplayAutoLoadMode_IP {
+            get {
+                return ResourceManager.GetString("DisplayAutoLoadMode_IP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Display Monkey.
         /// </summary>
         public static string DisplayMonkey {
@@ -2329,6 +2348,15 @@ namespace DisplayMonkey.Language {
         public static string LocationNameRequired {
             get {
                 return ResourceManager.GetString("LocationNameRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Location is required.
+        /// </summary>
+        public static string LocationRequired {
+            get {
+                return ResourceManager.GetString("LocationRequired", resourceCulture);
             }
         }
         
@@ -3288,6 +3316,69 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Enter a name to call this display.
+        /// </summary>
+        public static string Register_EnterNameForThisDisplay {
+            get {
+                return ResourceManager.GetString("Register_EnterNameForThisDisplay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name.
+        /// </summary>
+        public static string Register_Name {
+            get {
+                return ResourceManager.GetString("Register_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Network address.
+        /// </summary>
+        public static string Register_NetworkAddress {
+            get {
+                return ResourceManager.GetString("Register_NetworkAddress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to None Found.
+        /// </summary>
+        public static string Register_NoneFound {
+            get {
+                return ResourceManager.GetString("Register_NoneFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Register.
+        /// </summary>
+        public static string Register_Register {
+            get {
+                return ResourceManager.GetString("Register_Register", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This Display.
+        /// </summary>
+        public static string Register_ThisDisplay {
+            get {
+                return ResourceManager.GetString("Register_ThisDisplay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Registered Displays.
+        /// </summary>
+        public static string RegisteredDisplays {
+            get {
+                return ResourceManager.GetString("RegisteredDisplays", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Register this display.
         /// </summary>
         public static string RegisterThisDisplay {
@@ -3338,6 +3429,15 @@ namespace DisplayMonkey.Language {
         public static string RenderMode_Crop {
             get {
                 return ResourceManager.GetString("RenderMode_Crop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fill.
+        /// </summary>
+        public static string RenderMode_Fill {
+            get {
+                return ResourceManager.GetString("RenderMode_Fill", resourceCulture);
             }
         }
         
@@ -3518,6 +3618,15 @@ namespace DisplayMonkey.Language {
         public static string SelectPanel {
             get {
                 return ResourceManager.GetString("SelectPanel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select registered display.
+        /// </summary>
+        public static string SelectRegisteredDisplay {
+            get {
+                return ResourceManager.GetString("SelectRegisteredDisplay", resourceCulture);
             }
         }
         
@@ -3779,6 +3888,24 @@ namespace DisplayMonkey.Language {
         public static string Settings_DefaultTemplateYouTube {
             get {
                 return ResourceManager.GetString("Settings_DefaultTemplateYouTube", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Auto resolution mode.
+        /// </summary>
+        public static string Settings_DisplayAutoLoadMode {
+            get {
+                return ResourceManager.GetString("Settings_DisplayAutoLoadMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Automatic display resolution mode. Use &quot;0&quot; to recognize displays by host name or IP address. Use &quot;1&quot; to recognize displays by tracking cookie..
+        /// </summary>
+        public static string Settings_DisplayAutoLoadMode_Descr {
+            get {
+                return ResourceManager.GetString("Settings_DisplayAutoLoadMode_Descr", resourceCulture);
             }
         }
         

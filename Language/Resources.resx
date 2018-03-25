@@ -1679,4 +1679,46 @@
   <data name="Outlook_BookingOnDemand" xml:space="preserve">
     <value>On-Demand Booking</value>
   </data>
+  <data name="RenderMode_Fill" xml:space="preserve">
+    <value>Fill</value>
+  </data>
+  <data name="RegisteredDisplays" xml:space="preserve">
+    <value>Registered Displays</value>
+  </data>
+  <data name="SelectRegisteredDisplay" xml:space="preserve">
+    <value>Select registered display</value>
+  </data>
+  <data name="Register_NetworkAddress" xml:space="preserve">
+    <value>Network address</value>
+  </data>
+  <data name="Register_NoneFound" xml:space="preserve">
+    <value>None Found</value>
+  </data>
+  <data name="Register_ThisDisplay" xml:space="preserve">
+    <value>This Display</value>
+  </data>
+  <data name="Register_EnterNameForThisDisplay" xml:space="preserve">
+    <value>Enter a name to call this display</value>
+  </data>
+  <data name="Register_Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="Register_Register" xml:space="preserve">
+    <value>Register</value>
+  </data>
+  <data name="Settings_DisplayAutoLoadMode" xml:space="preserve">
+    <value>Auto resolution mode</value>
+  </data>
+  <data name="Settings_DisplayAutoLoadMode_Descr" xml:space="preserve">
+    <value>Automatic display resolution mode. Use "0" to recognize displays by host name or IP address. Use "1" to recognize displays by tracking cookie.</value>
+  </data>
+  <data name="DisplayAutoLoadMode_Cookie" xml:space="preserve">
+    <value>Tracking cookie</value>
+  </data>
+  <data name="DisplayAutoLoadMode_IP" xml:space="preserve">
+    <value>Static IP address</value>
+  </data>
+  <data name="LocationRequired" xml:space="preserve">
+    <value>Location is required</value>
+  </data>
 </root>

@@ -1376,6 +1376,10 @@
           <Member Name="RsaContainer" Value="0" />
           <Member Name="Aes" Value="1" />
         </EnumType>
+        <EnumType Name="DisplayAutoLoadModes">
+          <Member Name="DisplayAutoLoadMode_IP" Value="0" />
+          <Member Name="DisplayAutoLoadMode_Cookie" Value="1" />
+        </EnumType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->

@@ -13,6 +13,15 @@
 
 ### Change log
 
+v1.6.0 (Februray 11, 2018)
+
+- Added display resolution method based on cookies, compliments to @halloamt, #37
+- Added German translations, compliments to @halloamt, #37
+- Added French translations, compliments to @ACANEXIA, #35
+- Added validation and error reporting to DMP
+- Added Fill mode for pictures, compliments @HansKatsman, #31
+- Fixed SSRS report parameters, compliments @HansKatsman, #31
+
 v1.5.2 (September 21, 2017)
 
 - Subject for quick booking

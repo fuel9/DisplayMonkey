@@ -15,6 +15,7 @@ using System.Web;
 using System.Data;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
+using DisplayMonkey.Models;
 
 namespace DisplayMonkey
 {
@@ -126,7 +127,7 @@ namespace DisplayMonkey
             ReadyTimeout = r.IntOrZero("ReadyTimeout");
             PollInterval = r.IntOrZero("PollInterval");
             ErrorLength = r.IntOrZero("ErrorLength");
-            
+
             Name = r.StringOrBlank("Name").Trim();
 			if (Name == "")
 				Name = string.Format("Display {0}", DisplayId);
@@ -134,6 +135,38 @@ namespace DisplayMonkey
             if (r["RecycleTime"] != DBNull.Value)
             {
                 RecycleTime = (TimeSpan)r["RecycleTime"];
+            }
+        }
+
+        public static DisplayAutoLoadModes AutoLoadMode         // 1.6.0
+        {
+            get
+            {
+                DisplayAutoLoadModes mode = DisplayAutoLoadModes.DisplayAutoLoadMode_IP;
+
+                using (SqlCommand cmd = new SqlCommand()
+                {
+                    CommandType = CommandType.Text,
+                    CommandText = "SELECT TOP 1 [Value] FROM Settings WHERE [Key]='AE1B2F10-9EC3-4429-97B5-C12D64575C41'"
+                })
+                {
+                    cmd.ExecuteReaderExt(dr =>
+                    {
+                        byte[] v = dr.BytesOrNull("Value");
+                        mode = (DisplayAutoLoadModes)(v == null ? 0 : BitConverter.ToInt32(v.Reverse().ToArray(), 0));
+                        return false;
+                    });
+                }
+
+                return mode;
+            }
+        }
+
+        public string Url                                       // 1.6.0
+        {
+            get
+            {
+                return string.Format("getCanvas.aspx?display={0}", DisplayId);
             }
         }
 	
@@ -162,10 +195,10 @@ namespace DisplayMonkey
 			}
 		}
 
-		public void Register()
+		public bool Register()
 		{
-			if (Host == "" || Name == "" || CanvasId == 0)
-				return;
+			if (Name == "" || CanvasId == 0 || LocationId == 0)
+				return false;
 
             using (SqlCommand cmd = new SqlCommand()
             {
@@ -174,10 +207,10 @@ namespace DisplayMonkey
             })
             {
 				cmd.CommandType = CommandType.StoredProcedure;
-				cmd.Parameters.Add("@name", SqlDbType.NVarChar, 100).Value = Name;
-				cmd.Parameters.Add("@host", SqlDbType.VarChar, 100).Value = Host;
-				cmd.Parameters.Add("@canvasId", SqlDbType.Int).Value = CanvasId;
-				cmd.Parameters.Add("@locationId", SqlDbType.Int).Value = LocationId;
+				cmd.Parameters.AddWithValue("@name", Name);
+				cmd.Parameters.AddWithValue("@host", Host ?? "");
+				cmd.Parameters.AddWithValue("@canvasId", CanvasId);
+				cmd.Parameters.AddWithValue("@locationId", LocationId);
 				cmd.Parameters.Add("@displayId", SqlDbType.Int).Direction = ParameterDirection.Output;
 
                 cmd.ExecuteNonQueryExt();
@@ -185,6 +218,8 @@ namespace DisplayMonkey
 				//DataAccess.ExecuteNonQuery(cmd);
 				DisplayId = cmd.Parameters["@displayId"].IntOrZero();
 			}
+
+			return true;
 		}
     }
 }
