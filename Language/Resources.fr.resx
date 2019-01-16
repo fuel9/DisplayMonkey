@@ -1487,7 +1487,7 @@
     <value>Sensibilité</value>
   </data>
   <data name="Outlook_BookingImpossible" xml:space="preserve">
-    <value>Le ressource n'est pas disponible pour être réservée</value>
+    <value>La ressource n'est pas disponible pour être réservée</value>
   </data>
   <data name="Outlook_BookingSent" xml:space="preserve">
     <value>Demande de réservation transmise</value>

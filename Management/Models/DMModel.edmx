@@ -210,7 +210,7 @@
           <Property Name="Dashboard" Type="uniqueidentifier" />
           <Property Name="Tile" Type="uniqueidentifier" />
           <Property Name="Report" Type="uniqueidentifier" />
-          <Property Name="Url" Type="varchar" MaxLength="200" />
+          <Property Name="Url" Type="varchar" MaxLength="4000" />
           <Property Name="Group" Type="uniqueidentifier" />
         </EntityType>
         <EntityType Name="Report">
@@ -1136,7 +1136,8 @@
         </Association>
         <Association Name="VideoAlternative">
           <End Role="Video" Type="DisplayMonkey.Model.Video" Multiplicity="*" />
-          <End Role="Content" Type="DisplayMonkey.Model.Content" Multiplicity="*" />
+          <End Role="Content" Type="DisplayMonkey.Model.Content" Multiplicity="*" >
+          </End>
         </Association>
         <Association Name="FK_Location_Area">
           <End Type="DisplayMonkey.Model.Location" Role="Location" Multiplicity="0..1" />
@@ -1184,6 +1185,7 @@
           <Member Name="RenderMode_Crop" Value="0" />
           <Member Name="RenderMode_Stretch" Value="1" />
           <Member Name="RenderMode_Fit" Value="2" />
+          <Member Name="RenderMode_Fill" Value="3" />
         </EnumType>
         <EnumType Name="ClockTypes">
           <Member Name="ClockType_Text" Value="0" />
@@ -1347,7 +1349,7 @@
           <Property Name="AccountId" Type="Int32" Nullable="false" />
           <Property Name="Type" Type="DisplayMonkey.Model.PowerbiTypes" Nullable="true" />
           <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Url" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Url" Type="String" MaxLength="4000" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="AzureAccount" Relationship="DisplayMonkey.Model.FK_Powerbi_AzureAccount" FromRole="Powerbi" ToRole="AzureAccount" />
           <Property Name="DashboardGuid" Type="Guid" Nullable="true" />
           <Property Name="TileGuid" Type="Guid" Nullable="true" />

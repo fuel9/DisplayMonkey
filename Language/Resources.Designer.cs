@@ -1,9 +1,8 @@
-
 /*!
 * DisplayMonkey source file
 * http://displaymonkey.org
 *
-* Copyright (c) 2018 Fuel9 LLC and contributors
+* Copyright (c) 2019 Fuel9 LLC and contributors
 *
 * Released under the MIT license:
 * http://opensource.org/licenses/MIT
@@ -30,7 +29,7 @@ namespace DisplayMonkey.Language {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Resources {
@@ -198,7 +197,7 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Are you sure you want to delete this media.
+        ///   Looks up a localized string similar to WARNING: deleting media will also delete associated frames data. Are you sure you want to delete this media?.
         /// </summary>
         public static string AreYousureYouWantToDeleteThisMedia {
             get {

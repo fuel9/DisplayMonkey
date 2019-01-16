@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("Release")]
 [assembly: AssemblyCompany("Fuel9 LLC")]
 [assembly: AssemblyProduct("Lang.en")]
-[assembly: AssemblyCopyright("Copyright © 2018 Fuel9 LLC. All rights reserved.")]
+[assembly: AssemblyCopyright("Copyright © 2019 Fuel9 LLC. All rights reserved.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -41,6 +41,6 @@ using System.Runtime.InteropServices;
 //
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
-// [assembly: AssemblyVersion("1.6.0.181")]
-[assembly: AssemblyVersion("1.6.0.181")]
-[assembly: AssemblyFileVersion("1.6.0.181")]
+// [assembly: AssemblyVersion("1.6.1.183")]
+[assembly: AssemblyVersion("1.6.1.183")]
+[assembly: AssemblyFileVersion("1.6.1.183")]

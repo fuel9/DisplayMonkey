@@ -484,7 +484,7 @@
     <value>Are you sure you want to delete this location?</value>
   </data>
   <data name="AreYousureYouWantToDeleteThisMedia" xml:space="preserve">
-    <value>Are you sure you want to delete this media</value>
+    <value>WARNING: deleting media will also delete associated frames data. Are you sure you want to delete this media?</value>
   </data>
   <data name="AreYouSureYouWantToDeleteThisPanel" xml:space="preserve">
     <value>Are you sure you want to delete this panel?</value>
