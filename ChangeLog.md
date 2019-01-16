@@ -21,6 +21,9 @@ v1.6.1 (January 15, 2019)
 - Fixed removing frames with missing media, #69
 - Extended URL for PowerBI frames, #70
 
+*Notice*: The free Yahoo Weather API used in DM has been officially retired as of January 3rd, 2019. 
+We are looking for alternatives.
+
 v1.6.0 (Februray 11, 2018)
 
 - Added display resolution method based on cookies, compliments to @halloamt, #37
