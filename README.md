@@ -87,8 +87,8 @@ We encourage contributions. Please feel free to send us [pull requests](https://
 
 - Translate language resources to other languages.
 - Test with browsers not yet known to be supported and provide your valuable feedback.
-- Report issues [here](https://github.com/fuel9/DisplayMonkey/issues)
-- Spread the word around.
+- Report issues [here](https://github.com/fuel9/DisplayMonkey/issues).
+- Spread the word around, give us a star!
 
 ### License
 
