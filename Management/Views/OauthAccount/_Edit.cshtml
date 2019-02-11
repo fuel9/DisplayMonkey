@@ -1,0 +1,54 @@
+﻿@model DisplayMonkey.Models.OauthAccount
+
+@{
+    SelectList providers = ViewBag.Providers as SelectList;
+}
+
+        <div class="editor-label">
+            @Html.LabelFor(m => m.Name)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(m => m.Name)
+            @Html.ValidationMessageFor(m => m.Name)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(m => m.Provider)
+        </div>
+        @if (Model.AccountId == 0)
+        {
+            <div class="editor-field select">
+                @Html.DropDownListFor(m => m.Provider, providers)
+                @Html.ValidationMessageFor(m => m.Provider)
+            </div>
+        }
+        else
+        {
+            <div class="display-field">
+                @Model.Provider.Translate()
+            </div>
+        }
+
+        <div class="editor-label">
+            @Html.LabelFor(m => m.AppId)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(m => m.AppId)
+            @Html.ValidationMessageFor(m => m.AppId)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(m => m.ClientId)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(m => m.ClientId)
+            @Html.ValidationMessageFor(m => m.ClientId)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(m => m.ClientSecret)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(m => m.ClientSecret)
+            @Html.ValidationMessageFor(m => m.ClientSecret)
+        </div>

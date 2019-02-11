@@ -321,6 +321,7 @@
     <Compile Include="getYahooWeather.ashx.cs">
       <DependentUpon>getYahooWeather.ashx</DependentUpon>
     </Compile>
+    <Compile Include="OAuthAccount.cs" />
     <Compile Include="Powerbi.cs" />
     <Compile Include="AzureUtil.cs" />
     <Compile Include="Register.aspx.cs">
@@ -341,6 +342,7 @@
     <Compile Include="HomePage.Master.designer.cs">
       <DependentUpon>HomePage.Master</DependentUpon>
     </Compile>
+    <Compile Include="YahooUtil.cs" />
     <Compile Include="YouTube.cs" />
     <Compile Include="Html.cs" />
     <Compile Include="getHtml.ashx.cs">

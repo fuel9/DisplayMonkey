@@ -1721,4 +1721,70 @@
   <data name="LocationRequired" xml:space="preserve">
     <value>Location is required</value>
   </data>
+  <data name="WeatherProvider" xml:space="preserve">
+    <value>Weather provider</value>
+  </data>
+  <data name="WeatherProviderAccount" xml:space="preserve">
+    <value>Weather provider account</value>
+  </data>
+  <data name="WeatherProviderAccountRequired" xml:space="preserve">
+    <value>Weather provider account is required</value>
+  </data>
+  <data name="WeatherProviderRequired" xml:space="preserve">
+    <value>Weather provider is required</value>
+  </data>
+  <data name="WeatherProvider_Yahoo" xml:space="preserve">
+    <value>Yahoo</value>
+  </data>
+  <data name="WeatherSelectProvider" xml:space="preserve">
+    <value>- Select provider -</value>
+  </data>
+  <data name="WeatherSelectProviderAccount" xml:space="preserve">
+    <value>- Select provider account -</value>
+  </data>
+  <data name="CreateNewOauthAccount" xml:space="preserve">
+    <value>Create new Open Authorization (OAuth) account</value>
+  </data>
+  <data name="DeleteOauthAccount" xml:space="preserve">
+    <value>Delete Open Authorization (OAuth) account</value>
+  </data>
+  <data name="DeletingOauthAccountAreYouSureYouWantToContinue" xml:space="preserve">
+    <value>Deleting OAuth account may render content depending on it inoperable. Are you sure you want to continue?</value>
+  </data>
+  <data name="EditOauthAccount" xml:space="preserve">
+    <value>Edit Open Authorization (OAuth) account</value>
+  </data>
+  <data name="OauthAccount" xml:space="preserve">
+    <value>Open Authorization (OAuth) account</value>
+  </data>
+  <data name="OauthAccounts" xml:space="preserve">
+    <value>Open Authorization (OAuth) accounts</value>
+  </data>
+  <data name="OauthClientId" xml:space="preserve">
+    <value>Client ID (Consumer key)</value>
+  </data>
+  <data name="OauthClientIdRequired" xml:space="preserve">
+    <value>Client ID is required</value>
+  </data>
+  <data name="OauthClientSecret" xml:space="preserve">
+    <value>Client secret (Consumer secret)</value>
+  </data>
+  <data name="OauthClientSecretRequired" xml:space="preserve">
+    <value>Client secret is required</value>
+  </data>
+  <data name="OauthProvider" xml:space="preserve">
+    <value>Service provider</value>
+  </data>
+  <data name="OauthProviderRequired" xml:space="preserve">
+    <value>Service provider is required</value>
+  </data>
+  <data name="OauthProvider_Yahoo" xml:space="preserve">
+    <value>Yahoo</value>
+  </data>
+  <data name="OauthAppId" xml:space="preserve">
+    <value>Application ID</value>
+  </data>
+  <data name="OauthAppIdRequired" xml:space="preserve">
+    <value>Application ID is required</value>
+  </data>
 </root>

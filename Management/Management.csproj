@@ -160,6 +160,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\OauthAccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CanvasController.cs" />
     <Compile Include="Controllers\ClockController.cs" />
@@ -192,6 +193,7 @@
     </Compile>
     <Compile Include="Globalization.cs" />
     <Compile Include="HtmlExtensions.cs" />
+    <Compile Include="Models\Annotations\OauthAccount.cs" />
     <Compile Include="Models\Annotations\AzureAccount.cs" />
     <Compile Include="Models\Annotations\Canvas.cs" />
     <Compile Include="Models\Annotations\Clock.cs" />
@@ -285,6 +287,12 @@
     <Compile Include="Models\News.cs">
       <DependentUpon>DMModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\OauthAccount.cs">
+      <DependentUpon>DMModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\OauthProviders.cs">
+      <DependentUpon>DMModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Outlook.cs">
       <DependentUpon>DMModel.tt</DependentUpon>
     </Compile>
@@ -331,6 +339,9 @@
       <DependentUpon>DMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Weather.cs">
+      <DependentUpon>DMModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\WeatherProviders.cs">
       <DependentUpon>DMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\WeatherTypes.cs">
@@ -566,6 +577,7 @@
     <Content Include="Scripts\json2.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\panel-preview.js" />
+    <Content Include="Scripts\weather-edit.js" />
     <Content Include="Scripts\powerbi-edit.js" />
     <Content Include="Scripts\powerbi-preview.js" />
     <Content Include="Scripts\spin.js" />
@@ -764,6 +776,11 @@
     <Content Include="Views\YouTube\_Summary.cshtml" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.3.1.min.map" />
+    <Content Include="Views\OauthAccount\_Edit.cshtml" />
+    <Content Include="Views\OauthAccount\Create.cshtml" />
+    <Content Include="Views\OauthAccount\Delete.cshtml" />
+    <Content Include="Views\OauthAccount\Edit.cshtml" />
+    <Content Include="Views\OauthAccount\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

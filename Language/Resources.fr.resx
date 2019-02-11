@@ -1678,4 +1678,112 @@
   <data name="Outlook_BookingOnDemand" xml:space="preserve">
     <value>Réservation en ligne</value>
   </data>
+  <data name="RenderMode_Fill" xml:space="preserve">
+    <value>Remplir</value>
+  </data>
+  <data name="RegisteredDisplays" xml:space="preserve">
+    <value>Affiche enregistrée</value>
+  </data>
+  <data name="SelectRegisteredDisplay" xml:space="preserve">
+    <value>Sélectionnez l'affichage enregistré</value>
+  </data>
+  <data name="Register_NetworkAddress" xml:space="preserve">
+    <value>Adresse réseau</value>
+  </data>
+  <data name="Register_NoneFound" xml:space="preserve">
+    <value>Personne n'est trouve</value>
+  </data>
+  <data name="Register_ThisDisplay" xml:space="preserve">
+    <value>Cet affichage</value>
+  </data>
+  <data name="Register_EnterNameForThisDisplay" xml:space="preserve">
+    <value>Entrez un nom pour appeler cet affichage</value>
+  </data>
+  <data name="Register_Name" xml:space="preserve">
+    <value>Prénom</value>
+  </data>
+  <data name="Register_Register" xml:space="preserve">
+    <value>Registre</value>
+  </data>
+  <data name="Settings_DisplayAutoLoadMode" xml:space="preserve">
+    <value>Mode de résolution automatique</value>
+  </data>
+  <data name="Settings_DisplayAutoLoadMode_Descr" xml:space="preserve">
+    <value>Mode de résolution d'affichage automatique. Utilisez "0" pour reconnaître les écrans par nom d’hôte ou adresse IP. Utilisez "1" pour reconnaître les affichages en suivant le cookie.</value>
+  </data>
+  <data name="DisplayAutoLoadMode_Cookie" xml:space="preserve">
+    <value>Cookie de suivi</value>
+  </data>
+  <data name="DisplayAutoLoadMode_IP" xml:space="preserve">
+    <value>Adresse IP statique</value>
+  </data>
+  <data name="LocationRequired" xml:space="preserve">
+    <value>L'emplacement est requis</value>
+  </data>
+  <data name="WeatherProvider" xml:space="preserve">
+    <value>Fournisseur météo</value>
+  </data>
+  <data name="WeatherProviderAccount" xml:space="preserve">
+    <value>Compte fournisseur météo</value>
+  </data>
+  <data name="WeatherProviderAccountRequired" xml:space="preserve">
+    <value>Un compte de fournisseur météo est requis</value>
+  </data>
+  <data name="WeatherProviderRequired" xml:space="preserve">
+    <value>Le fournisseur météo est requis</value>
+  </data>
+  <data name="WeatherProvider_Yahoo" xml:space="preserve">
+    <value>Yahoo</value>
+  </data>
+  <data name="WeatherSelectProvider" xml:space="preserve">
+    <value>- Choisir un fournisseur -</value>
+  </data>
+  <data name="WeatherSelectProviderAccount" xml:space="preserve">
+    <value>- Sélectionnez le compte du fournisseur -</value>
+  </data>
+  <data name="CreateNewOauthAccount" xml:space="preserve">
+    <value>Créer un nouveau compte Open Authorization (OAuth)</value>
+  </data>
+  <data name="DeleteOauthAccount" xml:space="preserve">
+    <value>Supprimer le compte Open Authorization (OAuth)</value>
+  </data>
+  <data name="DeletingOauthAccountAreYouSureYouWantToContinue" xml:space="preserve">
+    <value>La suppression d'un compte OAuth peut rendre le contenu dépendant de celui-ci inutilisable. Es-tu sur de vouloir continuer?</value>
+  </data>
+  <data name="EditOauthAccount" xml:space="preserve">
+    <value>Modifier le compte d'autorisation ouverte (OAuth)</value>
+  </data>
+  <data name="OauthAccount" xml:space="preserve">
+    <value>Ouvrir un compte d'autorisation (OAuth)</value>
+  </data>
+  <data name="OauthAccounts" xml:space="preserve">
+    <value>Comptes d'autorisation ouverts (OAuth)</value>
+  </data>
+  <data name="OauthClientId" xml:space="preserve">
+    <value>ID client (clé de consommateur)</value>
+  </data>
+  <data name="OauthClientIdRequired" xml:space="preserve">
+    <value>L'identifiant du client est requis</value>
+  </data>
+  <data name="OauthClientSecret" xml:space="preserve">
+    <value>Secret client (secret du consommateur)</value>
+  </data>
+  <data name="OauthClientSecretRequired" xml:space="preserve">
+    <value>Le secret du client est requis</value>
+  </data>
+  <data name="OauthProvider" xml:space="preserve">
+    <value>Fournisseur de services</value>
+  </data>
+  <data name="OauthProviderRequired" xml:space="preserve">
+    <value>Fournisseur de service requis</value>
+  </data>
+  <data name="OauthProvider_Yahoo" xml:space="preserve">
+    <value>Yahoo</value>
+  </data>
+  <data name="OauthAppId" xml:space="preserve">
+    <value>ID d'application</value>
+  </data>
+  <data name="OauthAppIdRequired" xml:space="preserve">
+    <value>L'identifiant de l'application est requis</value>
+  </data>
 </root>

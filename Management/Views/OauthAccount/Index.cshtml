@@ -1,0 +1,31 @@
+﻿@model IEnumerable<DisplayMonkey.Models.OauthAccount>
+
+@{
+    ViewBag.Title = Resources.OauthAccounts;
+}
+
+<h2>@ViewBag.Title</h2>
+
+<p>
+    @Html.ActionLink(Resources.CreateNewOauthAccount, "Create")
+</p>
+<table class="grid">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+       <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.ActionLink(item.Name, "Edit", new { id=item.AccountId })
+        </td>
+        <td>
+            @Html.ActionLink(Resources.Delete, "Delete", new { id=item.AccountId })
+        </td>
+    </tr>
+}
+
+</table>

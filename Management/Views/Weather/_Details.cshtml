@@ -9,12 +9,30 @@
         <div class="divTable">
     
         <div class="divRow">
-        <div class="display-label">
-            @Html.DisplayNameFor(model => model.Type)
+            <div class="display-label">
+                @Html.DisplayNameFor(model => model.Type)
+            </div>
+            <div class="display-field">
+                @Model.Type.Translate()
+            </div>
         </div>
-        <div class="display-field">
-            @Model.Type.Translate()
+
+        <div class="divRow">
+            <div class="display-label">
+                @Html.DisplayNameFor(model => model.Provider)
+            </div>
+            <div class="display-field">
+                @(Model.Provider == null ? Resources.ValueNotSet : Model.Provider.Translate())
+            </div>
         </div>
+
+        <div class="divRow">
+            <div class="display-label">
+                @Html.DisplayNameFor(model => model.AccountId)
+            </div>
+            <div class="display-field">
+                @(Model.OauthAccount == null ? Resources.ValueNotSet : Model.OauthAccount.Name)
+            </div>
         </div>
 
         </div>

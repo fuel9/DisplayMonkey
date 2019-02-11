@@ -79,7 +79,11 @@ namespace DisplayMonkey
                         "~/Scripts/spin.js"
                         ));
 
-            
+            bundles.Add(new ScriptBundle("~/bundles/weather-edit").Include(
+                        "~/Scripts/weather-edit.js"
+                        ));
+
+
             // Styles ==========================================================================================
             bundles.Add(new StyleBundle("~/Content/css").Include(
                         "~/Content/jqsimplemenu.css",                            // DPA: menu

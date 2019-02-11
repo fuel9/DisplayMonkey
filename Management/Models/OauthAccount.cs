@@ -22,12 +22,20 @@ namespace DisplayMonkey.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Weather : Frame
+    public partial class OauthAccount
     {
-        public WeatherTypes Type { get; set; }
-        public Nullable<WeatherProviders> Provider { get; set; }
-        public Nullable<int> AccountId { get; set; }
+        public OauthAccount()
+        {
+            this.Weathers = new HashSet<Weather>();
+        }
     
-        public virtual OauthAccount OauthAccount { get; set; }
+        public int AccountId { get; set; }
+        public OauthProviders Provider { get; set; }
+        public string Name { get; set; }
+        public string AppId { get; set; }
+        public string ClientId { get; set; }
+        public string ClientSecret { get; set; }
+    
+        public virtual ICollection<Weather> Weathers { get; set; }
     }
 }

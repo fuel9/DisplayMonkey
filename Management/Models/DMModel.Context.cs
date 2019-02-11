@@ -47,5 +47,6 @@ namespace DisplayMonkey.Models
         public DbSet<Template> Templates { get; set; }
         public DbSet<Setting> Settings { get; set; }
         public DbSet<AzureAccount> AzureAccounts { get; set; }
+        public DbSet<OauthAccount> OauthAccounts { get; set; }
     }
 }

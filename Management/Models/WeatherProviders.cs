@@ -20,14 +20,9 @@
 namespace DisplayMonkey.Models
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class Weather : Frame
+    public enum WeatherProviders : int
     {
-        public WeatherTypes Type { get; set; }
-        public Nullable<WeatherProviders> Provider { get; set; }
-        public Nullable<int> AccountId { get; set; }
-    
-        public virtual OauthAccount OauthAccount { get; set; }
+        WeatherProvider_Yahoo = 1
     }
 }

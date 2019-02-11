@@ -1,0 +1,31 @@
+﻿@model DisplayMonkey.Models.OauthAccount
+
+@{
+    ViewBag.Title = Resources.CreateNewOauthAccount;
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    @Html.Referrer()
+
+    <fieldset>
+        <legend>@Resources.OauthAccount</legend>
+
+        @Html.Partial("_Edit")
+
+        <p>
+            <input type="submit" value="@Resources.Create" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink(Resources.OauthAccounts, "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

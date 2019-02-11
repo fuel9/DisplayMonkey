@@ -24,10 +24,12 @@ using DisplayMonkey.Language;
 
 namespace DisplayMonkey
 {
-	public class Weather : Frame
-	{
-        public int Woeid  { get; private set; }
+    public class Weather : Frame
+    {
+        public int Woeid { get; private set; }
         public string TemperatureUnit { get; private set; }
+
+        public OAuthAccount ProviderAccount { get; private set; }
 
         public Weather(int frameId)
             : base(frameId)
@@ -49,11 +51,18 @@ namespace DisplayMonkey
                 CommandText = "SELECT TOP 1 * FROM Weather WHERE FrameId=@frameId",
             })
             {
+                int provider = 0, accountId = 0;
+
                 cmd.Parameters.AddWithValue("@frameId", this.FrameId);
                 cmd.ExecuteReaderExt((dr) =>
                 {
+                    provider = dr.IntOrZero("Provider");
+                    accountId = dr.IntOrZero("AccountId");
+
                     return false;
                 });
+
+                ProviderAccount = new OAuthAccount(provider, accountId);
             }
 
             // TODO: add own Woeid to Weather model

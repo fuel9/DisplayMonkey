@@ -1703,4 +1703,87 @@
   <data name="Register_Register" xml:space="preserve">
     <value>Registrieren</value>
   </data>
+  
+  <data name="Settings_DisplayAutoLoadMode" xml:space="preserve">
+    <value>Automatischer Auflösungsmodus</value>
+  </data>
+  <data name="Settings_DisplayAutoLoadMode_Descr" xml:space="preserve">
+    <value>Automatischer Anzeigeauflösungsmodus. Verwenden Sie "0", um Anzeigen anhand des Hostnamens oder der IP-Adresse zu erkennen. Verwenden Sie "1", um Anzeigen durch Tracking-Cookie zu erkennen.</value>
+  </data>
+  <data name="DisplayAutoLoadMode_Cookie" xml:space="preserve">
+    <value>Tracking-Cookie</value>
+  </data>
+  <data name="DisplayAutoLoadMode_IP" xml:space="preserve">
+    <value>Statische IP-Adresse</value>
+  </data>
+  <data name="LocationRequired" xml:space="preserve">
+    <value>Standort ist erforderlich</value>
+  </data>
+  <data name="WeatherProvider" xml:space="preserve">
+    <value>Wetteranbieter</value>
+  </data>
+  <data name="WeatherProviderAccount" xml:space="preserve">
+    <value>Wetteranbieter-Konto</value>
+  </data>
+  <data name="WeatherProviderAccountRequired" xml:space="preserve">
+    <value>Wetteranbieter-Konto ist erforderlich</value>
+  </data>
+  <data name="WeatherProviderRequired" xml:space="preserve">
+    <value>Wetteranbieter ist erforderlich</value>
+  </data>
+  <data name="WeatherProvider_Yahoo" xml:space="preserve">
+    <value>Yahoo</value>
+  </data>
+  
+  <data name="WeatherSelectProvider" xml:space="preserve">
+    <value>- Anbieter auswählen -</value>
+  </data>
+  <data name="WeatherSelectProviderAccount" xml:space="preserve">
+    <value>- Anbieterkonto auswählen -</value>
+  </data>
+  <data name="CreateNewOauthAccount" xml:space="preserve">
+    <value>Erstellen Sie ein neues Konto für die offene Autorisierung (OAuth)</value>
+  </data>
+  <data name="DeleteOauthAccount" xml:space="preserve">
+    <value>Löschen Sie das Konto für offene Berechtigungen (OAuth)</value>
+  </data>
+  <data name="DeletingOauthAccountAreYouSureYouWantToContinue" xml:space="preserve">
+    <value>Das Löschen des OAuth-Kontos kann dazu führen, dass der Inhalt davon abhängig ist. Sind Sie sicher, dass Sie fortfahren möchten?</value>
+  </data>
+  <data name="EditOauthAccount" xml:space="preserve">
+    <value>Open Authorization (OAuth) Konto bearbeiten</value>
+  </data>
+  <data name="OauthAccount" xml:space="preserve">
+    <value>Open Authorization (OAuth) Konto</value>
+  </data>
+  <data name="OauthAccounts" xml:space="preserve">
+    <value>Open Authorization (OAuth) Konten</value>
+  </data>
+  <data name="OauthClientId" xml:space="preserve">
+    <value>Client ID (Verbraucherschlüssel)</value>
+  </data>
+  <data name="OauthClientIdRequired" xml:space="preserve">
+    <value>Client ID ist erforderlich</value>
+  </data>
+  <data name="OauthClientSecret" xml:space="preserve">
+    <value>Client secret (Verbrauchergeheimnis)</value>
+  </data>
+  <data name="OauthClientSecretRequired" xml:space="preserve">
+    <value>Client secret ist erforderlich</value>
+  </data>
+  <data name="OauthProvider" xml:space="preserve">
+    <value>Dienstanbieter</value>
+  </data>
+  <data name="OauthProviderRequired" xml:space="preserve">
+    <value>Dienstanbieter ist erforderlich</value>
+  </data>
+  <data name="OauthProvider_Yahoo" xml:space="preserve">
+    <value>Yahoo</value>
+  </data>
+  <data name="OauthAppId" xml:space="preserve">
+    <value>Application ID</value>
+  </data>
+  <data name="OauthAppIdRequired" xml:space="preserve">
+    <value>Application ID ist erforderlich</value>
+  </data>
 </root>

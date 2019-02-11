@@ -25,6 +25,7 @@ namespace DisplayMonkey.Models
             base.init(_db);
 
             this.CacheInterval = Setting.GetDefaultCacheInterval(_db, this.FrameType);
+            this.Provider = WeatherProviders.WeatherProvider_Yahoo; // TODO: make a parameter as more providers are added
         }
 
         internal class Annotations
@@ -39,6 +40,18 @@ namespace DisplayMonkey.Models
                 Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "WeatherTypeRequired"),
             ]
             public WeatherTypes Type { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "WeatherProvider"),
+                Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "WeatherProviderRequired"),
+            ]
+            public Nullable<WeatherProviders> Provider { get; set; }
+
+            [
+                Display(ResourceType = typeof(Resources), Name = "WeatherProviderAccount"),
+                Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "WeatherProviderAccountRequired"),
+            ]
+            public Nullable<int> AccountId { get; set; }
         }
     }
 }

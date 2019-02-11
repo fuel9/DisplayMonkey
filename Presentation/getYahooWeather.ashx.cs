@@ -52,8 +52,8 @@ namespace DisplayMonkey
                         string.Format("weather_{0}_{1}_{2}_{3}", weather.FrameId, weather.Version, tempUnit, woeid),
                         async (expire) => 
                         {
-                            expire.When = DateTime.Now.AddMinutes(weather.CacheInterval);
-                            return await GetYahooWeatherAsync(tempUnit, woeid); 
+                            expire.When = DateTime.Now.AddMinutes(Math.Max(1,weather.CacheInterval));
+                            return await GetYahooWeatherAsync(weather.ProviderAccount, tempUnit, woeid); 
                         });
 
                     if (map != null)
@@ -102,19 +102,11 @@ namespace DisplayMonkey
             response.Flush();
 		}
 
-        private async Task<Dictionary<string, object>> GetYahooWeatherAsync(string temperatureUnit, int woeid)
+        private async Task<Dictionary<string, object>> GetYahooWeatherAsync(OAuthAccount account, string temperatureUnit, int woeid)
         {
-            string url = string.Format(
-                @"https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%3D{0}%20and%20u%3D'{1}'",
-                woeid,
-                temperatureUnit
+            string response = await YahooUtil.GetYahooWeatherDataAsync(
+                account.AppId, account.ClientId, account.ClientSecret, temperatureUnit, woeid
                 );
-
-            string response = "";
-            using (WebClient client = new WebClient())
-            {
-                response = Encoding.ASCII.GetString(await client.DownloadDataTaskAsync(url));
-            }
 
             XmlDocument doc = new XmlDocument();
             using (System.IO.StringReader sreader = new System.IO.StringReader(response))
