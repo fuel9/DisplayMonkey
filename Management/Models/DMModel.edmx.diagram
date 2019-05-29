@@ -47,7 +47,11 @@
         <InheritanceConnector EntityType="DisplayMonkey.Model.Powerbi" />
         <InheritanceConnector EntityType="DisplayMonkey.Model.News" />
         <InheritanceConnector EntityType="DisplayMonkey.Model.Outlook" />
-        <InheritanceConnector EntityType="DisplayMonkey.Model.Html" />
+        <InheritanceConnector EntityType="DisplayMonkey.Model.Html" ManuallyRouted="true" >
+          <ConnectorPoint PointX="11.375" PointY="14.571432291666666" />
+          <ConnectorPoint PointX="11.375" PointY="18.131805826822919" />
+          <ConnectorPoint PointX="13.5" PointY="18.131805826822919" />
+        </InheritanceConnector>
         <InheritanceConnector EntityType="DisplayMonkey.Model.Memo" />
         <InheritanceConnector EntityType="DisplayMonkey.Model.Clock" />
         <InheritanceConnector EntityType="DisplayMonkey.Model.Clock" />
@@ -57,6 +61,8 @@
         <InheritanceConnector EntityType="DisplayMonkey.Model.Picture" />
         <InheritanceConnector EntityType="DisplayMonkey.Model.Video" />
         <InheritanceConnector EntityType="DisplayMonkey.Model.FullScreen" />
+        <EntityTypeShape EntityType="DisplayMonkey.Model.OauthAccount" Width="1.5" PointX="3.25" PointY="21" />
+        <AssociationConnector Association="DisplayMonkey.Model.FK_Weather_OauthAccount" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

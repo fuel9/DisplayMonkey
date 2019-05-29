@@ -1,0 +1,65 @@
+﻿@model DisplayMonkey.Models.OauthAccount
+
+@{
+    ViewBag.Title = Resources.DeleteOauthAccount;
+}
+
+<h2>@ViewBag.Title</h2>
+
+<h3>@Resources.DeletingOauthAccountAreYouSureYouWantToContinue</h3>
+
+@Html.HiddenFor(model => model.AccountId)
+    
+<fieldset>
+    <legend>@Resources.OauthAccount</legend>
+
+    <div class="divTable">
+
+        <div class="divRow">
+            <div class="display-label">
+                @Html.DisplayNameFor(model => model.Name)
+            </div>
+            <div class="display-field">
+                @Html.DisplayFor(model => model.Name)
+            </div>
+        </div>
+
+        <div class="divRow">
+            <div class="display-label">
+                @Html.DisplayNameFor(model => model.Provider)
+            </div>
+            <div class="display-field">
+                @Model.Provider.Translate()
+            </div>
+        </div>
+
+        <div class="divRow">
+            <div class="display-label">
+                @Html.DisplayNameFor(model => model.AppId)
+            </div>
+            <div class="display-field">
+                @Html.DisplayFor(model => model.AppId)
+            </div>
+        </div>
+
+        <div class="divRow">
+            <div class="display-label">
+                @Html.DisplayNameFor(model => model.ClientId)
+            </div>
+            <div class="display-field">
+                @Html.DisplayFor(model => model.ClientId)
+            </div>
+        </div>
+
+    </div>
+
+</fieldset>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.Referrer()
+    <p>
+        <input type="submit" value="@Resources.Delete" /> |
+        @Html.ActionLink(Resources.OauthAccounts, "Index")
+    </p>
+}

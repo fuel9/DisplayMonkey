@@ -1,9 +1,8 @@
-
 /*!
 * DisplayMonkey source file
 * http://displaymonkey.org
 *
-* Copyright (c) 2018 Fuel9 LLC and contributors
+* Copyright (c) 2019 Fuel9 LLC and contributors
 *
 * Released under the MIT license:
 * http://opensource.org/licenses/MIT
@@ -30,7 +29,7 @@ namespace DisplayMonkey.Language {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Resources {
@@ -198,7 +197,7 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Are you sure you want to delete this media.
+        ///   Looks up a localized string similar to WARNING: deleting media will also delete associated frames data. Are you sure you want to delete this media?.
         /// </summary>
         public static string AreYousureYouWantToDeleteThisMedia {
             get {
@@ -927,6 +926,15 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Create new Open Authorization (OAuth) account.
+        /// </summary>
+        public static string CreateNewOauthAccount {
+            get {
+                return ResourceManager.GetString("CreateNewOauthAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create new panel.
         /// </summary>
         public static string CreateNewPanel {
@@ -1260,6 +1268,15 @@ namespace DisplayMonkey.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Delete Open Authorization (OAuth) account.
+        /// </summary>
+        public static string DeleteOauthAccount {
+            get {
+                return ResourceManager.GetString("DeleteOauthAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Delete organization level.
         /// </summary>
         public static string DeleteOrganizationLevel {
@@ -1384,6 +1401,15 @@ namespace DisplayMonkey.Language {
             get {
                 return ResourceManager.GetString("DeletingExchangeAccountWillCauseDeletionOfAllRelatedContentAreYouSureYouWantToCon" +
                         "tinue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deleting OAuth account may render content depending on it inoperable. Are you sure you want to continue?.
+        /// </summary>
+        public static string DeletingOauthAccountAreYouSureYouWantToContinue {
+            get {
+                return ResourceManager.GetString("DeletingOauthAccountAreYouSureYouWantToContinue", resourceCulture);
             }
         }
         
@@ -1610,6 +1636,15 @@ namespace DisplayMonkey.Language {
         public static string EditMemoFrame {
             get {
                 return ResourceManager.GetString("EditMemoFrame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit Open Authorization (OAuth) account.
+        /// </summary>
+        public static string EditOauthAccount {
+            get {
+                return ResourceManager.GetString("EditOauthAccount", resourceCulture);
             }
         }
         
@@ -2628,6 +2663,105 @@ namespace DisplayMonkey.Language {
         public static string NotSupported {
             get {
                 return ResourceManager.GetString("NotSupported", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Open Authorization (OAuth) account.
+        /// </summary>
+        public static string OauthAccount {
+            get {
+                return ResourceManager.GetString("OauthAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to OAuth accounts.
+        /// </summary>
+        public static string OauthAccounts {
+            get {
+                return ResourceManager.GetString("OauthAccounts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Application ID.
+        /// </summary>
+        public static string OauthAppId {
+            get {
+                return ResourceManager.GetString("OauthAppId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Application ID is required.
+        /// </summary>
+        public static string OauthAppIdRequired {
+            get {
+                return ResourceManager.GetString("OauthAppIdRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Client ID (a.k.a. Consumer key).
+        /// </summary>
+        public static string OauthClientId {
+            get {
+                return ResourceManager.GetString("OauthClientId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Client ID is required.
+        /// </summary>
+        public static string OauthClientIdRequired {
+            get {
+                return ResourceManager.GetString("OauthClientIdRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Client secret (a.k.a. Consumer secret).
+        /// </summary>
+        public static string OauthClientSecret {
+            get {
+                return ResourceManager.GetString("OauthClientSecret", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Client secret is required.
+        /// </summary>
+        public static string OauthClientSecretRequired {
+            get {
+                return ResourceManager.GetString("OauthClientSecretRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Service provider.
+        /// </summary>
+        public static string OauthProvider {
+            get {
+                return ResourceManager.GetString("OauthProvider", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Yahoo.
+        /// </summary>
+        public static string OauthProvider_Yahoo {
+            get {
+                return ResourceManager.GetString("OauthProvider_Yahoo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Service provider is required.
+        /// </summary>
+        public static string OauthProviderRequired {
+            get {
+                return ResourceManager.GetString("OauthProviderRequired", resourceCulture);
             }
         }
         
@@ -4591,6 +4725,69 @@ namespace DisplayMonkey.Language {
         public static string WeatherFrameDetails {
             get {
                 return ResourceManager.GetString("WeatherFrameDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Weather provider.
+        /// </summary>
+        public static string WeatherProvider {
+            get {
+                return ResourceManager.GetString("WeatherProvider", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Yahoo.
+        /// </summary>
+        public static string WeatherProvider_Yahoo {
+            get {
+                return ResourceManager.GetString("WeatherProvider_Yahoo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Weather provider account.
+        /// </summary>
+        public static string WeatherProviderAccount {
+            get {
+                return ResourceManager.GetString("WeatherProviderAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Weather provider account is required.
+        /// </summary>
+        public static string WeatherProviderAccountRequired {
+            get {
+                return ResourceManager.GetString("WeatherProviderAccountRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Weather provider is required.
+        /// </summary>
+        public static string WeatherProviderRequired {
+            get {
+                return ResourceManager.GetString("WeatherProviderRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to - Select provider -.
+        /// </summary>
+        public static string WeatherSelectProvider {
+            get {
+                return ResourceManager.GetString("WeatherSelectProvider", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to - Select provider account -.
+        /// </summary>
+        public static string WeatherSelectProviderAccount {
+            get {
+                return ResourceManager.GetString("WeatherSelectProviderAccount", resourceCulture);
             }
         }
         

@@ -162,6 +162,17 @@
           <Property Name="FrameId" Type="int" Nullable="false" />
           <Property Name="Source" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="OauthAccount">
+          <Key>
+            <PropertyRef Name="AccountId" />
+          </Key>
+          <Property Name="AccountId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Provider" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="AppId" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="ClientId" Type="varchar" MaxLength="4000" Nullable="false" />
+          <Property Name="ClientSecret" Type="varchar" MaxLength="4000" Nullable="false" />
+        </EntityType>
         <EntityType Name="Outlook">
           <Key>
             <PropertyRef Name="FrameId" />
@@ -210,7 +221,7 @@
           <Property Name="Dashboard" Type="uniqueidentifier" />
           <Property Name="Tile" Type="uniqueidentifier" />
           <Property Name="Report" Type="uniqueidentifier" />
-          <Property Name="Url" Type="varchar" MaxLength="200" />
+          <Property Name="Url" Type="varchar" MaxLength="4000" />
           <Property Name="Group" Type="uniqueidentifier" />
         </EntityType>
         <EntityType Name="Report">
@@ -273,6 +284,8 @@
           </Key>
           <Property Name="FrameId" Type="int" Nullable="false" />
           <Property Name="Type" Type="int" Nullable="false" />
+          <Property Name="Provider" Type="int" />
+          <Property Name="AccountId" Type="int" />
         </EntityType>
         <EntityType Name="Youtube">
           <Key>
@@ -660,6 +673,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Weather_OauthAccount">
+          <End Role="OauthAccount" Type="Self.OauthAccount" Multiplicity="0..1" />
+          <End Role="Weather" Type="Self.Weather" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OauthAccount">
+              <PropertyRef Name="AccountId" />
+            </Principal>
+            <Dependent Role="Weather">
+              <PropertyRef Name="AccountId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Youtube_Frame">
           <End Role="Frame" Type="Self.Frame" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -689,6 +714,7 @@
           <EntitySet Name="Location" EntityType="Self.Location" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Memo" EntityType="Self.Memo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="News" EntityType="Self.News" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OauthAccount" EntityType="Self.OauthAccount" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Outlook" EntityType="Self.Outlook" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Panel" EntityType="Self.Panel" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Picture" EntityType="Self.Picture" Schema="dbo" store:Type="Tables" />
@@ -809,6 +835,10 @@
             <End Role="Frame" EntitySet="Frame" />
             <End Role="Weather" EntitySet="Weather" />
           </AssociationSet>
+          <AssociationSet Name="FK_Weather_OauthAccount" Association="Self.FK_Weather_OauthAccount">
+            <End Role="OauthAccount" EntitySet="OauthAccount" />
+            <End Role="Weather" EntitySet="Weather" />
+          </AssociationSet>
           <AssociationSet Name="FK_Youtube_Frame" Association="Self.FK_Youtube_Frame">
             <End Role="Frame" EntitySet="Frame" />
             <End Role="Youtube" EntitySet="Youtube" />
@@ -886,6 +916,11 @@
           <AssociationSet Name="FK_Powerbi_AzureAccount" Association="DisplayMonkey.Model.FK_Powerbi_AzureAccount">
             <End Role="AzureAccount" EntitySet="AzureAccounts" />
             <End Role="Powerbi" EntitySet="Frames" />
+          </AssociationSet>
+          <EntitySet Name="OauthAccounts" EntityType="DisplayMonkey.Model.OauthAccount" />
+          <AssociationSet Name="FK_Weather_OauthAccount" Association="DisplayMonkey.Model.FK_Weather_OauthAccount">
+            <End Role="OauthAccount" EntitySet="OauthAccounts" />
+            <End Role="Weather" EntitySet="Frames" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="Canvas">
@@ -1037,6 +1072,9 @@
         </EntityType>
         <EntityType Name="Weather" BaseType="DisplayMonkey.Model.Frame">
           <Property Type="DisplayMonkey.Model.WeatherTypes" Name="Type" Nullable="false" />
+          <Property Name="Provider" Type="DisplayMonkey.Model.WeatherProviders" />
+          <Property Name="AccountId" Type="Int32" />
+          <NavigationProperty Name="OauthAccount" Relationship="DisplayMonkey.Model.FK_Weather_OauthAccount" FromRole="Weather" ToRole="OauthAccount" />
         </EntityType>
         <Association Name="FK_Canvas_Content">
           <End Role="Content" Type="DisplayMonkey.Model.Content" Multiplicity="0..1" />
@@ -1136,7 +1174,8 @@
         </Association>
         <Association Name="VideoAlternative">
           <End Role="Video" Type="DisplayMonkey.Model.Video" Multiplicity="*" />
-          <End Role="Content" Type="DisplayMonkey.Model.Content" Multiplicity="*" />
+          <End Role="Content" Type="DisplayMonkey.Model.Content" Multiplicity="*" >
+          </End>
         </Association>
         <Association Name="FK_Location_Area">
           <End Type="DisplayMonkey.Model.Location" Role="Location" Multiplicity="0..1" />
@@ -1184,6 +1223,7 @@
           <Member Name="RenderMode_Crop" Value="0" />
           <Member Name="RenderMode_Stretch" Value="1" />
           <Member Name="RenderMode_Fit" Value="2" />
+          <Member Name="RenderMode_Fill" Value="3" />
         </EnumType>
         <EnumType Name="ClockTypes">
           <Member Name="ClockType_Text" Value="0" />
@@ -1347,7 +1387,7 @@
           <Property Name="AccountId" Type="Int32" Nullable="false" />
           <Property Name="Type" Type="DisplayMonkey.Model.PowerbiTypes" Nullable="true" />
           <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Url" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Url" Type="String" MaxLength="4000" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="AzureAccount" Relationship="DisplayMonkey.Model.FK_Powerbi_AzureAccount" FromRole="Powerbi" ToRole="AzureAccount" />
           <Property Name="DashboardGuid" Type="Guid" Nullable="true" />
           <Property Name="TileGuid" Type="Guid" Nullable="true" />
@@ -1379,6 +1419,36 @@
         <EnumType Name="DisplayAutoLoadModes">
           <Member Name="DisplayAutoLoadMode_IP" Value="0" />
           <Member Name="DisplayAutoLoadMode_Cookie" Value="1" />
+        </EnumType>
+        <EnumType Name="OauthProviders">
+        <Member Name="OauthProvider_Yahoo" Value="1" />
+        </EnumType>
+        <EntityType Name="OauthAccount">
+          <Key>
+            <PropertyRef Name="AccountId" />
+          </Key>
+          <Property Name="AccountId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Provider" Type="DisplayMonkey.Model.OauthProviders" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="AppId" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="ClientId" Type="String" Nullable="false" MaxLength="4000" FixedLength="false" Unicode="false" />
+          <Property Name="ClientSecret" Type="String" Nullable="false" MaxLength="4000" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Weathers" Relationship="DisplayMonkey.Model.FK_Weather_OauthAccount" FromRole="OauthAccount" ToRole="Weather" />
+        </EntityType>
+        <Association Name="FK_Weather_OauthAccount">
+          <End Type="DisplayMonkey.Model.OauthAccount" Role="OauthAccount" Multiplicity="0..1" />
+          <End Type="DisplayMonkey.Model.Weather" Role="Weather" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OauthAccount">
+              <PropertyRef Name="AccountId" />
+            </Principal>
+            <Dependent Role="Weather">
+              <PropertyRef Name="AccountId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EnumType Name="WeatherProviders">
+          <Member Name="WeatherProvider_Yahoo" Value="1" />
         </EnumType>
         </Schema>
     </edmx:ConceptualModels>
@@ -1503,6 +1573,8 @@
             </EntityTypeMapping>
             <EntityTypeMapping TypeName="IsTypeOf(DisplayMonkey.Model.Weather)">
               <MappingFragment StoreEntitySet="Weather">
+                <ScalarProperty Name="AccountId" ColumnName="AccountId" />
+                <ScalarProperty Name="Provider" ColumnName="Provider" />
                 <ScalarProperty Name="FrameId" ColumnName="FrameId" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
               </MappingFragment>
@@ -1669,6 +1741,18 @@
               <ScalarProperty Name="ContentId" ColumnName="ContentId" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="OauthAccounts">
+            <EntityTypeMapping TypeName="DisplayMonkey.Model.OauthAccount">
+              <MappingFragment StoreEntitySet="OauthAccount">
+                <ScalarProperty Name="ClientSecret" ColumnName="ClientSecret" />
+                <ScalarProperty Name="ClientId" ColumnName="ClientId" />
+                <ScalarProperty Name="AppId" ColumnName="AppId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Provider" ColumnName="Provider" />
+                <ScalarProperty Name="AccountId" ColumnName="AccountId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

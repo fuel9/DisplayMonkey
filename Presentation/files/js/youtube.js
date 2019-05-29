@@ -16,6 +16,7 @@
 // 2015-05-08 [LTL] - ready callback
 // 2015-06-18 [LTL] - RC10: tweak for http://stackoverflow.com/questions/17078094/youtube-iframe-player-api-onstatechange-not-firing
 // 2015-07-29 [LTL] - RC12: performance and memory management improvements
+// 2018-08-16 [LTL] - fixed looping, #60
 
 // Create YT lib loader object
 var YtLib = (function (w) {
@@ -142,7 +143,8 @@ DM.YtPlayer = Class.create(DM.FrameBase, {
                     origin: document.domain,
                     wmode: 'opaque',
                     autoplay: 0,
-                    loop: this.loop
+                    //loop: this.loop,
+					playlist: this.videoId
                 },
                 events: {
                     'onReady': this.onPlayerReady.bind(this),
@@ -169,9 +171,11 @@ DM.YtPlayer = Class.create(DM.FrameBase, {
     // The API calls this function when the player's state changes.
     onPlayerStateChange: function (event) {
         "use strict";
-        if (event.data == YT.PlayerState.PLAYING) {
-            event.target.removeEventListener('onStateChange', this.onPlayerStateChange);
+        if (event.data === YT.PlayerState.PLAYING) {
+            //event.target.removeEventListener('onStateChange', this.onPlayerStateChange);
 			this.ready();
+        } else if (event.data === YT.PlayerState.ENDED && this.loop) {
+			this.player.playVideo();
         }
     },
 

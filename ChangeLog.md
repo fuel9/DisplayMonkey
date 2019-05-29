@@ -13,6 +13,19 @@
 
 ### Change log
 
+v1.6.1 (January 15, 2019)
+
+- Fixed French translation, #42
+- Fixed YouTube autoloop, #60
+- Fixed datepicker issue on some browsers, #63
+- Fixed removing frames with missing media, #69
+- Extended URL for PowerBI frames, #70
+- Migrated Yahoo YQL to Yahoo Weather API, #92
+- Added missing translations for DE and FR
+
+*Notice*: The free Yahoo Weather API used in DM has been officially retired as of January 3rd, 2019. 
+We are looking for alternatives.
+
 v1.6.0 (Februray 11, 2018)
 
 - Added display resolution method based on cookies, compliments to @halloamt, #37

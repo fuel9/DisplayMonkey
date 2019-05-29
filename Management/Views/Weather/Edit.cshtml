@@ -16,7 +16,7 @@
     @Html.Partial("_Edit")
 
     <p>
-        <input type="submit" value="@Resources.Save" />
+        <input id="submit" type="submit" value="@Resources.Save" />
     </p>
 }
 
@@ -25,5 +25,6 @@
 </div>
 
 @section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/spin")
+    @Scripts.Render("~/bundles/weather-edit")
 }

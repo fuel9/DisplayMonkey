@@ -213,9 +213,21 @@ namespace DisplayMonkey.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Content content = db.Contents.Find(id);
-            db.Contents.Remove(content);
-            db.SaveChanges();
+            Content content = db.Contents
+                .Include(c => c.Pictures)
+                .Include(c => c.Videos)
+                .SingleOrDefault(c => c.ContentId == id)
+                ;
+
+            if (content != null)
+            {
+                db.Frames.RemoveRange(content.Pictures.AsEnumerable<Frame>());
+                db.Frames.RemoveRange(content.Videos.AsEnumerable<Frame>());
+
+                db.Contents.Remove(content);
+
+                db.SaveChanges();
+            }
 
             return RedirectToAction("Index");
         }

@@ -16,6 +16,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using DisplayMonkey.Models;
+using System.Threading.Tasks;
 
 namespace DisplayMonkey.Controllers
 {
@@ -27,6 +28,41 @@ namespace DisplayMonkey.Controllers
         {
             ViewBag.Types = selected.TranslatedSelectList();
         }
+
+        private void FillWeatherProviderSelectList(WeatherProviders? selected = null)
+        {
+            ViewBag.Providers = selected.TranslatedSelectList();
+        }
+
+        #region Provider helper
+
+        //
+        // GET: /Weather/provider/5
+        [HttpGet, ActionName("Provider")]
+        public async Task<JsonResult> ProviderAsync(int id)
+        {
+            try
+            {
+                var accountList = await db.OauthAccounts
+                    .Where(t => (int)t.Provider == id)
+                    .Select(t => new
+                    {
+                        AccountId = t.AccountId,
+                        Name = t.Name
+                    })
+                    .OrderBy(t => t.Name)
+                    .ToListAsync()
+                    ;
+
+                return Json(new { success = true, data = accountList }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, data = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        #endregion  // Provider helper
 
         //
         // GET: /Weather/Details/5
@@ -58,6 +94,7 @@ namespace DisplayMonkey.Controllers
 
             this.FillTemplatesSelectList(db, FrameTypes.Weather);
             FillWeatherTypeSelectList();
+            FillWeatherProviderSelectList();
 
             return View(weather);
         }
@@ -79,7 +116,7 @@ namespace DisplayMonkey.Controllers
 
             this.FillTemplatesSelectList(db, FrameTypes.Weather, weather.TemplateId);
             FillWeatherTypeSelectList();
-
+            FillWeatherProviderSelectList();
 
             return View(weather);
         }
@@ -97,7 +134,8 @@ namespace DisplayMonkey.Controllers
 
             this.FillTemplatesSelectList(db, FrameTypes.Weather, weather.TemplateId);
             FillWeatherTypeSelectList();
-            
+            FillWeatherProviderSelectList();
+
             return View(weather);
         }
 
@@ -118,7 +156,7 @@ namespace DisplayMonkey.Controllers
 
             this.FillTemplatesSelectList(db, FrameTypes.Weather, weather.TemplateId);
             FillWeatherTypeSelectList();
-
+            FillWeatherProviderSelectList();
 
             return View(weather);
         }

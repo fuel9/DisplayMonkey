@@ -2,17 +2,42 @@
 
 @{
     SelectList types = ViewBag.Types as SelectList;
+    SelectList providers = ViewBag.Providers as SelectList;
+    var emptyList = Enumerable.Empty<SelectListItem>();
 }
 
     <fieldset>
         <legend>@Resources.Weather</legend>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.Type)
+            @Html.LabelFor(m => m.Type)
         </div>
         <div class="editor-field select">
-            @Html.DropDownListFor(model => model.Type, types)
-            @Html.ValidationMessageFor(model => model.Type)
+            @Html.DropDownListFor(m => m.Type, types)
+            @Html.ValidationMessageFor(m => m.Type)
         </div>
 
+        <div class="editor-label">
+            @Html.LabelFor(m => m.Provider)
+        </div>
+        <div class="editor-field select">
+            @Html.DropDownListFor(m => m.Provider, providers, Resources.WeatherSelectProvider)
+            @Html.ValidationMessageFor(m => m.Provider)
+        </div>
+
+        <div class="editor-label account">
+            @Html.LabelFor(m => m.AccountId)
+        </div>
+        <div class="editor-field select account">
+            @Html.DropDownListFor(m => m.AccountId, emptyList, Resources.WeatherSelectProviderAccount)
+            @Html.ValidationMessageFor(m => m.AccountId)
+            @Html.HiddenFor(m => m.AccountId, new { id = "oldAccountId" })
+        </div>
+
+        <span id="spinholder"></span>
+
     </fieldset>
+
+    <script type="text/javascript">
+        __urlProvider = "@Url.Action("provider", "weather")";
+    </script>
