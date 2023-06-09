@@ -466,6 +466,7 @@
     <Content Include="Images\video_thmb.png" />
     <Content Include="Images\weather.png" />
     <Content Include="Images\youtube.png" />
+    <Content Include="Models\DMModel.edmx.sql" />
     <Content Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
