@@ -4,837 +4,847 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="DisplayMonkey.Model.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-  <EntityContainer Name="DisplayMonkeyModelStoreContainer">
-    <EntitySet Name="Canvases" EntityType="DisplayMonkey.Model.Store.Canvases" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Contents" EntityType="DisplayMonkey.Model.Store.Contents" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Displays" EntityType="DisplayMonkey.Model.Store.Displays" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Frames" EntityType="DisplayMonkey.Model.Store.Frames" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Levels" EntityType="DisplayMonkey.Model.Store.Levels" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Locations" EntityType="DisplayMonkey.Model.Store.Locations" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Panels" EntityType="DisplayMonkey.Model.Store.Panels" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="ReportServers" EntityType="DisplayMonkey.Model.Store.ReportServers" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="ExchangeAccounts" EntityType="DisplayMonkey.Model.Store.ExchangeAccounts" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Templates" EntityType="DisplayMonkey.Model.Store.Templates" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Settings" EntityType="DisplayMonkey.Model.Store.Settings" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="AzureAccounts" EntityType="DisplayMonkey.Model.Store.AzureAccounts" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="OauthAccounts" EntityType="DisplayMonkey.Model.Store.OauthAccounts" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Frames_Picture" EntityType="DisplayMonkey.Model.Store.Frames_Picture" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Frames_Video" EntityType="DisplayMonkey.Model.Store.Frames_Video" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Frames_Report" EntityType="DisplayMonkey.Model.Store.Frames_Report" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Frames_Outlook" EntityType="DisplayMonkey.Model.Store.Frames_Outlook" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Frames_Powerbi" EntityType="DisplayMonkey.Model.Store.Frames_Powerbi" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Frames_Weather" EntityType="DisplayMonkey.Model.Store.Frames_Weather" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Frames_Clock" EntityType="DisplayMonkey.Model.Store.Frames_Clock" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Panels_FullScreen" EntityType="DisplayMonkey.Model.Store.Panels_FullScreen" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Frames_Memo" EntityType="DisplayMonkey.Model.Store.Frames_Memo" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Frames_News" EntityType="DisplayMonkey.Model.Store.Frames_News" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Frames_Html" EntityType="DisplayMonkey.Model.Store.Frames_Html" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Frames_Youtube" EntityType="DisplayMonkey.Model.Store.Frames_Youtube" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="FrameLocation" EntityType="DisplayMonkey.Model.Store.FrameLocation" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="VideoAlternative" EntityType="DisplayMonkey.Model.Store.VideoAlternative" store:Type="Tables" Schema="dbo" />
-    <AssociationSet Name="FK_Canvas_Content" Association="DisplayMonkey.Model.Store.FK_Canvas_Content">
-      <End Role="Content" EntitySet="Contents" />
-      <End Role="Canvas" EntitySet="Canvases" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Display_Canvas" Association="DisplayMonkey.Model.Store.FK_Display_Canvas">
-      <End Role="Canvas" EntitySet="Canvases" />
-      <End Role="Display" EntitySet="Displays" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Panel_Canvas" Association="DisplayMonkey.Model.Store.FK_Panel_Canvas">
-      <End Role="Canvas" EntitySet="Canvases" />
-      <End Role="Panel" EntitySet="Panels" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Picture_Content" Association="DisplayMonkey.Model.Store.FK_Picture_Content">
-      <End Role="Content" EntitySet="Contents" />
-      <End Role="Picture" EntitySet="Frames_Picture" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Display_Location" Association="DisplayMonkey.Model.Store.FK_Display_Location">
-      <End Role="Location" EntitySet="Locations" />
-      <End Role="Display" EntitySet="Displays" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Frame_Panel" Association="DisplayMonkey.Model.Store.FK_Frame_Panel">
-      <End Role="Panel" EntitySet="Panels" />
-      <End Role="Frame" EntitySet="Frames" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Location_Level" Association="DisplayMonkey.Model.Store.FK_Location_Level">
-      <End Role="Level" EntitySet="Levels" />
-      <End Role="Location" EntitySet="Locations" />
-    </AssociationSet>
-    <AssociationSet Name="FK_FrameLocation_Location" Association="DisplayMonkey.Model.Store.FK_FrameLocation_Location">
-      <End Role="Location" EntitySet="Locations" />
-      <End Role="FrameLocation" EntitySet="FrameLocation" />
-    </AssociationSet>
-    <AssociationSet Name="FK_FrameLocation_Frame" Association="DisplayMonkey.Model.Store.FK_FrameLocation_Frame">
-      <End Role="Frame" EntitySet="Frames" />
-      <End Role="FrameLocation" EntitySet="FrameLocation" />
-    </AssociationSet>
-    <AssociationSet Name="FK_VideoAlternative_Video" Association="DisplayMonkey.Model.Store.FK_VideoAlternative_Video">
-      <End Role="Video" EntitySet="Frames_Video" />
-      <End Role="VideoAlternative" EntitySet="VideoAlternative" />
-    </AssociationSet>
-    <AssociationSet Name="FK_VideoAlternative_Content" Association="DisplayMonkey.Model.Store.FK_VideoAlternative_Content">
-      <End Role="Content" EntitySet="Contents" />
-      <End Role="VideoAlternative" EntitySet="VideoAlternative" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Location_Area" Association="DisplayMonkey.Model.Store.FK_Location_Area">
-      <End Role="Location" EntitySet="Locations" />
-      <End Role="Sublocations" EntitySet="Locations" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Report_ReportServer" Association="DisplayMonkey.Model.Store.FK_Report_ReportServer">
-      <End Role="ReportServer" EntitySet="ReportServers" />
-      <End Role="Report" EntitySet="Frames_Report" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Outlook_ExchangeAccount" Association="DisplayMonkey.Model.Store.FK_Outlook_ExchangeAccount">
-      <End Role="ExchangeAccount" EntitySet="ExchangeAccounts" />
-      <End Role="Outlook" EntitySet="Frames_Outlook" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Frame_Template" Association="DisplayMonkey.Model.Store.FK_Frame_Template">
-      <End Role="Template" EntitySet="Templates" />
-      <End Role="Frame" EntitySet="Frames" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Powerbi_AzureAccount" Association="DisplayMonkey.Model.Store.FK_Powerbi_AzureAccount">
-      <End Role="AzureAccount" EntitySet="AzureAccounts" />
-      <End Role="Powerbi" EntitySet="Frames_Powerbi" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Weather_OauthAccount" Association="DisplayMonkey.Model.Store.FK_Weather_OauthAccount">
-      <End Role="OauthAccount" EntitySet="OauthAccounts" />
-      <End Role="Weather" EntitySet="Frames_Weather" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Picture_inherits_Frame" Association="DisplayMonkey.Model.Store.FK_Picture_inherits_Frame">
-      <End Role="Frame" EntitySet="Frames" />
-      <End Role="Picture" EntitySet="Frames_Picture" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Video_inherits_Frame" Association="DisplayMonkey.Model.Store.FK_Video_inherits_Frame">
-      <End Role="Frame" EntitySet="Frames" />
-      <End Role="Video" EntitySet="Frames_Video" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Report_inherits_Frame" Association="DisplayMonkey.Model.Store.FK_Report_inherits_Frame">
-      <End Role="Frame" EntitySet="Frames" />
-      <End Role="Report" EntitySet="Frames_Report" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Outlook_inherits_Frame" Association="DisplayMonkey.Model.Store.FK_Outlook_inherits_Frame">
-      <End Role="Frame" EntitySet="Frames" />
-      <End Role="Outlook" EntitySet="Frames_Outlook" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Powerbi_inherits_Frame" Association="DisplayMonkey.Model.Store.FK_Powerbi_inherits_Frame">
-      <End Role="Frame" EntitySet="Frames" />
-      <End Role="Powerbi" EntitySet="Frames_Powerbi" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Weather_inherits_Frame" Association="DisplayMonkey.Model.Store.FK_Weather_inherits_Frame">
-      <End Role="Frame" EntitySet="Frames" />
-      <End Role="Weather" EntitySet="Frames_Weather" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Clock_inherits_Frame" Association="DisplayMonkey.Model.Store.FK_Clock_inherits_Frame">
-      <End Role="Frame" EntitySet="Frames" />
-      <End Role="Clock" EntitySet="Frames_Clock" />
-    </AssociationSet>
-    <AssociationSet Name="FK_FullScreen_inherits_Panel" Association="DisplayMonkey.Model.Store.FK_FullScreen_inherits_Panel">
-      <End Role="Panel" EntitySet="Panels" />
-      <End Role="FullScreen" EntitySet="Panels_FullScreen" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Memo_inherits_Frame" Association="DisplayMonkey.Model.Store.FK_Memo_inherits_Frame">
-      <End Role="Frame" EntitySet="Frames" />
-      <End Role="Memo" EntitySet="Frames_Memo" />
-    </AssociationSet>
-    <AssociationSet Name="FK_News_inherits_Frame" Association="DisplayMonkey.Model.Store.FK_News_inherits_Frame">
-      <End Role="Frame" EntitySet="Frames" />
-      <End Role="News" EntitySet="Frames_News" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Html_inherits_Frame" Association="DisplayMonkey.Model.Store.FK_Html_inherits_Frame">
-      <End Role="Frame" EntitySet="Frames" />
-      <End Role="Html" EntitySet="Frames_Html" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Youtube_inherits_Frame" Association="DisplayMonkey.Model.Store.FK_Youtube_inherits_Frame">
-      <End Role="Frame" EntitySet="Frames" />
-      <End Role="Youtube" EntitySet="Frames_Youtube" />
-    </AssociationSet>
-  </EntityContainer>
-  <EntityType Name="Canvases">
-    <Key>
-      <PropertyRef Name="CanvasId" />
-    </Key>
-    <Property Name="CanvasId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="100" />
-    <Property Name="Height" Type="int" Nullable="false" />
-    <Property Name="Width" Type="int" Nullable="false" />
-    <Property Name="BackgroundImage" Type="int" Nullable="true" />
-    <Property Name="BackgroundColor" Type="varchar" Nullable="true" MaxLength="20" />
-    <Property Name="Version" Type="binary" StoreGeneratedPattern="Computed" Nullable="false" MaxLength="8" />
-  </EntityType>
-  <EntityType Name="Contents">
-    <Key>
-      <PropertyRef Name="ContentId" />
-    </Key>
-    <Property Name="ContentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Name" Type="varchar" Nullable="true" MaxLength="100" />
-    <Property Name="Data" Type="varbinary(max)" Nullable="false" />
-    <Property Name="Type" Type="int" Nullable="false" />
-    <Property Name="Version" Type="binary" StoreGeneratedPattern="Computed" Nullable="false" MaxLength="8" />
-  </EntityType>
-  <EntityType Name="Displays">
-    <Key>
-      <PropertyRef Name="DisplayId" />
-    </Key>
-    <Property Name="DisplayId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="100" />
-    <Property Name="Host" Type="varchar" Nullable="true" MaxLength="50" />
-    <Property Name="CanvasId" Type="int" Nullable="false" />
-    <Property Name="LocationId" Type="int" Nullable="false" />
-    <Property Name="Version" Type="binary" StoreGeneratedPattern="Computed" Nullable="false" MaxLength="8" />
-    <Property Name="NoScroll" Type="bit" Nullable="false" />
-    <Property Name="ReadyTimeout" Type="int" Nullable="false" />
-    <Property Name="PollInterval" Type="int" Nullable="false" />
-    <Property Name="ErrorLength" Type="int" Nullable="false" />
-    <Property Name="NoCursor" Type="bit" Nullable="false" />
-    <Property Name="RecycleTime" Type="time" Nullable="true" Precision="7" />
-  </EntityType>
-  <EntityType Name="Frames">
-    <Key>
-      <PropertyRef Name="FrameId" />
-    </Key>
-    <Property Name="FrameId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="PanelId" Type="int" Nullable="false" />
-    <Property Name="Duration" Type="int" Nullable="false" />
-    <Property Name="BeginsOn" Type="datetime" Nullable="true" />
-    <Property Name="EndsOn" Type="datetime" Nullable="true" />
-    <Property Name="Sort" Type="int" Nullable="true" />
-    <Property Name="DateCreated" Type="datetime" StoreGeneratedPattern="Computed" Nullable="false" />
-    <Property Name="Version" Type="binary" StoreGeneratedPattern="Computed" Nullable="false" MaxLength="8" />
-    <Property Name="TemplateId" Type="int" Nullable="false" />
-    <Property Name="CacheInterval" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="Levels">
-    <Key>
-      <PropertyRef Name="LevelId" />
-    </Key>
-    <Property Name="LevelId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="100" />
-  </EntityType>
-  <EntityType Name="Locations">
-    <Key>
-      <PropertyRef Name="LocationId" />
-    </Key>
-    <Property Name="LocationId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="LevelId" Type="int" Nullable="false" />
-    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="100" />
-    <Property Name="AreaId" Type="int" Nullable="true" />
-    <Property Name="TemperatureUnit" Type="char" Nullable="true" MaxLength="1" />
-    <Property Name="Latitude" Type="float" Nullable="true" />
-    <Property Name="Longitude" Type="float" Nullable="true" />
-    <Property Name="DateFormat" Type="varchar" Nullable="true" MaxLength="20" />
-    <Property Name="TimeFormat" Type="varchar" Nullable="true" MaxLength="10" />
-    <Property Name="Woeid" Type="int" Nullable="true" />
-    <Property Name="Version" Type="binary" StoreGeneratedPattern="Computed" Nullable="false" MaxLength="8" />
-    <Property Name="Culture" Type="varchar" Nullable="true" MaxLength="10" />
-    <Property Name="TimeZone" Type="varchar" Nullable="true" MaxLength="50" />
-  </EntityType>
-  <EntityType Name="Panels">
-    <Key>
-      <PropertyRef Name="PanelId" />
-    </Key>
-    <Property Name="PanelId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="CanvasId" Type="int" Nullable="false" />
-    <Property Name="Top" Type="int" Nullable="false" />
-    <Property Name="Left" Type="int" Nullable="false" />
-    <Property Name="Height" Type="int" Nullable="false" />
-    <Property Name="Width" Type="int" Nullable="false" />
-    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="100" />
-    <Property Name="Version" Type="binary" StoreGeneratedPattern="Computed" Nullable="false" MaxLength="8" />
-    <Property Name="FadeLength" Type="float" Nullable="false" />
-  </EntityType>
-  <EntityType Name="ReportServers">
-    <Key>
-      <PropertyRef Name="ServerId" />
-    </Key>
-    <Property Name="ServerId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="BaseUrl" Type="varchar" Nullable="false" MaxLength="250" />
-    <Property Name="User" Type="varchar" Nullable="true" MaxLength="100" />
-    <Property Name="Password" Type="varbinary" Nullable="true" MaxLength="1024" />
-    <Property Name="Domain" Type="varchar" Nullable="true" MaxLength="100" />
-    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="100" />
-  </EntityType>
-  <EntityType Name="ExchangeAccounts">
-    <Key>
-      <PropertyRef Name="AccountId" />
-    </Key>
-    <Property Name="AccountId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="100" />
-    <Property Name="Account" Type="varchar" Nullable="false" MaxLength="100" />
-    <Property Name="Password" Type="varbinary" Nullable="true" MaxLength="400" />
-    <Property Name="EwsVersion" Type="int" Nullable="false" />
-    <Property Name="Url" Type="varchar" Nullable="true" MaxLength="250" />
-  </EntityType>
-  <EntityType Name="Templates">
-    <Key>
-      <PropertyRef Name="TemplateId" />
-    </Key>
-    <Property Name="TemplateId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="100" />
-    <Property Name="Html" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="FrameType" Type="int" Nullable="false" />
-    <Property Name="Version" Type="binary" StoreGeneratedPattern="Computed" Nullable="false" MaxLength="8" />
-  </EntityType>
-  <EntityType Name="Settings">
-    <Key>
-      <PropertyRef Name="Key" />
-    </Key>
-    <Property Name="Key" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="RawValue" Type="varbinary" Nullable="true" MaxLength="512" />
-  </EntityType>
-  <EntityType Name="AzureAccounts">
-    <Key>
-      <PropertyRef Name="AccountId" />
-    </Key>
-    <Property Name="AccountId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="ClientId" Type="varchar" Nullable="false" MaxLength="36" />
-    <Property Name="ClientSecret" Type="varchar" Nullable="false" MaxLength="500" />
-    <Property Name="TenantId" Type="varchar" Nullable="true" MaxLength="100" />
-    <Property Name="User" Type="varchar" Nullable="false" MaxLength="100" />
-    <Property Name="Password" Type="varbinary" Nullable="true" MaxLength="400" />
-    <Property Name="AccessToken" Type="varchar" Nullable="true" MaxLength="8000" />
-    <Property Name="ExpiresOn" Type="datetime" Nullable="true" />
-    <Property Name="RefreshToken" Type="varchar" Nullable="true" MaxLength="8000" />
-    <Property Name="IdToken" Type="varchar" Nullable="true" MaxLength="8000" />
-    <Property Name="Resource" Type="int" Nullable="false" />
-    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="100" />
-  </EntityType>
-  <EntityType Name="OauthAccounts">
-    <Key>
-      <PropertyRef Name="AccountId" />
-    </Key>
-    <Property Name="AccountId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Provider" Type="int" Nullable="false" />
-    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="100" />
-    <Property Name="AppId" Type="varchar" Nullable="false" MaxLength="200" />
-    <Property Name="ClientId" Type="varchar" Nullable="false" MaxLength="4000" />
-    <Property Name="ClientSecret" Type="varchar" Nullable="false" MaxLength="4000" />
-  </EntityType>
-  <EntityType Name="Frames_Picture">
-    <Key>
-      <PropertyRef Name="FrameId" />
-    </Key>
-    <Property Name="ContentId" Type="int" Nullable="false" />
-    <Property Name="Mode" Type="int" Nullable="false" />
-    <Property Name="FrameId" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="Frames_Video">
-    <Key>
-      <PropertyRef Name="FrameId" />
-    </Key>
-    <Property Name="PlayMuted" Type="bit" Nullable="false" />
-    <Property Name="AutoLoop" Type="bit" Nullable="false" />
-    <Property Name="FrameId" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="Frames_Report">
-    <Key>
-      <PropertyRef Name="FrameId" />
-    </Key>
-    <Property Name="Path" Type="varchar" Nullable="false" MaxLength="250" />
-    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="100" />
-    <Property Name="Mode" Type="int" Nullable="false" />
-    <Property Name="ServerId" Type="int" Nullable="false" />
-    <Property Name="FrameId" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="Frames_Outlook">
-    <Key>
-      <PropertyRef Name="FrameId" />
-    </Key>
-    <Property Name="Mode" Type="int" Nullable="false" />
-    <Property Name="Name" Type="nvarchar" Nullable="true" MaxLength="100" />
-    <Property Name="Mailbox" Type="varchar" Nullable="true" MaxLength="100" />
-    <Property Name="ShowEvents" Type="int" Nullable="false" />
-    <Property Name="AccountId" Type="int" Nullable="false" />
-    <Property Name="Privacy" Type="int" Nullable="false" />
-    <Property Name="AllowReserve" Type="bit" Nullable="false" />
-    <Property Name="ShowAsFlags" Type="int" Nullable="false" />
-    <Property Name="BookingSubject" Type="nvarchar" Nullable="true" MaxLength="100" />
-    <Property Name="FrameId" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="Frames_Powerbi">
-    <Key>
-      <PropertyRef Name="FrameId" />
-    </Key>
-    <Property Name="AccountId" Type="int" Nullable="false" />
-    <Property Name="Type" Type="int" Nullable="true" />
-    <Property Name="Name" Type="nvarchar" Nullable="true" MaxLength="100" />
-    <Property Name="Url" Type="varchar" Nullable="true" MaxLength="4000" />
-    <Property Name="DashboardGuid" Type="uniqueidentifier" Nullable="true" />
-    <Property Name="TileGuid" Type="uniqueidentifier" Nullable="true" />
-    <Property Name="ReportGuid" Type="uniqueidentifier" Nullable="true" />
-    <Property Name="GroupGuid" Type="uniqueidentifier" Nullable="true" />
-    <Property Name="FrameId" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="Frames_Weather">
-    <Key>
-      <PropertyRef Name="FrameId" />
-    </Key>
-    <Property Name="Type" Type="int" Nullable="false" />
-    <Property Name="Provider" Type="int" Nullable="true" />
-    <Property Name="AccountId" Type="int" Nullable="true" />
-    <Property Name="FrameId" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="Frames_Clock">
-    <Key>
-      <PropertyRef Name="FrameId" />
-    </Key>
-    <Property Name="Type" Type="int" Nullable="false" />
-    <Property Name="ShowDate" Type="bit" Nullable="false" />
-    <Property Name="ShowTime" Type="bit" Nullable="false" />
-    <Property Name="Label" Type="varchar" Nullable="true" MaxLength="50" />
-    <Property Name="TimeZone" Type="varchar" Nullable="true" MaxLength="50" />
-    <Property Name="ShowSeconds" Type="bit" Nullable="false" />
-    <Property Name="FrameId" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="Panels_FullScreen">
-    <Key>
-      <PropertyRef Name="PanelId" />
-    </Key>
-    <Property Name="MaxIdleInterval" Type="int" Nullable="true" />
-    <Property Name="PanelId" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="Frames_Memo">
-    <Key>
-      <PropertyRef Name="FrameId" />
-    </Key>
-    <Property Name="Subject" Type="nvarchar" Nullable="true" MaxLength="200" />
-    <Property Name="Body" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="FrameId" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="Frames_News">
-    <Key>
-      <PropertyRef Name="FrameId" />
-    </Key>
-    <Property Name="Source" Type="int" Nullable="false" />
-    <Property Name="FrameId" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="Frames_Html">
-    <Key>
-      <PropertyRef Name="FrameId" />
-    </Key>
-    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="100" />
-    <Property Name="Content" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="FrameId" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="Frames_Youtube">
-    <Key>
-      <PropertyRef Name="FrameId" />
-    </Key>
-    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="100" />
-    <Property Name="YoutubeId" Type="nvarchar" Nullable="false" MaxLength="100" />
-    <Property Name="Volume" Type="int" Nullable="false" />
-    <Property Name="AutoLoop" Type="bit" Nullable="false" />
-    <Property Name="Aspect" Type="int" Nullable="false" />
-    <Property Name="Quality" Type="int" Nullable="false" />
-    <Property Name="Start" Type="int" Nullable="false" />
-    <Property Name="Rate" Type="int" Nullable="false" />
-    <Property Name="FrameId" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="FrameLocation">
-    <Key>
-      <PropertyRef Name="Locations_LocationId" />
-      <PropertyRef Name="Frames_FrameId" />
-    </Key>
-    <Property Name="Locations_LocationId" Type="int" Nullable="false" />
-    <Property Name="Frames_FrameId" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="VideoAlternative">
-    <Key>
-      <PropertyRef Name="Videos_FrameId" />
-      <PropertyRef Name="Contents_ContentId" />
-    </Key>
-    <Property Name="Videos_FrameId" Type="int" Nullable="false" />
-    <Property Name="Contents_ContentId" Type="int" Nullable="false" />
-  </EntityType>
-  <Association Name="FK_Canvas_Content">
-    <End Role="Content" Type="DisplayMonkey.Model.Store.Contents" Multiplicity="0..1" />
-    <End Role="Canvas" Type="DisplayMonkey.Model.Store.Canvases" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Content">
-        <PropertyRef Name="ContentId" />
-      </Principal>
-      <Dependent Role="Canvas">
-        <PropertyRef Name="BackgroundImage" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Display_Canvas">
-    <End Role="Canvas" Type="DisplayMonkey.Model.Store.Canvases" Multiplicity="1" />
-    <End Role="Display" Type="DisplayMonkey.Model.Store.Displays" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Canvas">
-        <PropertyRef Name="CanvasId" />
-      </Principal>
-      <Dependent Role="Display">
-        <PropertyRef Name="CanvasId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Panel_Canvas">
-    <End Role="Canvas" Type="DisplayMonkey.Model.Store.Canvases" Multiplicity="1">
-      <OnDelete Action="Cascade" />
-    </End>
-    <End Role="Panel" Type="DisplayMonkey.Model.Store.Panels" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Canvas">
-        <PropertyRef Name="CanvasId" />
-      </Principal>
-      <Dependent Role="Panel">
-        <PropertyRef Name="CanvasId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Picture_Content">
-    <End Role="Content" Type="DisplayMonkey.Model.Store.Contents" Multiplicity="1">
-      <OnDelete Action="Cascade" />
-    </End>
-    <End Role="Picture" Type="DisplayMonkey.Model.Store.Frames_Picture" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Content">
-        <PropertyRef Name="ContentId" />
-      </Principal>
-      <Dependent Role="Picture">
-        <PropertyRef Name="ContentId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Display_Location">
-    <End Role="Location" Type="DisplayMonkey.Model.Store.Locations" Multiplicity="1" />
-    <End Role="Display" Type="DisplayMonkey.Model.Store.Displays" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Location">
-        <PropertyRef Name="LocationId" />
-      </Principal>
-      <Dependent Role="Display">
-        <PropertyRef Name="LocationId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Frame_Panel">
-    <End Role="Panel" Type="DisplayMonkey.Model.Store.Panels" Multiplicity="1">
-      <OnDelete Action="Cascade" />
-    </End>
-    <End Role="Frame" Type="DisplayMonkey.Model.Store.Frames" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Panel">
-        <PropertyRef Name="PanelId" />
-      </Principal>
-      <Dependent Role="Frame">
-        <PropertyRef Name="PanelId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Location_Level">
-    <End Role="Level" Type="DisplayMonkey.Model.Store.Levels" Multiplicity="1">
-      <OnDelete Action="Cascade" />
-    </End>
-    <End Role="Location" Type="DisplayMonkey.Model.Store.Locations" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Level">
-        <PropertyRef Name="LevelId" />
-      </Principal>
-      <Dependent Role="Location">
-        <PropertyRef Name="LevelId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Location_Area">
-    <End Role="Location" Type="DisplayMonkey.Model.Store.Locations" Multiplicity="0..1" />
-    <End Role="Sublocations" Type="DisplayMonkey.Model.Store.Locations" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Location">
-        <PropertyRef Name="LocationId" />
-      </Principal>
-      <Dependent Role="Sublocations">
-        <PropertyRef Name="AreaId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Report_ReportServer">
-    <End Role="ReportServer" Type="DisplayMonkey.Model.Store.ReportServers" Multiplicity="1">
-      <OnDelete Action="Cascade" />
-    </End>
-    <End Role="Report" Type="DisplayMonkey.Model.Store.Frames_Report" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ReportServer">
-        <PropertyRef Name="ServerId" />
-      </Principal>
-      <Dependent Role="Report">
-        <PropertyRef Name="ServerId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Outlook_ExchangeAccount">
-    <End Role="ExchangeAccount" Type="DisplayMonkey.Model.Store.ExchangeAccounts" Multiplicity="1">
-      <OnDelete Action="Cascade" />
-    </End>
-    <End Role="Outlook" Type="DisplayMonkey.Model.Store.Frames_Outlook" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ExchangeAccount">
-        <PropertyRef Name="AccountId" />
-      </Principal>
-      <Dependent Role="Outlook">
-        <PropertyRef Name="AccountId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Frame_Template">
-    <End Role="Template" Type="DisplayMonkey.Model.Store.Templates" Multiplicity="1">
-      <OnDelete Action="Cascade" />
-    </End>
-    <End Role="Frame" Type="DisplayMonkey.Model.Store.Frames" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Template">
-        <PropertyRef Name="TemplateId" />
-      </Principal>
-      <Dependent Role="Frame">
-        <PropertyRef Name="TemplateId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Powerbi_AzureAccount">
-    <End Role="AzureAccount" Type="DisplayMonkey.Model.Store.AzureAccounts" Multiplicity="1">
-      <OnDelete Action="Cascade" />
-    </End>
-    <End Role="Powerbi" Type="DisplayMonkey.Model.Store.Frames_Powerbi" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="AzureAccount">
-        <PropertyRef Name="AccountId" />
-      </Principal>
-      <Dependent Role="Powerbi">
-        <PropertyRef Name="AccountId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Weather_OauthAccount">
-    <End Role="OauthAccount" Type="DisplayMonkey.Model.Store.OauthAccounts" Multiplicity="0..1" />
-    <End Role="Weather" Type="DisplayMonkey.Model.Store.Frames_Weather" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="OauthAccount">
-        <PropertyRef Name="AccountId" />
-      </Principal>
-      <Dependent Role="Weather">
-        <PropertyRef Name="AccountId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_FrameLocation_Location">
-    <End Role="Location" Type="DisplayMonkey.Model.Store.Locations" Multiplicity="1" />
-    <End Role="FrameLocation" Type="DisplayMonkey.Model.Store.FrameLocation" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Location">
-        <PropertyRef Name="LocationId" />
-      </Principal>
-      <Dependent Role="FrameLocation">
-        <PropertyRef Name="Locations_LocationId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_FrameLocation_Frame">
-    <End Role="FrameLocation" Type="DisplayMonkey.Model.Store.FrameLocation" Multiplicity="*" />
-    <End Role="Frame" Type="DisplayMonkey.Model.Store.Frames" Multiplicity="1" />
-    <ReferentialConstraint>
-      <Principal Role="Frame">
-        <PropertyRef Name="FrameId" />
-      </Principal>
-      <Dependent Role="FrameLocation">
-        <PropertyRef Name="Frames_FrameId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_VideoAlternative_Video">
-    <End Role="Video" Type="DisplayMonkey.Model.Store.Frames_Video" Multiplicity="1" />
-    <End Role="VideoAlternative" Type="DisplayMonkey.Model.Store.VideoAlternative" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Video">
-        <PropertyRef Name="FrameId" />
-      </Principal>
-      <Dependent Role="VideoAlternative">
-        <PropertyRef Name="Videos_FrameId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_VideoAlternative_Content">
-    <End Role="VideoAlternative" Type="DisplayMonkey.Model.Store.VideoAlternative" Multiplicity="*" />
-    <End Role="Content" Type="DisplayMonkey.Model.Store.Contents" Multiplicity="1" />
-    <ReferentialConstraint>
-      <Principal Role="Content">
-        <PropertyRef Name="ContentId" />
-      </Principal>
-      <Dependent Role="VideoAlternative">
-        <PropertyRef Name="Contents_ContentId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Picture_inherits_Frame">
-    <End Role="Frame" Type="DisplayMonkey.Model.Store.Frames" Multiplicity="1">
-      <OnDelete Action="Cascade" />
-    </End>
-    <End Role="Picture" Type="DisplayMonkey.Model.Store.Frames_Picture" Multiplicity="0..1" />
-    <ReferentialConstraint>
-      <Principal Role="Frame">
-        <PropertyRef Name="FrameId" />
-      </Principal>
-      <Dependent Role="Picture">
-        <PropertyRef Name="FrameId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Video_inherits_Frame">
-    <End Role="Frame" Type="DisplayMonkey.Model.Store.Frames" Multiplicity="1">
-      <OnDelete Action="Cascade" />
-    </End>
-    <End Role="Video" Type="DisplayMonkey.Model.Store.Frames_Video" Multiplicity="0..1" />
-    <ReferentialConstraint>
-      <Principal Role="Frame">
-        <PropertyRef Name="FrameId" />
-      </Principal>
-      <Dependent Role="Video">
-        <PropertyRef Name="FrameId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Report_inherits_Frame">
-    <End Role="Frame" Type="DisplayMonkey.Model.Store.Frames" Multiplicity="1">
-      <OnDelete Action="Cascade" />
-    </End>
-    <End Role="Report" Type="DisplayMonkey.Model.Store.Frames_Report" Multiplicity="0..1" />
-    <ReferentialConstraint>
-      <Principal Role="Frame">
-        <PropertyRef Name="FrameId" />
-      </Principal>
-      <Dependent Role="Report">
-        <PropertyRef Name="FrameId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Outlook_inherits_Frame">
-    <End Role="Frame" Type="DisplayMonkey.Model.Store.Frames" Multiplicity="1">
-      <OnDelete Action="Cascade" />
-    </End>
-    <End Role="Outlook" Type="DisplayMonkey.Model.Store.Frames_Outlook" Multiplicity="0..1" />
-    <ReferentialConstraint>
-      <Principal Role="Frame">
-        <PropertyRef Name="FrameId" />
-      </Principal>
-      <Dependent Role="Outlook">
-        <PropertyRef Name="FrameId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Powerbi_inherits_Frame">
-    <End Role="Frame" Type="DisplayMonkey.Model.Store.Frames" Multiplicity="1">
-      <OnDelete Action="Cascade" />
-    </End>
-    <End Role="Powerbi" Type="DisplayMonkey.Model.Store.Frames_Powerbi" Multiplicity="0..1" />
-    <ReferentialConstraint>
-      <Principal Role="Frame">
-        <PropertyRef Name="FrameId" />
-      </Principal>
-      <Dependent Role="Powerbi">
-        <PropertyRef Name="FrameId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Weather_inherits_Frame">
-    <End Role="Frame" Type="DisplayMonkey.Model.Store.Frames" Multiplicity="1">
-      <OnDelete Action="Cascade" />
-    </End>
-    <End Role="Weather" Type="DisplayMonkey.Model.Store.Frames_Weather" Multiplicity="0..1" />
-    <ReferentialConstraint>
-      <Principal Role="Frame">
-        <PropertyRef Name="FrameId" />
-      </Principal>
-      <Dependent Role="Weather">
-        <PropertyRef Name="FrameId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Clock_inherits_Frame">
-    <End Role="Frame" Type="DisplayMonkey.Model.Store.Frames" Multiplicity="1">
-      <OnDelete Action="Cascade" />
-    </End>
-    <End Role="Clock" Type="DisplayMonkey.Model.Store.Frames_Clock" Multiplicity="0..1" />
-    <ReferentialConstraint>
-      <Principal Role="Frame">
-        <PropertyRef Name="FrameId" />
-      </Principal>
-      <Dependent Role="Clock">
-        <PropertyRef Name="FrameId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_FullScreen_inherits_Panel">
-    <End Role="Panel" Type="DisplayMonkey.Model.Store.Panels" Multiplicity="1">
-      <OnDelete Action="Cascade" />
-    </End>
-    <End Role="FullScreen" Type="DisplayMonkey.Model.Store.Panels_FullScreen" Multiplicity="0..1" />
-    <ReferentialConstraint>
-      <Principal Role="Panel">
-        <PropertyRef Name="PanelId" />
-      </Principal>
-      <Dependent Role="FullScreen">
-        <PropertyRef Name="PanelId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Memo_inherits_Frame">
-    <End Role="Frame" Type="DisplayMonkey.Model.Store.Frames" Multiplicity="1">
-      <OnDelete Action="Cascade" />
-    </End>
-    <End Role="Memo" Type="DisplayMonkey.Model.Store.Frames_Memo" Multiplicity="0..1" />
-    <ReferentialConstraint>
-      <Principal Role="Frame">
-        <PropertyRef Name="FrameId" />
-      </Principal>
-      <Dependent Role="Memo">
-        <PropertyRef Name="FrameId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_News_inherits_Frame">
-    <End Role="Frame" Type="DisplayMonkey.Model.Store.Frames" Multiplicity="1">
-      <OnDelete Action="Cascade" />
-    </End>
-    <End Role="News" Type="DisplayMonkey.Model.Store.Frames_News" Multiplicity="0..1" />
-    <ReferentialConstraint>
-      <Principal Role="Frame">
-        <PropertyRef Name="FrameId" />
-      </Principal>
-      <Dependent Role="News">
-        <PropertyRef Name="FrameId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Html_inherits_Frame">
-    <End Role="Frame" Type="DisplayMonkey.Model.Store.Frames" Multiplicity="1">
-      <OnDelete Action="Cascade" />
-    </End>
-    <End Role="Html" Type="DisplayMonkey.Model.Store.Frames_Html" Multiplicity="0..1" />
-    <ReferentialConstraint>
-      <Principal Role="Frame">
-        <PropertyRef Name="FrameId" />
-      </Principal>
-      <Dependent Role="Html">
-        <PropertyRef Name="FrameId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Youtube_inherits_Frame">
-    <End Role="Frame" Type="DisplayMonkey.Model.Store.Frames" Multiplicity="1">
-      <OnDelete Action="Cascade" />
-    </End>
-    <End Role="Youtube" Type="DisplayMonkey.Model.Store.Frames_Youtube" Multiplicity="0..1" />
-    <ReferentialConstraint>
-      <Principal Role="Frame">
-        <PropertyRef Name="FrameId" />
-      </Principal>
-      <Dependent Role="Youtube">
-        <PropertyRef Name="FrameId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-</Schema></edmx:StorageModels>
+    <Schema Namespace="DisplayMonkey.Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AzureAccount">
+          <Key>
+            <PropertyRef Name="AccountId" />
+          </Key>
+          <Property Name="AccountId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Resource" Type="int" Nullable="false" />
+          <Property Name="ClientId" Type="varchar" MaxLength="36" Nullable="false" />
+          <Property Name="ClientSecret" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="TenantId" Type="varchar" MaxLength="100" />
+          <Property Name="User" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Password" Type="varbinary" MaxLength="400" />
+          <Property Name="AccessToken" Type="varchar" MaxLength="8000" />
+          <Property Name="ExpiresOn" Type="datetime" />
+          <Property Name="RefreshToken" Type="varchar" MaxLength="8000" />
+          <Property Name="IdToken" Type="varchar" MaxLength="8000" />
+        </EntityType>
+        <EntityType Name="Canvas">
+          <Key>
+            <PropertyRef Name="CanvasId" />
+          </Key>
+          <Property Name="CanvasId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Height" Type="int" Nullable="false" />
+          <Property Name="Width" Type="int" Nullable="false" />
+          <Property Name="BackgroundImage" Type="int" />
+          <Property Name="BackgroundColor" Type="varchar" MaxLength="20" />
+          <Property Name="Version" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Clock">
+          <Key>
+            <PropertyRef Name="FrameId" />
+          </Key>
+          <Property Name="FrameId" Type="int" Nullable="false" />
+          <Property Name="Type" Type="int" Nullable="false" />
+          <Property Name="ShowDate" Type="bit" Nullable="false" />
+          <Property Name="ShowTime" Type="bit" Nullable="false" />
+          <Property Name="Label" Type="varchar" MaxLength="50" />
+          <Property Name="TimeZone" Type="varchar" MaxLength="50" />
+          <Property Name="ShowSeconds" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Content">
+          <Key>
+            <PropertyRef Name="ContentId" />
+          </Key>
+          <Property Name="ContentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="100" />
+          <Property Name="Data" Type="varbinary(max)" Nullable="false" />
+          <Property Name="Type" Type="int" Nullable="false" />
+          <Property Name="Version" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Display">
+          <Key>
+            <PropertyRef Name="DisplayId" />
+          </Key>
+          <Property Name="DisplayId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Host" Type="varchar" MaxLength="50" />
+          <Property Name="CanvasId" Type="int" Nullable="false" />
+          <Property Name="LocationId" Type="int" Nullable="false" />
+          <Property Name="Version" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+          <Property Name="NoScroll" Type="bit" Nullable="false" />
+          <Property Name="ReadyTimeout" Type="int" Nullable="false" />
+          <Property Name="PollInterval" Type="int" Nullable="false" />
+          <Property Name="ErrorLength" Type="int" Nullable="false" />
+          <Property Name="NoCursor" Type="bit" Nullable="false" />
+          <Property Name="RecycleTime" Type="time" Precision="7" />
+        </EntityType>
+        <EntityType Name="ExchangeAccount">
+          <Key>
+            <PropertyRef Name="AccountId" />
+          </Key>
+          <Property Name="AccountId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Account" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Password" Type="varbinary" MaxLength="400" />
+          <Property Name="EwsVersion" Type="int" Nullable="false" />
+          <Property Name="Url" Type="varchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="Frame">
+          <Key>
+            <PropertyRef Name="FrameId" />
+          </Key>
+          <Property Name="FrameId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PanelId" Type="int" Nullable="false" />
+          <Property Name="Duration" Type="int" Nullable="false" />
+          <Property Name="BeginsOn" Type="datetime" />
+          <Property Name="EndsOn" Type="datetime" />
+          <Property Name="Sort" Type="int" />
+          <Property Name="DateCreated" Type="datetime" Nullable="false" StoreGeneratedPattern="Computed" />
+          <Property Name="Version" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+          <Property Name="TemplateId" Type="int" Nullable="false" />
+          <Property Name="CacheInterval" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FrameLocation">
+          <Key>
+            <PropertyRef Name="FrameId" />
+            <PropertyRef Name="LocationId" />
+          </Key>
+          <Property Name="FrameId" Type="int" Nullable="false" />
+          <Property Name="LocationId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FullScreen">
+          <Key>
+            <PropertyRef Name="PanelId" />
+          </Key>
+          <Property Name="PanelId" Type="int" Nullable="false" />
+          <Property Name="MaxIdleInterval" Type="int" />
+        </EntityType>
+        <EntityType Name="Html">
+          <Key>
+            <PropertyRef Name="FrameId" />
+          </Key>
+          <Property Name="FrameId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Content" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Level">
+          <Key>
+            <PropertyRef Name="LevelId" />
+          </Key>
+          <Property Name="LevelId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Location">
+          <Key>
+            <PropertyRef Name="LocationId" />
+          </Key>
+          <Property Name="LocationId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LevelId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="AreaId" Type="int" />
+          <Property Name="TemperatureUnit" Type="char" MaxLength="1" />
+          <Property Name="Latitude" Type="float" />
+          <Property Name="Longitude" Type="float" />
+          <Property Name="DateFormat" Type="varchar" MaxLength="20" />
+          <Property Name="TimeFormat" Type="varchar" MaxLength="10" />
+          <Property Name="Woeid" Type="int" />
+          <Property Name="Version" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+          <Property Name="Culture" Type="varchar" MaxLength="10" />
+          <Property Name="TimeZone" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Memo">
+          <Key>
+            <PropertyRef Name="FrameId" />
+          </Key>
+          <Property Name="FrameId" Type="int" Nullable="false" />
+          <Property Name="Subject" Type="nvarchar" MaxLength="200" />
+          <Property Name="Body" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="News">
+          <Key>
+            <PropertyRef Name="FrameId" />
+          </Key>
+          <Property Name="FrameId" Type="int" Nullable="false" />
+          <Property Name="Source" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OauthAccount">
+          <Key>
+            <PropertyRef Name="AccountId" />
+          </Key>
+          <Property Name="AccountId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Provider" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="AppId" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="ClientId" Type="varchar" MaxLength="4000" Nullable="false" />
+          <Property Name="ClientSecret" Type="varchar" MaxLength="4000" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Outlook">
+          <Key>
+            <PropertyRef Name="FrameId" />
+          </Key>
+          <Property Name="FrameId" Type="int" Nullable="false" />
+          <Property Name="Mode" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" />
+          <Property Name="Mailbox" Type="varchar" MaxLength="100" />
+          <Property Name="ShowEvents" Type="int" Nullable="false" />
+          <Property Name="AccountId" Type="int" Nullable="false" />
+          <Property Name="Privacy" Type="int" Nullable="false" />
+          <Property Name="AllowReserve" Type="bit" Nullable="false" />
+          <Property Name="ShowAsFlags" Type="int" Nullable="false" />
+          <Property Name="BookingSubject" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Panel">
+          <Key>
+            <PropertyRef Name="PanelId" />
+          </Key>
+          <Property Name="PanelId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CanvasId" Type="int" Nullable="false" />
+          <Property Name="Top" Type="int" Nullable="false" />
+          <Property Name="Left" Type="int" Nullable="false" />
+          <Property Name="Height" Type="int" Nullable="false" />
+          <Property Name="Width" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Version" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+          <Property Name="FadeLength" Type="float" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Picture">
+          <Key>
+            <PropertyRef Name="FrameId" />
+          </Key>
+          <Property Name="FrameId" Type="int" Nullable="false" />
+          <Property Name="ContentId" Type="int" Nullable="false" />
+          <Property Name="Mode" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Powerbi">
+          <Key>
+            <PropertyRef Name="FrameId" />
+          </Key>
+          <Property Name="FrameId" Type="int" Nullable="false" />
+          <Property Name="AccountId" Type="int" Nullable="false" />
+          <Property Name="Type" Type="int" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" />
+          <Property Name="Dashboard" Type="uniqueidentifier" />
+          <Property Name="Tile" Type="uniqueidentifier" />
+          <Property Name="Report" Type="uniqueidentifier" />
+          <Property Name="Url" Type="varchar" MaxLength="4000" />
+          <Property Name="Group" Type="uniqueidentifier" />
+        </EntityType>
+        <EntityType Name="Report">
+          <Key>
+            <PropertyRef Name="FrameId" />
+          </Key>
+          <Property Name="FrameId" Type="int" Nullable="false" />
+          <Property Name="Path" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Mode" Type="int" Nullable="false" />
+          <Property Name="ServerId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ReportServer">
+          <Key>
+            <PropertyRef Name="ServerId" />
+          </Key>
+          <Property Name="ServerId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="BaseUrl" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="User" Type="varchar" MaxLength="100" />
+          <Property Name="Password" Type="varbinary" MaxLength="1024" />
+          <Property Name="Domain" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Settings">
+          <Key>
+            <PropertyRef Name="Key" />
+          </Key>
+          <Property Name="Key" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Value" Type="varbinary" MaxLength="512" />
+        </EntityType>
+        <EntityType Name="Template">
+          <Key>
+            <PropertyRef Name="TemplateId" />
+          </Key>
+          <Property Name="TemplateId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Html" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="FrameType" Type="int" Nullable="false" />
+          <Property Name="Version" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Video">
+          <Key>
+            <PropertyRef Name="FrameId" />
+          </Key>
+          <Property Name="FrameId" Type="int" Nullable="false" />
+          <Property Name="PlayMuted" Type="bit" Nullable="false" />
+          <Property Name="AutoLoop" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="VideoAlternative">
+          <Key>
+            <PropertyRef Name="FrameId" />
+            <PropertyRef Name="ContentId" />
+          </Key>
+          <Property Name="FrameId" Type="int" Nullable="false" />
+          <Property Name="ContentId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Weather">
+          <Key>
+            <PropertyRef Name="FrameId" />
+          </Key>
+          <Property Name="FrameId" Type="int" Nullable="false" />
+          <Property Name="Type" Type="int" Nullable="false" />
+          <Property Name="Provider" Type="int" />
+          <Property Name="AccountId" Type="int" />
+        </EntityType>
+        <EntityType Name="Youtube">
+          <Key>
+            <PropertyRef Name="FrameId" />
+          </Key>
+          <Property Name="FrameId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="YoutubeId" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Volume" Type="int" Nullable="false" />
+          <Property Name="AutoLoop" Type="bit" Nullable="false" />
+          <Property Name="Aspect" Type="int" Nullable="false" />
+          <Property Name="Quality" Type="int" Nullable="false" />
+          <Property Name="Start" Type="int" Nullable="false" />
+          <Property Name="Rate" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Canvas_Content">
+          <End Role="Content" Type="Self.Content" Multiplicity="0..1" />
+          <End Role="Canvas" Type="Self.Canvas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Content">
+              <PropertyRef Name="ContentId" />
+            </Principal>
+            <Dependent Role="Canvas">
+              <PropertyRef Name="BackgroundImage" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Clock_Frame">
+          <End Role="Frame" Type="Self.Frame" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Clock" Type="Self.Clock" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Frame">
+              <PropertyRef Name="FrameId" />
+            </Principal>
+            <Dependent Role="Clock">
+              <PropertyRef Name="FrameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Display_Canvas">
+          <End Role="Canvas" Type="Self.Canvas" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Display" Type="Self.Display" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Canvas">
+              <PropertyRef Name="CanvasId" />
+            </Principal>
+            <Dependent Role="Display">
+              <PropertyRef Name="CanvasId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Display_Location">
+          <End Role="Location" Type="Self.Location" Multiplicity="1" />
+          <End Role="Display" Type="Self.Display" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="LocationId" />
+            </Principal>
+            <Dependent Role="Display">
+              <PropertyRef Name="LocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Frame_Panel">
+          <End Role="Panel" Type="Self.Panel" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Frame" Type="Self.Frame" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Panel">
+              <PropertyRef Name="PanelId" />
+            </Principal>
+            <Dependent Role="Frame">
+              <PropertyRef Name="PanelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Frame_Template">
+          <End Role="Template" Type="Self.Template" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Frame" Type="Self.Frame" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Template">
+              <PropertyRef Name="TemplateId" />
+            </Principal>
+            <Dependent Role="Frame">
+              <PropertyRef Name="TemplateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FrameLlocation_Location">
+          <End Role="Location" Type="Self.Location" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="FrameLocation" Type="Self.FrameLocation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="LocationId" />
+            </Principal>
+            <Dependent Role="FrameLocation">
+              <PropertyRef Name="LocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FrameLocation_Frame">
+          <End Role="Frame" Type="Self.Frame" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="FrameLocation" Type="Self.FrameLocation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Frame">
+              <PropertyRef Name="FrameId" />
+            </Principal>
+            <Dependent Role="FrameLocation">
+              <PropertyRef Name="FrameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FullScreen_Panel">
+          <End Role="Panel" Type="Self.Panel" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="FullScreen" Type="Self.FullScreen" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Panel">
+              <PropertyRef Name="PanelId" />
+            </Principal>
+            <Dependent Role="FullScreen">
+              <PropertyRef Name="PanelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Html_Frame">
+          <End Role="Frame" Type="Self.Frame" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Html" Type="Self.Html" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Frame">
+              <PropertyRef Name="FrameId" />
+            </Principal>
+            <Dependent Role="Html">
+              <PropertyRef Name="FrameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Location_Area">
+          <End Role="Location" Type="Self.Location" Multiplicity="0..1" />
+          <End Role="Location1" Type="Self.Location" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="LocationId" />
+            </Principal>
+            <Dependent Role="Location1">
+              <PropertyRef Name="AreaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Location_Level">
+          <End Role="Level" Type="Self.Level" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Location" Type="Self.Location" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Level">
+              <PropertyRef Name="LevelId" />
+            </Principal>
+            <Dependent Role="Location">
+              <PropertyRef Name="LevelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Memo_Frame">
+          <End Role="Frame" Type="Self.Frame" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Memo" Type="Self.Memo" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Frame">
+              <PropertyRef Name="FrameId" />
+            </Principal>
+            <Dependent Role="Memo">
+              <PropertyRef Name="FrameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_News_Frame">
+          <End Role="Frame" Type="Self.Frame" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="News" Type="Self.News" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Frame">
+              <PropertyRef Name="FrameId" />
+            </Principal>
+            <Dependent Role="News">
+              <PropertyRef Name="FrameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Outlook_ExchangeAccount">
+          <End Role="ExchangeAccount" Type="Self.ExchangeAccount" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Outlook" Type="Self.Outlook" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ExchangeAccount">
+              <PropertyRef Name="AccountId" />
+            </Principal>
+            <Dependent Role="Outlook">
+              <PropertyRef Name="AccountId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Outlook_Frame">
+          <End Role="Frame" Type="Self.Frame" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Outlook" Type="Self.Outlook" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Frame">
+              <PropertyRef Name="FrameId" />
+            </Principal>
+            <Dependent Role="Outlook">
+              <PropertyRef Name="FrameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Panel_Canvas">
+          <End Role="Canvas" Type="Self.Canvas" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Panel" Type="Self.Panel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Canvas">
+              <PropertyRef Name="CanvasId" />
+            </Principal>
+            <Dependent Role="Panel">
+              <PropertyRef Name="CanvasId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Picture_Content">
+          <End Role="Content" Type="Self.Content" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Picture" Type="Self.Picture" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Content">
+              <PropertyRef Name="ContentId" />
+            </Principal>
+            <Dependent Role="Picture">
+              <PropertyRef Name="ContentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Picture_Frame">
+          <End Role="Frame" Type="Self.Frame" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Picture" Type="Self.Picture" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Frame">
+              <PropertyRef Name="FrameId" />
+            </Principal>
+            <Dependent Role="Picture">
+              <PropertyRef Name="FrameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Powerbi_AzureAccount">
+          <End Role="AzureAccount" Type="Self.AzureAccount" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Powerbi" Type="Self.Powerbi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AzureAccount">
+              <PropertyRef Name="AccountId" />
+            </Principal>
+            <Dependent Role="Powerbi">
+              <PropertyRef Name="AccountId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Powerbi_Frame">
+          <End Role="Frame" Type="Self.Frame" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Powerbi" Type="Self.Powerbi" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Frame">
+              <PropertyRef Name="FrameId" />
+            </Principal>
+            <Dependent Role="Powerbi">
+              <PropertyRef Name="FrameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Report_Frame">
+          <End Role="Frame" Type="Self.Frame" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Report" Type="Self.Report" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Frame">
+              <PropertyRef Name="FrameId" />
+            </Principal>
+            <Dependent Role="Report">
+              <PropertyRef Name="FrameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Report_ReportServer">
+          <End Role="ReportServer" Type="Self.ReportServer" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Report" Type="Self.Report" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ReportServer">
+              <PropertyRef Name="ServerId" />
+            </Principal>
+            <Dependent Role="Report">
+              <PropertyRef Name="ServerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Video_Frame">
+          <End Role="Frame" Type="Self.Frame" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Video" Type="Self.Video" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Frame">
+              <PropertyRef Name="FrameId" />
+            </Principal>
+            <Dependent Role="Video">
+              <PropertyRef Name="FrameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VideoAalternative_Video">
+          <End Role="Video" Type="Self.Video" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="VideoAlternative" Type="Self.VideoAlternative" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Video">
+              <PropertyRef Name="FrameId" />
+            </Principal>
+            <Dependent Role="VideoAlternative">
+              <PropertyRef Name="FrameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VideoAlternative_Content">
+          <End Role="Content" Type="Self.Content" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="VideoAlternative" Type="Self.VideoAlternative" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Content">
+              <PropertyRef Name="ContentId" />
+            </Principal>
+            <Dependent Role="VideoAlternative">
+              <PropertyRef Name="ContentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Weather_Frame">
+          <End Role="Frame" Type="Self.Frame" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Weather" Type="Self.Weather" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Frame">
+              <PropertyRef Name="FrameId" />
+            </Principal>
+            <Dependent Role="Weather">
+              <PropertyRef Name="FrameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Weather_OauthAccount">
+          <End Role="OauthAccount" Type="Self.OauthAccount" Multiplicity="0..1" />
+          <End Role="Weather" Type="Self.Weather" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OauthAccount">
+              <PropertyRef Name="AccountId" />
+            </Principal>
+            <Dependent Role="Weather">
+              <PropertyRef Name="AccountId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Youtube_Frame">
+          <End Role="Frame" Type="Self.Frame" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Youtube" Type="Self.Youtube" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Frame">
+              <PropertyRef Name="FrameId" />
+            </Principal>
+            <Dependent Role="Youtube">
+              <PropertyRef Name="FrameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DisplayMonkeyModelStoreContainer">
+          <EntitySet Name="AzureAccount" EntityType="Self.AzureAccount" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Canvas" EntityType="Self.Canvas" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Clock" EntityType="Self.Clock" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Content" EntityType="Self.Content" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Display" EntityType="Self.Display" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ExchangeAccount" EntityType="Self.ExchangeAccount" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Frame" EntityType="Self.Frame" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FrameLocation" EntityType="Self.FrameLocation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FullScreen" EntityType="Self.FullScreen" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Html" EntityType="Self.Html" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Level" EntityType="Self.Level" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Location" EntityType="Self.Location" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Memo" EntityType="Self.Memo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="News" EntityType="Self.News" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OauthAccount" EntityType="Self.OauthAccount" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Outlook" EntityType="Self.Outlook" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Panel" EntityType="Self.Panel" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Picture" EntityType="Self.Picture" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Powerbi" EntityType="Self.Powerbi" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Report" EntityType="Self.Report" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ReportServer" EntityType="Self.ReportServer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Settings" EntityType="Self.Settings" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Template" EntityType="Self.Template" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Video" EntityType="Self.Video" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VideoAlternative" EntityType="Self.VideoAlternative" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Weather" EntityType="Self.Weather" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Youtube" EntityType="Self.Youtube" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Canvas_Content" Association="Self.FK_Canvas_Content">
+            <End Role="Content" EntitySet="Content" />
+            <End Role="Canvas" EntitySet="Canvas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Clock_Frame" Association="Self.FK_Clock_Frame">
+            <End Role="Frame" EntitySet="Frame" />
+            <End Role="Clock" EntitySet="Clock" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Display_Canvas" Association="Self.FK_Display_Canvas">
+            <End Role="Canvas" EntitySet="Canvas" />
+            <End Role="Display" EntitySet="Display" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Display_Location" Association="Self.FK_Display_Location">
+            <End Role="Location" EntitySet="Location" />
+            <End Role="Display" EntitySet="Display" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Frame_Panel" Association="Self.FK_Frame_Panel">
+            <End Role="Panel" EntitySet="Panel" />
+            <End Role="Frame" EntitySet="Frame" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Frame_Template" Association="Self.FK_Frame_Template">
+            <End Role="Template" EntitySet="Template" />
+            <End Role="Frame" EntitySet="Frame" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FrameLlocation_Location" Association="Self.FK_FrameLlocation_Location">
+            <End Role="Location" EntitySet="Location" />
+            <End Role="FrameLocation" EntitySet="FrameLocation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FrameLocation_Frame" Association="Self.FK_FrameLocation_Frame">
+            <End Role="Frame" EntitySet="Frame" />
+            <End Role="FrameLocation" EntitySet="FrameLocation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FullScreen_Panel" Association="Self.FK_FullScreen_Panel">
+            <End Role="Panel" EntitySet="Panel" />
+            <End Role="FullScreen" EntitySet="FullScreen" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Html_Frame" Association="Self.FK_Html_Frame">
+            <End Role="Frame" EntitySet="Frame" />
+            <End Role="Html" EntitySet="Html" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Location_Area" Association="Self.FK_Location_Area">
+            <End Role="Location" EntitySet="Location" />
+            <End Role="Location1" EntitySet="Location" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Location_Level" Association="Self.FK_Location_Level">
+            <End Role="Level" EntitySet="Level" />
+            <End Role="Location" EntitySet="Location" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Memo_Frame" Association="Self.FK_Memo_Frame">
+            <End Role="Frame" EntitySet="Frame" />
+            <End Role="Memo" EntitySet="Memo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_News_Frame" Association="Self.FK_News_Frame">
+            <End Role="Frame" EntitySet="Frame" />
+            <End Role="News" EntitySet="News" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Outlook_ExchangeAccount" Association="Self.FK_Outlook_ExchangeAccount">
+            <End Role="ExchangeAccount" EntitySet="ExchangeAccount" />
+            <End Role="Outlook" EntitySet="Outlook" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Outlook_Frame" Association="Self.FK_Outlook_Frame">
+            <End Role="Frame" EntitySet="Frame" />
+            <End Role="Outlook" EntitySet="Outlook" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Panel_Canvas" Association="Self.FK_Panel_Canvas">
+            <End Role="Canvas" EntitySet="Canvas" />
+            <End Role="Panel" EntitySet="Panel" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Picture_Content" Association="Self.FK_Picture_Content">
+            <End Role="Content" EntitySet="Content" />
+            <End Role="Picture" EntitySet="Picture" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Picture_Frame" Association="Self.FK_Picture_Frame">
+            <End Role="Frame" EntitySet="Frame" />
+            <End Role="Picture" EntitySet="Picture" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Powerbi_AzureAccount" Association="Self.FK_Powerbi_AzureAccount">
+            <End Role="AzureAccount" EntitySet="AzureAccount" />
+            <End Role="Powerbi" EntitySet="Powerbi" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Powerbi_Frame" Association="Self.FK_Powerbi_Frame">
+            <End Role="Frame" EntitySet="Frame" />
+            <End Role="Powerbi" EntitySet="Powerbi" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Report_Frame" Association="Self.FK_Report_Frame">
+            <End Role="Frame" EntitySet="Frame" />
+            <End Role="Report" EntitySet="Report" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Report_ReportServer" Association="Self.FK_Report_ReportServer">
+            <End Role="ReportServer" EntitySet="ReportServer" />
+            <End Role="Report" EntitySet="Report" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Video_Frame" Association="Self.FK_Video_Frame">
+            <End Role="Frame" EntitySet="Frame" />
+            <End Role="Video" EntitySet="Video" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VideoAalternative_Video" Association="Self.FK_VideoAalternative_Video">
+            <End Role="Video" EntitySet="Video" />
+            <End Role="VideoAlternative" EntitySet="VideoAlternative" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VideoAlternative_Content" Association="Self.FK_VideoAlternative_Content">
+            <End Role="Content" EntitySet="Content" />
+            <End Role="VideoAlternative" EntitySet="VideoAlternative" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Weather_Frame" Association="Self.FK_Weather_Frame">
+            <End Role="Frame" EntitySet="Frame" />
+            <End Role="Weather" EntitySet="Weather" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Weather_OauthAccount" Association="Self.FK_Weather_OauthAccount">
+            <End Role="OauthAccount" EntitySet="OauthAccount" />
+            <End Role="Weather" EntitySet="Weather" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Youtube_Frame" Association="Self.FK_Youtube_Frame">
+            <End Role="Frame" EntitySet="Frame" />
+            <End Role="Youtube" EntitySet="Youtube" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="DisplayMonkey.Model" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -1444,307 +1454,308 @@
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
-    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-  <EntityContainerMapping StorageEntityContainer="DisplayMonkeyModelStoreContainer" CdmEntityContainer="DisplayMonkeyEntities">
-    <EntitySetMapping Name="Canvases">
-      <EntityTypeMapping TypeName="IsTypeOf(DisplayMonkey.Model.Canvas)">
-        <MappingFragment StoreEntitySet="Canvases">
-          <ScalarProperty Name="CanvasId" ColumnName="CanvasId" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="Height" ColumnName="Height" />
-          <ScalarProperty Name="Width" ColumnName="Width" />
-          <ScalarProperty Name="BackgroundImage" ColumnName="BackgroundImage" />
-          <ScalarProperty Name="BackgroundColor" ColumnName="BackgroundColor" />
-          <ScalarProperty Name="Version" ColumnName="Version" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Contents">
-      <EntityTypeMapping TypeName="IsTypeOf(DisplayMonkey.Model.Content)">
-        <MappingFragment StoreEntitySet="Contents">
-          <ScalarProperty Name="ContentId" ColumnName="ContentId" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="Data" ColumnName="Data" />
-          <ScalarProperty Name="Type" ColumnName="Type" />
-          <ScalarProperty Name="Version" ColumnName="Version" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Displays">
-      <EntityTypeMapping TypeName="IsTypeOf(DisplayMonkey.Model.Display)">
-        <MappingFragment StoreEntitySet="Displays">
-          <ScalarProperty Name="DisplayId" ColumnName="DisplayId" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="Host" ColumnName="Host" />
-          <ScalarProperty Name="CanvasId" ColumnName="CanvasId" />
-          <ScalarProperty Name="LocationId" ColumnName="LocationId" />
-          <ScalarProperty Name="Version" ColumnName="Version" />
-          <ScalarProperty Name="NoScroll" ColumnName="NoScroll" />
-          <ScalarProperty Name="ReadyTimeout" ColumnName="ReadyTimeout" />
-          <ScalarProperty Name="PollInterval" ColumnName="PollInterval" />
-          <ScalarProperty Name="ErrorLength" ColumnName="ErrorLength" />
-          <ScalarProperty Name="NoCursor" ColumnName="NoCursor" />
-          <ScalarProperty Name="RecycleTime" ColumnName="RecycleTime" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Frames">
-      <EntityTypeMapping TypeName="IsTypeOf(DisplayMonkey.Model.Frame)">
-        <MappingFragment StoreEntitySet="Frames">
-          <ScalarProperty Name="FrameId" ColumnName="FrameId" />
-          <ScalarProperty Name="PanelId" ColumnName="PanelId" />
-          <ScalarProperty Name="Duration" ColumnName="Duration" />
-          <ScalarProperty Name="BeginsOn" ColumnName="BeginsOn" />
-          <ScalarProperty Name="EndsOn" ColumnName="EndsOn" />
-          <ScalarProperty Name="Sort" ColumnName="Sort" />
-          <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
-          <ScalarProperty Name="Version" ColumnName="Version" />
-          <ScalarProperty Name="TemplateId" ColumnName="TemplateId" />
-          <ScalarProperty Name="CacheInterval" ColumnName="CacheInterval" />
-        </MappingFragment>
-      </EntityTypeMapping>
-      <EntityTypeMapping TypeName="IsTypeOf(DisplayMonkey.Model.Picture)">
-        <MappingFragment StoreEntitySet="Frames_Picture">
-          <ScalarProperty Name="FrameId" ColumnName="FrameId" />
-          <ScalarProperty Name="ContentId" ColumnName="ContentId" />
-          <ScalarProperty Name="Mode" ColumnName="Mode" />
-        </MappingFragment>
-      </EntityTypeMapping>
-      <EntityTypeMapping TypeName="IsTypeOf(DisplayMonkey.Model.Video)">
-        <MappingFragment StoreEntitySet="Frames_Video">
-          <ScalarProperty Name="FrameId" ColumnName="FrameId" />
-          <ScalarProperty Name="PlayMuted" ColumnName="PlayMuted" />
-          <ScalarProperty Name="AutoLoop" ColumnName="AutoLoop" />
-        </MappingFragment>
-      </EntityTypeMapping>
-      <EntityTypeMapping TypeName="IsTypeOf(DisplayMonkey.Model.Report)">
-        <MappingFragment StoreEntitySet="Frames_Report">
-          <ScalarProperty Name="FrameId" ColumnName="FrameId" />
-          <ScalarProperty Name="Path" ColumnName="Path" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="Mode" ColumnName="Mode" />
-          <ScalarProperty Name="ServerId" ColumnName="ServerId" />
-        </MappingFragment>
-      </EntityTypeMapping>
-      <EntityTypeMapping TypeName="IsTypeOf(DisplayMonkey.Model.Outlook)">
-        <MappingFragment StoreEntitySet="Frames_Outlook">
-          <ScalarProperty Name="FrameId" ColumnName="FrameId" />
-          <ScalarProperty Name="Mode" ColumnName="Mode" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="Mailbox" ColumnName="Mailbox" />
-          <ScalarProperty Name="ShowEvents" ColumnName="ShowEvents" />
-          <ScalarProperty Name="AccountId" ColumnName="AccountId" />
-          <ScalarProperty Name="Privacy" ColumnName="Privacy" />
-          <ScalarProperty Name="AllowReserve" ColumnName="AllowReserve" />
-          <ScalarProperty Name="ShowAsFlags" ColumnName="ShowAsFlags" />
-          <ScalarProperty Name="BookingSubject" ColumnName="BookingSubject" />
-        </MappingFragment>
-      </EntityTypeMapping>
-      <EntityTypeMapping TypeName="IsTypeOf(DisplayMonkey.Model.Powerbi)">
-        <MappingFragment StoreEntitySet="Frames_Powerbi">
-          <ScalarProperty Name="FrameId" ColumnName="FrameId" />
-          <ScalarProperty Name="AccountId" ColumnName="AccountId" />
-          <ScalarProperty Name="Type" ColumnName="Type" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="Url" ColumnName="Url" />
-          <ScalarProperty Name="DashboardGuid" ColumnName="DashboardGuid" />
-          <ScalarProperty Name="TileGuid" ColumnName="TileGuid" />
-          <ScalarProperty Name="ReportGuid" ColumnName="ReportGuid" />
-          <ScalarProperty Name="GroupGuid" ColumnName="GroupGuid" />
-        </MappingFragment>
-      </EntityTypeMapping>
-      <EntityTypeMapping TypeName="IsTypeOf(DisplayMonkey.Model.Weather)">
-        <MappingFragment StoreEntitySet="Frames_Weather">
-          <ScalarProperty Name="FrameId" ColumnName="FrameId" />
-          <ScalarProperty Name="Type" ColumnName="Type" />
-          <ScalarProperty Name="Provider" ColumnName="Provider" />
-          <ScalarProperty Name="AccountId" ColumnName="AccountId" />
-        </MappingFragment>
-      </EntityTypeMapping>
-      <EntityTypeMapping TypeName="IsTypeOf(DisplayMonkey.Model.Clock)">
-        <MappingFragment StoreEntitySet="Frames_Clock">
-          <ScalarProperty Name="FrameId" ColumnName="FrameId" />
-          <ScalarProperty Name="Type" ColumnName="Type" />
-          <ScalarProperty Name="ShowDate" ColumnName="ShowDate" />
-          <ScalarProperty Name="ShowTime" ColumnName="ShowTime" />
-          <ScalarProperty Name="Label" ColumnName="Label" />
-          <ScalarProperty Name="TimeZone" ColumnName="TimeZone" />
-          <ScalarProperty Name="ShowSeconds" ColumnName="ShowSeconds" />
-        </MappingFragment>
-      </EntityTypeMapping>
-      <EntityTypeMapping TypeName="IsTypeOf(DisplayMonkey.Model.Memo)">
-        <MappingFragment StoreEntitySet="Frames_Memo">
-          <ScalarProperty Name="FrameId" ColumnName="FrameId" />
-          <ScalarProperty Name="Subject" ColumnName="Subject" />
-          <ScalarProperty Name="Body" ColumnName="Body" />
-        </MappingFragment>
-      </EntityTypeMapping>
-      <EntityTypeMapping TypeName="IsTypeOf(DisplayMonkey.Model.News)">
-        <MappingFragment StoreEntitySet="Frames_News">
-          <ScalarProperty Name="FrameId" ColumnName="FrameId" />
-          <ScalarProperty Name="Source" ColumnName="Source" />
-        </MappingFragment>
-      </EntityTypeMapping>
-      <EntityTypeMapping TypeName="IsTypeOf(DisplayMonkey.Model.Html)">
-        <MappingFragment StoreEntitySet="Frames_Html">
-          <ScalarProperty Name="FrameId" ColumnName="FrameId" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="Content" ColumnName="Content" />
-        </MappingFragment>
-      </EntityTypeMapping>
-      <EntityTypeMapping TypeName="IsTypeOf(DisplayMonkey.Model.Youtube)">
-        <MappingFragment StoreEntitySet="Frames_Youtube">
-          <ScalarProperty Name="FrameId" ColumnName="FrameId" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="YoutubeId" ColumnName="YoutubeId" />
-          <ScalarProperty Name="Volume" ColumnName="Volume" />
-          <ScalarProperty Name="AutoLoop" ColumnName="AutoLoop" />
-          <ScalarProperty Name="Aspect" ColumnName="Aspect" />
-          <ScalarProperty Name="Quality" ColumnName="Quality" />
-          <ScalarProperty Name="Start" ColumnName="Start" />
-          <ScalarProperty Name="Rate" ColumnName="Rate" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Levels">
-      <EntityTypeMapping TypeName="IsTypeOf(DisplayMonkey.Model.Level)">
-        <MappingFragment StoreEntitySet="Levels">
-          <ScalarProperty Name="LevelId" ColumnName="LevelId" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Locations">
-      <EntityTypeMapping TypeName="IsTypeOf(DisplayMonkey.Model.Location)">
-        <MappingFragment StoreEntitySet="Locations">
-          <ScalarProperty Name="LocationId" ColumnName="LocationId" />
-          <ScalarProperty Name="LevelId" ColumnName="LevelId" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="AreaId" ColumnName="AreaId" />
-          <ScalarProperty Name="TemperatureUnit" ColumnName="TemperatureUnit" />
-          <ScalarProperty Name="Latitude" ColumnName="Latitude" />
-          <ScalarProperty Name="Longitude" ColumnName="Longitude" />
-          <ScalarProperty Name="DateFormat" ColumnName="DateFormat" />
-          <ScalarProperty Name="TimeFormat" ColumnName="TimeFormat" />
-          <ScalarProperty Name="Woeid" ColumnName="Woeid" />
-          <ScalarProperty Name="Version" ColumnName="Version" />
-          <ScalarProperty Name="Culture" ColumnName="Culture" />
-          <ScalarProperty Name="TimeZone" ColumnName="TimeZone" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Panels">
-      <EntityTypeMapping TypeName="IsTypeOf(DisplayMonkey.Model.Panel)">
-        <MappingFragment StoreEntitySet="Panels">
-          <ScalarProperty Name="PanelId" ColumnName="PanelId" />
-          <ScalarProperty Name="CanvasId" ColumnName="CanvasId" />
-          <ScalarProperty Name="Top" ColumnName="Top" />
-          <ScalarProperty Name="Left" ColumnName="Left" />
-          <ScalarProperty Name="Height" ColumnName="Height" />
-          <ScalarProperty Name="Width" ColumnName="Width" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="Version" ColumnName="Version" />
-          <ScalarProperty Name="FadeLength" ColumnName="FadeLength" />
-        </MappingFragment>
-      </EntityTypeMapping>
-      <EntityTypeMapping TypeName="IsTypeOf(DisplayMonkey.Model.FullScreen)">
-        <MappingFragment StoreEntitySet="Panels_FullScreen">
-          <ScalarProperty Name="PanelId" ColumnName="PanelId" />
-          <ScalarProperty Name="MaxIdleInterval" ColumnName="MaxIdleInterval" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="ReportServers">
-      <EntityTypeMapping TypeName="IsTypeOf(DisplayMonkey.Model.ReportServer)">
-        <MappingFragment StoreEntitySet="ReportServers">
-          <ScalarProperty Name="ServerId" ColumnName="ServerId" />
-          <ScalarProperty Name="BaseUrl" ColumnName="BaseUrl" />
-          <ScalarProperty Name="User" ColumnName="User" />
-          <ScalarProperty Name="Password" ColumnName="Password" />
-          <ScalarProperty Name="Domain" ColumnName="Domain" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="ExchangeAccounts">
-      <EntityTypeMapping TypeName="IsTypeOf(DisplayMonkey.Model.ExchangeAccount)">
-        <MappingFragment StoreEntitySet="ExchangeAccounts">
-          <ScalarProperty Name="AccountId" ColumnName="AccountId" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="Account" ColumnName="Account" />
-          <ScalarProperty Name="Password" ColumnName="Password" />
-          <ScalarProperty Name="EwsVersion" ColumnName="EwsVersion" />
-          <ScalarProperty Name="Url" ColumnName="Url" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Templates">
-      <EntityTypeMapping TypeName="IsTypeOf(DisplayMonkey.Model.Template)">
-        <MappingFragment StoreEntitySet="Templates">
-          <ScalarProperty Name="TemplateId" ColumnName="TemplateId" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="Html" ColumnName="Html" />
-          <ScalarProperty Name="FrameType" ColumnName="FrameType" />
-          <ScalarProperty Name="Version" ColumnName="Version" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Settings">
-      <EntityTypeMapping TypeName="IsTypeOf(DisplayMonkey.Model.Setting)">
-        <MappingFragment StoreEntitySet="Settings">
-          <ScalarProperty Name="Key" ColumnName="Key" />
-          <ScalarProperty Name="RawValue" ColumnName="RawValue" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="AzureAccounts">
-      <EntityTypeMapping TypeName="IsTypeOf(DisplayMonkey.Model.AzureAccount)">
-        <MappingFragment StoreEntitySet="AzureAccounts">
-          <ScalarProperty Name="AccountId" ColumnName="AccountId" />
-          <ScalarProperty Name="ClientId" ColumnName="ClientId" />
-          <ScalarProperty Name="ClientSecret" ColumnName="ClientSecret" />
-          <ScalarProperty Name="TenantId" ColumnName="TenantId" />
-          <ScalarProperty Name="User" ColumnName="User" />
-          <ScalarProperty Name="Password" ColumnName="Password" />
-          <ScalarProperty Name="AccessToken" ColumnName="AccessToken" />
-          <ScalarProperty Name="ExpiresOn" ColumnName="ExpiresOn" />
-          <ScalarProperty Name="RefreshToken" ColumnName="RefreshToken" />
-          <ScalarProperty Name="IdToken" ColumnName="IdToken" />
-          <ScalarProperty Name="Resource" ColumnName="Resource" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="OauthAccounts">
-      <EntityTypeMapping TypeName="IsTypeOf(DisplayMonkey.Model.OauthAccount)">
-        <MappingFragment StoreEntitySet="OauthAccounts">
-          <ScalarProperty Name="AccountId" ColumnName="AccountId" />
-          <ScalarProperty Name="Provider" ColumnName="Provider" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="AppId" ColumnName="AppId" />
-          <ScalarProperty Name="ClientId" ColumnName="ClientId" />
-          <ScalarProperty Name="ClientSecret" ColumnName="ClientSecret" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <AssociationSetMapping Name="FrameLocation" TypeName="DisplayMonkey.Model.FrameLocation" StoreEntitySet="FrameLocation">
-      <EndProperty Name="Location">
-        <ScalarProperty Name="LocationId" ColumnName="Locations_LocationId" />
-      </EndProperty>
-      <EndProperty Name="Frame">
-        <ScalarProperty Name="FrameId" ColumnName="Frames_FrameId" />
-      </EndProperty>
-    </AssociationSetMapping>
-    <AssociationSetMapping Name="VideoAlternative" TypeName="DisplayMonkey.Model.VideoAlternative" StoreEntitySet="VideoAlternative">
-      <EndProperty Name="Video">
-        <ScalarProperty Name="FrameId" ColumnName="Videos_FrameId" />
-      </EndProperty>
-      <EndProperty Name="Content">
-        <ScalarProperty Name="ContentId" ColumnName="Contents_ContentId" />
-      </EndProperty>
-    </AssociationSetMapping>
-  </EntityContainerMapping>
-</Mapping></edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DisplayMonkeyModelStoreContainer" CdmEntityContainer="DisplayMonkeyEntities">
+          <EntitySetMapping Name="Canvases">
+            <EntityTypeMapping TypeName="DisplayMonkey.Model.Canvas">
+              <MappingFragment StoreEntitySet="Canvas">
+                <ScalarProperty Name="Version" ColumnName="Version" />
+                <ScalarProperty Name="CanvasId" ColumnName="CanvasId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Height" ColumnName="Height" />
+                <ScalarProperty Name="Width" ColumnName="Width" />
+                <ScalarProperty Name="BackgroundImage" ColumnName="BackgroundImage" />
+                <ScalarProperty Name="BackgroundColor" ColumnName="BackgroundColor" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Contents">
+            <EntityTypeMapping TypeName="DisplayMonkey.Model.Content">
+              <MappingFragment StoreEntitySet="Content">
+                <ScalarProperty Name="Version" ColumnName="Version" />
+                <ScalarProperty Name="ContentId" ColumnName="ContentId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Data" ColumnName="Data" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Displays">
+            <EntityTypeMapping TypeName="DisplayMonkey.Model.Display">
+              <MappingFragment StoreEntitySet="Display">
+                <ScalarProperty Name="RecycleTime" ColumnName="RecycleTime" />
+                <ScalarProperty Name="NoCursor" ColumnName="NoCursor" />
+                <ScalarProperty Name="ErrorLength" ColumnName="ErrorLength" />
+                <ScalarProperty Name="PollInterval" ColumnName="PollInterval" />
+                <ScalarProperty Name="ReadyTimeout" ColumnName="ReadyTimeout" />
+                <ScalarProperty Name="NoScroll" ColumnName="NoScroll" />
+                <ScalarProperty Name="Version" ColumnName="Version" />
+                <ScalarProperty Name="DisplayId" ColumnName="DisplayId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Host" ColumnName="Host" />
+                <ScalarProperty Name="CanvasId" ColumnName="CanvasId" />
+                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Frames">
+            <EntityTypeMapping TypeName="IsTypeOf(DisplayMonkey.Model.Frame)">
+              <MappingFragment StoreEntitySet="Frame">
+                <ScalarProperty Name="FrameId" ColumnName="FrameId" />
+                <ScalarProperty Name="Duration" ColumnName="Duration" />
+                <ScalarProperty Name="PanelId" ColumnName="PanelId" />
+                <ScalarProperty Name="BeginsOn" ColumnName="BeginsOn" />
+                <ScalarProperty Name="EndsOn" ColumnName="EndsOn" />
+                <ScalarProperty Name="Sort" ColumnName="Sort" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="Version" ColumnName="Version" />
+                <ScalarProperty Name="TemplateId" ColumnName="TemplateId" />
+                <ScalarProperty Name="CacheInterval" ColumnName="CacheInterval" />
+              </MappingFragment>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="IsTypeOf(DisplayMonkey.Model.Powerbi)">
+              <MappingFragment StoreEntitySet="Powerbi">
+                <ScalarProperty Name="GroupGuid" ColumnName="Group" />
+                <ScalarProperty Name="ReportGuid" ColumnName="Report" />
+                <ScalarProperty Name="TileGuid" ColumnName="Tile" />
+                <ScalarProperty Name="DashboardGuid" ColumnName="Dashboard" />
+                <ScalarProperty Name="FrameId" ColumnName="FrameId" />
+                <ScalarProperty Name="AccountId" ColumnName="AccountId" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+              </MappingFragment>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="IsTypeOf(DisplayMonkey.Model.News)">
+              <MappingFragment StoreEntitySet="News">
+                <ScalarProperty Name="Source" ColumnName="Source" />
+                <ScalarProperty Name="FrameId" ColumnName="FrameId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="IsTypeOf(DisplayMonkey.Model.Outlook)">
+              <MappingFragment StoreEntitySet="Outlook">
+                <ScalarProperty Name="BookingSubject" ColumnName="BookingSubject" />
+                <ScalarProperty Name="FrameId" ColumnName="FrameId" />
+                <ScalarProperty Name="Mode" ColumnName="Mode" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Mailbox" ColumnName="Mailbox" />
+                <ScalarProperty Name="ShowEvents" ColumnName="ShowEvents" />
+                <ScalarProperty Name="AccountId" ColumnName="AccountId" />
+                <ScalarProperty Name="Privacy" ColumnName="Privacy" />
+                <ScalarProperty Name="AllowReserve" ColumnName="AllowReserve" />
+                <ScalarProperty Name="ShowAsFlags" ColumnName="ShowAsFlags" />
+              </MappingFragment>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="IsTypeOf(DisplayMonkey.Model.Html)">
+              <MappingFragment StoreEntitySet="Html">
+                <ScalarProperty Name="FrameId" ColumnName="FrameId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Content" ColumnName="Content" />
+              </MappingFragment>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="IsTypeOf(DisplayMonkey.Model.Memo)">
+              <MappingFragment StoreEntitySet="Memo">
+                <ScalarProperty Name="Body" ColumnName="Body" />
+                <ScalarProperty Name="Subject" ColumnName="Subject" />
+                <ScalarProperty Name="FrameId" ColumnName="FrameId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="IsTypeOf(DisplayMonkey.Model.Clock)" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+              <MappingFragment StoreEntitySet="Clock">
+                <ScalarProperty Name="FrameId" ColumnName="FrameId" />
+                <ScalarProperty Name="ShowTime" ColumnName="ShowTime" />
+                <ScalarProperty Name="ShowDate" ColumnName="ShowDate" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Label" ColumnName="Label" />
+                <ScalarProperty Name="TimeZone" ColumnName="TimeZone" />
+                <ScalarProperty Name="ShowSeconds" ColumnName="ShowSeconds" />
+              </MappingFragment>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="IsTypeOf(DisplayMonkey.Model.Weather)">
+              <MappingFragment StoreEntitySet="Weather">
+                <ScalarProperty Name="AccountId" ColumnName="AccountId" />
+                <ScalarProperty Name="Provider" ColumnName="Provider" />
+                <ScalarProperty Name="FrameId" ColumnName="FrameId" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="IsTypeOf(DisplayMonkey.Model.Youtube)">
+              <MappingFragment StoreEntitySet="Youtube">
+                <ScalarProperty Name="FrameId" ColumnName="FrameId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="YoutubeId" ColumnName="YoutubeId" />
+                <ScalarProperty Name="Volume" ColumnName="Volume" />
+                <ScalarProperty Name="AutoLoop" ColumnName="AutoLoop" />
+                <ScalarProperty Name="Aspect" ColumnName="Aspect" />
+                <ScalarProperty Name="Quality" ColumnName="Quality" />
+                <ScalarProperty Name="Start" ColumnName="Start" />
+                <ScalarProperty Name="Rate" ColumnName="Rate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="IsTypeOf(DisplayMonkey.Model.Report)" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+              <MappingFragment StoreEntitySet="Report">
+                <ScalarProperty Name="FrameId" ColumnName="FrameId" />
+                <ScalarProperty Name="Mode" ColumnName="Mode" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Path" ColumnName="Path" />
+                <ScalarProperty Name="ServerId" ColumnName="ServerId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="IsTypeOf(DisplayMonkey.Model.Picture)">
+              <MappingFragment StoreEntitySet="Picture">
+                <ScalarProperty Name="Mode" ColumnName="Mode" />
+                <ScalarProperty Name="ContentId" ColumnName="ContentId" />
+                <ScalarProperty Name="FrameId" ColumnName="FrameId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="IsTypeOf(DisplayMonkey.Model.Video)">
+              <MappingFragment StoreEntitySet="Video">
+                <ScalarProperty Name="AutoLoop" ColumnName="AutoLoop" />
+                <ScalarProperty Name="PlayMuted" ColumnName="PlayMuted" />
+                <ScalarProperty Name="FrameId" ColumnName="FrameId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Levels">
+            <EntityTypeMapping TypeName="DisplayMonkey.Model.Level">
+              <MappingFragment StoreEntitySet="Level">
+                <ScalarProperty Name="LevelId" ColumnName="LevelId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Locations">
+            <EntityTypeMapping TypeName="DisplayMonkey.Model.Location">
+              <MappingFragment StoreEntitySet="Location">
+                <ScalarProperty Name="TimeZone" ColumnName="TimeZone" />
+                <ScalarProperty Name="Culture" ColumnName="Culture" />
+                <ScalarProperty Name="Version" ColumnName="Version" />
+                <ScalarProperty Name="Woeid" ColumnName="Woeid" />
+                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+                <ScalarProperty Name="LevelId" ColumnName="LevelId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="AreaId" ColumnName="AreaId" />
+                <ScalarProperty Name="TemperatureUnit" ColumnName="TemperatureUnit" />
+                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+                <ScalarProperty Name="DateFormat" ColumnName="DateFormat" />
+                <ScalarProperty Name="TimeFormat" ColumnName="TimeFormat" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Panels">
+            <EntityTypeMapping TypeName="IsTypeOf(DisplayMonkey.Model.Panel)">
+              <MappingFragment StoreEntitySet="Panel">
+                <ScalarProperty Name="PanelId" ColumnName="PanelId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Width" ColumnName="Width" />
+                <ScalarProperty Name="Height" ColumnName="Height" />
+                <ScalarProperty Name="Left" ColumnName="Left" />
+                <ScalarProperty Name="Top" ColumnName="Top" />
+                <ScalarProperty Name="CanvasId" ColumnName="CanvasId" />
+                <ScalarProperty Name="Version" ColumnName="Version" />
+                <ScalarProperty Name="FadeLength" ColumnName="FadeLength" />
+              </MappingFragment>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="IsTypeOf(DisplayMonkey.Model.FullScreen)">
+              <MappingFragment StoreEntitySet="FullScreen">
+                <ScalarProperty Name="MaxIdleInterval" ColumnName="MaxIdleInterval" />
+                <ScalarProperty Name="PanelId" ColumnName="PanelId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="FrameLocation" TypeName="DisplayMonkey.Model.FrameLocation" StoreEntitySet="FrameLocation">
+            <EndProperty Name="Location">
+              <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+            </EndProperty>
+            <EndProperty Name="Frame">
+              <ScalarProperty Name="FrameId" ColumnName="FrameId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <EntitySetMapping Name="ReportServers">
+            <EntityTypeMapping TypeName="DisplayMonkey.Model.ReportServer">
+              <MappingFragment StoreEntitySet="ReportServer">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Domain" ColumnName="Domain" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="User" ColumnName="User" />
+                <ScalarProperty Name="BaseUrl" ColumnName="BaseUrl" />
+                <ScalarProperty Name="ServerId" ColumnName="ServerId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ExchangeAccounts">
+            <EntityTypeMapping TypeName="DisplayMonkey.Model.ExchangeAccount">
+              <MappingFragment StoreEntitySet="ExchangeAccount">
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="EwsVersion" ColumnName="EwsVersion" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Account" ColumnName="Account" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="AccountId" ColumnName="AccountId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Templates">
+            <EntityTypeMapping TypeName="DisplayMonkey.Model.Template">
+              <MappingFragment StoreEntitySet="Template">
+                <ScalarProperty Name="Version" ColumnName="Version" />
+                <ScalarProperty Name="FrameType" ColumnName="FrameType" />
+                <ScalarProperty Name="Html" ColumnName="Html" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="TemplateId" ColumnName="TemplateId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Settings">
+            <EntityTypeMapping TypeName="DisplayMonkey.Model.Setting">
+              <MappingFragment StoreEntitySet="Settings">
+                <ScalarProperty Name="RawValue" ColumnName="Value" />
+                <ScalarProperty Name="Key" ColumnName="Key" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AzureAccounts">
+            <EntityTypeMapping TypeName="DisplayMonkey.Model.AzureAccount">
+              <MappingFragment StoreEntitySet="AzureAccount">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Resource" ColumnName="Resource" />
+                <ScalarProperty Name="IdToken" ColumnName="IdToken" />
+                <ScalarProperty Name="RefreshToken" ColumnName="RefreshToken" />
+                <ScalarProperty Name="ExpiresOn" ColumnName="ExpiresOn" />
+                <ScalarProperty Name="AccessToken" ColumnName="AccessToken" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="User" ColumnName="User" />
+                <ScalarProperty Name="TenantId" ColumnName="TenantId" />
+                <ScalarProperty Name="ClientSecret" ColumnName="ClientSecret" />
+                <ScalarProperty Name="ClientId" ColumnName="ClientId" />
+                <ScalarProperty Name="AccountId" ColumnName="AccountId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="VideoAlternative" TypeName="DisplayMonkey.Model.VideoAlternative" StoreEntitySet="VideoAlternative">
+            <EndProperty Name="Video">
+              <ScalarProperty Name="FrameId" ColumnName="FrameId" />
+            </EndProperty>
+            <EndProperty Name="Content">
+              <ScalarProperty Name="ContentId" ColumnName="ContentId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <EntitySetMapping Name="OauthAccounts">
+            <EntityTypeMapping TypeName="DisplayMonkey.Model.OauthAccount">
+              <MappingFragment StoreEntitySet="OauthAccount">
+                <ScalarProperty Name="ClientSecret" ColumnName="ClientSecret" />
+                <ScalarProperty Name="ClientId" ColumnName="ClientId" />
+                <ScalarProperty Name="AppId" ColumnName="AppId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Provider" ColumnName="Provider" />
+                <ScalarProperty Name="AccountId" ColumnName="AccountId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
   </edmx:Runtime>
   <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
   <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">

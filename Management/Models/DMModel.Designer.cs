@@ -1,4 +1,14 @@
-﻿// T4 code generation is enabled for model 'C:\Users\alexjones\RiderProjects\DisplayMonkey\Management\Models\DMModel.edmx'. 
+/*!
+* DisplayMonkey source file
+* http://displaymonkey.org
+*
+* Copyright (c) 2019 Fuel9 LLC and contributors
+*
+* Released under the MIT license:
+* http://opensource.org/licenses/MIT
+*/
+
+// T4 code generation is enabled for model 'E:\project\DisplayMonkey\Management\Models\DMModel.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.
