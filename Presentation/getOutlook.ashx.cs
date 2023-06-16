@@ -24,9 +24,9 @@ namespace DisplayMonkey
     public partial class getOutlook : HttpTaskAsyncHandler
     {
         public override async System.Threading.Tasks.Task ProcessRequestAsync(HttpContext context)
-		{
-			HttpRequest request = context.Request;
-			HttpResponse response = context.Response;
+        {
+            HttpRequest request = context.Request;
+            HttpResponse response = context.Response;
 
             int frameId = request.IntOrZero("frame");
             int panelId = request.IntOrZero("panel");
@@ -35,17 +35,17 @@ namespace DisplayMonkey
             int reserveMinutes = request.IntOrZero("reserveMinutes");
             int trace = request.IntOrZero("trace");
 
-			string json = "";
-				
-			try
-			{
+            string json = "";
+
+            try
+            {
                 // set culture
                 Outlook outlook = new Outlook(frameId);
                 Location location = new Location(displayId);
 
                 if (string.IsNullOrWhiteSpace(culture))
                     culture = location.Culture;
-                
+
                 if (!string.IsNullOrWhiteSpace(culture))
                 {
                     System.Globalization.CultureInfo cultureInfo = new System.Globalization.CultureInfo(culture);
@@ -56,7 +56,7 @@ namespace DisplayMonkey
                 // EWS: get data
                 OutlookData data = await HttpRuntime.Cache.GetOrAddAbsoluteAsync(
                     string.Format("outlook_{0}_{1}_{2}", location.LocationId, outlook.FrameId, outlook.Version),
-                    async (expire) => 
+                    async (expire) =>
                     {
                         expire.When = DateTime.Now.AddMinutes(outlook.CacheInterval);
                         return await OutlookData.FromFrameAsync(outlook, location, reserveMinutes);
@@ -70,12 +70,12 @@ namespace DisplayMonkey
 
                 //int showEvents = outlook.ShowEvents;
                 List<EventEntry> currentList = data.events
-                    .Where(e => e.Ends >= locationTime)
-                    .Take(Math.Max(1, outlook.ShowEvents))
-                    .ToList()
+                        .Where(e => e.Ends >= locationTime)
+                        .Take(Math.Max(1, outlook.ShowEvents))
+                        .ToList()
                     ;
-                
-                EventEntry 
+
+                EventEntry
                     currentEvent = null,
                     firstEvent = currentList.FirstOrDefault()
                     ;
@@ -86,26 +86,29 @@ namespace DisplayMonkey
                 }
 
                 DateTime endTime = locationToday.Add(data.endTime);
-                string 
+                string
                     strCurrentEvent = "",
                     strCurrentStatus = string.Format(
                         Resources.Outlook_AvailableUntil,
                         endTime.ToShortTimeString()
-                        )
+                    )
                     ;
                 TimeSpan availableTime = new TimeSpan(0);
-                    
+
                 if (currentEvent != null)
                 {
                     DateTime tomorrow = locationToday.AddDays(1);
-                    strCurrentEvent = string.Format("{0}, {1} - {2}", 
+                    strCurrentEvent = string.Format("{0}, {1} - {2}",
                         currentEvent.Subject,
-                        (currentEvent.Starts >= tomorrow ? currentEvent.Starts.ToShortDateString() + " " : "") + currentEvent.Starts.ToShortTimeString(),
-                        (currentEvent.Ends >= tomorrow ? currentEvent.Ends.ToShortDateString() + " " : "") + currentEvent.Ends.ToShortTimeString()
-                        );
+                        (currentEvent.Starts >= tomorrow ? currentEvent.Starts.ToShortDateString() + " " : "") +
+                        currentEvent.Starts.ToShortTimeString(),
+                        (currentEvent.Ends >= tomorrow ? currentEvent.Ends.ToShortDateString() + " " : "") +
+                        currentEvent.Ends.ToShortTimeString()
+                    );
                     TimeSpan gap = currentEvent.Ends.Subtract(locationTime);
                     if (gap.Hours > 0)
-                        strCurrentStatus = string.Format(Resources.Outlook_EndsInHrsMin, (int)gap.TotalHours, gap.Minutes);
+                        strCurrentStatus = string.Format(Resources.Outlook_EndsInHrsMin, (int)gap.TotalHours,
+                            gap.Minutes);
                     else
                         strCurrentStatus = string.Format(Resources.Outlook_EndsInMin, gap.Minutes);
                 }
@@ -113,7 +116,8 @@ namespace DisplayMonkey
                 {
                     availableTime = firstEvent.Starts.Subtract(locationTime);
                     if (availableTime.Hours > 0)
-                        strCurrentStatus = string.Format(Resources.Outlook_AvailableForHrsMin, (int)availableTime.TotalHours, availableTime.Minutes);
+                        strCurrentStatus = string.Format(Resources.Outlook_AvailableForHrsMin,
+                            (int)availableTime.TotalHours, availableTime.Minutes);
                     else
                         strCurrentStatus = string.Format(Resources.Outlook_AvailableForMin, availableTime.Minutes);
                 }
@@ -165,23 +169,23 @@ namespace DisplayMonkey
                     {
                         items = currentList,
                     },
-                    labels = new[] 
+                    labels = new[]
                     {
-                        new {key = "subject", value = Resources.Outlook_Event},
-                        new {key = "starts", value = Resources.Outlook_Starts},
-                        new {key = "ends", value = Resources.Outlook_Ends},
-                        new {key = "duration", value = Resources.Outlook_Duration},
-                        new {key = "sensitivity", value = Resources.Outlook_Sensitivity},
-                        new {key = "showAs", value = Resources.OutlookShowAs},
-                        new {key = "noEvents", value = Resources.Outlook_NoEventsToday},
-                        new {key = "bookingImpossible", value = Resources.Outlook_BookingImpossible},
-                        new {key = "bookingSent", value = Resources.Outlook_BookingSent},
+                        new { key = "subject", value = Resources.Outlook_Event },
+                        new { key = "starts", value = Resources.Outlook_Starts },
+                        new { key = "ends", value = Resources.Outlook_Ends },
+                        new { key = "duration", value = Resources.Outlook_Duration },
+                        new { key = "sensitivity", value = Resources.Outlook_Sensitivity },
+                        new { key = "showAs", value = Resources.OutlookShowAs },
+                        new { key = "noEvents", value = Resources.Outlook_NoEventsToday },
+                        new { key = "bookingImpossible", value = Resources.Outlook_BookingImpossible },
+                        new { key = "bookingSent", value = Resources.Outlook_BookingSent },
                     },
                 });
-			}
+            }
 
-			catch (Exception ex)
-			{
+            catch (Exception ex)
+            {
                 JavaScriptSerializer s = new JavaScriptSerializer();
                 if (trace == 0)
                     json = s.Serialize(new
@@ -215,7 +219,7 @@ namespace DisplayMonkey
             response.Cache.SetSlidingExpiration(true);
             response.Cache.SetNoStore();
             response.ContentType = "application/json";
-			response.Write(json);
+            response.Write(json);
             response.Flush();
         }
 
@@ -387,7 +391,10 @@ namespace DisplayMonkey
 
         private class EventEntryConverter : JavaScriptConverter
         {
-            public override IEnumerable<Type> SupportedTypes { get { return _supportedTypes; } }
+            public override IEnumerable<Type> SupportedTypes
+            {
+                get { return _supportedTypes; }
+            }
 
             public override IDictionary<string, object> Serialize(object obj, JavaScriptSerializer serializer)
             {
@@ -400,33 +407,40 @@ namespace DisplayMonkey
                     serialized["showAs"] = "";
 
                     List<string> flags = new List<string>();
-                    foreach (var x in _sens.Where(e => e.Key == evt.Sensitivity))   // one and only
+                    foreach (var x in _sens.Where(e => e.Key == evt.Sensitivity)) // one and only
                     {
                         flags.Add(x.Value.Flag);
                         serialized["sensitivity"] = DataAccess.StringResource(x.Value.Resource);
                         break;
                     }
-                    foreach (var x in _showAs.Where(e => e.Key == evt.ShowAs))   // one and only
+
+                    foreach (var x in _showAs.Where(e => e.Key == evt.ShowAs)) // one and only
                     {
                         flags.Add(x.Value.Flag);
                         serialized["showAs"] = DataAccess.StringResource(x.Value.Resource);
                         break;
                     }
+
                     serialized["flags"] = flags.ToArray();
-                    
+
                     DateTime tomorrow = evt.Today.AddDays(1);
-                    serialized["starts"] = (evt.Starts >= tomorrow ? evt.Starts.ToShortDateString() + " " : "") + evt.Starts.ToShortTimeString();
-                    serialized["ends"] = (evt.Ends >= tomorrow ? evt.Ends.ToShortDateString() + " " : "") + evt.Ends.ToShortTimeString();
-                    
+                    serialized["starts"] = (evt.Starts >= tomorrow ? evt.Starts.ToShortDateString() + " " : "") +
+                                           evt.Starts.ToShortTimeString();
+                    serialized["ends"] = (evt.Ends >= tomorrow ? evt.Ends.ToShortDateString() + " " : "") +
+                                         evt.Ends.ToShortTimeString();
+
                     if ((int)evt.Duration.TotalHours > 0)
-                        serialized["duration"] = string.Format(Resources.Outlook_HrsMin, (int)evt.Duration.TotalHours, evt.Duration.Minutes);
+                        serialized["duration"] = string.Format(Resources.Outlook_HrsMin, (int)evt.Duration.TotalHours,
+                            evt.Duration.Minutes);
                     else
                         serialized["duration"] = string.Format(Resources.Outlook_Min, evt.Duration.Minutes);
                 }
+
                 return serialized;
             }
 
-            public override object Deserialize(IDictionary<string, object> dictionary, Type type, JavaScriptSerializer serializer)
+            public override object Deserialize(IDictionary<string, object> dictionary, Type type,
+                JavaScriptSerializer serializer)
             {
                 throw new NotImplementedException();
             }
