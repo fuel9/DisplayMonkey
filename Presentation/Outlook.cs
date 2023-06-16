@@ -19,6 +19,7 @@ using System.Net;
 using Microsoft.Exchange.WebServices.Data;
 using System.Web.Script.Serialization;
 using DisplayMonkey.Language;
+using Microsoft.Graph.Models;
 
 namespace DisplayMonkey
 {
@@ -44,7 +45,7 @@ namespace DisplayMonkey
 
         private int ShowAsFlags { get; set; }
 
-        public bool IsShowAsAllowed(LegacyFreeBusyStatus flag)
+        public bool IsShowAsAllowed(FreeBusyStatus flag)
         {
             return (ShowAsFlags & (1 << (int)flag)) != 0;
         }

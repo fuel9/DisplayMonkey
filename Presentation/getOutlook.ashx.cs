@@ -10,14 +10,14 @@
 
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
-//using System.Web.UI;
-//using System.Web.UI.WebControls;
 using System.Web.Script.Serialization;
-using Microsoft.Exchange.WebServices.Data;
-using System.Net;
+using Azure.Identity;
 using DisplayMonkey.Language;
+using Microsoft.Graph;
+using Microsoft.Graph.Models;
 
 namespace DisplayMonkey
 {
@@ -223,7 +223,7 @@ namespace DisplayMonkey
 
         private class OutlookData
         {
-            public IEnumerable<EventEntry> events = null;
+            public IEnumerable<EventEntry> events;
             public TimeSpan startTime = new TimeSpan(0, 0, 0);
             public TimeSpan endTime = new TimeSpan(23, 59, 59);
             public TimeZoneInfo timeZone = TimeZoneInfo.Local;
@@ -236,251 +236,121 @@ namespace DisplayMonkey
 
             #region -------- EWS Data Call --------f
 
-            private static ExtendedPropertyDefinition PR_TextBody = new ExtendedPropertyDefinition(0x1000, MapiPropertyType.String);
-            private static ExtendedPropertyDefinition PR_Sensitivity = new ExtendedPropertyDefinition(0x0036, MapiPropertyType.Integer);
-
             private OutlookData()
             {
             }
 
-            public static async System.Threading.Tasks.Task<OutlookData> FromFrameAsync(Outlook outlook, Location location, int reserveMinutes)
+            public static async System.Threading.Tasks.Task<OutlookData> FromFrameAsync(Outlook outlook,
+                Location location, int reserveMinutes)
             {
-                OutlookData data = new OutlookData();
-                DateTime
-                    locationTime = location.LocationTime,
-                    locationToday = new DateTime(locationTime.Year, locationTime.Month, locationTime.Day),
-                    windowBeg = locationToday, //locationTime,
-                    windowEnd = locationToday.AddDays(1).AddMilliseconds(-1)
-                    ;
-
-                // EWS: create connection point
-                ServicePointManager.ServerCertificateValidationCallback = CertificateValidationCallBack;
-
-                ExchangeService service = new ExchangeService(outlook.EwsVersion)
+                var tenantId = ConfigurationManager.AppSettings["AzureActiveDirectoryTenantId"];
+                var clientId = ConfigurationManager.AppSettings["AzureActiveDirectoryClientId"];
+                if (tenantId == default || clientId == default)
                 {
-                    Credentials = new WebCredentials(
-                        outlook.Account,
-                        Encryptor.Current.Decrypt(outlook.Password) // 1.4.0
-                        ),
-                };
-
-                // https://msdn.microsoft.com/en-us/library/office/dn458789%28v=exchg.150%29.aspx?f=255&MSPPError=-2147217396#bk_howmaintained
-                // https://social.msdn.microsoft.com/Forums/lync/en-US/bd032e3d-2501-40ba-a2b0-29a404685c35/error-exchange-web-services-are-not-currently-available?forum=exchangesvrdevelopment
-                service.HttpHeaders.Add("X-AnchorMailbox", outlook.Account);
-
-                // EWS: get URL
-                if (!string.IsNullOrWhiteSpace(outlook.URL))
-                {
-                    service.Url = new Uri(outlook.URL);
-                }
-                else
-                {
-                    service.Url = await HttpRuntime.Cache.GetOrAddSlidingAsync(
-                        string.Format("exchange_account_{0}", outlook.Account),
-                        async (expire) =>
-                        {
-                            expire.After = TimeSpan.FromMinutes(60);
-                            return await System.Threading.Tasks.Task.Run(() => 
-                            {
-                                service.AutodiscoverUrl(outlook.Account, RedirectionUrlValidationCallback);
-                                return service.Url;
-                            });
-                        });
+                    throw new Exception(
+                        "App Settings must specify Azure Active Directory Client and Tenant ID to use Outlook frame");
                 }
 
-                // mailbox: get display name
-                data.DisplayName = outlook.Name;
-                if (string.IsNullOrWhiteSpace(data.DisplayName))
-                {
-                    var match = await System.Threading.Tasks.Task.Run(() => service.ResolveName(outlook.Mailbox));
-                    if (match.Count > 0)
+                var useNamePasswordCredential = new UsernamePasswordCredential(outlook.Account,
+                    Encryptor.Current.Decrypt(outlook.Password), 
+                    tenantId, 
+                    clientId);
+                
+                // We don't provide a way for the user to consent to these scopes.
+                // Either issue admin consent in AAD or use another method to trigger the user consent flow.
+                var graphServiceClient = new GraphServiceClient(useNamePasswordCredential,
+                    new[] { "user.read", "calendars.readwrite", "calendars.readwrite.shared", "MailboxSettings.Read" });
+                
+                // The data we'll now fill, and then return to the client.
+                var data = new OutlookData();
+                var locationTime = location.LocationTime;
+                var locationToday = new DateTime(locationTime.Year, locationTime.Month, locationTime.Day);
+                var windowBeg = locationToday;
+                var windowEnd = locationToday.AddDays(1).AddMilliseconds(-1);
+
+                // 1. Get the owner name of the specified mailboxes calendar and set the data.DisplayName property
+                // 2. Check if the user has working hours set. If they do, set data.startTime and data.endTime and data.timeZone to those working hours
+                // 3. If reserveMinutes > 0 then create a new event in the calendar for reserveMinutes number of minutes
+                // 4. Get a list of events today
+                // 5. Filter those events based on TBC criteria and map to data.events
+
+                // Working Hours are stored in a users Mailbox Settings.
+                var mailboxSettings = await graphServiceClient.Me.MailboxSettings.GetAsync(
+                    config =>
                     {
-                        if (match[0].Contact != null)
-                        {
-                            data.DisplayName =
-                                    match[0].Contact.CompleteName.FullName
-                                ?? match[0].Contact.DisplayName
-                                ?? data.DisplayName
-                                ;
-                        }
-
-                        else if (match[0].Mailbox != null)
-                        {
-                            data.DisplayName =
-                                match[0].Mailbox.Name
-                                ?? data.DisplayName
-                                ;
-                        }
-                    }
-                    //else
-                    //    throw new ApplicationException(string.Format("Mailbox {0} not found", mailbox));
+                        config.QueryParameters.Select = new[] { "workingHours" };
+                    });
+                
+                // If we have working hours set, then set the start and end times. Note we always assume Local time. This might be bad?
+                // I'm unsure of the behaviour of the graph api when there are no working hours set.
+                if (mailboxSettings.WorkingHours != null) 
+                {
+                    data.startTime = mailboxSettings.WorkingHours.StartTime?.DateTime.TimeOfDay ?? DateTime.Today.TimeOfDay;
+                    data.endTime = mailboxSettings.WorkingHours.EndTime?.DateTime.TimeOfDay ??
+                                   DateTime.Today.AddHours(23).AddMinutes(59).TimeOfDay;
+                    data.timeZone = TimeZoneInfo.Local;
                 }
 
-                // mailbox: get availability
-                GetUserAvailabilityResults uars = await System.Threading.Tasks.Task.Run(() =>
+                // Get the name of the owner of the calendar.
+                var calendarDetails = await graphServiceClient.Users[outlook.Account].Calendar.GetAsync(c =>
                 {
-                    return service.GetUserAvailability(
-                        new AttendeeInfo[] { new AttendeeInfo(outlook.Mailbox, MeetingAttendeeType.Required, true) },
-                        new TimeWindow(locationToday, locationToday.AddDays(1)),
-                        AvailabilityData.FreeBusy
-                        );
+                    c.QueryParameters.Select = new[] { "owner" };
                 });
-                var u = uars.AttendeesAvailability[0];
-                if (u.WorkingHours != null)
-                {
-                    data.startTime = u.WorkingHours.StartTime;
-                    data.endTime = u.WorkingHours.EndTime;
-                    data.timeZone = u.WorkingHours.TimeZone;
-                }
+                data.DisplayName = calendarDetails.Owner.Name;
 
+                // Do we need to create an event in the calendar? 
                 if (reserveMinutes > 0)
                 {
-                    Appointment appointment = new Appointment(service)
+                    _ = await graphServiceClient.Users[outlook.Account].Calendar.Events.PostAsync(new Event
                     {
                         Subject = outlook.BookingSubject,
-                        Body = string.Format("{0} | {1}", Resources.Outlook_BookingOnDemand, Resources.DisplayMonkey),
-                        Start = DateTime.Now,
-                        End = DateTime.Now.AddMinutes(reserveMinutes),
-                    };
-
-                    if (outlook.Mailbox == outlook.Account)
-                    {
-                        await System.Threading.Tasks.Task.Run(() =>
+                        Body = new ItemBody
                         {
-                            appointment.Save(SendInvitationsMode.SendToNone);
-                            return true;
-                        });
-                    }
-                    else
-                    {
-                        appointment.Resources.Add(outlook.Mailbox);
-                        await System.Threading.Tasks.Task.Run(() => 
+                            Content = $"{Resources.Outlook_BookingOnDemand} | {Resources.DisplayMonkey}",
+                        },
+                        Start = new DateTimeTimeZone
                         {
-                            appointment.Save(SendInvitationsMode.SendOnlyToAll);
-                            return true;
-                        });
-                    }
+                            DateTime = DateTime.Now.ToString("O")
+                        },
+                        End = new DateTimeTimeZone
+                        {
+                            DateTime = DateTime.Now.AddMinutes(reserveMinutes).ToString("O")
+                        }
+                    });
                 }
-
-                // events: prep filter
-                FolderId folderId = new FolderId(WellKnownFolderName.Calendar, new Mailbox(outlook.Mailbox));
-                CalendarFolder calendar = await System.Threading.Tasks.Task.Run(() => CalendarFolder.Bind(service, folderId, new PropertySet()));
-                CalendarView cView = new CalendarView(windowBeg, windowEnd)
+                
+                // Get list of events in the calendar
+                var calendarView = await graphServiceClient.Users[outlook.Account].CalendarView.GetAsync(c =>
                 {
-                    PropertySet = new PropertySet(
-                        //BasePropertySet.FirstClassProperties,
-                        AppointmentSchema.Subject,
-                        AppointmentSchema.DateTimeCreated,
-                        AppointmentSchema.Start,
-                        AppointmentSchema.End,
-                        AppointmentSchema.Duration,
-                        AppointmentSchema.Sensitivity,
-                        AppointmentSchema.LegacyFreeBusyStatus
-                        )
-                };
-
-                // events: get list
-                var appointments = await System.Threading.Tasks.Task.Run(() => calendar.FindAppointments(cView));
-                data.events = appointments
-                    //.FindAppointments(cView)
-                    .Where(a => 
-                        (outlook.Privacy != Models.OutlookPrivacy.OutlookPrivacy_NoClassified || a.Sensitivity == Sensitivity.Normal) && 
-                        (outlook.IsShowAsAllowed(a.LegacyFreeBusyStatus))
-                        )
-                    .OrderBy(i => i.Start)
-                    .ThenBy(i => i.DateTimeCreated)
-                    .ThenBy(i => i.Subject)
-                    //.Take(Math.Max(1, outlook.ShowEvents))
+                    c.Headers.Add("Prefer", "outlook.body-content-type=\"text\"");
+                    c.QueryParameters.Select = new[] { "subject", "body", "start", "end", "bodyPreview", "createdDateTime", "sensitivity", "showAs"};
+                    c.QueryParameters.StartDateTime = windowBeg.ToString("O");
+                    c.QueryParameters.EndDateTime = windowEnd.ToString("O");
+                });
+                data.events = calendarView.Value
+                    .Where(a =>
+                        (outlook.Privacy != Models.OutlookPrivacy.OutlookPrivacy_NoClassified ||
+                         a.Sensitivity == Sensitivity.Normal) &&
+                        outlook.IsShowAsAllowed(a.ShowAs ?? FreeBusyStatus.Busy)
+                    )
                     .Select(a => new EventEntry
                     {
                         Subject =
-                            outlook.Privacy == Models.OutlookPrivacy.OutlookPrivacy_All || a.Sensitivity == Sensitivity.Normal ? a.Subject :
-                            DataAccess.StringResource(string.Format("EWS_Sensitivity_{0}", a.Sensitivity.ToString())),
-                        CreatedOn = a.DateTimeCreated,
-                        Starts = a.Start,
-                        Ends = a.End,
-                        Duration = a.Duration,
-                        Sensitivity = a.Sensitivity,
+                            outlook.Privacy == Models.OutlookPrivacy.OutlookPrivacy_All ||
+                            a.Sensitivity == Sensitivity.Normal
+                                ? a.Subject
+                                : DataAccess.StringResource($"EWS_Sensitivity_{a.Sensitivity.ToString()}"),
+                        CreatedOn = a.CreatedDateTime?.DateTime ?? new DateTime(),
+                        Starts = DateTime.Parse(a.Start.DateTime),
+                        Ends = DateTime.Parse(a.End.DateTime),
+                        Duration = DateTime.Parse(a.End.DateTime) - DateTime.Parse(a.Start.DateTime),
+                        Sensitivity = a.Sensitivity ?? Sensitivity.Normal,
                         Today = locationToday,
-                        ShowAs = a.LegacyFreeBusyStatus,
+                        ShowAs = a.ShowAs ?? FreeBusyStatus.Busy,
                     })
-                    .ToList()
-                    ;
+                    .ToList();
 
                 return data;
-            }
-
-            #endregion
-
-            #region -------- EWS Callbacks --------
-
-            private static bool RedirectionUrlValidationCallback(string redirectionUrl)
-            {
-                // The default for the validation callback is to reject the URL.
-                bool result = false;
-
-                Uri redirectionUri = new Uri(redirectionUrl);
-
-                // Validate the contents of the redirection URL. In this simple validation
-                // callback, the redirection URL is considered valid if it is using HTTPS
-                // to encrypt the authentication credentials. 
-                if (redirectionUri.Scheme == "https")
-                {
-                    result = true;
-                }
-                return result;
-            }
-
-            private static bool CertificateValidationCallBack(
-                object sender,
-                System.Security.Cryptography.X509Certificates.X509Certificate certificate,
-                System.Security.Cryptography.X509Certificates.X509Chain chain,
-                System.Net.Security.SslPolicyErrors sslPolicyErrors
-                )
-            {
-                //return true;
-                // If the certificate is a valid, signed certificate, return true.
-                if (sslPolicyErrors == System.Net.Security.SslPolicyErrors.None)
-                {
-                    return true;
-                }
-
-                // If there are errors in the certificate chain, look at each error to determine the cause.
-                if ((sslPolicyErrors & System.Net.Security.SslPolicyErrors.RemoteCertificateChainErrors) != 0)
-                {
-                    if (chain != null && chain.ChainStatus != null)
-                    {
-                        foreach (System.Security.Cryptography.X509Certificates.X509ChainStatus status
-                            in chain.ChainStatus)
-                        {
-                            if ((certificate.Subject == certificate.Issuer) &&
-                                (status.Status ==
-                                    System.Security.Cryptography.X509Certificates.X509ChainStatusFlags.UntrustedRoot))
-                            {
-                                // Self-signed certificates with an untrusted root are valid. 
-                                continue;
-                            }
-                            else
-                            {
-                                if (status.Status !=
-                                        System.Security.Cryptography.X509Certificates.X509ChainStatusFlags.NoError)
-                                {
-                                    // If there are any other errors in the certificate chain, the certificate is invalid,
-                                    // so the method returns false.
-                                    return false;
-                                }
-                            }
-                        }
-                    }
-
-                    // When processing reaches this line, the only errors in the certificate chain are 
-                    // untrusted root errors for self-signed certificates. These certificates are valid
-                    // for default Exchange server installations, so return true.
-                    return true;
-                }
-
-                // In all other cases, return false.
-                return false;
             }
 
             #endregion
@@ -499,7 +369,7 @@ namespace DisplayMonkey
             public TimeSpan Duration { get; set; }
             public DateTime Today { get; set; }
             public Sensitivity Sensitivity { get; set; }
-            public LegacyFreeBusyStatus ShowAs { get; set; }
+            public FreeBusyStatus ShowAs { get; set; }
 
             public int CompareTo(EventEntry rhs)
             {
@@ -510,7 +380,7 @@ namespace DisplayMonkey
                 int createdCheck = this.CreatedOn.CompareTo(rhs.CreatedOn);
                 if (createdCheck != 0)
                     return createdCheck;
-                
+
                 return this.Subject.CompareTo(rhs.Subject);
             }
         }
@@ -564,7 +434,7 @@ namespace DisplayMonkey
             #region Private members
 
             private static Dictionary<Sensitivity, EventEntryAttribute> _sens;
-            private static Dictionary<LegacyFreeBusyStatus, EventEntryAttribute> _showAs;
+            private static Dictionary<FreeBusyStatus, EventEntryAttribute> _showAs;
             private static IEnumerable<Type> _supportedTypes;
 
             private class EventEntryAttribute
@@ -578,18 +448,28 @@ namespace DisplayMonkey
                 _supportedTypes = new[] { typeof(EventEntry) };
 
                 _sens = new Dictionary<Sensitivity, EventEntryAttribute>(4);
-                _sens.Add(Sensitivity.Normal, new EventEntryAttribute { Flag = "normal", Resource = "EWS_Sensitivity_Normal" });    // 0
-                _sens.Add(Sensitivity.Personal, new EventEntryAttribute { Flag = "personal", Resource = "EWS_Sensitivity_Personal" });    // 1
-                _sens.Add(Sensitivity.Private, new EventEntryAttribute { Flag = "private", Resource = "EWS_Sensitivity_Private" });  // 2
-                _sens.Add(Sensitivity.Confidential, new EventEntryAttribute { Flag = "confidential", Resource = "EWS_Sensitivity_Confidential" });    // 3
+                _sens.Add(Sensitivity.Normal,
+                    new EventEntryAttribute { Flag = "normal", Resource = "EWS_Sensitivity_Normal" }); // 0
+                _sens.Add(Sensitivity.Personal,
+                    new EventEntryAttribute { Flag = "personal", Resource = "EWS_Sensitivity_Personal" }); // 1
+                _sens.Add(Sensitivity.Private,
+                    new EventEntryAttribute { Flag = "private", Resource = "EWS_Sensitivity_Private" }); // 2
+                _sens.Add(Sensitivity.Confidential,
+                    new EventEntryAttribute { Flag = "confidential", Resource = "EWS_Sensitivity_Confidential" }); // 3
 
-                _showAs = new Dictionary<LegacyFreeBusyStatus, EventEntryAttribute>(6);
-                _showAs.Add(LegacyFreeBusyStatus.Free, new EventEntryAttribute { Flag = "free", Resource = "EWS_ShowAs_Free" }); // 0
-                _showAs.Add(LegacyFreeBusyStatus.Tentative, new EventEntryAttribute { Flag = "tentative", Resource = "EWS_ShowAs_Tentative" });   // 1
-                _showAs.Add(LegacyFreeBusyStatus.Busy, new EventEntryAttribute { Flag = "busy", Resource = "EWS_ShowAs_Busy" }); // 2
-                _showAs.Add(LegacyFreeBusyStatus.OOF, new EventEntryAttribute { Flag = "oof", Resource = "EWS_ShowAs_Oof" });   // 3
-                _showAs.Add(LegacyFreeBusyStatus.WorkingElsewhere, new EventEntryAttribute { Flag = "wew", Resource = "EWS_ShowAs_Wew" });  // 4
-                _showAs.Add(LegacyFreeBusyStatus.NoData, new EventEntryAttribute { Flag = "noData", Resource = "EWS_ShowAs_NoData" }); // 5
+                _showAs = new Dictionary<FreeBusyStatus, EventEntryAttribute>(6);
+                _showAs.Add(FreeBusyStatus.Free,
+                    new EventEntryAttribute { Flag = "free", Resource = "EWS_ShowAs_Free" }); // 0
+                _showAs.Add(FreeBusyStatus.Tentative,
+                    new EventEntryAttribute { Flag = "tentative", Resource = "EWS_ShowAs_Tentative" }); // 1
+                _showAs.Add(FreeBusyStatus.Busy,
+                    new EventEntryAttribute { Flag = "busy", Resource = "EWS_ShowAs_Busy" }); // 2
+                _showAs.Add(FreeBusyStatus.Oof,
+                    new EventEntryAttribute { Flag = "oof", Resource = "EWS_ShowAs_Oof" }); // 3
+                _showAs.Add(FreeBusyStatus.WorkingElsewhere,
+                    new EventEntryAttribute { Flag = "wew", Resource = "EWS_ShowAs_Wew" }); // 4
+                _showAs.Add(FreeBusyStatus.Unknown,
+                    new EventEntryAttribute { Flag = "noData", Resource = "EWS_ShowAs_NoData" }); // 5
             }
 
             #endregion
