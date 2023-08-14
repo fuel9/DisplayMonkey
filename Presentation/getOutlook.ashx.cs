@@ -18,6 +18,7 @@ using Azure.Identity;
 using DisplayMonkey.Language;
 using Microsoft.Graph;
 using Microsoft.Graph.Models;
+using Microsoft.Graph.Models.ODataErrors;
 
 namespace DisplayMonkey
 {
@@ -315,10 +316,12 @@ namespace DisplayMonkey
                         Start = new DateTimeTimeZone
                         {
                             DateTime = DateTime.Now.ToString("O")
+                            DateTime = DateTime.Now.ToString("O"),
                         },
                         End = new DateTimeTimeZone
                         {
                             DateTime = DateTime.Now.AddMinutes(reserveMinutes).ToString("O")
+                            DateTime = DateTime.Now.AddMinutes(reserveMinutes).ToString("O"),
                         }
                     });
                 }
