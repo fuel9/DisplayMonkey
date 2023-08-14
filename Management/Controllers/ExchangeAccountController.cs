@@ -271,10 +271,11 @@ namespace DisplayMonkey.Controllers
             Match lnk = _emailRgx.Match(ews.Account);
             ews.Account = lnk.Success ? lnk.Value : "";
 
-            resolveAccount(ews);
+            // resolveAccount(ews); // Not required since we use MS Graph - but some validation here would probably be sensible
 
             if (ModelState.IsValid)
             {
+                ews.UpdatePassword(db);
                 db.Entry(ews).State = EntityState.Modified;
                 db.Entry(ews).Property(l => l.Password).IsModified = ews.PasswordSet;
                 //db.Entry(ews).Property(l => l.Url).IsModified = false;
