@@ -306,26 +306,33 @@ namespace DisplayMonkey
                 // Do we need to create an event in the calendar? 
                 if (reserveMinutes > 0)
                 {
-                    _ = await graphServiceClient.Users[outlook.Account].Calendar.Events.PostAsync(new Event
+                    try
                     {
-                        Subject = outlook.BookingSubject,
-                        Body = new ItemBody
+                        _ = await graphServiceClient.Users[outlook.Account].Calendar.Events.PostAsync(new Event
                         {
-                            Content = $"{Resources.Outlook_BookingOnDemand} | {Resources.DisplayMonkey}",
-                        },
-                        Start = new DateTimeTimeZone
-                        {
-                            DateTime = DateTime.Now.ToString("O")
-                            DateTime = DateTime.Now.ToString("O"),
-                        },
-                        End = new DateTimeTimeZone
-                        {
-                            DateTime = DateTime.Now.AddMinutes(reserveMinutes).ToString("O")
-                            DateTime = DateTime.Now.AddMinutes(reserveMinutes).ToString("O"),
-                        }
-                    });
+                            Subject = outlook.BookingSubject,
+                            Body = new ItemBody
+                            {
+                                Content = $"{Resources.Outlook_BookingOnDemand} | {Resources.DisplayMonkey}",
+                            },
+                            Start = new DateTimeTimeZone
+                            {
+                                DateTime = DateTime.Now.ToString("O"),
+                                TimeZone = TimeZone.CurrentTimeZone.StandardName
+                            },
+                            End = new DateTimeTimeZone
+                            {
+                                DateTime = DateTime.Now.AddMinutes(reserveMinutes).ToString("O"),
+                                TimeZone = TimeZone.CurrentTimeZone.StandardName
+                            }
+                        });
+                    }
+                    catch (ODataError e)
+                    {
+                        throw new Exception(e.Error.Message);
+                    }
                 }
-                
+
                 // Get list of events in the calendar
                 var calendarView = await graphServiceClient.Users[outlook.Account].CalendarView.GetAsync(c =>
                 {
